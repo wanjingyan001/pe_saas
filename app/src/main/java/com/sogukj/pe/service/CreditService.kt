@@ -1,6 +1,5 @@
 package com.sogukj.pe.service
 
-import com.sogukj.pe.baselibrary.SoguService
 import com.sogukj.pe.bean.CreditInfo
 import com.sogukj.pe.bean.SecondaryBean
 import com.sogukj.pe.bean.SensitiveInfo
@@ -13,7 +12,7 @@ import retrofit2.http.POST
 /**
  * Created by admin on 2018/5/23.
  */
-interface CreditService:SoguService {
+interface CreditService{
     /**
      * 征信开始界面接口
      */

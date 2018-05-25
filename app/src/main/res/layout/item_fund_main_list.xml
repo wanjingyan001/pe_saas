@@ -82,7 +82,7 @@
 
     </LinearLayout>
 
-    <com.sogukj.pe.widgets.ProgressView
+    <com.sogukj.pe.baselibrary.widgets.ProgressView
         android:id="@+id/progess"
         android:layout_width="5dp"
         android:layout_height="match_parent"

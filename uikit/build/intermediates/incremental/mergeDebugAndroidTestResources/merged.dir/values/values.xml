@@ -1440,6 +1440,7 @@
     <item name="progress_circular" type="id"/>
     <item name="progress_horizontal" type="id"/>
     <item name="reason" type="id"/>
+    <item name="refresh" type="id"/>
     <item name="save_image_matrix" type="id"/>
     <item name="save_non_transition_alpha" type="id"/>
     <item name="save_scale_type" type="id"/>

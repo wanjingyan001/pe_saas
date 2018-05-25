@@ -8,12 +8,12 @@ package com.umeng.message.lib;
 
 public final class R {
     public static final class id {
-        public static final int notification_large_icon1 = 0x7f1002b2;
-        public static final int notification_large_icon2 = 0x7f1002b6;
-        public static final int notification_text = 0x7f1002b4;
-        public static final int notification_title = 0x7f1002b3;
-        public static final int upush_notification1 = 0x7f1002b1;
-        public static final int upush_notification2 = 0x7f1002b5;
+        public static final int notification_large_icon1 = 0x7f1002b3;
+        public static final int notification_large_icon2 = 0x7f1002b7;
+        public static final int notification_text = 0x7f1002b5;
+        public static final int notification_title = 0x7f1002b4;
+        public static final int upush_notification1 = 0x7f1002b2;
+        public static final int upush_notification2 = 0x7f1002b6;
     }
     public static final class layout {
         public static final int upush_notification = 0x7f0400e1;

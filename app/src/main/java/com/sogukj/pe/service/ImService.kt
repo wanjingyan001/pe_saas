@@ -1,6 +1,5 @@
 package com.sogukj.pe.service
 
-import com.sogukj.pe.baselibrary.SoguService
 import com.sogukj.pe.bean.ChatFileBean
 import com.sogukj.pe.bean.UserBean
 import io.reactivex.Observable
@@ -11,7 +10,7 @@ import retrofit2.http.POST
 /**
  * Created by admin on 2018/5/22.
  */
-interface ImService : SoguService {
+interface ImService {
     //查询群组文件
     @FormUrlEncoded
     @POST("/api/Message/chatFile")

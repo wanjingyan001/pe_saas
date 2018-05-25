@@ -85,21 +85,21 @@ public final class R {
         public static int notification_main_column = 0x7f0c01a4;
         public static int notification_main_column_container = 0x7f0c01a5;
         public static int parent_matrix = 0x7f0c01b5;
-        public static int right_icon = 0x7f0c01ec;
-        public static int right_side = 0x7f0c01ed;
-        public static int save_image_matrix = 0x7f0c01fe;
-        public static int save_non_transition_alpha = 0x7f0c01ff;
-        public static int save_scale_type = 0x7f0c0200;
-        public static int tag_transition_group = 0x7f0c023f;
-        public static int text = 0x7f0c0264;
-        public static int text2 = 0x7f0c0265;
-        public static int time = 0x7f0c0270;
-        public static int title = 0x7f0c0276;
-        public static int transition_current_scene = 0x7f0c0286;
-        public static int transition_layout_save = 0x7f0c0287;
-        public static int transition_position = 0x7f0c0288;
-        public static int transition_scene_layoutid_cache = 0x7f0c0289;
-        public static int transition_transform = 0x7f0c028a;
+        public static int right_icon = 0x7f0c01ed;
+        public static int right_side = 0x7f0c01ee;
+        public static int save_image_matrix = 0x7f0c01ff;
+        public static int save_non_transition_alpha = 0x7f0c0200;
+        public static int save_scale_type = 0x7f0c0201;
+        public static int tag_transition_group = 0x7f0c0240;
+        public static int text = 0x7f0c0265;
+        public static int text2 = 0x7f0c0266;
+        public static int time = 0x7f0c0271;
+        public static int title = 0x7f0c0277;
+        public static int transition_current_scene = 0x7f0c0287;
+        public static int transition_layout_save = 0x7f0c0288;
+        public static int transition_position = 0x7f0c0289;
+        public static int transition_scene_layoutid_cache = 0x7f0c028a;
+        public static int transition_transform = 0x7f0c028b;
     }
     public static final class integer {
         public static int status_bar_notification_info_maxnum = 0x7f0d000c;

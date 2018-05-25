@@ -80,13 +80,13 @@ public final class R {
         public static int packed = 0x7f0c01b1;
         public static int parent = 0x7f0c01b3;
         public static int percent = 0x7f0c01b6;
-        public static int right = 0x7f0c01eb;
-        public static int spread = 0x7f0c022c;
-        public static int spread_inside = 0x7f0c022d;
-        public static int standard = 0x7f0c0231;
-        public static int start = 0x7f0c0232;
-        public static int top = 0x7f0c0280;
-        public static int wrap = 0x7f0c02c1;
+        public static int right = 0x7f0c01ec;
+        public static int spread = 0x7f0c022d;
+        public static int spread_inside = 0x7f0c022e;
+        public static int standard = 0x7f0c0232;
+        public static int start = 0x7f0c0233;
+        public static int top = 0x7f0c0281;
+        public static int wrap = 0x7f0c02c2;
     }
     public static final class styleable {
         public static int[] ConstraintLayout_Layout = { 0x01010120, 0x0101011f, 0x01010140, 0x0101013f, 0x010100c4, 0x7f04003b, 0x7f04003c, 0x7f040061, 0x7f04007c, 0x7f04007d, 0x7f0400f6, 0x7f0400f7, 0x7f0400f8, 0x7f0400f9, 0x7f0400fa, 0x7f0400fb, 0x7f0400fc, 0x7f0400fd, 0x7f0400fe, 0x7f0400ff, 0x7f040100, 0x7f040101, 0x7f040102, 0x7f040103, 0x7f040104, 0x7f040105, 0x7f040106, 0x7f040107, 0x7f040108, 0x7f040109, 0x7f04010a, 0x7f04010b, 0x7f04010c, 0x7f04010d, 0x7f04010e, 0x7f04010f, 0x7f040110, 0x7f040111, 0x7f040112, 0x7f040113, 0x7f040114, 0x7f040115, 0x7f040116, 0x7f040117, 0x7f040118, 0x7f040119, 0x7f04011a, 0x7f04011b, 0x7f04011c, 0x7f04011d, 0x7f04011e, 0x7f040120, 0x7f040121, 0x7f040122, 0x7f040123, 0x7f040124, 0x7f040125, 0x7f040126, 0x7f040127, 0x7f04012b };

@@ -1,8 +1,5 @@
 package com.sogukj.pe.service
 
-import com.sogukj.pe.baselibrary.SoguService
-import com.sogukj.pe.baselibrary.SoguService.Companion.APPKEY_NAME
-import com.sogukj.pe.baselibrary.SoguService.Companion.APPKEY_VALUE
 import com.sogukj.pe.bean.*
 import io.reactivex.Observable
 import okhttp3.RequestBody
@@ -14,7 +11,11 @@ import retrofit2.http.POST
 /**
  * Created by admin on 2018/5/22.
  */
-interface UserService : SoguService {
+interface UserService{
+    companion object {
+        const val APPKEY_NAME = "appkey"
+        const val APPKEY_VALUE = "d5f17cafef0829b5"
+    }
     @FormUrlEncoded
     @POST("/api/index/send_code")
     fun sendVerifyCode(@Field("phone") phone: String

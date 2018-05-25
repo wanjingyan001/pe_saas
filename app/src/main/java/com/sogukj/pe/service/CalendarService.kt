@@ -1,6 +1,5 @@
 package com.sogukj.pe.service
 
-import com.sogukj.pe.baselibrary.SoguService
 import com.sogukj.pe.bean.*
 import io.reactivex.Observable
 import retrofit2.http.Body
@@ -11,7 +10,8 @@ import retrofit2.http.POST
 /**
  * Created by admin on 2018/5/23.
  */
-interface CalendarService:SoguService {
+interface CalendarService{
+
     /**
      * 获取日程/团队日程
      * stat:1=>日程，2=>团队日程,3=>项目事项

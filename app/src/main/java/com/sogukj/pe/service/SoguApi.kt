@@ -5,7 +5,6 @@ import android.app.Application
 import android.content.Context
 import android.os.Build
 import com.sogukj.pe.Consts
-import com.sogukj.pe.baselibrary.SoguService
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.Store
@@ -77,7 +76,7 @@ class SoguApi {
                 .build()
     }
 
-    private fun <T : SoguService> getService(service: Class<T>): T {
+    private fun <T> getService(service: Class<T>): T {
         return retrofit.create(service)
     }
 
@@ -113,7 +112,7 @@ class SoguApi {
             return sApi!!
         }
 
-        fun <T : SoguService> getService(ctx: Application, service: Class<T>): T {
+        fun <T> getService(ctx: Application, service: Class<T>): T {
             return getApi(ctx).getService(service)
         }
     }

@@ -1,6 +1,5 @@
 package com.sogukj.pe.service
 
-import com.sogukj.pe.baselibrary.SoguService
 import com.sogukj.pe.bean.*
 import io.reactivex.Observable
 import retrofit2.http.Body
@@ -11,7 +10,7 @@ import retrofit2.http.POST
 /**
  * Created by admin on 2018/5/22.
  */
-interface ScoreService:SoguService {
+interface ScoreService {
     //进入考评系统判断角色
     @POST("/api/grade/getType")
     fun getType(): Observable<Payload<TypeBean>>

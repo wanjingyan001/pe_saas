@@ -1,6 +1,5 @@
 package com.sogukj.pe.service
 
-import com.sogukj.pe.baselibrary.SoguService
 import com.sogukj.pe.bean.*
 import io.reactivex.Observable
 import retrofit2.http.Field
@@ -11,7 +10,7 @@ import retrofit2.http.Url
 /**
  * Created by admin on 2018/5/22.
  */
-interface OtherService : SoguService {
+interface OtherService {
     @FormUrlEncoded
     @POST("/api/Approve/getFundOrProject")
     fun listSelector(

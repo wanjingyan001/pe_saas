@@ -1,6 +1,5 @@
 package com.sogukj.pe.service
 
-import com.sogukj.pe.baselibrary.SoguService
 import com.sogukj.pe.bean.FundAccount
 import com.sogukj.pe.bean.FundDetail
 import com.sogukj.pe.bean.FundSmallBean
@@ -14,7 +13,7 @@ import retrofit2.http.POST
 /**
  * Created by admin on 2018/5/23.
  */
-interface FundService:SoguService {
+interface FundService {
     /**
      * 获取所有基金公司列表
      */

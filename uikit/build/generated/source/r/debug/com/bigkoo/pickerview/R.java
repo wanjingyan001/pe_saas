@@ -57,12 +57,12 @@ public final class R {
         public static int options3 = 0x7f0c01ac;
         public static int optionspicker = 0x7f0c01ad;
         public static int outmost_container = 0x7f0c01b0;
-        public static int right = 0x7f0c01eb;
-        public static int rv_topbar = 0x7f0c01fd;
-        public static int second = 0x7f0c0213;
-        public static int timepicker = 0x7f0c0272;
-        public static int tvTitle = 0x7f0c028c;
-        public static int year = 0x7f0c02c3;
+        public static int right = 0x7f0c01ec;
+        public static int rv_topbar = 0x7f0c01fe;
+        public static int second = 0x7f0c0214;
+        public static int timepicker = 0x7f0c0273;
+        public static int tvTitle = 0x7f0c028d;
+        public static int year = 0x7f0c02c4;
     }
     public static final class integer {
         public static int animation_default_duration = 0x7f0d0003;

@@ -221,6 +221,8 @@
         <receiver android:name="com.netease.nimlib.service.ResponseReceiver" /> <!-- 云信进程间通信service -->
         <service android:name="com.netease.nimlib.service.ResponseService" />
 
+        <activity android:name="com.sogukj.pe.baselibrary.base.BaseRefreshActivity" />
+
         <meta-data
             android:name="com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"
             android:value="GlideModule" />

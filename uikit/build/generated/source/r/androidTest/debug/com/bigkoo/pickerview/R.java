@@ -43,26 +43,26 @@ public final class R {
         public static final int selector_pickerview_btn = 0x7f0201ac;
     }
     public static final class id {
-        public static final int btnCancel = 0x7f10011d;
-        public static final int btnSubmit = 0x7f10011f;
-        public static final int center = 0x7f10004a;
-        public static final int content_container = 0x7f100136;
-        public static final int day = 0x7f1002a5;
-        public static final int hour = 0x7f1002a6;
-        public static final int left = 0x7f100033;
-        public static final int min = 0x7f1002a7;
-        public static final int month = 0x7f1002a4;
-        public static final int options1 = 0x7f10029f;
-        public static final int options2 = 0x7f1002a0;
-        public static final int options3 = 0x7f1002a1;
-        public static final int optionspicker = 0x7f10029e;
-        public static final int outmost_container = 0x7f100135;
-        public static final int right = 0x7f100034;
-        public static final int rv_topbar = 0x7f10011c;
-        public static final int second = 0x7f1002a8;
-        public static final int timepicker = 0x7f1002a2;
-        public static final int tvTitle = 0x7f10011e;
-        public static final int year = 0x7f1002a3;
+        public static final int btnCancel = 0x7f10011e;
+        public static final int btnSubmit = 0x7f100120;
+        public static final int center = 0x7f10004b;
+        public static final int content_container = 0x7f100137;
+        public static final int day = 0x7f1002a6;
+        public static final int hour = 0x7f1002a7;
+        public static final int left = 0x7f100034;
+        public static final int min = 0x7f1002a8;
+        public static final int month = 0x7f1002a5;
+        public static final int options1 = 0x7f1002a0;
+        public static final int options2 = 0x7f1002a1;
+        public static final int options3 = 0x7f1002a2;
+        public static final int optionspicker = 0x7f10029f;
+        public static final int outmost_container = 0x7f100136;
+        public static final int right = 0x7f100035;
+        public static final int rv_topbar = 0x7f10011d;
+        public static final int second = 0x7f1002a9;
+        public static final int timepicker = 0x7f1002a3;
+        public static final int tvTitle = 0x7f10011f;
+        public static final int year = 0x7f1002a4;
     }
     public static final class integer {
         public static final int animation_default_duration = 0x7f0d0004;

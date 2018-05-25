@@ -1,6 +1,5 @@
 package com.sogukj.pe.service
 
-import com.sogukj.pe.baselibrary.SoguService
 import com.sogukj.pe.bean.WeeklySendBean
 import com.sogukj.pe.bean.WeeklyThisBean
 import com.sogukj.pe.bean.WeeklyWatchBean
@@ -12,7 +11,7 @@ import retrofit2.http.POST
 /**
  * Created by admin on 2018/5/23.
  */
-interface WeeklyService:SoguService {
+interface WeeklyService {
     //周报-本周周报
     @FormUrlEncoded
     @POST("/api/Weekly/index")
