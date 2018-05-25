@@ -1,33 +1,38 @@
 package com.sogukj.pe.baselibrary.base
 
-import android.support.v7.app.AppCompatActivity
+
 import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.api.RefreshFooter
 import com.scwang.smartrefresh.layout.api.RefreshHeader
-import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
+
 import com.sogukj.pe.baselibrary.R
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
-import org.jetbrains.anko.ctx
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.find
 
-abstract class BaseRefreshActivity : ToolbarActivity(), OnRefreshListener, OnLoadMoreListener {
+
+/**
+ * A simple [Fragment] subclass.
+ */
+abstract class BaseRefreshFragment : BaseFragment(), OnRefreshListener, OnLoadMoreListener {
     lateinit var refresh: SmartRefreshLayout
         private set
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initRefresh()
     }
-
 
     private fun initRefresh() {
         refresh = find(R.id.refresh)
@@ -46,13 +51,13 @@ abstract class BaseRefreshActivity : ToolbarActivity(), OnRefreshListener, OnLoa
                 it.setEnableOverScrollDrag(config.overScrollDrag)
                 val header = initRefreshHeader()
                 if (header == null) {
-                    it.setRefreshHeader(ClassicsHeader(this), 0, 0)
+                    it.setRefreshHeader(ClassicsHeader(ctx), 0, 0)
                 } else {
                     it.setRefreshHeader(header)
                 }
                 val footer = initRefreshFooter()
                 if (footer == null) {
-                    it.setRefreshFooter(ClassicsFooter(this), 0, 0)
+                    it.setRefreshFooter(ClassicsFooter(ctx), 0, 0)
                 } else {
                     it.setRefreshFooter(footer)
                 }

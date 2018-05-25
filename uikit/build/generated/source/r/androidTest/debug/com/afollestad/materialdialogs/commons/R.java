@@ -976,15 +976,15 @@ public final class R {
         public static final int abc_shareactionprovider_share_with = 0x7f09000e;
         public static final int abc_shareactionprovider_share_with_application = 0x7f09000f;
         public static final int abc_toolbar_collapse_description = 0x7f090010;
-        public static final int md_back_label = 0x7f09008d;
-        public static final int md_cancel_label = 0x7f09008e;
-        public static final int md_choose_label = 0x7f09008f;
-        public static final int md_custom_label = 0x7f090090;
-        public static final int md_done_label = 0x7f090091;
-        public static final int md_error_label = 0x7f090092;
-        public static final int md_presets_label = 0x7f090093;
-        public static final int md_storage_perm_error = 0x7f090094;
-        public static final int new_folder = 0x7f0900a3;
+        public static final int md_back_label = 0x7f09008e;
+        public static final int md_cancel_label = 0x7f09008f;
+        public static final int md_choose_label = 0x7f090090;
+        public static final int md_custom_label = 0x7f090091;
+        public static final int md_done_label = 0x7f090092;
+        public static final int md_error_label = 0x7f090093;
+        public static final int md_presets_label = 0x7f090094;
+        public static final int md_storage_perm_error = 0x7f090095;
+        public static final int new_folder = 0x7f0900a4;
         public static final int search_menu_title = 0x7f090011;
         public static final int status_bar_notification_info_overflow = 0x7f090012;
     }

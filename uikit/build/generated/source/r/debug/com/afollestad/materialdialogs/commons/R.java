@@ -983,17 +983,17 @@ public final class R {
         public static int abc_shareactionprovider_share_with = 0x7f15001d;
         public static int abc_shareactionprovider_share_with_application = 0x7f15001e;
         public static int abc_toolbar_collapse_description = 0x7f15001f;
-        public static int md_back_label = 0x7f150077;
-        public static int md_cancel_label = 0x7f150078;
-        public static int md_choose_label = 0x7f150079;
-        public static int md_custom_label = 0x7f15007a;
-        public static int md_done_label = 0x7f15007b;
-        public static int md_error_label = 0x7f15007c;
-        public static int md_presets_label = 0x7f15007d;
-        public static int md_storage_perm_error = 0x7f15007e;
-        public static int new_folder = 0x7f15008d;
-        public static int search_menu_title = 0x7f1500dc;
-        public static int status_bar_notification_info_overflow = 0x7f1500ed;
+        public static int md_back_label = 0x7f150078;
+        public static int md_cancel_label = 0x7f150079;
+        public static int md_choose_label = 0x7f15007a;
+        public static int md_custom_label = 0x7f15007b;
+        public static int md_done_label = 0x7f15007c;
+        public static int md_error_label = 0x7f15007d;
+        public static int md_presets_label = 0x7f15007e;
+        public static int md_storage_perm_error = 0x7f15007f;
+        public static int new_folder = 0x7f15008e;
+        public static int search_menu_title = 0x7f1500dd;
+        public static int status_bar_notification_info_overflow = 0x7f1500ee;
     }
     public static final class style {
         public static int AlertDialog_AppCompat = 0x7f160001;

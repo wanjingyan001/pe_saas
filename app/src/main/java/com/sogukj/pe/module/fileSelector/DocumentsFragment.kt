@@ -15,9 +15,15 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.scwang.smartrefresh.layout.api.RefreshFooter
+import com.scwang.smartrefresh.layout.api.RefreshHeader
+import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.setVisible
+import com.sogukj.pe.baselibrary.base.BaseRefreshFragment
+import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
@@ -39,7 +45,9 @@ import java.util.*
  * Use the [DocumentsFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class DocumentsFragment : Fragment(), View.OnClickListener {
+class DocumentsFragment : BaseRefreshFragment(), View.OnClickListener {
+    override val containerViewId: Int
+        get() = R.layout.fragment_documents
     private var type: Int? = null
     private var mParam2: String? = null
 
@@ -62,12 +70,6 @@ class DocumentsFragment : Fragment(), View.OnClickListener {
         }
     }
 
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_documents, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = RecyclerAdapter(ctx, { _adpater, parent, type ->
@@ -80,26 +82,38 @@ class DocumentsFragment : Fragment(), View.OnClickListener {
         header.find<LinearLayout>(R.id.mVideoManage).setOnClickListener(this)
         header.find<LinearLayout>(R.id.mDocManage).setOnClickListener(this)
         header.find<LinearLayout>(R.id.mZipManage).setOnClickListener(this)
-        initRefresh()
         getDirectoryFiles()
         getFiles()
     }
 
-    private fun initRefresh() {
-        refresh.apply {
-            isEnableRefresh = false
-            isEnableLoadMore = true
-            isEnableAutoLoadMore = true
-            isEnableOverScrollBounce = false
-            isEnableScrollContentWhenLoaded = false
-            setEnableFooterTranslationContent(false)
-            setRefreshFooter(ClassicsFooter(ctx), 0, 0)
-            setDisableContentWhenLoading(true)
-            setOnLoadMoreListener {
-                page += 1
-                getFiles()
-            }
-        }
+
+    override fun initRefreshConfig(): RefreshConfig? {
+        val config = RefreshConfig()
+        config.refreshEnable = false
+        config.loadMoreEnable = true
+        config.autoLoadMoreEnable = true
+        config.overScrollBounceEnable = false
+        config.scrollContentWhenLoaded = false
+        config.footerTranslationContent = false
+        config.disableContentWhenLoading = true
+        return config
+    }
+
+    override fun initRefreshHeader(): RefreshHeader? {
+        return null
+    }
+
+    override fun initRefreshFooter(): RefreshFooter? {
+        return null
+    }
+
+    override fun onRefresh(refreshLayout: RefreshLayout?) {
+
+    }
+
+    override fun onLoadMore(refreshLayout: RefreshLayout?) {
+        page += 1
+        getFiles()
     }
 
     private fun getFiles() {
@@ -123,12 +137,12 @@ class DocumentsFragment : Fragment(), View.OnClickListener {
     }
 
     fun deleteFile(selectedFile: List<File>) {
-          selectedFile.forEach {
-              if (files.contains(it) && it.exists()) {
-                  it.delete()
-                  adapter.dataList.remove(it)
-              }
-          }
+        selectedFile.forEach {
+            if (files.contains(it) && it.exists()) {
+                it.delete()
+                adapter.dataList.remove(it)
+            }
+        }
         adapter.notifyDataSetChanged()
         getDirectoryFiles()
     }

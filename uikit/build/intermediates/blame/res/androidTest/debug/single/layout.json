@@ -1,11 +1,11 @@
 [
     {
-        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/md_dialog_custom.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/3be554bf4b064ed901ec9c4dcbec385d/res/layout/md_dialog_custom.xml"
-    },
-    {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/layout_team_menu_winodow.xml",
         "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/layout/layout_team_menu_winodow.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/md_dialog_custom.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/3be554bf4b064ed901ec9c4dcbec385d/res/layout/md_dialog_custom.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_custom_dialog_list_item.xml",
@@ -120,12 +120,12 @@
         "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.1.aar/24b9532c30c6e50d868ec78894f8d789/res/layout/notification_template_big_media_narrow_custom.xml"
     },
     {
-        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_voice_trans_layout.xml",
-        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/layout/nim_voice_trans_layout.xml"
-    },
-    {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_sticker_picker_view.xml",
         "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/layout/nim_sticker_picker_view.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_voice_trans_layout.xml",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/layout/nim_voice_trans_layout.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_watch_snapchat_activity.xml",
@@ -244,12 +244,12 @@
         "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/layout/nim_ait_contact_label_item.xml"
     },
     {
-        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_picker_photofolder_item.xml",
-        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/layout/nim_picker_photofolder_item.xml"
-    },
-    {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_popup_menu_black_layout.xml",
         "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/layout/nim_popup_menu_black_layout.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_picker_photofolder_item.xml",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/layout/nim_picker_photofolder_item.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/message_bottom_text_input.xml",

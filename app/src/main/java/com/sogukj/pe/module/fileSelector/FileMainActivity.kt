@@ -16,13 +16,14 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.peUtils.FileUtil
 import kotlinx.android.synthetic.main.activity_file_main.*
 import java.io.File
 import kotlin.properties.Delegates
 
-class FileMainActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
+class FileMainActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     val selectedFile = ArrayList<File>()
     var maxSize: Int by Delegates.notNull()//最大选择数量
     var isReplace: Boolean = false//文件选择替换功能(单选)

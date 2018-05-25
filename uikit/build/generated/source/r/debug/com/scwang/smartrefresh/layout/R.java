@@ -67,8 +67,8 @@ public final class R {
         public static int Translate = 0x7f0c000f;
     }
     public static final class string {
-        public static int srl_component_falsify = 0x7f1500ea;
-        public static int srl_content_empty = 0x7f1500eb;
+        public static int srl_component_falsify = 0x7f1500eb;
+        public static int srl_content_empty = 0x7f1500ec;
     }
     public static final class styleable {
         public static int[] BallPulseFooter = { 0x7f0401cd, 0x7f0401ce, 0x7f0401f5, 0x7f0401f6 };

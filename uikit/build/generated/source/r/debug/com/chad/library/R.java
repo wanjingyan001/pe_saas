@@ -38,8 +38,8 @@ public final class R {
     }
     public static final class string {
         public static int app_name = 0x7f150023;
-        public static int load_end = 0x7f15006e;
-        public static int load_failed = 0x7f15006f;
-        public static int loading = 0x7f150070;
+        public static int load_end = 0x7f15006f;
+        public static int load_failed = 0x7f150070;
+        public static int loading = 0x7f150071;
     }
 }

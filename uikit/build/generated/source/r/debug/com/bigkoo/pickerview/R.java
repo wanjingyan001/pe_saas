@@ -74,14 +74,14 @@ public final class R {
         public static int pickerview_time = 0x7f0f00da;
     }
     public static final class string {
-        public static int pickerview_cancel = 0x7f1500af;
-        public static int pickerview_day = 0x7f1500b0;
-        public static int pickerview_hours = 0x7f1500b1;
-        public static int pickerview_minutes = 0x7f1500b2;
-        public static int pickerview_month = 0x7f1500b3;
-        public static int pickerview_seconds = 0x7f1500b4;
-        public static int pickerview_submit = 0x7f1500b5;
-        public static int pickerview_year = 0x7f1500b6;
+        public static int pickerview_cancel = 0x7f1500b0;
+        public static int pickerview_day = 0x7f1500b1;
+        public static int pickerview_hours = 0x7f1500b2;
+        public static int pickerview_minutes = 0x7f1500b3;
+        public static int pickerview_month = 0x7f1500b4;
+        public static int pickerview_seconds = 0x7f1500b5;
+        public static int pickerview_submit = 0x7f1500b6;
+        public static int pickerview_year = 0x7f1500b7;
     }
     public static final class style {
         public static int custom_dialog2 = 0x7f1601b3;

@@ -11,12 +11,15 @@ import android.view.inputmethod.EditorInfo
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.textStr
+import com.sogukj.pe.baselibrary.base.BaseFragment
 import com.sogukj.pe.baselibrary.utils.Utils
 import kotlinx.android.synthetic.main.fragment_common_documents.*
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.onPageChangeListener
 
-class CommonDocumentsFragment : Fragment() {
+class CommonDocumentsFragment : BaseFragment() {
+    override val containerViewId: Int
+        get() = R.layout.fragment_common_documents
     private var mParam1: String? = null
     private var mParam2: String? = null
     lateinit var pagerAdapter: DocPageAdapter
@@ -35,10 +38,6 @@ class CommonDocumentsFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_common_documents, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val fragments = listOf<Fragment>(peFragment, wxFragment, qqFragment, dtFragment, allFragment)
@@ -49,7 +48,7 @@ class CommonDocumentsFragment : Fragment() {
             onPageSelected {
                 search_edt.setText("")
                 search_edt.clearFocus()
-                Utils.closeInput(ctx,search_edt)
+                Utils.closeInput(ctx, search_edt)
             }
         }
         doSearch()
@@ -68,7 +67,7 @@ class CommonDocumentsFragment : Fragment() {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 val editable = search_edt.textStr
                 val str = Utils.stringFilter(editable)
-                Utils.closeInput(ctx,search_edt)
+                Utils.closeInput(ctx, search_edt)
                 pagerAdapter.getCurrentItem().search(str)
                 true
             }

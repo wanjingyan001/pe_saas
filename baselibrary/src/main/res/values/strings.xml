@@ -3,4 +3,7 @@
     <string name="network_error_hint">请检查网络连接权限及当前网络状态</string>
     <string name="no_network_available">无可用网络</string>
     <string name="click_to_refresh">点击刷新</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

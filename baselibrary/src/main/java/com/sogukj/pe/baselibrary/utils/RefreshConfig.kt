@@ -43,4 +43,20 @@ class RefreshConfig {
      * /是否启用越界拖动（仿苹果效果）
      */
     var overScrollDrag = true
+    /**
+     *  设置是否开启在加载时候禁止操作内容视图
+     */
+    var disableContentWhenLoading = false
+    /**
+     * 设置是否开启在刷新时候禁止操作内容视图
+     */
+    var disableContentWhenRefresh = false
+    /**
+     * 设置是否在加载更多完成之后滚动内容显示新数据
+     */
+    var scrollContentWhenLoaded = false
+    /**
+     * 设置是否启用内容视图拖动效果
+     */
+    var footerTranslationContent = false
 }
