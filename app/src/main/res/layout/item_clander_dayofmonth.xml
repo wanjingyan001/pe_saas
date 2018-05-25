@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="horizontal">
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="18dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/calendar_bg_color" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/divider">
+
+        <TextView
+            android:id="@+id/day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="15dp"
+            android:text="9"
+            android:textColor="@color/text_1"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="2dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="51dp"
+            android:background="#dbdbdb" />
+
+        <TextView
+            android:id="@+id/month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="70dp"
+            android:text="星期四
+2016年10月"
+            android:textColor="#4b5266"
+            android:textSize="10sp" />
+    </RelativeLayout>
+
+
+</RelativeLayout>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="com.sogukj.pe.ui.project.ManageDataActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="公司重大事项" />
+
+                    <EditText
+                        android:id="@+id/et_majorEvents"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="近期融资情况" />
+
+                    <EditText
+                        android:id="@+id/et_recentFinance"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="企业家及高管动向" />
+
+                    <EditText
+                        android:id="@+id/et_tendency"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="行业及政策重大事项" />
+
+                    <EditText
+                        android:id="@+id/et_policyIssues"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="附属协议条款跟进" />
+
+                    <EditText
+                        android:id="@+id/et_clause"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="投资经理意见" />
+
+                    <EditText
+                        android:id="@+id/et_opinion"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="分红及补偿" />
+
+                    <EditText
+                        android:id="@+id/et_bonus"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/divider2" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <Button
+            android:id="@+id/btn_commit"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/bg_btn_blue"
+            android:text="提交" />
+    </LinearLayout>
+</LinearLayout>

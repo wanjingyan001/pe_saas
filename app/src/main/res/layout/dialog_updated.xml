@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="30dp"
+    android:paddingRight="30dp"
+    android:background="@drawable/approve_bg">
+
+    <ImageView
+        android:id="@+id/updated_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/updated"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--<ProgressBar-->
+        <!--android:id="@+id/update_progress"-->
+        <!--style="?android:attr/progressBarStyleHorizontal"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="10dp"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:visibility="gone"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/updated_icon" />-->
+
+    <com.sogukj.pe.widgets.MyProgressBar
+        android:id="@+id/update_progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/updated_icon" />
+
+    <TextView
+        android:id="@+id/update_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/update_title"
+        android:textColor="@color/text_1"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.13"
+        android:lineSpacingExtra="0sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/update_progress" />
+
+
+    <TextView
+        android:id="@+id/update_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="@string/update_info"
+        android:textColor="@color/text_3"
+        android:textSize="14sp"
+        android:letterSpacing="0.11"
+        android:lineSpacingExtra="0sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/update_title" />
+
+    <ScrollView
+        android:id="@+id/update_message_layout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/update_info">
+
+        <TextView
+            android:id="@+id/update_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1、这里显现更新内容，可以逐条显示，那种打字机效果当然最好，然后上方进度条根据跟新进度显示进度条及数字～～
+            1、这里是更新的内容，不够显示就换行。
+            2、侧边这个灰色方块是侧面滑块，色值#EFEFEF，r=6，w=5"
+            android:letterSpacing="0.03"
+            android:lineSpacingExtra="6sp"
+            android:layout_margin="10dp"
+            android:textColor="@color/text_3"
+            android:textSize="14sp" />
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/update"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_update"
+        android:elevation="5dp"
+        android:text="@string/update_now"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/update_message_layout" />
+
+    <TextView
+        android:id="@+id/update_prompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="当前处于Wi-Fi网络，请放心下载"
+        android:textColor="#cecece"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/update" />
+
+
+</android.support.constraint.ConstraintLayout>

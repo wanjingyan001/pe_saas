@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp">
+
+    <ImageView
+        android:id="@+id/selectIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/team_select_bg" />
+
+    <ImageView
+        android:id="@+id/file_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="12dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="12dp"
+        android:layout_toRightOf="@+id/selectIcon"
+        android:scaleType="centerInside"
+        android:src="@drawable/file_default" />
+
+    <ImageView
+        android:id="@+id/red_point"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_alignRight="@+id/file_icon"
+        android:layout_alignTop="@+id/file_icon"
+        android:layout_marginTop="-4dp"
+        android:layout_marginLeft="-4dp"
+        android:visibility="gone"
+        android:src="@drawable/bg_new_file_point" />
+
+    <TextView
+        android:id="@+id/file_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/file_icon"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_toRightOf="@+id/file_icon"
+        android:ellipsize="end"
+        android:maxEms="30"
+        android:textColor="@color/text_1"
+        android:textSize="@dimen/text_size_medium"
+        android:singleLine="true" />
+
+    <TextView
+        android:id="@+id/file_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/file_icon"
+        android:textSize="@dimen/text_size_samll"
+        android:textColor="@color/shareholder_text_gray"
+        android:layout_alignLeft="@+id/file_name"
+        android:layout_toRightOf="@+id/file_icon" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_alignLeft="@+id/file_name"
+        android:layout_alignParentBottom="true"
+        android:background="@color/divider2" />
+
+</RelativeLayout>

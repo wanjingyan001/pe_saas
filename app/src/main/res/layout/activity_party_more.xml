@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.sogukj.pe.ui.partyBuild.PartyMoreActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:background="@color/party_toolbar_red"
+        app:layout_constraintTop_toTopOf="parent"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:theme="@style/AppTheme.AppBarOverlay">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="32dp"
+            android:layout_height="match_parent"
+            android:scaleType="center"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/icon_party_back" />
+
+
+        <TextView
+            android:id="@id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_large"
+            android:textStyle="bold" />
+
+
+
+    </android.support.v7.widget.Toolbar>
+
+    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/moreList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+
+</LinearLayout>

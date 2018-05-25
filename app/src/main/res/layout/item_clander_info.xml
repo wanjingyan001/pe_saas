@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_margin="15dp"
+        android:text="09:30"
+        android:textColor="#adb1be"
+        android:textSize="14sp" />
+
+
+    <ImageView
+        android:id="@+id/right_arrow"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/ic_right" />
+
+
+    <!--<ImageView-->
+    <!--android:id="@+id/finishBox"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:layout_marginRight="10dp"-->
+    <!--android:layout_toLeftOf="@+id/right_arrow"-->
+    <!--android:src="@drawable/bg_finish_box" />-->
+
+    <LinearLayout
+        android:id="@+id/contentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/right_arrow"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="35dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/text_1"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/todoPerson"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_schedule_creater"
+            android:drawablePadding="6dp"
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/color_main"
+            android:textSize="10sp" />
+    </LinearLayout>
+
+
+    <View
+        android:id="@+id/view10"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignLeft="@+id/contentLayout"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/right_arrow"
+        android:background="@color/divider2" />
+</RelativeLayout>

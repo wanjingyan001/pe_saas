@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:text="具体工作目标"
+        android:textColor="#FF808080"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:background="#FFF7F9FC"
+        android:hint="@string/hint_add_minus"
+        android:paddingBottom="8dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="8dp"
+        android:textColor="#FF353535"
+        android:textSize="14sp" />
+
+</LinearLayout>

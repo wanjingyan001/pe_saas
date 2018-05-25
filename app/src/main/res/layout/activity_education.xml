@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_shareholder_toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/divider2">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@color/white"
+                android:paddingLeft="20dp"
+                android:paddingRight="10dp">
+
+                <TableRow android:background="@drawable/divider_bottom">
+
+                    <TextView
+                        style="@style/TableTextLabel"
+                        android:text="入学时间" />
+
+                    <TextView
+                        android:id="@+id/tv_start_date"
+                        style="@style/TableTextValue"
+                        android:layout_marginRight="10dp"
+                        android:hint="请选择" />
+
+
+                    <!--<ImageView-->
+                        <!--android:layout_width="25dp"-->
+                        <!--android:layout_height="25dp"-->
+                        <!--android:layout_gravity="center_vertical"-->
+                        <!--android:scaleType="centerInside"-->
+                        <!--android:src="@drawable/ic_arrow_r" />-->
+                </TableRow>
+
+                <TableRow android:background="@drawable/divider_bottom">
+
+                    <TextView
+                        style="@style/TableTextLabel"
+                        android:text="毕业时间" />
+
+                    <TextView
+                        android:id="@+id/tv_date_end"
+                        style="@style/TableTextValue"
+                        android:layout_marginRight="10dp"
+                        android:hint="请选择" />
+
+
+                    <!--<ImageView-->
+                        <!--android:layout_width="25dp"-->
+                        <!--android:layout_height="25dp"-->
+                        <!--android:layout_gravity="center_vertical"-->
+                        <!--android:scaleType="centerInside"-->
+                        <!--android:src="@drawable/ic_arrow_r" />-->
+                </TableRow>
+
+                <TableRow android:background="@drawable/divider_bottom">
+
+                    <TextView
+                        style="@style/TableTextLabel"
+                        android:text="学校" />
+
+                    <EditText
+                        android:id="@+id/tv_school"
+                        style="@style/TableTextValue"
+                        android:layout_marginRight="10dp"
+                        android:hint="请填写" />
+
+
+                    <!--<ImageView-->
+                        <!--android:layout_width="25dp"-->
+                        <!--android:layout_height="25dp"-->
+                        <!--android:layout_gravity="center_vertical"-->
+                        <!--android:scaleType="centerInside"-->
+                        <!--android:src="@drawable/ic_arrow_r" />-->
+                </TableRow>
+
+                <TableRow android:background="@drawable/divider_bottom">
+
+                    <TextView
+                        style="@style/TableTextLabel"
+                        android:text="学历" />
+
+                    <TextView
+                        android:id="@+id/tv_education"
+                        style="@style/TableTextValue"
+                        android:layout_marginRight="10dp"
+                        android:hint="请选择" />
+
+
+                    <!--<ImageView-->
+                        <!--android:layout_width="25dp"-->
+                        <!--android:layout_height="25dp"-->
+                        <!--android:layout_gravity="center_vertical"-->
+                        <!--android:scaleType="centerInside"-->
+                        <!--android:src="@drawable/ic_arrow_r" />-->
+                </TableRow>
+
+                <TableRow android:background="@drawable/divider_bottom">
+
+                    <TextView
+                        style="@style/TableTextLabel"
+                        android:text="专业" />
+
+                    <EditText
+                        android:id="@+id/tv_profession"
+                        style="@style/TableTextValue"
+                        android:layout_marginRight="10dp"
+                        android:hint="请填写" />
+
+
+                    <!--<ImageView-->
+                        <!--android:layout_width="25dp"-->
+                        <!--android:layout_height="25dp"-->
+                        <!--android:layout_gravity="center_vertical"-->
+                        <!--android:scaleType="centerInside"-->
+                        <!--android:src="@drawable/ic_arrow_r" />-->
+                </TableRow>
+
+                <TableRow android:background="@drawable/divider_bottom">
+
+                    <TextView
+                        style="@style/TableTextLabel"
+                        android:text="专业描述" />
+
+                    <EditText
+                        android:id="@+id/tv_description"
+                        style="@style/TableTextValue"
+                        android:layout_marginRight="10dp"
+                        android:hint="请填写" />
+
+
+                    <!--<ImageView-->
+                        <!--android:layout_width="25dp"-->
+                        <!--android:layout_height="25dp"-->
+                        <!--android:layout_gravity="center_vertical"-->
+                        <!--android:scaleType="centerInside"-->
+                        <!--android:src="@drawable/ic_arrow_r" />-->
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="center"
+            android:background="#f1f1f1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/white"
+            android:gravity="center"
+            android:padding="15dp"
+            android:text="分享至" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp">
+
+        <TextView
+            android:id="@+id/tv_wexin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="15dp"
+            android:drawableTop="@drawable/ic_dialog_share_wechat"
+            android:gravity="center"
+            android:text="微信好友" />
+
+        <TextView
+            android:id="@+id/tv_qq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="15dp"
+            android:drawableTop="@drawable/ic_dialog_share_qq"
+            android:gravity="center"
+            android:text="QQ好友" />
+
+        <TextView
+            android:id="@+id/tv_copy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="15dp"
+            android:drawableTop="@drawable/ic_dialog_share_copy"
+            android:gravity="center"
+            android:text="复制链接" />
+    </LinearLayout>
+</LinearLayout>

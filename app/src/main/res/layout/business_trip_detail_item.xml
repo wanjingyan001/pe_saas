@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="7dp"
+        android:background="@drawable/oval" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:letterSpacing="0.04"
+            android:lineSpacingExtra="0sp"
+            android:text="5小时"
+            android:textColor="#1787fb"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:letterSpacing="0.04"
+            android:lineSpacingExtra="0sp"
+            android:text="2017-11-14 星期三"
+            android:textColor="#282828"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_marginTop="10dp"
+            android:background="#e4f1ff"
+            android:gravity="center"
+            android:letterSpacing="0.04"
+            android:lineSpacingExtra="0sp"
+            android:text="出差09:30～15:30"
+            android:textColor="#57aaff"
+            android:textSize="10sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="#ffe6e6" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:letterSpacing="0.04"
+                android:lineSpacingExtra="0sp"
+                android:text="09:30"
+                android:textColor="#a0a4aa"
+                android:textSize="10sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:letterSpacing="0.04"
+                android:lineSpacingExtra="0sp"
+                android:text="18:30"
+                android:textColor="#a0a4aa"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

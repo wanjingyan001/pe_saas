@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="com.sogukj.pe.ui.project.ProjectAddActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="vertical"-->
+    <!--android:padding="10dp">-->
+
+    <!--<TextView-->
+    <!--style="@style/SoguTextMedium"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="10dp"-->
+    <!--android:text="公司名称" />-->
+
+    <!--<EditText-->
+    <!--android:id="@+id/et_name"-->
+    <!--style="@style/SoguTextMedium"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:background="@android:drawable/edit_text"-->
+    <!--tools:text="aaa" />-->
+
+    <!--<TextView-->
+    <!--style="@style/SoguTextMedium"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="10dp"-->
+    <!--android:text="项目名称" />-->
+
+    <!--<EditText-->
+    <!--android:id="@+id/et_short_name"-->
+    <!--style="@style/SoguTextMedium"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:background="@android:drawable/edit_text"-->
+    <!--tools:text="aaa" />-->
+
+    <!--<TextView-->
+    <!--style="@style/SoguTextMedium"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="10dp"-->
+    <!--android:text="法人代表" />-->
+
+    <!--<EditText-->
+    <!--android:id="@+id/et_faren"-->
+    <!--style="@style/SoguTextMedium"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:background="@android:drawable/edit_text"-->
+    <!--tools:text="aaa" />-->
+
+
+    <!--<TextView-->
+    <!--style="@style/SoguTextMedium"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="10dp"-->
+    <!--android:text="注册地点" />-->
+
+    <!--<EditText-->
+    <!--android:id="@+id/et_reg_address"-->
+    <!--style="@style/SoguTextMedium"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:background="@android:drawable/edit_text"-->
+    <!--tools:text="aaa" />-->
+
+    <!--<TextView-->
+    <!--style="@style/SoguTextMedium"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="10dp"-->
+    <!--android:text="统一信用代码" />-->
+
+    <!--<EditText-->
+    <!--android:id="@+id/et_credit_code"-->
+    <!--style="@style/SoguTextMedium"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:background="@android:drawable/edit_text"-->
+    <!--tools:text="aaa" />-->
+
+    <!--<TextView-->
+    <!--style="@style/SoguTextMedium"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="10dp"-->
+    <!--android:text="其它信息" />-->
+
+    <!--<EditText-->
+    <!--android:id="@+id/et_other"-->
+    <!--style="@style/SoguTextMedium"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:background="@android:drawable/edit_text"-->
+    <!--android:gravity="bottom"-->
+    <!--android:maxLines="5"-->
+    <!--tools:text="aaa" />-->
+
+    <!--</LinearLayout>-->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:scrollbars="none"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@color/color_main" />
+
+                    <TextView
+                        style="@style/SoguTextNormal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="企业基本信息" />
+                </LinearLayout>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="公司名称(必填)" />
+
+                    <EditText
+                        android:id="@+id/et_name"
+                        style="@style/ItemTextValue"
+                        android:hint="请输入公司全称"/>
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="项目名称(必填)" />
+
+                    <EditText
+                        android:id="@+id/et_short_name"
+                        style="@style/ItemTextValue"
+                        android:hint="请输入公司简称"/>
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="法人代表" />
+
+                    <EditText
+                        android:id="@+id/et_faren"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="注册地点" />
+
+                    <EditText
+                        android:id="@+id/et_reg_address"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="统一信用代码" />
+
+                    <EditText
+                        android:id="@+id/et_credit_code"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:layout_height="match_parent"
+                        android:gravity="top"
+                        android:text="其他信息" />
+
+                    <EditText
+                        android:id="@+id/et_other"
+                        style="@style/ItemTextValue"
+                        android:layout_height="75dp"
+                        android:gravity="top" />
+                </TableRow>
+
+            </TableLayout>
+
+            <Button
+                android:id="@+id/btn_commit"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/bg_btn_blue"
+                android:text="提交" />
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

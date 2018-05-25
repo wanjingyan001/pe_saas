@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:scrollIndicators="bottom"
+        android:textAlignment="center"
+        app:tabGravity="center"
+        app:tabMinWidth="150dp"
+        app:tabSelectedTextColor="@color/colorBlue"
+        app:tabTextAppearance="@style/SoguTextNormal"
+        app:tabTextColor="@color/text_2">
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="投资事件" />
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="投资分布" />
+    </android.support.design.widget.TabLayout>
+
+    <FrameLayout
+        android:id="@id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/divider2"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"></FrameLayout>
+</LinearLayout>

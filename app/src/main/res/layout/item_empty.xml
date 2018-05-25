@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f7f9fc">
+
+    <ImageView
+        android:id="@+id/iv_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="64dp"
+        android:layout_gravity="center"
+        android:src="@drawable/img_empty" />
+
+
+    <TextView
+        android:id="@+id/tv_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_empty"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="暂无日程"
+        android:textColor="#d8d8d8"
+        android:textSize="16sp" />
+
+</RelativeLayout>

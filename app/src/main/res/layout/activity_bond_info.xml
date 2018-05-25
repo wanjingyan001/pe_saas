@@ -1,0 +1,636 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.sogukj.pe.ui.StockInfoActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/divider2"
+            android:paddingBottom="20dp">
+
+
+            <TableRow
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:id="@+id/tv_bondName"
+                    style="@style/SoguTextNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:text="--"
+                    tools:text="法定代表人" />
+
+                <TextView
+                    android:id="@+id/tv_bondNum"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TextView
+                android:id="@+id/tv_publisherName"
+                style="@style/SoguTextMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="5dp"
+                android:text="--"
+                android:textColor="@color/text_2"
+                tools:text="法定代表人" />
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="债券类型" />
+
+                <TextView
+                    android:id="@+id/tv_bondType"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="债劵发行日" />
+
+                <TextView
+                    android:id="@+id/tv_publishTime"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="债劵到期日" />
+
+                <TextView
+                    android:id="@+id/tv_publishExpireTime"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="上市交易日" />
+
+                <TextView
+                    android:id="@+id/tv_bondTradeTime"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="债劵摘牌日" />
+
+                <TextView
+                    android:id="@+id/tv_bondStopTime"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="债券起息日" />
+
+                <TextView
+                    android:id="@+id/tv_startCalInterestTime"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="债劵期限" />
+
+                <TextView
+                    android:id="@+id/tv_bondTimeLimit"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="计息方式" />
+
+                <TextView
+                    android:id="@+id/tv_calInterestType"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="债项评级" />
+
+                <TextView
+                    android:id="@+id/tv_debtRating"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="信用评级机构" />
+
+                <TextView
+                    android:id="@+id/tv_creditRatingGov"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="面值" />
+
+                <TextView
+                    android:id="@+id/tv_faceValue"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="参考利率" />
+
+                <TextView
+                    android:id="@+id/tv_refInterestRate"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="票面利率(%)" />
+
+                <TextView
+                    android:id="@+id/tv_faceInterestRate"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="实际发行量(亿)" />
+
+                <TextView
+                    android:id="@+id/tv_realIssuedQuantity"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="计划发行量(亿)" />
+
+                <TextView
+                    android:id="@+id/tv_planIssuedQuantity"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="发行价格(元)" />
+
+                <TextView
+                    android:id="@+id/tv_issuedPrice"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="利差(BP)" />
+
+                <TextView
+                    android:id="@+id/tv_interestDiff"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="付息频率" />
+
+                <TextView
+                    android:id="@+id/tv_payInterestHZ"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="行权类型" />
+
+                <TextView
+                    android:id="@+id/tv_exeRightType"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="行权日期" />
+
+                <TextView
+                    android:id="@+id/tv_exeRightTime"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="流通范围" />
+
+                <TextView
+                    android:id="@+id/tv_flowRange"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="托管机构" />
+
+                <TextView
+                    android:id="@+id/tv_escrowAgent"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+        </TableLayout>
+    </ScrollView>
+
+</LinearLayout>

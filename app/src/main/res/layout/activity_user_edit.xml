@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:id="@+id/tr_icon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/user_divider_bottom"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/TableTextLabel"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="头像" />
+
+            <com.sogukj.pe.widgets.CircleImageView
+                android:id="@+id/iv_user"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/img_logo_user" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_arrow_r" />
+        </LinearLayout>
+
+        <TableRow
+            android:id="@+id/tr_name"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:background="@drawable/user_divider_bottom">
+
+            <TextView
+                style="@style/TableTextLabel"
+                android:text="姓名" />
+
+            <EditText
+                android:id="@+id/tv_name"
+                style="@style/TableTextValue"
+                android:hint="未填写" />
+
+            <!--<ImageView-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:src="@drawable/ic_arrow_r" />-->
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tr_depart"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:background="@drawable/user_divider_bottom">
+
+            <TextView
+                style="@style/TableTextLabel"
+                android:text="部门" />
+
+            <TextView
+                android:id="@+id/tv_depart"
+                style="@style/TableTextValue"
+                android:hint="未填写" />
+
+            <!--<ImageView-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:src="@drawable/ic_arrow_r" />-->
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tr_posotion"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:background="@drawable/user_divider_bottom">
+
+            <TextView
+                style="@style/TableTextLabel"
+                android:text="职务" />
+
+            <TextView
+                android:id="@+id/tv_posotion"
+                style="@style/TableTextValue"
+                android:hint="未填写" />
+
+            <!--<ImageView-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:src="@drawable/ic_arrow_r" />-->
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tr_phone"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:background="@drawable/user_divider_bottom">
+
+            <TextView
+                style="@style/TableTextLabel"
+                android:text="手机" />
+
+            <TextView
+                android:id="@+id/tv_phone"
+                style="@style/TableTextValue"
+                android:hint="未填写" />
+
+            <!--<ImageView-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:src="@drawable/ic_arrow_r"-->
+            <!--android:visibility="gone" />-->
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tr_email"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:background="@drawable/user_divider_bottom">
+
+            <TextView
+                style="@style/TableTextLabel"
+                android:layout_weight="1"
+                android:text="邮箱" />
+
+            <TextView
+                android:id="@+id/tv_email"
+                style="@style/TableTextValue"
+                android:hint="未填写" />
+
+            <!--<ImageView-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:src="@drawable/ic_arrow_r" />-->
+        </TableRow>
+
+
+        <TableRow
+            android:id="@+id/tr_note"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:background="@drawable/user_divider_bottom">
+
+            <TextView
+                style="@style/TableTextLabel"
+                android:text="备注" />
+
+            <TextView
+                android:id="@+id/tv_note"
+                style="@style/TableTextValue"
+                android:hint="未填写" />
+
+            <!--<ImageView-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:src="@drawable/ic_arrow_r" />-->
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tr_resume"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:background="@drawable/user_divider_bottom">
+
+            <TextView
+                style="@style/TableTextLabel"
+                android:text="个人简历" />
+
+            <TextView
+                android:id="@+id/tv_resume"
+                style="@style/TableTextValue"
+                android:hint="完善简历" />
+
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_arrow_r" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tr_rate"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:background="@drawable/user_divider_bottom">
+
+            <TextView
+                style="@style/TableTextLabel"
+                android:text="绩效考核" />
+
+            <TextView
+                android:id="@+id/tv_rate"
+                style="@style/TableTextValue"
+                android:hint="" />
+
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_arrow_r" />
+        </TableRow>
+    </TableLayout>
+</LinearLayout>

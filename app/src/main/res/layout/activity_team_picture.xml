@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/team_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_bar_height"
+        android:background="@color/color_blue_0888ff">
+
+        <TextView
+            android:id="@+id/team_tool"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="图片"
+            android:textSize="18sp"
+            android:textColor="@color/white"/>
+
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/pictureList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
+    <ImageView
+        android:id="@+id/iv_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:scaleType="center"
+        android:src="@drawable/img_empty"
+        android:visibility="gone" />
+
+    <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/iv_loading"
+        android:layout_width="80dp"
+        android:layout_height="120dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="200dp"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+</LinearLayout>

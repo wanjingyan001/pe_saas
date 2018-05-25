@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/transparent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tag_seq"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="序号"
+            android:textColor="#ff808080"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tag_depart"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="所属部门"
+            android:textColor="#ff808080"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tag_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="姓名"
+            android:textColor="#ff808080"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tag_score"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="得分情况"
+            android:textColor="#ff808080"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/empty"
+        layout="@layout/item_empty"
+        android:visibility="gone" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/jixiao_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
+
+</LinearLayout>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/buchong_full"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:gravity="right"
+        android:text="08:24"
+        android:textColor="#ADB1BE"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/times"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="right"
+        android:text="10.06-10.13"
+        android:textColor="#4B5266"
+        android:textSize="24sp" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/info"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/full"
+            android:gravity="center|left"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="1、快涨客户端\n      1.快涨应用商店图3套\n      2.诊股页面改版讨论·\n    3.快涨11.30日版本配合制作页面配图\n\n2、海通创新PE      \n     1.PE首页icon调整\n     2.PE2.0页面个人中心生成名片修改-1p\n     3.PE 2.0页面基金模块页面-4p\n     4.PE2.0页面征信模块页面-5p\n     5.PE2.0页面跟踪记录页面-2p"
+            android:textColor="@color/text_1"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/buchong_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|right"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/edit" />
+
+    </FrameLayout>
+
+</LinearLayout>

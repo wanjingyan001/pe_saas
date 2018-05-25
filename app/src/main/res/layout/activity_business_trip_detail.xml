@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.sogukj.pe.ui.approve.BusinessTripDetailActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/business_trip_bg"
+        android:gravity="center|left"
+        android:orientation="vertical"
+        android:paddingLeft="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:letterSpacing="0.04"
+            android:lineSpacingExtra="0sp"
+            android:textColor="#ffffff"
+            android:textSize="13sp"
+            tools:text="将在周报统计中记为" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:letterSpacing="0.04"
+            android:lineSpacingExtra="0sp"
+            android:textColor="#ffffff"
+            android:textSize="22sp"
+            tools:text="共出差21.5小时" />
+
+    </LinearLayout>
+
+</LinearLayout>

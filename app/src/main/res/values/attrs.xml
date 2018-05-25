@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SwipeBackLayout">
+        <attr name="edge_size" format="dimension"/>
+        <attr name="edge_flag">
+            <enum name="left" value="0" />
+            <enum name="right" value="1" />
+            <enum name="bottom" value="2" />
+            <enum name="all" value="3" />
+        </attr>
+        <attr name="shadow_left" format="reference"/>
+        <attr name="shadow_right" format="reference"/>
+        <attr name="shadow_bottom" format="reference"/>
+    </declare-styleable>
+    <declare-styleable name="ProgressLayout">
+        <attr name="progressBackground" format="color"/>
+        <attr name="progress_progress" format="boolean"/>
+        <attr name="errorColor" format="color" />
+        <attr name="errorGravity" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="CircleImageView">
+        <attr name="civ_border_width" format="dimension" />
+        <attr name="civ_border_color" format="color" />
+        <attr name="civ_border_overlay" format="boolean" />
+        <attr name="civ_fill_color" format="color" />
+    </declare-styleable>
+    <attr name="SwipeBackLayoutStyle" format="reference"/>
+    <declare-styleable name="title">
+        <attr name="name" format="string"/>
+    </declare-styleable>
+    <declare-styleable name="title_main">
+        <attr name="icon_main" format="integer"/>
+        <attr name="bg" format="integer"/>
+        <attr name="title" format="string"/>
+        <attr name="sub_title" format="string"/>
+        <attr name="tag_text" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="PagerIndicator">
+        <attr name="pi_slidingBlock" format="reference|color" />
+        <attr name="pi_allowWidthFull" format="boolean" />
+        <attr name="pi_disableViewPager" format="boolean" />
+        <attr name="pi_disableTensileSlidingBlock" format="boolean" />
+        <attr name="pi_bottomLineColor" format="color" />
+        <attr name="pi_bottomLineHeight" format="dimension" />
+    </declare-styleable>
+</resources>

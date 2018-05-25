@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.sogukj.pe.ui.approve.EntryApproveActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <ScrollView
+        android:id="@+id/approveLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+                    <!--android:id="@+id/item_dwsp"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:gravity="center"-->
+                    <!--android:orientation="vertical"-->
+                    <!--android:padding="5dp">-->
+
+                    <!--<LinearLayout-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:orientation="horizontal">-->
+
+                        <!--<ImageView-->
+                            <!--android:layout_width="48dp"-->
+                            <!--android:layout_height="48dp"-->
+                            <!--android:layout_margin="5dp"-->
+                            <!--android:src="@drawable/ic_approve_dwsp" />-->
+
+                        <!--<ImageView-->
+                            <!--android:id="@+id/point"-->
+                            <!--android:layout_width="6dp"-->
+                            <!--android:layout_height="6dp"-->
+                            <!--android:layout_marginLeft="2dp"-->
+                            <!--android:src="@drawable/red_point" />-->
+                    <!--</LinearLayout>-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="待我审批"-->
+                        <!--android:textColor="@color/text_1"-->
+                        <!--android:textSize="12sp" />-->
+                <!--</LinearLayout>-->
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:id="@+id/item_dwsp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="5dp">
+
+                        <com.sogukj.pe.widgets.CircleImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_margin="5dp"
+                            android:src="@drawable/ic_approve_dwsp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="待我审批"
+                            android:textColor="@color/text_1"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/point"
+                        android:layout_width="6dp"
+                        android:layout_height="6dp"
+                        android:layout_gravity="right|top"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="15dp"
+                        android:src="@drawable/red_point" />
+                </FrameLayout>
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/item_wysp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <com.sogukj.pe.widgets.CircleImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/ic_approve_wysp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="我已审批"
+                        android:textColor="@color/text_1"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/item_wfqd"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <com.sogukj.pe.widgets.CircleImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/ic_approve_wfqd" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="我发起的"
+                        android:textColor="@color/text_1"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/item_cswd"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <com.sogukj.pe.widgets.CircleImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/ic_approve_cswd" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="抄送我的"
+                        android:textColor="@color/text_1"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_custom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include layout="@layout/cs_group" />
+
+                <include layout="@layout/cs_group" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="60dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <include layout="@layout/layout_network_error" />
+
+</LinearLayout>

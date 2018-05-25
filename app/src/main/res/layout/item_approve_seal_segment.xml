@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="30dp">
+
+    <TextView
+        android:id="@+id/tv_position"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="18dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:lines="2"
+        android:textColor="@color/text_1"
+        tools:text="经办人" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/tv_position"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.sogukj.pe.widgets.CircleImageView
+                android:id="@+id/iv_user"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="5dp" />
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_1"
+                android:textSize="12sp"
+                tools:text="经办人" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right|center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textColorBlue"
+                    android:textSize="12sp"
+                    tools:text="待审批" />
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_3"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    tools:text="已同意" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

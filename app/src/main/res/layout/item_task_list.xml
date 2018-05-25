@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/taskItemLayout"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:text="09:30"
+        android:textColor="#adb1be"
+        android:textSize="14sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/time"
+        android:layout_alignRight="@+id/time"
+        android:layout_below="@+id/time"
+        android:layout_marginTop="2dp"
+        android:gravity="center"
+        android:text="截止"
+        android:textColor="#adb1be"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/right_arrow"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/ic_right" />
+
+
+    <ImageView
+        android:id="@+id/finishBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/content"
+        android:layout_alignTop="@+id/content"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/right_arrow"
+        android:src="@drawable/bg_finish_box" />
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/finishBox"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="35dp"
+        android:layout_marginTop="15dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="参加股东会议"
+        android:textColor="@color/text_1"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@id/typeTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/content"
+        android:layout_below="@+id/time"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/blue_gradient"
+        android:text="会议"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/white"
+        android:textSize="10sp" />
+
+    <!--<TextView-->
+    <!--android:id="@id/confirmStatus"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignBottom="@+id/typeTv"-->
+    <!--android:layout_marginLeft="8dp"-->
+    <!--android:layout_toRightOf="@+id/typeTv"-->
+    <!--android:text="已确认参加"-->
+    <!--android:textColor="@color/color_main"-->
+    <!--android:textSize="10sp" />-->
+
+
+    <!--<TextView-->
+    <!--android:id="@id/reason"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignLeft="@+id/confirmStatus"-->
+    <!--android:layout_below="@+id/confirmStatus"-->
+    <!--android:layout_marginRight="20dp"-->
+    <!--android:layout_marginTop="6dp"-->
+    <!--android:text="该相关文件并未落实，无法开始立项，该相关文件并未落实，无法开始"-->
+    <!--android:textColor="#adb1be"-->
+    <!--android:textSize="10sp" />-->
+
+
+    <!--<TextView-->
+    <!--android:id="@id/canAttend"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_below="@+id/typeTv"-->
+    <!--android:layout_marginBottom="10dp"-->
+    <!--android:layout_marginRight="20dp"-->
+    <!--android:layout_marginTop="20dp"-->
+    <!--android:background="@drawable/bg_can_attend"-->
+    <!--android:text="确认参加"-->
+    <!--android:textColor="@color/white"-->
+    <!--android:textSize="12sp" />-->
+
+    <!--<TextView-->
+    <!--android:id="@id/notAttend"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignTop="@+id/canAttend"-->
+    <!--android:layout_marginRight="10dp"-->
+    <!--android:layout_toLeftOf="@+id/canAttend"-->
+    <!--android:background="@drawable/bg_not_attend"-->
+    <!--android:text="无法参加"-->
+    <!--android:textColor="@color/color_main"-->
+    <!--android:textSize="12sp" />-->
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignLeft="@+id/content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/right_arrow"
+        android:layout_marginTop="15dp"
+        android:background="@color/divider2" />
+</RelativeLayout>

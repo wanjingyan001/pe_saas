@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f7f9fc"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/search_title"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/color_blue_0888ff"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1">
+
+
+            <EditText
+                android:id="@+id/search_edt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_search"
+                android:cursorVisible="true"
+                android:gravity="center_vertical"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:paddingLeft="30dp"
+                android:paddingRight="8dp"
+                android:singleLine="true"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/search_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawableLeft="@drawable/ss_small"
+                android:drawablePadding="8dp"
+                android:gravity="center"
+                android:text="搜索"
+                android:textColor="@color/gray7"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/search_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:visibility="gone"
+                android:src="@drawable/ss_small" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="取消"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/quick_search_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/search_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="120dp"
+            android:text="快速查找聊天内容"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
+
+        <ImageView
+            android:id="@+id/search_pic"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_below="@+id/search_tv"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="22dp"
+            android:background="@drawable/team_search_img_bg"
+            android:scaleType="center"
+            android:src="@drawable/pic3"
+            app:layout_constraintEnd_toStartOf="@+id/search_tv"
+            app:layout_constraintTop_toBottomOf="@+id/search_tv"
+            tools:ignore="MissingConstraints" />
+
+
+        <TextView
+            android:id="@+id/pic_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="图片"
+            app:layout_constraintEnd_toEndOf="@+id/search_pic"
+            app:layout_constraintStart_toStartOf="@+id/search_pic"
+            app:layout_constraintTop_toBottomOf="@+id/search_pic" />
+
+
+        <ImageView
+            android:id="@+id/search_file"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="22dp"
+            android:background="@drawable/team_search_img_bg"
+            android:scaleType="center"
+            android:src="@drawable/file2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search_tv" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="文件"
+            app:layout_constraintEnd_toEndOf="@+id/search_file"
+            app:layout_constraintStart_toStartOf="@+id/search_file"
+            app:layout_constraintTop_toBottomOf="@+id/search_file" />
+
+        <ImageView
+            android:id="@+id/search_link"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="22dp"
+            android:background="@drawable/team_search_img_bg"
+            android:scaleType="center"
+            android:src="@drawable/im_video"
+            app:layout_constraintLeft_toRightOf="@+id/search_tv"
+            app:layout_constraintTop_toBottomOf="@+id/search_tv" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="视频"
+            app:layout_constraintEnd_toEndOf="@+id/search_link"
+            app:layout_constraintStart_toStartOf="@+id/search_link"
+            app:layout_constraintTop_toBottomOf="@+id/search_link" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/result_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/result_number"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#f1f1f1"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:text="共2条于“xxxx”相关的聊天记录"
+            android:textSize="12sp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/search_result_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
+
+</LinearLayout>

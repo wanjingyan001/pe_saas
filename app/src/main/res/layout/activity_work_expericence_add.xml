@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_shareholder_toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/divider2">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@color/white"
+                android:paddingLeft="20dp"
+                android:paddingRight="10dp">
+
+                <TableRow android:background="@drawable/divider_bottom">
+
+                    <TextView
+                        style="@style/TableTextLabel"
+                        android:text="入职时间" />
+
+                    <TextView
+                        android:id="@+id/tv_start_date"
+                        style="@style/TableTextValue"
+                        android:layout_marginRight="10dp"
+                        android:hint="请选择" />
+
+
+                    <!--<ImageView-->
+                        <!--android:layout_width="25dp"-->
+                        <!--android:layout_height="25dp"-->
+                        <!--android:layout_gravity="center_vertical"-->
+                        <!--android:scaleType="centerInside"-->
+                        <!--android:src="@drawable/ic_arrow_r" />-->
+                </TableRow>
+
+                <TableRow android:background="@drawable/divider_bottom">
+
+                    <TextView
+                        style="@style/TableTextLabel"
+                        android:text="离职时间" />
+
+                    <TextView
+                        android:id="@+id/tv_date_end"
+                        style="@style/TableTextValue"
+                        android:layout_marginRight="10dp"
+                        android:hint="请选择" />
+
+
+                    <!--<ImageView-->
+                        <!--android:layout_width="25dp"-->
+                        <!--android:layout_height="25dp"-->
+                        <!--android:layout_gravity="center_vertical"-->
+                        <!--android:scaleType="centerInside"-->
+                        <!--android:src="@drawable/ic_arrow_r" />-->
+                </TableRow>
+
+                <TableRow android:background="@drawable/divider_bottom">
+
+                    <TextView
+                        style="@style/TableTextLabel"
+                        android:text="公司" />
+
+                    <EditText
+                        android:id="@+id/tv_company"
+                        style="@style/TableTextValue"
+                        android:layout_marginRight="10dp"
+                        android:hint="请填写" />
+
+
+                    <!--<ImageView-->
+                        <!--android:layout_width="25dp"-->
+                        <!--android:layout_height="25dp"-->
+                        <!--android:layout_gravity="center_vertical"-->
+                        <!--android:scaleType="centerInside"-->
+                        <!--android:src="@drawable/ic_arrow_r" />-->
+                </TableRow>
+
+                <TableRow android:background="@drawable/divider_bottom">
+
+                    <TextView
+                        style="@style/TableTextLabel"
+                        android:text="职能" />
+
+                    <EditText
+                        android:id="@+id/tv_skill"
+                        style="@style/TableTextValue"
+                        android:layout_marginRight="10dp"
+                        android:hint="请填写" />
+
+
+                    <!--<ImageView-->
+                        <!--android:layout_width="25dp"-->
+                        <!--android:layout_height="25dp"-->
+                        <!--android:layout_gravity="center_vertical"-->
+                        <!--android:scaleType="centerInside"-->
+                        <!--android:src="@drawable/ic_arrow_r" />-->
+                </TableRow>
+
+                <TableRow android:background="@drawable/divider_bottom">
+
+                    <TextView
+                        style="@style/TableTextLabel"
+                        android:text="工作描述" />
+
+                    <EditText
+                        android:id="@+id/tv_desc"
+                        style="@style/TableTextValue"
+                        android:layout_marginRight="10dp"
+                        android:hint="请填写" />
+
+
+                    <!--<ImageView-->
+                        <!--android:layout_width="25dp"-->
+                        <!--android:layout_height="25dp"-->
+                        <!--android:layout_gravity="center_vertical"-->
+                        <!--android:scaleType="centerInside"-->
+                        <!--android:src="@drawable/ic_arrow_r" />-->
+                </TableRow>
+
+                <TableRow android:background="@drawable/divider_bottom">
+
+                    <TextView
+                        style="@style/TableTextLabel"
+                        android:text="行业" />
+
+                    <TextView
+                        android:id="@+id/tv_industry"
+                        style="@style/TableTextValue"
+                        android:layout_marginRight="10dp"
+                        android:hint="请选择" />
+
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center_vertical"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_arrow_r" />
+                </TableRow>
+
+                <TableRow android:background="@drawable/divider_bottom">
+
+                    <TextView
+                        style="@style/TableTextLabel"
+                        android:text="部门" />
+
+                    <EditText
+                        android:id="@+id/tv_depart"
+                        style="@style/TableTextValue"
+                        android:layout_marginRight="10dp"
+                        android:hint="请填写" />
+
+
+                    <!--<ImageView-->
+                        <!--android:layout_width="25dp"-->
+                        <!--android:layout_height="25dp"-->
+                        <!--android:layout_gravity="center_vertical"-->
+                        <!--android:scaleType="centerInside"-->
+                        <!--android:src="@drawable/ic_arrow_r" />-->
+                </TableRow>
+
+                <TableRow android:background="@drawable/divider_bottom">
+
+                    <TextView
+                        style="@style/TableTextLabel"
+                        android:text="公司规模" />
+
+                    <TextView
+                        android:id="@+id/tv_workers"
+                        style="@style/TableTextValue"
+                        android:layout_marginRight="10dp"
+                        android:hint="请选择" />
+
+
+                    <!--<ImageView-->
+                        <!--android:layout_width="25dp"-->
+                        <!--android:layout_height="25dp"-->
+                        <!--android:layout_gravity="center_vertical"-->
+                        <!--android:scaleType="centerInside"-->
+                        <!--android:src="@drawable/ic_arrow_r" />-->
+                </TableRow>
+
+                <TableRow android:background="@drawable/divider_bottom">
+
+                    <TextView
+                        style="@style/TableTextLabel"
+                        android:text="公司性质" />
+
+                    <TextView
+                        android:id="@+id/tv_nature"
+                        style="@style/TableTextValue"
+                        android:layout_marginRight="10dp"
+                        android:hint="请选择" />
+
+
+                    <!--<ImageView-->
+                        <!--android:layout_width="25dp"-->
+                        <!--android:layout_height="25dp"-->
+                        <!--android:layout_gravity="center_vertical"-->
+                        <!--android:scaleType="centerInside"-->
+                        <!--android:src="@drawable/ic_arrow_r" />-->
+                </TableRow>
+
+                <!--<TableRow android:background="@drawable/divider_bottom">-->
+
+                    <!--<TextView-->
+                        <!--style="@style/TableTextLabel"-->
+                        <!--android:text="附加信息" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_other"-->
+                        <!--style="@style/TableTextValue"-->
+                        <!--android:layout_marginRight="10dp"-->
+                        <!--android:hint="请选择" />-->
+
+
+                    <!--<ImageView-->
+                        <!--android:layout_width="25dp"-->
+                        <!--android:layout_height="25dp"-->
+                        <!--android:layout_gravity="center_vertical"-->
+                        <!--android:scaleType="centerInside"-->
+                        <!--android:src="@drawable/ic_arrow_r" />-->
+                <!--</TableRow>-->
+
+                <!--<TableRow android:background="@drawable/divider_bottom">-->
+
+                    <!--<TextView-->
+                        <!--style="@style/TableTextLabel"-->
+                        <!--android:text="工作类型" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_work_type"-->
+                        <!--style="@style/TableTextValue"-->
+                        <!--android:layout_marginRight="10dp"-->
+                        <!--android:hint="请选择" />-->
+
+
+                    <!--<ImageView-->
+                        <!--android:layout_width="25dp"-->
+                        <!--android:layout_height="25dp"-->
+                        <!--android:layout_gravity="center_vertical"-->
+                        <!--android:scaleType="centerInside"-->
+                        <!--android:src="@drawable/ic_arrow_r" />-->
+                <!--</TableRow>-->
+
+            </TableLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

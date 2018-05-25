@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/add_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/shareholder_gray"
+    android:orientation="vertical"
+    tools:context="com.sogukj.pe.ui.project.AddCreditActivity">
+
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:background="?attr/colorPrimary"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:theme="@style/AppTheme.AppBarOverlay">
+
+        <ImageView
+            android:id="@+id/toolbar_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:src="@drawable/sogu_ic_back"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@id/toolbar_title"
+            style="@style/SoguTextTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:singleLine="true"
+            tools:text="主    页" />
+
+        <ImageView
+            android:id="@+id/toolbar_menu"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:padding="10dp"
+            android:src="@drawable/delete_all"
+            android:visibility="gone" />
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:drawablePadding="5dp"
+                android:drawableRight="@drawable/zhengxin_qunzu"
+                android:paddingLeft="15dp"
+                android:text="人员信息"
+                android:textColor="#FF282828"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/star"
+                android:text="姓名&#8194;&#8194;" />
+
+            <EditText
+                android:id="@+id/nameEdt"
+                style="@style/creditEdtStyle"
+                android:singleLine="true" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@color/divider2" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/star"
+                android:text="身份证" />
+
+            <EditText
+                android:id="@+id/IDCardEdt"
+                style="@style/creditEdtStyle"
+                android:digits="0123456789QWERTYUIOPLKJHGFDSAZXCVBNM"
+                android:maxLength="18"
+                android:singleLine="true" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@color/divider2" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="30dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="手机号" />
+
+            <EditText
+                android:id="@+id/phoneEdt"
+                style="@style/creditEdtStyle"
+                android:inputType="phone"
+                android:singleLine="true" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="@color/divider2" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="30dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="公司&#8194;&#8194;" />
+
+            <LinearLayout
+                android:id="@+id/companySelect"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="30dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingLeft="18dp">
+
+                <TextView
+                    android:id="@+id/companyName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="请选择"
+                    android:textColor="@color/text_1"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/ic_right" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@color/divider2" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="30dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="类别&#8194;&#8194;" />
+
+            <LinearLayout
+                android:id="@+id/typeSelect"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="30dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingLeft="18dp">
+
+                <TextView
+                    android:id="@+id/typeSelectTv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="请选择"
+                    android:textColor="@color/text_1"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/ic_right" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/postLayout_divider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@color/divider2" />
+
+        <LinearLayout
+            android:id="@+id/saveLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_shareholder_credit_item"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/save"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/color_main"
+                android:gravity="center"
+                android:text="查询"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_normal" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/yzbd"
+            android:drawablePadding="5dp"
+            android:text="专业征信"
+            android:textColor="#FFA0A4AA"
+            android:textSize="11sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:drawableLeft="@drawable/jggl"
+            android:drawablePadding="5dp"
+            android:text="信息聚合"
+            android:textColor="#FFA0A4AA"
+            android:textSize="11sp" />
+
+    </LinearLayout>
+</LinearLayout>

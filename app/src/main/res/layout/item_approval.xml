@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_item_list"
+    android:orientation="vertical"
+    android:padding="15dp">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:singleLine="true"
+        android:textColor="@color/text_1"
+        android:textSize="16sp"
+        tools:text="@string/tools_text_title" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:textColor="@color/text_3"
+            android:textSize="12sp"
+            tools:text="07/07 12:00" />
+
+        <TextView
+            android:id="@+id/tv_applicant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:textColor="@color/text_3"
+            android:textSize="12sp"
+            tools:text="07/07 12:00" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:drawableLeft="@drawable/icon_date"
+            android:drawablePadding="4dp"
+            android:textColor="@color/text_3"
+            android:textSize="12sp"
+            tools:text="2017/07/07" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/icon_time"
+            android:drawablePadding="4dp"
+            android:textColor="@color/text_3"
+            android:textSize="12sp"
+            tools:text="12:00" />
+
+        <TextView
+            android:id="@+id/tv_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:textColor="@color/colorBlue"
+            android:textSize="12sp"
+            tools:text="人民日报" />
+    </LinearLayout>
+</LinearLayout>

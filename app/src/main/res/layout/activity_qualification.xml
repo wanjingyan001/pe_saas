@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.sogukj.pe.ui.StockInfoActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingBottom="20dp">
+
+
+            <TableRow
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:id="@+id/tv_deviceName"
+                    style="@style/SoguTextNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:text="--"
+                    android:textColor="@color/text_2"
+                    tools:text="法定代表人" />
+            </TableRow>
+
+            <TableRow
+                android:paddingBottom="5dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:text="许可证编号" />
+
+                <TextView
+                    style="@style/SoguTextNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:text="证书种类" />
+            </TableRow>
+
+            <TableRow
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="5dp">
+
+                <TextView
+                    android:id="@+id/tv_licenceNum"
+                    style="@style/SoguTextSamll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:text="--"
+                    android:textColor="@color/text_2"
+                    tools:text="法定代表人" />
+
+                <TextView
+                    android:id="@+id/tv_licenceType"
+                    style="@style/SoguTextSamll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:text="--"
+                    android:textColor="@color/text_2"
+                    tools:text="法定代表人" />
+            </TableRow>
+
+            <TableRow
+                android:paddingBottom="5dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:text="发证日期" />
+
+                <TextView
+                    style="@style/SoguTextNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:text="有效期至" />
+            </TableRow>
+
+            <TableRow
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="5dp">
+
+                <TextView
+                    android:id="@+id/tv_issueDate"
+                    style="@style/SoguTextSamll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:text="--"
+                    android:textColor="@color/text_2"
+                    tools:text="法定代表人" />
+
+                <TextView
+                    android:id="@+id/tv_toDate"
+                    style="@style/SoguTextSamll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:text="--"
+                    android:textColor="@color/text_2"
+                    tools:text="法定代表人" />
+            </TableRow>
+
+            <LinearLayout
+                android:background="@drawable/divider_bottom"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:text="设备型号" />
+
+                <TextView
+                    android:id="@+id/tv_deviceType"
+                    style="@style/SoguTextSamll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:text="--"
+                    android:textColor="@color/text_2"
+                    tools:text="法定代表人" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:background="@drawable/divider_bottom"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:text="申请单位" />
+
+                <TextView
+                    android:id="@+id/tv_applyCompany"
+                    style="@style/SoguTextSamll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:text="--"
+                    android:textColor="@color/text_2"
+                    tools:text="法定代表人" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:background="@drawable/divider_bottom"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:text="生产企业" />
+
+                <TextView
+                    android:id="@+id/tv_productCompany"
+                    style="@style/SoguTextSamll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:text="--"
+                    android:textColor="@color/text_2"
+                    tools:text="法定代表人" />
+            </LinearLayout>
+        </TableLayout>
+    </ScrollView>
+
+</LinearLayout>

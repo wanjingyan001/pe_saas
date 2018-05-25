@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp">
+
+    <ImageView
+        android:id="@+id/circle_img"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:src="@drawable/bg_small_circle" />
+
+    <ImageView
+        android:layout_width="1dp"
+        android:layout_height="80dp"
+        android:layout_marginLeft="4.5dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/divider2" />
+
+    <TextView
+        android:id="@+id/start_end_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_toRightOf="@+id/circle_img"
+        android:textColor="@color/text_3" />
+
+
+    <TextView
+        android:id="@+id/schoolName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_normal"
+        android:layout_alignLeft="@+id/start_end_time"
+        android:layout_below="@+id/start_end_time"
+        android:textColor="@color/text_1"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/education"
+        android:layout_width="wrap_content"
+        android:textSize="@dimen/text_size_samll"
+        android:textColor="@color/text_3"
+        android:layout_below="@+id/schoolName"
+        android:layout_alignLeft="@+id/schoolName"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content" />
+    
+</RelativeLayout>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tab_info"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/divider2" />
+
+    <include layout="@layout/item_row_header_user_jobs" />
+
+    <!--<com.ListViewCompat android:id="@+id/list_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:divider="@color/divider"-->
+        <!--android:dividerHeight="1px" />-->
+</LinearLayout>

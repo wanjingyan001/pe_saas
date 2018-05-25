@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/divider_bottom2"
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp">
+
+    <TextView
+        android:id="@+id/tv_year"
+        style="@style/SoguTextMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:background="@drawable/bg_tag_left"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="--"
+        android:textColor="@color/text_2"
+        tools:text="2016-08-09" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        style="@style/SoguTextNormal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:padding="8dp"
+        android:text="--" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <View
+            android:id="@+id/tag"
+            android:layout_width="8dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_time_line_m"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingLeft="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="纳税人识别号" />
+
+                <TextView
+                    android:id="@+id/tv_idNumber"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="纳税信用级别" />
+
+                <TextView
+                    android:id="@+id/tv_grade"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/colorBlue" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

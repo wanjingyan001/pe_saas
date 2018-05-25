@@ -1,0 +1,1015 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="com.sogukj.pe.ui.project.SurveyDataActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@color/color_main" />
+
+                    <TextView
+                        style="@style/SoguTextNormal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="公司" />
+                </LinearLayout>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="发展阶段" />
+
+                    <EditText
+                        android:id="@+id/et_developStage"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="整体战略" />
+
+                    <EditText
+                        android:id="@+id/et_generalStrategy"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="主营业务" />
+
+                    <EditText
+                        android:id="@+id/et_mainBusiness"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="波特分析" />
+
+                    <EditText
+                        android:id="@+id/et_porterAnalysis"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="制造工艺/服务流程" />
+
+                    <EditText
+                        android:id="@+id/et_productTechnique"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="市场占有率" />
+
+                    <EditText
+                        android:id="@+id/et_occupancy"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="营销能力" />
+
+                    <EditText
+                        android:id="@+id/et_marketAbility"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="执行力" />
+
+                    <EditText
+                        android:id="@+id/et_execution"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="比较优势劣势" />
+
+                    <EditText
+                        android:id="@+id/et_contrast"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="人力资源" />
+
+                    <EditText
+                        android:id="@+id/et_humanResource"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="文化" />
+
+                    <EditText
+                        android:id="@+id/et_culture"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="客户分析" />
+
+                    <EditText
+                        android:id="@+id/et_customerAnalysis"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="过往融资情况" />
+
+                    <EditText
+                        android:id="@+id/et_financeSituation"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="融资文件" />
+
+                    <EditText
+                        android:id="@+id/et_financeFile"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="潜在债务" />
+
+                    <EditText
+                        android:id="@+id/et_potentialDebt"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="上市障碍" />
+
+                    <EditText
+                        android:id="@+id/et_marketBarriers"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="风险与机遇" />
+
+                    <EditText
+                        android:id="@+id/et_riskChance"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+            </TableLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="@color/divider2" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@color/color_main" />
+
+                    <TextView
+                        style="@style/SoguTextNormal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="管理制度" />
+                </LinearLayout>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="财务管理" />
+
+                    <EditText
+                        android:id="@+id/et_finance"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="人员管理" />
+
+                    <EditText
+                        android:id="@+id/et_staff"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="风控" />
+
+                    <EditText
+                        android:id="@+id/et_riskControl"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="业务管理" />
+
+                    <EditText
+                        android:id="@+id/et_business"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="会议" />
+
+                    <EditText
+                        android:id="@+id/et_conference"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="总经办" />
+
+                    <EditText
+                        android:id="@+id/et_managerOffice"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="供应链管理" />
+
+                    <EditText
+                        android:id="@+id/et_supplyChain"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="销售管理" />
+
+                    <EditText
+                        android:id="@+id/et_sell"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="生产管理" />
+
+                    <EditText
+                        android:id="@+id/et_production"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="品质管理" />
+
+                    <EditText
+                        android:id="@+id/et_quality"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="印章管理" />
+
+                    <EditText
+                        android:id="@+id/et_seal"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+            </TableLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="@color/divider2" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@color/color_main" />
+
+                    <TextView
+                        style="@style/SoguTextNormal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="法律" />
+                </LinearLayout>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="历史沿革" />
+
+                    <EditText
+                        android:id="@+id/et_history"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="运营资质" />
+
+                    <EditText
+                        android:id="@+id/et_operation"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="合规性" />
+
+                    <EditText
+                        android:id="@+id/et_compliance"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="股权结构" />
+
+                    <EditText
+                        android:id="@+id/et_equityStructure"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="无形资产情况" />
+
+                    <EditText
+                        android:id="@+id/et_invisibleProperty"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="法律纠纷" />
+
+                    <EditText
+                        android:id="@+id/et_legalDispute"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="其他风险提示" />
+
+                    <EditText
+                        android:id="@+id/et_otherRisk"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+            </TableLayout>
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@color/color_main" />
+
+                    <TextView
+                        style="@style/SoguTextNormal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="行业" />
+                </LinearLayout>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="发展历史" />
+
+                    <EditText
+                        android:id="@+id/et_developHistory"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="产业链" />
+
+                    <EditText
+                        android:id="@+id/et_industryChain"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="规模" />
+
+                    <EditText
+                        android:id="@+id/et_scale"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="集中度" />
+
+                    <EditText
+                        android:id="@+id/et_affinity"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="增大率" />
+
+                    <EditText
+                        android:id="@+id/et_increaseRate"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="景气度" />
+
+                    <EditText
+                        android:id="@+id/et_prosperity"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="法律法规" />
+
+                    <EditText
+                        android:id="@+id/et_legal_regulatory"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="竞争" />
+
+                    <EditText
+                        android:id="@+id/et_compete"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="驱动因素" />
+
+                    <EditText
+                        android:id="@+id/et_drive_factory"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="关联产业情况" />
+
+                    <EditText
+                        android:id="@+id/et_relate"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="行研报告" />
+
+                    <EditText
+                        android:id="@+id/et_report"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="行业风险" />
+
+                    <EditText
+                        android:id="@+id/et_tradeRisk"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+            </TableLayout>
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@color/color_main" />
+
+                    <TextView
+                        style="@style/SoguTextNormal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="创始人及团队" />
+                </LinearLayout>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="履历" />
+
+                    <EditText
+                        android:id="@+id/et_details"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="品行" />
+
+                    <EditText
+                        android:id="@+id/et_behaviour"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="家庭关系" />
+
+                    <EditText
+                        android:id="@+id/et_family"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="资产与债务" />
+
+                    <EditText
+                        android:id="@+id/et_assetLiability"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="特点" />
+
+                    <EditText
+                        android:id="@+id/et_characteristic"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="契约精神" />
+
+                    <EditText
+                        android:id="@+id/et_contract"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="口碑" />
+
+                    <EditText
+                        android:id="@+id/et_praise"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="过往业绩" />
+
+                    <EditText
+                        android:id="@+id/et_achievement"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="缺点" />
+
+                    <EditText
+                        android:id="@+id/et_shortcoming"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="企业家精神" />
+
+                    <EditText
+                        android:id="@+id/et_entrepreneur"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="团队介绍" />
+
+                    <EditText
+                        android:id="@+id/et_introduce"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="激励方式" />
+
+                    <EditText
+                        android:id="@+id/et_encourage"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/divider2" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <Button
+            android:id="@+id/btn_commit"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/bg_btn_blue"
+            android:text="提交" />
+    </LinearLayout>
+</LinearLayout>

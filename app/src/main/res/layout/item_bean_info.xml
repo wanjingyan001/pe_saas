@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:background="@color/white"-->
+    <!--android:orientation="vertical">-->
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:padding="15dp">-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/timeTv"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textColor="#adb1be" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/contentTv"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:ellipsize="end"-->
+            <!--android:maxLines="1"-->
+            <!--android:singleLine="true"-->
+            <!--android:layout_marginLeft="15dp"-->
+            <!--android:textColor="@color/text_1" />-->
+
+
+        <!--<ImageView-->
+            <!--android:id="@+id/finishBox"-->
+            <!--android:visibility="invisible"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:src="@drawable/bg_finish_box" />-->
+
+        <!--<ImageView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:src="@drawable/ic_right" />-->
+
+
+    <!--</LinearLayout>-->
+
+    <!---->
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:layout_marginLeft="70dp"-->
+        <!--android:layout_marginRight="20dp"-->
+        <!--android:background="@color/divider2" />-->
+
+<!--</LinearLayout>-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/teamItemLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/timeTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:text="09:30"
+        android:textColor="#adb1be"
+        android:textSize="14sp" />
+
+
+    <TextView
+        android:id="@+id/contentTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:layout_toLeftOf="@+id/right_arrow"
+        android:text="完成对同花顺的立项尽调完成完成完..."
+        android:textColor="@color/text_1"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/right_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/contentTv"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_alignTop="@+id/contentTv"
+        android:foregroundGravity="center_vertical"
+        android:src="@drawable/ic_right" />
+
+
+    <ImageView
+        android:id="@+id/ic_creater"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/contentTv"
+        android:layout_below="@+id/contentTv"
+        android:layout_marginBottom="15dp"
+        android:src="@drawable/ic_schedule_creater" />
+
+    <TextView
+        android:id="@+id/creator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/ic_creater"
+        android:layout_marginBottom="2dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/ic_creater"
+        android:text="陈建"
+        android:textColor="@color/color_main"
+        android:textSize="12sp" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/divider2" />
+</RelativeLayout>

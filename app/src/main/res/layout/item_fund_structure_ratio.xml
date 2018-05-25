@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="156dp"
+    android:background="@drawable/card_bg">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="156dp"
+        android:padding="30dp">
+
+        <TextView
+            android:id="@+id/cardCompanyName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:textColor="@color/colorBlue"
+            android:textSize="@dimen/text_size_normal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="实缴出资（万元）"
+            android:textColor="@color/text_1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:text="出资比例"
+            android:textColor="@color/text_1" />
+
+        <TextView
+            android:id="@+id/contributeTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textColor="#808080" />
+
+        <TextView
+            android:id="@+id/investRateTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:textColor="#fe5f39" />
+
+    </RelativeLayout>
+
+</LinearLayout>

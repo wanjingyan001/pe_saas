@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.sogukj.pe.ui.StockInfoActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/divider2"
+            android:paddingBottom="20dp">
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="电子监管号" />
+
+                <TextView
+                    android:id="@+id/tv_elecSupervisorNo"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="签订日期" />
+
+                <TextView
+                    android:id="@+id/tv_signedDate"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="行政区" />
+
+                <TextView
+                    android:id="@+id/tv_adminRegion"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="供地总面积(公顷)" />
+
+                <TextView
+                    android:id="@+id/tv_totalArea"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="成交价款（万元）" />
+
+                <TextView
+                    android:id="@+id/tv_dealPrice"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="受让人" />
+
+                <TextView
+                    android:id="@+id/tv_assignee"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="宗地位置" />
+
+                <TextView
+                    android:id="@+id/tv_location"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="受托人" />
+
+                <TextView
+                    android:id="@+id/tv_consignee"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="上级公司" />
+
+                <TextView
+                    android:id="@+id/tv_parentCompany"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="土地用途" />
+
+                <TextView
+                    android:id="@+id/tv_purpose"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="供应方式" />
+
+                <TextView
+                    android:id="@+id/tv_supplyWay"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="最小容积率" />
+
+                <TextView
+                    android:id="@+id/tv_minVolume"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="最大容积率" />
+
+                <TextView
+                    android:id="@+id/tv_maxVolume"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="约定动工日期" />
+
+                <TextView
+                    android:id="@+id/tv_startTime"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="约定竣工日期" />
+
+                <TextView
+                    android:id="@+id/tv_endTime"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+        </TableLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:text="成立日期" />
+
+                <TextView
+                    android:id="@+id/tv_create_date"
+                    style="@style/SoguTextMedium"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:text="上市日期" />
+
+                <TextView
+                    android:id="@+id/tv_listed_date"
+                    style="@style/SoguTextMedium"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:text="预计募资" />
+
+                <TextView
+                    android:id="@+id/tv_founds_predict"
+                    style="@style/SoguTextMedium"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:text="实际募资" />
+
+                <TextView
+                    android:id="@+id/tv_founds_real"
+                    style="@style/SoguTextMedium"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <View
+                android:layout_height="8dp"
+                android:background="@drawable/divider2" />
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:text="发行数量" />
+
+                <TextView
+                    android:id="@+id/tv_issue_count"
+                    style="@style/SoguTextMedium"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:text="发行价格" />
+
+                <TextView
+                    android:id="@+id/tv_issue_price"
+                    style="@style/SoguTextMedium"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:text="发行市盈率" />
+
+                <TextView
+                    android:id="@+id/tv_issue_pe"
+                    style="@style/SoguTextMedium"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:text="发行中签率" />
+
+                <TextView
+                    android:id="@+id/tv_issue_win"
+                    style="@style/SoguTextMedium"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <View
+                android:layout_height="8dp"
+                android:background="@drawable/divider2" />
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:text="首日开盘价" />
+
+                <TextView
+                    android:id="@+id/tv_open"
+                    style="@style/SoguTextMedium"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:text="主承销商" />
+
+                <TextView
+                    android:id="@+id/tv_lead_underwriter"
+                    style="@style/SoguTextMedium"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <TableRow
+                android:background="@drawable/divider_bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:text="上市保荐人" />
+
+                <TextView
+                    android:id="@+id/tv_list_sponsor"
+                    style="@style/SoguTextMedium"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="--"
+                    android:textColor="@color/text_2" />
+            </TableRow>
+
+            <View
+                android:layout_height="8dp"
+                android:background="@drawable/divider2" />
+
+            <LinearLayout
+                android:background="@color/white"
+                android:paddingBottom="5dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <View
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/color_main" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="历史沿革"
+                    android:textColor="@color/text_1"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_his"
+                style="@style/SoguTextMedium"
+                android:layout_weight="1"
+                android:background="@drawable/divider_bottom"
+                android:gravity="left"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="5dp"
+                android:text="--"
+                android:textColor="@color/text_2" />
+        </TableLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/tv_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:enabled="false"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="上一时刻"
+            android:textColor="@color/tx_color_white" />
+
+        <CheckBox
+            android:id="@+id/tv_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableRight="@drawable/ic_dropdown_arrow"
+            android:gravity="center"
+            android:padding="8dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textColor="@color/tx_color_white"
+            tools:text="2016-09-30" />
+
+        <TextView
+            android:id="@+id/tv_previous"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:enabled="false"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="下一时刻"
+            android:textColor="@color/tx_color_white" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="1dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/divider2"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/divider_bottom"
+                    android:padding="10dp">
+
+                    <TextView
+                        style="@style/SoguTextMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="总股本(万股)" />
+
+                    <TextView
+                        android:id="@+id/tv_shareAll"
+                        style="@style/SoguTextMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="--"
+                        android:textColor="@color/text_2" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:background="@drawable/divider2" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/divider_bottom"
+                    android:padding="10dp">
+
+                    <TextView
+                        style="@style/SoguTextMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="A总股本" />
+
+                    <TextView
+                        android:id="@+id/tv_ashareAll"
+                        style="@style/SoguTextMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="--"
+                        android:textColor="@color/text_2" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/divider_bottom"
+                    android:padding="10dp">
+
+                    <TextView
+                        style="@style/SoguTextMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="流通A股" />
+
+                    <TextView
+                        android:id="@+id/tv_noLimitShare"
+                        style="@style/SoguTextMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="--"
+                        android:textColor="@color/text_2" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/divider_bottom"
+                    android:padding="10dp">
+
+                    <TextView
+                        style="@style/SoguTextMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="限售A股" />
+
+                    <TextView
+                        android:id="@+id/tv_limitShare"
+                        style="@style/SoguTextMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="--"
+                        android:textColor="@color/text_2" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/divider_bottom"
+                    android:padding="10dp">
+
+                    <TextView
+                        style="@style/SoguTextMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="变动原因" />
+
+                    <TextView
+                        android:id="@+id/tv_changeReason"
+                        style="@style/SoguTextMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="--"
+                        android:textColor="@color/text_2" />
+                </LinearLayout>
+
+                <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="8dp"-->
+                <!--android:background="@drawable/divider2" />-->
+
+
+                <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@drawable/divider_bottom"-->
+                <!--android:padding="10dp">-->
+
+                <!--<TextView-->
+                <!--style="@style/SoguTextMedium"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:text="H总股本" />-->
+
+                <!--<TextView-->
+                <!--android:id="@+id/tv_ashareAll_h"-->
+                <!--style="@style/SoguTextMedium"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="right"-->
+                <!--android:text="&#45;&#45;"-->
+                <!--android:textColor="@color/text_2" />-->
+                <!--</LinearLayout>-->
+
+                <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@drawable/divider_bottom"-->
+                <!--android:padding="10dp">-->
+
+                <!--<TextView-->
+                <!--style="@style/SoguTextMedium"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:text="流通H股" />-->
+
+                <!--<TextView-->
+                <!--android:id="@+id/tv_noLimitShare_h"-->
+                <!--style="@style/SoguTextMedium"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="right"-->
+                <!--android:text="&#45;&#45;"-->
+                <!--android:textColor="@color/text_2" />-->
+                <!--</LinearLayout>-->
+
+                <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@drawable/divider_bottom"-->
+                <!--android:padding="10dp">-->
+
+                <!--<TextView-->
+                <!--style="@style/SoguTextMedium"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:text="限售H股" />-->
+
+                <!--<TextView-->
+                <!--android:id="@+id/tv_limitShare_h"-->
+                <!--style="@style/SoguTextMedium"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="right"-->
+                <!--android:text="&#45;&#45;"-->
+                <!--android:textColor="@color/text_2" />-->
+                <!--</LinearLayout>-->
+
+                <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@drawable/divider_bottom"-->
+                <!--android:padding="10dp">-->
+
+                <!--<TextView-->
+                <!--style="@style/SoguTextMedium"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:text="变动原因" />-->
+
+                <!--<TextView-->
+                <!--android:id="@+id/tv_changeReason_h"-->
+                <!--style="@style/SoguTextMedium"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="right"-->
+                <!--android:text="&#45;&#45;"-->
+                <!--android:textColor="@color/text_2" />-->
+                <!--</LinearLayout>-->
+            </LinearLayout>
+        </ScrollView>
+
+    </FrameLayout>
+</LinearLayout>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/zhibiao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:text="指标1：完成投资金额"
+        android:textColor="#FF282828"
+        android:textSize="14sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:text="评分标准"
+        android:textColor="#FF808080"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/standard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:background="#FFF7F9FC"
+        android:hint="请填写"
+        android:lineSpacingExtra="1dp"
+        android:maxLines="3"
+        android:paddingBottom="8dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="8dp"
+        android:textColor="@color/text_1"
+        android:textColorHint="#FFADB1BE"
+        android:textSize="14sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:text="实际情况"
+        android:textColor="#FF808080"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:background="#FFF7F9FC"
+        android:hint="请填写"
+        android:lineSpacingExtra="1dp"
+        android:maxLines="3"
+        android:paddingBottom="8dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="8dp"
+        android:textColor="@color/text_1"
+        android:textColorHint="#FFADB1BE"
+        android:textSize="14sp" />
+
+</LinearLayout>

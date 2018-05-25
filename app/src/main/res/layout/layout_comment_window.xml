@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_task_comment">
+
+    <TextView
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="取消"
+        android:textColor="#adb1be"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="确定"
+        android:textColor="#adb1be" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/confirm"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/divider2" />
+
+    <EditText
+        android:id="@+id/commentEdt"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_below="@+id/line"
+        android:background="@null"
+        android:gravity="top"
+        android:hint="请输入评论"
+        android:textColor="@color/text_1"
+        android:textColorHint="@color/text_3"
+        android:textSize="14sp" />
+
+</RelativeLayout>

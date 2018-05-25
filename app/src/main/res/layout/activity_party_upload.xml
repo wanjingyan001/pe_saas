@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_record"
+    android:orientation="vertical"
+    android:focusableInTouchMode="true"
+    android:focusable="true"
+    tools:context="com.sogukj.pe.ui.partyBuild.PartyUploadActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:background="@color/party_toolbar_red"
+        app:layout_constraintTop_toTopOf="parent"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:theme="@style/AppTheme.AppBarOverlay">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="32dp"
+            android:layout_height="match_parent"
+            android:scaleType="center"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/icon_party_back" />
+
+
+        <TextView
+            android:id="@id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_large"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/addTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:padding="18dp"
+            android:text="添加"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+
+    </android.support.v7.widget.Toolbar>
+
+
+    <LinearLayout
+        android:id="@+id/uploadLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="18dp"
+            android:paddingTop="18dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="上传文件"
+                android:textColor="@color/text_1"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/selectedFile"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="15dp"
+                android:drawableRight="@drawable/ic_right"
+                android:gravity="right|center"
+                android:hint="请选择"
+                android:textColor="@color/text_1"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider2" />
+
+        <LinearLayout
+            android:id="@+id/fileNameEdtLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="18dp"
+            android:paddingTop="18dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="标题（选填）"
+                android:textColor="@color/text_1"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/titleEdt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="right|center"
+                android:hint="不填则标题默认为文件名称"
+                android:textColor="@color/text_1"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider2" />
+
+        <LinearLayout
+            android:id="@+id/columnLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="18dp"
+            android:paddingTop="18dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="栏目"
+                android:textColor="@color/text_1"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/columnTv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="15dp"
+                android:drawableRight="@drawable/ic_right"
+                android:gravity="right|center"
+                android:hint="请选择"
+                android:textColor="@color/text_1"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,104 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/calendar_bg_color"
+    android:orientation="vertical"
+    tools:context="com.sogukj.pe.ui.calendar.TaskFragment">
+
+    <LinearLayout
+        android:id="@+id/filterConditionLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/dateFilter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
+
+
+            <TextView
+                android:id="@+id/dateFilterTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="一周内"
+                android:textColor="@color/text_3" />
+
+            <ImageView
+                android:id="@+id/arrow1"
+                android:layout_width="16dp"
+                android:layout_height="12dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="6dp"
+                android:src="@drawable/inverted_triangle"
+               />
+
+            <ImageView
+                android:id="@+id/arrow3"
+                android:layout_width="16dp"
+                android:layout_height="12dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="3dp"
+                android:visibility="gone"
+                android:src="@drawable/inverted_triangle2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/taskFilter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
+
+
+            <TextView
+                android:id="@+id/taskFilterTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="全部任务"
+                android:textColor="@color/text_3" />
+
+            <ImageView
+                android:id="@+id/arrow2"
+                android:layout_width="16dp"
+                android:layout_height="12dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="6dp"
+                android:src="@drawable/inverted_triangle" />
+
+            <ImageView
+                android:id="@+id/arrow4"
+                android:layout_width="16dp"
+                android:layout_height="12dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="3dp"
+                android:visibility="gone"
+                android:src="@drawable/inverted_triangle2" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:background="@color/calendar_bg_color">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/taskList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" />
+
+        <include layout="@layout/layout_empty" />
+    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+</LinearLayout>

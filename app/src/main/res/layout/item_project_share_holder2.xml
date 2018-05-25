@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <com.sogukj.pe.widgets.CircleImageView
+            android:id="@+id/iv_user"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/img_logo_user" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            style="@style/SoguTextNormal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="--"
+            android:textColor="@color/text_1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/divider_bottom"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            style="@style/SoguTextMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:gravity="left"
+            android:text="认缴出资额" />
+
+        <TextView
+            android:id="@+id/tv_amomon"
+            style="@style/SoguTextMedium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="--"
+            android:textColor="@color/text_2" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/divider_bottom"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            style="@style/SoguTextMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:gravity="left"
+            android:text="认缴时间" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            style="@style/SoguTextMedium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="--"
+            android:textColor="@color/text_2" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/divider_bottom2"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            style="@style/SoguTextMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:gravity="left"
+            android:text="持股比例" />
+
+        <TextView
+            android:id="@+id/tv_percent"
+            style="@style/SoguTextMedium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="--"
+            android:textColor="@color/text_2" />
+    </LinearLayout>
+</LinearLayout>

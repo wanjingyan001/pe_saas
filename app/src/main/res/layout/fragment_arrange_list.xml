@@ -1,0 +1,33 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="com.sogukj.pe.ui.calendar.ArrangeListFragment">
+
+    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#f7f9fc"
+            android:overScrollMode="never" />
+
+
+    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+
+    <ImageView
+        android:id="@+id/backImg"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="40dp"
+        android:layout_marginEnd="40dp"
+        android:visibility="gone"
+        android:src="@drawable/icon_arrange_back"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="parent" />
+</android.support.constraint.ConstraintLayout>

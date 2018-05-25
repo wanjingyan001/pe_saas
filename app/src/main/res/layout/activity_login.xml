@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:context="com.sogukj.pe.ui.LoginActivity">
+
+        <ImageView
+            android:id="@+id/login_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_logo_login" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/app_name"
+            android:textColor="#005bac"
+            android:textSize="20sp"
+            android:visibility="gone" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="18dp"
+            android:layout_marginTop="10dp">
+
+            <EditText
+                android:id="@+id/et_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/divider_bottom"
+                android:drawableLeft="@drawable/ic_login_name"
+                android:drawablePadding="15dp"
+                android:ems="11"
+                android:hint="请输入手机号"
+                android:inputType="phone"
+                android:maxLength="11"
+                android:padding="18dp"
+                android:textColor="@color/text_1"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/delete1"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginEnd="15dp"
+                android:src="@drawable/ic_refuse_disable"
+                android:visibility="gone" />
+        </FrameLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="18dp">
+
+            <EditText
+                android:id="@+id/et_pwd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@+id/delete2"
+                android:layout_gravity="center"
+                android:background="@drawable/divider_bottom"
+                android:drawableLeft="@drawable/ic_login_pwd"
+                android:drawablePadding="15dp"
+                android:hint="短信验证码"
+                android:inputType="phone"
+                android:padding="18dp"
+                android:textColor="@color/text_1"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="15dp"
+                android:text="点击获取"
+                android:textColor="@color/color_main"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/delete2"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="15dp"
+                android:layout_toStartOf="@+id/tv_code"
+                android:src="@drawable/ic_refuse_disable"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_btn_login"
+            android:text="登录"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+</ScrollView>

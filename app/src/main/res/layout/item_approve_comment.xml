@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.sogukj.pe.widgets.CircleImageView
+            android:id="@+id/iv_user"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginRight="10dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/iv_user"
+                android:text="申请人"
+                android:textColor="@color/textColorBlue"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/iv_user"
+                android:text="申请人"
+                android:textColor="@color/text_3"
+                android:textSize="8sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/iv_user"
+        android:textColor="@color/text_1"
+        android:textSize="10sp"
+        tools:text="关于投资诗襄信息科技公司的第三届第五次分组立项申请书" />
+</LinearLayout>

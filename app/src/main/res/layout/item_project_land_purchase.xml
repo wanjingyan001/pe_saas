@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/divider_bottom2"
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/divider_bottom"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            style="@style/SoguTextMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:text="电子监管号" />
+
+        <TextView
+            android:id="@+id/tv_elecSupervisorNo"
+            style="@style/SoguTextMedium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="--"
+            android:textColor="@color/text_2" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/divider_bottom"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            style="@style/SoguTextMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:text="签订日期" />
+
+        <TextView
+            android:id="@+id/tv_signedDate"
+            style="@style/SoguTextMedium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="--"
+            android:textColor="@color/text_2" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <TextView
+            style="@style/SoguTextMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:text="地址" />
+
+        <TextView
+            android:id="@+id/tv_location"
+            style="@style/SoguTextMedium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="--"
+            android:textColor="@color/text_2" />
+    </LinearLayout>
+</LinearLayout>

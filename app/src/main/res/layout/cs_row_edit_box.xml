@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/divider_bottom"
+    android:gravity="center"
+    android:paddingBottom="18dp"
+    android:paddingLeft="3dp"
+    android:paddingRight="18dp"
+    android:paddingTop="18dp">
+
+    <ImageView
+        android:id="@+id/star"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:background="@drawable/star"
+        android:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/tv_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        android:textColor="@color/text_2"
+        tools:text="项目名称（必填）" />
+
+    <EditText
+        android:id="@+id/et_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@color/white"
+        android:hint=""
+        android:textColor="@color/text_1"
+        android:textSize="14sp" />
+</LinearLayout>

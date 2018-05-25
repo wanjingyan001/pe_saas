@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:text="具体指标项目"
+        android:textColor="#FF808080"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/zhibiao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:background="#FFF7F9FC"
+        android:paddingBottom="8dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="8dp"
+        android:hint="请填写"
+        android:textColor="#FF353535"
+        android:textSize="14sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp"
+        android:text="实际情况"
+        android:textColor="#FF808080"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/condi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:background="#FFF7F9FC"
+        android:paddingBottom="8dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="8dp"
+        android:hint="未有投资"
+        android:textColor="#FF353535"
+        android:textSize="14sp" />
+
+</LinearLayout>

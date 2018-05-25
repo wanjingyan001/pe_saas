@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="335dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="60dp"
+        android:letterSpacing="0.11"
+        android:lineSpacingExtra="8sp"
+        android:text="是否将上次“上海马力画材销售有限公司用印审批用印审批”填写内容一键复制填写"
+        android:textColor="#282828"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="60dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="45dp"
+            android:background="@drawable/yongyin_f"
+            android:letterSpacing="0.04"
+            android:lineSpacingExtra="0sp"
+            android:text="否"
+            android:textColor="#1787fb"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/yes"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="45dp"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/yongyin_t"
+            android:letterSpacing="0.04"
+            android:lineSpacingExtra="0sp"
+            android:text="是"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_head"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#fff3f5f7"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="4dp"
+            android:layout_height="14dp"
+            android:layout_gravity="center|left"
+            android:background="#FFE95C4A" />
+
+        <TextView
+            android:id="@+id/head_title"
+            style="@style/SoguTextNormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|left"
+            android:layout_marginLeft="16dp"
+            android:text="财务工作" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:text="具体工作目标"
+            android:textColor="#FF808080"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/zhibiao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:background="#FFF7F9FC"
+            android:hint="请填写"
+            android:paddingBottom="8dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="8dp"
+            android:textColor="#FF353535"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="15dp"
+            android:text="工作结果"
+            android:textColor="#FF808080"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/condi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:background="#FFF7F9FC"
+            android:hint="请填写"
+            android:paddingBottom="8dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="8dp"
+            android:textColor="#FF353535"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="70dp">
+
+
+    <View
+        android:id="@+id/vertical_line"
+        android:layout_width="2dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="25dp"
+        android:background="@color/matter_detail_line" />
+
+    <View
+        android:id="@+id/horizontal_line"
+        android:layout_width="16dp"
+        android:layout_height="2dp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/vertical_line"
+        android:background="@color/matter_detail_line" />
+
+    <View
+        android:layout_width="7dp"
+        android:layout_height="7dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="22.5dp"
+        android:background="@color/matter_blue" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="20dp"
+        android:layout_toRightOf="@+id/horizontal_line"
+        android:background="@color/matter_gray_light"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/matter_gray_deep"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="3dp"
+            android:paddingLeft="7dp"
+            android:paddingRight="7dp"
+            android:paddingTop="3dp">
+
+            <TextView
+                android:id="@+id/year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2017年"
+                android:textColor="@color/matter_text_blue1"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/dayOfMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12月13日"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_normal" />
+
+            <TextView
+                android:id="@+id/hour"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="14:02"
+                android:textColor="@color/matter_text_blue1"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/matter_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="对赌协议签订（这里是内容这里是内容这里是内容这里是内容这里是内容）"
+            android:textColor="@color/text_1"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

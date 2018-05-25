@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ccffffff">
+
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:theme="@style/AppTheme.AppBarOverlay">
+
+        <TextView
+            android:id="@+id/toolbar_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:letterSpacing="0.04"
+            android:lineSpacingExtra="0sp"
+            android:text="关闭"
+            android:textColor="#4390f0"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@id/toolbar_title"
+            style="@style/SoguTextTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:singleLine="true" />
+
+        <ImageView
+            android:id="@+id/toolbar_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:src="@drawable/sogu_ic_menu_help"
+            android:visibility="gone" />
+    </android.support.v7.widget.Toolbar>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="80dp"
+        android:drawablePadding="20dp"
+        android:drawableTop="@drawable/computer"
+        android:gravity="center"
+        android:letterSpacing="0.04"
+        android:lineSpacingExtra="0sp"
+        android:text="机构操作站登录"
+        android:textColor="#282828"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/login"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="105dp"
+        android:background="#e5f2ff"
+        android:gravity="center"
+        android:letterSpacing="0.04"
+        android:lineSpacingExtra="0sp"
+        android:text="登录"
+        android:textColor="#4390f0"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/cancel"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="25dp"
+        android:gravity="center"
+        android:letterSpacing="0.04"
+        android:lineSpacingExtra="0sp"
+        android:text="取消登录"
+        android:textColor="#808080"
+        android:textSize="16sp" />
+
+</FrameLayout>

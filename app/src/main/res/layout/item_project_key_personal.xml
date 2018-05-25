@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/divider_bottom"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <com.sogukj.pe.widgets.CircleImageView
+        android:id="@+id/iv_user"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:src="@drawable/img_logo_user" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_name"
+            style="@style/SoguTextMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="--"
+            tools:text="搜股(北京)科技有限公司" />
+
+        <TextView
+            android:id="@+id/tv_posotion"
+            style="@style/SoguTextSamll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:text="--"
+            android:textColor="@color/text_2"
+            tools:text="--" />
+    </LinearLayout>
+</LinearLayout>

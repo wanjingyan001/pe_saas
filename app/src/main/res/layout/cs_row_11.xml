@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/divider_bottom"
+    android:gravity="center"
+    android:paddingBottom="18dp"
+    android:paddingLeft="3dp"
+    android:paddingRight="18dp"
+    android:paddingTop="18dp">
+
+    <ImageView
+        android:id="@+id/star"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:background="@drawable/star" />
+
+    <TextView
+        android:id="@+id/tv_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        android:textColor="@color/text_2"
+        tools:text="基金名称" />
+
+    <TextView
+        android:id="@+id/et_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_weight="1"
+        android:gravity="right"
+        android:hint="请选择"
+        android:letterSpacing="0.04"
+        android:lineSpacingExtra="0sp"
+        android:lines="1"
+        android:textColor="@color/text_1"
+        android:textColorHint="#a0a4aa"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/iv_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_arrow_r"
+        android:gravity="center|right"
+        android:hint=""
+        android:lines="1"
+        android:textColor="@color/text_1"
+        android:textSize="14sp" />
+</LinearLayout>

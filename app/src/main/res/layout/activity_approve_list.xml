@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_title"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:visibility="gone"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@color/Blue"
+        app:tabIndicatorHeight="2dp"
+        app:tabSelectedTextColor="@color/text_1"
+        app:tabTextColor="@color/text_3">
+
+        <android.support.design.widget.TabItem
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="50dp"
+            android:text="待我审批的" />
+
+        <android.support.design.widget.TabItem
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="我已审批的" />
+    </android.support.design.widget.TabLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <!--<include-->
+            <!--android:id="@+id/search_box"-->
+            <!--layout="@layout/search_box"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_weight="1" />-->
+
+        <com.sogukj.pe.widgets.SearchView
+            android:id="@+id/search_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/iv_filter"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:src="@drawable/ic_search_filter_blue" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/divider2">
+
+            <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layoutManager="LinearLayoutManager" />
+
+            <include layout="@layout/layout_empty" />
+        </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_filter"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#50000000"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/ll_filter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <RadioGroup
+                        android:id="@+id/rg_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:orientation="vertical">
+
+                        <RadioButton
+                            android:id="@+id/rb_all"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:button="@null"
+                            android:checked="true"
+                            android:padding="10dp"
+                            android:text="全部"
+                            android:textColor="@color/checkable_text"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:id="@+id/rb_seal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:button="@null"
+                            android:padding="10dp"
+                            android:text="用印"
+                            android:textColor="@color/checkable_text"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:id="@+id/rb_sign"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:button="@null"
+                            android:padding="10dp"
+                            android:text="签字"
+                            android:textColor="@color/checkable_text"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:id="@+id/rb_leave"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
+                            android:button="@null"
+                            android:padding="10dp"
+                            android:text="出勤"
+                            android:textColor="@color/checkable_text"
+                            android:textSize="16sp" />
+                    </RadioGroup>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="10dp"
+                        android:background="@color/divider" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/ll_filter_all"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical"
+                            android:padding="10dp">
+
+                            <include
+                                android:id="@+id/tag_all"
+                                layout="@layout/item_tag_filter2" />
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:id="@+id/ll_filter_other"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical"
+                            android:padding="5dp"
+                            android:visibility="gone">
+
+                            <TextView
+                                style="@style/SoguTextNormal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="类型"
+                                android:textSize="12sp" />
+
+                            <com.sogukj.pe.baselibrary.widgets.FlowLayout
+                                android:id="@+id/tags_type"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:background="@color/white">
+
+                                <include layout="@layout/item_tag_filter2" />
+
+                                <include layout="@layout/item_tag_filter2" />
+
+                                <include layout="@layout/item_tag_filter2" />
+
+                                <include layout="@layout/item_tag_filter2" />
+                            </com.sogukj.pe.baselibrary.widgets.FlowLayout>
+
+                            <TextView
+                                style="@style/SoguTextNormal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:text="状态"
+                                android:textSize="12sp" />
+
+                            <com.sogukj.pe.baselibrary.widgets.FlowLayout
+                                android:id="@+id/tags_state"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:background="@color/white">
+
+                                <include layout="@layout/item_tag_filter2" />
+
+                                <include layout="@layout/item_tag_filter2" />
+
+                                <include layout="@layout/item_tag_filter2" />
+
+                                <include layout="@layout/item_tag_filter2" />
+                            </com.sogukj.pe.baselibrary.widgets.FlowLayout>
+                        </LinearLayout>
+
+
+                    </FrameLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ll_filter"
+                    android:background="@color/white"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btn_reset"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_btn_gray"
+                        android:text="重置"
+                        android:textColor="@color/text_1"
+                        android:textSize="16sp" />
+
+                    <Button
+                        android:id="@+id/btn_ok"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_btn_blue"
+                        android:text="确定"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </FrameLayout>
+    </FrameLayout>
+</LinearLayout>

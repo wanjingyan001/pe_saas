@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.sogukj.pe.ui.fund.FundStructureActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="@color/bg_record" />
+
+            <TextView
+                android:id="@+id/fundCompanyName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:textColor="@color/text_1"
+                android:textSize="18sp"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <TextView
+                    style="@style/fund_small_blue_tv"
+                    android:text="董事" />
+
+                <android.support.v7.widget.GridLayout
+                    android:id="@+id/directorList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:columnCount="4">
+
+                </android.support.v7.widget.GridLayout>
+
+                <LinearLayout
+                    android:id="@+id/empty1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingBottom="20dp"
+                    android:paddingTop="20dp"
+                    android:visibility="gone">
+
+                    <View
+                        android:layout_width="80dp"
+                        android:layout_height="1dp"
+                        android:background="@color/divider2" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:text="暂无数据"
+                        android:textColor="#dcdee6"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:layout_width="80dp"
+                        android:layout_height="1dp"
+                        android:background="@color/divider2" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <TextView
+                    style="@style/fund_small_blue_tv"
+                    android:text="股东" />
+
+                <LinearLayout
+                    android:id="@+id/shareholderList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/empty2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingBottom="20dp"
+                    android:paddingTop="20dp"
+                    android:visibility="gone">
+
+                    <View
+                        android:layout_width="80dp"
+                        android:layout_height="1dp"
+                        android:background="@color/divider2" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:text="暂无数据"
+                        android:textColor="#dcdee6"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:layout_width="80dp"
+                        android:layout_height="1dp"
+                        android:background="@color/divider2" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <TextView
+                    style="@style/fund_small_blue_tv"
+                    android:text="监事" />
+
+                <TextView
+                    android:id="@+id/supervisorName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_fund_tv_medium"
+                    android:textColor="@color/text_1"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <LinearLayout
+                    android:id="@+id/empty3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingBottom="20dp"
+                    android:paddingTop="20dp"
+                    android:visibility="gone">
+
+                    <View
+                        android:layout_width="80dp"
+                        android:layout_height="1dp"
+                        android:background="@color/divider2" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:text="暂无数据"
+                        android:textColor="#dcdee6"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:layout_width="80dp"
+                        android:layout_height="1dp"
+                        android:background="@color/divider2" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:layout_marginTop="30dp"
+                android:background="@color/bg_record" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="4dp"
+                    android:layout_height="12dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="@color/color_main" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="合计"
+                    android:textColor="@color/textColorBlack"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/totalLayout"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:background="@drawable/card_bg">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="30dp"
+                    android:paddingTop="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="实缴出资（万元）"
+                        android:textColor="@color/text_1"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/totalTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:textColor="#808080"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/empty4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingBottom="20dp"
+                android:paddingTop="20dp"
+                android:visibility="gone">
+
+                <View
+                    android:layout_width="80dp"
+                    android:layout_height="1dp"
+                    android:background="@color/divider2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:text="暂无数据"
+                    android:textColor="#dcdee6"
+                    android:textSize="14sp" />
+
+                <View
+                    android:layout_width="80dp"
+                    android:layout_height="1dp"
+                    android:background="@color/divider2" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:layout_marginTop="25dp"
+                android:background="@color/bg_record" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="4dp"
+                    android:layout_height="12dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="@color/color_main" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="各股东出资比例"
+                    android:textColor="@color/textColorBlack"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/blList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="70dp">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <LinearLayout
+                android:id="@+id/empty5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="48dp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingBottom="20dp"
+                android:paddingTop="20dp"
+                android:visibility="gone">
+
+                <View
+                    android:layout_width="80dp"
+                    android:layout_height="1dp"
+                    android:background="@color/divider2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:text="暂无数据"
+                    android:textColor="#dcdee6"
+                    android:textSize="14sp" />
+
+                <View
+                    android:layout_width="80dp"
+                    android:layout_height="1dp"
+                    android:background="@color/divider2" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

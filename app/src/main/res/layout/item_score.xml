@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_seq"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|left"
+        android:layout_marginLeft="10dp"
+        android:gravity="left"
+        android:text="50"
+        android:textColor="#FFA0A4AA"
+        android:textSize="14sp" />
+
+    <com.sogukj.pe.widgets.CircleImageView
+        android:id="@+id/head"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginRight="5dp"
+        app:civ_border_color="#80C9CACA"
+        app:civ_border_width="2dp" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_name"
+                style="@style/SoguTextMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="张丹" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/final_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="最终得分：99.00"
+                android:textColor="#FF8D1D0F"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/finishing_task"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="岗位胜任力评价：83"
+                android:textColor="#FFA0A4AA"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/kpi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="关键绩效指标评价：83"
+                android:textColor="#FFA0A4AA"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/dengji"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/oval"
+        android:gravity="center"
+        android:text="A"
+        android:textColor="#FFFFFFFF"
+        android:textSize="20sp" />
+
+</LinearLayout>

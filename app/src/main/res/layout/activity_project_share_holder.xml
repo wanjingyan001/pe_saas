@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/tv_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:enabled="false"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="上一时刻"
+            android:textColor="@color/tx_color_white" />
+
+        <CheckBox
+            android:id="@+id/tv_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableRight="@drawable/ic_dropdown_arrow"
+            android:gravity="center"
+            android:padding="8dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textColor="@color/tx_color_white"
+            tools:text="2016-09-30" />
+
+        <TextView
+            android:id="@+id/tv_previous"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:enabled="false"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="下一时刻"
+            android:textColor="@color/tx_color_white" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="1dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/divider2"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/divider_bottom"
+                    android:padding="8dp">
+
+                    <TextView
+                        style="@style/SoguTextMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="前十大股东累计持有" />
+
+                    <TextView
+                        android:id="@+id/tv_tenTotal"
+                        style="@style/SoguTextMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="--"
+                        android:textColor="@color/text_2" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/divider_bottom"
+                    android:padding="8dp">
+
+                    <TextView
+                        style="@style/SoguTextMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="累计占总股本比" />
+
+                    <TextView
+                        android:id="@+id/tv_tenPercent"
+                        style="@style/SoguTextMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="--"
+                        android:textColor="@color/text_2" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/divider_bottom"
+                    android:padding="8dp">
+
+                    <TextView
+                        style="@style/SoguTextMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="较上期变化" />
+
+                    <TextView
+                        android:id="@+id/tv_holdingChange"
+                        style="@style/SoguTextMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="--"
+                        android:textColor="@color/text_2" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:background="@drawable/divider2" />
+
+                <com.sogukj.pe.baselibrary.widgets.ListViewCompat
+                    android:id="@+id/list_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:background="@color/white"
+                    android:divider="@drawable/divider2"
+                    android:dividerHeight="8dp"
+                    android:minHeight="50dp"
+                    tools:listitem="@layout/item_project_share_holder" />
+            </LinearLayout>
+        </ScrollView>
+
+
+
+    </FrameLayout>
+
+</LinearLayout>

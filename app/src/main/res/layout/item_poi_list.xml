@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:paddingBottom="9dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="9dp">
+
+    <ImageView
+        android:id="@+id/currentLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:src="@drawable/icon_current_location"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/poiName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@color/text_1"
+        android:textSize="@dimen/text_size_normal"
+        android:text="苏州友联假日酒店·室内游泳池"
+        android:paddingRight="15dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/currentLocation"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/poiAddress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_samll"
+        android:textColor="@color/text_3"
+        android:text="苏州友联假日酒店室内游泳池解路99路字数最大最大…"
+        app:layout_constraintEnd_toStartOf="@+id/currentLocation"
+        android:ellipsize="end"
+        android:singleLine="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>

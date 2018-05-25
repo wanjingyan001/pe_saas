@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f7f9fc"
+    android:orientation="vertical"
+    tools:context="com.sogukj.pe.ui.fund.FundMainFragment">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/mAppBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:elevation="0dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_height"
+            android:background="?attr/colorPrimary"
+            app:contentInsetEnd="0dp"
+            app:contentInsetLeft="0dp"
+            app:contentInsetRight="0dp"
+            app:contentInsetStart="0dp"
+            app:layout_scrollFlags="scroll|enterAlways">
+
+            <FrameLayout
+                android:id="@+id/toolbar_back"
+                android:layout_width="55dp"
+                android:layout_height="55dp">
+
+                <com.sogukj.pe.widgets.CircleImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    app:civ_border_width="1dp"
+                    app:civ_border_color="#4dffffff"
+                    android:src="@drawable/sogu_ic_back" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/fundTitle"
+                style="@style/SoguTextTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="基金" />
+
+            <ImageView
+                android:id="@+id/iv_search"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="right|center"
+                android:padding="10dp"
+                android:src="@drawable/ic_search" />
+        </android.support.v7.widget.Toolbar>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#f7f9fc">
+
+            <View
+                android:id="@+id/up_tab"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@color/colorPrimary" />
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/tab_bg_1"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                app:tabGravity="fill"
+                app:tabIndicatorHeight="0dp"
+                app:tabMode="fixed"
+                app:tabSelectedTextColor="@color/text_1"
+                app:tabTextColor="@color/text_3">
+
+                <android.support.design.widget.TabItem
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:icon="@drawable/cb_1_select"
+                    android:text="储备" />
+
+                <android.support.design.widget.TabItem
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:icon="@drawable/cx_1_unselect"
+                    android:text="存续" />
+
+                <android.support.design.widget.TabItem
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:icon="@drawable/tc_1_unselect"
+                    android:text="退出" />
+            </android.support.design.widget.TabLayout>
+        </FrameLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+</android.support.design.widget.CoordinatorLayout>

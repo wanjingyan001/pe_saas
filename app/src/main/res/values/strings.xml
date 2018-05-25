@@ -1,0 +1,124 @@
+<resources>
+    <!--<string name="app_name">Pe_saas</string>-->
+    <!--<string name="app_name">海通创新</string>-->
+    <string name="get_code">点击获取</string>
+    <string name="get_code_disable">剩余%s秒</string>
+    <string name="tv_update_time">更新时间:%s</string>
+    <string name="tv_project_cangu_relation" formatted="false">参股关系：&lt;font color="#666666"> %s &lt;/font></string>
+    <string name="tv_project_cangu_percent" formatted="false">参股比例(%%)：&lt;font color="#666666"> %s &lt;/font></string>
+    <string name="tv_project_cangu_touzijine" formatted="false">投资金额(万元)：&lt;font color="#666666"> %s &lt;/font></string>
+    <string name="tv_project_cangu_jinlirun" formatted="false">被参股公司净利润(元)：&lt;font color="#666666"> %s &lt;/font></string>
+    <string name="tv_project_cangu_is_merge" formatted="false">是否报表合并：&lt;font color="#666666"> %s &lt;/font></string>
+    <string name="tv_project_cangu_bis" formatted="false">被参股公司主营业务：&lt;font color="#666666"> %s &lt;/font></string>
+    <string name="tv_proj_product_type">类型：</string>
+    <string name="tv_proj_product_desc">描述：</string>
+    <string name="tv_proj_product_biz">业务：</string>
+    <string name="tv_proj_product_create_date">成立日期：</string>
+    <string name="tv_proj_finance_lunci">投资轮次：</string>
+    <string name="tv_proj_app_brif" formatted="false">描述：%s</string>
+    <string name="tv_proj_product_company" formatted="false">关联公司：&lt;font color="#5785f3"> %s &lt;/font></string>
+    <string name="tv_pairs_value" formatted="false">&lt;font color="#999999"> %s &lt;/font></string>
+    <string name="tv_title_result_project" formatted="false">匹配到&lt;font color="#ff3300">%d&lt;/font>家公司: </string>
+    <string name="tv_title_result_news" formatted="false">匹配到&lt;font color="#ff3300">%d&lt;/font>条资讯: </string>
+    <string name="tv_title_result_search" formatted="false">匹配到&lt;font color="#ff3300">%d&lt;/font>条结果: </string>
+    <string name="tv_title_result_search1" formatted="false">搜索到&lt;font color="#ff3300">%d条&lt;/font>相关文书: </string>
+    <string-array name="Language">
+        <item>汉语</item>
+        <item>英语</item>
+        <item>德语</item>
+        <item>法语</item>
+        <item>俄语</item>
+        <item>西班牙语</item>
+        <item>日语</item>
+    </string-array>
+    <string-array name="Education">
+        <item>高中</item>
+        <item>本科</item>
+        <item>硕士</item>
+        <item>MBA</item>
+        <item>博士</item>
+    </string-array>
+    <string-array name="workers">
+        <item>少于50人</item>
+        <item>50–150人</item>
+        <item>150–500人</item>
+        <item>500–1000人</item>
+        <item>1000–5000人</item>
+        <item>5000–10000人</item>
+        <item>10000人以上</item>
+    </string-array>
+    <string-array name="BusinessNature">
+        <item>国有企业</item>
+        <item>外资企业</item>
+        <item>集体企业</item>
+        <item>私营企业</item>
+    </string-array>
+
+    <string-array name="spinner">
+        <item>全部</item>
+        <item>投资部</item>
+        <item>风控部</item>
+    </string-array>
+
+    <string-array name="spinner_this">
+        <item>全部事务</item>
+        <item>项目事务</item>
+        <item>个人事务</item>
+    </string-array>
+
+    <string-array name="spinner_select_file">
+        <item>常用应用</item>
+        <item>内部存储</item>
+    </string-array>
+
+    <string-array name="remind_times">
+        <item>提前5分钟</item>
+        <item>提前15分钟</item>
+        <item>提前30分钟</item>
+        <item>提前1小时</item>
+        <item>提前1天</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hint_add_minus">如无,请填写\"无\"</string>
+    <string name="unknown_error">暂时无可用数据</string>
+
+    <!-- session -->
+    <string name="input_panel_guess">猜 拳</string>
+    <string name="input_panel_audio_call">语音通话</string>
+    <string name="input_panel_video_call">视频通话</string>
+    <string name="input_panel_file">发送文件</string>
+    <string name="input_panel_RTS">白 板</string>
+    <string name="input_panel_snapchat">阅后即焚</string>
+    <string name="input_panel_tip">Tip</string>
+    <string name="message_history_query">云消息记录</string>
+    <string name="message_search_title">搜索本地消息记录</string>
+    <string name="message_clear">清空本地消息记录</string>
+    <string name="message_info">聊天信息</string>
+    <string name="start_session_record">我发起了白板演示</string>
+    <string name="session_end_record">白板演示已结束</string>
+    <string name="location_map">地图定位</string>
+    <string name="location_loading">正在定位</string>
+    <string name="my_location">我的位置</string>
+    <string name="location_address_unkown">该位置信息暂无</string>
+    <string name="location_navigate">导航</string>
+    <string name="format_mylocation">我的位置：%s</string>
+    <string name="location_address_fail">获取位置信息失败</string>
+    <string name="tools_selected">选择工具</string>
+    <string name="friends_map_navigation_web">在网页中打开</string>
+    <string name="file_help">好友通过微信/QQ发送过来的文件，必须先在微信/QQ中将文件打开（将文件下载到手机上），才能在此处被发现</string>
+    <string name="approval_comments">审批意见</string>
+    <string name="approval_input_hint">请输入审批意见（选填）</string>
+    <string name="vote">否 决</string>
+    <string name="confirm">确 认</string>
+    <string name="cancel">取 消</string>
+    <string name="update_title">当前版本过低</string>
+    <string name="update_info">请立即升级到最新版</string>
+    <string name="update_now">立刻升级</string>
+    <string name="work_edit_hint">请输入事由…</string>
+    <string name="people_attending">出席人</string>
+    <string name="people_participate">参加人</string>
+    <string name="arrange_address">地址</string>
+    <string name="address_edit_hint">请输入地址</string>
+</resources>

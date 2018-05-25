@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:background="?attr/colorPrimary"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:theme="@style/AppTheme.AppBarOverlay">
+
+        <FrameLayout
+            android:id="@+id/toolbar_back"
+            android:layout_width="55dp"
+            android:layout_height="55dp">
+
+            <com.sogukj.pe.widgets.CircleImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:src="@drawable/sogu_ic_back"
+                app:civ_border_color="#4dffffff"
+                app:civ_border_width="1dp" />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@id/toolbar_title"
+            style="@style/SoguTextTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:singleLine="true"
+            tools:text="主    页" />
+
+        <ImageView
+            android:id="@+id/toolbar_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:src="@drawable/plus" />
+    </android.support.v7.widget.Toolbar>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/mAppBarLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:elevation="0dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="55dp"
+                    android:background="@color/white"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:padding="10dp"
+                    app:layout_scrollFlags="scroll|enterAlways">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <EditText
+                            android:id="@+id/search_edt"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/team_bg_search2"
+                            android:cursorVisible="true"
+                            android:gravity="center_vertical"
+                            android:imeOptions="actionSearch"
+                            android:inputType="text"
+                            android:paddingLeft="30dp"
+                            android:paddingRight="8dp"
+                            android:singleLine="true"
+                            android:textColor="@color/text_1"
+                            android:textColorHint="@color/text_3"
+                            android:textSize="14sp" />
+
+                        <ImageView
+                            android:id="@+id/delete1"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center_vertical|end"
+                            android:layout_marginEnd="10dp"
+                            android:src="@drawable/ic_refuse_disable"
+                            android:visibility="gone"/>
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/search_hint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:drawableLeft="@drawable/ss_small"
+                        android:drawablePadding="8dp"
+                        android:gravity="center"
+                        android:text="搜索"
+                        android:textColor="@color/gray7"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:id="@+id/search_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/ss_small"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divider2" />
+
+            </android.support.design.widget.AppBarLayout>
+
+            <com.scwang.smartrefresh.layout.SmartRefreshLayout
+                android:id="@+id/refresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:srlEnablePreviewInEditMode="true"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <android.support.v7.widget.RecyclerView xmlns:tools="http://schemas.android.com/tools"
+                        android:id="@+id/recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/white"
+                        android:orientation="vertical"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:overScrollMode="never"
+                        app:layoutManager="LinearLayoutManager"
+                        tools:listitem="@layout/item_msg_index" />
+
+                    <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/iv_empty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/img_empty"
+                        android:visibility="gone" />
+
+                    <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/iv_loading"
+                        android:layout_width="80dp"
+                        android:layout_height="120dp"
+                        android:layout_gravity="center"
+                        android:visibility="gone" />
+                </FrameLayout>
+
+                <com.scwang.smartrefresh.layout.footer.BallPulseFooter
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+        </android.support.design.widget.CoordinatorLayout>
+
+        <RelativeLayout
+            android:id="@+id/add_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#19000000"
+            android:gravity="right|top"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="150dp"
+                android:layout_height="114dp"
+                android:background="@drawable/add_bg"
+                android:orientation="vertical"
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp">
+
+                <TextView
+                    android:id="@+id/start_chat"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/qunliao1"
+                    android:drawablePadding="15dp"
+                    android:gravity="left|center"
+                    android:letterSpacing="0.04"
+                    android:lineSpacingExtra="0sp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="15dp"
+                    android:text="发起群聊"
+                    android:textColor="#282828"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#f1f1f1" />
+
+                <TextView
+                    android:id="@+id/scan"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/saoyisao"
+                    android:drawablePadding="15dp"
+                    android:gravity="left|center"
+                    android:letterSpacing="0.04"
+                    android:lineSpacingExtra="0sp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="15dp"
+                    android:text="扫一扫"
+                    android:textColor="#ff282828"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </FrameLayout>
+</LinearLayout>

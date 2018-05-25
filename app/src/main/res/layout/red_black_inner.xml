@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/seq"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:textColor="#FFA0A4AA"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_marginBottom="10dp"-->
+    <!--android:layout_marginTop="10dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:gravity="center"-->
+    <!--android:orientation="horizontal">-->
+
+    <!--<com.sogukj.pe.widgets.CircleImageView-->
+    <!--android:id="@+id/head_icon"-->
+    <!--android:layout_width="30dp"-->
+    <!--android:layout_height="30dp" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/name"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginLeft="10dp"-->
+    <!--android:text="排名"-->
+    <!--android:textColor="#FF282828"-->
+    <!--android:textSize="14sp" />-->
+
+    <!--</LinearLayout>-->
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:textColor="#FF282828"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/depart"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="#FFA0A4AA"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/score"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="#FFA0A4AA"
+        android:textSize="14sp" />
+</LinearLayout>

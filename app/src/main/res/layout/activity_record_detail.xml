@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_record"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="com.sogukj.pe.ui.project.RecordDetailActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <TextView
+        android:id="@+id/company_name"
+        style="@style/SoguTextLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="18dp"
+        android:text="上海搜股科技" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <TableRow
+            android:paddingBottom="18dp"
+            android:paddingTop="18dp">
+
+            <TextView
+                style="@style/ItemTextLabel"
+                android:layout_height="20dp"
+                android:text="项目开始时间" />
+
+            <TextView
+                android:id="@+id/tv_start_time"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_weight="1"
+                android:drawableRight="@drawable/jt_copy"
+                android:gravity="right"
+                android:text="jintain" />
+        </TableRow>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider2" />
+
+        <TableRow
+            android:paddingBottom="18dp"
+            android:paddingTop="18dp">
+
+            <TextView
+                style="@style/ItemTextLabel"
+                android:layout_height="20dp"
+                android:text="项目结束时间" />
+
+            <TextView
+                android:id="@+id/tv_end_time"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_weight="1"
+                android:drawableRight="@drawable/jt_copy"
+                android:gravity="right"
+                android:text="jintain" />
+        </TableRow>
+    </TableLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <TableRow
+            android:paddingBottom="18dp"
+            android:paddingTop="18dp">
+
+            <TextView
+                style="@style/ItemTextLabel"
+                android:layout_height="20dp"
+                android:text="拜访人员（选填）" />
+
+            <EditText
+                android:id="@+id/et_visiter"
+                style="@style/ItemTextValue"
+                android:layout_height="20dp"
+                android:gravity="left" />
+        </TableRow>
+
+    </TableLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <TableRow
+            android:paddingBottom="18dp"
+            android:paddingTop="18dp">
+
+            <TextView
+                style="@style/ItemTextLabel"
+                android:layout_height="20dp"
+                android:text="跟踪情况描述" />
+
+            <EditText
+                android:id="@+id/et_des"
+                style="@style/ItemTextValue" />
+        </TableRow>
+    </TableLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <TableRow android:paddingTop="18dp">
+
+            <TextView
+                style="@style/ItemTextLabel"
+                android:layout_height="20dp"
+                android:text="是否为重大事件，并加入到项目关键节点记录中" />
+
+            <CheckBox
+                android:id="@+id/cb_important"
+                android:layout_height="20dp"
+                android:checked="false" />
+        </TableRow>
+
+        <TableRow android:paddingBottom="18dp">
+
+            <TextView
+                android:text="（注：可在项目日历中查看）"
+                android:textColor="#b4b4b4"
+                android:textSize="12sp" />
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>

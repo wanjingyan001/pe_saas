@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/divider2"
+    android:orientation="vertical"
+    tools:context="com.sogukj.pe.ui.user.ResumeEditorActivity">
+
+    <include layout="@layout/layout_shareholder_toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_add_education"
+            android:layout_width="163dp"
+            android:layout_height="38dp"
+            android:layout_gravity="center"
+            android:layout_margin="34dp"
+            android:background="@drawable/bg_border_round_blue"
+            android:gravity="center"
+            android:text="添加教育经历 +"
+            android:textColor="@color/textColorBlue"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_add_work_expericence"
+            android:layout_width="163dp"
+            android:layout_height="38dp"
+            android:layout_gravity="center"
+            android:layout_margin="34dp"
+            android:background="@drawable/bg_border_round_blue"
+            android:gravity="center"
+            android:text="添加工作经历 +"
+            android:textColor="@color/textColorBlue"
+            android:textSize="15sp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/resumeList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
+
+</LinearLayout>

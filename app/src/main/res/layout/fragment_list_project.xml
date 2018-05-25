@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#f7f9fc"
+        app:srlEnablePreviewInEditMode="true">
+
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_gravity="bottom"
+                android:background="@drawable/footview"
+                android:visibility="gone"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layoutManager="LinearLayoutManager"
+                tools:listitem="@layout/item_main_project_new" />
+
+            <ImageView
+                android:id="@+id/iv_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/img_empty"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/iv_loading"
+                android:layout_width="80dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+
+        </FrameLayout>
+
+        <com.scwang.smartrefresh.layout.footer.BallPulseFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/ll_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_gray_light"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <LinearLayout
+            android:id="@+id/ll_order_name_1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="项目名称"
+                android:textColor="@color/text_1"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/iv_sort_name_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_down"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_order_time_1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="添加日期"
+                android:textColor="@color/text_1"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/iv_sort_time_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_down" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/ll_header1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_gray_light"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/ll_order_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="项目名称"
+                android:textColor="@color/text_1"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/iv_sort_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_down"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_order_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="最新资讯"
+                android:textColor="@color/text_1"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/iv_sort_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_down" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_order_state"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="现状"
+                android:textColor="@color/text_1"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/iv_sort_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_down"
+                android:visibility="gone" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/ll_header2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_gray_light"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:text="项目名称"
+            android:textColor="@color/text_1"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="添加日期"
+            android:textColor="@color/text_1"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="状态"
+            android:textColor="@color/text_1"
+            android:textSize="16sp" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/ll_header3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_gray_light"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv7"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:text="项目名称"
+            android:textColor="@color/text_1"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="退出时间"
+            android:textColor="@color/text_1"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv9"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="现状"
+            android:textColor="@color/text_1"
+            android:textSize="16sp" />
+
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tv_add_cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:background="@drawable/bg_border_round_blue"
+        android:gravity="center"
+        android:paddingBottom="10dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingTop="10dp"
+        android:text="添加储备项目+"
+        android:visibility="gone" />
+</LinearLayout>

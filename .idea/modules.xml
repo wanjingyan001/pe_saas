@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/PushSDK/PushSDK.iml" filepath="$PROJECT_DIR$/PushSDK/PushSDK.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/baselibrary/baselibrary.iml" filepath="$PROJECT_DIR$/baselibrary/baselibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/calendar/calendar.iml" filepath="$PROJECT_DIR$/calendar/calendar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pe_saas.iml" filepath="$PROJECT_DIR$/pe_saas.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shareSDK/shareSDK.iml" filepath="$PROJECT_DIR$/shareSDK/shareSDK.iml" />
+      <module fileurl="file://$PROJECT_DIR$/stack-layout/stack-layout.iml" filepath="$PROJECT_DIR$/stack-layout/stack-layout.iml" />
+      <module fileurl="file://$PROJECT_DIR$/uikit/uikit.iml" filepath="$PROJECT_DIR$/uikit/uikit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/zxingLib/zxingLib.iml" filepath="$PROJECT_DIR$/zxingLib/zxingLib.iml" />
+    </modules>
+  </component>
+</project>

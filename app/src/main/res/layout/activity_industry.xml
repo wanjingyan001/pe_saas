@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/divider2"
+    tools:context="com.sogukj.pe.ui.user.CityAreaActivity">
+
+    <include layout="@layout/layout_shareholder_toolbar" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="2dp"
+        android:weightSum="2.5">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/parentList"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scrollbars="none">
+
+        </android.support.v7.widget.RecyclerView>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/childrenList"
+            android:layout_width="0dp"
+            android:background="@color/white"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:scrollbars="none">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </LinearLayout>
+
+</LinearLayout>

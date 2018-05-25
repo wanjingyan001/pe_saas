@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/des"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="全部"
+        android:textColor="@color/text_1"
+        android:textSize="14sp" />
+
+    <View
+        android:id="@+id/tag_item"
+        android:layout_width="18dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:background="#FF4B5266" />
+
+</LinearLayout>

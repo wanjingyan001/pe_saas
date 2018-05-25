@@ -1,0 +1,219 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.sogukj.pe.ui.score.FengKongFragment">
+
+    <include layout="@layout/header" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:descendantFocusability="blocksDescendants"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:background="#fff3f5f7"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="4dp"
+                    android:layout_height="14dp"
+                    android:layout_gravity="center|left"
+                    android:background="#FFE95C4A" />
+
+                <TextView
+                    android:id="@+id/head_title"
+                    style="@style/SoguTextNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|left"
+                    android:layout_marginLeft="16dp"
+                    android:text="尽调项目数量（30%）" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/std1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_transparent"
+                android:gravity="center|left"
+                android:lineSpacingExtra="3dp"
+                android:paddingBottom="6dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="6dp"
+                android:text="评分标准:每个参与尽调项目得20分;最高分数:120分"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="left"
+                    android:text="具体指标"
+                    android:textColor="#FF808080"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="left"
+                    android:text="实际情况"
+                    android:textColor="#FF808080"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <com.sogukj.pe.baselibrary.widgets.MyListView
+                android:id="@+id/list_"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="15dp"
+                android:divider="#ffffff"
+                android:dividerHeight="15dp" />
+
+            <LinearLayout
+                android:layout_width="170dp"
+                android:layout_height="55dp"
+                android:layout_gravity="right"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/rectangle_fengkong"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="该指标得分"
+                    android:textColor="#FFA0A4AA"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="#FFF3F5F7" />
+
+                <TextView
+                    android:id="@+id/fk_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="120"
+                    android:textColor="#FF808080"
+                    android:textSize="25sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:background="#fff3f5f7"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="4dp"
+                    android:layout_height="14dp"
+                    android:layout_gravity="center|left"
+                    android:background="#FFE95C4A" />
+
+                <TextView
+                    android:id="@+id/head_title1"
+                    style="@style/SoguTextNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|left"
+                    android:layout_marginLeft="16dp"
+                    android:text="投后管理执行情况（40%）" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rate_rectangle" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rate_list_FK"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/rectangle_score"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="本项得分"
+                    android:textColor="@color/text_3"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="80dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#FFF3F5F7" />
+
+                <TextView
+                    android:id="@+id/tv_socre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:textColor="#ff808080"
+                    android:textSize="40sp" />
+
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/btn_commit"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="40dp"
+                android:background="#D9D9D9"
+                android:text="提交" />
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>

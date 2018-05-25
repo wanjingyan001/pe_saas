@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="com.sogukj.pe.ui.project.InvestSuggestActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@color/color_main" />
+
+                    <TextView
+                        style="@style/SoguTextNormal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="投资方案" />
+                </LinearLayout>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="估值" />
+
+                    <EditText
+                        android:id="@+id/et_valuation"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="金额" />
+
+                    <EditText
+                        android:id="@+id/et_amount"
+                        style="@style/ItemTextValue"
+                        android:hint="" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="股权比例" />
+
+                    <EditText
+                        android:id="@+id/et_equityRatio"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="主投/跟投" />
+
+                    <EditText
+                        android:id="@+id/et_mainCast"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="董事/监事职位" />
+
+                    <EditText
+                        android:id="@+id/et_position"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="预计时间" />
+
+                    <EditText
+                        android:id="@+id/et_estimateTime"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+            </TableLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="@color/divider2" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@color/color_main" />
+
+                    <TextView
+                        style="@style/SoguTextNormal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="其余的" />
+                </LinearLayout>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="投资动因" />
+
+                    <EditText
+                        android:id="@+id/et_motivation"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="风险对策" />
+
+                    <EditText
+                        android:id="@+id/et_riskTreat"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="投后管理计划" />
+
+                    <EditText
+                        android:id="@+id/et_managePlan"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="退出计划" />
+
+                    <EditText
+                        android:id="@+id/et_quitPlan"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="回报敏感性分析" />
+
+                    <EditText
+                        android:id="@+id/et_sensibilyAnalysis"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="其他投决会关注的问题" />
+
+                    <EditText
+                        android:id="@+id/et_otherIssue"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="合同文本" />
+
+                    <EditText
+                        android:id="@+id/et_contract"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/divider2" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <Button
+            android:id="@+id/btn_commit"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/bg_btn_blue"
+            android:text="提交" />
+    </LinearLayout>
+</LinearLayout>

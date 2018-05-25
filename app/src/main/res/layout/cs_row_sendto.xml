@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="#f3f5f7" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="left|center"
+        android:orientation="horizontal"
+        android:paddingLeft="3dp">
+
+        <ImageView
+            android:id="@+id/starIcon"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@drawable/star" />
+
+        <TextView
+            android:id="@+id/tv_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:text="审批人"
+            android:textColor="@color/text_2" />
+
+    </LinearLayout>
+
+    <com.sogukj.pe.baselibrary.widgets.MyGridView
+        android:id="@+id/grid_chaosong_to"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="20dp"
+        android:horizontalSpacing="15dp"
+        android:numColumns="6"
+        android:verticalSpacing="12dp" />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:scrollbars="none"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/llll"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" />
+    </HorizontalScrollView>
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/llll"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginBottom="20dp"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:visibility="gone" />-->
+
+</LinearLayout>

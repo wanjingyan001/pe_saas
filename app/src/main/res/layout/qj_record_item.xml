@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:orientation="horizontal"
+    android:background="#ffffff"
+    android:padding="20dp">
+
+    <com.sogukj.pe.widgets.CircleImageView
+        android:id="@+id/icon"
+        android:layout_width="38dp"
+        android:layout_height="38dp" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="15dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:letterSpacing="0.04"
+            android:lineSpacingExtra="0sp"
+            android:text="刘宇的请假"
+            android:textColor="#282828"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="0sp"
+            android:text="请假类型：病假"
+            android:textColor="#808080"
+            android:textSize="10sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/start_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="0sp"
+            android:text="开始时间：2017-11-09 12:00"
+            android:textColor="#808080"
+            android:textSize="10sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/end_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="0sp"
+            android:text="结束时间：2017-11-09 17:00"
+            android:textColor="#808080"
+            android:textSize="10sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="right|top"
+            android:lineSpacingExtra="0sp"
+            android:text="2017.11.09"
+            android:textColor="#a0a4aa"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/qj_bg"
+            android:lineSpacingExtra="0sp"
+            android:paddingBottom="3dp"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
+            android:paddingTop="3dp"
+            android:text="审批通过"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

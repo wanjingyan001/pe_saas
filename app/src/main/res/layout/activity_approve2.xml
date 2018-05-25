@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.sogukj.pe.ui.approve.EntryApproveActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <GridLayout
+                android:id="@+id/gl_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:columnCount="3"
+                android:padding="10dp"
+                android:rowCount="1">
+
+                <com.sogukj.pe.baselibrary.widgets.TipsView
+                    android:id="@+id/tv_dwsp"
+                    style="@style/ItemGridApprove"
+                    android:drawableTop="@drawable/ic_approve_dwsp"
+                    android:tag="findHistoryRongzi"
+                    android:text="待我审批" />
+
+                <com.sogukj.pe.baselibrary.widgets.TipsView
+                    android:id="@+id/tv_wfqd"
+                    style="@style/ItemGridApprove"
+                    android:drawableTop="@drawable/ic_approve_wfqd"
+                    android:tag="findTzanli"
+                    android:text="我发起的" />
+
+                <com.sogukj.pe.baselibrary.widgets.TipsView
+                    style="@style/ItemGridApprove"
+                    android:drawableTop="@drawable/ic_proj_tzsj"
+                    android:visibility="invisible" />
+
+            </GridLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/divider2" />
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <View
+                    android:layout_width="5dp"
+                    android:layout_height="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/color_main" />
+
+                <TextView
+                    style="@style/SoguTextNormal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="出勤休假" />
+            </LinearLayout>
+
+            <GridLayout
+                android:id="@+id/gl_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:columnCount="3"
+                android:padding="10dp"
+                android:rowCount="1">
+
+                <com.sogukj.pe.baselibrary.widgets.TipsView
+                    android:id="@+id/tv_chuchai"
+                    style="@style/ItemGridApprove"
+                    android:drawableTop="@drawable/ic_approve_qj"
+                    android:tag="findHistoryRongzi"
+                    android:text="出差" />
+
+                <com.sogukj.pe.baselibrary.widgets.TipsView
+                    android:id="@+id/tv_qinjia"
+                    style="@style/ItemGridApprove"
+                    android:drawableTop="@drawable/ic_approve_qj"
+                    android:tag="findTzanli"
+                    android:text="请假" />
+
+                <com.sogukj.pe.baselibrary.widgets.TipsView
+                    style="@style/ItemGridApprove"
+                    android:drawableTop="@drawable/ic_proj_tzsj"
+                    android:visibility="invisible" />
+
+            </GridLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/divider2" />
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <View
+                    android:layout_width="5dp"
+                    android:layout_height="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/color_main" />
+
+                <TextView
+                    style="@style/SoguTextNormal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="用印申请" />
+            </LinearLayout>
+
+            <GridLayout
+                android:id="@+id/gl_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:columnCount="3"
+                android:padding="10dp"
+                android:rowCount="2">
+
+                <com.sogukj.pe.baselibrary.widgets.TipsView
+                    android:id="@+id/tv_glgsyy"
+                    style="@style/ItemGridApprove"
+                    android:drawableTop="@drawable/ic_approve_glgsyy"
+                    android:tag="findHistoryRongzi"
+                    android:text="管理公司用印" />
+
+                <com.sogukj.pe.baselibrary.widgets.TipsView
+                    android:id="@+id/tv_jjyy"
+                    style="@style/ItemGridApprove"
+                    android:drawableTop="@drawable/ic_approve_jjyy"
+                    android:tag="findTzanli"
+                    android:text="基金用印" />
+
+                <com.sogukj.pe.baselibrary.widgets.TipsView
+                    android:id="@+id/tv_yzyy"
+                    style="@style/ItemGridApprove"
+                    android:drawableTop="@drawable/ic_approve_yzyy"
+                    android:tag="findHistoryRongzi"
+                    android:text="仪征用印" />
+
+                <com.sogukj.pe.baselibrary.widgets.TipsView
+                    android:id="@+id/tv_wzyy"
+                    style="@style/ItemGridApprove"
+                    android:drawableTop="@drawable/ic_approve_wzyy"
+                    android:tag="findTzanli"
+                    android:text="外资用印" />
+
+            </GridLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/divider2" />
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <View
+                    android:layout_width="5dp"
+                    android:layout_height="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/color_main" />
+
+                <TextView
+                    style="@style/SoguTextNormal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="用印申请" />
+            </LinearLayout>
+
+            <GridLayout
+                android:id="@+id/gl_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:columnCount="3"
+                android:padding="10dp"
+                android:rowCount="2">
+
+                <com.sogukj.pe.baselibrary.widgets.TipsView
+                    android:id="@+id/tv_lxsp"
+                    style="@style/ItemGridApprove"
+                    android:drawableTop="@drawable/ic_approve_lxsp"
+                    android:tag="findHistoryRongzi"
+                    android:text="立项审批" />
+
+                <com.sogukj.pe.baselibrary.widgets.TipsView
+                    android:id="@+id/tv_tzjcsp"
+                    style="@style/ItemGridApprove"
+                    android:drawableTop="@drawable/ic_approve_tzjcsp"
+                    android:tag="findTzanli"
+                    android:text="投资决策审批" />
+
+                <com.sogukj.pe.baselibrary.widgets.TipsView
+                    android:id="@+id/tv_thjcsp"
+                    style="@style/ItemGridApprove"
+                    android:drawableTop="@drawable/ic_approve_thjcsp"
+                    android:tag="findHistoryRongzi"
+                    android:text="投后决策审批" />
+
+                <com.sogukj.pe.baselibrary.widgets.TipsView
+                    android:id="@+id/tv_ttjcsp"
+                    style="@style/ItemGridApprove"
+                    android:drawableTop="@drawable/ic_approve_tcjcsp"
+                    android:tag="findTzanli"
+                    android:text="退出决策审批" />
+
+            </GridLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

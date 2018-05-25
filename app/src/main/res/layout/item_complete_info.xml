@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <View
+        android:id="@+id/gray_point"
+        android:layout_width="6.5dp"
+        android:layout_height="6.5dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/gray_point" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/gray_point"
+        android:layout_marginLeft="27dp"
+        android:layout_alignBottom="@+id/completeTime"
+        android:layout_marginTop="8dp"
+        android:background="#f1f1f1" />
+
+
+    <TextView
+        android:id="@+id/completeInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/gray_point"
+        android:text="对赌协议签订（这里是内容这里是内容这里是内容这里是内容） "
+        android:textColor="@color/text_1"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/completeTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/completeInfo"
+        android:layout_below="@+id/completeInfo"
+        android:layout_marginTop="10dp"
+        android:text="2015年11月13日 14:02"
+        android:textColor="#adb1be"
+        android:textSize="10sp"
+        android:paddingBottom="8dp"/>
+</RelativeLayout>

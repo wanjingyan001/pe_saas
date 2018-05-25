@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/mNestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/nestedRoot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:paddingTop="20dp">
+
+            <TextView
+                android:id="@+id/tv_companyName"
+                style="@style/SoguTextNormal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:visibility="gone"
+                tools:text="疑似实际控股权控制路径" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:text="疑似控制人"
+                    android:textColor="@color/text_2" />
+
+                <TextView
+                    android:id="@+id/tv_controllerName"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorBlue"
+                    tools:text="疑似控制人" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/SoguTextMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:text="占股比例"
+                    android:textColor="@color/text_2" />
+
+                <TextView
+                    android:id="@+id/tv_mainPercent"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorBlue"
+                    tools:text="疑似控制人" />
+
+            </LinearLayout>
+
+            <!--<include layout="@layout/c" />-->
+
+            <TextView
+                android:id="@+id/lunci"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="轮次：C轮"
+                android:layout_marginBottom="20dp"
+                android:textColor="@color/text_1"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

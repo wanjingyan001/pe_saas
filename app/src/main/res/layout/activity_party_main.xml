@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.sogukj.pe.ui.partyBuild.PartyMainActivity">
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:background="@color/party_toolbar_red"
+        app:layout_constraintTop_toTopOf="parent"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:theme="@style/AppTheme.AppBarOverlay">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="32dp"
+            android:layout_height="match_parent"
+            android:scaleType="center"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/icon_party_back" />
+
+
+        <TextView
+            android:id="@id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_large"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/addTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:padding="18dp"
+            android:text="添加"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+
+    </android.support.v7.widget.Toolbar>
+
+    <!--<android.support.design.widget.TabLayout-->
+        <!--android:id="@+id/tabLayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/party_toolbar_red"-->
+        <!--app:tabBackground="@color/party_toolbar_red"-->
+        <!--app:tabGravity="fill"-->
+        <!--app:tabIndicatorColor="@color/party_toolbar_red"-->
+        <!--app:tabIndicatorHeight="0dp"-->
+        <!--app:tabMode="fixed"-->
+        <!--app:tabSelectedTextColor="@color/white"-->
+        <!--app:tabTextColor="@color/party_tab_color">-->
+
+    <!--</android.support.design.widget.TabLayout>-->
+
+    <com.sogukj.pe.baselibrary.widgets.PagerIndicator
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:pi_disableTensileSlidingBlock="true"
+        android:background="@color/party_toolbar_red"
+        app:pi_bottomLineHeight="4dp"
+        app:pi_allowWidthFull="true"
+        app:pi_slidingBlock="@drawable/image_sliding_block">
+
+    </com.sogukj.pe.baselibrary.widgets.PagerIndicator>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/contentPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v4.view.ViewPager>
+
+
+</LinearLayout>

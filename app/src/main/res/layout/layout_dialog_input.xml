@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_fill_white">
+
+    <ImageView
+        android:id="@+id/close"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/close"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:text="请填写无法参加原因"
+        android:textColor="@color/text_1"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+
+    <EditText
+        android:id="@+id/reasonEdt"
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:layout_below="@+id/title"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_border_gray"
+        android:textColor="@color/text_1"
+        android:gravity="top|left"
+        android:hint="请输入审批意见(选填)"
+        android:padding="10dp" />
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/reasonEdt"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_btn_blue"
+        android:text="提交"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>

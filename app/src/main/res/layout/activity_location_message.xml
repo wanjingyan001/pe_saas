@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.sogukj.pe.ui.IM.newlocation.activity.LocationMessageActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:theme="@style/AppTheme.AppBarOverlay">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:src="@drawable/icon_im_back" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="位置"
+                android:textColor="@color/text_1"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/divider2"/>
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <com.amap.api.maps.MapView
+        android:id="@+id/mAddressMap"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+    </com.amap.api.maps.MapView>
+    <Button
+        android:id="@+id/locationBtn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/icon_location_btn"
+        app:layout_constraintBottom_toBottomOf="@+id/mAddressMap"
+        app:layout_constraintStart_toStartOf="@+id/mAddressMap" />
+
+
+</android.support.constraint.ConstraintLayout>

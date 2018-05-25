@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_item_list"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/SoguTextNormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="--" />
+
+        <TextView
+            android:id="@+id/tv_purchaser"
+            style="@style/SoguTextMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="--"
+            android:textColor="@color/text_2"
+            tools:text="发行人" />
+        <TextView
+            android:id="@+id/tv_time"
+            style="@style/SoguTextMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="--"
+            android:textColor="@color/text_2"
+            tools:text="发行人" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow_r" />
+</LinearLayout>

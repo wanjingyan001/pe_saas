@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    tools:context="com.sogukj.pe.ui.approve.SealApproveActivity">
+
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:background="?attr/colorPrimary"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:theme="@style/AppTheme.AppBarOverlay">
+
+        <ImageView
+            android:id="@+id/toolbar_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:src="@drawable/sogu_ic_back"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@id/toolbar_title"
+            style="@style/SoguTextTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:singleLine="true"
+            tools:text="主    页" />
+
+        <TextView
+            android:id="@+id/toolbar_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textColor="@color/white" />
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/ll_user"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <com.sogukj.pe.widgets.CircleImageView
+                            android:id="@+id/iv_user"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_marginRight="10dp" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toRightOf="@+id/iv_user"
+                                android:text="申请人"
+                                android:textColor="@color/text_1" />
+
+                            <TextView
+                                android:id="@+id/tv_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toRightOf="@+id/iv_user"
+                                android:text="申请人"
+                                android:textColor="@color/text_2" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="18dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_gravity="right|top"
+                        android:background="@drawable/bg_tag_filter_0"
+                        android:paddingLeft="6dp"
+                        android:paddingRight="6dp"
+                        android:textSize="10sp"
+                        tools:text="审批编号：GJ000111" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tv_info"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ll_user"
+                    android:layout_marginTop="30dp"
+                    android:lineSpacingMultiplier="1.5" />
+
+
+                <include
+                    android:id="@+id/part1"
+                    layout="@layout/seal_approve_part1" />
+
+                <include
+                    android:id="@+id/part2"
+                    layout="@layout/seal_approve_part2" />
+
+                <include
+                    android:id="@+id/part3"
+                    layout="@layout/seal_approve_part3" />
+
+                <LinearLayout
+                    android:id="@+id/cs_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="11dp"
+                        android:layout_marginTop="11dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="5dp"
+                            android:layout_height="10dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@color/color_main" />
+
+                        <TextView
+                            style="@style/SoguTextNormal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="抄送人" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/divider" />
+
+                    <com.sogukj.pe.baselibrary.widgets.MyGridView
+                        android:id="@+id/grid_chaosong_to"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:horizontalSpacing="10dp"
+                        android:numColumns="6"
+                        android:verticalSpacing="12dp" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btn_single"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/bg_btn_blue"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    tools:text="审批完成" />
+
+                <LinearLayout
+                    android:id="@+id/ll_twins"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <Button
+                        android:id="@+id/btn_left"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_rect_blue"
+                        android:text="导出审批单"
+                        android:textColor="@color/colorBlue"
+                        android:textSize="18sp" />
+
+                    <Button
+                        android:id="@+id/btn_right"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_btn_blue"
+                        android:text="用印完成"
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_state_agreed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|top"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/ic_flow_state_agree"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/iv_state_signed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|top"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/ic_flow_state_signed"
+                android:visibility="gone" />
+        </FrameLayout>
+    </ScrollView>
+</LinearLayout>

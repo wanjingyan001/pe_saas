@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="12dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:max="120"
+            android:progressDrawable="@drawable/pb" />
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/rate_pingjia"
+            android:gravity="right"
+            android:padding="3dp"
+            android:text="评分"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/SoguTextMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="投资项目尽调（20%）" />
+
+    <TextView
+        android:id="@+id/desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:lineSpacingExtra="2dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="协助投资经理完成公司、行业的尽调材料信息搜集，协助投资经理完成项目尽调材料、投资建议书等报告制作；协助投资经理完成对拟投企业管理层的访谈。"
+        android:textColor="@color/text_3"
+        android:textSize="@dimen/text_size_samll" />
+
+    <LinearLayout
+        android:id="@+id/jixiao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/bg_border_r4"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:lineSpacingExtra="2dp"
+            android:text="协助投资经理完成公司"
+            android:textColor="@color/text_3"
+            android:textSize="@dimen/text_size_samll" />
+
+        <TextView
+            android:id="@+id/title2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:lineSpacingExtra="2dp"
+            android:text="协助投资经理完成公司"
+            android:textColor="@color/text_3"
+            android:textSize="@dimen/text_size_samll" />
+
+    </LinearLayout>
+
+</LinearLayout>

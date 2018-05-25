@@ -1,0 +1,15 @@
+<resources>
+    <dimen name="page_left">20dp</dimen>
+    <dimen name="page_right">20dp</dimen>
+    <dimen name="text_size_samll">12sp</dimen>
+    <dimen name="text_size_medium">14sp</dimen>
+    <dimen name="text_size_normal">16sp</dimen>
+    <dimen name="text_size_large">18sp</dimen>
+    <dimen name="chart_margin_left">40dp</dimen>
+    <dimen name="chart_margin_bottom">20dp</dimen>
+
+    <dimen name="chart_height">136dp</dimen>
+    <dimen name="chart_exeffect_height">150dp</dimen>
+    <dimen name="toolbar_height">56dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+</resources>

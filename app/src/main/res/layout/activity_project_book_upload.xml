@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f5f7fc"
+    android:orientation="vertical"
+    tools:context="com.sogukj.pe.ui.htdata.ProjectBookUploadActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/text_1"
+                android:textSize="18sp"
+                tools:text="上海诗襄科技项目" />
+
+            <com.sogukj.pe.widgets.CircleImageView
+                android:id="@+id/iv_user"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_margin="8dp"
+                android:src="@drawable/img_logo_user" />
+
+            <TextView
+                android:id="@+id/tv_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="user" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="阶段："
+                android:textColor="@color/text_3"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_step"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="立项阶段"
+                android:textColor="@color/text_3"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/project_upload_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="30dp"-->
+            <!--android:background="@drawable/bg_fill_white"-->
+            <!--android:orientation="vertical"-->
+            <!--android:padding="15dp">-->
+
+
+            <!--<FrameLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginBottom="15dp">-->
+
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/ll_upload_full"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:background="@color/white"-->
+                    <!--android:orientation="vertical">-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_file"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:textColor="@color/text_1"-->
+                        <!--android:textSize="14sp"-->
+                        <!--tools:text="关于投资诗襄信息科技公司的第三届第五次分组立项申请书·pdf" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_time"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginTop="10dp"-->
+                        <!--android:textColor="@color/text_3"-->
+                        <!--android:textSize="14sp"-->
+                        <!--tools:text="2017/07/06 08:00" />-->
+                <!--</LinearLayout>-->
+
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/ll_upload_empty"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:background="@color/white"-->
+                    <!--android:gravity="center">-->
+
+                    <!--<ImageView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:src="@drawable/ic_project_book_upload_empty" />-->
+                <!--</LinearLayout>-->
+            <!--</FrameLayout>-->
+
+            <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:background="#f1f1f1" />-->
+
+            <!--<LinearLayout-->
+                <!--android:id="@+id/ll_group"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:gravity="center"-->
+                <!--android:orientation="horizontal">-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="分类"-->
+                    <!--android:textColor="@color/text_2"-->
+                    <!--android:textSize="14sp" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_group"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:background="@color/white"-->
+                    <!--android:gravity="right"-->
+                    <!--android:textColor="@color/text_1"-->
+                    <!--android:textSize="14sp" />-->
+
+                <!--<ImageView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="10dp"-->
+                    <!--android:src="@drawable/ic_arrow_r" />-->
+            <!--</LinearLayout>-->
+
+            <!--<LinearLayout-->
+                <!--android:id="@+id/ll_class"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:gravity="center"-->
+                <!--android:orientation="horizontal">-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="标签"-->
+                    <!--android:textColor="@color/text_2"-->
+                    <!--android:textSize="14sp" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_class"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:background="@color/white"-->
+                    <!--android:gravity="right"-->
+                    <!--android:textColor="@color/text_1"-->
+                    <!--android:textSize="14sp" />-->
+
+                <!--<ImageView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="10dp"-->
+                    <!--android:src="@drawable/ic_arrow_r" />-->
+            <!--</LinearLayout>-->
+
+        <!--</LinearLayout>-->
+
+        <!--<Button-->
+            <!--android:id="@+id/btn_upload"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="45dp"-->
+            <!--android:background="@drawable/bg_btn_blue"-->
+            <!--android:text="上传文件"-->
+            <!--android:textSize="18sp" />-->
+    </LinearLayout>
+</LinearLayout>

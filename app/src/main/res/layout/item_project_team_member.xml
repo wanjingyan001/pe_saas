@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/divider_bottom2"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <com.sogukj.pe.widgets.CircleImageView
+        android:id="@+id/iv_user"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:src="@drawable/img_logo_user" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_name"
+                style="@style/SoguTextNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:gravity="left"
+                android:text="--"
+                android:textColor="@color/text_1"
+                tools:text="搜股(北京)" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                style="@style/SoguTextMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="--"
+                android:textColor="@color/text_2"
+                tools:text="注销" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_desc"
+            style="@style/SoguTextMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="--"
+            android:textColor="@color/text_2" />
+    </LinearLayout>
+</LinearLayout>

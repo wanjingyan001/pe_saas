@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/AppBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="116dp"
+        android:background="@drawable/bg_header">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:title="">
+
+            <android.support.v7.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/toolbar_height"
+                android:background="@color/transparent"
+                app:contentInsetEnd="0dp"
+                app:contentInsetLeft="0dp"
+                app:contentInsetRight="0dp"
+                app:contentInsetStart="0dp"
+                app:layout_collapseMode="pin">
+
+                <ImageView
+                    android:id="@+id/back"
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:scaleType="center"
+                    android:src="@drawable/sogu_ic_back" />
+
+                <TextView
+                    android:id="@id/toolbar_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingRight="56dp"
+                    android:text="高管征信"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_large"
+                    android:textStyle="bold" />
+            </android.support.v7.widget.Toolbar>
+
+            <LinearLayout
+                android:id="@+id/down"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="56dp"
+                android:orientation="horizontal"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="30dp"
+                    android:letterSpacing="0.04"
+                    android:lineSpacingExtra="0sp"
+                    android:text="添加查询人员，开始查询"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/top_pic" />
+
+            </LinearLayout>
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:letterSpacing="0.04"
+                android:lineSpacingExtra="0sp"
+                android:text="征信说明"
+                android:textColor="@color/text_1"
+                android:textSize="22sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="15dp"
+                android:letterSpacing="0.04"
+                android:lineSpacingExtra="8sp"
+                android:text="征信查询从4个维度对目标人物进行检测，分别是以下四点"
+                android:textColor="@color/shareholder_text_gray"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="20dp"
+                android:drawableLeft="@drawable/num1"
+                android:drawablePadding="15dp"
+                android:gravity="center"
+                android:letterSpacing="0.04"
+                android:lineSpacingExtra="0sp"
+                android:text="是否为公安危险身份"
+                android:textColor="@color/text_1"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="20dp"
+                android:drawableLeft="@drawable/num2"
+                android:drawablePadding="15dp"
+                android:gravity="center"
+                android:letterSpacing="0.04"
+                android:lineSpacingExtra="0sp"
+                android:text="是否曾经涉诉"
+                android:textColor="@color/text_1"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="20dp"
+                android:drawableLeft="@drawable/num3"
+                android:drawablePadding="15dp"
+                android:gravity="center"
+                android:letterSpacing="0.04"
+                android:lineSpacingExtra="0sp"
+                android:text="是否因未执行法院判决而成为失信人"
+                android:textColor="@color/text_1"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="20dp"
+                android:drawableLeft="@drawable/num4"
+                android:drawablePadding="15dp"
+                android:gravity="center"
+                android:letterSpacing="0.04"
+                android:lineSpacingExtra="0sp"
+                android:text="是否为银行风险用户"
+                android:textColor="@color/text_1"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="30dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="65dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/zhengxin_icon" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp"
+                    android:layout_marginLeft="15dp"
+                    android:background="@drawable/toast_icon"
+                    android:gravity="center"
+                    android:letterSpacing="0.04"
+                    android:lineSpacingExtra="0sp"
+                    android:paddingBottom="10dp"
+                    android:text="帮助机构规避高危人员风险"
+                    android:textColor="#4390f0"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/start"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:letterSpacing="0.04"
+                android:lineSpacingExtra="0sp"
+                android:text="开始征信"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+</android.support.design.widget.CoordinatorLayout>

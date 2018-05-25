@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_record"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="com.sogukj.pe.ui.project.RecordTraceActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <FrameLayout
+        android:id="@+id/contentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="25dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/bg_round_linearlayout"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/company_name"
+                style="@style/SoguTextLarge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="25dp"
+                android:text="上海搜股科技" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="25dp"
+                android:background="@color/divider2" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <TableRow
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="投资成本" />
+
+                    <TextView
+                        android:id="@+id/tv_investCost"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="投资日期" />
+
+                    <TextView
+                        android:id="@+id/tv_investDate"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="股权比例" />
+
+                    <TextView
+                        android:id="@+id/tv_equityRatio"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="风控经理" />
+
+                    <TextView
+                        android:id="@+id/tv_riskControls"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+
+                <TableRow
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="投资经理" />
+
+                    <TextView
+                        android:id="@+id/tv_invests"
+                        style="@style/ItemTextValue" />
+                </TableRow>
+            </TableLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/divider2" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="75dp"
+            android:layout_height="25dp"
+            android:layout_gravity="right"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rectangle"
+            android:gravity="center"
+            android:letterSpacing="0.04"
+            android:lineSpacingExtra="2sp"
+            android:text="投后管理"
+            android:textColor="#ffffff"
+            android:textSize="12sp" />
+
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/iv_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="70dp"
+        android:src="@drawable/img_empty"
+        android:visibility="gone" />
+</LinearLayout>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:background="@color/white"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:theme="@style/AppTheme.AppBarOverlay">
+
+        <FrameLayout
+            android:id="@+id/toolbar_back"
+            android:layout_width="55dp"
+            android:layout_height="55dp">
+
+            <com.sogukj.pe.widgets.CircleImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:src="@drawable/sogu_ic_back"
+                app:civ_border_color="#4dffffff"
+                app:civ_border_width="1dp" />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="海通创新"
+            android:textColor="@color/text_1"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/toolbar_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:src="@drawable/sogu_ic_menu_help"
+            android:visibility="gone" />
+    </android.support.v7.widget.Toolbar>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/divider" />
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:id="@+id/refresh_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
+                android:layout_marginTop="5dp"
+                android:clipChildren="false">
+
+                <com.sogukj.pe.baselibrary.widgets.NoLeftScrollViewPager
+                    android:id="@+id/noleftviewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp" />
+
+                <ImageView
+                    android:id="@+id/iv_empty"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/zw"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:id="@+id/pb"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:background="@color/transparent"
+                    android:src="@drawable/loading" />
+            </FrameLayout>
+
+            <ImageView
+                android:id="@+id/party_build"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/bg_party_build" />
+
+            <android.support.v7.widget.GridLayout
+                android:id="@+id/grid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="5dp"
+                app:columnCount="4"
+                app:orientation="horizontal"
+                app:rowCount="2">
+
+                <com.sogukj.pe.widgets.TipsViewMain2
+                    android:id="@+id/tv_rl"
+                    android:layout_width="0dp"
+                    android:layout_height="95dp"
+                    app:icon_main="@drawable/ap"
+                    app:layout_columnWeight="1"
+                    app:title="安排" />
+
+                <com.sogukj.pe.widgets.TipsViewMain2
+                    android:id="@+id/tv_msg"
+                    android:layout_width="0dp"
+                    android:layout_height="95dp"
+                    app:icon_main="@drawable/qb"
+                    app:layout_columnWeight="1"
+                    app:title="情报" />
+
+                <com.sogukj.pe.widgets.TipsViewMain2
+                    android:id="@+id/tv_sp"
+                    android:layout_width="0dp"
+                    android:layout_height="95dp"
+                    app:icon_main="@drawable/sp"
+                    app:layout_columnWeight="1"
+                    app:title="审批" />
+
+                <com.sogukj.pe.widgets.TipsViewMain2
+                    android:id="@+id/tv_weekly"
+                    android:layout_width="0dp"
+                    android:layout_height="95dp"
+                    app:icon_main="@drawable/zb"
+                    app:layout_columnWeight="1"
+                    app:title="周报" />
+
+                <com.sogukj.pe.widgets.TipsViewMain2
+                    android:id="@+id/tv_zhengxin"
+                    android:layout_width="0dp"
+                    android:layout_height="95dp"
+                    app:icon_main="@drawable/zx"
+                    app:layout_columnWeight="1"
+                    app:title="征信" />
+            </android.support.v7.widget.GridLayout>
+        </LinearLayout>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+</LinearLayout>

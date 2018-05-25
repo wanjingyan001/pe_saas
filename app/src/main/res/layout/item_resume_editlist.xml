@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.mcxtzhang.swipemenulib.SwipeMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/educationLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/contentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingBottom="14dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="10dp"
+        android:paddingTop="18dp">
+
+        <ImageView
+            android:id="@+id/deleteImg"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:visibility="gone"
+            android:background="@drawable/icon_red_delete" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/deleteImg"
+            android:text="上海交通大学"
+            android:textColor="@color/text_1"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/name"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@+id/deleteImg"
+            android:text="2012/09-2016/06"
+            android:textColor="@color/text_3"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/ic_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_right" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/delete"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:background="@color/fund_deep_red"
+        android:gravity="center"
+        android:text="删除"
+        android:textColor="@color/white" />
+
+
+</com.mcxtzhang.swipemenulib.SwipeMenuLayout>

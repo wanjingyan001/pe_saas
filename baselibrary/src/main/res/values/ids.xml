@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="taskLayout" type="id"/>
+    <item name="typeTv" type="id"/>
+    <item name="confirmStatus" type="id"/>
+    <item name="reason" type="id"/>
+    <item name="notAttend" type="id"/>
+    <item name="canAttend" type="id"/>
+    <item name="organizationList" type="id"/>
+    <item name="contactLayout" type="id"/>
+    <item type="id" name="statusbarutil_fake_status_bar_view" />
+    <item type="id" name="statusbarutil_translucent_view" />
+</resources>

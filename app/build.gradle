@@ -1,0 +1,220 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    defaultConfig {
+        applicationId "com.sogukj.pe"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        multiDexEnabled true
+        versionCode 26
+        versionName "4.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            // 设置支持的SO库架构
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
+            //'x86','x86_64',
+        }
+    }
+    signingConfigs {
+        release {
+            keyAlias 'stockalert'
+            keyPassword 'ddx2016'
+            storeFile file('keystore.jks')
+            storePassword 'ddx2016'
+        }
+    }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/BCKEY.DSA'
+        exclude 'META-INF/BCKEY.SF'
+    }
+    buildTypes {
+        release {
+            // Zipalign优化
+//            zipAlignEnabled true
+            // 移除无用的resource文件
+//            shrinkResources true
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            混淆规则坑太多,先不用了
+            minifyEnabled false
+            // Zipalign优化
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            minifyEnabled false
+            debuggable true
+            jniDebuggable true
+            signingConfig signingConfigs.release
+
+        }
+        applicationVariants.all { variant ->
+            def buildName
+            variant.outputs.all { output ->
+                def outputFile = output.outputFile
+                if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                    variant.productFlavors.each { product ->
+                        buildName = product.name
+                    }
+                    def fileName = "${buildName}_${variant.buildType.name}_${defaultConfig.versionName}-${releaseTime()}.apk"
+                    outputFileName = fileName
+                }
+            }
+        }
+    }
+    lintOptions {
+        checkReleaseBuilds false
+    }
+    dexOptions {
+        dexInProcess true
+        preDexLibraries true
+        javaMaxHeapSize "4g"//越大越好
+        incremental true
+    }
+
+    flavorDimensions "default"
+    productFlavors {
+        pe {
+            dimension "default"
+            applicationId "com.sogukj.pe"
+            resValue "string", "app_name", "海通创新"
+            resValue "bool", "isrRank", 'true'
+            buildConfigField "String", "ENVIRONMENT", '"pe"'
+            buildConfigField "String", "FILEPROVIDER", '"com.sogukj.pe.fileProvider"'
+            manifestPlaceholders = [appId               : "com.sogukj.pe",
+                                    app_icon            : "@mipmap/ic_launcher_pe",
+                                    AMAP_KEY            : "9204f7dcdd8c2beba10c94dbe96bd062",
+                                    IM_KEY              : "a0af02d86ecfb1ee160dde8369a5035e",
+                                    Umeng_KEY           : "59b781c607fe652e44000165",
+                                    Umeng_MESSAGE_SECRET: "a4bb361310d9aee916f2cc43c5dbda5c",
+                                    NIMContentProvider  : "com.sogukj.pe.ipc.provider",
+                                    FileProvider        : "com.sogukj.pe.fileProvider",
+                                    UMENG_CHANNEL_VALUE : "pe"]
+        }
+        civc {
+            dimension "default"
+            applicationId "com.sougukj.civc"
+            resValue "string", "app_name", "中缔资本"
+            resValue "bool", "isrRank", 'true'
+            buildConfigField "String", "ENVIRONMENT", '"civc"'
+            buildConfigField "String", "FILEPROVIDER", '"com.sougukj.civc.fileProvider"'
+            manifestPlaceholders = [appId               : "com.sougukj.civc",
+                                    app_icon            : "@mipmap/ic_launcher_zd",
+                                    AMAP_KEY            : "36f1dcf32ce10480534b61fbfa1cebff",
+                                    IM_KEY              : "91e18e33451e352ee77614c9cddeb5f0",
+                                    Umeng_KEY           : "5aa746308f4a9d365a0001c1",
+                                    Umeng_MESSAGE_SECRET: "d2962317e2df71aa126b08585f45dece",
+                                    NIMContentProvider  : "com.sougukj.civc.ipc.provider",
+                                    FileProvider        : "com.sougukj.civc.fileProvider",
+                                    UMENG_CHANNEL_VALUE : "civc"]
+        }
+        ht {
+            dimension "default"
+            applicationId "com.sogukj.pe.ht"
+            resValue "string", "app_name", "海通创新"
+            resValue "bool", "isrRank", 'true'
+            buildConfigField "String", "ENVIRONMENT", '"ht"'
+            buildConfigField "String", "FILEPROVIDER", '"com.sogukj.pe.ht.fileProvider"'
+            manifestPlaceholders = [appId               : "com.sogukj.pe.ht",
+                                    app_icon            : "@mipmap/ic_launcher",
+                                    AMAP_KEY            : "9204f7dcdd8c2beba10c94dbe96bd062",
+                                    IM_KEY              : "5d8ada31fe2ba9cb419b5f63a95e8756",
+                                    Umeng_KEY           : "59ddf11e8f4a9d7c4b000116",
+                                    Umeng_MESSAGE_SECRET: "8a3cd80e07007a0463e9b12f758b727b",
+                                    NIMContentProvider  : "com.sogukj.pe.ht.ipc.provider",
+                                    FileProvider        : "com.sogukj.pe.ht.fileProvider",
+                                    UMENG_CHANNEL_VALUE : "ht"]
+        }
+        kuake {
+            dimension "default"
+            applicationId "com.sogukj.pe"
+            resValue "string", "app_name", "夸克"
+            resValue "bool", "isrRank", 'true'
+            buildConfigField "String", "ENVIRONMENT", '"kk"'
+            buildConfigField "String", "FILEPROVIDER", '"com.sogukj.pe.fileProvider"'
+            manifestPlaceholders = [appId               : "com.sogukj.pe",
+                                    app_icon            : "@drawable/img_logo_splash_kk",
+                                    AMAP_KEY            : "9204f7dcdd8c2beba10c94dbe96bd062",
+                                    IM_KEY              : "a3f6ffcbceb4f42ec007a28d75098fdb",
+                                    Umeng_KEY           : "59b781c607fe652e44000165",
+                                    Umeng_MESSAGE_SECRET: "a4bb361310d9aee916f2cc43c5dbda5c",
+                                    NIMContentProvider  : "com.sogukj.pe.ipc.provider",
+                                    FileProvider        : "com.sogukj.pe.fileProvider",
+                                    UMENG_CHANNEL_VALUE : "kk"]
+        }
+        yageer {
+            dimension "default"
+            applicationId "com.sogukj.pe"
+            resValue "string", "app_name", "雅戈尔"
+            resValue "bool", "isrRank", 'true'
+            buildConfigField "String", "ENVIRONMENT", '"yge"'
+            buildConfigField "String", "FILEPROVIDER", '"com.sogukj.pe.fileProvider"'
+            manifestPlaceholders = [appId               : "com.sogukj.pe",
+                                    app_icon            : "@drawable/img_logo_splash_yge",
+                                    AMAP_KEY            : "9204f7dcdd8c2beba10c94dbe96bd062",
+                                    IM_KEY              : "1b5749bc47e9f1eef0cd2cff240dc7da",
+                                    Umeng_KEY           : "59b781c607fe652e44000165",
+                                    Umeng_MESSAGE_SECRET: "a4bb361310d9aee916f2cc43c5dbda5c",
+                                    NIMContentProvider  : "com.sogukj.pe.ipc.provider",
+                                    FileProvider        : "com.sogukj.pe.fileProvider",
+                                    UMENG_CHANNEL_VALUE : "yge"]
+        }
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+}
+
+repositories {
+    maven {
+        url "http://dl.bintray.com/lukaville/maven"
+    }
+    mavenCentral()
+}
+
+static def releaseTime() {
+    return new Date().format("yyyy.MM.dd", TimeZone.getTimeZone("UTC"))
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(':baselibrary')
+    compile project(':calendar')
+    compile project(':zxingLib')
+    compile project(':uikit')
+    compile project(':stack-layout')
+    compile project(':PushSDK')
+    compile project(':shareSDK')
+    //3D地图so及jar
+    implementation "com.amap.api:3dmap:${map_version}"
+    //定位功能
+    implementation "com.amap.api:location:${map_location_version}"
+    //搜索功能
+    implementation "com.amap.api:search:${map_version}"
+    implementation 'androidx.core:core-ktx:0.3'
+    implementation 'com.github.gcacace:signature-pad:1.2.1'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
+}

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/divider_bottom"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/color"
+        android:layout_width="6dp"
+        android:layout_height="match_parent"
+        android:background="#aed4ab" />
+
+    <TextView
+        android:id="@+id/type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="18dp"
+        android:letterSpacing="0.04"
+        android:lineSpacingExtra="0sp"
+        android:text="病假"
+        android:textColor="#282828"
+        android:textSize="14sp" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_margin="15dp"
+        android:background="#f1f1f1" />
+
+    <TextView
+        android:id="@+id/shengyu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:letterSpacing="0.04"
+        android:lineSpacingExtra="0sp"
+        android:text="剩余20.5小时"
+        android:textColor="#808080"
+        android:textSize="14sp" />
+</LinearLayout>

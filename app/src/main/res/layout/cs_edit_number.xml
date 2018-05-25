@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="100dp"
+    android:layout_height="20dp"
+    android:background="@drawable/bg_rect_gray"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_minus"
+        android:layout_width="30dp"
+        android:layout_height="20dp"
+        android:background="@drawable/bg_rect_gray"
+        android:gravity="center"
+        android:text="-" />
+
+    <EditText
+        android:id="@+id/et_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@color/white"
+        android:digits="1234567890"
+        android:gravity="center"
+        android:inputType="numberSigned"
+        android:text="0"
+        android:textColor="@color/text_1"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/tv_plus"
+        android:layout_width="30dp"
+        android:layout_height="20dp"
+        android:background="@drawable/bg_rect_gray"
+        android:gravity="center"
+        android:text="+" />
+</LinearLayout>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_totalscore"
+    android:orientation="vertical"
+    tools:context="com.sogukj.pe.ui.score.TotalScoreActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.sogukj.pe.widgets.CircleImageView
+            android:id="@+id/icon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            app:civ_border_color="#66FFFFFF"
+            app:civ_border_width="2dp" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:text="张三"
+            android:textColor="#FFEF9687"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <com.sogukj.pe.widgets.TotalCircleScoreBoard
+        android:id="@+id/total"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp" />
+
+    <LinearLayout
+        android:id="@+id/ll_finish"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.sogukj.pe.widgets.SingleCircleScoreBoard
+                android:id="@+id/single1"
+                android:layout_width="66dp"
+                android:layout_height="66dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="业绩考核"
+                android:textColor="#FFF57069"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.sogukj.pe.widgets.SingleCircleScoreBoard
+                android:id="@+id/single2"
+                android:layout_width="66dp"
+                android:layout_height="66dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="履职能力评价"
+                android:textColor="#FFF57069"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.sogukj.pe.widgets.SingleCircleScoreBoard
+                android:id="@+id/single3"
+                android:layout_width="66dp"
+                android:layout_height="66dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="调整项"
+                android:textColor="#FFF57069"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/ll_unfinish"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:text="尚未完成计算\n正在等待其他同事完成评分"
+        android:textColor="#FFF57069"
+        android:textSize="20sp"
+        android:visibility="gone" />
+
+</LinearLayout>

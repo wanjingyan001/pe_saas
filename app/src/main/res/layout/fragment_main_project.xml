@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff7f9fc"
+    android:fitsSystemWindows="true">
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/mAppBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:elevation="0dp">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/toolbar_height"
+                android:background="?attr/colorPrimary"
+                app:contentInsetEnd="0dp"
+                app:contentInsetLeft="0dp"
+                app:contentInsetRight="0dp"
+                app:contentInsetStart="0dp"
+                app:layout_scrollFlags="scroll|enterAlways">
+
+                <FrameLayout
+                    android:id="@+id/headerIcon"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp">
+
+                    <com.sogukj.pe.widgets.CircleImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        app:civ_border_width="1dp"
+                        app:civ_border_color="#4dffffff"
+                        android:src="@drawable/sogu_ic_back" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@id/toolbar_title"
+                    style="@style/SoguTextTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="项目管理" />
+
+                <ImageView
+                    android:id="@+id/fb_search"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="right"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_search" />
+
+                <ImageView
+                    android:id="@+id/fb_add"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="right"
+                    android:padding="10dp"
+                    android:src="@drawable/tj_main" />
+
+            </android.support.v7.widget.Toolbar>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#f7f9fc">
+
+                <View
+                    android:id="@+id/up_tab"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:background="@color/colorPrimary" />
+
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/tab_bg_1"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    app:tabGravity="fill"
+                    app:tabIndicatorHeight="0dp"
+                    app:tabMode="fixed"
+                    app:tabSelectedTextColor="@color/text_1"
+                    app:tabTextColor="@color/text_3">
+
+                    <android.support.design.widget.TabItem
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:icon="@drawable/dy_1_select"
+                        android:text="调研" />
+
+                    <android.support.design.widget.TabItem
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:icon="@drawable/cb_1_unselect"
+                        android:text="储备" />
+
+                    <android.support.design.widget.TabItem
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:icon="@drawable/lx_1_unselect"
+                        android:text="立项" />
+
+                    <android.support.design.widget.TabItem
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:icon="@drawable/yt_1_unselect"
+                        android:text="已投" />
+
+                    <android.support.design.widget.TabItem
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:icon="@drawable/tc_1_unselect"
+                        android:text="退出" />
+                </android.support.design.widget.TabLayout>
+            </FrameLayout>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    </android.support.design.widget.CoordinatorLayout>
+
+    <RelativeLayout
+        android:id="@+id/ll_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <com.sogukj.pe.widgets.SearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_height" />
+
+        <LinearLayout
+            android:id="@+id/ll_result"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/search_view"
+            android:background="#f5f5f5"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_result_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:padding="10dp"
+                android:text="@string/tv_title_result_project"
+                android:textColor="@color/text_2"
+                android:textSize="14sp" />
+
+            <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+                android:id="@+id/refresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_result"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    app:layoutManager="LinearLayoutManager"
+                    tools:listitem="@layout/item_main_project" />
+            </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_history"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/search_view"
+            android:background="#f5f5f5"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/last_search_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_his_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:padding="10dp"
+                    android:text="最近搜索"
+                    android:textColor="@color/text_2"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/iv_clear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="10dp"
+                    android:src="@drawable/ic_delete" />
+            </LinearLayout>
+
+
+            <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/recycler_his"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                app:layoutManager="LinearLayoutManager"
+                tools:listitem="@layout/item_main_project" />
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</FrameLayout>

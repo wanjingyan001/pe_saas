@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="15dp"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:layout_marginTop="30dp"
+    android:id="@+id/send_layout"
+    android:background="@drawable/bg_round_linearlayout_this_send"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/SoguTextMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:text="发送给" />
+
+    <com.sogukj.pe.baselibrary.widgets.MyGridView
+        android:id="@+id/grid_send_to"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:horizontalSpacing="20dp"
+        android:numColumns="5"
+        android:verticalSpacing="12dp" />
+
+    <TextView
+        style="@style/SoguTextMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:text="抄送给" />
+
+    <com.sogukj.pe.baselibrary.widgets.MyGridView
+        android:id="@+id/grid_chaosong_to"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:horizontalSpacing="20dp"
+        android:numColumns="5"
+        android:verticalSpacing="12dp" />
+
+    <Button
+        android:id="@+id/btn_commit"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_btn_blue"
+        android:text="提交" />
+</LinearLayout>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="container" type="id" />
+    <item name="toolbar" type="id" />
+    <item name="toolbar_title" type="id" />
+    <item name="toolbar_back" type="id" />
+    <item name="tabcontent" type="id" />
+    <item name="chart_line_width" format="float" type="string">0.5</item>
+    <item name="chart_cjline_width" format="float" type="string">1.0</item>
+    <item name="chart_jjline_width" format="float" type="string">1.0</item>
+    <item name="chart_maline_width" format="float" type="string">1.0</item>
+    <item name="chart_dashline_width" format="float" type="string">0.5</item>
+    <item name="chart_hightline_width" format="float" type="string">0.8</item>
+    <item name="chart_shadow_width" format="float" type="string">0.5</item>
+    <item name="chart_text_size" format="float" type="string">10</item>
+</resources>

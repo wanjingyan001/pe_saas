@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    android:overScrollMode="never"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include layout="@layout/toolbar" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="#FFF7F9FC" />
+
+        <include layout="@layout/header" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="业绩考核"
+            android:textColor="#FF282828"
+            android:textSize="16sp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/templist"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#fff3f5f7"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="4dp"
+                android:layout_height="14dp"
+                android:layout_gravity="center|left"
+                android:background="#FFE95C4A" />
+
+            <TextView
+                style="@style/SoguTextNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:layout_marginLeft="16dp"
+                android:text="加分项" />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/add_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:id="@+id/ll_head"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#fff3f5f7"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="4dp"
+                android:layout_height="14dp"
+                android:layout_gravity="center|left"
+                android:background="#FFE95C4A" />
+
+            <TextView
+                style="@style/SoguTextNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:layout_marginLeft="16dp"
+                android:text="减分项" />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/minus_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:background="@color/white">
+
+            <Button
+                android:id="@+id/btn_commit"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:background="#D9D9D9"
+                android:text="提交" />
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

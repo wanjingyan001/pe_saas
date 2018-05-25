@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.sogukj.pe.ui.StockInfoActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <TextView
+        android:id="@+id/tv_price"
+        style="@style/SoguTextNormal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        android:text="0.00"
+        android:textSize="26sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="5dp">
+
+        <TextView
+            android:id="@+id/tv_name"
+            style="@style/SoguTextNormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="工商银行" />
+
+        <TextView
+            android:id="@+id/tv_obj"
+            style="@style/SoguTextNormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:textColor="@color/text_2"
+            tools:text="000000" />
+
+        <TextView
+            android:id="@+id/tv_zhangdie"
+            style="@style/SoguTextNormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="0.00" />
+
+        <TextView
+            android:id="@+id/tv_zhangfu"
+            style="@style/SoguTextNormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="0.00%" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/divider_bottom"
+        android:paddingBottom="5dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="5dp">
+
+        <TextView
+            style="@style/SoguTextSamll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="大盘实时走势"
+            android:textColor="@color/text_2" />
+
+        <TextView
+            android:id="@+id/tv_update_time"
+            style="@style/SoguTextSamll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/tv_update_time"
+            android:textColor="@color/text_2" />
+    </LinearLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/divider2">
+
+        <TableRow
+            android:background="@drawable/divider_bottom"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                style="@style/SoguTextMedium"
+                android:layout_marginRight="5dp"
+                android:text="涨停" />
+
+            <TextView
+                android:id="@+id/tv_zhangting"
+                style="@style/SoguTextMedium"
+                android:layout_weight="1"
+                android:text="0.00" />
+
+            <TextView
+                style="@style/SoguTextMedium"
+                android:layout_marginRight="5dp"
+                android:text="跌停" />
+
+            <TextView
+                android:id="@+id/tv_dieting"
+                style="@style/SoguTextMedium"
+                android:layout_weight="1"
+                android:text="0.00" />
+        </TableRow>
+
+        <TableRow
+            android:background="@drawable/divider_bottom"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                style="@style/SoguTextMedium"
+                android:layout_marginRight="5dp"
+                android:text="今开" />
+
+            <TextView
+                android:id="@+id/tv_open"
+                style="@style/SoguTextMedium"
+                android:layout_weight="1"
+                android:text="0.00" />
+
+            <TextView
+                style="@style/SoguTextMedium"
+                android:layout_marginRight="5dp"
+                android:text="昨收" />
+
+            <TextView
+                android:id="@+id/tv_close"
+                style="@style/SoguTextMedium"
+                android:layout_weight="1"
+                android:text="0.00" />
+        </TableRow>
+
+        <TableRow
+            android:background="@drawable/divider_bottom"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                style="@style/SoguTextMedium"
+                android:layout_marginRight="5dp"
+                android:text="最高" />
+
+            <TextView
+                android:id="@+id/tv_high"
+                style="@style/SoguTextMedium"
+                android:layout_weight="1"
+                android:text="0.00" />
+
+            <TextView
+                style="@style/SoguTextMedium"
+                android:layout_marginRight="5dp"
+                android:text="最低" />
+
+            <TextView
+                android:id="@+id/tv_low"
+                style="@style/SoguTextMedium"
+                android:layout_weight="1"
+                android:text="0.00" />
+        </TableRow>
+
+        <TableRow
+            android:background="@drawable/divider_bottom"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                style="@style/SoguTextMedium"
+                android:layout_marginRight="5dp"
+                android:text="总市值" />
+
+            <TextView
+                android:id="@+id/tv_shizhi"
+                style="@style/SoguTextMedium"
+                android:layout_weight="1"
+                android:text="0.00" />
+
+            <TextView
+                style="@style/SoguTextMedium"
+                android:layout_marginRight="5dp"
+                android:text="流通市值" />
+
+            <TextView
+                android:id="@+id/tv_shizhi_liutong"
+                style="@style/SoguTextMedium"
+                android:layout_weight="1"
+                android:text="0.00" />
+        </TableRow>
+
+        <TableRow
+            android:background="@drawable/divider_bottom"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                style="@style/SoguTextMedium"
+                android:layout_marginRight="5dp"
+                android:text="成交量" />
+
+            <TextView
+                android:id="@+id/tv_liang"
+                style="@style/SoguTextMedium"
+                android:layout_weight="1"
+                android:text="0.00" />
+
+            <TextView
+                style="@style/SoguTextMedium"
+                android:layout_marginRight="5dp"
+                android:text="成交额" />
+
+            <TextView
+                android:id="@+id/tv_e"
+                style="@style/SoguTextMedium"
+                android:layout_weight="1"
+                android:text="0.00" />
+        </TableRow>
+
+        <TableRow
+            android:background="@drawable/divider_bottom"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                style="@style/SoguTextMedium"
+                android:layout_marginRight="5dp"
+                android:text="市净率" />
+
+            <TextView
+                android:id="@+id/tv_jin"
+                style="@style/SoguTextMedium"
+                android:layout_weight="1"
+                android:text="0.00" />
+
+            <TextView
+                style="@style/SoguTextMedium"
+                android:layout_marginRight="5dp"
+                android:text="市盈率(动)" />
+
+            <TextView
+                android:id="@+id/tv_pe"
+                style="@style/SoguTextMedium"
+                android:layout_weight="1"
+                android:text="0.00" />
+        </TableRow>
+
+        <TableRow
+            android:background="@drawable/divider_bottom"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                style="@style/SoguTextMedium"
+                android:layout_marginRight="5dp"
+                android:text="振幅" />
+
+            <TextView
+                android:id="@+id/tv_zhenfu"
+                style="@style/SoguTextMedium"
+                android:layout_weight="1"
+                android:text="0.00" />
+
+            <TextView
+                style="@style/SoguTextMedium"
+                android:layout_marginRight="5dp"
+                android:text="换手" />
+
+            <TextView
+                android:id="@+id/tv_huanshou"
+                style="@style/SoguTextMedium"
+                android:layout_weight="1"
+                android:text="0.00" />
+        </TableRow>
+    </TableLayout>
+
+
+</LinearLayout>

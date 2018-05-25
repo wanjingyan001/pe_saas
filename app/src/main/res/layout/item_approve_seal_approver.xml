@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="15dp">
+
+    <TextView
+        android:id="@+id/tv_position"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="18dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:lines="2"
+        android:textColor="@color/text_1"
+        tools:text="经办人" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/tv_position"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.sogukj.pe.widgets.CircleImageView
+                android:id="@+id/iv_user"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="5dp" />
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_1"
+                android:textSize="12sp"
+                tools:text="经办人" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right|center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textColorBlue"
+                    android:textSize="12sp"
+                    tools:text="待审批" />
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_3"
+                    android:textSize="10sp"
+                    tools:text="已同意" />
+
+                <TextView
+                    android:id="@+id/tv_edit"
+                    android:layout_width="55dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_tag_edit_file_0"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"
+                    tools:text="文件未修改" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:textColor="@color/text_1"
+            android:textSize="12sp"
+            tools:text="1、关于投资诗襄信息科技公司的第三届第五次分组立项申请书·pdf" />
+
+        <LinearLayout
+            android:id="@+id/ll_comments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/divider_top"
+            android:orientation="vertical"
+            android:visibility="gone"></LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

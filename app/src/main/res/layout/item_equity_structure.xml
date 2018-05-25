@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_node"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+
+    <FrameLayout
+        android:id="@+id/fl_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_header_0"
+        android:padding="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:paddingBottom="5dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp">
+
+            <TextView
+                android:id="@+id/tv_name"
+                style="@style/SoguTextSamll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:drawablePadding="5dp"
+                tools:text="广州深海软件股份有限公司" />
+
+            <LinearLayout
+                android:id="@+id/ll_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/SoguTextSamll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:text="占股比例:"
+                    android:textColor="@color/text_2" />
+
+                <TextView
+                    android:id="@+id/tv_percent"
+                    style="@style/SoguTextSamll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="--"
+                    android:textColor="#f7b62b" />
+
+                <TextView
+                    style="@style/SoguTextSamll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:text="认缴金额:"
+                    android:textColor="@color/text_2" />
+
+                <TextView
+                    android:id="@+id/tv_amount"
+                    style="@style/SoguTextSamll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="--"
+                    android:textColor="#f7b62b" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/cbx_header"
+            style="@style/SoguTextSamll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="3dp"
+            android:background="@null"
+            android:button="@null"
+            android:checked="false"
+            android:drawableLeft="@drawable/ic_check_expand"
+            android:drawablePadding="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_children"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+    </LinearLayout>
+</LinearLayout>

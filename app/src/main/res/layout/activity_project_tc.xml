@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f3f5f7"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@drawable/tc_bg"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="25dp"
+                    android:layout_marginTop="25dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/titleComp"
+                        android:layout_width="0dp"
+                        android:layout_height="55dp"
+                        android:layout_weight="1"
+                        android:letterSpacing="0.04"
+                        android:lineSpacingExtra="7sp"
+                        android:maxLines="2"
+                        android:text="上海乐快信息技术有限公司信息技术有限公司"
+                        android:textColor="#282828"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/bianhao"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:background="@drawable/bg_border_tc"
+                        android:letterSpacing="0.04"
+                        android:lineSpacingExtra="0sp"
+                        android:padding="4dp"
+                        android:text="项目编号J0001"
+                        android:textColor="#282828"
+                        android:textSize="10sp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/part_blue"
+                    android:layout_width="54dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_border_tc2"
+                    android:gravity="center"
+                    android:letterSpacing="0.04"
+                    android:lineSpacingExtra="0sp"
+                    android:text="部分退出"
+                    android:textColor="#ffffff"
+                    android:textSize="10sp" />
+
+                <LinearLayout
+                    android:id="@+id/quit_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/part_quit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/tc_false"
+                        android:letterSpacing="0.04"
+                        android:lineSpacingExtra="0sp"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="50dp"
+                        android:paddingRight="50dp"
+                        android:paddingTop="10dp"
+                        android:text="部分退出"
+                        android:textColor="#282828"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/total_quit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:background="@drawable/tc_true"
+                        android:letterSpacing="0.04"
+                        android:lineSpacingExtra="0sp"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="50dp"
+                        android:paddingRight="50dp"
+                        android:paddingTop="10dp"
+                        android:text="全部退出"
+                        android:textColor="#1787fb"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:gravity="center|right"
+                    android:letterSpacing="0.04"
+                    android:lineSpacingExtra="0sp"
+                    android:text="单位：万元"
+                    android:textColor="#a0a4aa"
+                    android:textSize="12sp" />
+
+                <TableRow
+                    android:id="@+id/tr_wtccb"
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="未退出成本" />
+
+                    <EditText
+                        android:id="@+id/et_wtccb"
+                        style="@style/ItemTextValue"
+                        android:gravity="right"
+                        android:inputType="number" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tr_tzzt"
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="投资主体" />
+
+                    <EditText
+                        android:id="@+id/et_tzzt"
+                        style="@style/ItemTextValue"
+                        android:gravity="right" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="成本" />
+
+                    <EditText
+                        android:id="@+id/et_cb"
+                        style="@style/ItemTextValue"
+                        android:gravity="right"
+                        android:inputType="number" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="退出收入" />
+
+                    <EditText
+                        android:id="@+id/et_tcsr"
+                        style="@style/ItemTextValue"
+                        android:gravity="right"
+                        android:inputType="number" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tr_bck"
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="补偿款" />
+
+                    <EditText
+                        android:id="@+id/et_bck"
+                        style="@style/ItemTextValue"
+                        android:gravity="right"
+                        android:inputType="number" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="分红" />
+
+                    <EditText
+                        android:id="@+id/et_fh"
+                        style="@style/ItemTextValue"
+                        android:gravity="right"
+                        android:inputType="number" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="退出收益" />
+
+                    <EditText
+                        android:id="@+id/et_tcsy"
+                        style="@style/ItemTextValue"
+                        android:gravity="right"
+                        android:inputType="number" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="投资收益率" />
+
+                    <EditText
+                        android:id="@+id/et_tzsyl"
+                        style="@style/ItemTextValue"
+                        android:gravity="right"
+                        android:inputType="number" />
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="%" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="投资时间" />
+
+                    <TextView
+                        android:id="@+id/et_tzsj"
+                        style="@style/ItemTextValue"
+                        android:gravity="right" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="退出时间" />
+
+                    <TextView
+                        android:id="@+id/et_tcsj"
+                        style="@style/ItemTextValue"
+                        android:gravity="right" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="投资天数" />
+
+                    <TextView
+                        android:id="@+id/et_tzts"
+                        style="@style/ItemTextValue"
+                        android:gravity="right" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="年化收益率" />
+
+                    <EditText
+                        android:id="@+id/et_nhsyl"
+                        style="@style/ItemTextValue"
+                        android:gravity="right"
+                        android:inputType="number" />
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="%" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="投资时长" />
+
+                    <TextView
+                        android:id="@+id/et_tzsc"
+                        style="@style/ItemTextValue"
+                        android:gravity="right" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="IRR" />
+
+                    <EditText
+                        android:id="@+id/et_IRR"
+                        style="@style/ItemTextValue"
+                        android:gravity="right"
+                        android:inputType="number" />
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="%" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tr_bc"
+                    android:background="@drawable/divider_bottom"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        style="@style/ItemTextLabel"
+                        android:text="补充" />
+
+                    <EditText
+                        android:id="@+id/et_bc"
+                        style="@style/ItemTextValue"
+                        android:gravity="right" />
+                </TableRow>
+
+            </TableLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="@color/divider2" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:padding="20dp">
+
+                <TextView
+                    style="@style/ItemTextLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="退出总结" />
+
+                <EditText
+                    android:id="@+id/et_tczj"
+                    style="@style/ItemTextValue"
+                    android:layout_height="match_parent"
+                    android:gravity="left"
+                    android:letterSpacing="0.04"
+                    android:lineSpacingExtra="10sp"
+                    android:text="" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/divider2" />
+
+    <LinearLayout
+        android:id="@+id/ll_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <Button
+            android:id="@+id/btn_commit"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/bg_btn_blue"
+            android:text="提交" />
+    </LinearLayout>
+</LinearLayout>

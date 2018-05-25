@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingBottom="12dp"
+        android:paddingLeft="15dp"
+        android:background="@color/white"
+        android:paddingTop="12dp">
+
+        <TextView
+            android:id="@+id/MDTime"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:layout_height="wrap_content"
+            android:textColor="@color/weekly_label"
+            android:textSize="25sp" />
+
+        <ImageView
+            android:id="@+id/matters_img1"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginRight="15dp"
+            android:src="@mipmap/invalid_name" />
+        <ImageView
+            android:id="@+id/matters_img2"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginRight="20dp"
+            android:src="@mipmap/ic_project_matters2" />
+    </LinearLayout>
+
+
+</LinearLayout>

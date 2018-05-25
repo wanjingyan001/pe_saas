@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="com.sogukj.pe.ui.calendar.CalendarMainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/toolbar" />
+
+        <!--<android.support.design.widget.TabLayout-->
+            <!--android:id="@+id/tabLayout"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:background="?attr/colorPrimary"-->
+            <!--app:tabBackground="?attr/colorPrimary"-->
+            <!--app:tabGravity="center"-->
+            <!--app:tabIndicatorColor="@color/white"-->
+            <!--app:tabIndicatorHeight="0dp"-->
+            <!--app:tabMode="scrollable"-->
+            <!--app:tabSelectedTextColor="@color/white"-->
+            <!--app:tabTextColor="@color/calendar_text_alphe">-->
+
+        <!--</android.support.design.widget.TabLayout>-->
+        <com.sogukj.pe.baselibrary.widgets.PagerIndicator
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:pi_disableTensileSlidingBlock="true"
+            android:background="?attr/colorPrimary"
+            app:pi_bottomLineHeight="4dp"
+            app:pi_allowWidthFull="true"
+            app:pi_slidingBlock="@drawable/image_sliding_block">
+
+        </com.sogukj.pe.baselibrary.widgets.PagerIndicator>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/contentPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v4.view.ViewPager>
+    </LinearLayout>
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/addSchedule"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="50dp"
+        android:layout_marginRight="20dp"
+        android:clickable="true"
+        android:scaleType="center"
+        android:src="@drawable/icon_calendar_add"
+        app:borderWidth="0.0dp" />
+</RelativeLayout>

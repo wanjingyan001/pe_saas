@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="51dp"
+    android:background="@color/white"
+    android:layout_height="45dp">
+
+    <ImageView
+        android:id="@+id/selected_bg"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+     android:layout_centerInParent="true"
+        android:background="@drawable/bg_custom_day" />
+    <!--android:background="@drawable/oval_copy"-->
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="19"
+        android:textSize="@dimen/text_size_normal" />
+
+    <ImageView
+        android:id="@+id/maker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/date"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="3dp"
+        android:background="@drawable/view_syllabus_mark_bg" />
+
+</RelativeLayout>

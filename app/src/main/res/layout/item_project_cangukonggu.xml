@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_item_list"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/tv_name"
+        style="@style/SoguTextNormal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:text="--" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divider" />
+
+    <TextView
+        android:id="@+id/tv_relation"
+        style="@style/SoguTextMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/tv_project_cangu_relation" />
+
+    <TextView
+        android:id="@+id/tv_percent"
+        style="@style/SoguTextMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/tv_project_cangu_percent" />
+
+    <TextView
+        android:id="@+id/tv_touzijine"
+        style="@style/SoguTextMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/tv_project_cangu_touzijine" />
+
+    <TextView
+        android:id="@+id/tv_jinlirun"
+        style="@style/SoguTextMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/tv_project_cangu_jinlirun" />
+
+    <TextView
+        android:id="@+id/tv_is_merge"
+        style="@style/SoguTextMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/tv_project_cangu_is_merge" />
+
+    <TextView
+        android:id="@+id/tv_bis"
+        style="@style/SoguTextMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/tv_project_cangu_bis" />
+</LinearLayout>

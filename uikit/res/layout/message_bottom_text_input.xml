@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/textMessageLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:paddingBottom="@dimen/bottom_component_margin_vertical"
+    android:paddingTop="@dimen/bottom_component_margin_vertical">
+    <!--android:background="@drawable/nim_message_view_bottom"-->
+
+    <EditText
+        android:id="@+id/editTextMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/bottom_component_margin_horizontal"
+        android:layout_toLeftOf="@+id/buttonSendMessage"
+        android:autoLink="web|email|phone"
+        android:background="@drawable/team_input_bg"
+        android:maxHeight="72dip"
+        android:maxLines="4"
+        android:textColor="@color/black"
+        android:textCursorDrawable="@null"
+        android:layout_marginLeft="10dp"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/buttonSendMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/editTextMessage"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignTop="@+id/editTextMessage"
+        android:layout_gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/team_send_button"
+        android:contentDescription="@string/empty"
+        android:gravity="center"
+        android:text="@string/send"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+</RelativeLayout>

@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    tools:context="com.sogukj.pe.ui.user.UserResumeActivity">
+
+    <include layout="@layout/layout_shareholder_toolbar" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/divider2">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="10dp">
+
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="10dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@color/color_main" />
+
+                    <TextView
+                        style="@style/SoguTextNormal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="基本信息" />
+                </LinearLayout>
+
+                <TableRow
+                    android:background="@drawable/user_divider_bottom"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="10dp">
+
+                    <TextView
+                        style="@style/TableTextLabel"
+                        android:text="姓名" />
+
+                    <EditText
+                        android:id="@+id/tv_name"
+                        style="@style/TableTextValue"
+                        android:layout_marginRight="10dp"
+                        android:hint="未填写" />
+
+
+                    <!--<ImageView-->
+                    <!--android:layout_width="25dp"-->
+                    <!--android:layout_height="25dp"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:scaleType="centerInside"-->
+                    <!--android:src="@drawable/ic_arrow_r"-->
+                    <!--android:visibility="invisible" />-->
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tr_job"
+                    android:background="@drawable/user_divider_bottom"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="10dp">
+
+                    <TextView
+                        style="@style/TableTextLabel"
+                        android:text="职位" />
+
+                    <EditText
+                        android:id="@+id/tv_job"
+                        style="@style/TableTextValue"
+                        android:layout_marginRight="10dp"
+                        android:hint="请填写" />
+
+
+                    <!--<ImageView-->
+                    <!--android:layout_width="25dp"-->
+                    <!--android:layout_height="25dp"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:scaleType="centerInside"-->
+                    <!--android:src="@drawable/ic_arrow_r" />-->
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tr_sex"
+                    android:background="@drawable/user_divider_bottom"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="10dp">
+
+                    <TextView
+                        style="@style/TableTextLabel"
+                        android:text="性别" />
+
+                    <TextView
+                        android:id="@+id/tv_sex"
+                        style="@style/TableTextValue"
+                        android:layout_marginRight="10dp"
+                        android:hint="请选择" />
+
+
+                    <!--<ImageView-->
+                    <!--android:layout_width="25dp"-->
+                    <!--android:layout_height="25dp"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:scaleType="centerInside"-->
+                    <!--android:src="@drawable/ic_arrow_r" />-->
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tr_language"
+                    android:background="@drawable/user_divider_bottom"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="10dp">
+
+                    <TextView
+                        style="@style/TableTextLabel"
+                        android:text="语言" />
+
+                    <TextView
+                        android:id="@+id/tv_language"
+                        style="@style/TableTextValue"
+                        android:layout_marginRight="10dp"
+                        android:hint="请选择" />
+
+
+                    <!--<ImageView-->
+                    <!--android:layout_width="25dp"-->
+                    <!--android:layout_height="25dp"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:scaleType="centerInside"-->
+                    <!--android:src="@drawable/ic_arrow_r" />-->
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tr_woek_experience"
+                    android:background="@drawable/user_divider_bottom"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="10dp">
+
+                    <TextView
+                        style="@style/TableTextLabel"
+                        android:text="工作年限" />
+
+                    <TextView
+                        android:id="@+id/tv_woek_experience"
+                        style="@style/TableTextValue"
+                        android:layout_marginRight="10dp"
+                        android:hint="请选择" />
+
+
+                    <!--<ImageView-->
+                    <!--android:layout_width="25dp"-->
+                    <!--android:layout_height="25dp"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:scaleType="centerInside"-->
+                    <!--android:src="@drawable/ic_arrow_r" />-->
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tr_city"
+                    android:background="@drawable/user_divider_bottom"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="10dp">
+
+                    <TextView
+                        style="@style/TableTextLabel"
+                        android:text="所在城市" />
+
+                    <TextView
+                        android:id="@+id/tv_city"
+                        style="@style/TableTextValue"
+                        android:layout_marginRight="10dp"
+                        android:hint="请选择" />
+
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center_vertical"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_arrow_r" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tr_education"
+                    android:background="@drawable/user_divider_bottom"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="10dp">
+
+                    <TextView
+                        style="@style/TableTextLabel"
+                        android:text="最高学历" />
+
+                    <TextView
+                        android:id="@+id/tv_education"
+                        style="@style/TableTextValue"
+                        android:layout_marginRight="10dp"
+                        android:hint="请选择" />
+
+
+                    <!--<ImageView-->
+                    <!--android:layout_width="25dp"-->
+                    <!--android:layout_height="25dp"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:scaleType="centerInside"-->
+                    <!--android:src="@drawable/ic_arrow_r" />-->
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tr_mail"
+                    android:background="@drawable/user_divider_bottom"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="10dp">
+
+                    <TextView
+                        style="@style/TableTextLabel"
+                        android:text="联系邮箱" />
+
+                    <TextView
+                        android:id="@+id/tv_mail"
+                        style="@style/TableTextValue"
+                        android:layout_marginRight="10dp" />
+
+
+                    <!--<ImageView-->
+                    <!--android:layout_width="25dp"-->
+                    <!--android:layout_height="25dp"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:scaleType="centerInside"-->
+                    <!--android:src="@drawable/ic_arrow_r"-->
+                    <!--android:visibility="invisible" />-->
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tr_phone"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="10dp">
+
+                    <TextView
+                        style="@style/TableTextLabel"
+                        android:text="联系电话" />
+
+                    <EditText
+                        android:id="@+id/tv_phone"
+                        style="@style/TableTextValue"
+                        android:layout_marginRight="10dp"
+                        android:hint="请填写" />
+
+
+                    <!--<ImageView-->
+                    <!--android:layout_width="25dp"-->
+                    <!--android:layout_height="25dp"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:scaleType="centerInside"-->
+                    <!--android:src="@drawable/ic_arrow_r"-->
+                    <!--android:visibility="invisible" />-->
+                </TableRow>
+
+            </TableLayout>
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:background="@color/white"
+                android:paddingLeft="20dp"
+                android:paddingRight="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="10dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@color/color_main" />
+
+                    <TextView
+                        android:id="@+id/educationLayout"
+                        style="@style/SoguTextNormal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableRight="@drawable/ic_right"
+                        android:gravity="center_vertical"
+                        android:text="教育经历" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/fl_education"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/educationList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false">
+
+                    </android.support.v7.widget.RecyclerView>
+
+                    <TextView
+                        android:id="@+id/tv_add_education"
+                        android:layout_width="163dp"
+                        android:layout_height="38dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="34dp"
+                        android:background="@drawable/bg_border_round_blue"
+                        android:gravity="center"
+                        android:text="添加教育经历 +"
+                        android:textColor="@color/textColorBlue"
+                        android:textSize="15sp" />
+                </LinearLayout>
+            </TableLayout>
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="8dp"
+                android:background="@color/white"
+                android:paddingLeft="20dp"
+                android:paddingRight="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="10dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@color/color_main" />
+
+                    <TextView
+                        android:id="@+id/workLayout"
+                        style="@style/SoguTextNormal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableRight="@drawable/ic_right"
+                        android:gravity="center_vertical"
+                        android:text="工作经历" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/fl_work_expericence"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/workList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false">
+
+                    </android.support.v7.widget.RecyclerView>
+
+                    <TextView
+                        android:id="@+id/tv_add_work_expericence"
+                        android:layout_width="163dp"
+                        android:layout_height="38dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="34dp"
+                        android:background="@drawable/bg_border_round_blue"
+                        android:gravity="center"
+                        android:text="添加工作经历 +"
+                        android:textColor="@color/textColorBlue"
+                        android:textSize="15sp" />
+                </LinearLayout>
+            </TableLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

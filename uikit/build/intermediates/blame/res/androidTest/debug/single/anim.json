@@ -1,0 +1,94 @@
+[
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/anim/abc_slide_in_top.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/anim/abc_slide_in_top.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/anim/abc_tooltip_exit.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/anim/abc_tooltip_exit.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/anim/abc_fade_out.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/anim/abc_fade_out.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/anim/pickerview_dialog_scale_in.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/Android-PickerView-3.2.7.aar/247fba58be77a1223df67c92e3ab34b7/res/anim/pickerview_dialog_scale_in.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/anim/pickerview_slide_out_bottom.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/Android-PickerView-3.2.7.aar/247fba58be77a1223df67c92e3ab34b7/res/anim/pickerview_slide_out_bottom.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/anim/abc_popup_enter.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/anim/abc_popup_enter.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/anim/abc_fade_in.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/anim/abc_fade_in.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/anim/design_bottom_sheet_slide_out.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/ffdcf9c9fe9e7041a9d95459e0f31f8c/res/anim/design_bottom_sheet_slide_out.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/anim/design_snackbar_in.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/ffdcf9c9fe9e7041a9d95459e0f31f8c/res/anim/design_snackbar_in.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/anim/abc_slide_out_bottom.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/anim/abc_slide_out_bottom.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/anim/popup_exit.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/3be554bf4b064ed901ec9c4dcbec385d/res/anim/popup_exit.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/anim/abc_slide_in_bottom.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/anim/abc_slide_in_bottom.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/anim/pickerview_dialog_scale_out.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/Android-PickerView-3.2.7.aar/247fba58be77a1223df67c92e3ab34b7/res/anim/pickerview_dialog_scale_out.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/anim/abc_tooltip_enter.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/anim/abc_tooltip_enter.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/anim/pickerview_slide_in_bottom.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/Android-PickerView-3.2.7.aar/247fba58be77a1223df67c92e3ab34b7/res/anim/pickerview_slide_in_bottom.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/anim/abc_grow_fade_in_from_bottom.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/anim/abc_grow_fade_in_from_bottom.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/anim/decelerate_cubic.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/3be554bf4b064ed901ec9c4dcbec385d/res/anim/decelerate_cubic.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/anim/abc_slide_out_top.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/anim/abc_slide_out_top.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/anim/design_snackbar_out.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/ffdcf9c9fe9e7041a9d95459e0f31f8c/res/anim/design_snackbar_out.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/anim/design_bottom_sheet_slide_in.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/ffdcf9c9fe9e7041a9d95459e0f31f8c/res/anim/design_bottom_sheet_slide_in.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/anim/abc_shrink_fade_out_from_bottom.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/anim/abc_shrink_fade_out_from_bottom.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/anim/popup_enter.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/3be554bf4b064ed901ec9c4dcbec385d/res/anim/popup_enter.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/anim/abc_popup_exit.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/anim/abc_popup_exit.xml"
+    }
+]

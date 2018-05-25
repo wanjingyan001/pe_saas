@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:id="@+id/timeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="3dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:paddingTop="15dp">
+
+        <TextView
+            android:id="@+id/startTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="09:30"
+            android:textColor="#adb1be"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/endTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10:30"
+            android:textColor="#adb1be"
+            android:textSize="10sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/contentTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_toLeftOf="@+id/finishBox"
+        android:layout_toRightOf="@+id/timeLayout"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="完成对同花顺的立项尽调完成对同..."
+        android:textColor="@color/text_1"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/right_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/contentTv"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/contentTv"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/ic_right" />
+
+    <ImageView
+        android:id="@+id/finishBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/contentTv"
+        android:layout_alignTop="@+id/contentTv"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/right_arrow"
+        android:src="@drawable/bg_finish_box" />
+
+    <TextView
+        android:id="@id/typeTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/contentTv"
+        android:layout_below="@+id/contentTv"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/blue_gradient"
+        android:text="会议"
+        android:textColor="@color/white"
+        android:textSize="10sp" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/divider2" />
+</RelativeLayout>

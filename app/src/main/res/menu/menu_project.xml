@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/im_chat"
+        android:icon="@drawable/porject_im_chat"
+        android:orderInCategory="100"
+        android:title="群组"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/edit_project"
+        android:icon="@drawable/project_edit"
+        android:orderInCategory="100"
+        android:title="编辑"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/project_delete"
+        android:icon="@drawable/project_delete"
+        android:orderInCategory="100"
+        android:title="删除"
+        app:showAsAction="always" />
+
+
+</menu>

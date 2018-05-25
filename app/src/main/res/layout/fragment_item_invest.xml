@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="12dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:max="120"
+            android:progressDrawable="@drawable/pb" />
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/rate_pingjia"
+            android:gravity="right"
+            android:padding="3dp"
+            android:text="评分"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/SoguTextMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="指标2：已投项目评级状况（得分0-15）" />
+
+    <LinearLayout
+        android:id="@+id/lll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:id="@+id/subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text="投资标准:投资共6000万人民币"
+            android:textColor="@color/text_3"
+            android:textSize="@dimen/text_size_samll" />
+
+        <TextView
+            android:id="@+id/desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="left"
+            android:lineSpacingExtra="2dp"
+            android:text="实际情况：我是实际情况我是实际情况我是实际情况我是实际情况我是实际情况"
+            android:textColor="@color/text_3"
+            android:textSize="@dimen/text_size_samll" />
+
+    </LinearLayout>
+
+</LinearLayout>

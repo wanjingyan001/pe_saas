@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tv_file"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:drawableRight="@drawable/ic_arrow_r"
+    android:lineSpacingMultiplier="1.2"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp"
+    android:textColor="@color/text_1"
+    android:textSize="14sp"
+    tools:text="1、关于投资诗襄信息科技公司的第三届第五次分组立项申请书·pdf" />

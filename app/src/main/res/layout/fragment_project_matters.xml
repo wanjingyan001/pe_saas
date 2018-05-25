@@ -1,0 +1,28 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/project_matter_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/divider2"
+    android:orientation="vertical"
+    tools:context="com.sogukj.pe.ui.calendar.ProjectMattersFragment">
+
+
+    <include layout="@layout/item_project_matters_list" />
+
+    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/calendar_bg_color">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/projectList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" />
+
+        <include layout="@layout/layout_empty" />
+    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+
+</LinearLayout>

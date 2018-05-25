@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_record"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/step_icon"
+                    android:layout_width="75dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="15dp"
+                    android:background="@drawable/step1" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="15dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/step_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="填写查询基本信息"
+                        android:textColor="@color/text_1"
+                        android:textSize="@dimen/text_size_large" />
+
+                    <TextView
+                        android:id="@+id/step_subtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="选填信息可增加查询信息准确度"
+                        android:textColor="@color/shareholder_text_gray"
+                        android:textSize="@dimen/text_size_medium" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/step_layout_1"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:paddingLeft="30dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="公司&#8194;&#8194;" />
+
+                <LinearLayout
+                    android:id="@+id/companySelect"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingLeft="18dp">
+
+                    <TextView
+                        android:id="@+id/companyName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="请选择（选填）"
+                        android:textColor="@color/text_1"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@drawable/ic_right" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/step_layout_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/star"
+                        android:text="姓名&#8194;&#8194;" />
+
+                    <EditText
+                        android:id="@+id/nameEdt"
+                        style="@style/creditEdtStyle"
+                        android:singleLine="true" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:background="@color/divider2" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/star"
+                        android:text="身份证" />
+
+                    <EditText
+                        android:id="@+id/IDCardEdt"
+                        style="@style/creditEdtStyle"
+                        android:digits="0123456789QWERTYUIOPLKJHGFDSAZXCVBNM"
+                        android:maxLength="18"
+                        android:singleLine="true" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:background="@color/divider2" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="30dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="手机号" />
+
+                    <EditText
+                        android:id="@+id/phoneEdt"
+                        style="@style/creditEdtStyle"
+                        android:inputType="phone"
+                        android:singleLine="true" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/divider2" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="30dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="类别&#8194;&#8194;" />
+
+                    <LinearLayout
+                        android:id="@+id/typeSelect"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="30dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingLeft="18dp">
+
+                        <TextView
+                            android:id="@+id/typeSelectTv"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="请选择"
+                            android:textColor="@color/text_1"
+                            android:textSize="@dimen/text_size_medium" />
+
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/ic_right" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:background="@color/divider2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="20dp"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:paddingTop="20dp">
+
+                <TextView
+                    android:id="@+id/enter"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:background="@color/color_main"
+                    android:gravity="center"
+                    android:text="查询"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_normal" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/down"
+                android:layout_width="match_parent"
+                android:layout_height="560dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:padding="20dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/down1" />
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>

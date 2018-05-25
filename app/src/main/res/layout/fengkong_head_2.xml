@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#fff3f5f7"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="4dp"
+            android:layout_height="14dp"
+            android:layout_gravity="center|left"
+            android:background="#FFE95C4A" />
+
+        <TextView
+            style="@style/SoguTextNormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|left"
+            android:layout_marginLeft="16dp"
+            android:text="投后管理执行情况（40%）" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/std2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="@drawable/bg_transparent"
+        android:gravity="center|left"
+        android:lineSpacingExtra="3dp"
+        android:paddingBottom="6dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="6dp"
+        android:text="评分标准：每个参与尽调项目得20分；最高分数：120分"
+        android:textSize="12sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="left"
+            android:text="指标"
+            android:textColor="#FF808080"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="left"
+            android:text="实际情况"
+            android:textColor="#FF808080"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/mylist2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp"
+        android:divider="#ffffff"
+        android:dividerHeight="15dp" />
+
+</LinearLayout>
