@@ -5,6 +5,8 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.os.Build
+import android.support.v7.util.DiffUtil
+import android.support.v7.util.DiffUtil.calculateDiff
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
@@ -14,7 +16,9 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.sogukj.pe.baselibrary.R
+import com.sogukj.pe.baselibrary.utils.DiffCallBack
 import com.sogukj.pe.baselibrary.widgets.OnClickFastListener
+import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

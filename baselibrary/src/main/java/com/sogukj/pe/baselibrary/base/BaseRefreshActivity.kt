@@ -12,13 +12,14 @@ import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import com.sogukj.pe.baselibrary.R
+import com.sogukj.pe.baselibrary.interf.SGRefreshListener
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.find
 
-abstract class BaseRefreshActivity : ToolbarActivity(), OnRefreshListener, OnLoadMoreListener {
+abstract class BaseRefreshActivity : ToolbarActivity(),SGRefreshListener{
     lateinit var refresh: SmartRefreshLayout
         private set
 
@@ -56,8 +57,12 @@ abstract class BaseRefreshActivity : ToolbarActivity(), OnRefreshListener, OnLoa
                 } else {
                     it.setRefreshFooter(footer)
                 }
-                it.setOnRefreshListener(this)
-                it.setOnLoadMoreListener(this)
+                it.setOnRefreshListener{
+                    doRefresh()
+                }
+                it.setOnLoadMoreListener{
+                    doLoadMore()
+                }
             }
         }
     }

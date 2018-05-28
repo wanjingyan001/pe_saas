@@ -16,6 +16,7 @@ import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 
 import com.sogukj.pe.baselibrary.R
+import com.sogukj.pe.baselibrary.interf.SGRefreshListener
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.ctx
@@ -25,7 +26,7 @@ import org.jetbrains.anko.support.v4.find
 /**
  * A simple [Fragment] subclass.
  */
-abstract class BaseRefreshFragment : BaseFragment(), OnRefreshListener, OnLoadMoreListener {
+abstract class BaseRefreshFragment : BaseFragment(),SGRefreshListener {
     lateinit var refresh: SmartRefreshLayout
         private set
 
@@ -61,8 +62,12 @@ abstract class BaseRefreshFragment : BaseFragment(), OnRefreshListener, OnLoadMo
                 } else {
                     it.setRefreshFooter(footer)
                 }
-                it.setOnRefreshListener(this)
-                it.setOnLoadMoreListener(this)
+                it.setOnRefreshListener{
+                    doRefresh()
+                }
+                it.setOnLoadMoreListener{
+                    doLoadMore()
+                }
             }
         }
     }

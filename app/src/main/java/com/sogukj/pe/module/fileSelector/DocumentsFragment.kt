@@ -1,7 +1,12 @@
 package com.sogukj.pe.module.fileSelector
 
 
+import android.annotation.TargetApi
+import android.app.job.JobInfo
+import android.app.job.JobScheduler
+import android.content.ComponentName
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.support.v4.app.Fragment
@@ -29,6 +34,8 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.peUtils.FileTypeUtils
 import com.sogukj.pe.peUtils.FileUtil
+import com.sogukj.pe.baselibrary.Extended.*
+import com.sogukj.pe.service.ImService
 import kotlinx.android.synthetic.main.fragment_documents.*
 import kotlinx.android.synthetic.main.layout_empty.*
 import org.jetbrains.anko.find
@@ -107,11 +114,11 @@ class DocumentsFragment : BaseRefreshFragment(), View.OnClickListener {
         return null
     }
 
-    override fun onRefresh(refreshLayout: RefreshLayout?) {
+    override fun doRefresh() {
 
     }
 
-    override fun onLoadMore(refreshLayout: RefreshLayout?) {
+    override fun doLoadMore() {
         page += 1
         getFiles()
     }
