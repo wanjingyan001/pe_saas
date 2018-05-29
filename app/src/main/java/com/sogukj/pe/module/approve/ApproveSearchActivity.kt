@@ -3,20 +3,16 @@ package com.sogukj.pe.module.approve
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-import com.lcodecore.tkrefreshlayout.footer.BallPulseView
-import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.base.ToolbarActivity
+import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
+import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
@@ -28,10 +24,11 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_approve_search.*
+
 /**
  * Created by qinfei on 17/10/18.
  */
-class ApproveSearchActivity : ToolbarActivity() {
+class ApproveSearchActivity : BaseRefreshActivity() {
     lateinit var adapter: RecyclerAdapter<ApprovalBean>
     lateinit var inflater: LayoutInflater
     var mType: Int = 1
@@ -90,29 +87,6 @@ class ApproveSearchActivity : ToolbarActivity() {
         recycler_view.layoutManager = layoutManager
         recycler_view.adapter = adapter
 
-        val header = ProgressLayout(this)
-        header.setColorSchemeColors(ContextCompat.getColor(this, R.color.color_main))
-        refresh.setHeaderView(header)
-        val footer = BallPulseView(this)
-        footer.setAnimatingColor(ContextCompat.getColor(this, R.color.color_main))
-        refresh.setBottomView(footer)
-        refresh.setOverScrollRefreshShow(false)
-        refresh.setEnableLoadmore(true)
-        refresh.setOnRefreshListener(object : RefreshListenerAdapter() {
-            override fun onRefresh(refreshLayout: TwinklingRefreshLayout?) {
-                page = 1
-                doRequest()
-            }
-
-            override fun onLoadMore(refreshLayout: TwinklingRefreshLayout?) {
-                ++page
-                doRequest()
-            }
-
-        })
-        refresh.setAutoLoadMore(true)
-
-
         search_bar.onTextChange = { text ->
             handler.removeCallbacks(searchTask)
             handler.postDelayed(searchTask, 100)
@@ -128,12 +102,31 @@ class ApproveSearchActivity : ToolbarActivity() {
     val searchTask = Runnable {
         doRequest()
     }
+
+    override fun doRefresh() {
+        page = 1
+        doRequest()
+    }
+
+    override fun doLoadMore() {
+        ++page
+        doRequest()
+    }
+
+    override fun initRefreshConfig(): RefreshConfig? {
+        val config = RefreshConfig()
+        config.autoLoadMoreEnable = true
+        config.loadMoreEnable = true
+        config.disableContentWhenRefresh = true
+        return config
+    }
+
     var page = 1
     fun doRequest() {
         val text = search_bar.search
         var pro_id: Int? = null
         var status_tyoe: Int? = null
-        if (intent.getStringExtra(Extras.TITLE).equals("审批历史")) {
+        if (intent.getStringExtra(Extras.TITLE) == "审批历史") {
             pro_id = intent.getIntExtra(Extras.ID, 1)
             status_tyoe = null
         } else {
@@ -161,12 +154,12 @@ class ApproveSearchActivity : ToolbarActivity() {
                     showCustomToast(R.drawable.icon_toast_common, "暂无可用数据")
                 }, {
                     SupportEmptyView.checkEmpty(this, adapter)
-                    refresh?.setEnableLoadmore(adapter.dataList.size % 20 == 0)
+                   isLoadMoreEnable = adapter.dataList.size % 20 == 0
                     adapter.notifyDataSetChanged()
                     if (page == 1)
-                        refresh?.finishRefreshing()
+                       finishRefresh()
                     else
-                        refresh?.finishLoadmore()
+                      finishLoadMore()
                 })
     }
 

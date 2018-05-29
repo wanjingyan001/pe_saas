@@ -62,8 +62,8 @@
 
             </LinearLayout>
 
-            <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-                android:id="@+id/refresh"
+            <com.scwang.smartrefresh.layout.SmartRefreshLayout
+                android:id="@id/refresh"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="20dp">
@@ -72,7 +72,7 @@
                     android:id="@+id/list"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
-            </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+            </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
         </LinearLayout>
 

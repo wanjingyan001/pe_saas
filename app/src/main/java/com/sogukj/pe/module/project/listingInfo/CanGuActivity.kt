@@ -3,19 +3,16 @@ package com.sogukj.pe.module.project.listingInfo
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
 import android.text.TextUtils
 import android.view.View
 import android.widget.TextView
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.base.ToolbarActivity
+import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
+import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
@@ -31,7 +28,7 @@ import kotlinx.android.synthetic.main.activity_list_common.*
 /**
  * Created by qinfei on 17/8/11.
  */
-class CanGuActivity : ToolbarActivity(), SupportEmptyView {
+class CanGuActivity : BaseRefreshActivity(), SupportEmptyView {
 
     lateinit var adapter: RecyclerAdapter<CanGuBean>
     lateinit var project: ProjectBean
@@ -72,24 +69,39 @@ class CanGuActivity : ToolbarActivity(), SupportEmptyView {
         recycler_view.layoutManager = layoutManager
         recycler_view.adapter = adapter
 
-        val header = ProgressLayout(this)
-        header.setColorSchemeColors(ContextCompat.getColor(this, R.color.color_main))
-        refresh.setHeaderView(header)
-//        val footer = BallPulseView(this)
-//        footer.setAnimatingColor(ContextCompat.getColor(this, R.color.color_main))
-//        refresh.setBottomView(footer)
-        refresh.setOverScrollRefreshShow(false)
-        refresh.setEnableLoadmore(false)
-        refresh.setOnRefreshListener(object : RefreshListenerAdapter() {
-            override fun onRefresh(refreshLayout: TwinklingRefreshLayout?) {
-                doRequest()
-            }
-
-        })
-        refresh.setAutoLoadMore(false)
+//        val header = ProgressLayout(this)
+//        header.setColorSchemeColors(ContextCompat.getColor(this, R.color.color_main))
+//        refresh.setHeaderView(header)
+////        val footer = BallPulseView(this)
+////        footer.setAnimatingColor(ContextCompat.getColor(this, R.color.color_main))
+////        refresh.setBottomView(footer)
+//        refresh.setOverScrollRefreshShow(false)
+//        refresh.setEnableLoadmore(false)
+//        refresh.setOnRefreshListener(object : RefreshListenerAdapter() {
+//            override fun onRefresh(refreshLayout: TwinklingRefreshLayout?) {
+//                doRequest()
+//            }
+//
+//        })
+//        refresh.setAutoLoadMore(false)
         handler.postDelayed({
             doRequest()
         }, 100)
+    }
+
+    override fun doRefresh() {
+        doRequest()
+    }
+
+    override fun doLoadMore() {
+    }
+
+    override fun initRefreshConfig(): RefreshConfig? {
+        val config = RefreshConfig()
+        config.loadMoreEnable = false
+        config.autoLoadMoreEnable = false
+        config.disableContentWhenRefresh = true
+        return config
     }
 
     fun doRequest() {
@@ -111,7 +123,7 @@ class CanGuActivity : ToolbarActivity(), SupportEmptyView {
                 }, {
                     SupportEmptyView.checkEmpty(this, adapter)
                     adapter.notifyDataSetChanged()
-                    refresh?.finishRefreshing()
+                    finishRefresh()
                 })
     }
 

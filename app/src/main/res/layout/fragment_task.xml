@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/calendar_bg_color"
     android:orientation="vertical"
-    tools:context="com.sogukj.pe.ui.calendar.TaskFragment">
+    tools:context="com.sogukj.pe.module.calendar.TaskFragment">
 
     <LinearLayout
         android:id="@+id/filterConditionLayout"
@@ -86,8 +86,8 @@
     </LinearLayout>
 
 
-    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-        android:id="@+id/refresh"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@id/refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="10dp"
@@ -99,6 +99,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical" />
 
-        <include layout="@layout/layout_empty" />
-    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    <include layout="@layout/layout_empty" />
 </LinearLayout>

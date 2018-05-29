@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -17,14 +16,11 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-import com.lcodecore.tkrefreshlayout.footer.BallPulseView
-import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.base.ToolbarActivity
+import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
 import com.sogukj.pe.baselibrary.utils.DateUtils
+import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.FlowLayout
@@ -41,7 +37,7 @@ import kotlinx.android.synthetic.main.activity_project_news.*
 import kotlinx.android.synthetic.main.layout_loading.*
 import org.jetbrains.anko.find
 
-class ProjectNewsActivity : ToolbarActivity() {
+class ProjectNewsActivity : BaseRefreshActivity() {
 
     lateinit var adapter: RecyclerAdapter<NewsBean>
 
@@ -56,26 +52,6 @@ class ProjectNewsActivity : ToolbarActivity() {
         var title = intent.getStringExtra(Extras.TITLE)
         setTitle(title)
 
-        val header = ProgressLayout(context)
-        header.setColorSchemeColors(ContextCompat.getColor(context, R.color.color_main))
-        refresh.setHeaderView(header)
-        val footer = BallPulseView(context)
-        footer.setAnimatingColor(ContextCompat.getColor(context, R.color.color_main))
-        refresh.setBottomView(footer)
-        refresh.setOverScrollRefreshShow(false)
-        refresh.setOnRefreshListener(object : RefreshListenerAdapter() {
-            override fun onRefresh(refreshLayout: TwinklingRefreshLayout?) {
-                page = 1
-                doRequest()
-            }
-
-            override fun onLoadMore(refreshLayout: TwinklingRefreshLayout?) {
-                ++page
-                doRequest()
-            }
-
-        })
-        refresh.setAutoLoadMore(true)
 
         adapter = RecyclerAdapter(context, { adapter, parent, type ->
             NewsHolder(adapter.getView(R.layout.item_main_news, parent))
@@ -95,12 +71,31 @@ class ProjectNewsActivity : ToolbarActivity() {
         doRequest()
     }
 
+
+    override fun doRefresh() {
+        page = 1
+        doRequest()
+    }
+
+    override fun doLoadMore() {
+        ++page
+        doRequest()
+    }
+
+    override fun initRefreshConfig(): RefreshConfig? {
+        val config = RefreshConfig()
+        config.loadMoreEnable = true
+        config.autoLoadMoreEnable = true
+        config.disableContentWhenRefresh = true
+        return config
+    }
+
     var page = 1
     var type = 0
     var company_id = 0
 
     fun doRequest() {
-        SoguApi.getService(application,NewService::class.java)
+        SoguApi.getService(application, NewService::class.java)
                 .listNews(page = page, type = type, company_id = company_id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -123,9 +118,9 @@ class ProjectNewsActivity : ToolbarActivity() {
                     SupportEmptyView.checkEmpty(this, adapter)
                     adapter.notifyDataSetChanged()
                     if (page == 1)
-                        refresh?.finishRefreshing()
+                        finishRefresh()
                     else
-                        refresh?.finishLoadmore()
+                        finishLoadMore()
                 })
     }
 
@@ -149,7 +144,7 @@ class ProjectNewsActivity : ToolbarActivity() {
                 }
             }
             tv_from.text = data.source
-            if(data.source.isNullOrEmpty()){
+            if (data.source.isNullOrEmpty()) {
                 tv_from.visibility = View.GONE
             }
             tags.removeAllViews()

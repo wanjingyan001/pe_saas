@@ -3,23 +3,23 @@ package com.sogukj.pe.module.calendar
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.google.gson.Gson
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-import com.lcodecore.tkrefreshlayout.footer.BallPulseView
-import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout
+import com.scwang.smartrefresh.header.MaterialHeader
+import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.base.BaseFragment
+import com.sogukj.pe.baselibrary.Extended.setVisible
+import com.sogukj.pe.baselibrary.base.BaseRefreshFragment
+import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.bean.TaskItemBean
 import com.sogukj.pe.bean.TodoDay
 import com.sogukj.pe.interf.ScheduleItemClickListener
 import com.sogukj.pe.module.calendar.adapter.TaskAdapter
+import com.sogukj.pe.peUtils.SupportEmptyView
 import com.sogukj.pe.service.CalendarService
 import com.sogukj.pe.widgets.TaskFilterWindow
 import com.sogukj.service.SoguApi
@@ -37,9 +37,7 @@ import org.jetbrains.anko.textColor
  * Use the [TaskFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class TaskFragment : BaseFragment(), View.OnClickListener, TaskFilterWindow.FilterItemClickListener, ScheduleItemClickListener {
-
-
+class TaskFragment : BaseRefreshFragment(), View.OnClickListener, TaskFilterWindow.FilterItemClickListener, ScheduleItemClickListener {
     override val containerViewId: Int
         get() = R.layout.fragment_task
     lateinit var taskAdapter: TaskAdapter
@@ -72,30 +70,31 @@ class TaskFragment : BaseFragment(), View.OnClickListener, TaskFilterWindow.Filt
     private fun initAdapter() {
         taskAdapter = TaskAdapter(activity, data)
         taskAdapter.setListener(this)
-
         taskList.layoutManager = LinearLayoutManager(context)
         taskList.adapter = taskAdapter
-        val header = ProgressLayout(context)
-        header.setColorSchemeColors(ContextCompat.getColor(ctx, R.color.color_main))
-        refresh.setHeaderView(header)
-        val footer = BallPulseView(context)
-        footer.setAnimatingColor(ContextCompat.getColor(ctx, R.color.color_main))
-        refresh.setBottomView(footer)
-        refresh.setOverScrollRefreshShow(false)
-        refresh.setEnableLoadmore(true)
-        refresh.setOnRefreshListener(object : RefreshListenerAdapter() {
-            override fun onRefresh(refreshLayout: TwinklingRefreshLayout?) {
-                page = 1
-                doRequest(page, range, isFinish)
-            }
+    }
 
-            override fun onLoadMore(refreshLayout: TwinklingRefreshLayout?) {
-                ++page
-                doRequest(page, range, isFinish)
-            }
 
-        })
+    override fun doRefresh() {
+        page = 1
+        doRequest(page, range, isFinish)
+    }
 
+    override fun doLoadMore() {
+        ++page
+        doRequest(page, range, isFinish)
+    }
+
+    override fun initRefreshConfig(): RefreshConfig? {
+        val config = RefreshConfig()
+        config.loadMoreEnable = true
+        config.autoLoadMoreEnable = true
+        config.disableContentWhenRefresh = true
+        return config
+    }
+
+    override fun initRefreshHeader(): RefreshHeader? {
+        return MaterialHeader(ctx)
     }
 
     override fun onResume() {
@@ -104,7 +103,7 @@ class TaskFragment : BaseFragment(), View.OnClickListener, TaskFilterWindow.Filt
     }
 
     fun doRequest(page: Int, range: String, isFinish: Int) {
-        SoguApi.getService(baseActivity!!.application,CalendarService::class.java)
+        SoguApi.getService(baseActivity!!.application, CalendarService::class.java)
                 .showTask(page = page, range = range, is_finish = isFinish)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -130,16 +129,18 @@ class TaskFragment : BaseFragment(), View.OnClickListener, TaskFilterWindow.Filt
                     Trace.e(e)
                 }, {
                     if (data.size == 0) {
-                        iv_empty.visibility = View.VISIBLE
+                        refresh.setVisible(false)
+                        iv_empty.setVisible(true)
                     } else {
-                        iv_empty.visibility = View.GONE
+                        refresh.setVisible(true)
+                        iv_empty.setVisible(false)
                     }
-                    refresh?.setEnableLoadmore((data.size - 1) % 20 == 0)
+                    isLoadMoreEnable = (data.size - 1) % 20 == 0
                     taskAdapter.notifyDataSetChanged()
                     if (page == 1) {
-                        refresh?.finishRefreshing()
+                        finishRefresh()
                     } else {
-                        refresh?.finishLoadmore()
+                        finishLoadMore()
                     }
                 })
 

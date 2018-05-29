@@ -19,22 +19,28 @@ import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.find
 
-abstract class BaseRefreshActivity : ToolbarActivity(),SGRefreshListener{
+abstract class BaseRefreshActivity : ToolbarActivity(), SGRefreshListener {
     lateinit var refresh: SmartRefreshLayout
         private set
+    lateinit var config: RefreshConfig
+    protected val defaultHeader by lazy { ClassicsHeader(this) }
+    protected val defaultFooter by lazy { ClassicsFooter(this) }
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun setContentView(layoutResID: Int) {
+        super.setContentView(layoutResID)
         initRefresh()
     }
 
+    override fun setContentView(view: View) {
+        super.setContentView(view)
+        initRefresh()
+    }
 
     private fun initRefresh() {
         refresh = find(R.id.refresh)
         if (this::refresh.isLateinit) {
             refresh.let {
-                val config = initRefreshConfig() ?: RefreshConfig.Default
+                config = initRefreshConfig() ?: RefreshConfig.Default
                 it.setDragRate(config.dragRate)
                 it.isEnableRefresh = config.refreshEnable
                 it.isEnableLoadMore = config.loadMoreEnable
@@ -45,6 +51,7 @@ abstract class BaseRefreshActivity : ToolbarActivity(),SGRefreshListener{
                 it.setDisableContentWhenRefresh(config.disableContentWhenRefresh)
                 it.setEnableLoadMoreWhenContentNotFull(config.loadMoreWhenContentNotFull)
                 it.setEnableOverScrollDrag(config.overScrollDrag)
+                it.setEnableFooterFollowWhenLoadFinished(config.footerFollowWhenLoadFinished)
                 val header = initRefreshHeader()
                 if (header == null) {
                     it.setRefreshHeader(ClassicsHeader(this), 0, 0)
@@ -57,10 +64,10 @@ abstract class BaseRefreshActivity : ToolbarActivity(),SGRefreshListener{
                 } else {
                     it.setRefreshFooter(footer)
                 }
-                it.setOnRefreshListener{
+                it.setOnRefreshListener {
                     doRefresh()
                 }
-                it.setOnLoadMoreListener{
+                it.setOnLoadMoreListener {
                     doLoadMore()
                 }
             }
@@ -70,8 +77,39 @@ abstract class BaseRefreshActivity : ToolbarActivity(),SGRefreshListener{
 
     abstract fun initRefreshConfig(): RefreshConfig?
 
-    abstract fun initRefreshHeader(): RefreshHeader?
+    open fun initRefreshHeader(): RefreshHeader? = defaultHeader
 
-    abstract fun initRefreshFooter(): RefreshFooter?
+    open fun initRefreshFooter(): RefreshFooter? = defaultFooter
 
+    fun finishRefresh() {
+        if (this::refresh.isLateinit) {
+            refresh.finishRefresh()
+        }
+    }
+
+    fun finishLoadMore() {
+        if (this::refresh.isLateinit) {
+            refresh.finishLoadMore()
+        }
+    }
+
+    var isLoadMoreEnable: Boolean = RefreshConfig.Default.loadMoreEnable
+        get() = if (this::refresh.isLateinit) refresh.isEnableLoadMore else field
+        set(value) {
+            if (this::refresh.isLateinit) {
+                field = value
+                refresh.isEnableLoadMore = value
+                config.loadMoreEnable = value
+            }
+        }
+
+    var isRefreshEnable: Boolean = RefreshConfig.Default.refreshEnable
+        get() = if (this::refresh.isLateinit) refresh.isEnableRefresh else field
+        set(value) {
+            if (this::refresh.isLateinit) {
+                field = value
+                refresh.isEnableRefresh = value
+                config.refreshEnable = value
+            }
+        }
 }

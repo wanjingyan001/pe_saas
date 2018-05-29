@@ -10,10 +10,13 @@ import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.Html
 import android.text.TextWatcher
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.*
-import com.amap.api.mapcore.util.it
+import android.widget.BaseExpandableListAdapter
+import android.widget.ImageView
+import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -32,8 +35,8 @@ import com.sogukj.pe.baselibrary.base.BaseFragment
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.DepartmentBean
-import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.bean.TeamBean
+import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.module.im.PersonalInfoActivity
 import com.sogukj.pe.module.im.TeamCreateActivity
 import com.sogukj.pe.module.user.UserActivity
@@ -46,7 +49,7 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_team_select.*
-import org.jetbrains.anko.*
+import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.support.v4.ctx
 import java.util.*
 import kotlin.collections.ArrayList

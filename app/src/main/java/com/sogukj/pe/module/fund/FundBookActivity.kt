@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
 import android.text.InputType
@@ -14,15 +13,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-import com.lcodecore.tkrefreshlayout.footer.BallPulseView
-import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.base.ToolbarActivity
+import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
 import com.sogukj.pe.baselibrary.utils.DateUtils
 import com.sogukj.pe.baselibrary.utils.DownloadUtil
+import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.widgets.*
 import com.sogukj.pe.baselibrary.widgets.ListAdapter
@@ -41,7 +37,7 @@ import kotlinx.android.synthetic.main.activity_fund_book.*
 import kotlinx.android.synthetic.main.search_view.*
 import java.text.SimpleDateFormat
 
-class FundBookActivity : ToolbarActivity(), SupportEmptyView {
+class FundBookActivity : BaseRefreshActivity(), SupportEmptyView {
 
     lateinit var adapter1: ListAdapter<ProjectBookBean>
     lateinit var adapter2: ListAdapter<ProjectBookBean>
@@ -202,32 +198,25 @@ class FundBookActivity : ToolbarActivity(), SupportEmptyView {
             }
 //            NewsDetailActivity.start(this, data)
         }
-
-        val header = ProgressLayout(this)
-        header.setColorSchemeColors(ContextCompat.getColor(this, R.color.color_main))
-        refresh.setHeaderView(header)
-        val footer = BallPulseView(this)
-        footer.setAnimatingColor(ContextCompat.getColor(this, R.color.color_main))
-        refresh.setBottomView(footer)
-        refresh.setOverScrollRefreshShow(false)
-        refresh.setOnRefreshListener(object : RefreshListenerAdapter() {
-            override fun onRefresh(refreshLayout: TwinklingRefreshLayout?) {
-                page = 1
-                handler.post(searchTask)
-            }
-
-            override fun onLoadMore(refreshLayout: TwinklingRefreshLayout?) {
-                ++page
-                handler.post(searchTask)
-            }
-
-        })
-        refresh.setAutoLoadMore(true)
-//        handler.postDelayed({
-//            doRequest()
-//        }, 100)
-
         loadDir()
+    }
+
+    override fun doRefresh() {
+        page = 1
+        handler.post(searchTask)
+    }
+
+    override fun doLoadMore() {
+        ++page
+        handler.post(searchTask)
+    }
+
+    override fun initRefreshConfig(): RefreshConfig? {
+        val config = RefreshConfig()
+        config.loadMoreEnable = true
+        config.autoLoadMoreEnable = true
+        config.disableContentWhenRefresh = true
+        return config
     }
 
     fun download(url: String, fileName: String) {
@@ -328,9 +317,9 @@ class FundBookActivity : ToolbarActivity(), SupportEmptyView {
                     tv_result_title.text = Html.fromHtml(getString(R.string.tv_title_result_search1, adapter.dataList.size))
                     adapter.notifyDataSetChanged()
                     if (page == 1)
-                        refresh?.finishRefreshing()
+                        finishRefresh()
                     else
-                        refresh?.finishLoadmore()
+                       finishLoadMore()
                 })
 
     }

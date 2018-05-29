@@ -29,7 +29,9 @@ import org.jetbrains.anko.support.v4.find
 abstract class BaseRefreshFragment : BaseFragment(),SGRefreshListener {
     lateinit var refresh: SmartRefreshLayout
         private set
-
+    lateinit var config: RefreshConfig
+    protected val defaultHeader by lazy { ClassicsHeader(ctx) }
+    protected val defaultFooter by lazy { ClassicsFooter(ctx) }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRefresh()
@@ -39,7 +41,7 @@ abstract class BaseRefreshFragment : BaseFragment(),SGRefreshListener {
         refresh = find(R.id.refresh)
         if (this::refresh.isLateinit) {
             refresh.let {
-                val config = initRefreshConfig() ?: RefreshConfig.Default
+                config = initRefreshConfig() ?: RefreshConfig.Default
                 it.setDragRate(config.dragRate)
                 it.isEnableRefresh = config.refreshEnable
                 it.isEnableLoadMore = config.loadMoreEnable
@@ -50,6 +52,7 @@ abstract class BaseRefreshFragment : BaseFragment(),SGRefreshListener {
                 it.setDisableContentWhenRefresh(config.disableContentWhenRefresh)
                 it.setEnableLoadMoreWhenContentNotFull(config.loadMoreWhenContentNotFull)
                 it.setEnableOverScrollDrag(config.overScrollDrag)
+                it.setEnableFooterFollowWhenLoadFinished(config.footerFollowWhenLoadFinished)
                 val header = initRefreshHeader()
                 if (header == null) {
                     it.setRefreshHeader(ClassicsHeader(ctx), 0, 0)
@@ -75,8 +78,39 @@ abstract class BaseRefreshFragment : BaseFragment(),SGRefreshListener {
 
     abstract fun initRefreshConfig(): RefreshConfig?
 
-    abstract fun initRefreshHeader(): RefreshHeader?
+    open fun initRefreshHeader(): RefreshHeader? = defaultHeader
 
-    abstract fun initRefreshFooter(): RefreshFooter?
+    open fun initRefreshFooter(): RefreshFooter? = defaultFooter
 
+    fun finishRefresh() {
+        if (this::refresh.isLateinit) {
+            refresh.finishRefresh()
+        }
+    }
+
+    fun finishLoadMore() {
+        if (this::refresh.isLateinit) {
+            refresh.finishLoadMore()
+        }
+    }
+
+    var isLoadMoreEnable: Boolean = RefreshConfig.Default.loadMoreEnable
+        get() = if (this::refresh.isLateinit) refresh.isEnableLoadMore else field
+        set(value) {
+            if (this::refresh.isLateinit) {
+                field = value
+                refresh.isEnableLoadMore = value
+                config.loadMoreEnable = value
+            }
+        }
+
+    var isRefreshEnable: Boolean = RefreshConfig.Default.refreshEnable
+        get() = if (this::refresh.isLateinit) refresh.isEnableRefresh else field
+        set(value) {
+            if (this::refresh.isLateinit){
+                field = value
+                refresh.isEnableRefresh = value
+                config.refreshEnable = value
+            }
+        }
 }

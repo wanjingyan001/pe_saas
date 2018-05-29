@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.sogukj.pe.ui.calendar.CompanySelectActivity">
+    tools:context="com.sogukj.pe.module.other.CompanySelectActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -21,11 +21,11 @@
             android:visibility="gone" />
     </FrameLayout>
 
-    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/refresh"
+        android:id="@id/refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/divider2">
@@ -40,5 +40,5 @@
             app:layoutManager="LinearLayoutManager" />
 
         <include layout="@layout/layout_empty" />
-    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>

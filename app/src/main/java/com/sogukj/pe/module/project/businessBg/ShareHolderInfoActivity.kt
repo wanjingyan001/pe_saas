@@ -3,18 +3,15 @@ package com.sogukj.pe.module.project.businessBg
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.base.ToolbarActivity
+import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
+import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
@@ -32,8 +29,7 @@ import java.text.SimpleDateFormat
 /**
  * Created by qinfei on 17/8/11.
  */
-class ShareHolderInfoActivity : ToolbarActivity() {
-
+class ShareHolderInfoActivity : BaseRefreshActivity() {
     lateinit var adapter: RecyclerAdapter<ShareHolderBean>
     lateinit var project: ProjectBean
     val df = SimpleDateFormat("yyyy-MM-dd")
@@ -77,36 +73,54 @@ class ShareHolderInfoActivity : ToolbarActivity() {
         recycler_view.layoutManager = layoutManager
         recycler_view.adapter = adapter
 
-        val header = ProgressLayout(this)
-        header.setColorSchemeColors(ContextCompat.getColor(this, R.color.color_main))
-        refresh.setHeaderView(header)
+//        val header = ProgressLayout(this)
+//        header.setColorSchemeColors(ContextCompat.getColor(this, R.color.color_main))
+//        refresh.setHeaderView(header)
 //        val footer = BallPulseView(this)
 //        footer.setAnimatingColor(ContextCompat.getColor(this, R.color.color_main))
 //        refresh.setBottomView(footer)
-        refresh.setOverScrollRefreshShow(false)
-        refresh.setEnableLoadmore(false)
-        refresh.setOnRefreshListener(object : RefreshListenerAdapter() {
-            override fun onRefresh(refreshLayout: TwinklingRefreshLayout?) {
-                page = 1
-                doRequest()
-            }
-
-            override fun onLoadMore(refreshLayout: TwinklingRefreshLayout?) {
-                ++page
-                doRequest()
-            }
-
-        })
-        refresh.setAutoLoadMore(true)
+//        refresh.setOverScrollRefreshShow(false)
+//        refresh.setEnableLoadmore(false)
+//        refresh.setOnRefreshListener(object : RefreshListenerAdapter() {
+//            override fun onRefresh(refreshLayout: TwinklingRefreshLayout?) {
+//                page = 1
+//                doRequest()
+//            }
+//
+//            override fun onLoadMore(refreshLayout: TwinklingRefreshLayout?) {
+//                ++page
+//                doRequest()
+//            }
+//
+//        })
+//        refresh.setAutoLoadMore(true)
         handler.postDelayed({
             doRequest()
         }, 100)
     }
 
     var page = 1
+    override fun doRefresh() {
+        page = 1
+        doRequest()
+    }
+
+    override fun doLoadMore() {
+        ++page
+        doRequest()
+    }
+
+    override fun initRefreshConfig(): RefreshConfig? {
+        val config = RefreshConfig()
+        config.loadMoreEnable = false
+        config.autoLoadMoreEnable = true
+        config.disableContentWhenRefresh = true
+        return config
+    }
+
 
     fun doRequest() {
-        SoguApi.getService(application,InfoService::class.java)
+        SoguApi.getService(application, InfoService::class.java)
                 .listShareholderInfo(company_id = project.company_id!!, page = page)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -125,17 +139,17 @@ class ShareHolderInfoActivity : ToolbarActivity() {
                     showCustomToast(R.drawable.icon_toast_common, "暂无可用数据")
 
                     if (page == 1)
-                        refresh?.finishRefreshing()
+                        finishRefresh()
                     else
-                        refresh?.finishLoadmore()
+                        finishLoadMore()
                 }, {
-                    SupportEmptyView.checkEmpty(this,adapter)
-                    refresh?.setEnableLoadmore(adapter.dataList.size % 20 == 0)
+                    SupportEmptyView.checkEmpty(this, adapter)
+                    isLoadMoreEnable = adapter.dataList.size % 20 == 0
                     adapter.notifyDataSetChanged()
                     if (page == 1)
-                        refresh?.finishRefreshing()
+                        finishRefresh()
                     else
-                        refresh?.finishLoadmore()
+                        finishLoadMore()
                 })
     }
 

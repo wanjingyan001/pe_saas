@@ -4,19 +4,15 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-import com.lcodecore.tkrefreshlayout.footer.BallPulseView
-import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.base.ToolbarActivity
+import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
+import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
@@ -33,7 +29,7 @@ import org.jetbrains.anko.backgroundColor
 /**
  * Created by qinfei on 17/10/18.
  */
-class ListSelectorActivity : ToolbarActivity() {
+class ListSelectorActivity : BaseRefreshActivity() {
     lateinit var adapter: RecyclerAdapter<CustomSealBean.ValueBean>
     lateinit var bean: CustomSealBean
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,29 +65,6 @@ class ListSelectorActivity : ToolbarActivity() {
         recycler_view.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         recycler_view.layoutManager = layoutManager
         recycler_view.adapter = adapter
-
-        val header = ProgressLayout(this)
-        header.setColorSchemeColors(ContextCompat.getColor(this, R.color.color_main))
-        refresh.setHeaderView(header)
-        val footer = BallPulseView(this)
-        footer.setAnimatingColor(ContextCompat.getColor(this, R.color.color_main))
-        refresh.setBottomView(footer)
-        refresh.setOverScrollRefreshShow(false)
-        refresh.setEnableLoadmore(true)
-        refresh.setOnRefreshListener(object : RefreshListenerAdapter() {
-            override fun onRefresh(refreshLayout: TwinklingRefreshLayout?) {
-                page = 1
-                doRequest()
-            }
-
-            override fun onLoadMore(refreshLayout: TwinklingRefreshLayout?) {
-                ++page
-                doRequest()
-            }
-
-        })
-        refresh.setAutoLoadMore(true)
-
         toolbar_menu.setOnClickListener {
             search_bar.visibility = View.VISIBLE
         }
@@ -120,6 +93,26 @@ class ListSelectorActivity : ToolbarActivity() {
         page = 1
         doRequest()
     }
+
+
+    override fun doRefresh() {
+        page = 1
+        doRequest()
+    }
+
+    override fun doLoadMore() {
+        ++page
+        doRequest()
+    }
+
+    override fun initRefreshConfig(): RefreshConfig? {
+        val config = RefreshConfig()
+        config.loadMoreEnable = true
+        config.autoLoadMoreEnable = true
+        config.disableContentWhenRefresh = true
+        return config
+    }
+
     var page = 1
     fun doRequest() {
         val text = search_bar.search
@@ -143,12 +136,12 @@ class ListSelectorActivity : ToolbarActivity() {
                         showCustomToast(R.drawable.icon_toast_common, "暂无可用数据")
                     }, {
                         SupportEmptyView.checkEmpty(this, adapter)
-                        refresh?.setEnableLoadmore(adapter.dataList.size % 20 == 0)
+                       isLoadMoreEnable = adapter.dataList.size % 20 == 0
                         adapter.notifyDataSetChanged()
                         if (page == 1)
-                            refresh?.finishRefreshing()
+                           finishRefresh()
                         else
-                            refresh?.finishLoadmore()
+                           finishLoadMore()
                     })
     }
 

@@ -38,7 +38,7 @@ class RefreshConfig {
     /**
      * 是否在列表不满一页时候开启上拉加载功能
      */
-    var loadMoreWhenContentNotFull = true
+    var loadMoreWhenContentNotFull = false
     /**
      * /是否启用越界拖动（仿苹果效果）
      */
@@ -59,4 +59,8 @@ class RefreshConfig {
      * 设置是否启用内容视图拖动效果
      */
     var footerTranslationContent = false
+    /**
+     *  是否在全部加载结束之后Footer跟随内容
+     */
+    var footerFollowWhenLoadFinished = false
 }

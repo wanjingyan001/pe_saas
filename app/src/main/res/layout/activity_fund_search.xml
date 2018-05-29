@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.sogukj.pe.ui.fund.FundSearchActivity">
+    tools:context="com.sogukj.pe.module.fund.FundSearchActivity">
 
 
     <com.sogukj.pe.widgets.SearchView
@@ -86,8 +86,8 @@
             android:visibility="gone" />
 
 
-        <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-            android:id="@+id/refresh"
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@id/refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -102,7 +102,7 @@
                 app:layoutManager="LinearLayoutManager" />
 
             <include layout="@layout/layout_empty" />
-        </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
     </LinearLayout>
 
     <LinearLayout

@@ -5,13 +5,14 @@
     android:layout_height="match_parent"
     android:background="#f3f5f7"
     android:orientation="vertical"
-    tools:context="com.sogukj.pe.ui.approve.VacationRecordActivity">
+    tools:context="com.sogukj.pe.module.approve.VacationRecordActivity">
 
     <include layout="@layout/toolbar" />
 
-    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/refresh"
+        android:id="@id/refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -22,6 +23,6 @@
             android:background="#f3f5f7"/>
 
         <include layout="@layout/layout_empty" />
-    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 </LinearLayout>

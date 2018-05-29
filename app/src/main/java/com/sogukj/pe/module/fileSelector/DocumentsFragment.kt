@@ -1,30 +1,20 @@
 package com.sogukj.pe.module.fileSelector
 
 
-import android.annotation.TargetApi
-import android.app.job.JobInfo
-import android.app.job.JobScheduler
-import android.content.ComponentName
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.support.v4.app.Fragment
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.LinearLayoutManager
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.chad.library.adapter.base.BaseQuickAdapter
 import com.scwang.smartrefresh.layout.api.RefreshFooter
 import com.scwang.smartrefresh.layout.api.RefreshHeader
-import com.scwang.smartrefresh.layout.api.RefreshLayout
-import com.scwang.smartrefresh.layout.footer.ClassicsFooter
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.BaseRefreshFragment
@@ -34,8 +24,6 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.peUtils.FileTypeUtils
 import com.sogukj.pe.peUtils.FileUtil
-import com.sogukj.pe.baselibrary.Extended.*
-import com.sogukj.pe.service.ImService
 import kotlinx.android.synthetic.main.fragment_documents.*
 import kotlinx.android.synthetic.main.layout_empty.*
 import org.jetbrains.anko.find

@@ -16,9 +16,16 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+import com.scwang.smartrefresh.layout.api.RefreshFooter
+import com.scwang.smartrefresh.layout.api.RefreshHeader
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter
+import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.isNullOrEmpty
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.BaseFragment
+import com.sogukj.pe.baselibrary.base.BaseRefreshFragment
+import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.WeeklyArrangeBean
@@ -40,7 +47,7 @@ import org.jetbrains.anko.support.v4.ctx
  * Use the [ArrangeListFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ArrangeListFragment : BaseFragment() {
+class ArrangeListFragment : BaseRefreshFragment() {
     override val containerViewId: Int
         get() = R.layout.fragment_arrange_list
     private var mParam1: String? = null
@@ -67,38 +74,6 @@ class ArrangeListFragment : BaseFragment() {
         arrangeAdapter = ArrangeAdapter()
         recycler_view.layoutManager = LinearLayoutManager(ctx)
         recycler_view.adapter = arrangeAdapter
-        val arrHeader = ArrangeHeaderView(ctx)
-        refresh.setHeaderView(arrHeader)
-        val arrFooter = ArrangeFooterView(ctx)
-        refresh.setBottomView(arrFooter)
-        refresh.setEnableLoadmore(true)
-        refresh.setAutoLoadMore(false)
-        refresh.setOnRefreshListener(object : RefreshListenerAdapter() {
-            override fun onRefresh(refreshLayout: TwinklingRefreshLayout?) {
-                if (!isRefresh) {
-                    offset += 1
-                    isRefresh = true
-                    if (offset > 0) {
-                        isNextWeekly = true
-                        isLastWeekly = false
-                    }
-                    doRequest()
-                }
-            }
-
-            override fun onLoadMore(refreshLayout: TwinklingRefreshLayout?) {
-                if (!isLoadMore) {
-                    offset -= 1
-                    isLoadMore = true
-                    if (offset < 0) {
-                        isNextWeekly = false
-                        isLastWeekly = true
-                    }
-                    doRequest()
-                }
-            }
-
-        })
         backImg.setOnClickListener {
             offset = 0
             isNextWeekly = false
@@ -107,6 +82,51 @@ class ArrangeListFragment : BaseFragment() {
             doRequest()
         }
     }
+
+
+    override fun doRefresh() {
+        if (!isRefresh) {
+            offset += 1
+            isRefresh = true
+            if (offset > 0) {
+                isNextWeekly = true
+                isLastWeekly = false
+            }
+            doRequest()
+        }
+    }
+
+    override fun doLoadMore() {
+        if (!isLoadMore) {
+            offset -= 1
+            isLoadMore = true
+            if (offset < 0) {
+                isNextWeekly = false
+                isLastWeekly = true
+            }
+            doRequest()
+        }
+    }
+
+    override fun initRefreshConfig(): RefreshConfig? {
+        val config = RefreshConfig()
+        config.loadMoreEnable = true
+        config.autoLoadMoreEnable = false
+        config.disableContentWhenLoading = true
+        config.disableContentWhenRefresh = true
+        config.footerTranslationContent = false
+        config.footerFollowWhenLoadFinished = true
+        return config
+    }
+
+    override fun initRefreshHeader(): RefreshHeader? {
+        return ArrangeHeaderView(ctx)
+    }
+
+    override fun initRefreshFooter(): RefreshFooter? {
+        return ArrangeFooterView(ctx)
+    }
+
 
     fun getWeeklyData(): ArrayList<WeeklyArrangeBean> {
         val list = arrangeAdapter.dataList
@@ -141,10 +161,12 @@ class ArrangeListFragment : BaseFragment() {
                     Trace.e(e)
                 }, {
                     if (isRefresh) {
-                        refresh.finishRefreshing()
+                        refresh.finishRefresh()
                         isRefresh = false
                     }
                     if (isLoadMore) {
+                        refresh.finishLoadMore()
+                        isLoadMore = false
                         recycler_view.run {
                             smoothScrollToPosition(0)
                             addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -155,8 +177,6 @@ class ArrangeListFragment : BaseFragment() {
                                 }
                             })
                         }
-                        refresh.finishLoadmore()
-                        isLoadMore = false
                     }
                     //arrangeAdapter.notifyDataSetChanged()无效
                     recycler_view.adapter = arrangeAdapter

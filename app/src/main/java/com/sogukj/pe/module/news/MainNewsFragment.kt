@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.TabLayout
-import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.DividerItemDecoration
@@ -21,12 +20,9 @@ import com.afollestad.materialdialogs.Theme
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-import com.lcodecore.tkrefreshlayout.footer.BallPulseView
-import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.base.BaseFragment
+import com.sogukj.pe.baselibrary.base.BaseRefreshFragment
+import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.ArrayPagerAdapter
@@ -50,7 +46,7 @@ import kotlin.collections.ArrayList
 /**
  * Created by qinfei on 17/7/18.
  */
-class MainNewsFragment : BaseFragment() {
+class MainNewsFragment : BaseRefreshFragment() {
     override val containerViewId: Int
         get() = R.layout.fragment_main_news //To change initializer of created properties use File | Settings | File Templates.
 
@@ -118,19 +114,7 @@ class MainNewsFragment : BaseFragment() {
                     tv_from.text = data.source
 
                     data.setTags(baseActivity!!, tags)
-
-//                    var isRead = isRead(data)
-//                    if (isRead) {
-//                        tv_summary.textColor = resources.getColor(R.color.text_3)
-//                        tv_time.textColor = resources.getColor(R.color.text_3)
-//                        tv_from.textColor = resources.getColor(R.color.text_3)
-//                    } else {
-//                        tv_summary.textColor = resources.getColor(R.color.text_1)
-//                        tv_time.textColor = resources.getColor(R.color.text_2)
-//                        tv_from.textColor = resources.getColor(R.color.text_2)
-//                    }
                 }
-
             }
         })
         hisAdapter = RecyclerAdapter<String>(baseActivity!!, { _adapter, parent, type ->
@@ -174,33 +158,6 @@ class MainNewsFragment : BaseFragment() {
             }
         }
         tv_result_title.text = Html.fromHtml(getString(R.string.tv_title_result_news, 0))
-
-//        iv_user.setOnClickListener {
-//            val activity = activity as MainActivity
-//            activity.find<RadioGroup>(R.id.rg_tab_main).check(R.id.rb_my)
-////            UserFragment.start(baseActivity);
-//        }
-//
-//        Store.store.getUser(baseActivity!!)?.apply {
-//            if (null != url)
-//                Glide.with(baseActivity)
-//                        .load(headImage())
-//                        .error(R.drawable.img_logo_user)
-//                        .into(iv_user)
-//        }
-//        iv_add.setOnClickListener {
-//            ProjectAddActivity.startAdd(baseActivity)
-//        }
-        //不做实时查询,只有点击软键盘上的查询时才进行查询
-//        search_view.onTextChange = { text ->
-//            if (TextUtils.isEmpty(text)) {
-//                ll_history.visibility = View.VISIBLE
-//            } else {
-//                page = 1
-//                handler.removeCallbacks(searchTask)
-//                handler.postDelayed(searchTask, 100)
-//            }
-//        }
         search_view.tv_cancel.visibility = View.VISIBLE
         search_view.tv_cancel.setOnClickListener {
             this.key = ""
@@ -281,29 +238,6 @@ class MainNewsFragment : BaseFragment() {
         hisAdapter.dataList.addAll(search)
         hisAdapter.notifyDataSetChanged()
         ll_history.visibility = View.VISIBLE
-
-
-        val header = ProgressLayout(baseActivity)
-        header.setColorSchemeColors(ContextCompat.getColor(baseActivity!!, R.color.color_main))
-        refresh.setHeaderView(header)
-        val footer = BallPulseView(baseActivity)
-        footer.setAnimatingColor(ContextCompat.getColor(baseActivity!!, R.color.color_main))
-        refresh.setBottomView(footer)
-        refresh.setOverScrollRefreshShow(false)
-        refresh.setOnRefreshListener(object : RefreshListenerAdapter() {
-            override fun onRefresh(refreshLayout: TwinklingRefreshLayout?) {
-                page = 1
-                handler.post(searchTask)
-            }
-
-            override fun onLoadMore(refreshLayout: TwinklingRefreshLayout?) {
-                ++page
-                handler.post(searchTask)
-            }
-
-        })
-        refresh.setAutoLoadMore(true)
-
         iv_filter.setOnClickListener {
             if (fl_filter.visibility == View.GONE) {
                 view_pager.visibility = View.GONE
@@ -327,8 +261,27 @@ class MainNewsFragment : BaseFragment() {
         loadTags()
     }
 
+
+    override fun doRefresh() {
+        page = 1
+        handler.post(searchTask)
+    }
+
+    override fun doLoadMore() {
+        ++page
+        handler.post(searchTask)
+    }
+
+    override fun initRefreshConfig(): RefreshConfig? {
+        val config = RefreshConfig()
+        config.loadMoreEnable = true
+        config.autoLoadMoreEnable = true
+        config.disableContentWhenRefresh = true
+        return config
+    }
+
     fun loadTags() {
-        SoguApi.getService(baseActivity!!.application,NewService::class.java)
+        SoguApi.getService(baseActivity!!.application, NewService::class.java)
                 .getHotTag()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -419,7 +372,7 @@ class MainNewsFragment : BaseFragment() {
         val tmplist = LinkedList<String>()
         tmplist.add(text)
         Store.store.newsSearch(baseActivity!!, tmplist)
-        SoguApi.getService(baseActivity!!.application,NewService::class.java)
+        SoguApi.getService(baseActivity!!.application, NewService::class.java)
                 .listNews(page = page, pageSize = 20, type = type, fuzzyQuery = text)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -441,9 +394,9 @@ class MainNewsFragment : BaseFragment() {
                     ll_history.visibility = View.GONE
                     adapter.notifyDataSetChanged()
                     if (page == 1)
-                        refresh?.finishRefreshing()
+                        finishRefresh()
                     else
-                        refresh?.finishLoadmore()
+                        finishLoadMore()
 
                     hisAdapter.dataList.clear()
                     hisAdapter.dataList.addAll(Store.store.newsSearch(baseActivity!!))

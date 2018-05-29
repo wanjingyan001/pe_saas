@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -14,13 +13,10 @@ import android.widget.BaseAdapter
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.google.gson.JsonSyntaxException
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-import com.lcodecore.tkrefreshlayout.footer.BallPulseView
-import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.base.BaseFragment
+import com.sogukj.pe.baselibrary.base.BaseRefreshFragment
+import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.widgets.MyGridView
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
@@ -42,7 +38,7 @@ import java.util.*
 /**
  * A simple [Fragment] subclass.
  */
-class WeeklyISendFragment : BaseFragment() {
+class WeeklyISendFragment : BaseRefreshFragment() {
 
     override val containerViewId: Int
         get() = R.layout.fragment_weekly_isend
@@ -124,7 +120,7 @@ class WeeklyISendFragment : BaseFragment() {
 //                    .build()
 //            timePicker.show()
             startDD.show(1, calendar, CalendarDingDing.onTimeClick { date ->
-                if(date != null){
+                if (date != null) {
                     if (end.text.trim() == "结束时间") {
                         start.text = format.format(date)
                         return@onTimeClick
@@ -181,7 +177,7 @@ class WeeklyISendFragment : BaseFragment() {
 //                    .build()
 //            timePicker.show()
             deadDD.show(1, calendar, CalendarDingDing.onTimeClick { date ->
-                if(date != null){
+                if (date != null) {
                     if (start.text.trim() == "开始时间") {
                         end.text = format.format(date)
                         return@onTimeClick
@@ -202,36 +198,32 @@ class WeeklyISendFragment : BaseFragment() {
                 }
             })
         }
-
-        val header = ProgressLayout(baseActivity)
-        header.setColorSchemeColors(ContextCompat.getColor(baseActivity!!, R.color.color_main))
-        refresh.setHeaderView(header)
-        val footer = BallPulseView(baseActivity)
-        footer.setAnimatingColor(ContextCompat.getColor(baseActivity!!, R.color.color_main))
-        refresh.setBottomView(footer)
-        refresh.setOverScrollRefreshShow(false)
-        refresh.setOnRefreshListener(object : RefreshListenerAdapter() {
-            override fun onRefresh(refreshLayout: TwinklingRefreshLayout?) {
-                page = 1
-                doRequest()
-            }
-
-            override fun onLoadMore(refreshLayout: TwinklingRefreshLayout?) {
-                ++page
-                doRequest()
-            }
-
-        })
-        refresh.setAutoLoadMore(true)
-
         doRequest()
     }
 
     var page = 1
     var pageSize = 5
 
+    override fun doRefresh() {
+        page = 1
+        doRequest()
+    }
+
+    override fun doLoadMore() {
+        ++page
+        doRequest()
+    }
+
+    override fun initRefreshConfig(): RefreshConfig? {
+        val config = RefreshConfig()
+        config.loadMoreEnable = true
+        config.autoLoadMoreEnable = true
+        config.disableContentWhenRefresh = true
+        return config
+    }
+
     fun doRequest() {
-        SoguApi.getService(baseActivity!!.application,WeeklyService::class.java)
+        SoguApi.getService(baseActivity!!.application, WeeklyService::class.java)
                 .send(page, pageSize, start.text.toString(), end.text.toString())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -257,19 +249,19 @@ class WeeklyISendFragment : BaseFragment() {
                             showCustomToast(R.drawable.icon_toast_fail, "网络出错")
                             jsSendLayout.visibility = View.GONE
                             networkErrorLayout.visibility = View.VISIBLE
-                            resetRefresh.setOnClickListener{
+                            resetRefresh.setOnClickListener {
                                 doRequest()
                             }
                         }
                         else -> showCustomToast(R.drawable.icon_toast_fail, "未知错误")
                     }
                 }, {
-                    refresh.setEnableLoadmore(adapter.dataList.size % pageSize == 0)
+                    isLoadMoreEnable = adapter.dataList.size % pageSize == 0
                     adapter.notifyDataSetChanged()
                     if (page == 1)
-                        refresh.finishRefreshing()
+                        finishRefresh()
                     else
-                        refresh.finishLoadmore()
+                        finishLoadMore()
                 })
     }
 

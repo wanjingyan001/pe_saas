@@ -3,18 +3,14 @@ package com.sogukj.pe.module.approve
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-import com.lcodecore.tkrefreshlayout.footer.BallPulseView
-import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.base.ToolbarActivity
+import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
+import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
@@ -30,10 +26,8 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_vacation_record.*
 import org.jetbrains.anko.backgroundResource
 
-class VacationRecordActivity : ToolbarActivity() {
-
+class VacationRecordActivity : BaseRefreshActivity() {
     lateinit var adapter: RecyclerAdapter<LeaveRecordBean>
-
     var typeCCQJ: Int = 0
     var id: Int? = null
 
@@ -94,32 +88,29 @@ class VacationRecordActivity : ToolbarActivity() {
         recycler_view.layoutManager = LinearLayoutManager(context)
         recycler_view.addItemDecoration(SpaceItemDecoration(Utils.dpToPx(context, 10)))
         recycler_view.adapter = adapter
-
-        val header = ProgressLayout(context)
-        header.setColorSchemeColors(ContextCompat.getColor(context, R.color.color_main))
-        refresh.setHeaderView(header)
-        val footer = BallPulseView(context)
-        footer.setAnimatingColor(ContextCompat.getColor(context, R.color.color_main))
-        refresh.setBottomView(footer)
-        refresh.setOverScrollRefreshShow(false)
-        refresh.setOnRefreshListener(object : RefreshListenerAdapter() {
-            override fun onRefresh(refreshLayout: TwinklingRefreshLayout?) {
-                page = 1
-                doRequest()
-            }
-
-            override fun onLoadMore(refreshLayout: TwinklingRefreshLayout?) {
-                ++page
-                doRequest()
-            }
-
-        })
-        refresh.setAutoLoadMore(true)
-
         doRequest()
     }
 
     var page = 1
+
+
+    override fun doRefresh() {
+        page = 1
+        doRequest()
+    }
+
+    override fun doLoadMore() {
+        ++page
+        doRequest()
+    }
+
+    override fun initRefreshConfig(): RefreshConfig? {
+        val config = RefreshConfig()
+        config.loadMoreEnable = true
+        config.autoLoadMoreEnable = true
+        config.disableContentWhenRefresh = true
+        return config
+    }
 
     fun doRequest() {
 //        var type = when(typeCCQJ){
@@ -145,12 +136,12 @@ class VacationRecordActivity : ToolbarActivity() {
                     showCustomToast(R.drawable.icon_toast_common, "暂无可用数据")
                 }, {
                     SupportEmptyView.checkEmpty(this, adapter)
-                    refresh?.setEnableLoadmore(adapter.dataList.size % 20 == 0)
+                    isLoadMoreEnable = adapter.dataList.size % 20 == 0
                     adapter.notifyDataSetChanged()
                     if (page == 1)
-                        refresh?.finishRefreshing()
+                        finishRefresh()
                     else
-                        refresh?.finishLoadmore()
+                        finishLoadMore()
                 })
     }
 

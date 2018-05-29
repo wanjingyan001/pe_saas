@@ -51,11 +51,11 @@ public final class R {
         public static int ex_header = 0x7f0c00bc;
         public static int item_touch_helper_previous_elevation = 0x7f0c00fa;
         public static int iv_arrow = 0x7f0c00fd;
-        public static int iv_loading = 0x7f0c0108;
-        public static int ripple = 0x7f0c01ef;
-        public static int round1 = 0x7f0c01f8;
-        public static int round2 = 0x7f0c01f9;
-        public static int tv = 0x7f0c028c;
+        public static int iv_loading = 0x7f0c0109;
+        public static int ripple = 0x7f0c01f0;
+        public static int round1 = 0x7f0c01f9;
+        public static int round2 = 0x7f0c01fa;
+        public static int tv = 0x7f0c028d;
     }
     public static final class layout {
         public static int view_bezier = 0x7f0f00e5;

@@ -3,18 +3,16 @@ package com.sogukj.pe.module.project.businessBg
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.TextView
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-import com.lcodecore.tkrefreshlayout.footer.BallPulseView
-import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout
+import com.scwang.smartrefresh.layout.api.RefreshFooter
+import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.base.ToolbarActivity
+import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
+import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
@@ -31,8 +29,7 @@ import java.text.SimpleDateFormat
 /**
  * Created by qinfei on 17/8/11.
  */
-class ChangeRecordActivity : ToolbarActivity(), SupportEmptyView {
-
+class ChangeRecordActivity : BaseRefreshActivity(), SupportEmptyView {
     lateinit var adapter: RecyclerAdapter<ChangeRecordBean>
     lateinit var project: ProjectBean
     val df = SimpleDateFormat("yyyy-MM-dd")
@@ -72,31 +69,54 @@ class ChangeRecordActivity : ToolbarActivity(), SupportEmptyView {
         recycler_view.layoutManager = layoutManager
         recycler_view.adapter = adapter
 
-        val header = ProgressLayout(this)
-        header.setColorSchemeColors(ContextCompat.getColor(this, R.color.color_main))
-        refresh.setHeaderView(header)
-        val footer = BallPulseView(this)
-        footer.setAnimatingColor(ContextCompat.getColor(this, R.color.color_main))
-        refresh.setBottomView(footer)
-        refresh.setOverScrollRefreshShow(false)
-        refresh.setEnableLoadmore(true)
-        refresh.setOnRefreshListener(object : RefreshListenerAdapter() {
-            override fun onRefresh(refreshLayout: TwinklingRefreshLayout?) {
-                page = 1
-                doRequest()
-            }
-
-            override fun onLoadMore(refreshLayout: TwinklingRefreshLayout?) {
-                ++page
-                doRequest()
-            }
-
-        })
-        refresh.setAutoLoadMore(true)
+//        val header = ProgressLayout(this)
+//        header.setColorSchemeColors(ContextCompat.getColor(this, R.color.color_main))
+//        refresh.setHeaderView(header)
+//        val footer = BallPulseView(this)
+//        footer.setAnimatingColor(ContextCompat.getColor(this, R.color.color_main))
+//        refresh.setBottomView(footer)
+//        refresh.setOverScrollRefreshShow(false)
+//        refresh.setEnableLoadmore(true)
+//        refresh.setOnRefreshListener(object : RefreshListenerAdapter() {
+//            override fun onRefresh(refreshLayout: TwinklingRefreshLayout?) {
+//                page = 1
+//                doRequest()
+//            }
+//
+//            override fun onLoadMore(refreshLayout: TwinklingRefreshLayout?) {
+//                ++page
+//                doRequest()
+//            }
+//
+//        })
+//        refresh.setAutoLoadMore(true)
         handler.postDelayed({
             doRequest()
         }, 100)
     }
+
+    override fun doRefresh() {
+        page = 1
+        doRequest()
+    }
+
+    override fun doLoadMore() {
+        ++page
+        doRequest()
+    }
+
+    override fun initRefreshConfig(): RefreshConfig? {
+        val config = RefreshConfig()
+        config.loadMoreEnable = true
+        config.autoLoadMoreEnable = true
+        config.disableContentWhenRefresh = true
+        return config
+    }
+
+    override fun initRefreshHeader(): RefreshHeader?  = defaultHeader
+
+    override fun initRefreshFooter(): RefreshFooter?  = defaultFooter
+
 
     var page = 1
     fun doRequest() {
@@ -118,12 +138,12 @@ class ChangeRecordActivity : ToolbarActivity(), SupportEmptyView {
                     showCustomToast(R.drawable.icon_toast_common, "暂无可用数据")
                 }, {
                     SupportEmptyView.checkEmpty(this,adapter)
-                    refresh?.setEnableLoadmore(adapter.dataList.size % 20 == 0)
+                    isLoadMoreEnable = adapter.dataList.size % 20 == 0
                     adapter.notifyDataSetChanged()
                     if (page == 1)
-                        refresh?.finishRefreshing()
+                       finishRefresh()
                     else
-                        refresh?.finishLoadmore()
+                       finishLoadMore()
                 })
     }
 

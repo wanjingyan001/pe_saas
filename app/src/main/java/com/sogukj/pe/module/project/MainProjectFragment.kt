@@ -33,6 +33,8 @@ import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.BaseFragment
+import com.sogukj.pe.baselibrary.base.BaseRefreshFragment
+import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.ArrayPagerAdapter
@@ -56,7 +58,7 @@ import java.util.*
 /**
  * Created by qinfei on 17/7/18.
  */
-class MainProjectFragment : BaseFragment() {
+class MainProjectFragment : BaseRefreshFragment() {
     override val containerViewId: Int
         get() = R.layout.fragment_main_project
 
@@ -358,28 +360,6 @@ class MainProjectFragment : BaseFragment() {
         hisAdapter.dataList.addAll(search)
         hisAdapter.notifyDataSetChanged()
 
-
-        val header = ProgressLayout(baseActivity)
-        header.setColorSchemeColors(ContextCompat.getColor(baseActivity!!, R.color.color_main))
-        refresh.setHeaderView(header)
-        val footer = BallPulseView(baseActivity)
-        footer.setAnimatingColor(ContextCompat.getColor(baseActivity!!, R.color.color_main))
-        refresh.setBottomView(footer)
-        refresh.setOverScrollRefreshShow(false)
-        refresh.setOnRefreshListener(object : RefreshListenerAdapter() {
-            override fun onRefresh(refreshLayout: TwinklingRefreshLayout?) {
-                offset = 0
-                handler.post(searchTask)
-            }
-
-            override fun onLoadMore(refreshLayout: TwinklingRefreshLayout?) {
-                offset = this@MainProjectFragment.adapter.dataList.size
-                handler.post(searchTask)
-            }
-
-        })
-        refresh.setAutoLoadMore(true)
-
         mAppBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
             if (mAppBarLayout.height > 0) {
                 var appBarHeight = mAppBarLayout.height
@@ -434,6 +414,24 @@ class MainProjectFragment : BaseFragment() {
             }
         })
     }
+    override fun doRefresh() {
+        offset = 0
+        handler.post(searchTask)
+    }
+
+    override fun doLoadMore() {
+        offset = this@MainProjectFragment.adapter.dataList.size
+        handler.post(searchTask)
+    }
+
+    override fun initRefreshConfig(): RefreshConfig? {
+        val config = RefreshConfig()
+        config.loadMoreEnable = true
+        config.autoLoadMoreEnable = true
+        config.disableContentWhenRefresh = true
+        return config
+    }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -515,9 +513,9 @@ class MainProjectFragment : BaseFragment() {
                     ll_history.visibility = View.GONE
                     adapter.notifyDataSetChanged()
                     if (offset == 0)
-                        refresh?.finishRefreshing()
+                        finishRefresh()
                     else
-                        refresh?.finishLoadmore()
+                      finishLoadMore()
 
                     hisAdapter.dataList.clear()
                     hisAdapter.dataList.addAll(Store.store.projectSearch(baseActivity!!))

@@ -6,7 +6,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.TabLayout
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
@@ -14,13 +13,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-import com.lcodecore.tkrefreshlayout.footer.BallPulseView
-import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.base.ToolbarActivity
+import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
+import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
@@ -39,7 +35,7 @@ import org.jetbrains.anko.textColor
 /**
  * Created by qinfei on 17/10/18.
  */
-class ApproveListActivity : ToolbarActivity(), TabLayout.OnTabSelectedListener {
+class ApproveListActivity : BaseRefreshActivity(), TabLayout.OnTabSelectedListener {
     override fun onTabReselected(tab: TabLayout.Tab?) {
 
     }
@@ -123,30 +119,6 @@ class ApproveListActivity : ToolbarActivity(), TabLayout.OnTabSelectedListener {
         recycler_view.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         recycler_view.layoutManager = layoutManager
         recycler_view.adapter = adapter
-
-        val header = ProgressLayout(this)
-        header.setColorSchemeColors(ContextCompat.getColor(this, R.color.color_main))
-        refresh.setHeaderView(header)
-        val footer = BallPulseView(this)
-        footer.setAnimatingColor(ContextCompat.getColor(this, R.color.color_main))
-        refresh.setBottomView(footer)
-        refresh.setOverScrollRefreshShow(false)
-        refresh.setEnableLoadmore(true)
-        refresh.setOnRefreshListener(object : RefreshListenerAdapter() {
-            override fun onRefresh(refreshLayout: TwinklingRefreshLayout?) {
-                page = 1
-                doRequest()
-            }
-
-            override fun onLoadMore(refreshLayout: TwinklingRefreshLayout?) {
-                ++page
-                doRequest()
-            }
-
-        })
-        refresh.setAutoLoadMore(true)
-
-        ////
         kotlin.run {
             fl_filter.setOnClickListener {
                 stateDefault()
@@ -159,18 +131,6 @@ class ApproveListActivity : ToolbarActivity(), TabLayout.OnTabSelectedListener {
                     stateFilter()
                 }
             }
-//            search_box.setOnClickListener {
-//                var pro_id: Int? = null
-//                var status_tyoe: Int? = null
-//                if (intent.getStringExtra(Extras.TITLE).equals("审批历史")) {
-//                    pro_id = intent.getIntExtra(Extras.ID, 1)
-//                    status_tyoe = null
-//                } else {
-//                    pro_id = null
-//                    status_tyoe = mType
-//                }
-//                ApproveSearchActivity.start(this, status_tyoe, pro_id)
-//            }
             search_box.root.backgroundColor = Color.WHITE
             (search_box.tv_cancel as TextView).textColor = Color.parseColor("#a0a4aa")
             search_box.tv_cancel.visibility = View.GONE
@@ -188,8 +148,6 @@ class ApproveListActivity : ToolbarActivity(), TabLayout.OnTabSelectedListener {
             }
         }
         stateDefault()
-        ////
-
     }
 
     override fun onResume() {
@@ -197,6 +155,24 @@ class ApproveListActivity : ToolbarActivity(), TabLayout.OnTabSelectedListener {
         handler.postDelayed({
             doRequest()
         }, 100)
+    }
+
+    override fun doRefresh() {
+        page = 1
+        doRequest()
+    }
+
+    override fun doLoadMore() {
+        ++page
+        doRequest()
+    }
+
+    override fun initRefreshConfig(): RefreshConfig? {
+        val config = RefreshConfig()
+        config.autoLoadMoreEnable = true
+        config.loadMoreEnable = true
+        config.disableContentWhenRefresh = true
+        return config
     }
 
     var filterBean: ApproveFilterBean? = null
@@ -401,15 +377,15 @@ class ApproveListActivity : ToolbarActivity(), TabLayout.OnTabSelectedListener {
                         SupportEmptyView.checkEmpty(this, adapter)
                     }, {
                         SupportEmptyView.checkEmpty(this, adapter)
-                        refresh?.setEnableLoadmore(adapter.dataList.size % 20 == 0)
+                        isLoadMoreEnable = adapter.dataList.size % 20 == 0
                         adapter.notifyDataSetChanged()
                         if (page == 1)
-                            refresh?.finishRefreshing()
+                            finishRefresh()
                         else
-                            refresh?.finishLoadmore()
+                            finishLoadMore()
                     })
         } else if (mType == 4) {
-            SoguApi.getService(application,ApproveService::class.java)
+            SoguApi.getService(application, ApproveService::class.java)
                     .showCopy(page = page, template_id = templates)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
@@ -430,17 +406,17 @@ class ApproveListActivity : ToolbarActivity(), TabLayout.OnTabSelectedListener {
                         SupportEmptyView.checkEmpty(this, adapter)
                     }, {
                         SupportEmptyView.checkEmpty(this, adapter)
-                        refresh?.setEnableLoadmore(adapter.dataList.size % 20 == 0)
+                        isLoadMoreEnable = adapter.dataList.size % 20 == 0
                         adapter.notifyDataSetChanged()
                         if (page == 1)
-                            refresh?.finishRefreshing()
+                            finishRefresh()
                         else
-                            refresh?.finishLoadmore()
+                            finishLoadMore()
                     })
         }
 
 
-        SoguApi.getService(application,ApproveService::class.java)
+        SoguApi.getService(application, ApproveService::class.java)
                 .approveFilter()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())

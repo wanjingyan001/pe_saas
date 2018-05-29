@@ -118,7 +118,7 @@ class PartyListFragment : BaseFragment() {
 
     fun doRequest() {
         tid?.let {
-            SoguApi.getService(baseActivity!!.application,PartyBuildService::class.java)
+            SoguApi.getService(baseActivity!!.application, PartyBuildService::class.java)
                     .categoryInfo(it)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
@@ -204,7 +204,7 @@ class PartyListFragment : BaseFragment() {
         override fun setData(view: View, data: ArticleBean, position: Int) {
             contentTv.text = data.title
             timeTv.text = data.time
-            if (position != 0 && (position + 1) % 4 == 0 && articleAdapter.dataList.size % 4 != 0) {
+            if (position != 0 && (position + 1) % 4 == 0 && articleAdapter.dataList.size - 1 != position) {
                 lineLayout.visibility = View.VISIBLE
             } else {
                 lineLayout.visibility = View.GONE
@@ -222,7 +222,7 @@ class PartyListFragment : BaseFragment() {
         override fun setData(view: View, data: FileBean, position: Int) {
             contentTv.text = data.file_name
             timeTv.text = data.time
-            if (position != 0 && (position + 1) % 4 == 0 && fileAdapter.dataList.size % 4 != 0) {
+            if (position != 0 && (position + 1) % 4 == 0 && fileAdapter.dataList.size - 1 != position) {
                 lineLayout.visibility = View.VISIBLE
             } else {
                 lineLayout.visibility = View.GONE

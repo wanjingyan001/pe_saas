@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,13 +12,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.google.gson.JsonSyntaxException
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-import com.lcodecore.tkrefreshlayout.footer.BallPulseView
-import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.base.BaseFragment
+import com.sogukj.pe.baselibrary.base.BaseRefreshFragment
+import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.widgets.MyGridView
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
@@ -46,7 +42,7 @@ import kotlin.collections.ArrayList
 /**
  * A simple [Fragment] subclass.
  */
-class WeeklyWaitToWatchFragment : BaseFragment(), View.OnClickListener {
+class WeeklyWaitToWatchFragment : BaseRefreshFragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.resetRefresh -> getDepartmentData()
@@ -318,29 +314,26 @@ class WeeklyWaitToWatchFragment : BaseFragment(), View.OnClickListener {
 
         currentClick = 0
         selected_depart_id = 0
-
         getDepartmentData()
+    }
 
-        val header = ProgressLayout(baseActivity)
-        header.setColorSchemeColors(ContextCompat.getColor(baseActivity!!, R.color.color_main))
-        refresh.setHeaderView(header)
-        val footer = BallPulseView(baseActivity)
-        footer.setAnimatingColor(ContextCompat.getColor(baseActivity!!, R.color.color_main))
-        refresh.setBottomView(footer)
-        refresh.setOverScrollRefreshShow(false)
-        refresh.setOnRefreshListener(object : RefreshListenerAdapter() {
-            override fun onRefresh(refreshLayout: TwinklingRefreshLayout?) {
-                page = 1
-                doRequest()
-            }
 
-            override fun onLoadMore(refreshLayout: TwinklingRefreshLayout?) {
-                ++page
-                doRequest()
-            }
+    override fun doRefresh() {
+        page = 1
+        doRequest()
+    }
 
-        })
-        refresh.setAutoLoadMore(true)
+    override fun doLoadMore() {
+        ++page
+        doRequest()
+    }
+
+    override fun initRefreshConfig(): RefreshConfig? {
+        val config = RefreshConfig()
+        config.loadMoreEnable = true
+        config.autoLoadMoreEnable = true
+        config.disableContentWhenRefresh = true
+        return config
     }
 
     private fun getDepartmentData() {
@@ -423,12 +416,12 @@ class WeeklyWaitToWatchFragment : BaseFragment(), View.OnClickListener {
                     Trace.e(e)
                     ToastError(e)
                 }, {
-                    refresh.setEnableLoadmore(adapter.dataList.size % pageSize == 0)
+                   isLoadMoreEnable = adapter.dataList.size % pageSize == 0
                     adapter.notifyDataSetChanged()
                     if (page == 1)
-                        refresh.finishRefreshing()
+                        finishRefresh()
                     else
-                        refresh.finishLoadmore()
+                       finishLoadMore()
                 })
     }
 

@@ -5,17 +5,14 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.annotation.IntRange
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.Toolbar
 import android.view.View
 import android.widget.TextView
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-import com.lcodecore.tkrefreshlayout.footer.BallPulseView
-import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.base.BaseActivity
+import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
+import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
@@ -33,7 +30,7 @@ import org.jetbrains.anko.ctx
 import org.jetbrains.anko.find
 import kotlin.properties.Delegates
 
-class PartyMoreActivity : BaseActivity() {
+class PartyMoreActivity : BaseRefreshActivity() {
     var type: Int by Delegates.notNull()
     var id: Int by Delegates.notNull()
     var page = 1
@@ -54,6 +51,7 @@ class PartyMoreActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_party_more)
         Utils.setWindowStatusBarColor(this, R.color.party_toolbar_red)
+        toolbar?.setBackgroundColor(resources.getColor(R.color.party_toolbar_red))
         type = intent.getIntExtra(Extras.TYPE, 1)
         id = intent.getIntExtra(Extras.ID, 0)
         val title = intent.getStringExtra(Extras.NAME)
@@ -99,31 +97,29 @@ class PartyMoreActivity : BaseActivity() {
         })
         moreList.layoutManager = LinearLayoutManager(this)
         moreList.adapter = adapter
-
-        val header = ProgressLayout(context)
-        header.setColorSchemeColors(ContextCompat.getColor(this, R.color.color_main))
-        refresh.setHeaderView(header)
-        val footer = BallPulseView(context)
-        footer.setAnimatingColor(ContextCompat.getColor(this, R.color.color_main))
-        refresh.setBottomView(footer)
-        refresh.setOverScrollRefreshShow(false)
-        refresh.setEnableLoadmore(true)
-        refresh.setOnRefreshListener(object : RefreshListenerAdapter() {
-            override fun onRefresh(refreshLayout: TwinklingRefreshLayout?) {
-                page = 1
-                doRequest()
-            }
-
-            override fun onLoadMore(refreshLayout: TwinklingRefreshLayout?) {
-                page += 1
-                doRequest()
-            }
-
-        })
         back.setOnClickListener {
             finish()
         }
 
+    }
+
+
+    override fun doRefresh() {
+        page = 1
+        doRequest()
+    }
+
+    override fun doLoadMore() {
+        ++page
+        doRequest()
+    }
+
+    override fun initRefreshConfig(): RefreshConfig? {
+        val config = RefreshConfig()
+        config.loadMoreEnable = true
+        config.autoLoadMoreEnable = true
+        config.disableContentWhenRefresh = true
+        return config
     }
 
     fun doRequest() {
@@ -134,7 +130,7 @@ class PartyMoreActivity : BaseActivity() {
     }
 
     private fun articleList(id: Int) {
-        SoguApi.getService(application,PartyBuildService::class.java)
+        SoguApi.getService(application, PartyBuildService::class.java)
                 .articleList(id, page)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -151,9 +147,9 @@ class PartyMoreActivity : BaseActivity() {
                     }
                 }, { e -> Trace.e(e) }, {
                     if (page == 1) {
-                        refresh?.finishRefreshing()
+                        finishRefresh()
                     } else {
-                        refresh?.finishLoadmore()
+                        finishLoadMore()
                     }
                     adapter.notifyDataSetChanged()
                 })
@@ -161,7 +157,7 @@ class PartyMoreActivity : BaseActivity() {
 
 
     private fun categoryFileList(id: Int) {
-        SoguApi.getService(application,PartyBuildService::class.java)
+        SoguApi.getService(application, PartyBuildService::class.java)
                 .categoryFileList(id, page)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -178,9 +174,9 @@ class PartyMoreActivity : BaseActivity() {
                     }
                 }, { e -> Trace.e(e) }, {
                     if (page == 1) {
-                        refresh?.finishRefreshing()
+                        finishRefresh()
                     } else {
-                        refresh?.finishLoadmore()
+                        finishLoadMore()
                     }
                     adapter.notifyDataSetChanged()
                 })

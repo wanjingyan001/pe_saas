@@ -2,6 +2,7 @@ package com.sogukj.pe.module.partyBuild
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.BottomSheetDialog
 import android.support.v7.widget.DividerItemDecoration
@@ -85,7 +86,7 @@ class PartyUploadActivity : BaseActivity() {
                 val tv = view.find<TextView>(android.R.id.text1)
                 override fun setData(view: View, data: String, position: Int) {
                     tv.gravity = Gravity.CENTER
-                    tv.textColor = R.color.text_1
+                    tv.textColor = Color.parseColor("#282828")
                     tv.text = data
                 }
             }

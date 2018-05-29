@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -19,13 +18,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.gson.Gson
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-import com.lcodecore.tkrefreshlayout.footer.BallPulseView
-import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.base.ToolbarActivity
+import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
+import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
@@ -42,7 +38,7 @@ import org.jetbrains.anko.find
 import org.jetbrains.anko.imageResource
 import java.util.*
 
-class FundSearchActivity : ToolbarActivity(), View.OnClickListener {
+class FundSearchActivity : BaseRefreshActivity(), View.OnClickListener {
 
     lateinit var historyAdapter: RecyclerAdapter<String>
     lateinit var adapter: RecyclerAdapter<FundSmallBean>
@@ -143,26 +139,6 @@ class FundSearchActivity : ToolbarActivity(), View.OnClickListener {
         recycler_result.layoutManager = LinearLayoutManager(this)
         //recycler_result.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         recycler_result.adapter = adapter
-        val header = ProgressLayout(this)
-        header.setColorSchemeColors(ContextCompat.getColor(this, R.color.color_main))
-        refresh.setHeaderView(header)
-        val footer = BallPulseView(this)
-        footer.setAnimatingColor(ContextCompat.getColor(this, R.color.color_main))
-        refresh.setBottomView(footer)
-        refresh.setOverScrollRefreshShow(false)
-        refresh.setEnableLoadmore(true)
-        refresh.setOnRefreshListener(object : RefreshListenerAdapter() {
-            override fun onRefresh(refreshLayout: TwinklingRefreshLayout?) {
-                offset = 0
-                doSearch(searchStr)
-            }
-
-            override fun onLoadMore(refreshLayout: TwinklingRefreshLayout?) {
-                offset = adapter.dataList.size
-                doSearch(searchStr)
-            }
-
-        })
     }
 
     override fun onStart() {
@@ -178,6 +154,25 @@ class FundSearchActivity : ToolbarActivity(), View.OnClickListener {
         historyAdapter.notifyDataSetChanged()
     }
 
+
+    override fun doRefresh() {
+        offset = 0
+        doSearch(searchStr)
+    }
+
+    override fun doLoadMore() {
+        offset = adapter.dataList.size
+        doSearch(searchStr)
+    }
+
+    override fun initRefreshConfig(): RefreshConfig? {
+        val config = RefreshConfig()
+        config.loadMoreEnable = true
+        config.autoLoadMoreEnable = true
+        config.disableContentWhenRefresh = true
+        return config
+    }
+
     fun doSearch(searchStr: String) {
         if (searchStr.isEmpty()) {
             adapter.dataList.clear()
@@ -191,7 +186,7 @@ class FundSearchActivity : ToolbarActivity(), View.OnClickListener {
         val tmplist = LinkedList<String>()
         tmplist.add(searchStr)
         Store.store.saveFundSearch(this, tmplist)
-        SoguApi.getService(application,FundService::class.java)
+        SoguApi.getService(application, FundService::class.java)
                 .getAllFunds(offset = offset, sort = (currentNameOrder + currentTimeOrder), fuzzyQuery = searchStr, type = intent.getIntExtra(Extras.TYPE, 0))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -215,12 +210,12 @@ class FundSearchActivity : ToolbarActivity(), View.OnClickListener {
                     showCustomToast(R.drawable.icon_toast_common, "暂无可用数据")
                 }, {
                     SupportEmptyView.checkEmpty(this, adapter)
-                    refresh?.setEnableLoadmore(adapter.dataList.size % 20 == 0)
+                    isLoadMoreEnable = adapter.dataList.size % 20 == 0
                     adapter.notifyDataSetChanged()
                     if (offset == 0) {
-                        refresh?.finishRefreshing()
+                        finishRefresh()
                     } else {
-                        refresh?.finishLoadmore()
+                        finishLoadMore()
                     }
                 })
     }

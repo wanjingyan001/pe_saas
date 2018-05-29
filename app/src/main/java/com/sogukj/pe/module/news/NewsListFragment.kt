@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
@@ -15,14 +14,11 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-import com.lcodecore.tkrefreshlayout.footer.BallPulseView
-import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.base.BaseFragment
+import com.sogukj.pe.baselibrary.base.BaseRefreshFragment
 import com.sogukj.pe.baselibrary.utils.DateUtils
+import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.FlowLayout
@@ -45,7 +41,7 @@ import java.util.*
 /**
  * Created by qinfei on 17/7/18.
  */
-class NewsListFragment : BaseFragment(), SupportEmptyView {
+class NewsListFragment : BaseRefreshFragment(), SupportEmptyView {
     override val containerViewId: Int
         get() = R.layout.fragment_list_news //To change initializer of created properties use File | Settings | File Templates.
 
@@ -92,26 +88,26 @@ class NewsListFragment : BaseFragment(), SupportEmptyView {
         recycler_view.layoutManager = layoutManager
         recycler_view.adapter = adapter
 
-        val header = ProgressLayout(baseActivity)
-        header.setColorSchemeColors(ContextCompat.getColor(baseActivity!!, R.color.color_main))
-        refresh.setHeaderView(header)
-        val footer = BallPulseView(baseActivity)
-        footer.setAnimatingColor(ContextCompat.getColor(baseActivity!!, R.color.color_main))
-        refresh.setBottomView(footer)
-        refresh.setOverScrollRefreshShow(false)
-        refresh.setOnRefreshListener(object : RefreshListenerAdapter() {
-            override fun onRefresh(refreshLayout: TwinklingRefreshLayout?) {
-                page = 1
-                doRequest()
-            }
-
-            override fun onLoadMore(refreshLayout: TwinklingRefreshLayout?) {
-                ++page
-                doRequest()
-            }
-
-        })
-        refresh.setAutoLoadMore(true)
+//        val header = ProgressLayout(baseActivity)
+//        header.setColorSchemeColors(ContextCompat.getColor(baseActivity!!, R.color.color_main))
+//        refresh.setHeaderView(header)
+//        val footer = BallPulseView(baseActivity)
+//        footer.setAnimatingColor(ContextCompat.getColor(baseActivity!!, R.color.color_main))
+//        refresh.setBottomView(footer)
+//        refresh.setOverScrollRefreshShow(false)
+//        refresh.setOnRefreshListener(object : RefreshListenerAdapter() {
+//            override fun onRefresh(refreshLayout: TwinklingRefreshLayout?) {
+//                page = 1
+//                doRequest()
+//            }
+//
+//            override fun onLoadMore(refreshLayout: TwinklingRefreshLayout?) {
+//                ++page
+//                doRequest()
+//            }
+//
+//        })
+//        refresh.setAutoLoadMore(true)
         Glide.with(ctx)
                 .load(Uri.parse("file:///android_asset/img_loading.gif"))
                 .into(iv_loading)
@@ -121,11 +117,24 @@ class NewsListFragment : BaseFragment(), SupportEmptyView {
         }, 100)
     }
 
-//    fun onItemClick(news: NewsBean) {
-//        when (news.table_id) {
-//            else -> NewsDetailActivity.start(baseActivity)
-//        }
-//    }
+    override fun doRefresh() {
+        page = 1
+        doRequest()
+    }
+
+    override fun doLoadMore() {
+        ++page
+        doRequest()
+    }
+
+    override fun initRefreshConfig(): RefreshConfig? {
+        val config = RefreshConfig()
+        config.autoLoadMoreEnable = true
+        config.loadMoreEnable = true
+        config.disableContentWhenRefresh = true
+        return config
+    }
+
 
     override fun onStart() {
         super.onStart()
@@ -134,7 +143,7 @@ class NewsListFragment : BaseFragment(), SupportEmptyView {
 
     var page = 1
     fun doRequest() {
-        SoguApi.getService(baseActivity!!.application,NewService::class.java)
+        SoguApi.getService(baseActivity!!.application, NewService::class.java)
                 .listNews(page = page, type = type, fuzzyQuery = queryTxt)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -155,12 +164,12 @@ class NewsListFragment : BaseFragment(), SupportEmptyView {
                     SupportEmptyView.checkEmpty(this, adapter)
                 }, {
                     SupportEmptyView.checkEmpty(this, adapter)
-                    refresh?.setEnableLoadmore(adapter.dataList.size % 20 == 0)
+                    isLoadMoreEnable = adapter.dataList.size % 20 == 0
                     adapter.notifyDataSetChanged()
                     if (page == 1)
-                        refresh?.finishRefreshing()
+                        finishRefresh()
                     else
-                        refresh?.finishLoadmore()
+                        finishLoadMore()
                 })
     }
 
@@ -195,30 +204,19 @@ class NewsListFragment : BaseFragment(), SupportEmptyView {
 
         override fun setData(view: View, data: NewsBean, position: Int) {
             var label = data.title
-//            if (!TextUtils.isEmpty(label) && !TextUtils.isEmpty(key)) {
-//                label = label!!.replaceFirst(key, "<font color='#ff3300'>${key}</font>")
-//            }
             tv_summary.text = Html.fromHtml(label)
             val strTime = data.time
             tv_time.visibility = View.GONE
             if (!TextUtils.isEmpty(strTime)) {
                 val strs = strTime!!.trim().split(" ")
-//                if (!TextUtils.isEmpty(strs.getOrNull(1))) {
-//                    tv_time.visibility = View.VISIBLE
-//                }
-//                tv_date.text = strs
-//                        .getOrNull(0)
-//                tv_time.text = strs
-//                        .getOrNull(1)
                 try {
                     tv_date.text = DateUtils.getTimeFormatText(strTime)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
-//                tv_date.text = strTime
             }
             tv_from.text = data.source
-            if(data.source.isNullOrEmpty()){
+            if (data.source.isNullOrEmpty()) {
                 tv_from.visibility = View.GONE
             }
             data.setTags(baseActivity!!, tags)

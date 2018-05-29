@@ -7,6 +7,11 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.lcodecore.tkrefreshlayout.IBottomView
+import com.scwang.smartrefresh.layout.api.RefreshFooter
+import com.scwang.smartrefresh.layout.api.RefreshKernel
+import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.scwang.smartrefresh.layout.constant.RefreshState
+import com.scwang.smartrefresh.layout.constant.SpinnerStyle
 import com.sogukj.pe.R
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.find
@@ -16,7 +21,8 @@ import kotlin.properties.Delegates
 /**
  * Created by admin on 2018/3/27.
  */
-class ArrangeFooterView : FrameLayout, IBottomView, AnkoLogger {
+class ArrangeFooterView : FrameLayout, RefreshFooter, AnkoLogger {
+
     private lateinit var footerTv: TextView
     private lateinit var view: View
     private var originalHeight: Int by Delegates.notNull()
@@ -44,36 +50,38 @@ class ArrangeFooterView : FrameLayout, IBottomView, AnkoLogger {
         addView(view)
     }
 
-    override fun onFinish() {
-
-    }
-
-    override fun onPullingUp(fraction: Float, maxBottomHeight: Float, bottomHeight: Float) {
-//        val params = footerTv.layoutParams as LinearLayout.LayoutParams
-//        val height = params.height
-//        if (height < bottomHeight) {
-//            footerTv.textSize = 14 * (1 - fraction)
-//            if (footerTv.textSize > 80f){
-//                footerTv.textSize = 80f
-//            }
-//            info { "onPullingUp  size::${footerTv.textSize}" }
-//        }
-    }
-
     override fun getView() = this
 
-    override fun onPullReleasing(fraction: Float, maxBottomHeight: Float, bottomHeight: Float) {
-//        footerTv.textSize = 14 * (1 + fraction)
-//        if (footerTv.textSize > 80f){
-//            footerTv.textSize = 80f
-//        }
-//        info { "onPullReleasing  size::${footerTv.textSize}" }
+    override fun getSpinnerStyle(): SpinnerStyle = SpinnerStyle.Translate
+
+    override fun onFinish(refreshLayout: RefreshLayout, success: Boolean): Int = 0
+
+    override fun onInitialized(kernel: RefreshKernel, height: Int, extendHeight: Int) {
     }
 
-    override fun reset() {
-
+    override fun onHorizontalDrag(percentX: Float, offsetX: Int, offsetMax: Int) {
     }
 
-    override fun startAnim(maxBottomHeight: Float, bottomHeight: Float) {
+    override fun setNoMoreData(noMoreData: Boolean): Boolean = true
+
+    override fun onReleased(refreshLayout: RefreshLayout?, height: Int, extendHeight: Int) {
     }
+
+    override fun onPulling(percent: Float, offset: Int, height: Int, extendHeight: Int) {
+    }
+
+    override fun setPrimaryColors(vararg colors: Int) {
+    }
+
+    override fun onReleasing(percent: Float, offset: Int, height: Int, extendHeight: Int) {
+    }
+
+    override fun onStartAnimator(refreshLayout: RefreshLayout, height: Int, extendHeight: Int) {
+    }
+
+    override fun onStateChanged(refreshLayout: RefreshLayout?, oldState: RefreshState?, newState: RefreshState?) {
+    }
+
+    override fun isSupportHorizontalDrag(): Boolean  = false
+
 }

@@ -3,18 +3,17 @@ package com.sogukj.pe.module.other
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-import com.lcodecore.tkrefreshlayout.footer.BallPulseView
-import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout
+import com.scwang.smartrefresh.layout.api.RefreshFooter
+import com.scwang.smartrefresh.layout.api.RefreshHeader
+import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.base.ToolbarActivity
+import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
+import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
@@ -32,8 +31,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_list_common.*
 
-class MessageListActivity : ToolbarActivity() {
-
+class MessageListActivity : BaseRefreshActivity() {
     lateinit var inflater: LayoutInflater
 
     lateinit var adapter: RecyclerAdapter<MessageBean>
@@ -106,29 +104,6 @@ class MessageListActivity : ToolbarActivity() {
         recycler_view.layoutManager = layoutManager
         recycler_view.adapter = adapter
 
-        val header = ProgressLayout(this)
-        header.setColorSchemeColors(ContextCompat.getColor(this, R.color.color_main))
-        refresh.setHeaderView(header)
-        val footer = BallPulseView(this)
-        footer.setAnimatingColor(ContextCompat.getColor(this, R.color.color_main))
-        refresh.setBottomView(footer)
-        refresh.setOverScrollRefreshShow(false)
-        refresh.setEnableLoadmore(false)
-//        refresh.setAutoLoadMore(false)
-        refresh.setOnRefreshListener(object : RefreshListenerAdapter() {
-            override fun onRefresh(refreshLayout: TwinklingRefreshLayout?) {
-                page = 1
-                doRequest()
-            }
-
-            override fun onLoadMore(refreshLayout: TwinklingRefreshLayout?) {
-                //refreshLayout?.finishLoadmore()
-                ++page
-                doRequest()
-            }
-
-        })
-
         stateDefault()
 
         kotlin.run {
@@ -144,7 +119,7 @@ class MessageListActivity : ToolbarActivity() {
             }
         }
 
-        SoguApi.getService(application,ApproveService::class.java)
+        SoguApi.getService(application, ApproveService::class.java)
                 .approveFilter()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -158,6 +133,27 @@ class MessageListActivity : ToolbarActivity() {
                     Trace.e(e)
                 })
     }
+
+    override fun doRefresh() {
+        page = 1
+        doRequest()
+    }
+
+    override fun doLoadMore() {
+        ++page
+        doRequest()
+    }
+
+    override fun initRefreshConfig(): RefreshConfig? {
+        val config = RefreshConfig()
+        config.loadMoreEnable = false
+        config.disableContentWhenRefresh = true
+        return config
+    }
+
+    override fun initRefreshHeader(): RefreshHeader? = ClassicsHeader(this)
+
+    override fun initRefreshFooter(): RefreshFooter? = null
 
     var filterBean: ApproveFilterBean? = null
     var paramTemplates = ArrayList<String>()
@@ -328,7 +324,7 @@ class MessageListActivity : ToolbarActivity() {
 
     var page = 1
     fun doRequest() {
-        SoguApi.getService(application,OtherService::class.java)
+        SoguApi.getService(application, OtherService::class.java)
                 .msgList(page = page, pageSize = 20)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -357,12 +353,12 @@ class MessageListActivity : ToolbarActivity() {
                     showCustomToast(R.drawable.icon_toast_common, "暂无可用数据")
                 }, {
                     SupportEmptyView.checkEmpty(this, adapter)
-                    refresh?.setEnableLoadmore(adapter.dataList.size % 20 == 0)
+                    isLoadMoreEnable = adapter.dataList.size % 20 == 0
                     adapter.notifyDataSetChanged()
                     if (page == 1)
-                        refresh?.finishRefreshing()
+                        finishRefresh()
                     else
-                        refresh?.finishLoadmore()
+                        finishLoadMore()
                 })
     }
 

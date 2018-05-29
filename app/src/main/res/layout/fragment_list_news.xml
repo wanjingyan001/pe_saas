@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-        android:id="@+id/refresh"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@id/refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -23,6 +23,6 @@
         <include layout="@layout/layout_empty" />
 
         <include layout="@layout/layout_loading" />
-    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 </LinearLayout>

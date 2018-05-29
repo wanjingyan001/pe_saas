@@ -4,21 +4,20 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.view.View
 import android.widget.TextView
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-import com.lcodecore.tkrefreshlayout.footer.BallPulseView
-import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout
+import com.scwang.smartrefresh.layout.api.RefreshFooter
+import com.scwang.smartrefresh.layout.api.RefreshHeader
+import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.base.ToolbarActivity
+import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
 import com.sogukj.pe.baselibrary.utils.DateUtils
 import com.sogukj.pe.baselibrary.utils.DownloadUtil
+import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
@@ -33,9 +32,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_list_common.*
 import java.text.SimpleDateFormat
 
-class FundBookMoreActivity : ToolbarActivity() {
-
-
+class FundBookMoreActivity : BaseRefreshActivity() {
     lateinit var adapter: RecyclerAdapter<FileListBean>
     lateinit var project: FundSmallBean
     var type = 1
@@ -93,31 +90,52 @@ class FundBookMoreActivity : ToolbarActivity() {
         recycler_view.layoutManager = layoutManager
         recycler_view.adapter = adapter
 
-        val header = ProgressLayout(this)
-        header.setColorSchemeColors(ContextCompat.getColor(this, R.color.color_main))
-        refresh.setHeaderView(header)
-        val footer = BallPulseView(this)
-        footer.setAnimatingColor(ContextCompat.getColor(this, R.color.color_main))
-        refresh.setBottomView(footer)
-        refresh.setOverScrollRefreshShow(false)
-        refresh.setEnableLoadmore(false)
-        refresh.setOnRefreshListener(object : RefreshListenerAdapter() {
-            override fun onRefresh(refreshLayout: TwinklingRefreshLayout?) {
-                page = 1
-                doRequest()
-            }
-
-            override fun onLoadMore(refreshLayout: TwinklingRefreshLayout?) {
-                ++page
-                doRequest()
-            }
-
-        })
-        refresh.setAutoLoadMore(true)
+//        val header = ProgressLayout(this)
+//        header.setColorSchemeColors(ContextCompat.getColor(this, R.color.color_main))
+//        refresh.setHeaderView(header)
+//        val footer = BallPulseView(this)
+//        footer.setAnimatingColor(ContextCompat.getColor(this, R.color.color_main))
+//        refresh.setBottomView(footer)
+//        refresh.setOverScrollRefreshShow(false)
+//        refresh.setEnableLoadmore(false)
+//        refresh.setOnRefreshListener(object : RefreshListenerAdapter() {
+//            override fun onRefresh(refreshLayout: TwinklingRefreshLayout?) {
+//
+//            }
+//
+//            override fun onLoadMore(refreshLayout: TwinklingRefreshLayout?) {
+//
+//            }
+//
+//        })
+//        refresh.setAutoLoadMore(true)
         handler.postDelayed({
             doRequest()
         }, 100)
     }
+
+    override fun doRefresh() {
+        page = 1
+        doRequest()
+    }
+
+    override fun doLoadMore() {
+        ++page
+        doRequest()
+    }
+
+    override fun initRefreshConfig(): RefreshConfig? {
+        val config = RefreshConfig()
+        config.loadMoreEnable = false
+        config.autoLoadMoreEnable = true
+        config.disableContentWhenRefresh = true
+        return config
+    }
+
+    override fun initRefreshHeader(): RefreshHeader? = ClassicsHeader(this)
+
+    override fun initRefreshFooter(): RefreshFooter? = null
+
 
     fun download(url: String, fileName: String) {
         //showToast("开始下载")
@@ -145,7 +163,7 @@ class FundBookMoreActivity : ToolbarActivity() {
 
     var page = 1
     fun doRequest() {
-        SoguApi.getService(application,InfoService::class.java)
+        SoguApi.getService(application, InfoService::class.java)
                 .fileList(project.id, 2, dir_id = type, page = page)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -163,12 +181,12 @@ class FundBookMoreActivity : ToolbarActivity() {
                     showCustomToast(R.drawable.icon_toast_common, "暂无可用数据")
                 }, {
                     SupportEmptyView.checkEmpty(this, adapter)
-                    refresh?.setEnableLoadmore(adapter.dataList.size % 20 == 0)
+                    isLoadMoreEnable = adapter.dataList.size % 20 == 0
                     adapter.notifyDataSetChanged()
                     if (page == 1)
-                        refresh?.finishRefreshing()
+                        finishRefresh()
                     else
-                        refresh?.finishLoadmore()
+                        finishLoadMore()
                 })
     }
 

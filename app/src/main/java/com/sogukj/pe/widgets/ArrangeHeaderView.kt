@@ -8,6 +8,11 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import com.lcodecore.tkrefreshlayout.IHeaderView
 import com.lcodecore.tkrefreshlayout.OnAnimEndListener
+import com.scwang.smartrefresh.layout.api.RefreshHeader
+import com.scwang.smartrefresh.layout.api.RefreshKernel
+import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.scwang.smartrefresh.layout.constant.RefreshState
+import com.scwang.smartrefresh.layout.constant.SpinnerStyle
 import com.sogukj.pe.R
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.find
@@ -15,7 +20,7 @@ import kotlin.properties.Delegates
 /**
  * Created by admin on 2018/3/27.
  */
-class ArrangeHeaderView : FrameLayout, IHeaderView,AnkoLogger {
+class ArrangeHeaderView : FrameLayout, RefreshHeader,AnkoLogger {
     private lateinit var headerTv: TextView
     private lateinit var view: View
     private var originalHeight: Int by Delegates.notNull()
@@ -42,25 +47,36 @@ class ArrangeHeaderView : FrameLayout, IHeaderView,AnkoLogger {
         addView(view)
     }
 
-    override fun onFinish(animEndListener: OnAnimEndListener?) {
-        animEndListener?.onAnimEnd()
-    }
-
     override fun getView() = this
 
+    override fun getSpinnerStyle(): SpinnerStyle = SpinnerStyle.Translate
 
-    override fun onPullingDown(fraction: Float, maxHeadHeight: Float, headHeight: Float) {
+    override fun onFinish(refreshLayout: RefreshLayout, success: Boolean): Int = 200
 
+    override fun onInitialized(kernel: RefreshKernel, height: Int, extendHeight: Int) {
     }
 
-    override fun onPullReleasing(fraction: Float, maxHeadHeight: Float, headHeight: Float) {
-
+    override fun onHorizontalDrag(percentX: Float, offsetX: Int, offsetMax: Int) {
     }
 
-    override fun reset() {
+    override fun onReleased(refreshLayout: RefreshLayout?, height: Int, extendHeight: Int) {
     }
 
-    override fun startAnim(maxHeadHeight: Float, headHeight: Float) {
-
+    override fun onPulling(percent: Float, offset: Int, height: Int, extendHeight: Int) {
     }
+
+    override fun setPrimaryColors(vararg colors: Int) {
+    }
+
+    override fun onReleasing(percent: Float, offset: Int, height: Int, extendHeight: Int) {
+    }
+
+    override fun onStartAnimator(refreshLayout: RefreshLayout, height: Int, extendHeight: Int) {
+    }
+
+    override fun onStateChanged(refreshLayout: RefreshLayout?, oldState: RefreshState?, newState: RefreshState?) {
+    }
+
+    override fun isSupportHorizontalDrag(): Boolean  = false
+
 }

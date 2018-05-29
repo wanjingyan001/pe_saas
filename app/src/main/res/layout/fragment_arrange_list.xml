@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context="com.sogukj.pe.ui.calendar.ArrangeListFragment">
+    tools:context="com.sogukj.pe.module.calendar.ArrangeListFragment">
 
-    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-        android:id="@+id/refresh"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@id/refresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -18,7 +18,7 @@
             android:overScrollMode="never" />
 
 
-    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     <ImageView
         android:id="@+id/backImg"

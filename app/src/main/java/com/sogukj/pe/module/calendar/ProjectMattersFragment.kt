@@ -5,19 +5,18 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.Gravity
 import android.view.View
 import com.google.gson.Gson
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-import com.lcodecore.tkrefreshlayout.footer.BallPulseView
-import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout
+import com.scwang.smartrefresh.header.MaterialHeader
+import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.base.BaseFragment
+import com.sogukj.pe.baselibrary.Extended.setVisible
+import com.sogukj.pe.baselibrary.base.BaseRefreshFragment
+import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.CustomSealBean
@@ -52,9 +51,7 @@ import kotlin.collections.HashMap
  * Use the [ProjectMattersFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ProjectMattersFragment : BaseFragment(), ScheduleItemClickListener {
-
-
+class ProjectMattersFragment : BaseRefreshFragment(), ScheduleItemClickListener {
     override val containerViewId: Int
         get() = R.layout.fragment_project_matters
     private lateinit var projectAdapter: ProjectAdapter
@@ -81,27 +78,6 @@ class ProjectMattersFragment : BaseFragment(), ScheduleItemClickListener {
         projectAdapter.setItemClickListener(this)
         projectList.layoutManager = LinearLayoutManager(context)
         projectList.adapter = projectAdapter
-        val header = ProgressLayout(context)
-        header.setColorSchemeColors(ContextCompat.getColor(ctx, R.color.color_main))
-        refresh.setHeaderView(header)
-        val footer = BallPulseView(context)
-        footer.setAnimatingColor(ContextCompat.getColor(ctx, R.color.color_main))
-        refresh.setBottomView(footer)
-        refresh.setOverScrollRefreshShow(false)
-        refresh.setEnableLoadmore(true)
-        refresh.setOnRefreshListener(object : RefreshListenerAdapter() {
-            override fun onRefresh(refreshLayout: TwinklingRefreshLayout?) {
-                page = 1
-                doRequest(page, date, companyId)
-            }
-
-            override fun onLoadMore(refreshLayout: TwinklingRefreshLayout?) {
-                ++page
-                doRequest(page, date, companyId)
-            }
-
-        })
-
         window = CalendarWindow(context, { date ->
             page = 1
             val calendar = java.util.Calendar.getInstance()
@@ -121,6 +97,29 @@ class ProjectMattersFragment : BaseFragment(), ScheduleItemClickListener {
         }
     }
 
+
+    override fun doRefresh() {
+        page = 1
+        doRequest(page, date, companyId)
+    }
+
+    override fun doLoadMore() {
+        ++page
+        doRequest(page, date, companyId)
+    }
+
+    override fun initRefreshConfig(): RefreshConfig? {
+        val config = RefreshConfig()
+        config.loadMoreEnable = true
+        config.autoLoadMoreEnable = true
+        config.disableContentWhenRefresh = true
+        return config
+    }
+
+    override fun initRefreshHeader(): RefreshHeader? {
+        return  MaterialHeader(ctx)
+    }
+
     override fun onResume() {
         super.onResume()
         doRequest(page, date)
@@ -128,7 +127,7 @@ class ProjectMattersFragment : BaseFragment(), ScheduleItemClickListener {
 
 
     fun doRequest(page: Int, date: String, companyId: String? = null) {
-        SoguApi.getService(baseActivity!!.application,CalendarService::class.java)
+        SoguApi.getService(baseActivity!!.application, CalendarService::class.java)
                 .ShowMatterSchedule(page, time = date, company_id = companyId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -179,20 +178,21 @@ class ProjectMattersFragment : BaseFragment(), ScheduleItemClickListener {
                     Trace.e(e)
                 }, {
                     if (data.size == 0) {
-                        iv_empty.visibility = View.VISIBLE
+                        refresh.setVisible(false)
+                        iv_empty.setVisible(true)
                     } else {
-                        iv_empty.visibility = View.GONE
+                        refresh.setVisible(true)
+                        iv_empty.setVisible(false)
                     }
-                    refresh?.setEnableLoadmore((data.size - 1) % 20 == 0)
+                    isLoadMoreEnable = (data.size - 1) % 20 == 0
                     projectAdapter.notifyDataSetChanged()
                     if (page == 1) {
-                        refresh?.finishRefreshing()
+                        finishRefresh()
                     } else {
-                        refresh?.finishLoadmore()
+                        finishLoadMore()
                     }
                 })
     }
-
 
 
     override fun onItemClick(view: View, position: Int) {
@@ -236,7 +236,7 @@ class ProjectMattersFragment : BaseFragment(), ScheduleItemClickListener {
     }
 
     fun getCompanyDetail(cId: Int, type: Int) {
-        SoguApi.getService(baseActivity!!.application,NewService::class.java)
+        SoguApi.getService(baseActivity!!.application, NewService::class.java)
                 .singleCompany(cId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -250,7 +250,7 @@ class ProjectMattersFragment : BaseFragment(), ScheduleItemClickListener {
                                 6 -> {
                                     ProjectActivity.start(activity, it)
                                 }
-                                else->{
+                                else -> {
 
                                 }
                             }
@@ -269,7 +269,7 @@ class ProjectMattersFragment : BaseFragment(), ScheduleItemClickListener {
     }
 
     fun finishTask(id: Int, isChecked: Boolean) {
-        SoguApi.getService(baseActivity!!.application,CalendarService::class.java)
+        SoguApi.getService(baseActivity!!.application, CalendarService::class.java)
                 .finishTask(id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
