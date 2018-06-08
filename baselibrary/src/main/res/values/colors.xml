@@ -11,13 +11,18 @@
     <color name="colorAccent">#fe5931</color>
     <color name="divider">#e5e5e5</color>
     <color name="divider2">#f1f1f1</color>
+    <color name="divider3">#EAEAEA</color>
     <color name="ripple_color">#44000000</color>
 
     <color name="color_main">#5785f3</color>
     <color name="color_main_light">#b7c9fe</color>
     <color name="color_gray">#c7cbd5</color>
     <color name="color_gray_light">#f5f5f5</color>
-
+    <color name="main_blue_color">#4A90E2</color>
+    <color name="prompt_success">#31c27c</color>
+    <color name="prompt_error">#F01400</color>
+    <color name="prompt_warning">#FF7676</color>
+    <color name="main_gray_bg">#F6FBFF</color>
 
     <color name="windowBackground">#ffffff</color>
     <color name="text_more">#3a5a95</color>

@@ -194,6 +194,7 @@ static def releaseTime() {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     compile project(':baselibrary')
     compile project(':calendar')
     compile project(':zxingLib')

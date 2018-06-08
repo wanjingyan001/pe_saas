@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/addTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="添加方式"
+        android:textColor="@color/text_1"
+        android:textSize="@dimen/text_size_samll"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/addByPhoneLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingStart="20dp"
+        android:paddingTop="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addTitle"
+        tools:ignore="RtlSymmetry">
+
+        <ImageView
+            android:id="@+id/addPhoneIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/icon_add_by_phone" />
+
+        <TextView
+            android:id="@+id/addPhoneTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="手机号码添加"
+            android:textColor="@color/text_1"
+            android:textSize="@dimen/text_size_normal"
+            app:layout_constraintStart_toEndOf="@id/addPhoneIcon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/addPhoneTips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="4dp"
+            android:text="通过手机号码添加同事加入团队"
+            android:textColor="@color/text_3"
+            android:textSize="@dimen/text_size_13"
+            app:layout_constraintStart_toEndOf="@id/addPhoneIcon"
+            app:layout_constraintTop_toBottomOf="@+id/addPhoneTitle" />
+
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/divider2"
+            app:layout_constraintStart_toEndOf="@id/addPhoneIcon"
+            app:layout_constraintTop_toBottomOf="@id/addPhoneTips" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/addByShareLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingTop="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addByPhoneLayout"
+        tools:ignore="RtlSymmetry">
+
+        <ImageView
+            android:id="@+id/addShareIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/icon_add_by_share" />
+
+        <TextView
+            android:id="@+id/addShareTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="分享添加"
+            android:textColor="@color/text_1"
+            android:textSize="@dimen/text_size_normal"
+            app:layout_constraintStart_toEndOf="@id/addShareIcon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/addShareTips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="4dp"
+            android:text="邀请好友加入团队"
+            android:textColor="@color/text_3"
+            android:textSize="@dimen/text_size_13"
+            app:layout_constraintStart_toEndOf="@id/addShareIcon"
+            app:layout_constraintTop_toBottomOf="@+id/addShareTitle" />
+
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/divider2"
+            app:layout_constraintStart_toEndOf="@id/addShareIcon"
+            app:layout_constraintTop_toBottomOf="@id/addShareTips" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/addByPCLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingTop="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addByShareLayout"
+        tools:ignore="RtlSymmetry">
+
+        <ImageView
+            android:id="@+id/addPCIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/icon_add_by_pc" />
+
+        <TextView
+            android:id="@+id/addPCTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="批量导入"
+            android:textColor="@color/text_1"
+            android:textSize="@dimen/text_size_normal"
+            app:layout_constraintStart_toEndOf="@id/addPCIcon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/addPCTips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="4dp"
+            android:text="在电脑端3步导入所有同事"
+            android:textColor="@color/text_3"
+            android:textSize="@dimen/text_size_13"
+            app:layout_constraintStart_toEndOf="@id/addPCIcon"
+            app:layout_constraintTop_toBottomOf="@+id/addPCTitle" />
+
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/divider2"
+            app:layout_constraintStart_toEndOf="@id/addPCIcon"
+            app:layout_constraintTop_toBottomOf="@id/addPCTips" />
+
+    </android.support.constraint.ConstraintLayout>
+
+
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/bg_record"
+        app:layout_constraintTop_toBottomOf="@id/addByPCLayout" />
+
+    <TextView
+        android:id="@+id/addByContacts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp"
+        android:text="通讯录添加"
+        android:textColor="@color/text_1"
+        android:textSize="@dimen/text_size_samll"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line2" />
+</android.support.constraint.ConstraintLayout>

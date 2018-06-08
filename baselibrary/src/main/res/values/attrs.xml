@@ -8,4 +8,20 @@
         <attr name="pi_bottomLineColor" format="color" />
         <attr name="pi_bottomLineHeight" format="dimension" />
     </declare-styleable>
+    <declare-styleable name="SgEditText">
+        <attr name="sgEdt_hint" format="string" />
+        <attr name="sgEdt_inputType" format="reference" />
+        <attr name="sgEdt_needDelete" format="boolean" />
+        <attr name="sgEdt_showHint" format="boolean" />
+        <attr name="sgEdt_formatType" format="enum">
+            <enum name="DefaultType" value="0" />
+            <enum name="BankCardNumberType" value="1" />
+            <enum name="MobilePhoneNumberType" value="2" />
+            <enum name="IDCardNumberType" value="3" />
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="SingleEditLayout">
+        <attr name="editCount" format="integer" />
+        <attr name="singleWidth" format="integer" />
+    </declare-styleable>
 </resources>

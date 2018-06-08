@@ -8,28 +8,28 @@ package com.lcodecore.tkrefreshlayout;
 
 public final class R {
     public static final class attr {
-        public static int layoutManager = 0x7f0400ed;
-        public static int reverseLayout = 0x7f0401af;
-        public static int spanCount = 0x7f0401c6;
-        public static int stackFromEnd = 0x7f0401fc;
-        public static int tr_autoLoadMore = 0x7f040246;
-        public static int tr_bottomView = 0x7f040247;
-        public static int tr_bottom_height = 0x7f040248;
-        public static int tr_enable_keepIView = 0x7f040249;
-        public static int tr_enable_loadmore = 0x7f04024a;
-        public static int tr_enable_overscroll = 0x7f04024b;
-        public static int tr_enable_refresh = 0x7f04024c;
-        public static int tr_floatRefresh = 0x7f04024d;
-        public static int tr_head_height = 0x7f04024e;
-        public static int tr_headerView = 0x7f04024f;
-        public static int tr_max_bottom_height = 0x7f040250;
-        public static int tr_max_head_height = 0x7f040251;
-        public static int tr_overscroll_bottom_show = 0x7f040252;
-        public static int tr_overscroll_height = 0x7f040253;
-        public static int tr_overscroll_top_show = 0x7f040254;
-        public static int tr_pureScrollMode_on = 0x7f040255;
-        public static int tr_showLoadingWhenOverScroll = 0x7f040256;
-        public static int tr_showRefreshingWhenOverScroll = 0x7f040257;
+        public static int layoutManager = 0x7f0400ee;
+        public static int reverseLayout = 0x7f0401b0;
+        public static int spanCount = 0x7f0401cd;
+        public static int stackFromEnd = 0x7f040203;
+        public static int tr_autoLoadMore = 0x7f04024d;
+        public static int tr_bottomView = 0x7f04024e;
+        public static int tr_bottom_height = 0x7f04024f;
+        public static int tr_enable_keepIView = 0x7f040250;
+        public static int tr_enable_loadmore = 0x7f040251;
+        public static int tr_enable_overscroll = 0x7f040252;
+        public static int tr_enable_refresh = 0x7f040253;
+        public static int tr_floatRefresh = 0x7f040254;
+        public static int tr_head_height = 0x7f040255;
+        public static int tr_headerView = 0x7f040256;
+        public static int tr_max_bottom_height = 0x7f040257;
+        public static int tr_max_head_height = 0x7f040258;
+        public static int tr_overscroll_bottom_show = 0x7f040259;
+        public static int tr_overscroll_height = 0x7f04025a;
+        public static int tr_overscroll_top_show = 0x7f04025b;
+        public static int tr_pureScrollMode_on = 0x7f04025c;
+        public static int tr_showLoadingWhenOverScroll = 0x7f04025d;
+        public static int tr_showRefreshingWhenOverScroll = 0x7f04025e;
     }
     public static final class color {
         public static int Blue = 0x7f060001;
@@ -44,43 +44,43 @@ public final class R {
     }
     public static final class drawable {
         public static int anim_loading_view = 0x7f090054;
-        public static int ic_arrow = 0x7f090082;
+        public static int ic_arrow = 0x7f090085;
     }
     public static final class id {
-        public static int draweeView = 0x7f0c0099;
-        public static int ex_header = 0x7f0c00bc;
-        public static int item_touch_helper_previous_elevation = 0x7f0c00fa;
-        public static int iv_arrow = 0x7f0c00fd;
-        public static int iv_loading = 0x7f0c0109;
-        public static int ripple = 0x7f0c01f0;
-        public static int round1 = 0x7f0c01f9;
-        public static int round2 = 0x7f0c01fa;
-        public static int tv = 0x7f0c028d;
+        public static int draweeView = 0x7f0c009e;
+        public static int ex_header = 0x7f0c00c1;
+        public static int item_touch_helper_previous_elevation = 0x7f0c0100;
+        public static int iv_arrow = 0x7f0c0103;
+        public static int iv_loading = 0x7f0c010f;
+        public static int ripple = 0x7f0c01f6;
+        public static int round1 = 0x7f0c01ff;
+        public static int round2 = 0x7f0c0200;
+        public static int tv = 0x7f0c0294;
     }
     public static final class layout {
-        public static int view_bezier = 0x7f0f00e5;
-        public static int view_sinaheader = 0x7f0f00e6;
+        public static int view_bezier = 0x7f0f00e6;
+        public static int view_sinaheader = 0x7f0f00e8;
     }
     public static final class mipmap {
-        public static int refresh_head_arrow = 0x7f110006;
-        public static int refresh_loading01 = 0x7f110007;
-        public static int refresh_loading02 = 0x7f110008;
-        public static int refresh_loading03 = 0x7f110009;
-        public static int refresh_loading04 = 0x7f11000a;
-        public static int refresh_loading05 = 0x7f11000b;
-        public static int refresh_loading06 = 0x7f11000c;
-        public static int refresh_loading07 = 0x7f11000d;
-        public static int refresh_loading08 = 0x7f11000e;
-        public static int refresh_loading09 = 0x7f11000f;
-        public static int refresh_loading10 = 0x7f110010;
-        public static int refresh_loading11 = 0x7f110011;
-        public static int refresh_loading12 = 0x7f110012;
+        public static int refresh_head_arrow = 0x7f110007;
+        public static int refresh_loading01 = 0x7f110008;
+        public static int refresh_loading02 = 0x7f110009;
+        public static int refresh_loading03 = 0x7f11000a;
+        public static int refresh_loading04 = 0x7f11000b;
+        public static int refresh_loading05 = 0x7f11000c;
+        public static int refresh_loading06 = 0x7f11000d;
+        public static int refresh_loading07 = 0x7f11000e;
+        public static int refresh_loading08 = 0x7f11000f;
+        public static int refresh_loading09 = 0x7f110010;
+        public static int refresh_loading10 = 0x7f110011;
+        public static int refresh_loading11 = 0x7f110012;
+        public static int refresh_loading12 = 0x7f110013;
     }
     public static final class string {
         public static int app_name = 0x7f150023;
     }
     public static final class styleable {
-        public static int[] RecyclerView = { 0x010100f1, 0x010100c4, 0x7f0400b4, 0x7f0400b5, 0x7f0400b6, 0x7f0400b7, 0x7f0400b8, 0x7f0400ed, 0x7f0401af, 0x7f0401c6, 0x7f0401fc };
+        public static int[] RecyclerView = { 0x010100f1, 0x010100c4, 0x7f0400b5, 0x7f0400b6, 0x7f0400b7, 0x7f0400b8, 0x7f0400b9, 0x7f0400ee, 0x7f0401b0, 0x7f0401cd, 0x7f040203 };
         public static int RecyclerView_android_descendantFocusability = 0;
         public static int RecyclerView_android_orientation = 1;
         public static int RecyclerView_fastScrollEnabled = 2;
@@ -92,7 +92,7 @@ public final class R {
         public static int RecyclerView_reverseLayout = 8;
         public static int RecyclerView_spanCount = 9;
         public static int RecyclerView_stackFromEnd = 10;
-        public static int[] TwinklingRefreshLayout = { 0x7f040246, 0x7f040247, 0x7f040248, 0x7f040249, 0x7f04024a, 0x7f04024b, 0x7f04024c, 0x7f04024d, 0x7f04024e, 0x7f04024f, 0x7f040250, 0x7f040251, 0x7f040252, 0x7f040253, 0x7f040254, 0x7f040255, 0x7f040256, 0x7f040257 };
+        public static int[] TwinklingRefreshLayout = { 0x7f04024d, 0x7f04024e, 0x7f04024f, 0x7f040250, 0x7f040251, 0x7f040252, 0x7f040253, 0x7f040254, 0x7f040255, 0x7f040256, 0x7f040257, 0x7f040258, 0x7f040259, 0x7f04025a, 0x7f04025b, 0x7f04025c, 0x7f04025d, 0x7f04025e };
         public static int TwinklingRefreshLayout_tr_autoLoadMore = 0;
         public static int TwinklingRefreshLayout_tr_bottomView = 1;
         public static int TwinklingRefreshLayout_tr_bottom_height = 2;

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context="com.sogukj.pe.module.register.ReviewActivity">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/white_toolbar" />
+
+
+        <TextView
+            android:id="@+id/reviewTitle"
+            style="@style/registerTitleStyle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+
+        <ImageView
+            android:id="@+id/reviewStatusImg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:src="@mipmap/bg_under_review"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/reviewTitle" />
+
+
+        <ImageView
+            android:id="@+id/tipsIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:src="@mipmap/icon_blue_tips"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="@id/reviewStatusImg"
+            app:layout_constraintTop_toBottomOf="@id/reviewStatusImg"
+            app:layout_goneMarginTop="16dp" />
+
+        <TextView
+            android:id="@+id/tipsContent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            android:textColor="@color/shareholder_text_gray"
+            android:textSize="@dimen/text_size_13"
+            app:layout_constraintEnd_toEndOf="@id/reviewStatusImg"
+            app:layout_constraintStart_toEndOf="@id/tipsIcon"
+            app:layout_constraintTop_toBottomOf="@id/reviewStatusImg"
+            app:layout_goneMarginTop="12dp" />
+
+
+        <TextView
+            android:id="@+id/failure_reason"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="8dp"
+            android:background="#FFF5F5"
+            android:paddingBottom="18dp"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp"
+            android:paddingTop="12dp"
+            android:textColor="@color/prompt_warning"
+            android:textSize="@dimen/text_size_13"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tipsContent" />
+
+        <TextView
+            android:id="@+id/tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="享受X-PE带来的智能化股权投资管理"
+            android:textColor="@color/text_3"
+            android:textSize="@dimen/text_size_normal"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/joinNow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/joinNow"
+            style="@style/registerNextStep"
+            android:layout_marginTop="200dp"
+            android:text="@string/join_now"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/reviewStatusImg"
+            app:layout_goneMarginTop="200dp" />
+
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.v4.widget.NestedScrollView>

@@ -12,4 +12,5 @@
     <item type="id" name="statusbarutil_translucent_view" />
     <item name="refresh" type="id"/>
     <item name="iv_empty" type="id"/>
+    <item name="inputEdt" type="id"/>
 </resources>

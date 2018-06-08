@@ -14,6 +14,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.media.MediaScannerConnection;
 import android.net.ConnectivityManager;
@@ -72,6 +73,14 @@ public class Utils {
 
     public static float pxToDp(Context context, int dp) {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, dp, context.getResources().getDisplayMetrics());
+    }
+
+    /**
+     * 获取字体高度
+     */
+    public static float getTextHeight(Paint p) {
+        Paint.FontMetrics fm = p.getFontMetrics();// 获取字体高度
+        return (float) ((Math.ceil(fm.descent - fm.top) + 2) / 2);
     }
 
     public static String stringFilter(String str) throws PatternSyntaxException {

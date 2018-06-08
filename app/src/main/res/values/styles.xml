@@ -83,6 +83,10 @@
         <item name="android:textColor">@color/textColorPrimary</item>
         <item name="android:textSize">10sp</item>
     </style>
+    <style name="SoguToolbarTitleBlack">
+        <item name="android:textColor">@color/text_1</item>
+        <item name="android:textSize">18sp</item>
+    </style>
 
     <style name="SoguTextEffectDist">
         <item name="android:textSize">@dimen/text_size_samll</item>
@@ -294,5 +298,24 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="registerNextStep">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">48dp</item>
+        <item name="android:background">@drawable/bg_next_step</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_size_large</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="registerTitleStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">30dp</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:textColor">@color/text_1</item>
+        <item name="android:textSize">@dimen/text_size_32</item>
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>

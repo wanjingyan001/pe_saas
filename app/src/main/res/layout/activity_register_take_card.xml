@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.sogukj.pe.module.register.TakeCardActivity">
+
+    <include layout="@layout/white_toolbar" />
+
+
+    <TextView
+        android:id="@+id/takeCardTitle"
+        android:text="提交名片"
+        style="@style/registerTitleStyle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <ImageView
+        android:id="@+id/takeCard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:src="@mipmap/bg_register_business_card"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/takeCardTitle" />
+
+    <ImageView
+        android:id="@+id/tipsIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:src="@mipmap/icon_blue_tips"
+        app:layout_constraintStart_toStartOf="@id/takeCard"
+        app:layout_constraintTop_toBottomOf="@id/takeCard" />
+
+    <TextView
+        android:id="@+id/tipsContent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:textColor="@color/shareholder_text_gray"
+        android:textSize="@dimen/text_size_13"
+        android:text="@string/tips1"
+        app:layout_constraintEnd_toEndOf="@id/takeCard"
+        app:layout_constraintStart_toEndOf="@id/tipsIcon"
+        app:layout_constraintTop_toBottomOf="@id/takeCard" />
+
+    <TextView
+        android:id="@+id/nextStep"
+        style="@style/registerNextStep"
+        android:enabled="false"
+        android:text="@string/next_step"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tipsContent" />
+
+</android.support.constraint.ConstraintLayout>

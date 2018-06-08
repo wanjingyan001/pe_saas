@@ -1,4 +1,5 @@
 package com.sogukj.pe.baselibrary.base
+
 import android.os.Bundle
 import android.os.Handler
 import android.support.annotation.DrawableRes
@@ -12,6 +13,8 @@ import android.widget.TextView
 import android.widget.Toast
 import com.google.gson.JsonSyntaxException
 import com.sogukj.pe.baselibrary.R
+import com.sogukj.pe.baselibrary.widgets.snackbar.Prompt
+import com.sogukj.pe.baselibrary.widgets.snackbar.TSnackbar
 import org.jetbrains.anko.find
 import org.jetbrains.anko.imageResource
 import java.net.SocketTimeoutException
@@ -46,6 +49,7 @@ abstract class BaseFragment : Fragment() {
             super.onCreateView(inflater, container, savedInstanceState)
         }
     }
+
     private var toast: Toast? = null
     fun showToast(text: CharSequence?) {
         if (toast == null) {
@@ -58,7 +62,7 @@ abstract class BaseFragment : Fragment() {
         toast!!.show()
     }
 
-    fun ToastError(e:Throwable){
+    fun ToastError(e: Throwable) {
         var str = when (e) {
             is JsonSyntaxException -> "后台数据出错"
             is UnknownHostException -> "网络连接出错，请联网"
@@ -68,7 +72,7 @@ abstract class BaseFragment : Fragment() {
         showCustomToast(R.drawable.icon_toast_fail, str)
     }
 
-    lateinit var inflateView:View
+    lateinit var inflateView: View
     lateinit var iconImg: ImageView
     lateinit var tv: TextView
     private var toastView: Toast? = null
@@ -103,5 +107,16 @@ abstract class BaseFragment : Fragment() {
 
     fun showCommonToast(text: CharSequence?) {
         showCustomToast(R.drawable.icon_toast_common, text)
+    }
+
+    fun showTopSnackBar(text: String) {
+        val viewGroup = baseActivity?.findViewById<View>(android.R.id.content)?.rootView as? ViewGroup//注意getRootView()最为重要，直接关系到TSnackBar的位置
+        if (viewGroup != null) {
+            TSnackbar.make(viewGroup, text, TSnackbar.LENGTH_SHORT, TSnackbar.APPEAR_FROM_TOP_TO_DOWN)
+                    .setTextColor(resources.getColor(R.color.white))
+                    .setMessageTextSize(16)
+                    .setPromptThemBackground(Prompt.WARNING)
+                    .show()
+        }
     }
 }

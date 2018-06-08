@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.sogukj.pe.module.register.InviteByPhoneActivity">
+
+
+    <include layout="@layout/white_toolbar" />
+
+    <TextView
+        android:id="@+id/inviteByPhoneTitle"
+        style="@style/registerTitleStyle"
+        android:text="手机号码添加"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+
+    <ImageView
+        android:id="@+id/phoneEdtIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/icon_phone_edt"
+        app:layout_constraintBottom_toBottomOf="@id/phoneEdt"
+        app:layout_constraintStart_toStartOf="@id/inviteByPhoneTitle"
+        app:layout_constraintTop_toTopOf="@id/phoneEdt" />
+
+    <com.sogukj.pe.baselibrary.widgets.SgEditText
+        android:id="@+id/phoneEdt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="80dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/phoneEdtIcon"
+        app:layout_constraintTop_toBottomOf="@id/inviteByPhoneTitle"
+        app:sgEdt_formatType="MobilePhoneNumberType"
+        app:sgEdt_hint="被邀请人手机号"
+        app:sgEdt_needDelete="true"
+        app:sgEdt_showHint="false">
+
+    </com.sogukj.pe.baselibrary.widgets.SgEditText>
+
+    <View
+        android:id="@+id/line1"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
+        android:background="@color/divider2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/phoneEdt" />
+
+    <ImageView
+        android:id="@+id/nameEdtIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/icon_name_edt"
+        app:layout_constraintBottom_toBottomOf="@id/nameEdt"
+        app:layout_constraintStart_toStartOf="@id/inviteByPhoneTitle"
+        app:layout_constraintTop_toTopOf="@id/nameEdt" />
+
+    <com.sogukj.pe.baselibrary.widgets.SgEditText
+        android:id="@+id/nameEdt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/nameEdtIcon"
+        app:layout_constraintTop_toBottomOf="@id/line1"
+        app:sgEdt_hint="被邀请人姓名"
+        app:sgEdt_formatType="DefaultType"
+        app:sgEdt_needDelete="true"
+        app:sgEdt_showHint="false">
+
+    </com.sogukj.pe.baselibrary.widgets.SgEditText>
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
+        android:background="@color/divider2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nameEdt" />
+
+    <TextView
+        android:id="@+id/inviteNowBtn"
+        style="@style/registerNextStep"
+        android:enabled="false"
+        android:text="立即邀请"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line2" />
+
+    <TextView
+        android:id="@+id/tips"
+        android:textSize="@dimen/text_size_medium"
+        android:textColor="@color/text_3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/inviteNowBtn"
+        android:layout_marginTop="8dp"
+        android:text="短信由系统发送，不消耗您的话费"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</android.support.constraint.ConstraintLayout>

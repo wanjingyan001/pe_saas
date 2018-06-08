@@ -7,6 +7,8 @@ import android.os.Handler
 import android.os.Trace
 import android.support.annotation.DrawableRes
 import android.support.constraint.ConstraintLayout
+import android.support.design.widget.CoordinatorLayout
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.Gravity
 import android.view.View
@@ -21,17 +23,22 @@ import com.umeng.message.PushAgent
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.find
 import org.jetbrains.anko.imageResource
+import android.support.v4.view.accessibility.AccessibilityEventCompat.setAction
+import com.sogukj.pe.baselibrary.widgets.snackbar.TSnackbar
+import android.view.ViewGroup
+import com.sogukj.pe.baselibrary.widgets.snackbar.Prompt
+
 
 /**
  * Created by qinfei on 17/7/17.
  */
-abstract class BaseActivity : AppCompatActivity(),AnkoLogger {
+abstract class BaseActivity : AppCompatActivity(), AnkoLogger {
     val context: BaseActivity
         get() = this
     val handler = Handler()
-    lateinit var inflate:View
-    lateinit var iconImg:ImageView
-    lateinit var tv:TextView
+    lateinit var inflate: View
+    lateinit var iconImg: ImageView
+    lateinit var tv: TextView
     private var toastView: Toast? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -112,13 +119,13 @@ abstract class BaseActivity : AppCompatActivity(),AnkoLogger {
         }
     }
 
-    protected fun showEmptyView(){
+    protected fun showEmptyView() {
         layout?.let {
             it.visibility = View.VISIBLE
         }
     }
 
-    protected fun hideEmptyView(){
+    protected fun hideEmptyView() {
         layout?.let {
             it.visibility = View.GONE
         }
@@ -156,7 +163,7 @@ abstract class BaseActivity : AppCompatActivity(),AnkoLogger {
         toast!!.show()
     }
 
-    fun ToastError(e:Throwable){
+    fun ToastError(e: Throwable) {
         val str = when (e) {
             is JsonSyntaxException -> "后台数据出错"
             is UnknownHostException -> "网络连接出错，请联网"
@@ -196,6 +203,32 @@ abstract class BaseActivity : AppCompatActivity(),AnkoLogger {
 
     fun showCommonToast(text: CharSequence?) {
         showCustomToast(R.drawable.icon_toast_common, text)
+    }
+
+    fun showTopSnackBar(text: CharSequence) {
+        val viewGroup = findViewById<View>(android.R.id.content).rootView as ViewGroup//注意getRootView()最为重要，直接关系到TSnackBar的位置
+        TSnackbar.make(viewGroup, text, TSnackbar.LENGTH_SHORT, TSnackbar.APPEAR_FROM_TOP_TO_DOWN)
+                .setPromptThemBackground(Prompt.WARNING)
+                .setTextColor(resources.getColor(R.color.white))
+                .setMessageTextSize(16)
+                .show()
+    }
+
+    /**
+     * 官方推荐使用CoordinatorLayout做为根布局
+     */
+    fun showTopSnackBar(text: CharSequence, container: CoordinatorLayout) {
+        TSnackbar.make(container, text, TSnackbar.LENGTH_SHORT, TSnackbar.APPEAR_FROM_TOP_TO_DOWN)
+                .setPromptThemBackground(Prompt.WARNING)
+                .setTextColor(resources.getColor(R.color.white))
+                .setMessageTextSize(16)
+                .show()
+    }
+
+
+    fun showDesignSnack(text: CharSequence) {
+        val viewGroup = findViewById<View>(android.R.id.content).rootView as ViewGroup
+        Snackbar.make(viewGroup, text, Snackbar.LENGTH_SHORT).show()
     }
 
     companion object {

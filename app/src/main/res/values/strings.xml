@@ -78,6 +78,13 @@
         <item>提前1小时</item>
         <item>提前1天</item>
     </string-array>
+    <string-array name="register_organ_scale">
+        <item>少于10人</item>
+        <item>10～30人</item>
+        <item>30～50人</item>
+        <item>50～100人</item>
+        <item>100人以上</item>
+    </string-array>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -121,4 +128,13 @@
     <string name="people_participate">参加人</string>
     <string name="arrange_address">地址</string>
     <string name="address_edit_hint">请输入地址</string>
+    <string name="next_step">下一步</string>
+    <string name="phone_input">输入手机号</string>
+    <string name="vercode_input">输入验证码</string>
+    <string name="join_team">加入团队</string>
+    <string name="join_now">立即加入</string>
+    <!--<string name="jump_link"><![CDATA[还没团队?立刻创建团队>>]]></string>-->
+    <string name="jump_link">还没团队?立刻创建团队>></string>
+    <string name="tips1">本产品只面向私募机构开放，因此我们需要对您提供名片进行审核</string>
+    <string name="tips_under_review">审核预计需要2个工作日，我们会短信通知您结果，请耐心等待</string>
 </resources>

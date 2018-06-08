@@ -1,0 +1,762 @@
+[
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_contact_checkbox_checked_green.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_contact_checkbox_checked_green.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ysb.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/ysb.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_ic_trans_fail.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_ic_trans_fail.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_list_selector_disabled_holo_light.9.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_list_selector_disabled_holo_light.9.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_list_focused_holo.9.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_list_focused_holo.9.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/file.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/file.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_ic_star_black_36dp.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_ic_star_black_36dp.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/im_file.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/im_file.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/bg_single_edt_selected.9.png",
+        "source": "/Users/admin/dev/pe_saas/baselibrary/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/bg_single_edt_selected.9.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_message_right_white_bg2.9.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_message_right_white_bg2.9.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_actionbar_dark_logo_icon.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_actionbar_dark_logo_icon.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_message_input_keyboard.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_message_input_keyboard.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_cab_background_top_mtrl_alpha.9.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_cab_background_top_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/icon_video.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/icon_video.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/icon_pic.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/icon_pic.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/camera.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/camera.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_video_play_icon_pressed.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_video_play_icon_pressed.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_ic_menu_pressed.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_ic_menu_pressed.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/icon_pdf.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/icon_pdf.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/click_yuyin.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/click_yuyin.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/mkf.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/mkf.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/im_loaction.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/im_loaction.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ic_drawing_box.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/library-1.8.aar/8fc44c7508e7d819ec4ef8c9832adca1/res/drawable-xhdpi-v4/ic_drawing_box.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_contact_select_dot_avatar.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_contact_select_dot_avatar.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/jt_copy.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/jt_copy.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/click_file.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/click_file.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_tab_indicator_mtrl_alpha.9.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_tab_indicator_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_switch_track_mtrl_alpha.9.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_switch_track_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ic_apk_box.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/library-1.8.aar/8fc44c7508e7d819ec4ef8c9832adca1/res/drawable-xhdpi-v4/ic_apk_box.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/icon_ppt.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/icon_ppt.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/file_default.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/file_default.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_team_admin_icon.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_team_admin_icon.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/personal_info_bg.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/personal_info_bg.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_text_select_handle_right_mtrl_dark.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_text_select_handle_right_mtrl_dark.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_textfield_search_activated_mtrl_alpha.9.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_textfield_search_activated_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/notification_bg_normal_pressed.9.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/ddd68b779efb360b90089121fbcf337d/res/drawable-xhdpi-v4/notification_bg_normal_pressed.9.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/im_folder.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/im_folder.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_ic_menu_copy_mtrl_am_alpha.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_ic_menu_copy_mtrl_am_alpha.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_message_left_white_bg.9.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_message_left_white_bg.9.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/qt.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/qt.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/sp.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/sp.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/notification_bg_low_pressed.9.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/ddd68b779efb360b90089121fbcf337d/res/drawable-xhdpi-v4/notification_bg_low_pressed.9.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_video_capture_start_btn.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_video_capture_start_btn.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_message_input_emotion_pressed.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_message_input_emotion_pressed.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_g_ic_failed_small.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_g_ic_failed_small.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/design_ic_visibility_off.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/ffdcf9c9fe9e7041a9d95459e0f31f8c/res/drawable-xhdpi-v4/design_ic_visibility_off.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_popup_background_mtrl_mult.9.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_popup_background_mtrl_mult.9.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_btn_check_to_on_mtrl_000.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_btn_check_to_on_mtrl_000.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_avatar_group.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_avatar_group.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/rectangle_192.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/rectangle_192.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ic_zip_box.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/library-1.8.aar/8fc44c7508e7d819ec4ef8c9832adca1/res/drawable-xhdpi-v4/ic_zip_box.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_record_video.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_record_video.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_list_pressed_holo_light.9.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_list_pressed_holo_light.9.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_spinner_mtrl_am_alpha.9.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_spinner_mtrl_am_alpha.9.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/notification_bg_normal.9.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/ddd68b779efb360b90089121fbcf337d/res/drawable-xhdpi-v4/notification_bg_normal.9.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/bg_latest_pic.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/bg_latest_pic.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_list_longpressed_holo.9.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_list_longpressed_holo.9.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ic_close_white_24dp.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/library-1.8.aar/8fc44c7508e7d819ec4ef8c9832adca1/res/drawable-xhdpi-v4/ic_close_white_24dp.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_picker_preview_unselected.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_picker_preview_unselected.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ic_arrow.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/f8bc8645306cf4faff4c770003953bcb/res/drawable-xhdpi-v4/ic_arrow.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_textfield_search_default_mtrl_alpha.9.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_textfield_search_default_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_message_right_white_bg.9.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_message_right_white_bg.9.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_scrubber_control_off_mtrl_alpha.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_scrubber_control_off_mtrl_alpha.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/invalid_name2.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/invalid_name2.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/oval_2.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/oval_2.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_scrubber_control_to_pressed_mtrl_000.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_scrubber_control_to_pressed_mtrl_000.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_music_icon_play.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_music_icon_play.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_location_bk.webp",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_location_bk.webp"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/click_pic.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/click_pic.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_ic_menu_selectall_mtrl_alpha.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_ic_menu_selectall_mtrl_alpha.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_picker_preview_normal.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_picker_preview_normal.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_list_pressed_holo_dark.9.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_list_pressed_holo_dark.9.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_team_member_delete_normal.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_team_member_delete_normal.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_ic_star_black_16dp.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_ic_star_black_16dp.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_audio_animation_list_left_2.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_audio_animation_list_left_2.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_picker_orignal_normal.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_picker_orignal_normal.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_video_capture_stop_btn.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_video_capture_stop_btn.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_picker_image_selected.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_picker_image_selected.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_textfield_activated_mtrl_alpha.9.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_textfield_activated_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_team_member_add_normal.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_team_member_add_normal.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_video_play_icon.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_video_play_icon.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_ic_star_half_black_16dp.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_ic_star_half_black_16dp.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_picker_image_normal.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_picker_image_normal.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ic_certificate_box.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/library-1.8.aar/8fc44c7508e7d819ec4ef8c9832adca1/res/drawable-xhdpi-v4/ic_certificate_box.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_btn_check_to_on_mtrl_015.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_btn_check_to_on_mtrl_015.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/oval_5_copy_5.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/oval_5_copy_5.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ic_pdf_box.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/library-1.8.aar/8fc44c7508e7d819ec4ef8c9832adca1/res/drawable-xhdpi-v4/ic_pdf_box.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/md_nav_back.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/3be554bf4b064ed901ec9c4dcbec385d/res/drawable-xhdpi-v4/md_nav_back.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ic_music_box.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/library-1.8.aar/8fc44c7508e7d819ec4ef8c9832adca1/res/drawable-xhdpi-v4/ic_music_box.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/pic2.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/pic2.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_btn_radio_to_on_mtrl_015.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_btn_radio_to_on_mtrl_015.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_record_start.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_record_start.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/invalid_name.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/invalid_name.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/default_text.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/default_text.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_message_unread_news_icon_normal.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_message_unread_news_icon_normal.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ic_powerpoint_box.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/library-1.8.aar/8fc44c7508e7d819ec4ef8c9832adca1/res/drawable-xhdpi-v4/ic_powerpoint_box.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_cameras_hover.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_cameras_hover.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_audio_animation_list_left_3.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_audio_animation_list_left_3.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/im_shoot.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/im_shoot.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ic_folder_48dp.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/library-1.8.aar/8fc44c7508e7d819ec4ef8c9832adca1/res/drawable-xhdpi-v4/ic_folder_48dp.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_text_select_handle_middle_mtrl_light.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_text_select_handle_middle_mtrl_light.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_message_input_emotion.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_message_input_emotion.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/icon_toast_success.png",
+        "source": "/Users/admin/dev/pe_saas/baselibrary/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/icon_toast_success.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_audio_animation_list_right_1.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_audio_animation_list_right_1.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/rectangle_19.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/rectangle_19.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_picker_preview_pressed.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_picker_preview_pressed.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_actionbar_search_dark_icon.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_actionbar_search_dark_icon.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/icon_music.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/icon_music.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_picker_orignal_checked.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_picker_orignal_checked.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/icon_toast_common.png",
+        "source": "/Users/admin/dev/pe_saas/baselibrary/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/icon_toast_common.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/icon_toast_fail.png",
+        "source": "/Users/admin/dev/pe_saas/baselibrary/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/icon_toast_fail.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_message_right_bg.9.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_message_right_bg.9.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/pic.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/pic.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/network_error.png",
+        "source": "/Users/admin/dev/pe_saas/baselibrary/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/network_error.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_cameras.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_cameras.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_text_select_handle_left_mtrl_light.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_text_select_handle_left_mtrl_light.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_audio_animation_list_left_1.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_audio_animation_list_left_1.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_menu_hardkey_panel_mtrl_mult.9.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_menu_hardkey_panel_mtrl_mult.9.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/click_camera.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/click_camera.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/oval_1.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/oval_1.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/invalid_name3.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/invalid_name3.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_ic_menu_cut_mtrl_alpha.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_ic_menu_cut_mtrl_alpha.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_ic_star_half_black_48dp.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_ic_star_half_black_48dp.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_new_message_notify.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_new_message_notify.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/link.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/link.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_actionbar_dark_back_icon.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_actionbar_dark_back_icon.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_btn_radio_to_on_mtrl_000.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_btn_radio_to_on_mtrl_000.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_actionbar_white_back_icon.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_actionbar_white_back_icon.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_ab_share_pack_mtrl_alpha.9.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_ab_share_pack_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_ic_commit_search_api_mtrl_alpha.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_ic_commit_search_api_mtrl_alpha.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/icon_back_gray.png",
+        "source": "/Users/admin/dev/pe_saas/baselibrary/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/icon_back_gray.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_list_selector_disabled_holo_dark.9.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_list_selector_disabled_holo_dark.9.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/pic3.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/pic3.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_picker_preview_disable.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_picker_preview_disable.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_message_input_voice_pressed.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_message_input_voice_pressed.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ss.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/ss.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_image_default.webp",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_image_default.webp"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_ic_star_black_48dp.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_ic_star_black_48dp.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_audio_animation_list_right_3.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_audio_animation_list_right_3.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ic_word_box.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/library-1.8.aar/8fc44c7508e7d819ec4ef8c9832adca1/res/drawable-xhdpi-v4/ic_word_box.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/icon_doc.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/icon_doc.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ic_video_box.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/library-1.8.aar/8fc44c7508e7d819ec4ef8c9832adca1/res/drawable-xhdpi-v4/ic_video_box.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_main_tab_new_message_notify.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_main_tab_new_message_notify.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_team_member_add_pressed.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_team_member_add_pressed.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/jt_copy2.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/jt_copy2.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_scrubber_primary_mtrl_alpha.9.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_scrubber_primary_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ic_image_box.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/library-1.8.aar/8fc44c7508e7d819ec4ef8c9832adca1/res/drawable-xhdpi-v4/ic_image_box.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/notify_panel_notification_icon_bg.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/ddd68b779efb360b90089121fbcf337d/res/drawable-xhdpi-v4/notify_panel_notification_icon_bg.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_moon_page_selected.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_moon_page_selected.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/sogu_ic_back.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/sogu_ic_back.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/design_ic_visibility.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/ffdcf9c9fe9e7041a9d95459e0f31f8c/res/drawable-xhdpi-v4/design_ic_visibility.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ic_excel_box.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/library-1.8.aar/8fc44c7508e7d819ec4ef8c9832adca1/res/drawable-xhdpi-v4/ic_excel_box.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_scrubber_track_mtrl_alpha.9.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_scrubber_track_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/icon_exl.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/icon_exl.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_message_input_plus_pressed.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_message_input_plus_pressed.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/yuyin.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/yuyin.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/file2.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/file2.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_message_left_bg.9.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_message_left_bg.9.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_audio_animation_list_right_2.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_audio_animation_list_right_2.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/audio_cancel.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/audio_cancel.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ic_document_box.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/library-1.8.aar/8fc44c7508e7d819ec4ef8c9832adca1/res/drawable-xhdpi-v4/ic_document_box.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/yy.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/yy.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/sx.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/sx.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/notification_bg_low_normal.9.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/ddd68b779efb360b90089121fbcf337d/res/drawable-xhdpi-v4/notification_bg_low_normal.9.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_team_member_delete_pressed.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_team_member_delete_pressed.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_ic_menu_paste_mtrl_am_alpha.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_ic_menu_paste_mtrl_am_alpha.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_btn_switch_to_on_mtrl_00001.9.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_btn_switch_to_on_mtrl_00001.9.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_contact_checkbox_unchecked.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_contact_checkbox_unchecked.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_text_select_handle_right_mtrl_light.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_text_select_handle_right_mtrl_light.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/icon_zip.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/icon_zip.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_moon_page_unselected.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_moon_page_unselected.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_message_input_plus.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_message_input_plus.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_message_input_voice_normal.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_message_input_voice_normal.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_text_select_handle_left_mtrl_dark.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_text_select_handle_left_mtrl_dark.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_ic_star_half_black_36dp.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_ic_star_half_black_36dp.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_ic_menu_share_mtrl_alpha.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_ic_menu_share_mtrl_alpha.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_icon_edit_delete.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_icon_edit_delete.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_team_owner_icon.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_team_owner_icon.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_ic_menu_normal.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_ic_menu_normal.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ss_small.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/ss_small.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_scrubber_control_to_pressed_mtrl_005.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_scrubber_control_to_pressed_mtrl_005.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_list_divider_mtrl_alpha.9.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_list_divider_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/nim_message_input_keyboard_pressed.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/nim_message_input_keyboard_pressed.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/link2.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/link2.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_textfield_default_mtrl_alpha.9.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_textfield_default_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/down_file.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/down_file.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_text_select_handle_middle_mtrl_dark.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_text_select_handle_middle_mtrl_dark.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/abc_btn_switch_to_on_mtrl_00012.9.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/85312a504bf8d18977f6aedb5e3fb616/res/drawable-xhdpi-v4/abc_btn_switch_to_on_mtrl_00012.9.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ewm.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/ewm.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ic_file_gray_116dp.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/library-1.8.aar/8fc44c7508e7d819ec4ef8c9832adca1/res/drawable-xhdpi-v4/ic_file_gray_116dp.png"
+    }
+]

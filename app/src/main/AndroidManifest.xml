@@ -7,7 +7,9 @@
 
 
     <!-- package="com.sogukj.pe" -->
-
+    <!-- 读取联系人权限 -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -138,11 +140,13 @@
         <!-- android:value="${UMENG_CHANNEL_VALUE}" /> -->
 
         <activity android:name=".module.main.SplashActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
 
         <provider
@@ -154,7 +158,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-        <!--Main-->
+        <!-- Main -->
         <activity
             android:name=".module.main.MainActivity"
             android:configChanges="orientation|screenSize"
@@ -182,7 +186,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".module.main.ScanResultActivity" />
-        <!--User-->
+        <!-- User -->
         <activity
             android:name=".module.user.CardActivity"
             android:configChanges="orientation|screenSize"
@@ -243,7 +247,7 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <!--打分-->
+        <!-- 打分 -->
         <activity
             android:name=".module.score.FengKongActivity"
             android:configChanges="orientation|screenSize"
@@ -309,7 +313,7 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <!--IM-->
+        <!-- IM -->
         <activity
             android:name=".module.im.AddressSearchActivity"
             android:configChanges="orientation|screenSize"
@@ -365,7 +369,7 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <!--文件选择-->
+        <!-- 文件选择 -->
         <activity
             android:name=".module.fileSelector.FileMainActivity"
             android:configChanges="orientation|screenSize"
@@ -376,7 +380,7 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <!--周报-->
+        <!-- 周报 -->
         <activity
             android:name=".module.weekly.WeeklyActivity"
             android:configChanges="orientation|screenSize"
@@ -392,7 +396,7 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <!--日历日程任务-->
+        <!-- 日历日程任务 -->
         <activity
             android:name=".module.calendar.ArrangeDetailActivity"
             android:configChanges="orientation|screenSize"
@@ -428,7 +432,7 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <!--审批-->
+        <!-- 审批 -->
         <activity
             android:name=".module.approve.ApproveFillActivity"
             android:configChanges="orientation|screenSize"
@@ -494,7 +498,7 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <!--基金-->
+        <!-- 基金 -->
         <activity
             android:name=".module.fund.FundAccountActivity"
             android:configChanges="orientation|screenSize"
@@ -535,7 +539,7 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <!--党建-->
+        <!-- 党建 -->
         <activity
             android:name=".module.partyBuild.PartyDetailActivity"
             android:configChanges="orientation|screenSize"
@@ -556,7 +560,7 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <!--消息(负面消息,舆情)-->
+        <!-- 消息(负面消息,舆情) -->
         <activity
             android:name=".module.news.MainNewsActivity"
             android:configChanges="orientation|screenSize"
@@ -577,7 +581,7 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <!--征信-->
+        <!-- 征信 -->
         <activity
             android:name=".module.creditCollection.ShareholderCreditActivity"
             android:configChanges="orientation|screenSize"
@@ -608,7 +612,7 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <!--项目-->
+        <!-- 项目 -->
         <activity
             android:name=".module.project.ProjectActivity"
             android:configChanges="orientation|screenSize"
@@ -644,7 +648,7 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible|adjustPan" />
-        <!--上市信息-->
+        <!-- 上市信息 -->
         <activity
             android:name=".module.project.listingInfo.StockInfoActivity"
             android:configChanges="orientation|screenSize"
@@ -710,7 +714,7 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <!--企业背景-->
+        <!-- 企业背景 -->
         <activity
             android:name=".module.project.businessBg.BizInfoActivity"
             android:configChanges="orientation|screenSize"
@@ -756,7 +760,7 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <!--企业发展-->
+        <!-- 企业发展 -->
         <activity
             android:name=".module.project.businessDev.FinanceHistoryActivity"
             android:configChanges="orientation|screenSize"
@@ -787,7 +791,7 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <!--经营状况-->
+        <!-- 经营状况 -->
         <activity
             android:name=".module.project.operate.RecruitActivity"
             android:configChanges="orientation|screenSize"
@@ -848,7 +852,7 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <!--知识产权-->
+        <!-- 知识产权 -->
         <activity
             android:name=".module.project.intellectualProperty.PatentListActivity"
             android:configChanges="orientation|screenSize"
@@ -874,7 +878,7 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <!--项目档案库-->
+        <!-- 项目档案库 -->
         <activity
             android:name=".module.project.archives.ProjectBookActivity"
             android:configChanges="orientation|screenSize"
@@ -931,7 +935,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
-        <!--Other-->
+        <!-- Other -->
         <activity
             android:name=".module.other.CompanySelectActivity"
             android:configChanges="orientation|screenSize"
@@ -978,11 +982,64 @@
                 <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />
             </intent-filter>
         </receiver>
+
         <activity
             android:name="com.xuexuan.zxing.android.activity.CaptureActivity"
             android:screenOrientation="portrait"
             android:stateNotNeeded="true"
             android:windowSoftInputMode="stateAlwaysHidden" />
+        <!-- 注册 -->
+        <activity
+            android:name=".module.register.PhoneInputActivity"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".module.register.VerCodeInputActivity"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
+        <activity
+            android:name=".module.register.InvCodeInputActivity"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
+        <activity
+            android:name=".module.register.InfoSupplementActivity"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
+        <activity
+            android:name=".module.register.ScaleSelectionActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".module.register.TakeCardActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".module.register.ReviewActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".module.register.InviteMainActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
+        </activity>
+
+        <activity
+            android:name=".module.register.InviteByPhoneActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
+        <activity android:name=".module.register.InviteByPcActivity" />
+        <activity android:name=".module.register.InviteByCodeActivity"></activity>
     </application>
 
 </manifest>

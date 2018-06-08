@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:textSize">@dimen/text_size_medium</item>
     </style>
@@ -11,5 +12,10 @@
         <item name="android:textColor">@color/textColorPrimary</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">17sp</item>
+    </style>
+
+    <style name="TextInputStyle">
+        <item name="android:textColor">@color/text_3</item>
+        <item name="android:textSize">10sp</item>
     </style>
 </resources>

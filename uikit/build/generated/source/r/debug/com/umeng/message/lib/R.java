@@ -8,14 +8,14 @@ package com.umeng.message.lib;
 
 public final class R {
     public static final class id {
-        public static int notification_large_icon1 = 0x7f0c01a3;
-        public static int notification_large_icon2 = 0x7f0c01a4;
-        public static int notification_text = 0x7f0c01a7;
-        public static int notification_title = 0x7f0c01a8;
-        public static int upush_notification1 = 0x7f0c02b0;
-        public static int upush_notification2 = 0x7f0c02b1;
+        public static int notification_large_icon1 = 0x7f0c01a9;
+        public static int notification_large_icon2 = 0x7f0c01aa;
+        public static int notification_text = 0x7f0c01ad;
+        public static int notification_title = 0x7f0c01ae;
+        public static int upush_notification1 = 0x7f0c02b7;
+        public static int upush_notification2 = 0x7f0c02b8;
     }
     public static final class layout {
-        public static int upush_notification = 0x7f0f00e4;
+        public static int upush_notification = 0x7f0f00e5;
     }
 }

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.sogukj.pe.module.register.InfoSupplementActivity">
+
+    <include layout="@layout/white_toolbar" />
+
+    <TextView
+        android:id="@+id/infoSupplementTitle"
+        android:text="信息补充"
+        style="@style/registerTitleStyle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+
+    <com.sogukj.pe.baselibrary.widgets.SgEditText
+        android:id="@+id/organNameEdt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/infoSupplementTitle"
+        app:sgEdt_formatType="DefaultType"
+        app:sgEdt_hint="机构全称"
+        app:sgEdt_needDelete="true">
+
+    </com.sogukj.pe.baselibrary.widgets.SgEditText>
+
+    <View
+        android:id="@+id/line1"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/divider2"
+        app:layout_constraintEnd_toEndOf="@+id/organNameEdt"
+        app:layout_constraintStart_toStartOf="@+id/organNameEdt"
+        app:layout_constraintTop_toBottomOf="@+id/organNameEdt" />
+
+    <TextView
+        android:id="@+id/organScale"
+        android:layout_width="0dp"
+        android:layout_height="42dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="16dp"
+        android:paddingStart="4dp"
+        android:gravity="start|bottom"
+        android:hint="机构规模"
+        android:paddingBottom="10dp"
+        android:textColor="@color/text_1"
+        android:textColorHint="@color/text_3"
+        android:textSize="@dimen/text_size_normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line1">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/scaleHint"
+        app:layout_constraintStart_toStartOf="@id/organScale"
+        app:layout_constraintTop_toBottomOf="@+id/line1"
+        android:textSize="10sp"
+        android:paddingStart="4dp"
+        android:textColor="@color/text_3"
+        android:layout_marginTop="8dp"
+        android:text="机构规模"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="SmallSp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/icon_to_detail"
+        app:layout_constraintBottom_toBottomOf="@+id/organScale"
+        app:layout_constraintEnd_toEndOf="@+id/organScale"
+        app:layout_constraintTop_toTopOf="@+id/organScale" />
+
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/divider2"
+        app:layout_constraintEnd_toEndOf="@+id/organScale"
+        app:layout_constraintStart_toStartOf="@+id/organScale"
+        app:layout_constraintTop_toBottomOf="@+id/organScale" />
+
+    <com.sogukj.pe.baselibrary.widgets.SgEditText
+        android:id="@+id/mNameEdt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line2"
+        app:sgEdt_formatType="DefaultType"
+        app:sgEdt_hint="真实姓名"
+        app:sgEdt_needDelete="true">
+
+    </com.sogukj.pe.baselibrary.widgets.SgEditText>
+
+    <View
+        android:id="@+id/line3"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/divider2"
+        app:layout_constraintEnd_toEndOf="@+id/mNameEdt"
+        app:layout_constraintStart_toStartOf="@+id/mNameEdt"
+        app:layout_constraintTop_toBottomOf="@+id/mNameEdt" />
+
+
+    <com.sogukj.pe.baselibrary.widgets.SgEditText
+        android:id="@+id/mPositionEdt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line3"
+        app:sgEdt_formatType="DefaultType"
+        app:sgEdt_hint="职位"
+        app:sgEdt_needDelete="true">
+
+    </com.sogukj.pe.baselibrary.widgets.SgEditText>
+
+    <View
+        android:id="@+id/line4"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/divider2"
+        app:layout_constraintEnd_toEndOf="@+id/mPositionEdt"
+        app:layout_constraintStart_toStartOf="@+id/mPositionEdt"
+        app:layout_constraintTop_toBottomOf="@+id/mPositionEdt" />
+
+    <TextView
+        android:id="@+id/infoNextStep"
+        style="@style/registerNextStep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="@string/next_step"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line4" />
+</android.support.constraint.ConstraintLayout>

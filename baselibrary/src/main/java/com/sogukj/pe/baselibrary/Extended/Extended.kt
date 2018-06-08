@@ -7,11 +7,14 @@ import android.graphics.Color
 import android.os.Build
 import android.support.v7.util.DiffUtil
 import android.support.v7.util.DiffUtil.calculateDiff
+import android.util.DisplayMetrics
+import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import anet.channel.util.Utils.context
 import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -22,6 +25,7 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import org.jetbrains.anko.windowManager
 
 /**
  * kotlin扩展方法
@@ -57,7 +61,7 @@ fun EditText.isNullOrEmpty(): Boolean =
  * edittext扩展属性，获取其文本
  */
 val EditText.textStr: String
-    get() = text.trim().toString()
+    get() = text.trim().toString().replace(" ", "")
 
 val EditText.noSpace: String
     get() = text.trimStart().trimEnd().toString()
@@ -112,11 +116,37 @@ fun BottomNavigationItem.initNavTextColor1(): BottomNavigationItem =
         setActiveColorResource(R.color.white)
                 .setInActiveColorResource(R.color.text_3)
 
+val Context.inputIsActive: Boolean
+    get() {
+        val manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        return manager.isActive
+    }
 
 fun Context.showInput(view: View) {
     val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    imm.showSoftInput(view, 0)
+    if (!inputIsActive)
+        imm.showSoftInput(view, 0)
 }
+
+val Context.screenWidth: Int
+    get() = windowManager.defaultDisplay.width
+
+val Context.screenHeight: Int
+    get() = windowManager.defaultDisplay.height
+
+val Context.screenWidthDp: Int
+    get() {
+        val dm = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(dm)
+        return dm.widthPixels / dm.density.toInt()
+    }
+
+val Context.screenHeightDp: Int
+    get() {
+        val dm = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(dm)
+        return dm.heightPixels / dm.density.toInt()
+    }
 
 fun ViewGroup.childEdtGetFocus() {
     (0 until this.childCount)
@@ -132,6 +162,19 @@ fun ViewGroup.childEdtGetFocus() {
             }
 }
 
+/**
+ * 用法
+ * val mainActivity = requireActivity() as? MainActivity
+ *   mainActivity?.apply {
+ *  }
+ * requireActivity().safeCast<MainActivity> {
+ *  }
+ */
+inline fun <reified T> Any.safeCast(action: T.() -> Unit) {
+    if (this is T) {
+        this.action()
+    }
+}
 
 /***
  * 设置延迟时间的View扩展
