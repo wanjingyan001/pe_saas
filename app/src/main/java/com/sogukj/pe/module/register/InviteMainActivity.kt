@@ -97,12 +97,6 @@ class InviteMainActivity : ToolbarActivity() {
                 }
             }
         }
-        mSearchView.filters = Utils.getFilter(this)
-        mSearchView.onEditorAction { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-
-            }
-        }
     }
 
 

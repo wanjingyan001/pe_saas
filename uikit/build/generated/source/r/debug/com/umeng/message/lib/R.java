@@ -12,10 +12,10 @@ public final class R {
         public static int notification_large_icon2 = 0x7f0c01aa;
         public static int notification_text = 0x7f0c01ad;
         public static int notification_title = 0x7f0c01ae;
-        public static int upush_notification1 = 0x7f0c02b7;
-        public static int upush_notification2 = 0x7f0c02b8;
+        public static int upush_notification1 = 0x7f0c02b8;
+        public static int upush_notification2 = 0x7f0c02b9;
     }
     public static final class layout {
-        public static int upush_notification = 0x7f0f00e5;
+        public static int upush_notification = 0x7f0f00e6;
     }
 }

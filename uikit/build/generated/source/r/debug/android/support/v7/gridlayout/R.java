@@ -21,25 +21,25 @@ public final class R {
         public static int fontProviderQuery = 0x7f0400ce;
         public static int fontStyle = 0x7f0400cf;
         public static int fontWeight = 0x7f0400d0;
-        public static int keylines = 0x7f0400ec;
-        public static int layout_anchor = 0x7f0400ef;
-        public static int layout_anchorGravity = 0x7f0400f0;
-        public static int layout_behavior = 0x7f0400f1;
-        public static int layout_column = 0x7f0400f4;
-        public static int layout_columnSpan = 0x7f0400f5;
-        public static int layout_columnWeight = 0x7f0400f6;
-        public static int layout_dodgeInsetEdges = 0x7f040120;
-        public static int layout_gravity = 0x7f040129;
-        public static int layout_insetEdge = 0x7f04012a;
-        public static int layout_keyline = 0x7f04012b;
-        public static int layout_row = 0x7f04012d;
-        public static int layout_rowSpan = 0x7f04012e;
-        public static int layout_rowWeight = 0x7f04012f;
-        public static int orientation = 0x7f040184;
-        public static int rowCount = 0x7f0401b3;
-        public static int rowOrderPreserved = 0x7f0401b4;
-        public static int statusBarBackground = 0x7f040207;
-        public static int useDefaultMargins = 0x7f040263;
+        public static int keylines = 0x7f0400ed;
+        public static int layout_anchor = 0x7f0400f0;
+        public static int layout_anchorGravity = 0x7f0400f1;
+        public static int layout_behavior = 0x7f0400f2;
+        public static int layout_column = 0x7f0400f5;
+        public static int layout_columnSpan = 0x7f0400f6;
+        public static int layout_columnWeight = 0x7f0400f7;
+        public static int layout_dodgeInsetEdges = 0x7f040121;
+        public static int layout_gravity = 0x7f04012a;
+        public static int layout_insetEdge = 0x7f04012b;
+        public static int layout_keyline = 0x7f04012c;
+        public static int layout_row = 0x7f04012e;
+        public static int layout_rowSpan = 0x7f04012f;
+        public static int layout_rowWeight = 0x7f040130;
+        public static int orientation = 0x7f040185;
+        public static int rowCount = 0x7f0401b4;
+        public static int rowOrderPreserved = 0x7f0401b5;
+        public static int statusBarBackground = 0x7f040209;
+        public static int useDefaultMargins = 0x7f040265;
     }
     public static final class bool {
         public static int abc_action_bar_embed_tabs = 0x7f050001;
@@ -74,18 +74,18 @@ public final class R {
         public static int notification_top_pad_large_text = 0x7f080120;
     }
     public static final class drawable {
-        public static int notification_action_background = 0x7f09019b;
-        public static int notification_bg = 0x7f09019c;
-        public static int notification_bg_low = 0x7f09019d;
-        public static int notification_bg_low_normal = 0x7f09019e;
-        public static int notification_bg_low_pressed = 0x7f09019f;
-        public static int notification_bg_normal = 0x7f0901a0;
-        public static int notification_bg_normal_pressed = 0x7f0901a1;
-        public static int notification_icon_background = 0x7f0901a2;
-        public static int notification_template_icon_bg = 0x7f0901a3;
-        public static int notification_template_icon_low_bg = 0x7f0901a4;
-        public static int notification_tile_bg = 0x7f0901a5;
-        public static int notify_panel_notification_icon_bg = 0x7f0901a6;
+        public static int notification_action_background = 0x7f09019c;
+        public static int notification_bg = 0x7f09019d;
+        public static int notification_bg_low = 0x7f09019e;
+        public static int notification_bg_low_normal = 0x7f09019f;
+        public static int notification_bg_low_pressed = 0x7f0901a0;
+        public static int notification_bg_normal = 0x7f0901a1;
+        public static int notification_bg_normal_pressed = 0x7f0901a2;
+        public static int notification_icon_background = 0x7f0901a3;
+        public static int notification_template_icon_bg = 0x7f0901a4;
+        public static int notification_template_icon_low_bg = 0x7f0901a5;
+        public static int notification_tile_bg = 0x7f0901a6;
+        public static int notify_panel_notification_icon_bg = 0x7f0901a7;
     }
     public static final class id {
         public static int action_container = 0x7f0c001f;
@@ -117,25 +117,25 @@ public final class R {
         public static int right = 0x7f0c01f3;
         public static int right_icon = 0x7f0c01f4;
         public static int right_side = 0x7f0c01f5;
-        public static int start = 0x7f0c023b;
-        public static int tag_transition_group = 0x7f0c0248;
-        public static int text = 0x7f0c026d;
-        public static int text2 = 0x7f0c026e;
-        public static int time = 0x7f0c0279;
-        public static int title = 0x7f0c027f;
-        public static int top = 0x7f0c0289;
-        public static int vertical = 0x7f0c02bd;
+        public static int start = 0x7f0c023c;
+        public static int tag_transition_group = 0x7f0c0249;
+        public static int text = 0x7f0c026e;
+        public static int text2 = 0x7f0c026f;
+        public static int time = 0x7f0c027a;
+        public static int title = 0x7f0c0280;
+        public static int top = 0x7f0c028a;
+        public static int vertical = 0x7f0c02be;
     }
     public static final class integer {
         public static int status_bar_notification_info_maxnum = 0x7f0d000c;
     }
     public static final class layout {
-        public static int notification_action = 0x7f0f00cb;
-        public static int notification_action_tombstone = 0x7f0f00cc;
-        public static int notification_template_custom_big = 0x7f0f00d3;
-        public static int notification_template_icon_group = 0x7f0f00d4;
-        public static int notification_template_part_chronometer = 0x7f0f00d8;
-        public static int notification_template_part_time = 0x7f0f00d9;
+        public static int notification_action = 0x7f0f00cc;
+        public static int notification_action_tombstone = 0x7f0f00cd;
+        public static int notification_template_custom_big = 0x7f0f00d4;
+        public static int notification_template_icon_group = 0x7f0f00d5;
+        public static int notification_template_part_chronometer = 0x7f0f00d9;
+        public static int notification_template_part_time = 0x7f0f00da;
     }
     public static final class string {
         public static int status_bar_notification_info_overflow = 0x7f1500ee;
@@ -151,10 +151,10 @@ public final class R {
         public static int Widget_Support_CoordinatorLayout = 0x7f1601b2;
     }
     public static final class styleable {
-        public static int[] CoordinatorLayout = { 0x7f0400ec, 0x7f040207 };
+        public static int[] CoordinatorLayout = { 0x7f0400ed, 0x7f040209 };
         public static int CoordinatorLayout_keylines = 0;
         public static int CoordinatorLayout_statusBarBackground = 1;
-        public static int[] CoordinatorLayout_Layout = { 0x010100b3, 0x7f0400ef, 0x7f0400f0, 0x7f0400f1, 0x7f040120, 0x7f04012a, 0x7f04012b };
+        public static int[] CoordinatorLayout_Layout = { 0x010100b3, 0x7f0400f0, 0x7f0400f1, 0x7f0400f2, 0x7f040121, 0x7f04012b, 0x7f04012c };
         public static int CoordinatorLayout_Layout_android_layout_gravity = 0;
         public static int CoordinatorLayout_Layout_layout_anchor = 1;
         public static int CoordinatorLayout_Layout_layout_anchorGravity = 2;
@@ -176,7 +176,7 @@ public final class R {
         public static int FontFamilyFont_font = 3;
         public static int FontFamilyFont_fontStyle = 4;
         public static int FontFamilyFont_fontWeight = 5;
-        public static int[] GridLayout = { 0x7f040027, 0x7f040079, 0x7f04007a, 0x7f040184, 0x7f0401b3, 0x7f0401b4, 0x7f040263 };
+        public static int[] GridLayout = { 0x7f040027, 0x7f040079, 0x7f04007a, 0x7f040185, 0x7f0401b4, 0x7f0401b5, 0x7f040265 };
         public static int GridLayout_alignmentMode = 0;
         public static int GridLayout_columnCount = 1;
         public static int GridLayout_columnOrderPreserved = 2;
@@ -184,7 +184,7 @@ public final class R {
         public static int GridLayout_rowCount = 4;
         public static int GridLayout_rowOrderPreserved = 5;
         public static int GridLayout_useDefaultMargins = 6;
-        public static int[] GridLayout_Layout = { 0x010100f5, 0x010100f6, 0x010100fa, 0x010100f7, 0x010100f9, 0x010100f8, 0x010100f4, 0x7f0400f4, 0x7f0400f5, 0x7f0400f6, 0x7f040129, 0x7f04012d, 0x7f04012e, 0x7f04012f };
+        public static int[] GridLayout_Layout = { 0x010100f5, 0x010100f6, 0x010100fa, 0x010100f7, 0x010100f9, 0x010100f8, 0x010100f4, 0x7f0400f5, 0x7f0400f6, 0x7f0400f7, 0x7f04012a, 0x7f04012e, 0x7f04012f, 0x7f040130 };
         public static int GridLayout_Layout_android_layout_height = 0;
         public static int GridLayout_Layout_android_layout_margin = 1;
         public static int GridLayout_Layout_android_layout_marginBottom = 2;

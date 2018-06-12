@@ -24,4 +24,9 @@
         <attr name="editCount" format="integer" />
         <attr name="singleWidth" format="integer" />
     </declare-styleable>
+    <declare-styleable name="SGSearchView">
+        <attr name="background" format="reference" />
+        <attr name="sg_hint" format="string"/>
+        <attr name="gravity_center" format="boolean"/>
+    </declare-styleable>
 </resources>

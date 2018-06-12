@@ -19,22 +19,17 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
 
-    <EditText
+    <com.sogukj.pe.baselibrary.widgets.SGSearchView
         android:id="@+id/mSearchView"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:background="@drawable/bg_invite_search_view"
-        android:drawableLeft="@mipmap/icon_search_gray"
-        android:drawablePadding="10dp"
-        android:gravity="center_vertical"
-        android:hint="搜索手机通讯录"
-        android:textColor="@color/text_1"
-        android:imeOptions="actionSearch"
-        android:inputType="text"
-        android:textColorHint="@color/text_3"
-        android:textSize="@dimen/text_size_medium"
-        app:layout_constraintTop_toBottomOf="@+id/line" />
+        app:background="@drawable/bg_invite_search_view"
+        app:gravity_center="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line"
+        app:sg_hint="搜索手机通讯录" />
 
 
     <android.support.v7.widget.RecyclerView

@@ -14,12 +14,12 @@ public final class R {
         public static int pickerview_slide_out_bottom = 0x7f010017;
     }
     public static final class attr {
-        public static int pickerview_dividerColor = 0x7f04019a;
-        public static int pickerview_gravity = 0x7f04019b;
-        public static int pickerview_lineSpacingMultiplier = 0x7f04019c;
-        public static int pickerview_textColorCenter = 0x7f04019d;
-        public static int pickerview_textColorOut = 0x7f04019e;
-        public static int pickerview_textSize = 0x7f04019f;
+        public static int pickerview_dividerColor = 0x7f04019b;
+        public static int pickerview_gravity = 0x7f04019c;
+        public static int pickerview_lineSpacingMultiplier = 0x7f04019d;
+        public static int pickerview_textColorCenter = 0x7f04019e;
+        public static int pickerview_textColorOut = 0x7f04019f;
+        public static int pickerview_textSize = 0x7f0401a0;
     }
     public static final class color {
         public static int pickerview_bgColor_default = 0x7f0600d9;
@@ -40,7 +40,7 @@ public final class R {
         public static int pickerview_topbar_title_textsize = 0x7f080127;
     }
     public static final class drawable {
-        public static int selector_pickerview_btn = 0x7f0901b9;
+        public static int selector_pickerview_btn = 0x7f0901ba;
     }
     public static final class id {
         public static int btnCancel = 0x7f0c0051;
@@ -59,10 +59,10 @@ public final class R {
         public static int outmost_container = 0x7f0c01b7;
         public static int right = 0x7f0c01f3;
         public static int rv_topbar = 0x7f0c0205;
-        public static int second = 0x7f0c021b;
-        public static int timepicker = 0x7f0c027b;
-        public static int tvTitle = 0x7f0c0295;
-        public static int year = 0x7f0c02cc;
+        public static int second = 0x7f0c021c;
+        public static int timepicker = 0x7f0c027c;
+        public static int tvTitle = 0x7f0c0296;
+        public static int year = 0x7f0c02cd;
     }
     public static final class integer {
         public static int animation_default_duration = 0x7f0d0003;
@@ -70,8 +70,8 @@ public final class R {
     public static final class layout {
         public static int include_pickerview_topbar = 0x7f0f0035;
         public static int layout_basepickerview = 0x7f0f0041;
-        public static int pickerview_options = 0x7f0f00da;
-        public static int pickerview_time = 0x7f0f00db;
+        public static int pickerview_options = 0x7f0f00db;
+        public static int pickerview_time = 0x7f0f00dc;
     }
     public static final class string {
         public static int pickerview_cancel = 0x7f1500b0;
@@ -88,7 +88,7 @@ public final class R {
         public static int pickerview_dialogAnim = 0x7f1601c2;
     }
     public static final class styleable {
-        public static int[] pickerview = { 0x7f04019a, 0x7f04019b, 0x7f04019c, 0x7f04019d, 0x7f04019e, 0x7f04019f };
+        public static int[] pickerview = { 0x7f04019b, 0x7f04019c, 0x7f04019d, 0x7f04019e, 0x7f04019f, 0x7f0401a0 };
         public static int pickerview_pickerview_dividerColor = 0;
         public static int pickerview_pickerview_gravity = 1;
         public static int pickerview_pickerview_lineSpacingMultiplier = 2;
