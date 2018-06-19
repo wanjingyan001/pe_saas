@@ -15,6 +15,7 @@ import com.google.gson.JsonSyntaxException
 import com.sogukj.pe.baselibrary.R
 import com.sogukj.pe.baselibrary.widgets.snackbar.Prompt
 import com.sogukj.pe.baselibrary.widgets.snackbar.TSnackbar
+import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.find
 import org.jetbrains.anko.imageResource
 import java.net.SocketTimeoutException
@@ -24,7 +25,7 @@ import java.net.UnknownHostException
  * Created by qinfei on 17/7/18.
  */
 
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment : Fragment(),AnkoLogger {
 
     abstract val containerViewId: Int
     val handler = Handler()

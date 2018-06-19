@@ -38,6 +38,11 @@ object SessionHelper {
 
     private fun setSessionListener() {
         val listener = object : SessionEventListener {
+            override fun onAckMsgClicked(context: Context, message: IMMessage) {
+                // 已读回执事件处理，用于群组的已读回执事件的响应，弹出消息已读详情
+                AckMsgInfoActivity.start(context, message)
+            }
+
             override fun onAvatarClicked(context: Context?, message: IMMessage?) {
                 //头像点击事件
                 message?.let {
@@ -69,7 +74,7 @@ object SessionHelper {
 
             }
             val actions = ArrayList<BaseAction>()
-            actions.add(FileAction(com.netease.nim.uikit.R.drawable.im_file,R.string.select_file))
+            actions.add(FileAction(com.netease.nim.uikit.R.drawable.im_file, R.string.select_file))
             p2pCustomization?.actions = actions
             p2pCustomization?.withSticker = true
             val buttons = ArrayList<SessionCustomization.OptionsButton>()
@@ -96,7 +101,7 @@ object SessionHelper {
 
             }
             val actions = ArrayList<BaseAction>()
-            actions.add(FileAction(com.netease.nim.uikit.R.drawable.im_file,R.string.select_file))
+            actions.add(FileAction(com.netease.nim.uikit.R.drawable.im_file, R.string.select_file))
             teamCustomization?.actions = actions
             teamCustomization?.withSticker = true
             val buttons = ArrayList<SessionCustomization.OptionsButton>()

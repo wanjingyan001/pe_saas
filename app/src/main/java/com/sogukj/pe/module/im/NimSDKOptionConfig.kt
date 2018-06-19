@@ -21,7 +21,7 @@ class NimSDKOptionConfig {
             val config = loadStatusBarNotificationConfig()
             options.statusBarNotificationConfig = config
             // 配置 APP 保存图片/语音/文件/log等数据的目录
-            options.sdkStorageRootPath = getAppCacheDir(context) + "/sjkg"// 可以不设置，那么将采用默认路径
+//            options.sdkStorageRootPath = getAppCacheDir(context) + "/sjkg"// 可以不设置，那么将采用默认路径
             // 配置数据库加密秘钥
 //            options.databaseEncryptKey = "NETEASE"
             // 配置是否需要预下载附件缩略图

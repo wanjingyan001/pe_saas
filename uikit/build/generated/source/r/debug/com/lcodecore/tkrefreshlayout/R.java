@@ -44,37 +44,37 @@ public final class R {
     }
     public static final class drawable {
         public static int anim_loading_view = 0x7f090054;
-        public static int ic_arrow = 0x7f090086;
+        public static int ic_arrow = 0x7f090087;
     }
     public static final class id {
-        public static int draweeView = 0x7f0c009e;
-        public static int ex_header = 0x7f0c00c1;
-        public static int item_touch_helper_previous_elevation = 0x7f0c0100;
-        public static int iv_arrow = 0x7f0c0103;
-        public static int iv_loading = 0x7f0c010f;
-        public static int ripple = 0x7f0c01f6;
-        public static int round1 = 0x7f0c01ff;
-        public static int round2 = 0x7f0c0200;
-        public static int tv = 0x7f0c0295;
+        public static int draweeView = 0x7f0c00a1;
+        public static int ex_header = 0x7f0c00c4;
+        public static int item_touch_helper_previous_elevation = 0x7f0c0103;
+        public static int iv_arrow = 0x7f0c0106;
+        public static int iv_loading = 0x7f0c0112;
+        public static int ripple = 0x7f0c01fb;
+        public static int round1 = 0x7f0c0204;
+        public static int round2 = 0x7f0c0205;
+        public static int tv = 0x7f0c029c;
     }
     public static final class layout {
-        public static int view_bezier = 0x7f0f00e7;
-        public static int view_sinaheader = 0x7f0f00e9;
+        public static int view_bezier = 0x7f0f00e8;
+        public static int view_sinaheader = 0x7f0f00ea;
     }
     public static final class mipmap {
-        public static int refresh_head_arrow = 0x7f110008;
-        public static int refresh_loading01 = 0x7f110009;
-        public static int refresh_loading02 = 0x7f11000a;
-        public static int refresh_loading03 = 0x7f11000b;
-        public static int refresh_loading04 = 0x7f11000c;
-        public static int refresh_loading05 = 0x7f11000d;
-        public static int refresh_loading06 = 0x7f11000e;
-        public static int refresh_loading07 = 0x7f11000f;
-        public static int refresh_loading08 = 0x7f110010;
-        public static int refresh_loading09 = 0x7f110011;
-        public static int refresh_loading10 = 0x7f110012;
-        public static int refresh_loading11 = 0x7f110013;
-        public static int refresh_loading12 = 0x7f110014;
+        public static int refresh_head_arrow = 0x7f110009;
+        public static int refresh_loading01 = 0x7f11000a;
+        public static int refresh_loading02 = 0x7f11000b;
+        public static int refresh_loading03 = 0x7f11000c;
+        public static int refresh_loading04 = 0x7f11000d;
+        public static int refresh_loading05 = 0x7f11000e;
+        public static int refresh_loading06 = 0x7f11000f;
+        public static int refresh_loading07 = 0x7f110010;
+        public static int refresh_loading08 = 0x7f110011;
+        public static int refresh_loading09 = 0x7f110012;
+        public static int refresh_loading10 = 0x7f110013;
+        public static int refresh_loading11 = 0x7f110014;
+        public static int refresh_loading12 = 0x7f110015;
     }
     public static final class string {
         public static int app_name = 0x7f150023;

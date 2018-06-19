@@ -266,14 +266,14 @@ public class MessageFragment extends TFragment implements ModuleProxy {
         final IMMessage msg = message;
         appendPushConfig(message);
         // send message to server and save to db
-        final IMMessage finalMessage = message;
+        if (message.getSessionType() == SessionTypeEnum.Team){
+            message.setMsgAck();
+        }
+        Log.d("WJY","发送信息时1ack:"+message.needMsgAck());
         NIMClient.getService(MsgService.class).sendMessage(message, false).setCallback(new RequestCallback<Void>() {
             @Override
             public void onSuccess(Void param) {
-                if (finalMessage.getAttachment() instanceof FileAttachment){
-                    String pathForSave = ((FileAttachment) finalMessage.getAttachment()).getPathForSave();
-                    Log.d("WJY",">>>>>>>"+pathForSave);
-                }
+
             }
 
             @Override

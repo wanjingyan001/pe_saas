@@ -224,18 +224,17 @@ class App : MultiDexApplication() {
                     StatusCode.LOGINING -> Log.d("WJY", "正在登录中")
                     StatusCode.SYNCING -> Log.d("WJY", "正在同步数据")
                     StatusCode.LOGINED -> Log.d("WJY", "已成功登录")
-                    StatusCode.KICKOUT, StatusCode.KICK_BY_OTHER_CLIENT -> {
+                    StatusCode.KICKOUT, StatusCode.KICK_BY_OTHER_CLIENT, StatusCode.FORBIDDEN -> {
                         Log.d("WJY", "被其他端的登录踢掉")
                         ActivityHelper.exit()
                         resetPush(false)
                         IMLogout()
                         Store.store.clearUser(this)
                         val intent = Intent(this, LoginActivity::class.java)
-                        intent.putExtra(Extras.FLAG, true)
+                        intent.putExtra(Extras.FLAG, statusCode)
                         intent.addFlags(FLAG_ACTIVITY_NEW_TASK)
                         startActivity(intent)
                     }
-                    StatusCode.FORBIDDEN -> Log.d("WJY", "被服务器禁止登录")
                     StatusCode.VER_ERROR -> Log.d("WJY", "客户端版本错误")
                     StatusCode.PWD_ERROR -> Log.d("WJY", "用户名或密码错误")
                     else -> Log.d("WJY", "未知错误")

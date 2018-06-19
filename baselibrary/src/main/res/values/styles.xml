@@ -18,4 +18,9 @@
         <item name="android:textColor">@color/text_3</item>
         <item name="android:textSize">10sp</item>
     </style>
+
+    <style name="TopWindowAnimStyle">
+        <item name="android:windowEnterAnimation">@anim/top_in</item>
+        <item name="android:windowExitAnimation">@anim/top_out</item>
+    </style>
 </resources>

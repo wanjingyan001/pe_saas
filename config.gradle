@@ -22,7 +22,7 @@ ext {
     bugly_version = '2.6.6.1'
     easyPhotos_version = '2.3.2'
     BRVAH_version = '2.9.31'
-    nimlib_version ='5.0.0'
+    nimlib_version ='5.1.1'
     map_version ='6.1.0'
     map_location_version = '3.8.0'
 }

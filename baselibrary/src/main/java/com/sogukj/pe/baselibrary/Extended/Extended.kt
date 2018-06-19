@@ -66,6 +66,9 @@ val EditText.textStr: String
 val EditText.noSpace: String
     get() = text.trimStart().trimEnd().toString()
 
+val Any?.jsonStr: String
+    get() = if (this == null) "" else Gson().toJson(this)
+
 /**
  * 扩展View是否可见，VISIBLE 与 GONE。
  */

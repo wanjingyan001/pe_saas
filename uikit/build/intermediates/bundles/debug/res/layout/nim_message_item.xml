@@ -74,6 +74,7 @@
     </LinearLayout>
 
     <FrameLayout
+        android:id="@+id/contentPanel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/message_item_name_layout"
@@ -111,6 +112,7 @@
 
             <include layout="@layout/nim_read_recipt_layout" />
 
+
             <FrameLayout
                 android:id="@+id/message_item_content"
                 android:layout_width="wrap_content"
@@ -119,5 +121,17 @@
                 android:background="@android:color/transparent" />
 
         </LinearLayout>
+
     </FrameLayout>
+
+    <TextView
+        android:id="@+id/team_ack_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/contentPanel"
+        android:layout_alignEnd="@+id/contentPanel"
+        android:layout_marginEnd="6dp"
+        android:background="@color/transparent"
+        android:textColor="#666666"
+        android:textSize="12sp" />
 </RelativeLayout>

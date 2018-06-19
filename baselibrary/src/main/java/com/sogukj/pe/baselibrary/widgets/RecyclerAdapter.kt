@@ -1,10 +1,12 @@
 package com.sogukj.pe.baselibrary.widgets
 
 import android.content.Context
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.sogukj.pe.baselibrary.utils.DiffCallBack
 import java.util.*
 
 /**
@@ -120,6 +122,14 @@ open class RecyclerAdapter<T>(val context: Context, val creator: (RecyclerAdapte
 
     fun isSelected(position: Int): Boolean {
         return selectedItems.contains(Integer.valueOf(position))
+    }
+
+    /**
+     * 使用DiffUtil刷新数据
+     */
+    fun refreshData(newData: List<T>) {
+        val result = DiffUtil.calculateDiff(DiffCallBack(dataList, newData))
+        result.dispatchUpdatesTo(this)
     }
 
 

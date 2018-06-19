@@ -10,6 +10,7 @@ import android.view.View
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.netease.nim.uikit.api.NimUIKit
 import com.netease.nimlib.sdk.RequestCallback
+import com.netease.nimlib.sdk.StatusCode
 import com.netease.nimlib.sdk.auth.LoginInfo
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
@@ -47,10 +48,10 @@ class LoginActivity : BaseActivity() {
             "ht" -> {
                 login_logo.imageResource = R.drawable.img_logo_login_ht
             }
-            "kk" ->{
+            "kk" -> {
                 login_logo.imageResource = R.drawable.img_logo_login_kk
             }
-            "yge"->{
+            "yge" -> {
                 login_logo.imageResource = R.drawable.img_logo_login_yge
             }
             else -> {
@@ -83,10 +84,12 @@ class LoginActivity : BaseActivity() {
                 btn_login.backgroundResource = R.drawable.bg_btn_login_1
             }
         }
-        val extra = intent.getBooleanExtra(Extras.FLAG, false)
-        if (extra) {
-            showCustomToast(R.drawable.icon_toast_common, "您的帐号已在其他设备登陆，您已被迫下线")
-            //showToast("您的帐号已在其他设备登陆，您已被迫下线")
+        val extra = intent.getSerializableExtra(Extras.FLAG) as? StatusCode
+        extra?.let {
+            when (extra) {
+                StatusCode.KICKOUT, StatusCode.KICK_BY_OTHER_CLIENT -> showCustomToast(R.drawable.icon_toast_common, "您的帐号已在其他设备登陆，您已被迫下线")
+                StatusCode.FORBIDDEN -> showCustomToast(R.drawable.icon_toast_common, "您的帐号已被禁止登录,请联系管理员")
+            }
         }
         et_name.textChangedListener {
             onTextChanged { charSequence, i1, i2, i3 ->
@@ -95,7 +98,7 @@ class LoginActivity : BaseActivity() {
                     delete1.setOnClickListener {
                         et_name.setText("")
                     }
-                }else{
+                } else {
                     delete1.visibility = View.GONE
                 }
             }
@@ -107,7 +110,7 @@ class LoginActivity : BaseActivity() {
                     delete2.setOnClickListener {
                         et_pwd.setText("")
                     }
-                }else{
+                } else {
                     delete2.visibility = View.GONE
                 }
             }
@@ -130,7 +133,7 @@ class LoginActivity : BaseActivity() {
         user.phone = phone
         Store.store.setUser(context, user)
 
-        SoguApi.getService(application,UserService::class.java)
+        SoguApi.getService(application, UserService::class.java)
                 .sendVerifyCode(phone)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -174,7 +177,7 @@ class LoginActivity : BaseActivity() {
         }
         val phone = et_name.text.toString()
         val code = et_pwd.text.toString()
-        SoguApi.getService(application,UserService::class.java)
+        SoguApi.getService(application, UserService::class.java)
                 .login(phone, code)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())

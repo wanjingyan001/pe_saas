@@ -380,7 +380,6 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
     private void onTextMessageSendButtonPressed() {
         String text = messageEditText.getText().toString();
         IMMessage textMessage = createTextMessage(text);
-
         if (container.proxy.sendMessage(textMessage)) {
             restoreText(true);
         }
@@ -522,7 +521,7 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
         @Override
         public void run() {
             actionPanelBottomLayout.setVisibility(View.VISIBLE);
-            //todo 获取图库中的最新图片,并进行时间校验(有效期5分钟)
+            // 获取图库中的最新图片,并进行时间校验(有效期5分钟)
             final Pair<Long, String> pair = ImageUtil.getLatestPhoto(container.activity);
             if (pair != null) {
                 final File file = new File(pair.second);
@@ -816,6 +815,9 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
     @Override
     public void onRecordSuccess(File audioFile, long audioLength, RecordType recordType) {
         IMMessage audioMessage = MessageBuilder.createAudioMessage(container.account, container.sessionType, audioFile, audioLength);
+        if (!audioMessage.needMsgAck()){
+            audioMessage.setMsgAck();
+        }
         container.proxy.sendMessage(audioMessage);
     }
 

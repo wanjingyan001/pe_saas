@@ -23,12 +23,17 @@ import com.netease.nim.uikit.common.ui.recyclerview.holder.RecyclerViewHolder;
 import com.netease.nim.uikit.common.util.sys.TimeUtil;
 import com.netease.nim.uikit.impl.NimUIKitImpl;
 import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.NIMSDK;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.RequestCallbackWrapper;
+import com.netease.nimlib.sdk.StatusCode;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.attachment.FileAttachment;
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.netease.nimlib.sdk.team.TeamService;
 
 /**
  * 会话窗口消息列表项的ViewHolder基类，负责每个消息项的外层框架，包括头像，昵称，发送/接收进度条，重发按钮等。<br>
@@ -57,7 +62,7 @@ public abstract class MsgViewHolderBase extends RecyclerViewHolder<BaseMultiItem
     protected FrameLayout contentContainer;
     protected LinearLayout nameContainer;
     protected TextView readReceiptTextView;
-
+    protected TextView ackMsgTextView;
     private HeadImageView avatarLeft;
     private HeadImageView avatarRight;
 
@@ -187,6 +192,7 @@ public abstract class MsgViewHolderBase extends RecyclerViewHolder<BaseMultiItem
         nameIconView = findViewById(R.id.message_item_name_icon);
         nameContainer = findViewById(R.id.message_item_name_layout);
         readReceiptTextView = findViewById(R.id.textViewAlreadyRead);
+        ackMsgTextView = findViewById(R.id.team_ack_msg);
 
         // 这里只要inflate出来后加入一次即可
         if (contentContainer.getChildCount() == 0) {
@@ -204,7 +210,7 @@ public abstract class MsgViewHolderBase extends RecyclerViewHolder<BaseMultiItem
         setLongClickListener();
         setContent();
         setReadReceipt();
-
+        setAckMsg();
         bindContentView();
     }
 
@@ -298,6 +304,16 @@ public abstract class MsgViewHolderBase extends RecyclerViewHolder<BaseMultiItem
             avatarLeft.setOnClickListener(portraitListener);
             avatarRight.setOnClickListener(portraitListener);
         }
+
+        // 已读回执响应事件
+        if (NimUIKitImpl.getSessionListener() != null) {
+            ackMsgTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    NimUIKitImpl.getSessionListener().onAckMsgClicked(context, message);
+                }
+            });
+        }
     }
 
     /**
@@ -381,10 +397,6 @@ public abstract class MsgViewHolderBase extends RecyclerViewHolder<BaseMultiItem
     private void setReadReceipt() {
         if (!isReceivedMessage() && shouldDisplayReceipt() && message.getSessionType() == SessionTypeEnum.P2P) {
             readReceiptTextView.setVisibility(View.VISIBLE);
-//            if (shouldDisplayReceipt() && !TextUtils.isEmpty(getMsgAdapter().getUuid())
-//                    && message.getUuid().equals(getMsgAdapter().getUuid()) ) {
-//                readReceiptTextView.setText("已读");
-//            }
             if (message.isRemoteRead()) {
                 readReceiptTextView.setText("已读");
             } else {
@@ -392,6 +404,42 @@ public abstract class MsgViewHolderBase extends RecyclerViewHolder<BaseMultiItem
             }
         } else {
             readReceiptTextView.setVisibility(View.GONE);
+        }
+    }
+
+    private void setAckMsg() {
+        if (message.getSessionType() == SessionTypeEnum.Team && message.needMsgAck()) {
+            if (isReceivedMessage()) {
+                // 收到的需要已读回执的消息，需要给个反馈
+                ackMsgTextView.setVisibility(View.GONE);
+                NIMSDK.getTeamService().sendTeamMessageReceipt(message).setCallback(new RequestCallback<Void>() {
+                    @Override
+                    public void onSuccess(Void param) {
+                        Log.d("WJY", "已读回执发送成功");
+                    }
+
+                    @Override
+                    public void onFailed(int code) {
+                        Log.d("WJY", "code:" + code);
+                    }
+
+                    @Override
+                    public void onException(Throwable exception) {
+                        exception.printStackTrace();
+                        Log.d("WJY", exception.getMessage());
+                    }
+                });
+            } else {
+                // 自己发的需要已读回执的消息，显示未读人数
+                ackMsgTextView.setVisibility(View.VISIBLE);
+                if (message.getTeamMsgAckCount() == 0 && message.getTeamMsgUnAckCount() == 0) {
+                    ackMsgTextView.setText("还未查看");
+                } else {
+                    ackMsgTextView.setText(message.getTeamMsgUnAckCount() + "人未读");
+                }
+            }
+        } else {
+            ackMsgTextView.setVisibility(View.GONE);
         }
     }
 }
