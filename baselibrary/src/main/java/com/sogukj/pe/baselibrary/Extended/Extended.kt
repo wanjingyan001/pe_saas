@@ -14,7 +14,6 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import anet.channel.util.Utils.context
 import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -91,6 +90,13 @@ fun CharSequence?.checkEmpty(): CharSequence {
         ""
     else
         this
+}
+
+
+fun <T1, T2, T3> Context.ifNotNull(value1: T1?, value2: T2?, value3: T3?, bothNotNull: (T1, T2, T3) -> (Unit)) {
+    if (value1 != null && value2 != null && value3 != null) {
+        bothNotNull(value1, value2, value3)
+    }
 }
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)

@@ -22,11 +22,18 @@ android {
 
 }
 
+kapt {
+    arguments {
+        arg("moduleName", project.getName())
+    }
+}
+
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
 //    kotlin
     api "org.jetbrains.kotlin:kotlin-stdlib-jre7:${kotlin_version}"
     api "org.jetbrains.kotlin:kotlin-reflect:${kotlin_version}"
+//    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutines_core}"
     api "org.jetbrains.anko:anko:$anko_version"
     // Anko Commons
     api "org.jetbrains.anko:anko-commons:$anko_version"
@@ -80,6 +87,7 @@ dependencies {
     api "com.tencent.bugly:crashreport:${bugly_version}"
 //    图片选择
     api "com.github.HuanTanSheng:EasyPhotos:${easyPhotos_version}"
+
 //    other
     api 'com.ashokvarma.android:bottom-navigation-bar:2.0.4'
     api 'com.contrarywind:Android-PickerView:3.2.7'
@@ -88,9 +96,10 @@ dependencies {
     api 'com.lcodecorex:tkrefreshlayout:1.0.7'
     api 'com.nbsp:library:1.8'
     // ViewModel and LiveData
-    api "android.arch.lifecycle:extensions:1.1.1"
+    api "android.arch.lifecycle:extensions:${android_architecture_components}"
 
-    api project(':PushSDK')
+
+    implementation project(':PushSDK')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

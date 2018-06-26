@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.widget.TextView
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.StatusBarUtil
@@ -13,7 +14,7 @@ import com.sogukj.pe.baselibrary.widgets.ArrayPagerAdapter
 import kotlinx.android.synthetic.main.activity_weekly.*
 import org.jetbrains.anko.textColor
 
-
+@Route(path = "/weekly/main")
 class WeeklyActivity : ToolbarActivity() {
 
     val fragments = arrayOf(

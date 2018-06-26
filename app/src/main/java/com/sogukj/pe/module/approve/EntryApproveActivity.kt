@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.sogukj.pe.Extras
@@ -27,6 +28,7 @@ import java.text.SimpleDateFormat
 /**
  * Created by qinfei on 17/10/18.
  */
+@Route(path = "/approve/main")
 class EntryApproveActivity : ToolbarActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {

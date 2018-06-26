@@ -3,9 +3,11 @@ package com.sogukj.pe.module.news
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 
+@Route(path = "/news/main")
 class MainNewsActivity : ToolbarActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

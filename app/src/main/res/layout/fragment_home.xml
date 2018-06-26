@@ -120,57 +120,18 @@
                 android:layout_marginRight="20dp"
                 android:background="@mipmap/logo_main_middle" />
 
-            <android.support.v7.widget.GridLayout
-                android:id="@+id/grid"
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/mainModuleList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="5dp"
-                app:columnCount="4"
-                app:orientation="horizontal"
-                app:rowCount="2">
+                android:layout_marginTop="5dp">
 
-                <com.sogukj.pe.widgets.TipsViewMain2
-                    android:id="@+id/tv_rl"
-                    android:layout_width="0dp"
-                    android:layout_height="95dp"
-                    app:icon_main="@drawable/ap"
-                    app:layout_columnWeight="1"
-                    app:title="安排" />
+            </android.support.v7.widget.RecyclerView>
 
-                <com.sogukj.pe.widgets.TipsViewMain2
-                    android:id="@+id/tv_msg"
-                    android:layout_width="0dp"
-                    android:layout_height="95dp"
-                    app:icon_main="@drawable/qb"
-                    app:layout_columnWeight="1"
-                    app:title="情报" />
-
-                <com.sogukj.pe.widgets.TipsViewMain2
-                    android:id="@+id/tv_sp"
-                    android:layout_width="0dp"
-                    android:layout_height="95dp"
-                    app:icon_main="@drawable/sp"
-                    app:layout_columnWeight="1"
-                    app:title="审批" />
-
-                <com.sogukj.pe.widgets.TipsViewMain2
-                    android:id="@+id/tv_weekly"
-                    android:layout_width="0dp"
-                    android:layout_height="95dp"
-                    app:icon_main="@drawable/zb"
-                    app:layout_columnWeight="1"
-                    app:title="周报" />
-
-                <com.sogukj.pe.widgets.TipsViewMain2
-                    android:id="@+id/tv_zhengxin"
-                    android:layout_width="0dp"
-                    android:layout_height="95dp"
-                    app:icon_main="@drawable/zx"
-                    app:layout_columnWeight="1"
-                    app:title="征信" />
-            </android.support.v7.widget.GridLayout>
         </LinearLayout>
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>

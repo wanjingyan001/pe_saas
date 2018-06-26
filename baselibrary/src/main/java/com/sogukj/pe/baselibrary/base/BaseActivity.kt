@@ -19,7 +19,6 @@ import com.google.gson.JsonSyntaxException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import com.sogukj.pe.baselibrary.R
-import com.umeng.message.PushAgent
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.find
 import org.jetbrains.anko.imageResource
@@ -27,6 +26,7 @@ import android.support.v4.view.accessibility.AccessibilityEventCompat.setAction
 import com.sogukj.pe.baselibrary.widgets.snackbar.TSnackbar
 import android.view.ViewGroup
 import com.sogukj.pe.baselibrary.widgets.snackbar.Prompt
+import com.umeng.message.PushAgent
 
 
 /**

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+
+    <ImageView
+        android:id="@+id/audio"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:src="@drawable/message_yuyin_selector" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_weight="1" />
+
+    <ImageView
+        android:id="@+id/pic"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:src="@drawable/message_pic_selector" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_weight="1" />
+
+    <ImageView
+        android:id="@+id/camera"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:src="@drawable/message_camera_selector" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_weight="1" />
+
+    <ImageView
+        android:id="@+id/file"
+        android:layout_width="wrap_content"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:layout_height="36dp"
+        android:src="@drawable/message_file_selector" />
+
+</LinearLayout>

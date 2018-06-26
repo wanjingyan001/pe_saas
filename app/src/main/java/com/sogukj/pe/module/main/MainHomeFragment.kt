@@ -1,45 +1,55 @@
 package com.sogukj.pe.module.main
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
+import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
+import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.alibaba.android.arouter.launcher.ARouter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.fashare.stack_layout.StackLayout
+import com.google.gson.Gson
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.arrayFromJson
+import com.sogukj.pe.baselibrary.Extended.jsonStr
 import com.sogukj.pe.baselibrary.base.BaseFragment
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.utils.XmlDb
+import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
+import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
+import com.sogukj.pe.database.MainFunIcon
 import com.sogukj.pe.bean.MessageBean
 import com.sogukj.pe.bean.ProjectBean
-import com.sogukj.pe.module.approve.EntryApproveActivity
+import com.sogukj.pe.database.FunctionViewModel
+import com.sogukj.pe.database.Injection
 import com.sogukj.pe.module.approve.LeaveBusinessApproveActivity
 import com.sogukj.pe.module.approve.SealApproveActivity
 import com.sogukj.pe.module.approve.SignApproveActivity
-import com.sogukj.pe.module.calendar.CalendarMainActivity
 import com.sogukj.pe.module.creditCollection.ShareHolderDescActivity
 import com.sogukj.pe.module.creditCollection.ShareHolderStepActivity
 import com.sogukj.pe.module.creditCollection.ShareholderCreditActivity
-import com.sogukj.pe.module.news.MainNewsActivity
 import com.sogukj.pe.module.other.MessageListActivity
 import com.sogukj.pe.module.partyBuild.PartyMainActivity
 import com.sogukj.pe.module.user.UserActivity
-import com.sogukj.pe.module.weekly.WeeklyActivity
 import com.sogukj.pe.peUtils.CacheUtils
 import com.sogukj.pe.peUtils.MyGlideUrl
 import com.sogukj.pe.peUtils.Store
@@ -51,7 +61,9 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.coroutines.experimental.async
 import me.leolin.shortcutbadger.ShortcutBadger
+import org.jetbrains.anko.*
 import org.jetbrains.anko.support.v4.ctx
 import java.net.UnknownHostException
 import java.util.*
@@ -65,6 +77,8 @@ class MainHomeFragment : BaseFragment() {
     override val containerViewId: Int
         get() = R.layout.fragment_home
 
+    lateinit var moduleAdapter: RecyclerAdapter<MainFunIcon>
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 0x789) {
@@ -77,55 +91,79 @@ class MainHomeFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        tv_sp.setOnClickListener {
-            EntryApproveActivity.start(baseActivity, local_sp)
+        val factory = Injection.provideViewModelFactory(ctx)
+        val model = ViewModelProviders.of(this, factory).get(FunctionViewModel::class.java)
+        model.generateData()
+
+        moduleAdapter = RecyclerAdapter(ctx) { _adapter, parent, _ ->
+            val itemView = _adapter.getView(R.layout.item_function_icon, parent)
+            object : RecyclerHolder<MainFunIcon>(itemView) {
+                val icon = itemView.find<ImageView>(R.id.funIcon)
+                val name = itemView.find<TextView>(R.id.functionName)
+                override fun setData(view: View, data: MainFunIcon, position: Int) {
+                    icon.imageResource = data.icon
+                    name.text = data.name
+                }
+            }
         }
-        tv_weekly.setOnClickListener { WeeklyActivity.start(baseActivity) }
-//        tv_jj.setOnClickListener { FundMainFragment.start(baseActivity) }
-        tv_rl.setOnClickListener { CalendarMainActivity.start(baseActivity) }
-//        disable(tv_jj)
-//        disable(tv_rl)
-        //disable(tv_lxr)
-        tv_msg.setOnClickListener {
-            //NewsListActivity.start(baseActivity)
-            MainNewsActivity.start(baseActivity)
+
+        model.getMainModules().observe(this, Observer<List<MainFunIcon>> { functions ->
+            AnkoLogger("WJY").info { "首页功能:${functions?.jsonStr}" }
+            functions?.let {
+                moduleAdapter.dataList.clear()
+                moduleAdapter.dataList.addAll(it)
+                moduleAdapter.notifyDataSetChanged()
+            }
+        })
+        mainModuleList.apply {
+            layoutManager = GridLayoutManager(ctx, 4)
+            adapter = moduleAdapter
+        }
+        moduleAdapter.onItemClick = { v, p ->
+            val mainFunIcon = moduleAdapter.dataList[p]
+            if (mainFunIcon.name == "征信") {
+                XmlDb.open(ctx).set("INNER", "FALSE")
+                var first = XmlDb.open(ctx).get("FIRST", "TRUE")
+                if (first == "FALSE") {
+                    SoguApi.getService(baseActivity!!.application, CreditService::class.java)
+                            .showCreditList()
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeOn(Schedulers.io())
+                            .subscribe({ payload ->
+                                if (payload.isOk) {
+                                    if (payload.payload == null) {
+                                        ShareHolderStepActivity.start(context, 1, 0, "")
+                                    } else {
+                                        if (payload.payload!!.size == 0) {
+                                            ShareHolderStepActivity.start(context, 1, 0, "")
+                                        } else {
+                                            var project = ProjectBean()
+                                            project.name = ""
+                                            project.company_id = 0
+                                            ShareholderCreditActivity.start(context, project)
+                                        }
+                                    }
+                                } else {
+                                    ShareHolderStepActivity.start(context, 1, 0, "")
+                                }
+                            }, { e ->
+                                Trace.e(e)
+                                ShareHolderStepActivity.start(context, 1, 0, "")
+                            })
+                } else if (first == "TRUE") {
+                    ShareHolderDescActivity.start(context, ProjectBean(), "OUTER")
+                    XmlDb.open(ctx).set("FIRST", "FALSE")
+                }
+            } else {
+                val path = mainFunIcon.address + mainFunIcon.port
+                //fragment中使用路由调用startActivityForResult回调将在Activity中
+                ARouter.getInstance().build(path)
+                        .withInt(Extras.DATA, local_sp!!)
+                        .withString("selectModuleStr", moduleAdapter.dataList.filter { it.editable }.jsonStr).navigation(activity!!, Extras.REQUESTCODE)
+            }
         }
         party_build.setOnClickListener {
             PartyMainActivity.start(ctx)
-        }
-        tv_zhengxin.setOnClickListener {
-            XmlDb.open(ctx).set("INNER", "FALSE")
-            var first = XmlDb.open(ctx).get("FIRST", "TRUE")
-            if (first.equals("FALSE")) {
-                SoguApi.getService(baseActivity!!.application,CreditService::class.java)
-                        .showCreditList()
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeOn(Schedulers.io())
-                        .subscribe({ payload ->
-                            if (payload.isOk) {
-                                if (payload.payload == null) {
-                                    ShareHolderStepActivity.start(context, 1, 0, "")
-                                } else {
-                                    if (payload.payload!!.size == 0) {
-                                        ShareHolderStepActivity.start(context, 1, 0, "")
-                                    } else {
-                                        var project = ProjectBean()
-                                        project.name = ""
-                                        project.company_id = 0
-                                        ShareholderCreditActivity.start(context, project)
-                                    }
-                                }
-                            } else {
-                                ShareHolderStepActivity.start(context, 1, 0, "")
-                            }
-                        }, { e ->
-                            Trace.e(e)
-                            ShareHolderStepActivity.start(context, 1, 0, "")
-                        })
-            } else if (first.equals("TRUE")) {
-                ShareHolderDescActivity.start(context, ProjectBean(), "OUTER")
-                XmlDb.open(ctx).set("FIRST", "FALSE")
-            }
         }
 
         loadHead()
@@ -239,7 +277,7 @@ class MainHomeFragment : BaseFragment() {
                 }
             }
         }
-        SoguApi.getService(baseActivity!!.application,OtherService::class.java)
+        SoguApi.getService(baseActivity!!.application, OtherService::class.java)
                 .msgList(page = page, pageSize = 20, status = 1)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -314,7 +352,7 @@ class MainHomeFragment : BaseFragment() {
                         noleftviewpager.visibility = View.GONE
                     }
                 })
-        SoguApi.getService(baseActivity!!.application,OtherService::class.java)
+        SoguApi.getService(baseActivity!!.application, OtherService::class.java)
                 .getNumber()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())

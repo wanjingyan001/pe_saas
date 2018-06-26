@@ -7,6 +7,7 @@ import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.support.multidex.MultiDexApplication
 import android.util.Log
 import android.widget.RemoteViews
+import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
 import com.mob.MobSDK
 import com.netease.nim.uikit.api.NimUIKit
@@ -20,6 +21,7 @@ import com.sogukj.pe.baselibrary.base.ActivityHelper
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.XmlDb
 import com.sogukj.pe.bean.NewsBean
+import com.sogukj.pe.database.SgDatabase
 import com.sogukj.pe.module.approve.LeaveBusinessApproveActivity
 import com.sogukj.pe.module.approve.SealApproveActivity
 import com.sogukj.pe.module.approve.SignApproveActivity
@@ -56,7 +58,14 @@ class App : MultiDexApplication() {
         super.onCreate()
         INSTANCE = this
 //        MobSDK.init(this, "137b5c5ce8f55", "b28db523803b31a66b590150cb96c4fd")
+        //ARouter阿里路由
+        if (BuildConfig.DEBUG) {
+            ARouter.openLog()
+            ARouter.openDebug()
+        }
+        ARouter.init(this)
         CrashReport.initCrashReport(this, "49fb9e37b7", true)
+        SgDatabase.getInstance(this)
         MobSDK.init(this, "214eaf8217e6c", "c1ddfcaa333020a5a06812bc745d508c")
         val mPushAgent = PushAgent.getInstance(this)
         mPushAgent.setDebugMode(false)

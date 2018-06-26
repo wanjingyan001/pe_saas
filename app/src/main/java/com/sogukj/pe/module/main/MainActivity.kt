@@ -33,14 +33,14 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar
 import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.gson.Gson
 import com.sogukj.pe.App
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.initNavTextColor
-import com.sogukj.pe.baselibrary.Extended.initNavTextColor1
-import com.sogukj.pe.baselibrary.Extended.setVisible
+import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.*
+import com.sogukj.pe.database.MainFunIcon
 import com.sogukj.pe.bean.NewsBean
 import com.sogukj.pe.module.fund.FundMainFragment
 import com.sogukj.pe.module.news.NewsDetailActivity
@@ -54,8 +54,10 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.ctx
 import org.jetbrains.anko.find
 import org.jetbrains.anko.imageResource
+import org.jetbrains.anko.info
 import java.io.File
 import java.util.*
 
@@ -89,7 +91,7 @@ class MainActivity : BaseActivity() {
                 .load(defaultIc())
                 .apply(RequestOptions().centerInside())
                 .into(mainLogo)
-        ViewCompat.setElevation(mainLogo,50f)
+        ViewCompat.setElevation(mainLogo, 50f)
     }
 
     private fun initFragments() {
@@ -125,12 +127,12 @@ class MainActivity : BaseActivity() {
             override fun onTabSelected(position: Int) {
                 if (position == 2) {
                     mainLogo.setVisible(true)
-                    val scalex = PropertyValuesHolder.ofFloat("scaleX", 0.7f,1f)
-                    val scaley = PropertyValuesHolder.ofFloat("scaleY", 0.7f,1f)
+                    val scalex = PropertyValuesHolder.ofFloat("scaleX", 0.7f, 1f)
+                    val scaley = PropertyValuesHolder.ofFloat("scaleY", 0.7f, 1f)
                     val animator = ObjectAnimator.ofPropertyValuesHolder(mainLogo, scalex, scaley).setDuration(300)
                     animator.interpolator = DecelerateInterpolator()
                     animator.start()
-                }else{
+                } else {
                     mainLogo.setVisible(false)
                 }
                 changeFragment(position)
@@ -214,7 +216,7 @@ class MainActivity : BaseActivity() {
             prompt.text = hint
         }
 
-        SoguApi.getService(application,OtherService::class.java)
+        SoguApi.getService(application, OtherService::class.java)
                 .getVersion()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -302,7 +304,7 @@ class MainActivity : BaseActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        if(manager != null){
+        if (manager != null) {
             bottomBar.selectTab(0)
         }
     }
@@ -372,5 +374,23 @@ class MainActivity : BaseActivity() {
             uri = Uri.fromFile(File(param))
         }
         return uri
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == Extras.REQUESTCODE && resultCode == Extras.RESULTCODE && data != null) {
+//            val icons = Gson().arrayFromJson<MainFunIcon>(data.getStringExtra(Extras.LIST))
+//            if (mainHome.isVisible) {
+//                val newData = mainHome.moduleAdapter.dataList.plus(icons).toMutableList()
+//                newData.remove(newData.find { it.path == "/main/edit" })
+//                newData.distinct()
+//                newData.add(MainFunIcon(R.mipmap.icon_adjustment, "调整", "/main/edit", true, false))
+//                mainHome.moduleAdapter.refreshData(newData)
+//                mainHome.moduleAdapter.dataList.clear()
+//                mainHome.moduleAdapter.dataList.addAll(newData)
+//                XmlDb.open(this).set("${Store.store.getUser(ctx)?.uid}${Extras.MAIN_MODULE}",newData.jsonStr)
+//            }
+//            info { icons.jsonStr }
+        }
     }
 }

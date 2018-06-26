@@ -40,10 +40,10 @@ public final class R {
         public static int abc_action_bar_embed_tabs = 0x7f050001;
     }
     public static final class color {
-        public static int notification_action_color_filter = 0x7f0600d4;
-        public static int notification_icon_bg_color = 0x7f0600d5;
-        public static int ripple_material_light = 0x7f0600f7;
-        public static int secondary_text_default_material_light = 0x7f0600fa;
+        public static int notification_action_color_filter = 0x7f0600d5;
+        public static int notification_icon_bg_color = 0x7f0600d6;
+        public static int ripple_material_light = 0x7f0600f8;
+        public static int secondary_text_default_material_light = 0x7f0600fb;
     }
     public static final class dimen {
         public static int compat_button_inset_horizontal_material = 0x7f080078;
