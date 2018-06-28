@@ -59,6 +59,7 @@ class SplashActivity : BaseActivity() {
         handler.postDelayed({
             if (!Store.store.checkLogin(this) || (NIMClient.getStatus().shouldReLogin() && NimUIKit.getAccount().isNullOrEmpty())) {
                 LoginActivity.start(this)
+                finish()
             } else {
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()

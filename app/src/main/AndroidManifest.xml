@@ -71,6 +71,10 @@
         android:theme="@style/AppTheme"
         tools:replace="android:theme">
 
+        <!--全面屏适配-->
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.1" />
         <!-- 网易云信IM配置开始 -->
         <!--
     APP key, 可以在这里设置，也可以在 SDKOptions 中提供。
@@ -1044,7 +1048,8 @@
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
         <activity android:name=".module.register.InviteByPcActivity" />
         <activity android:name=".module.register.InviteByCodeActivity" />
-        <activity android:name=".module.main.MainEditActivity"></activity>
+        <activity android:name=".module.main.MainEditActivity" />
+        <activity android:name=".module.main.CompanySelectActivity"></activity>
     </application>
 
 </manifest>

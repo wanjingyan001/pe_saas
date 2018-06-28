@@ -11,6 +11,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.gson.Gson
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
@@ -28,7 +29,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_record_trace.*
 import org.jetbrains.anko.textColor
-
+@Route(path = "/project/gzjl")
 class RecordTraceActivity : ToolbarActivity() {
 
     lateinit var project: ProjectBean

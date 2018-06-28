@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import android.widget.EditText
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.gson.Gson
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
@@ -27,6 +28,7 @@ import java.util.*
 /**
  * Created by qinfei on 17/7/18.
  */
+@Route(path = "/project/cbxx")
 class StoreProjectAddActivity : ToolbarActivity() {
 
     var type = 0

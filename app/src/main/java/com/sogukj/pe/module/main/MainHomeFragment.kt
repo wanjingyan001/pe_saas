@@ -8,16 +8,20 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.os.AsyncTask
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.GridLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.alibaba.android.arouter.facade.Postcard
+import com.alibaba.android.arouter.facade.callback.NavigationCallback
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -108,7 +112,6 @@ class MainHomeFragment : BaseFragment() {
         }
 
         model.getMainModules().observe(this, Observer<List<MainFunIcon>> { functions ->
-            AnkoLogger("WJY").info { "首页功能:${functions?.jsonStr}" }
             functions?.let {
                 moduleAdapter.dataList.clear()
                 moduleAdapter.dataList.addAll(it)
@@ -157,9 +160,29 @@ class MainHomeFragment : BaseFragment() {
             } else {
                 val path = mainFunIcon.address + mainFunIcon.port
                 //fragment中使用路由调用startActivityForResult回调将在Activity中
+                val bundle = Bundle()
+                bundle.putInt(Extras.DATA, local_sp!!)
+                bundle.putInt(Extras.FLAG, Extras.ROUTH_FLAG)
                 ARouter.getInstance().build(path)
-                        .withInt(Extras.DATA, local_sp!!)
-                        .withString("selectModuleStr", moduleAdapter.dataList.filter { it.editable }.jsonStr).navigation(activity!!, Extras.REQUESTCODE)
+                        .with(bundle)
+                        .navigation(activity!!, Extras.REQUESTCODE, object : NavigationCallback {
+                            override fun onLost(postcard: Postcard?) {
+                                Log.d("ARouter", "找不到了")
+                            }
+
+                            override fun onFound(postcard: Postcard?) {
+                                Log.d("ARouter", "找到了")
+                            }
+
+                            override fun onInterrupt(postcard: Postcard?) {
+                                Log.d("ARouter", "被拦截了")
+                            }
+
+                            override fun onArrival(postcard: Postcard?) {
+                                Log.d("ARouter", "跳转完了")
+                            }
+
+                        })
             }
         }
         party_build.setOnClickListener {

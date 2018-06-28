@@ -46,10 +46,6 @@ class MainEditActivity : ToolbarActivity() {
     private lateinit var allModuleAdapter: AllModuleAdapter
     private lateinit var mainModuleAdapter: MainModuleAdapter
 
-    @Autowired
-    @JvmField
-    var selectModuleStr: String? = null
-
     companion object {
         private var isEdit = false
 
@@ -57,7 +53,6 @@ class MainEditActivity : ToolbarActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        ARouter.getInstance().inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_edit)
         Utils.setWindowStatusBarColor(this, R.color.white)
@@ -144,7 +139,6 @@ class MainEditActivity : ToolbarActivity() {
                 mainModuleAdapter.notifyDataSetChanged()
             }
         })
-
         model.getModuleFunctions("/project")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -160,10 +154,7 @@ class MainEditActivity : ToolbarActivity() {
                     }
                 }, { e ->
                     e.printStackTrace()
-                },
-                        {
-
-                        })
+                })
         model.getModuleFunctions("/fund")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -179,8 +170,6 @@ class MainEditActivity : ToolbarActivity() {
                     }
                 }, { e ->
                     e.printStackTrace()
-                }, {
-
                 })
     }
 

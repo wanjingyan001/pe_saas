@@ -41,6 +41,7 @@ class LoginActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        Utils.setWindowStatusBarColor(this,R.color.white)
         when (getEnvironment()) {
             "civc" -> {
                 login_logo.imageResource = R.drawable.img_logo_login_zd

@@ -55,7 +55,6 @@ object Extras {
     val NIMACCOUNT = "nim.account"//用于存储网易IM自动登录账户
     val NIMTOKEN = "nim.token"//用于存储网易IM自动登录token
     val CREATE_TEAM = "nim.create_team"
-    val MAIN_MODULE = "ext.mainModule"
     val USER_REMARKS = "ext.Remarks"
     val CAN_REMOVE_MEMBER = "ext.Remove.Member"
 
@@ -66,4 +65,8 @@ object Extras {
     val RESTART = "restart"
 
     val SCHEDULE_DRAFT = "ext.schedule.draft"//用于保存日程和任务的草稿
+
+
+    val ROUTE_PATH = "ext.route.path"//在拦截器中传递path
+    val ROUTH_FLAG = Int.MAX_VALUE
 }

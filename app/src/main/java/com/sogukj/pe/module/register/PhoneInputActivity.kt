@@ -20,6 +20,7 @@ import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.PopupWindow
 import android.widget.RemoteViews
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.app.hubert.guide.NewbieGuide
 import com.app.hubert.guide.model.GuidePage
 import com.app.hubert.guide.model.HighLight
@@ -37,6 +38,7 @@ import org.jetbrains.anko.startActivity
 /**
  * 注册--手机号输入界面
  */
+@Route(path = "/register/main")
 class PhoneInputActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
