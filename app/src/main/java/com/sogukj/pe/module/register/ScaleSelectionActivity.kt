@@ -62,14 +62,15 @@ class ScaleSelectionActivity : ToolbarActivity() {
         val intent = Intent()
         if (mAdapter.selectedPosition != -1) {
             intent.putExtra(Extras.DATA, mAdapter.dataList[mAdapter.selectedPosition])
+            intent.putExtra(Extras.INDEX, mAdapter.selectedPosition + 1)
             setResult(Extras.RESULTCODE, intent)
         }
         finish()
     }
 
     inner class ScaleHolder(itemView: View) : RecyclerHolder<String>(itemView) {
-        val selectionTv = itemView.find<TextView>(R.id.selectionTv)
-        val selectionIcon = itemView.find<ImageView>(R.id.selectionIcon)
+        private val selectionTv = itemView.find<TextView>(R.id.selectionTv)
+        private val selectionIcon = itemView.find<ImageView>(R.id.selectionIcon)
         override fun setData(view: View, data: String, position: Int) {
             selectionTv.text = data
             if (position == mAdapter.selectedPosition) {

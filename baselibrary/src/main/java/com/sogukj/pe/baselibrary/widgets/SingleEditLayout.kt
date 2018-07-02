@@ -123,6 +123,8 @@ class SingleEditLayout @JvmOverloads constructor(
         }
     }
 
+    fun getCompleteInput() = verCodeStr.joinToString(separator = "")
+
     interface InputFinish {
         fun finish(isFinish: Boolean, verCode: String)
     }

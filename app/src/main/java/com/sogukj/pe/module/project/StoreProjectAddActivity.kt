@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.EditText
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.gson.Gson
+import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
@@ -28,7 +29,7 @@ import java.util.*
 /**
  * Created by qinfei on 17/7/18.
  */
-@Route(path = "/project/cbxx")
+@Route(path = ARouterPath.StoreProjectAddActivity)
 class StoreProjectAddActivity : ToolbarActivity() {
 
     var type = 0

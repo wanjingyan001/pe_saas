@@ -12,6 +12,7 @@ import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.interf.ReviewStatus
 import kotlinx.android.synthetic.main.activity_register_review.*
 import org.jetbrains.anko.imageResource
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.textColorResource
 
 class ReviewActivity : ToolbarActivity() {
@@ -63,12 +64,12 @@ class ReviewActivity : ToolbarActivity() {
         joinNow.clickWithTrigger {
             when (status) {
                 ReviewStatus.SUCCESSFUL_REVIEW -> {
-
+                    startActivity<InviteMainActivity>()
                 }
                 ReviewStatus.FAILURE_REVIEW -> {
 
                 }
-                else->{
+                else -> {
 
                 }
             }

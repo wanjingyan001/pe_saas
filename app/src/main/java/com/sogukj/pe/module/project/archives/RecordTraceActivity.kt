@@ -13,6 +13,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.gson.Gson
+import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
@@ -29,7 +30,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_record_trace.*
 import org.jetbrains.anko.textColor
-@Route(path = "/project/gzjl")
+@Route(path = ARouterPath.RecordTraceActivity)
 class RecordTraceActivity : ToolbarActivity() {
 
     lateinit var project: ProjectBean

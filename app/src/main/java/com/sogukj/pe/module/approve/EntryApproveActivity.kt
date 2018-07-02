@@ -11,6 +11,7 @@ import android.widget.TextView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
+import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
@@ -28,7 +29,7 @@ import java.text.SimpleDateFormat
 /**
  * Created by qinfei on 17/10/18.
  */
-@Route(path = "/approve/main")
+@Route(path = ARouterPath.EntryApproveActivity)
 class EntryApproveActivity : ToolbarActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {

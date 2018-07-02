@@ -14,15 +14,20 @@ import android.view.View
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
+import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.SingleEditLayout
+import com.sogukj.pe.service.RegisterService
+import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_register_invcode.*
 import kotlinx.android.synthetic.main.white_toolbar.*
 import org.jetbrains.anko.startActivity
 
 class InvCodeInputActivity : ToolbarActivity(), SingleEditLayout.InputFinish {
+    private lateinit var phone: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_invcode)
@@ -30,11 +35,12 @@ class InvCodeInputActivity : ToolbarActivity(), SingleEditLayout.InputFinish {
         toolbar?.setBackgroundColor(resources.getColor(R.color.white))
         title = ""
         setBack(true)
+        phone = intent.getStringExtra(Extras.DATA)
         initJumpLink()
         invCodeLayout.setFinishListener(this)
         toolbar_back.clickWithTrigger { finish() }
         joinNow.clickWithTrigger {
-            startActivity<InfoSupplementActivity>()
+            verificationInviteCode()
         }
     }
 
@@ -50,6 +56,21 @@ class InvCodeInputActivity : ToolbarActivity(), SingleEditLayout.InputFinish {
         joinNow.isEnabled = isFinish
     }
 
+    private fun verificationInviteCode() {
+        SoguApi.getService(application, RegisterService::class.java).inviteCode(phone, invCodeLayout.getCompleteInput())
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk) {
+                            payload.payload?.let {
+//                                startActivity<TakeCardActivity>()
+                            }
+                        } else {
+                            showTopSnackBar(payload.message)
+                        }
+                    }
+                }
+    }
+
     inner class ClickSpann(val context: Context) : ClickableSpan() {
         override fun onClick(widget: View?) {
             val permission = ActivityCompat.checkSelfPermission(this@InvCodeInputActivity, Manifest.permission.READ_CONTACTS)
@@ -57,8 +78,8 @@ class InvCodeInputActivity : ToolbarActivity(), SingleEditLayout.InputFinish {
                 ActivityCompat.requestPermissions(this@InvCodeInputActivity,
                         arrayOf(Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_CONTACTS),
                         Extras.REQUESTCODE)
-            }else{
-                startActivity<InviteMainActivity>()
+            } else {
+                startActivity<InfoSupplementActivity>(Extras.DATA to phone)
             }
         }
 
@@ -70,8 +91,8 @@ class InvCodeInputActivity : ToolbarActivity(), SingleEditLayout.InputFinish {
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        if (requestCode == Extras.REQUESTCODE && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-            startActivity<InviteMainActivity>()
+        if (requestCode == Extras.REQUESTCODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            startActivity<InfoSupplementActivity>(Extras.DATA to phone)
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }

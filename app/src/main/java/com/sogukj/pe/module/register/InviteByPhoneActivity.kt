@@ -2,16 +2,25 @@ package com.sogukj.pe.module.register
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.amap.api.mapcore.util.it
 import com.jakewharton.rxbinding2.widget.RxTextView
+import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
+import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.service.RegisterService
+import com.sogukj.service.SoguApi
 import io.reactivex.Observable
+import io.reactivex.internal.util.HalfSerializer.onNext
 import kotlinx.android.synthetic.main.activity_invite_by_phone.*
+import org.jetbrains.anko.info
 import org.jetbrains.anko.startActivity
 
 class InviteByPhoneActivity : ToolbarActivity() {
+
+    private var inviteCode: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +29,7 @@ class InviteByPhoneActivity : ToolbarActivity() {
         toolbar?.setBackgroundColor(resources.getColor(R.color.white))
         setBack(true)
 
+        inviteCode = intent.getStringExtra(Extras.DATA)
         val inputList = ArrayList<Observable<CharSequence>>()
         inputList.add(RxTextView.textChanges(phoneEdt.getEditText()))
         inputList.add(RxTextView.textChanges(nameEdt.getEditText()))
@@ -31,10 +41,27 @@ class InviteByPhoneActivity : ToolbarActivity() {
 
         inviteNowBtn.clickWithTrigger {
             if (Utils.isMobileExact(phoneEdt.getInput())) {
-//                TODO("调用接口发送邀请短信")
+                sendInviteMessage(phoneEdt.getInput(), nameEdt.getInput())
             } else {
                 showTopSnackBar("手机号格式有误")
             }
+        }
+    }
+
+
+    private fun sendInviteMessage(phone: String, name: String) {
+        inviteCode?.let {
+            SoguApi.getService(application, RegisterService::class.java).inviteByPhone(phone, it, name)
+                    .execute {
+                        onNext { payload ->
+                            if (payload.isOk) {
+                                info { "邀请成功" }
+                                finish()
+                            } else {
+                                showTopSnackBar(payload.message)
+                            }
+                        }
+                    }
         }
     }
 }

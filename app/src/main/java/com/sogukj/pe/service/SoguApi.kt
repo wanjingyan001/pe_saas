@@ -41,7 +41,7 @@ class SoguApi {
 //                    Trace.i("http", "${request.url()} => ${response.code()}:${response.message()}")
 //                    response
 //                }
-                .addInterceptor(HttpLoggingInterceptor())
+                .addInterceptor(initLogInterceptor())
                 .addInterceptor(initInterceptor(context))
                 .retryOnConnectionFailure(false)
                 .readTimeout(15, TimeUnit.SECONDS)
@@ -81,6 +81,15 @@ class SoguApi {
     }
 
     /**
+     * 日志拦截器
+     */
+    private fun initLogInterceptor(): Interceptor {
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.level = HttpLoggingInterceptor.Level.BODY
+        return interceptor
+    }
+
+    /**
      * 其他统一拦截器
      */
     private fun initInterceptor(context: Context) = Interceptor { chain ->
@@ -107,7 +116,7 @@ class SoguApi {
         private var sApi: SoguApi? = null
 
         @Synchronized
-        fun getApi(ctx: Application): SoguApi {
+       private fun getApi(ctx: Application): SoguApi {
             if (null == sApi) sApi = SoguApi(ctx)
             return sApi!!
         }

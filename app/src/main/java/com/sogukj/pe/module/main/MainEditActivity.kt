@@ -20,6 +20,7 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback
 import com.chad.library.adapter.base.listener.OnItemDragListener
 import com.google.gson.Gson
+import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
@@ -37,7 +38,7 @@ import org.jetbrains.anko.ctx
 import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.info
 
-@Route(path = "/main/edit")
+@Route(path = ARouterPath.MainEditActivity)
 class MainEditActivity : ToolbarActivity() {
     private lateinit var touchHelper: ItemTouchHelper
     private var mainModule = mutableSetOf<MainFunIcon>()
@@ -139,10 +140,12 @@ class MainEditActivity : ToolbarActivity() {
                 mainModuleAdapter.notifyDataSetChanged()
             }
         })
-        model.getModuleFunctions("/project")
+        val projectModules = model.getModuleFunctions("/project")
+        val fundModules = model.getModuleFunctions("/fund")
+        projectModules
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
+                .doOnNext {
                     if (allModule.find { it.header == "项目功能" } == null) {
                         allModule.add(MainFunction(true, "项目功能"))
                         it.forEach {
@@ -152,14 +155,12 @@ class MainEditActivity : ToolbarActivity() {
                         AnkoLogger("WJY").info { "项目功能:${allModuleAdapter.data.jsonStr}" }
                         allModuleAdapter.notifyDataSetChanged()
                     }
-                }, { e ->
-                    e.printStackTrace()
-                })
-        model.getModuleFunctions("/fund")
+                }
+                .flatMap { return@flatMap fundModules }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    if (allModule.find { it.header == "基金功能" } == null){
+                .doOnNext {
+                    if (allModule.find { it.header == "基金功能" } == null) {
                         allModule.add(MainFunction(true, "基金功能"))
                         it.forEach {
                             allModule.add(MainFunction(it))
@@ -168,9 +169,8 @@ class MainEditActivity : ToolbarActivity() {
                         AnkoLogger("WJY").info { "基金功能:${allModuleAdapter.data.jsonStr}" }
                         allModuleAdapter.notifyDataSetChanged()
                     }
-                }, { e ->
-                    e.printStackTrace()
-                })
+                }
+
     }
 
     override fun onDestroy() {

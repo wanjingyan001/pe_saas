@@ -28,8 +28,12 @@ import com.jakewharton.rxbinding2.widget.RxTextView
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
+import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.service.Payload
+import com.sogukj.pe.service.RegisterService
+import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_phone_input.*
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.find
@@ -51,7 +55,7 @@ class PhoneInputActivity : BaseActivity() {
                 })
         nextStep.clickWithTrigger {
             if (Utils.isMobileExact(phoneEdt.getInput())) {
-                startActivity<VerCodeInputActivity>()
+                sendPhoneInput(phoneEdt.getInput())
             } else {
                 showTopSnackBar("手机号格式有误")
             }
@@ -84,5 +88,17 @@ class PhoneInputActivity : BaseActivity() {
         }
         val parent = find<ConstraintLayout>(R.id.parentLayout)
         topWindow.showAsDropDown(parent, 0, 0, Gravity.TOP)
+    }
+
+
+    private fun sendPhoneInput(phone: String) {
+        SoguApi.getService(application, RegisterService::class.java).sendVerCode(phone)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk) {
+                            startActivity<VerCodeInputActivity>(Extras.DATA to phone)
+                        }
+                    }
+                }
     }
 }

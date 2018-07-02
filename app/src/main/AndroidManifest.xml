@@ -145,11 +145,11 @@
         <!-- android:value="${UMENG_CHANNEL_VALUE}" /> -->
 
         <activity android:name=".module.main.SplashActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
 
         <provider
@@ -189,6 +189,17 @@
             </intent-filter>
         </activity>
         <activity android:name=".module.main.ScanResultActivity" />
+        <activity
+            android:name=".module.main.MainEditActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
+
+        <activity
+            android:name=".module.main.CompanySelectActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
         <!-- User -->
         <activity
             android:name=".module.user.CardActivity"
@@ -1002,12 +1013,12 @@
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
 
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".module.register.VerCodeInputActivity"
@@ -1045,11 +1056,19 @@
             android:name=".module.register.InviteByPhoneActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
-        <activity android:name=".module.register.InviteByPcActivity" />
-        <activity android:name=".module.register.InviteByCodeActivity" />
-        <activity android:name=".module.main.MainEditActivity" />
-        <activity android:name=".module.main.CompanySelectActivity"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".module.register.InviteByPcActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".module.register.InviteByCodeActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+
+
     </application>
 
 </manifest>

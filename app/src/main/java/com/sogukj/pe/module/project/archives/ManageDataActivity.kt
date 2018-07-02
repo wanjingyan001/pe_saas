@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.gson.Gson
+import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
@@ -15,7 +16,8 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_manage_data.*
-@Route(path = "/project/thgl")
+
+@Route(path = ARouterPath.ManageDataActivity)
 class ManageDataActivity : ToolbarActivity() {
 
     lateinit var project: ProjectBean
@@ -36,7 +38,7 @@ class ManageDataActivity : ToolbarActivity() {
     }
 
     fun load(it: Int) {
-        SoguApi.getService(application,InfoService::class.java)
+        SoguApi.getService(application, InfoService::class.java)
                 .manageData(it)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -99,7 +101,7 @@ class ManageDataActivity : ToolbarActivity() {
                 finish()
                 return
             }
-            SoguApi.getService(application,InfoService::class.java)
+            SoguApi.getService(application, InfoService::class.java)
                     .addEditManageData(paramMap)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())

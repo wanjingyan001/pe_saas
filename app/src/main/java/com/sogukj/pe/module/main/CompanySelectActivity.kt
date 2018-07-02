@@ -13,6 +13,7 @@ import android.widget.TextView
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
@@ -32,7 +33,7 @@ import kotlinx.android.synthetic.main.activity_company_select2.*
 import kotlinx.android.synthetic.main.toolbar_search.*
 import org.jetbrains.anko.backgroundColor
 
-@Route(path = "/main/companySelect")
+@Route(path = ARouterPath.CompanySelectActivity)
 class CompanySelectActivity : BaseRefreshActivity() {
     lateinit var adapter: RecyclerAdapter<ProjectBean>
     var offset = 0
@@ -71,7 +72,7 @@ class CompanySelectActivity : BaseRefreshActivity() {
         }
         adapter.onItemClick = { v, p ->
             ARouter.getInstance().build(routerPath)
-                    .withSerializable(Extras.DATA,adapter.dataList[p])
+                    .withSerializable(Extras.DATA, adapter.dataList[p])
                     .navigation()
         }
         search_bar.onTextChange = { text ->

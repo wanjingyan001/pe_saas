@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
@@ -42,7 +43,7 @@ import java.text.SimpleDateFormat
 /**
  * Created by qinfei on 17/8/11.
  */
-@Route(path = "/project/xmws")
+@Route(path = ARouterPath.ProjectBookActivity)
 class ProjectBookActivity : BaseRefreshActivity(), SupportEmptyView {
 
     lateinit var adapter1: ListAdapter<ProjectBookBean>

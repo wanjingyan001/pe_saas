@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.TextView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.ldf.calendar.model.CalendarDate
+import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.interf.MonthSelectListener
@@ -21,7 +22,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.properties.Delegates
 
-@Route(path = "/calendar/main")
+@Route(path = ARouterPath.CalendarMainActivity)
 class CalendarMainActivity : ToolbarActivity(), MonthSelectListener, ViewPager.OnPageChangeListener {
 
     companion object {
@@ -68,8 +69,8 @@ class CalendarMainActivity : ToolbarActivity(), MonthSelectListener, ViewPager.O
         tabLayout.setViewPager(contentPager)
         tabLayout.setTabViewFactory { parent, _ ->
             parent.removeAllViews()
-            for (i in 0 until titles.size){
-                val view = LayoutInflater.from(this).inflate(R.layout.item_calendar_indicator, parent,false)
+            for (i in 0 until titles.size) {
+                val view = LayoutInflater.from(this).inflate(R.layout.item_calendar_indicator, parent, false)
                 view.find<TextView>(R.id.indicatorTv).text = titles[i]
                 parent.addView(view)
             }

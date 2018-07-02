@@ -15,10 +15,12 @@ import android.widget.TextView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.amap.api.mapcore.util.it
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.R.drawable.contact
 import com.sogukj.pe.R.layout.header
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
+import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.CharacterParser
@@ -28,15 +30,20 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.Contact
 import com.sogukj.pe.bean.MyContacts
 import com.sogukj.pe.peExtended.firstLetter
+import com.sogukj.pe.service.RegisterService
+import com.sogukj.service.SoguApi
+import io.reactivex.internal.util.HalfSerializer.onNext
 import kotlinx.android.synthetic.main.activity_invite_main.*
 import kotlinx.android.synthetic.main.layout_invite_main_header.*
 import kotlinx.android.synthetic.main.layout_invite_main_header.view.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk25.coroutines.onEditorAction
 import qdx.stickyheaderdecoration.NormalDecoration
+import kotlin.properties.Delegates
 
 class InviteMainActivity : ToolbarActivity() {
     private lateinit var mAdapter: InviteAdapter
+    private var inviteCode: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,11 +53,6 @@ class InviteMainActivity : ToolbarActivity() {
         title = "邀请同事加入"
         setBack(true)
         val map = getContacts()
-        //所有联系人首字母list
-//        val list = map.filterKeys { it.isNotEmpty() }.map {
-//            it.key.firstLetter
-//        }.toSet().toList().sorted()
-
         val data = ArrayList<MyContacts>()
         val contacts = ArrayList<Contact>()
         map.asIterable().forEach {
@@ -62,9 +64,9 @@ class InviteMainActivity : ToolbarActivity() {
             val thisLetter = contact.name.firstLetter
             if (index == 0) {
                 data.add(MyContacts(true, thisLetter))
-            }else{
+            } else {
                 val lastLetter = contacts[index - 1].name.firstLetter
-                if (thisLetter != lastLetter){
+                if (thisLetter != lastLetter) {
                     data.add(MyContacts(true, thisLetter))
                 }
             }
@@ -78,26 +80,28 @@ class InviteMainActivity : ToolbarActivity() {
         val header = layoutInflater.inflate(R.layout.layout_invite_main_header, contactsList.parent as ViewGroup, false)
         mAdapter.addHeaderView(header)
         header.find<View>(R.id.addByPhoneLayout).clickWithTrigger {
-            startActivity<InviteByPhoneActivity>()
+            startActivity<InviteByPhoneActivity>(Extras.DATA to inviteCode)
         }
         header.find<View>(R.id.addByShareLayout).clickWithTrigger {
-            startActivity<InviteByCodeActivity>()
+            startActivity<InviteByCodeActivity>(Extras.DATA to inviteCode)
         }
         header.find<View>(R.id.addByPCLayout).clickWithTrigger {
             startActivity<InviteByPcActivity>()
         }
-        mAdapter.onItemChildClickListener  = BaseQuickAdapter.OnItemChildClickListener { adapter, view, position ->
+        mAdapter.onItemChildClickListener = BaseQuickAdapter.OnItemChildClickListener { adapter, view, position ->
             val myContacts = adapter.data[position] as MyContacts
             info { "姓名:${myContacts.t.name}===>电话:${myContacts.t.phone}" }
+            sendInviteMessage(myContacts.t.phone, myContacts.t.name)
         }
         sideBar.setOnLetterChangedListener { index, c ->
             mAdapter.data.forEachIndexed { i, myContacts ->
-                if (myContacts.isHeader && myContacts.header == c){
+                if (myContacts.isHeader && myContacts.header == c) {
                     val manager = contactsList.layoutManager as LinearLayoutManager
-                   manager.scrollToPositionWithOffset(i,0)
+                    manager.scrollToPositionWithOffset(i, 0)
                 }
             }
         }
+        getInviteCode()
     }
 
 
@@ -126,5 +130,36 @@ class InviteMainActivity : ToolbarActivity() {
         }
         cursor.close()
         return map
+    }
+
+    private fun getInviteCode() {
+        val key = sp.getString(Extras.CompanyKey, "")
+        if (key.isNotEmpty()) {
+            SoguApi.getService(application, RegisterService::class.java).getInviteCode(key)
+                    .execute {
+                        onNext { payload ->
+                            if (payload.isOk) {
+                                inviteCode = payload.payload
+                            } else {
+                                showTopSnackBar(payload.message)
+                            }
+                        }
+                    }
+        }
+    }
+
+    private fun sendInviteMessage(phone: String, name: String) {
+        inviteCode?.let {
+            SoguApi.getService(application, RegisterService::class.java).inviteByPhone(phone, it, name)
+                    .execute {
+                        onNext { payload ->
+                            if (payload.isOk) {
+                                info { "邀请成功" }
+                            } else {
+                                showTopSnackBar(payload.message)
+                            }
+                        }
+                    }
+        }
     }
 }

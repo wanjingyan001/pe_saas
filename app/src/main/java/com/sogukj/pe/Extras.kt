@@ -66,7 +66,7 @@ object Extras {
 
     val SCHEDULE_DRAFT = "ext.schedule.draft"//用于保存日程和任务的草稿
 
-
+    val CompanyKey = "companyKey"
     val ROUTE_PATH = "ext.route.path"//在拦截器中传递path
     val ROUTH_FLAG = Int.MAX_VALUE
 }

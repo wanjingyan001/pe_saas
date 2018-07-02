@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.gson.Gson
+import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
@@ -15,7 +16,7 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_invest_suggest.*
-@Route(path = "/project/tjsj")
+@Route(path = ARouterPath.InvestSuggestActivity)
 class InvestSuggestActivity : ToolbarActivity() {
 
     lateinit var project: ProjectBean

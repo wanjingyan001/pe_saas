@@ -2,9 +2,11 @@ package com.sogukj.pe.baselibrary.base
 
 import android.app.Activity
 import android.app.ProgressDialog
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Trace
+import android.preference.PreferenceManager
 import android.support.annotation.DrawableRes
 import android.support.constraint.ConstraintLayout
 import android.support.design.widget.CoordinatorLayout
@@ -27,6 +29,7 @@ import com.sogukj.pe.baselibrary.widgets.snackbar.TSnackbar
 import android.view.ViewGroup
 import com.sogukj.pe.baselibrary.widgets.snackbar.Prompt
 import com.umeng.message.PushAgent
+import org.jetbrains.anko.defaultSharedPreferences
 
 
 /**
@@ -40,6 +43,7 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger {
     lateinit var iconImg: ImageView
     lateinit var tv: TextView
     private var toastView: Toast? = null
+    val sp :SharedPreferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -205,9 +209,9 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger {
         showCustomToast(R.drawable.icon_toast_common, text)
     }
 
-    fun showTopSnackBar(text: CharSequence) {
+    fun showTopSnackBar(text: CharSequence?) {
         val viewGroup = findViewById<View>(android.R.id.content).rootView as ViewGroup//注意getRootView()最为重要，直接关系到TSnackBar的位置
-        TSnackbar.make(viewGroup, text, TSnackbar.LENGTH_SHORT, TSnackbar.APPEAR_FROM_TOP_TO_DOWN)
+        TSnackbar.make(viewGroup, text ?: "位置错误", TSnackbar.LENGTH_SHORT, TSnackbar.APPEAR_FROM_TOP_TO_DOWN)
                 .setPromptThemBackground(Prompt.WARNING)
                 .setTextColor(resources.getColor(R.color.white))
                 .setMessageTextSize(16)
