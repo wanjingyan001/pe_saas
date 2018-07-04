@@ -11,7 +11,9 @@ import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.bean.MechanismInfo
 import com.sogukj.pe.bean.TeamInfoSupplementReq
+import com.sogukj.pe.module.main.MainActivity
 import com.sogukj.pe.service.RegisterService
 import com.sogukj.service.SoguApi
 import io.reactivex.Observable
@@ -24,6 +26,9 @@ class InfoSupplementActivity : ToolbarActivity() {
 
     private lateinit var phone: String
     private var index: Int by Delegates.notNull()
+    private var mechanismInfo: MechanismInfo? = null
+    private var flag: Boolean = false
+    private var user_id: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +36,9 @@ class InfoSupplementActivity : ToolbarActivity() {
         Utils.setWindowStatusBarColor(this, R.color.white)
         toolbar?.setBackgroundColor(resources.getColor(R.color.white))
         phone = intent.getStringExtra(Extras.DATA)
+        mechanismInfo = intent.getParcelableExtra(Extras.DATA2)
+        flag = intent.getBooleanExtra(Extras.FLAG, false)
+        user_id = intent.getStringExtra(Extras.ID)
         val inputList = ArrayList<Observable<CharSequence>>()
         inputList.add(RxTextView.textChanges(organNameEdt.getEditText()))
         inputList.add(RxTextView.textChanges(organScale))
@@ -50,6 +58,7 @@ class InfoSupplementActivity : ToolbarActivity() {
         infoNextStep.clickWithTrigger {
             teamInfoSupplement()
         }
+        initView()
     }
 
     private fun teamInfoSupplement() {
@@ -57,20 +66,54 @@ class InfoSupplementActivity : ToolbarActivity() {
             showTopSnackBar("请选择规模")
             return
         }
-        val teamInfo = TeamInfoSupplementReq(mPositionEdt.getInput(), mNameEdt.getInput(), index, organNameEdt.getInput(), 2, phone, null)
+        val type = if (user_id != null) {
+            3//修改信息
+        } else {
+            if (mechanismInfo != null) {
+                1 //加入
+            } else {
+                2//创建
+            }
+        }
+        val teamInfo = TeamInfoSupplementReq(mPositionEdt.getInput(), mNameEdt.getInput(), index, organNameEdt.getInput(), type, phone, mechanismInfo?.key, user_id)
         SoguApi.getService(application, RegisterService::class.java).teamInfoSupplement(teamInfo)
                 .execute {
                     onNext { payload ->
                         if (payload.isOk) {
                             payload.payload?.let {
                                 sp.edit { putString(Extras.CompanyKey, it.key) }
-                                startActivity<TakeCardActivity>(Extras.DATA to it)
+                                when(type){
+                                    1 -> startActivity<MainActivity>()
+                                    2 ->  startActivity<TakeCardActivity>(Extras.DATA to it)
+                                    else -> finish()
+                                }
                             }
                         } else {
                             showTopSnackBar(payload.message)
                         }
                     }
                 }
+    }
+
+    private fun initView() {
+        mechanismInfo?.let {
+            organNameEdt.setText(it.mechanism_name)
+            organScale.text = when (it.scale) {
+                1 -> "少于10人"
+                2 -> "10～30人"
+                3 -> "30～50人"
+                4 -> "50～100人"
+                5 -> "100人以上"
+                else -> ""
+            }
+            scaleHint.setVisible(it.scale != null)
+            mNameEdt.setText(it.name)
+            mPositionEdt.setText(it.position)
+            if (flag) {
+                organNameEdt.isEnabled = false
+                organScale.isEnabled = false
+            }
+        }
     }
 
 

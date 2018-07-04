@@ -19,6 +19,7 @@ import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.SingleEditLayout
+import com.sogukj.pe.bean.MechanismInfo
 import com.sogukj.pe.service.RegisterService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_register_invcode.*
@@ -62,7 +63,10 @@ class InvCodeInputActivity : ToolbarActivity(), SingleEditLayout.InputFinish {
                     onNext { payload ->
                         if (payload.isOk) {
                             payload.payload?.let {
-//                                startActivity<TakeCardActivity>()
+                                val info = MechanismInfo(it.mechanism_name, it.scale, null, null, null, it.key)
+                                startActivity<InfoSupplementActivity>(Extras.DATA to phone
+                                        , Extras.DATA2 to info
+                                        , Extras.FLAG to true)
                             }
                         } else {
                             showTopSnackBar(payload.message)
@@ -73,14 +77,7 @@ class InvCodeInputActivity : ToolbarActivity(), SingleEditLayout.InputFinish {
 
     inner class ClickSpann(val context: Context) : ClickableSpan() {
         override fun onClick(widget: View?) {
-            val permission = ActivityCompat.checkSelfPermission(this@InvCodeInputActivity, Manifest.permission.READ_CONTACTS)
-            if (permission != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this@InvCodeInputActivity,
-                        arrayOf(Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_CONTACTS),
-                        Extras.REQUESTCODE)
-            } else {
-                startActivity<InfoSupplementActivity>(Extras.DATA to phone)
-            }
+            startActivity<InfoSupplementActivity>(Extras.DATA to phone)
         }
 
         override fun updateDrawState(ds: TextPaint) {
@@ -90,10 +87,4 @@ class InvCodeInputActivity : ToolbarActivity(), SingleEditLayout.InputFinish {
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        if (requestCode == Extras.REQUESTCODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            startActivity<InfoSupplementActivity>(Extras.DATA to phone)
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-    }
 }

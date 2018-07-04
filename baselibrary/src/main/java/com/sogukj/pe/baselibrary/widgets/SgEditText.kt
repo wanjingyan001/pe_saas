@@ -20,6 +20,8 @@ import android.view.Gravity
 import android.view.ViewTreeObserver
 import android.widget.ImageView
 import android.widget.LinearLayout
+import com.sogukj.pe.baselibrary.R.id.clearInput
+import com.sogukj.pe.baselibrary.R.id.sgEdt
 import org.jetbrains.anko.*
 
 
@@ -143,6 +145,8 @@ class SgEditText @JvmOverloads constructor(
     fun getInput() = sgEdt.textStr
 
     fun getFormatType() = textWatcher.getSpaceType()
+
+    fun setText(text:CharSequence?) = sgEdt.setText(text)
 
     inner class AddSpaceTextWatcher(private val editText: EditText,
                                     /** text最大长度限制  */

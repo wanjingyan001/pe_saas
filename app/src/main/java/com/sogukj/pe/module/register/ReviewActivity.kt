@@ -1,15 +1,22 @@
 package com.sogukj.pe.module.register
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
+import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.bean.MechanismInfo
 import com.sogukj.pe.interf.ReviewStatus
+import com.sogukj.pe.service.RegisterService
+import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_register_review.*
 import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.startActivity
@@ -17,7 +24,9 @@ import org.jetbrains.anko.textColorResource
 
 class ReviewActivity : ToolbarActivity() {
     private lateinit var status: ReviewStatus
-
+    private lateinit var phone: String
+    private var userId: Int = 0
+    private var mechanismInfo: MechanismInfo? = null
 
     companion object {
         fun start(context: Context, status: ReviewStatus) {
@@ -34,6 +43,8 @@ class ReviewActivity : ToolbarActivity() {
         toolbar?.setBackgroundColor(resources.getColor(R.color.white))
         setBack(true)
         status = intent.getSerializableExtra(Extras.DATA) as ReviewStatus
+        phone = intent.getStringExtra(Extras.CODE)
+        userId = intent.getIntExtra(Extras.DATA2, 0)
 
         when (status) {
             ReviewStatus.UNDER_REVIEW -> {
@@ -58,21 +69,50 @@ class ReviewActivity : ToolbarActivity() {
                 failure_reason.text = "未通过的原因 \n1、凑字数的原因 \n2、因此我们需要对您填写的信息真实性进行审核"
                 joinNow.setVisible(true)
                 joinNow.text = "返回修改申请信息"
+                getMechanismInfo()
             }
         }
 
         joinNow.clickWithTrigger {
             when (status) {
                 ReviewStatus.SUCCESSFUL_REVIEW -> {
-                    startActivity<InviteMainActivity>()
+                    val permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
+                    if (permission != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(this,
+                                arrayOf(Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_CONTACTS),
+                                Extras.REQUESTCODE)
+                    } else {
+                        startActivity<InviteMainActivity>()
+                    }
                 }
                 ReviewStatus.FAILURE_REVIEW -> {
-
+                    startActivity<InfoSupplementActivity>(Extras.DATA to phone, Extras.DATA2 to mechanismInfo, Extras.ID to userId.toString())
                 }
                 else -> {
 
                 }
             }
         }
+    }
+
+
+    private fun getMechanismInfo() {
+        SoguApi.getService(application, RegisterService::class.java).getMechanismInfo(userId)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk) {
+                            mechanismInfo = payload.payload
+                        } else {
+                            showTopSnackBar(payload.message)
+                        }
+                    }
+                }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        if (requestCode == Extras.REQUESTCODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            startActivity<InviteMainActivity>()
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 }

@@ -95,6 +95,9 @@ android {
         javaMaxHeapSize "4g"//越大越好
         incremental true
     }
+    androidExtensions {
+        experimental = true
+    }
 
     flavorDimensions "default"
     productFlavors {
@@ -190,6 +193,7 @@ android {
     }
 
 }
+
 
 kapt {
     generateStubs = true

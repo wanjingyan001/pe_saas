@@ -1,16 +1,10 @@
 package com.sogukj.pe.service
 
-import com.sogukj.pe.bean.CompanyTeamInfo
-import com.sogukj.pe.bean.JoinTeamResult
-import com.sogukj.pe.bean.RegisterVerResult
-import com.sogukj.pe.bean.TeamInfoSupplementReq
+import com.sogukj.pe.bean.*
 import io.reactivex.Observable
 import io.reactivex.Observer
 import okhttp3.RequestBody
-import retrofit2.http.Body
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
 
 /**
  * Created by admin on 2018/6/29.
@@ -71,5 +65,12 @@ interface RegisterService {
     fun inviteByPhone(@Field("phone") phone: String,
                       @Field("code") code: String,
                       @Field("name") name: String): Observable<Payload<Any>>
+
+    /**
+     * 审核失败后 机构信息查询
+     */
+    @FormUrlEncoded
+    @POST("/api/Index/get_mechanism_info")
+    fun getMechanismInfo(@Field("user_id")user_id:Int):Observable<Payload<MechanismInfo>>
 }
 

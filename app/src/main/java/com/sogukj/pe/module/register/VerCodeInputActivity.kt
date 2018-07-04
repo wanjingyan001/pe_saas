@@ -9,6 +9,7 @@ import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.SingleEditLayout
+import com.sogukj.pe.interf.ReviewStatus
 import com.sogukj.pe.service.RegisterService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_register_vercode.*
@@ -36,8 +37,21 @@ class VerCodeInputActivity : BaseActivity() {
                 .execute {
                     onNext { payload ->
                         if (payload.isOk) {
-                            startActivity<InvCodeInputActivity>(Extras.DATA to phone)
-                        }else{
+                            payload.payload?.let {
+                                if (it.status == null) {
+                                    startActivity<InvCodeInputActivity>(Extras.DATA to phone)
+                                } else {
+                                    val status = when (it.status) {
+                                                0 -> ReviewStatus.FAILURE_REVIEW
+                                                2 -> ReviewStatus.SUCCESSFUL_REVIEW
+                                                else -> {
+                                                    ReviewStatus.UNDER_REVIEW
+                                                }
+                                            }
+                                    startActivity<ReviewActivity>(Extras.CODE to phone, Extras.DATA to status, Extras.DATA2 to it.user_id)
+                                }
+                            }
+                        } else {
                             showTopSnackBar(payload.message!!)
                         }
                     }

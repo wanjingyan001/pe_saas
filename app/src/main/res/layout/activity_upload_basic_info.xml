@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_record"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    tools:context="com.sogukj.pe.module.register.UploadBasicInfoActivity">
+
+    <include layout="@layout/toolbar" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <LinearLayout
+            android:id="@+id/logoLayout"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:drawableLeft="@mipmap/icon_red_star"
+                android:text="企业Logo"
+                android:textColor="@color/text_1"
+                android:textSize="@dimen/text_size_medium" />
+
+            <com.sogukj.pe.widgets.CircleImageView
+                android:id="@+id/mCompanyLogo"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/icon_default_company_logo" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/ic_right" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/divider2" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:drawableLeft="@mipmap/icon_red_star"
+                android:text="机构名称"
+                android:textColor="@color/text_1"
+                android:textSize="@dimen/text_size_medium" />
+
+            <EditText
+                android:id="@+id/mechanismNameEdt"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="20dp"
+                android:background="@null"
+                android:gravity="center_vertical|right"
+                android:hint="请填写"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:textColor="@color/text_1"
+                android:textSize="@dimen/text_size_medium" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/divider2" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:text="座         机"
+                android:textColor="@color/text_1"
+                android:textSize="@dimen/text_size_medium" />
+
+            <EditText
+                android:id="@+id/mPhoneEdt"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="20dp"
+                android:background="@null"
+                android:gravity="center_vertical|right"
+                android:inputType="phone"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:hint="请填写"
+                android:textColor="@color/text_1"
+                android:textSize="@dimen/text_size_medium" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/divider2" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:text="地         址"
+                android:textColor="@color/text_1"
+                android:textSize="@dimen/text_size_medium" />
+
+            <EditText
+                android:id="@+id/mAddressEdt"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="20dp"
+                android:background="@null"
+                android:gravity="center_vertical|right"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:hint="请填写"
+                android:textColor="@color/text_1"
+                android:textSize="@dimen/text_size_medium" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/divider2" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:text="邮         箱"
+                android:textColor="@color/text_1"
+                android:textSize="@dimen/text_size_medium" />
+
+            <EditText
+                android:id="@+id/emailEdt"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="20dp"
+                android:background="@null"
+                android:gravity="center_vertical|right"
+                android:singleLine="true"
+                android:inputType="textEmailAddress"
+                android:imeOptions="actionNext"
+                android:hint="请填写"
+                android:textColor="@color/text_1"
+                android:textSize="@dimen/text_size_medium" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/divider2" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:text="网         站"
+                android:textColor="@color/text_1"
+                android:textSize="@dimen/text_size_medium" />
+
+            <EditText
+                android:id="@+id/webEdt"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="20dp"
+                android:background="@null"
+                android:gravity="center_vertical|right"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:inputType="textWebEditText"
+                android:hint="请填写"
+                android:textColor="@color/text_1"
+                android:textSize="@dimen/text_size_medium" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>

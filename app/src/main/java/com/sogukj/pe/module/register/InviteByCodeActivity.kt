@@ -126,6 +126,11 @@ class InviteByCodeActivity : ToolbarActivity(), PlatformActionListener {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        outputPic.delete()
+    }
+
 
     companion object {
         fun makeTempFile(saveDir: String, prefix: String, extension: String): File {

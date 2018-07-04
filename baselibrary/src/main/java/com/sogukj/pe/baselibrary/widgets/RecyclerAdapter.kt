@@ -130,6 +130,8 @@ open class RecyclerAdapter<T>(val context: Context, val creator: (RecyclerAdapte
     fun refreshData(newData: List<T>) {
         val result = DiffUtil.calculateDiff(DiffCallBack(dataList, newData))
         result.dispatchUpdatesTo(this)
+        dataList.clear()
+        dataList.addAll(newData)
     }
 
 

@@ -71,7 +71,7 @@
         android:theme="@style/AppTheme"
         tools:replace="android:theme">
 
-        <!--全面屏适配-->
+        <!-- 全面屏适配 -->
         <meta-data
             android:name="android.max_aspect"
             android:value="2.1" />
@@ -145,11 +145,13 @@
         <!-- android:value="${UMENG_CHANNEL_VALUE}" /> -->
 
         <activity android:name=".module.main.SplashActivity">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
 
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
 
         <provider
@@ -194,7 +196,6 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
-
         <activity
             android:name=".module.main.CompanySelectActivity"
             android:configChanges="orientation|screenSize"
@@ -1012,10 +1013,8 @@
             android:name=".module.register.PhoneInputActivity"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -1031,6 +1030,7 @@
         <activity
             android:name=".module.register.InfoSupplementActivity"
             android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
         <activity
             android:name=".module.register.ScaleSelectionActivity"
@@ -1067,8 +1067,19 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
-
-
+        <activity
+            android:name=".module.register.UploadBasicInfoActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
+        <activity
+            android:name=".module.register.CreateDepartmentActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity android:name=".module.register.DepartmentSettingActivity" />
+        <activity android:name=".module.register.ChildDepartmentActivity" />
+        <activity android:name=".module.register.MemberSelectActivity"></activity>
     </application>
 
 </manifest>

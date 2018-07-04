@@ -53,7 +53,7 @@ class TakeCardActivity : ToolbarActivity() {
     private fun uploadCard() {
         val file = File(cardPath)
         val body = MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addFormDataPart("card", file.name, RequestBody.create(MediaType.parse("*/*"), file))
+                .addFormDataPart("iamge", file.name, RequestBody.create(MediaType.parse("*/*"), file))
                 .addFormDataPart("user_id", result.user_id.toString()).build()
         SoguApi.getService(application, RegisterService::class.java).uploadCard(body)
                 .execute {
