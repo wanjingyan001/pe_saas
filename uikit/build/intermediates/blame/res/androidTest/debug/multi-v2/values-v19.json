@@ -1,0 +1,36 @@
+{
+    "logs": [
+        {
+            "outputFile": "/Users/admin/dev/pe_saas/uikit/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-v19/values-v19.xml",
+            "map": [
+                {
+                    "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/128ad2bda6e0258a1d57904a15e7cfd4/res/values-v19/values-v19.xml",
+                    "from": {
+                        "startLines": "2,9",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,509",
+                        "endLines": "8,9",
+                        "endColumns": "12,78",
+                        "endOffsets": "504,583"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/values-v19/values-v19.xml",
+            "map": [
+                {
+                    "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/128ad2bda6e0258a1d57904a15e7cfd4/res/values-v19/values-v19.xml",
+                    "from": {
+                        "startLines": "2,9",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,509",
+                        "endLines": "8,9",
+                        "endColumns": "12,78",
+                        "endOffsets": "504,583"
+                    }
+                }
+            ]
+        }
+    ]
+}

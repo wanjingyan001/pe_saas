@@ -10,10 +10,12 @@ import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.execute
+import com.sogukj.pe.baselibrary.Extended.extraDelegate
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.MechanismInfo
+import com.sogukj.pe.bean.RegisterVerResult
 import com.sogukj.pe.interf.ReviewStatus
 import com.sogukj.pe.service.RegisterService
 import com.sogukj.service.SoguApi
@@ -24,7 +26,7 @@ import org.jetbrains.anko.textColorResource
 
 class ReviewActivity : ToolbarActivity() {
     private lateinit var status: ReviewStatus
-    private lateinit var phone: String
+    private var result: RegisterVerResult?  = null
     private var userId: Int = 0
     private var mechanismInfo: MechanismInfo? = null
 
@@ -43,7 +45,7 @@ class ReviewActivity : ToolbarActivity() {
         toolbar?.setBackgroundColor(resources.getColor(R.color.white))
         setBack(true)
         status = intent.getSerializableExtra(Extras.DATA) as ReviewStatus
-        phone = intent.getStringExtra(Extras.CODE)
+        result = intent.getParcelableExtra(Extras.BEAN)
         userId = intent.getIntExtra(Extras.DATA2, 0)
 
         when (status) {
@@ -76,17 +78,11 @@ class ReviewActivity : ToolbarActivity() {
         joinNow.clickWithTrigger {
             when (status) {
                 ReviewStatus.SUCCESSFUL_REVIEW -> {
-                    val permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
-                    if (permission != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(this,
-                                arrayOf(Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_CONTACTS),
-                                Extras.REQUESTCODE)
-                    } else {
-                        startActivity<InviteMainActivity>()
-                    }
+
+                    startActivity<UploadBasicInfoActivity>(Extras.BEAN to result)
                 }
                 ReviewStatus.FAILURE_REVIEW -> {
-                    startActivity<InfoSupplementActivity>(Extras.DATA to phone, Extras.DATA2 to mechanismInfo, Extras.ID to userId.toString())
+                    startActivity<InfoSupplementActivity>(Extras.DATA to result?.phone, Extras.DATA2 to mechanismInfo, Extras.ID to userId.toString())
                 }
                 else -> {
 
@@ -107,12 +103,5 @@ class ReviewActivity : ToolbarActivity() {
                         }
                     }
                 }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        if (requestCode == Extras.REQUESTCODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            startActivity<InviteMainActivity>()
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 }

@@ -82,11 +82,12 @@ class InfoSupplementActivity : ToolbarActivity() {
                         if (payload.isOk) {
                             payload.payload?.let {
                                 sp.edit { putString(Extras.CompanyKey, it.key) }
-                                when(type){
+                                when (type) {
                                     1 -> startActivity<MainActivity>()
-                                    2 ->  startActivity<TakeCardActivity>(Extras.DATA to it)
-                                    else -> finish()
+                                    2 -> startActivity<TakeCardActivity>(Extras.DATA to it)
+                                    3 -> startActivity<ReviewActivity>()
                                 }
+                                finish()
                             }
                         } else {
                             showTopSnackBar(payload.message)

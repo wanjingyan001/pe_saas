@@ -11,6 +11,7 @@ import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.View
+import com.amap.api.mapcore.util.it
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
@@ -20,10 +21,14 @@ import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.SingleEditLayout
 import com.sogukj.pe.bean.MechanismInfo
+import com.sogukj.pe.module.main.MainActivity
+import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.RegisterService
 import com.sogukj.service.SoguApi
+import io.reactivex.internal.util.HalfSerializer.onNext
 import kotlinx.android.synthetic.main.activity_register_invcode.*
 import kotlinx.android.synthetic.main.white_toolbar.*
+import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import org.jetbrains.anko.startActivity
 
 class InvCodeInputActivity : ToolbarActivity(), SingleEditLayout.InputFinish {
@@ -63,13 +68,31 @@ class InvCodeInputActivity : ToolbarActivity(), SingleEditLayout.InputFinish {
                     onNext { payload ->
                         if (payload.isOk) {
                             payload.payload?.let {
+                                it.domain_name?.let {
+                                    RetrofitUrlManager.getInstance().setGlobalDomain(it)
+                                }
                                 val info = MechanismInfo(it.mechanism_name, it.scale, null, null, null, it.key)
                                 startActivity<InfoSupplementActivity>(Extras.DATA to phone
                                         , Extras.DATA2 to info
                                         , Extras.FLAG to true)
+                                finish()
                             }
                         } else {
                             showTopSnackBar(payload.message)
+                        }
+                    }
+                }
+    }
+
+    private fun getUserBean(phone: String) {
+        SoguApi.getService(application, RegisterService::class.java).getUserBean(phone)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk) {
+                            payload.payload?.let {
+                                Store.store.setUser(this@InvCodeInputActivity, it)
+                                startActivity<MainActivity>()
+                            }
                         }
                     }
                 }

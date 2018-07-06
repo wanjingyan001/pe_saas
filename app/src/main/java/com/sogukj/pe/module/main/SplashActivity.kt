@@ -5,15 +5,19 @@ import android.os.Bundle
 import android.widget.FrameLayout
 import com.netease.nim.uikit.api.NimUIKit
 import com.netease.nimlib.sdk.NIMClient
+import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.StatusBarUtil
 import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.module.register.PhoneInputActivity
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.Store
 import kotlinx.android.synthetic.main.activity_splash.*
+import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import me.leolin.shortcutbadger.ShortcutBadger
 import org.jetbrains.anko.imageResource
+import org.jetbrains.anko.startActivity
 
 /**
  * Created by qinfei on 17/8/11.
@@ -57,10 +61,16 @@ class SplashActivity : BaseActivity() {
         super.onResume()
 
         handler.postDelayed({
-            if (!Store.store.checkLogin(this) || (NIMClient.getStatus().shouldReLogin() && NimUIKit.getAccount().isNullOrEmpty())) {
-                LoginActivity.start(this)
+//            || (NIMClient.getStatus().shouldReLogin() && NimUIKit.getAccount().isNullOrEmpty())
+            if (!Store.store.checkLogin(this) ) {
+//                LoginActivity.start(this)
+               startActivity<PhoneInputActivity>()
                 finish()
             } else {
+                val url = sp.getString(Extras.HTTPURL, "")
+                if (url.isNotEmpty()){
+                    RetrofitUrlManager.getInstance().setGlobalDomain(url)
+                }
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             }

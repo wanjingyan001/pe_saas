@@ -74,17 +74,15 @@
                 android:textColor="@color/text_1"
                 android:textSize="@dimen/text_size_medium" />
 
-            <EditText
+            <TextView
                 android:id="@+id/mechanismNameEdt"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="20dp"
                 android:background="@null"
-                android:gravity="center_vertical|right"
-                android:hint="请填写"
                 android:singleLine="true"
-                android:imeOptions="actionNext"
+                android:gravity="center_vertical|end"
                 android:textColor="@color/text_1"
                 android:textSize="@dimen/text_size_medium" />
 

@@ -8,6 +8,7 @@ import com.sogukj.pe.Consts
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.Store
+import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -25,22 +26,8 @@ class SoguApi {
 
     private constructor(context: Application) {
         this.context = context
-        val client = OkHttpClient.Builder()
-//                .addInterceptor { chain ->
-//                    val builder = chain.request().newBuilder()
-//                    val user = Store.store.getUser(context);
-//                    if (null != user && null != user.uid) {
-//                        builder.addHeader("uid", user.uid.toString())
-//                    }
-//                    builder.addHeader("appkey", "d5f17cafef0829b5")
-//                    builder.addHeader("version", Utils.getVersionName(context))
-//                    builder.addHeader("client", "android")
-//                    val request = builder.build()
-//                    val response = chain.proceed(request)
-//                    Trace.i("http", "RequestBody:${Gson().toJson(response.request().body())}")
-//                    Trace.i("http", "${request.url()} => ${response.code()}:${response.message()}")
-//                    response
-//                }
+//        val client = OkHttpClient.Builder()
+        val client = RetrofitUrlManager.getInstance().with(OkHttpClient.Builder())
                 .addInterceptor(initLogInterceptor())
                 .addInterceptor(initInterceptor(context))
                 .retryOnConnectionFailure(false)
@@ -52,13 +39,13 @@ class SoguApi {
         val user = Store.store.getUser(context)
         var url = ""
         if (getEnvironment() == "ht") {
-            if (user == null) {
-                url = "http://hts.pewinner.com"
+            url = if (user == null) {
+                "http://hts.pewinner.com"
             } else {
                 if (user.phone == "15800421946") {
-                    url = "http://prehts.pewinner.com"
+                    "http://prehts.pewinner.com"
                 } else {
-                    url = "http://hts.pewinner.com"
+                    "http://hts.pewinner.com"
                 }
             }
         } else if (getEnvironment() == "pe") {
@@ -110,7 +97,7 @@ class SoguApi {
 
 
     companion object {
-        var TAG = SoguApi::class.java.simpleName
+        private var TAG = SoguApi::class.java.simpleName
 
         @SuppressLint("StaticFieldLeak")
         private var sApi: SoguApi? = null

@@ -96,8 +96,8 @@ class PhoneInputActivity : BaseActivity() {
                 .execute {
                     onNext { payload ->
                         if (payload.isOk) {
-//                            startActivity<VerCodeInputActivity>(Extras.DATA to phone)
-                            startActivity<UploadBasicInfoActivity>()
+                            startActivity<VerCodeInputActivity>(Extras.DATA to phone)
+                            finish()
                         }
                     }
                 }

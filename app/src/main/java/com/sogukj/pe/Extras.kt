@@ -12,6 +12,7 @@ object Extras {
     val NAME = "ext.name"
     val CODE = "ext.code"
     val INDEX = "ext.index"
+    val BEAN  = "ext.bean"
     val STOCK_CODES = "ext.stockCodes"
     val DATA = "ext.data"
     val DATA2 = "ext.data2"
@@ -67,6 +68,8 @@ object Extras {
     val SCHEDULE_DRAFT = "ext.schedule.draft"//用于保存日程和任务的草稿
 
     val CompanyKey = "companyKey"
+    val SaasUserId = "saas.userId"
+    val HTTPURL = "saas.httpUrl"
     val ROUTE_PATH = "ext.route.path"//在拦截器中传递path
     val ROUTH_FLAG = Int.MAX_VALUE
 }

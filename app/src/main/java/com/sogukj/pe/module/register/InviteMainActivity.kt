@@ -1,50 +1,29 @@
 package com.sogukj.pe.module.register
 
-import android.content.ContentResolver
-import android.database.Cursor
-import android.graphics.Color
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.ContactsContract
-import android.support.v4.widget.NestedScrollView
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
-import android.widget.TextView
-import com.alibaba.android.arouter.facade.annotation.Route
-import com.amap.api.mapcore.util.it
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.R.drawable.contact
-import com.sogukj.pe.R.layout.header
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.execute
-import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
-import com.sogukj.pe.baselibrary.utils.CharacterParser
 import com.sogukj.pe.baselibrary.utils.Utils
-import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
-import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.Contact
 import com.sogukj.pe.bean.MyContacts
 import com.sogukj.pe.peExtended.firstLetter
 import com.sogukj.pe.service.RegisterService
 import com.sogukj.service.SoguApi
-import io.reactivex.internal.util.HalfSerializer.onNext
 import kotlinx.android.synthetic.main.activity_invite_main.*
-import kotlinx.android.synthetic.main.layout_invite_main_header.*
-import kotlinx.android.synthetic.main.layout_invite_main_header.view.*
 import org.jetbrains.anko.*
-import org.jetbrains.anko.sdk25.coroutines.onEditorAction
-import qdx.stickyheaderdecoration.NormalDecoration
-import kotlin.properties.Delegates
 
 class InviteMainActivity : ToolbarActivity() {
     private lateinit var mAdapter: InviteAdapter
     private var inviteCode: String? = null
-
+    private lateinit var invitePath: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_invite_main)
@@ -83,7 +62,7 @@ class InviteMainActivity : ToolbarActivity() {
             startActivity<InviteByPhoneActivity>(Extras.DATA to inviteCode)
         }
         header.find<View>(R.id.addByShareLayout).clickWithTrigger {
-            startActivity<InviteByCodeActivity>(Extras.DATA to inviteCode)
+            startActivity<InviteByCodeActivity>(Extras.DATA to inviteCode,Extras.DATA2 to invitePath)
         }
         header.find<View>(R.id.addByPCLayout).clickWithTrigger {
             startActivity<InviteByPcActivity>()
@@ -132,6 +111,8 @@ class InviteMainActivity : ToolbarActivity() {
         return map
     }
 
+
+
     private fun getInviteCode() {
         val key = sp.getString(Extras.CompanyKey, "")
         if (key.isNotEmpty()) {
@@ -139,7 +120,10 @@ class InviteMainActivity : ToolbarActivity() {
                     .execute {
                         onNext { payload ->
                             if (payload.isOk) {
-                                inviteCode = payload.payload
+                                payload.payload?.let {
+                                    inviteCode = it.code
+                                    invitePath = it.path
+                                }
                             } else {
                                 showTopSnackBar(payload.message)
                             }

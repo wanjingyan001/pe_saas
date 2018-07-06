@@ -87,6 +87,8 @@ dependencies {
     api "com.tencent.bugly:crashreport:${bugly_version}"
 //    图片选择
     api "com.github.HuanTanSheng:EasyPhotos:${easyPhotos_version}"
+    // ViewModel and LiveData
+    api "android.arch.lifecycle:extensions:${android_architecture_components}"
 
 //    other
     api 'com.ashokvarma.android:bottom-navigation-bar:2.0.4'
@@ -95,8 +97,10 @@ dependencies {
     api 'me.leolin:ShortcutBadger:1.1.21@aar'
     api 'com.lcodecorex:tkrefreshlayout:1.0.7'
     api 'com.nbsp:library:1.8'
-    // ViewModel and LiveData
-    api "android.arch.lifecycle:extensions:${android_architecture_components}"
+//    钉钉分享
+    api "com.alibaba.android:ddsharesdk:1.1.0"
+    //Retrofit动态修改BaseUrl
+    api 'me.jessyan:retrofit-url-manager:1.4.0'
 
 
     implementation project(':PushSDK')

@@ -1,33 +1,36 @@
 package com.sogukj.pe.module.register
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.netease.nim.uikit.api.NimUIKit
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.setOnClickFastListener
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
+import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
+import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.DepartmentBean
 import com.sogukj.pe.bean.UserBean
-import com.sogukj.pe.module.main.ContactsActivity
 import com.sogukj.pe.service.UserService
 import com.sogukj.pe.widgets.CircleImageView
 import com.sogukj.service.SoguApi
-import io.reactivex.internal.util.HalfSerializer.onNext
 import kotlinx.android.synthetic.main.activity_member_select.*
-import org.jetbrains.anko.imageResource
+import kotlinx.coroutines.experimental.runBlocking
+import org.jetbrains.anko.ctx
+import org.jetbrains.anko.find
 
 class MemberSelectActivity : ToolbarActivity() {
     /**
@@ -42,7 +45,9 @@ class MemberSelectActivity : ToolbarActivity() {
      * 组织架构adapter
      */
     private lateinit var tissueAdapter: TissueAdapter
+    private lateinit var memberAdapter:RecyclerAdapter<UserBean>
     private val departList = ArrayList<DepartmentBean>() //组织架构
+    private val model  by lazy { ViewModelProviders.of(this).get(OrganViewModel::class.java) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,13 +56,28 @@ class MemberSelectActivity : ToolbarActivity() {
         title = "选择部门成员"
         getDataFromIntent()
         initTissueAdapter()
+        memberAdapter = RecyclerAdapter(this){_adapter,parent,_->
+                MemberHolder(_adapter.getView(R.layout.item_team_organization_chlid,parent))
+        }
+        memberList.apply {
+            layoutManager = LinearLayoutManager(ctx)
+            adapter = memberAdapter
+        }
+        getMemberList()
+        confirmTv.clickWithTrigger {
+            val list = ArrayList<UserBean>()
+            list.addAll(alreadySelected)
+            intent.putExtra(Extras.DATA, list)
+            setResult(Extras.RESULTCODE, intent)
+            finish()
+        }
     }
 
     private fun getDataFromIntent() {
         val list = intent.getSerializableExtra(Extras.LIST) as? ArrayList<UserBean>
         alreadySelected = list?.toMutableSet() ?: ArrayList<UserBean>().toMutableSet()
         isSingle = intent.getBooleanExtra(Extras.FLAG, false)
-        if (alreadySelected.isNotEmpty()) {
+        if (alreadySelected.any { it.user_id !=null }) {
             selectNumber.text = "已选择: ${alreadySelected.size} 人"
         }
     }
@@ -65,7 +85,8 @@ class MemberSelectActivity : ToolbarActivity() {
     private fun initTissueAdapter() {
         tissueAdapter = TissueAdapter(this, departList)
         organizationList.setAdapter(tissueAdapter)
-        getTissueData()
+        organizationList.setVisible(false)
+//        getTissueData()
     }
 
 
@@ -100,6 +121,22 @@ class MemberSelectActivity : ToolbarActivity() {
                         showCustomToast(R.drawable.icon_toast_fail, "数据获取失败")
                     }
                 }
+    }
+
+    private fun getMemberList() = runBlocking{
+        val key = sp.getString(Extras.CompanyKey, "")
+        model.loadMemberList(application,key).observe(this@MemberSelectActivity, Observer {
+                it?.let {
+                    memberAdapter.refreshData(it)
+                    it.forEach { user->
+                        val find = alreadySelected.find { it.user_id == user.user_id }
+                        if (find!=null){
+                            alreadySelected.remove(find)
+                            alreadySelected.add(user)
+                        }
+                    }
+                }
+        })
     }
 
     /**
@@ -197,4 +234,41 @@ class MemberSelectActivity : ToolbarActivity() {
         val userPosition: TextView = view.findViewById<TextView>(R.id.userPosition) as TextView
         val itemView: View = view
     }
+
+    inner class MemberHolder(itemView:View):RecyclerHolder<UserBean>(itemView){
+        val selectIcon= itemView.find<ImageView>(R.id.selectIcon)
+        val userImg = itemView.find<CircleImageView>(R.id.userHeadImg)
+        val userName= itemView.find<TextView>(R.id.userName)
+        val userPosition= itemView.find<TextView>(R.id.userPosition)
+        override fun setData(view: View, data: UserBean, position: Int) {
+            selectIcon.setVisible(true)
+            userPosition.setVisible(false)
+            if (data.headImage().isNullOrEmpty()) {
+                val ch = data.name.first()
+                userImg.setChar(ch)
+            } else {
+                Glide.with(context)
+                        .load(data.headImage())
+                        .apply(RequestOptions().error(R.drawable.nim_avatar_default).placeholder(R.drawable.nim_avatar_default))
+                        .into(userImg)
+            }
+            val find = alreadySelected.find { it.user_id == data.user_id }
+            selectIcon.isSelected = find != null
+            userName.text = data.name
+            view.clickWithTrigger {
+                search_edt.clearFocus()
+                if (alreadySelected.contains(data)) {
+                    alreadySelected.remove(data)
+                } else {
+                    if (isSingle){
+                        alreadySelected.clear()
+                    }
+                    alreadySelected.add(data)
+                }
+                selectNumber.text = "已选择: ${alreadySelected.size} 人"
+                memberAdapter.notifyDataSetChanged()
+            }
+        }
+    }
+
 }

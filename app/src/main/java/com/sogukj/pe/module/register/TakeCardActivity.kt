@@ -46,14 +46,15 @@ class TakeCardActivity : ToolbarActivity() {
                     .start(Extras.REQUESTCODE)
         }
         nextStep.clickWithTrigger {
-            ReviewActivity.start(this, ReviewStatus.SUCCESSFUL_REVIEW)
+            ReviewActivity.start(this, ReviewStatus.UNDER_REVIEW)
+            finish()
         }
     }
 
     private fun uploadCard() {
         val file = File(cardPath)
         val body = MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addFormDataPart("iamge", file.name, RequestBody.create(MediaType.parse("*/*"), file))
+                .addFormDataPart("image", file.name, RequestBody.create(MediaType.parse("*/*"), file))
                 .addFormDataPart("user_id", result.user_id.toString()).build()
         SoguApi.getService(application, RegisterService::class.java).uploadCard(body)
                 .execute {

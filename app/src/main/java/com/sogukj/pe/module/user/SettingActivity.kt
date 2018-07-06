@@ -19,9 +19,12 @@ import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.utils.XmlDb
 import com.sogukj.pe.module.main.LoginActivity
+import com.sogukj.pe.module.register.PhoneInputActivity
 import com.sogukj.pe.peUtils.Store
 import kotlinx.android.synthetic.main.activity_setting.*
+import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import org.jetbrains.anko.find
+import org.jetbrains.anko.startActivity
 
 class SettingActivity : BaseActivity() {
 
@@ -65,10 +68,12 @@ class SettingActivity : BaseActivity() {
                 if (dialog.isShowing) {
                     dialog.dismiss()
                 }
+                RetrofitUrlManager.getInstance().removeGlobalDomain()
                 App.INSTANCE.resetPush(false)
                 IMLogout()
                 Store.store.clearUser(this)
-                LoginActivity.start(this)
+                startActivity<PhoneInputActivity>()
+//                LoginActivity.start(this)
                 finish()
             }
             dialog.show()
