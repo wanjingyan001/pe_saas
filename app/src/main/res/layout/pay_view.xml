@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#99000000">
+
+    <LinearLayout
+        android:id="@+id/bg_pic"
+        android:layout_width="360dp"
+        android:layout_height="480dp"
+        android:layout_gravity="center"
+        android:background="@drawable/pay_zx"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/mTvZhengX"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="150dp"
+            android:gravity="center"
+            android:text="您的基础版账号征信查询次数已达上限,如需增加请购买征信扩容包"
+            android:textColor="#ff4a4a4a"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/mTvProj"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="150dp"
+            android:gravity="center"
+            android:text="您的基础版账号项目管理数量已达上限,如需增加请购买项目管理扩容包"
+            android:textColor="#ff4a4a4a"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="70dp"
+            android:layout_marginTop="10dp"
+            android:text="付费套餐"
+            android:textColor="#ff4a90e2"
+            android:textSize="14sp" />
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="70dp"
+            android:layout_marginRight="70dp"
+            android:layout_marginTop="5dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:overScrollMode="never">
+
+            <LinearLayout
+                android:id="@+id/taocan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include layout="@layout/item_paystd" />
+
+                <include layout="@layout/item_paystd" />
+
+                <include layout="@layout/item_paystd" />
+
+                <include layout="@layout/item_paystd" />
+
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="具体详情请联系我们进行咨询"
+            android:textColor="#ffa0a4aa"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:id="@+id/mTelephone"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/pay_btn_bg"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/pay_tel"
+                android:drawablePadding="7dp"
+                android:gravity="center"
+                android:text="021-80129519"
+                android:textColor="#ffffffff"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/pay_delete" />
+
+</FrameLayout>

@@ -4,8 +4,11 @@ import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
 import android.view.Gravity
 import android.view.View
 import android.widget.EditText
@@ -24,6 +27,7 @@ import com.sogukj.pe.peExtended.hasCreditListActivity
 import com.sogukj.pe.peExtended.removeStep1
 import com.sogukj.pe.service.CreditService
 import com.sogukj.pe.widgets.IOSPopwindow
+import com.sogukj.pe.widgets.PayView
 import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -127,6 +131,29 @@ class ShareHolderStepActivity : ToolbarActivity(), View.OnClickListener {
         return true
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            0x001 -> {
+                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // 权限被用户同意，可以去放肆了。
+                    try {
+                        val intent = Intent(Intent.ACTION_CALL)
+                        val data = Uri.parse("tel:" + telephone)
+                        intent.data = data
+                        startActivity(intent)
+                    } catch (e: SecurityException) {
+                    }
+                } else {
+                    // 权限被用户拒绝了，洗洗睡吧。
+                }
+                return
+            }
+        }
+    }
+
+    var telephone = ""
+
     @TargetApi(Build.VERSION_CODES.KITKAT)
     override fun onClick(v: View?) {
         when (v?.id) {
@@ -135,11 +162,18 @@ class ShareHolderStepActivity : ToolbarActivity(), View.OnClickListener {
                     ShareHolderStepActivity.start(context, 2, selectId, companyName.text.toString())
                     //ActivityHelper已添加
                 } else if (step == 2) {
+
+//                    var pay = PayView(context)
+//                    pay.show(1, "1137800599", PayView.PermissionListener { permission, telephone ->
+//                        this.telephone = telephone
+//                        ActivityCompat.requestPermissions(this, arrayOf(permission), 0x001)
+//                    })
+
                     if (!prepare()) {
                         return
                     }
                     enter.isEnabled = false
-                    SoguApi.getService(application,CreditService::class.java)
+                    SoguApi.getService(application, CreditService::class.java)
                             .queryCreditInfo(params)
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribeOn(Schedulers.io())
