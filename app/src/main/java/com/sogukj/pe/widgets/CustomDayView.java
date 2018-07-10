@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ldf.calendar.Utils;
@@ -22,8 +23,9 @@ import java.util.Calendar;
 public class CustomDayView extends DayView {
 
     private final CalendarDate today = new CalendarDate();
-    private final View selectedBg;
-    private final TextView dateTv;
+    //private final View selectedBg;
+    private final LinearLayout mRoot;
+    private final TextView dateTv, mNL, mState;
     private final ImageView marker;
     private CalendarDate currentDay;
 
@@ -35,9 +37,12 @@ public class CustomDayView extends DayView {
      */
     public CustomDayView(Context context, int layoutResource) {
         super(context, layoutResource);
-        selectedBg = findViewById(R.id.selected_bg);
-        dateTv = findViewById(R.id.date);
-        marker = findViewById(R.id.maker);
+        //selectedBg = findViewById(R.id.selected_bg);
+        mRoot = (LinearLayout) findViewById(R.id.root);
+        dateTv = ((TextView) findViewById(R.id.date));
+        mNL = ((TextView) findViewById(R.id.nongli));
+        mState = ((TextView) findViewById(R.id.state));
+        marker = ((ImageView) findViewById(R.id.maker));
     }
 
     @Override
@@ -51,7 +56,7 @@ public class CustomDayView extends DayView {
     private void renderMarker(CalendarDate date, State state) {
         Calendar instance = Calendar.getInstance();
         instance.set(date.year, date.month - 1, date.day);
-        String time = com.sogukj.pe.baselibrary.utils.Utils.getTime(instance.getTime(), "yyyy-MM-dd");
+        String time = com.sogukj.pe.util.Utils.getTime(instance.getTime(), "yyyy-MM-dd");
         if (Utils.loadMarkData().containsKey(time)) {
 //            if (state == State.SELECT || date.toString().equals(today.toString())) {
 //                marker.setVisibility(GONE);
@@ -65,23 +70,30 @@ public class CustomDayView extends DayView {
 //            }
             marker.setVisibility(VISIBLE);
         } else {
-            marker.setVisibility(GONE);
+            marker.setVisibility(INVISIBLE);
         }
     }
 
     private void renderSelect(State state) {
         if (state == State.SELECT) {
-            selectedBg.setVisibility(VISIBLE);
+            //selectedBg.setVisibility(VISIBLE);
+            mRoot.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
             dateTv.setTextColor(Color.WHITE);
+            mNL.setTextColor(Color.WHITE);
         } else if (state == State.NEXT_MONTH || state == State.PAST_MONTH) {
-            selectedBg.setVisibility(GONE);
-            dateTv.setTextColor(getResources().getColor(R.color.text_3));
+            //selectedBg.setVisibility(GONE);
+            mRoot.setBackgroundColor(getResources().getColor(R.color.white));
+            dateTv.setTextColor(Color.parseColor("#ffdcdee6"));
+            mNL.setTextColor(Color.parseColor("#ffdcdee6"));
         } else {
-            selectedBg.setVisibility(GONE);
+            //selectedBg.setVisibility(GONE);
+            mRoot.setBackgroundColor(getResources().getColor(R.color.white));
             if (currentDay != null && currentDay.equals(today)) {
                 dateTv.setTextColor(getResources().getColor(R.color.colorPrimary));
+                mNL.setTextColor(getResources().getColor(R.color.colorPrimary));
             } else {
                 dateTv.setTextColor(getResources().getColor(R.color.text_1));
+                mNL.setTextColor(Color.parseColor("#ffdcdee6"));
             }
         }
     }
@@ -90,6 +102,30 @@ public class CustomDayView extends DayView {
         if (date != null) {
             currentDay = date;
             dateTv.setText(date.day + "");
+
+            final Calendar instance = Calendar.getInstance();
+            instance.set(date.year, date.month - 1, date.day);
+            String time = com.sogukj.pe.util.Utils.getTime(instance.getTime(), "yyyyMMdd");
+            //法定节假日---休
+            //周六周日---班
+            LunarBean bean = new LunarUtils().getLunarDate(time, false);
+            mNL.setText(bean.desc);
+
+            int[] mHolidays = CalendarUtils.getInstance().initAllHolidays(getContext(), date.year).getHolidays(date.month);
+            if (mHolidays[date.day - 1] == 1) {
+                //canvas.drawBitmap(mRestBitmap, rect, rectF, null);
+                //节假日
+                mState.setVisibility(VISIBLE);
+                mState.setText("休");
+                mState.setTextColor(Color.parseColor("#ff50d59d"));
+            } else if (mHolidays[date.day - 1] == 2) {
+                //canvas.drawBitmap(mWorkBitmap, rect, rectF, null);
+                mState.setVisibility(VISIBLE);
+                mState.setText("班");
+                mState.setTextColor(Color.parseColor("#fff7b62b"));
+            } else {
+                mState.setVisibility(INVISIBLE);
+            }
         }
     }
 

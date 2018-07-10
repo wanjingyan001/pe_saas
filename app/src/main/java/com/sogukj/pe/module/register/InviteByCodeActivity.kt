@@ -101,9 +101,6 @@ class InviteByCodeActivity : ToolbarActivity(), PlatformActionListener {
         dingLayout.clickWithTrigger {
             shareDD()
         }
-        cWeChatLayout.clickWithTrigger {
-            initCWeChat()
-        }
     }
 
 

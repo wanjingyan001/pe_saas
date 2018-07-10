@@ -96,7 +96,7 @@
 
         <LinearLayout
             android:id="@+id/weChatLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:gravity="center_horizontal"
@@ -123,7 +123,7 @@
 
         <LinearLayout
             android:id="@+id/QQLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="vertical"
@@ -148,11 +148,11 @@
 
         <LinearLayout
             android:id="@+id/dingLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            app:layout_constraintEnd_toStartOf="@+id/cWeChatLayout"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/QQLayout"
             app:layout_constraintTop_toTopOf="@+id/weChatLayout">
 
@@ -171,30 +171,30 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/cWeChatLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/dingLayout"
-            app:layout_constraintTop_toTopOf="@+id/weChatLayout">
+        <!--<LinearLayout-->
+            <!--android:id="@+id/cWeChatLayout"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center_horizontal"-->
+            <!--android:orientation="vertical"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--app:layout_constraintStart_toEndOf="@+id/dingLayout"-->
+            <!--app:layout_constraintTop_toTopOf="@+id/weChatLayout">-->
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/icon_cwechat" />
+            <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:src="@mipmap/icon_cwechat" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:text="企业微信"
-                android:textColor="@color/text_3"
-                android:textSize="@dimen/text_size_samll" />
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="14dp"-->
+                <!--android:text="企业微信"-->
+                <!--android:textColor="@color/text_3"-->
+                <!--android:textSize="@dimen/text_size_samll" />-->
 
-        </LinearLayout>
+        <!--</LinearLayout>-->
 
         <View
             android:id="@+id/line1"

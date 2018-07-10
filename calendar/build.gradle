@@ -27,4 +27,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     implementation "com.android.support:design:${android_support_sdk_version}"
     implementation "com.android.support:appcompat-v7:${android_support_sdk_version}"
+    implementation "com.google.code.gson:gson:${gson_version}"
 }
