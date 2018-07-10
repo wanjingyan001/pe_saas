@@ -64,38 +64,52 @@
             android:textSize="@dimen/text_size_medium" />
     </android.support.v7.widget.Toolbar>
 
-    <TextView
-        android:id="@+id/mainModuleHeader"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:paddingStart="15dp"
-        android:gravity="center_vertical"
-        android:text="当前功能（按住拖动调整按钮顺序）"
-        android:textColor="@color/text_1"
-        android:textSize="@dimen/text_size_samll"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/mainModuleList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:paddingBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/allModuleList"
-        app:layout_constraintTop_toBottomOf="@+id/mainModuleHeader">
-
-    </android.support.v7.widget.RecyclerView>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/allModuleList"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/white"
-        android:paddingBottom="10dp"
+        android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainModuleList">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-    </android.support.v7.widget.RecyclerView>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/mainModuleHeader"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:paddingStart="15dp"
+                android:text="当前功能（按住拖动调整按钮顺序）"
+                android:textColor="@color/text_1"
+                android:textSize="@dimen/text_size_samll" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/mainModuleList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingBottom="10dp"
+                android:nestedScrollingEnabled="false"
+              >
+
+            </android.support.v7.widget.RecyclerView>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/allModuleList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:paddingBottom="10dp"
+                android:nestedScrollingEnabled="false"
+               >
+
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
 
 
 </android.support.constraint.ConstraintLayout>

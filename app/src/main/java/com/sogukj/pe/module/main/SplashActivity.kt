@@ -63,9 +63,9 @@ class SplashActivity : BaseActivity() {
         handler.postDelayed({
 //            || (NIMClient.getStatus().shouldReLogin() && NimUIKit.getAccount().isNullOrEmpty())
             if (!Store.store.checkLogin(this) ) {
-//                LoginActivity.start(this)
-               startActivity<PhoneInputActivity>()
-                finish()
+                LoginActivity.start(this)
+//               startActivity<PhoneInputActivity>()
+//                finish()
             } else {
                 val url = sp.getString(Extras.HTTPURL, "")
                 if (url.isNotEmpty()){

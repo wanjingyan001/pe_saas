@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.os.Build
+import android.preference.PreferenceManager
 import com.sogukj.pe.Consts
+import com.sogukj.pe.Extras
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.Store
@@ -81,9 +83,14 @@ class SoguApi {
      */
     private fun initInterceptor(context: Context) = Interceptor { chain ->
         val user = Store.store.getUser(context)
+        val key = PreferenceManager.getDefaultSharedPreferences(context).getString(Extras.CompanyKey, "")
         val newBuilder = chain.request().newBuilder()
         user?.let {
             newBuilder.addHeader("uid", it.uid.toString())
+        }
+        key.isNotEmpty().takeIf {
+            newBuilder.addHeader("key", key)
+            return@takeIf true
         }
         val request = newBuilder
                 .addHeader("appkey", "d5f17cafef0829b5")
@@ -103,7 +110,7 @@ class SoguApi {
         private var sApi: SoguApi? = null
 
         @Synchronized
-       private fun getApi(ctx: Application): SoguApi {
+        private fun getApi(ctx: Application): SoguApi {
             if (null == sApi) sApi = SoguApi(ctx)
             return sApi!!
         }

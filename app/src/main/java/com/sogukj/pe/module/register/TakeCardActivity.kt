@@ -3,6 +3,7 @@ package com.sogukj.pe.module.register
 import android.content.Intent
 import android.os.Bundle
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.huantansheng.easyphotos.EasyPhotos
 import com.netease.nim.uikit.support.glide.GlideEngine
 import com.sogukj.pe.BuildConfig
@@ -12,6 +13,7 @@ import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.baselibrary.widgets.DefaultTransformer
 import com.sogukj.pe.bean.JoinTeamResult
 import com.sogukj.pe.interf.ReviewStatus
 import com.sogukj.pe.service.RegisterService
@@ -61,8 +63,9 @@ class TakeCardActivity : ToolbarActivity() {
                     onNext { payload ->
                         if (payload.isOk) {
                             payload.payload?.let {
-                                Glide.with(ctx)
-                                        .load(it)
+                                Glide.with(this@TakeCardActivity)
+                                        .load(cardPath)
+                                        .thumbnail(0.1f)
                                         .into(takeCard)
                             }
                         } else {

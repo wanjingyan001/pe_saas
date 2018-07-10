@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/funIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:src="@mipmap/icon_cbxx"
         android:layout_marginTop="10dp"
         app:layout_constraintTop_toTopOf="parent"

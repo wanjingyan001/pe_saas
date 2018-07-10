@@ -41,7 +41,7 @@ class SingleEditLayout @JvmOverloads constructor(
             attributes.recycle()
         }
         orientation = LinearLayout.HORIZONTAL
-        (0 until count).forEach {
+        (0 until count).forEachIndexed { index, i ->
             val tv = TextView(context)
             tv.textSize = 16f
             tv.background = resources.getDrawable(R.drawable.bg_single_edt)

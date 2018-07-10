@@ -1,11 +1,10 @@
 package com.sogukj.pe.service
 
 import com.sogukj.pe.bean.*
+import com.sogukj.pe.database.HomeFunctionReq
+import com.sogukj.pe.database.MainFunIcon
 import io.reactivex.Observable
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
-import retrofit2.http.Url
+import retrofit2.http.*
 
 /**
  * Created by admin on 2018/5/22.
@@ -44,9 +43,18 @@ interface OtherService {
 
     @FormUrlEncoded
     @POST
-    fun qrNotify(@Url url:String, @Field("status") status: Int): Observable<Payload<Object>>
+    fun qrNotify(@Url url: String, @Field("status") status: Int): Observable<Payload<Object>>
 
     //版本更新
     @POST("/api/Index/version")
     fun getVersion(): Observable<Payload<VersionBean>>
+
+    /**
+     * app首页按钮系列
+     */
+    @Headers(value = "Domain-Name: homeFunction")
+    @FormUrlEncoded
+    @POST("/api/Index/homeButton")
+    fun homeModuleButton(@Field("flag") flag: Int,
+                         @Field("data") data: List<HomeFunctionReq>? = null): Observable<Payload<List<MainFunIcon>>>
 }

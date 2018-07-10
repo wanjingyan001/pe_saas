@@ -51,7 +51,7 @@ class CreateDepartmentActivity : ToolbarActivity() {
         departmentAdapter.onItemChildClickListener = BaseQuickAdapter.OnItemChildClickListener { adapter, view, position ->
             when (view.id) {
                 R.id.deleteDepartment -> {
-                    deleteDepartment(position + 1)
+                    deleteDepartment(position )
                 }
             }
         }
@@ -70,6 +70,7 @@ class CreateDepartmentActivity : ToolbarActivity() {
         add.clickWithTrigger {
             if (nameEdt.textStr.isNotEmpty()) {
                 addDepartment(nameEdt.textStr)
+                nameEdt.setText("")
             } else {
                 showTopSnackBar("请填写部门名称")
             }
@@ -108,7 +109,7 @@ class CreateDepartmentActivity : ToolbarActivity() {
                 .execute {
                     onNext { payload ->
                         if (payload.isOk) {
-                            departmentAdapter.notifyItemRemoved(position + 1)
+                            departmentAdapter.remove(position)
                         } else {
                             showTopSnackBar(payload.message)
                         }
@@ -129,7 +130,7 @@ class CreateDepartmentActivity : ToolbarActivity() {
 
 
     private fun login(phone: String) {
-        SoguApi.getService(application, RegisterService::class.java).getUserBean(phone)
+        SoguApi.getService(application, RegisterService::class.java).getUserBean(phone,sp.getInt(Extras.SaasUserId,0))
                 .execute {
                     onNext { payload ->
                         if (payload.isOk) {
@@ -137,6 +138,8 @@ class CreateDepartmentActivity : ToolbarActivity() {
                                 Store.store.setUser(this@CreateDepartmentActivity,it)
                                 startActivity<MainActivity>()
                             }
+                        }else{
+                            showTopSnackBar(payload.message)
                         }
                     }
                 }

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
+import android.view.View
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
@@ -26,7 +27,7 @@ import org.jetbrains.anko.textColorResource
 
 class ReviewActivity : ToolbarActivity() {
     private lateinit var status: ReviewStatus
-    private var result: RegisterVerResult?  = null
+    private var result: RegisterVerResult? = null
     private var userId: Int = 0
     private var mechanismInfo: MechanismInfo? = null
 
@@ -52,6 +53,7 @@ class ReviewActivity : ToolbarActivity() {
             ReviewStatus.UNDER_REVIEW -> {
                 reviewTitle.text = "已提交审核"
                 reviewStatusImg.imageResource = R.mipmap.bg_under_review
+                tipsIcon.visibility = View.VISIBLE
                 tipsIcon.imageResource = R.mipmap.icon_blue_tips
                 tipsContent.text = resources.getText(R.string.tips_under_review)
             }
@@ -64,6 +66,7 @@ class ReviewActivity : ToolbarActivity() {
             ReviewStatus.FAILURE_REVIEW -> {
                 reviewTitle.text = "审核失败"
                 reviewStatusImg.imageResource = R.mipmap.bg_under_review
+                tipsIcon.visibility = View.VISIBLE
                 tipsIcon.imageResource = R.mipmap.icon_red_tips
                 tipsContent.text = "很抱歉您的审核未通过"
                 tipsContent.textColorResource = R.color.prompt_error

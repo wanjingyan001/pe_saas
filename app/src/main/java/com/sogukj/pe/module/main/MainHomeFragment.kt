@@ -97,7 +97,7 @@ class MainHomeFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         val factory = Injection.provideViewModelFactory(ctx)
         val model = ViewModelProviders.of(this, factory).get(FunctionViewModel::class.java)
-        model.generateData()
+        model.generateData(baseActivity!!.application)
 
         moduleAdapter = RecyclerAdapter(ctx) { _adapter, parent, _ ->
             val itemView = _adapter.getView(R.layout.item_function_icon, parent)
@@ -105,7 +105,10 @@ class MainHomeFragment : BaseFragment() {
                 val icon = itemView.find<ImageView>(R.id.funIcon)
                 val name = itemView.find<TextView>(R.id.functionName)
                 override fun setData(view: View, data: MainFunIcon, position: Int) {
-                    icon.imageResource = data.icon
+                    Glide.with(ctx)
+                            .load(data.icon)
+                            .thumbnail(0.1f)
+                            .into(icon)
                     name.text = data.name
                 }
             }

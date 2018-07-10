@@ -86,7 +86,8 @@ class UploadBasicInfoActivity : ToolbarActivity() {
                         if (payload.isOk) {
                             payload.payload?.let {
                                 Glide.with(ctx)
-                                        .load(it)
+                                        .load(cardPath)
+                                        .thumbnail(0.1f)
                                         .into(mCompanyLogo)
                             }
                         } else {
