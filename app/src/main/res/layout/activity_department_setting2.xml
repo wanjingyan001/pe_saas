@@ -135,24 +135,24 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@color/white"-->
-        <!--android:orientation="horizontal"-->
-        <!--app:layout_constraintBottom_toBottomOf="parent">-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <!--<TextView-->
-            <!--android:id="@+id/addMember"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:gravity="center"-->
-            <!--android:paddingBottom="18dp"-->
-            <!--android:paddingTop="18dp"-->
-            <!--android:text="添加员工"-->
-            <!--android:textColor="@color/colorPrimary"-->
-            <!--android:textSize="@dimen/text_size_medium" />-->
+        <TextView
+            android:id="@+id/addMember"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingBottom="18dp"
+            android:paddingTop="18dp"
+            android:text="邀请成员"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/text_size_medium" />
 
         <!--<TextView-->
             <!--android:id="@+id/addChildDepartment"-->
@@ -166,6 +166,6 @@
             <!--android:textColor="@color/colorPrimary"-->
             <!--android:textSize="@dimen/text_size_medium" />-->
 
-    <!--</LinearLayout>-->
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

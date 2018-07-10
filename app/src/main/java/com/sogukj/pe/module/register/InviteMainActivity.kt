@@ -138,7 +138,7 @@ class InviteMainActivity : ToolbarActivity() {
                     .execute {
                         onNext { payload ->
                             if (payload.isOk) {
-                                info { "邀请成功" }
+                               showSuccessToast("邀请成功")
                             } else {
                                 showTopSnackBar(payload.message)
                             }

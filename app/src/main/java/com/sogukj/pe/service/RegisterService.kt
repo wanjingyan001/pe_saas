@@ -139,6 +139,7 @@ interface RegisterService {
      */
     @FormUrlEncoded
     @POST("/api/Saas/get_menu")
-    fun getUserBean(@Field("phone")phone:String):Observable<Payload<UserBean>>
+    fun getUserBean(@Field("phone")phone:String,
+                    @Field("user_id")user_id:Int):Observable<Payload<UserBean>>
 }
 

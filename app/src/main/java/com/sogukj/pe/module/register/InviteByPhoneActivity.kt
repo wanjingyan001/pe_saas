@@ -55,8 +55,11 @@ class InviteByPhoneActivity : ToolbarActivity() {
                     .execute {
                         onNext { payload ->
                             if (payload.isOk) {
-                                info { "邀请成功" }
-                                finish()
+                                showSuccessToast("邀请成功")
+                                phoneEdt.setText("")
+                                nameEdt.setText("")
+                                phoneEdt.isFocusableInTouchMode = true
+                                phoneEdt.requestFocus()
                             } else {
                                 showTopSnackBar(payload.message)
                             }

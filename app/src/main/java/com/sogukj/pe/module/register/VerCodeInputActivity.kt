@@ -70,21 +70,24 @@ class VerCodeInputActivity : BaseActivity() {
                                                     Extras.DATA2 to it.user_id)
                                         }
                                         1 -> {
-                                            login(phone)
+                                            login(phone, it.user_id!!)
                                         }
                                     }
-                                    finish()
+//                                    finish()
                                 }
                             }
                         } else {
-                            showTopSnackBar(payload.message)
+                            payload.message?.contains("验证码错误").takeIf {
+                                showTopSnackBar("验证码错误")
+                                return@takeIf true
+                            }
                         }
                     }
                 }
     }
 
-    private fun login(phone: String) {
-        SoguApi.getService(application, RegisterService::class.java).getUserBean(phone)
+    private fun login(phone: String, userId: Int) {
+        SoguApi.getService(application, RegisterService::class.java).getUserBean(phone, userId)
                 .execute {
                     onNext { payload ->
                         if (payload.isOk) {

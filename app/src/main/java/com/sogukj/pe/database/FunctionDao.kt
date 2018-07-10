@@ -13,8 +13,14 @@ interface FunctionDao {
     @Query("SELECT * FROM Function WHERE isCurrent = :status")
     fun getSelectFunctions(status:Boolean):LiveData<List<MainFunIcon>>
 
-    @Query("SELECT * FROM Function WHERE address = :module")
-    fun getModuleFunction(module:String):Flowable<List<MainFunIcon>>
+    @Query("SELECT * FROM Function WHERE module = :mid")
+    fun getModuleFunction(mid:Int):Flowable<List<MainFunIcon>>
+
+    @Query("SELECT * FROM Function WHERE module = :mid")
+    fun getModuleData(mid:Int):LiveData<List<MainFunIcon>>
+
+    @Query("SELECT * FROM Function")
+    fun getAllFunctions():LiveData<List<MainFunIcon>>
 
     @Update
     fun updateFunction(function: MainFunIcon)

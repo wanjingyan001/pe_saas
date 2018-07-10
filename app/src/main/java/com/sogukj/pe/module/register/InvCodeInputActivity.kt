@@ -85,7 +85,7 @@ class InvCodeInputActivity : ToolbarActivity(), SingleEditLayout.InputFinish {
     }
 
     private fun getUserBean(phone: String) {
-        SoguApi.getService(application, RegisterService::class.java).getUserBean(phone)
+        SoguApi.getService(application, RegisterService::class.java).getUserBean(phone,sp.getInt(Extras.SaasUserId,0))
                 .execute {
                     onNext { payload ->
                         if (payload.isOk) {

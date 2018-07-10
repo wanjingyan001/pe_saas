@@ -13,6 +13,7 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.amap.api.mapcore.util.it
+import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseItemDraggableAdapter
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseSectionQuickAdapter
@@ -33,6 +34,9 @@ import com.sogukj.pe.database.MainFunction
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main_edit.*
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.runBlocking
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.imageResource
@@ -128,49 +132,75 @@ class MainEditActivity : ToolbarActivity() {
         }
     }
 
-    private fun getData() {
-        val factory = Injection.provideViewModelFactory(this)
-        model = ViewModelProviders.of(this, factory).get(FunctionViewModel::class.java)
-        model.getMainModules().observe(this, Observer<List<MainFunIcon>> { select ->
+    private fun getData() = runBlocking {
+        val factory = Injection.provideViewModelFactory(this@MainEditActivity)
+        model = ViewModelProviders.of(this@MainEditActivity, factory).get(FunctionViewModel::class.java)
+        model.getMainModules().observe(this@MainEditActivity, Observer<List<MainFunIcon>> { select ->
             select?.let {
-                val filter = it.filter { it.editable }
-                AnkoLogger("WJY").info { "当前功能:${filter.jsonStr}" }
                 mainModuleAdapter.data.clear()
-                mainModuleAdapter.data.addAll(filter)
+                mainModuleAdapter.data.addAll(it)
                 mainModuleAdapter.notifyDataSetChanged()
             }
         })
-        val projectModules = model.getModuleFunctions("/project")
-        val fundModules = model.getModuleFunctions("/fund")
-        projectModules
+        model.getModuleFunctions(MainFunIcon.Project)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext {
+                .subscribe {
+                    info { it.jsonStr }
                     if (allModule.find { it.header == "项目功能" } == null) {
                         allModule.add(MainFunction(true, "项目功能"))
-                        it.forEach {
+                        it?.forEach {
                             allModule.add(MainFunction(it))
                         }
                         allModule.distinct()
-                        AnkoLogger("WJY").info { "项目功能:${allModuleAdapter.data.jsonStr}" }
-                        allModuleAdapter.notifyDataSetChanged()
-                    }
-                }
-                .flatMap { return@flatMap fundModules }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext {
-                    if (allModule.find { it.header == "基金功能" } == null) {
-                        allModule.add(MainFunction(true, "基金功能"))
-                        it.forEach {
-                            allModule.add(MainFunction(it))
-                        }
-                        allModule.distinct()
-                        AnkoLogger("WJY").info { "基金功能:${allModuleAdapter.data.jsonStr}" }
                         allModuleAdapter.notifyDataSetChanged()
                     }
                 }
 
+
+        initModule()
+    }
+
+
+    private suspend fun initModule() {
+        launch(CommonPool) {
+            model.getAllData(MainFunIcon.Project).observe(this@MainEditActivity, Observer {
+                if (allModule.find { it.header == "项目功能" } == null) {
+                    allModule.add(MainFunction(true, "项目功能"))
+                    it?.forEach {
+                        allModule.add(MainFunction(it))
+                    }
+                    allModule.distinct()
+                    allModuleAdapter.notifyDataSetChanged()
+                }
+            })
+        }.join()
+        launch(CommonPool) {
+            model.getAllData(MainFunIcon.Fund).observe(this@MainEditActivity, Observer {
+                Thread.sleep(10)
+                if (allModule.find { it.header == "基金功能" } == null) {
+                    allModule.add(MainFunction(true, "基金功能"))
+                    it?.forEach {
+                        allModule.add(MainFunction(it))
+                    }
+                    allModule.distinct()
+                    allModuleAdapter.notifyDataSetChanged()
+                }
+            })
+        }.join()
+        launch(CommonPool){
+            model.getAllData(MainFunIcon.Default).observe(this@MainEditActivity, Observer {
+                Thread.sleep(50)
+                if (allModule.find { it.header == "默认功能" } == null) {
+                    allModule.add(MainFunction(true, "默认功能"))
+                    it?.forEach {
+                        allModule.add(MainFunction(it))
+                    }
+                    allModule.distinct()
+                    allModuleAdapter.notifyDataSetChanged()
+                }
+            })
+        }.join()
     }
 
     override fun onDestroy() {
@@ -191,7 +221,9 @@ class MainEditActivity : ToolbarActivity() {
             val aAndR = helper.getView<ImageView>(R.id.addAndRemove)
             val functionName = helper.getView<TextView>(R.id.functionName)
             item.t.apply {
-                icon.imageResource = item.t.icon
+                Glide.with(ctx)
+                        .load(this.icon)
+                        .into(icon)
                 aAndR.setVisible(isEdit)
                 functionName.text = name
                 if (isCurrent) {
@@ -211,7 +243,9 @@ class MainEditActivity : ToolbarActivity() {
             val aAndR = helper.getView<ImageView>(R.id.addAndRemove)
             val functionName = helper.getView<TextView>(R.id.functionName)
             item.apply {
-                icon.imageResource = this.icon
+                Glide.with(ctx)
+                        .load(this.icon)
+                        .into(icon)
                 aAndR.setVisible(isEdit)
                 functionName.text = name
             }

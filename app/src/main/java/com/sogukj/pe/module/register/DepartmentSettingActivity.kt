@@ -61,10 +61,13 @@ class DepartmentSettingActivity : ToolbarActivity() {
             adapter = memberAdapter
         }
         selectPrincipal.clickWithTrigger {
-//            if (isNotEmpty) {
-//                startActivityForResult<MemberSelectActivity>(Extras.REQUESTCODE, Extras.LIST to arrayListOf(principal), Extras.FLAG to true)
-//            } else {
-//            }
+            if (isNotEmpty) {
+                startActivityForResult<MemberSelectActivity>(Extras.REQUESTCODE, Extras.LIST to arrayListOf(principal), Extras.FLAG to true)
+            } else {
+                toInviteActivity()
+            }
+        }
+        addMember.clickWithTrigger {
             toInviteActivity()
         }
     }
