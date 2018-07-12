@@ -54,10 +54,10 @@ class Consts {
                 else -> ""
             }
             "pe" -> when (BuildConfig.BUILD_TYPE) {
-            "debug" -> "http://dev.pe.stockalert.cn/"
+//            "debug" -> "http://dev.pe.stockalert.cn/"
 //                "debug" -> "http://sales.pewinner.com/"
-//            "debug" -> "http://prehts.pewinner.com/"
-            //"release" -> "http://yager.stockalert.cn/"
+                "debug" -> "https://sougu.pewinner.com"
+                "release" -> "https://sougu.pewinner.com"
                 else -> ""
             }
             else -> ""

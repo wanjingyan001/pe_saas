@@ -112,8 +112,13 @@ class CompanySelectActivity : BaseRefreshActivity() {
 
     fun doRequest() {
         val text = search_bar.search
+        val params = HashMap<String, Any>()
+        params.put("type", 2)
+        params.put("page", page)
+        params.put("pageSize", 20)
+        params.put("fuzzyQuery", text)
         SoguApi.getService(application, OtherService::class.java)
-                .listSelector(type = 2, page = page, fuzzyQuery = text)
+                .listSelector(params)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ payload ->

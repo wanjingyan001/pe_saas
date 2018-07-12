@@ -27,10 +27,9 @@ import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Utils
-import com.sogukj.pe.database.FunctionViewModel
-import com.sogukj.pe.database.Injection
-import com.sogukj.pe.database.MainFunIcon
-import com.sogukj.pe.database.MainFunction
+import com.sogukj.pe.database.*
+import com.sogukj.pe.service.OtherService
+import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main_edit.*
@@ -75,6 +74,7 @@ class MainEditActivity : ToolbarActivity() {
         mainModuleAdapter.setOnItemDragListener(object : OnItemDragListener {
             override fun onItemDragMoving(source: RecyclerView.ViewHolder, from: Int, target: RecyclerView.ViewHolder, to: Int) {
                 info { "move from: " + source.adapterPosition + " to: " + target.adapterPosition + " fromIndex:" + from + " toIndex:" + to }
+                info { "数据排序:from${mainModuleAdapter.data[from].jsonStr}===>to${mainModuleAdapter.data[to].jsonStr}" }
             }
 
             override fun onItemDragStart(viewHolder: RecyclerView.ViewHolder?, pos: Int) {
@@ -126,6 +126,7 @@ class MainEditActivity : ToolbarActivity() {
                 mainModuleAdapter.enableDragItem(touchHelper)
             } else {
                 mainModuleAdapter.disableDragItem()
+                submitModules()
             }
             mainModuleAdapter.notifyDataSetChanged()
             allModuleAdapter.notifyDataSetChanged()
@@ -136,32 +137,54 @@ class MainEditActivity : ToolbarActivity() {
         val factory = Injection.provideViewModelFactory(this@MainEditActivity)
         model = ViewModelProviders.of(this@MainEditActivity, factory).get(FunctionViewModel::class.java)
         model.getMainModules().observe(this@MainEditActivity, Observer<List<MainFunIcon>> { select ->
-            select?.let {
+            select?.filter { it.name != "调整" }?.let {
                 mainModuleAdapter.data.clear()
                 mainModuleAdapter.data.addAll(it)
                 mainModuleAdapter.notifyDataSetChanged()
             }
         })
-        model.getModuleFunctions(MainFunIcon.Project)
-                .subscribeOn(Schedulers.io())
+
+        val flowable0 = model.getModuleFunctions(MainFunIcon.Project)
+        val flowable = model.getModuleFunctions(MainFunIcon.Fund)
+        val flowable1 = model.getModuleFunctions(MainFunIcon.Default)
+        flowable0.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    info { it.jsonStr }
+                .flatMap {
                     if (allModule.find { it.header == "项目功能" } == null) {
                         allModule.add(MainFunction(true, "项目功能"))
-                        it?.forEach {
+                        it.forEach {
+                            info { "项目功能" + it.jsonStr }
                             allModule.add(MainFunction(it))
                         }
-                        allModule.distinct()
                         allModuleAdapter.notifyDataSetChanged()
                     }
+                    return@flatMap flowable
+                }.flatMap {
+            if (allModule.find { it.header == "基金功能" } == null) {
+                allModule.add(MainFunction(true, "基金功能"))
+                it.forEach {
+                    info { "基金功能" + it.jsonStr }
+                    allModule.add(MainFunction(it))
                 }
-
-
-        initModule()
+                allModuleAdapter.notifyDataSetChanged()
+            }
+            return@flatMap flowable1
+        }.subscribe {
+            if (allModule.find { it.header == "默认功能" } == null) {
+                allModule.add(MainFunction(true, "默认功能"))
+                it?.forEach {
+                    info { "默认功能" + it.jsonStr }
+                    allModule.add(MainFunction(it))
+                }
+                allModuleAdapter.notifyDataSetChanged()
+            }
+        }
     }
 
 
+    /**
+     * 以协程的形式获取的数据不保证顺序
+     */
     private suspend fun initModule() {
         launch(CommonPool) {
             model.getAllData(MainFunIcon.Project).observe(this@MainEditActivity, Observer {
@@ -177,7 +200,6 @@ class MainEditActivity : ToolbarActivity() {
         }.join()
         launch(CommonPool) {
             model.getAllData(MainFunIcon.Fund).observe(this@MainEditActivity, Observer {
-                Thread.sleep(10)
                 if (allModule.find { it.header == "基金功能" } == null) {
                     allModule.add(MainFunction(true, "基金功能"))
                     it?.forEach {
@@ -188,12 +210,12 @@ class MainEditActivity : ToolbarActivity() {
                 }
             })
         }.join()
-        launch(CommonPool){
+        launch(CommonPool) {
             model.getAllData(MainFunIcon.Default).observe(this@MainEditActivity, Observer {
-                Thread.sleep(50)
                 if (allModule.find { it.header == "默认功能" } == null) {
                     allModule.add(MainFunction(true, "默认功能"))
                     it?.forEach {
+                        info { it.jsonStr }
                         allModule.add(MainFunction(it))
                     }
                     allModule.distinct()
@@ -206,6 +228,26 @@ class MainEditActivity : ToolbarActivity() {
     override fun onDestroy() {
         super.onDestroy()
         isEdit = false
+    }
+
+    private fun submitModules() {
+        val list = ArrayList<FuncReqBean>()
+        mainModuleAdapter.data.forEachIndexed  {index, mainFunIcon ->
+            mainFunIcon.seq = index +1
+            model.updateFunction(mainFunIcon)
+            list.add(FuncReqBean(mainFunIcon.id, index + 1))
+        }
+        info { list.jsonStr }
+        SoguApi.getService(application, OtherService::class.java).homeModuleButton(HomeFunctionReq(2, list))
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk) {
+
+                        } else {
+                            showTopSnackBar(payload.message)
+                        }
+                    }
+                }
     }
 
 

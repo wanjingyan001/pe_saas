@@ -66,27 +66,6 @@ class ProjectNewsFragment : BaseRefreshFragment(), SupportEmptyView {
         recycler_view.addItemDecoration(DividerItemDecoration(baseActivity, DividerItemDecoration.VERTICAL))
         recycler_view.layoutManager = layoutManager
         recycler_view.adapter = adapter
-
-//        val header = ProgressLayout(baseActivity)
-//        header.setColorSchemeColors(ContextCompat.getColor(baseActivity!!, R.color.color_main))
-//        refresh.setHeaderView(header)
-//        val footer = BallPulseView(baseActivity)
-//        footer.setAnimatingColor(ContextCompat.getColor(baseActivity!!, R.color.color_main))
-//        refresh.setBottomView(footer)
-//        refresh.setOverScrollRefreshShow(false)
-//        refresh.setOnRefreshListener(object : RefreshListenerAdapter() {
-//            override fun onRefresh(refreshLayout: TwinklingRefreshLayout?) {
-//                page = 1
-//                doRequest()
-//            }
-//
-//            override fun onLoadMore(refreshLayout: TwinklingRefreshLayout?) {
-//                ++page
-//                doRequest()
-//            }
-//
-//        })
-//        refresh.setAutoLoadMore(true)
         handler.postDelayed({
             refresh.autoRefresh()
         }, 100)

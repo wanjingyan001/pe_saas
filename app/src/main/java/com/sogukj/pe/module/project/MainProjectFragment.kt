@@ -3,6 +3,8 @@ package com.sogukj.pe.module.project
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
@@ -20,6 +22,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
+import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -45,6 +48,7 @@ import com.sogukj.pe.module.user.UserActivity
 import com.sogukj.pe.peUtils.MyGlideUrl
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.NewService
+import com.sogukj.pe.service.ProjectService
 import com.sogukj.pe.widgets.CircleImageView
 import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -62,13 +66,7 @@ class MainProjectFragment : BaseRefreshFragment() {
     override val containerViewId: Int
         get() = R.layout.fragment_main_project
 
-    val fragments = arrayOf(
-            ProjectListFragment.newInstance(ProjectListFragment.TYPE_DY),
-            ProjectListFragment.newInstance(ProjectListFragment.TYPE_CB),
-            ProjectListFragment.newInstance(ProjectListFragment.TYPE_LX),
-            ProjectListFragment.newInstance(ProjectListFragment.TYPE_YT),
-            ProjectListFragment.newInstance(ProjectListFragment.TYPE_TC)
-    )
+    lateinit var fragments: ArrayList<BaseFragment>
     lateinit var adapter: RecyclerAdapter<ProjectBean>
 
     override fun onHiddenChanged(hidden: Boolean) {
@@ -224,15 +222,7 @@ class MainProjectFragment : BaseRefreshFragment() {
                 val project = adapter.getItem(p)
                 val intent = Intent(context, ProjectActivity::class.java)
                 intent.putExtra(Extras.DATA, project)
-                var type = view_pager.currentItem
-                when (type) {
-                    0 -> type = ProjectListFragment.TYPE_DY
-                    1 -> type = ProjectListFragment.TYPE_CB
-                    2 -> type = ProjectListFragment.TYPE_LX
-                    3 -> type = ProjectListFragment.TYPE_YT
-                    4 -> type = ProjectListFragment.TYPE_TC
-                }
-                intent.putExtra(Extras.TYPE, type)
+                intent.putExtra(Extras.TYPE, mTypeList.get(view_pager.currentItem))
                 startActivity(intent)
             }
         }
@@ -300,9 +290,7 @@ class MainProjectFragment : BaseRefreshFragment() {
                 last_search_layout.visibility = View.VISIBLE
             }
         }
-        var adapter = ArrayPagerAdapter(childFragmentManager, fragments)
-        view_pager.adapter = adapter
-        view_pager.offscreenPageLimit = fragments.size
+
         tabs?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
 
@@ -353,12 +341,66 @@ class MainProjectFragment : BaseRefreshFragment() {
 
         })
 
-        tabs.getTabAt(2)?.select()
-        view_pager?.currentItem = 2
-
         hisAdapter.dataList.clear()
         hisAdapter.dataList.addAll(search)
         hisAdapter.notifyDataSetChanged()
+
+        tabs.removeAllTabs()
+        mTypeList.clear()
+        mTypeMap.clear()
+        SoguApi.getService(baseActivity!!.application,ProjectService::class.java)
+                .showStage()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({ payload ->
+                    if (payload.isOk) {
+                        fragments = ArrayList<BaseFragment>()
+                        payload?.payload?.forEach {
+                            mTypeList.add(it.type!!)
+                            mTypeMap.put(it.type!!, it.name!!)
+                            fragments.add(ProjectListFragment.newInstance(it.type!!))
+                            var tab = tabs.newTab().setText(it.name!!)
+                            tabs.addTab(tab)
+
+                            Thread {
+                                var target = Glide.with(ctx).load(it.icon).downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)//FutureTarget<File>
+                                var imageFile = target.get()//File
+                                activity?.runOnUiThread {
+                                    tab.icon = BitmapDrawable(resources, imageFile.path)
+                                    //icon.setImageDrawable(BitmapDrawable(resources, imageFile.path))
+                                }
+                            }.start()
+                        }
+                        var adapter = ArrayPagerAdapter(childFragmentManager, fragments.toTypedArray())
+                        view_pager.adapter = adapter
+                        view_pager.offscreenPageLimit = fragments.size
+
+                        if (mTypeList.size % 2 == 0) {
+                            tabs.getTabAt(mTypeList.size / 2 - 1)?.select()
+                            view_pager?.currentItem = mTypeList.size / 2 - 1
+                        } else {
+                            tabs.getTabAt(mTypeList.size / 2)?.select()
+                            view_pager?.currentItem = mTypeList.size / 2
+                        }
+
+                        (0 until tabs.tabCount)
+                                .map { tabs.getTabAt(it) }
+                                .forEach { Utils.changeTabIcon(it) }
+                        if (tabs.tabCount < 5) {
+                            tabs.tabMode = TabLayout.MODE_FIXED
+                        } else {
+                            tabs.tabMode = TabLayout.MODE_SCROLLABLE
+                            tabs.viewTreeObserver.addOnGlobalLayoutListener {
+                                Utils.setTabWidth(tabs, context, tabs.width / 5 + 5)
+                            }
+                        }
+                    } else {
+                        //showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                    }
+                }, { e ->
+                    Trace.e(e)
+                })
+
 
         mAppBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
             if (mAppBarLayout.height > 0) {
@@ -436,7 +478,7 @@ class MainProjectFragment : BaseRefreshFragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 0x543) {
-            fragments[view_pager.currentItem].request()
+            (fragments[view_pager.currentItem] as ProjectListFragment).request()
         } else if (requestCode == 0x789) {
             loadHead()
         }
@@ -446,26 +488,22 @@ class MainProjectFragment : BaseRefreshFragment() {
 
     /**
      * @param index--------(tabs对应的index，分别对应dy,cb等)
-     * @param state---------（1，2）
+     * @param state---------（1，2）  1不是顶端，2是顶端
      * @param isSelect--------是否选中
      */
     private fun setDrawable(index: Int, state: String, isSelect: Boolean) {
-        var name = ""
-        when (index) {
-            0 -> name += "dy_"
-            1 -> name += "cb_"
-            2 -> name += "lx_"
-            3 -> name += "yt_"
-            4 -> name += "tc_"
-        }
-        name += state
-        name += if (isSelect) {
-            "_select"
+        var drawable = tabs.getTabAt(index)!!.icon
+        if (state == "1") {
+            drawable?.clearColorFilter()
         } else {
-            "_unselect"
+            drawable?.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP)
         }
-        val id = resources.getIdentifier(name, "drawable", ctx.packageName)
-        tabs.getTabAt(index)!!.setIcon(id)
+        if (isSelect) {
+            drawable?.alpha = 255
+        } else {
+            drawable?.alpha = 128
+        }
+        tabs.getTabAt(index)!!.icon = drawable
     }
 
     val searchTask = Runnable {
@@ -478,15 +516,7 @@ class MainProjectFragment : BaseRefreshFragment() {
         this.key = text
         if (TextUtils.isEmpty(key)) return
         val user = Store.store.getUser(baseActivity!!)
-        val pos = tabs.selectedTabPosition
-        var type = when (pos) {
-            0 -> 6
-            1 -> 4
-            2 -> 1
-            3 -> 2
-            4 -> 7
-            else -> pos
-        }
+        var type = mTypeList.get(tabs.selectedTabPosition)
         val tmplist = LinkedList<String>()
         tmplist.add(text)
         Store.store.projectSearch(baseActivity!!, tmplist)
@@ -496,7 +526,6 @@ class MainProjectFragment : BaseRefreshFragment() {
                 .subscribeOn(Schedulers.io())
                 .subscribe({ payload ->
                     if (payload.isOk) {
-                        Log.d("WJY", Gson().toJson(payload.payload))
                         payload.apply {
                             tv_result_title.text = Html.fromHtml(getString(R.string.tv_title_result_project, (total as Double).toInt()))
                         }
@@ -532,6 +561,8 @@ class MainProjectFragment : BaseRefreshFragment() {
 
     companion object {
         val TAG = MainProjectFragment::class.java.simpleName
+        val mTypeList = ArrayList<Int>()
+        val mTypeMap = HashMap<Int, String>()//type和项目类别对应
 
         fun newInstance(): MainProjectFragment {
             val fragment = MainProjectFragment()

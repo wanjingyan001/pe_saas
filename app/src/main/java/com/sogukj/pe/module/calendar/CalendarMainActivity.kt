@@ -1,6 +1,7 @@
 package com.sogukj.pe.module.calendar
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -12,6 +13,7 @@ import android.widget.TextView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.ldf.calendar.model.CalendarDate
 import com.sogukj.pe.ARouterPath
+import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.interf.MonthSelectListener
@@ -28,6 +30,10 @@ class CalendarMainActivity : ToolbarActivity(), MonthSelectListener, ViewPager.O
     companion object {
         fun start(ctx: Activity?) {
             ctx?.startActivity(Intent(ctx, CalendarMainActivity::class.java))
+        }
+        // time   日期
+        fun start(ctx: Context, time :String) {
+            ctx.startActivity(Intent(ctx, CalendarMainActivity::class.java).putExtra(Extras.DATA, time))
         }
     }
 
@@ -63,6 +69,15 @@ class CalendarMainActivity : ToolbarActivity(), MonthSelectListener, ViewPager.O
         }
     }
 
+    //从推送进入，该界面已存在
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        if(!intent?.getStringExtra(Extras.DATA).isNullOrEmpty()){
+            contentPager.currentItem = 1
+            scheduleFragment.load(intent!!.getStringExtra(Extras.DATA))
+        }
+    }
+
     private fun initPager() {
         val adapter = ContentAdapter(supportFragmentManager, fragments, titles)
         contentPager.adapter = adapter
@@ -77,6 +92,14 @@ class CalendarMainActivity : ToolbarActivity(), MonthSelectListener, ViewPager.O
         }
         contentPager.addOnPageChangeListener(this)
         contentPager.offscreenPageLimit = 3
+        //推送
+        contentPager.post {
+            Thread.sleep(1000)
+            if(!intent.getStringExtra(Extras.DATA).isNullOrEmpty()){
+                contentPager.currentItem = 1
+                scheduleFragment.load(intent.getStringExtra(Extras.DATA))
+            }
+        }
     }
 
     override fun onMonthSelect(date: CalendarDate) {

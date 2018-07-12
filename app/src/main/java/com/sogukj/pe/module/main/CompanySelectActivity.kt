@@ -16,16 +16,21 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
+import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.CustomSealBean
+import com.sogukj.pe.bean.FundSmallBean
 import com.sogukj.pe.bean.ProjectBean
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.peUtils.SupportEmptyView
 import com.sogukj.pe.service.ApproveService
+import com.sogukj.pe.service.FundService
 import com.sogukj.pe.service.NewService
+import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -35,11 +40,11 @@ import org.jetbrains.anko.backgroundColor
 
 @Route(path = ARouterPath.CompanySelectActivity)
 class CompanySelectActivity : BaseRefreshActivity() {
-    lateinit var adapter: RecyclerAdapter<ProjectBean>
-    var offset = 0
+    lateinit var adapter: RecyclerAdapter<Any>
+    var page = 1
 
     @JvmField
-    @Autowired(name = "ext.route.path")
+    @Autowired(name = Extras.ROUTE_PATH)
     var routerPath = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,13 +57,17 @@ class CompanySelectActivity : BaseRefreshActivity() {
         (search_bar.tv_cancel.parent as LinearLayout).backgroundColor = Color.parseColor("#ffffff")
         adapter = RecyclerAdapter(this, { _adapter, parent, type ->
             val convertView = _adapter.getView(R.layout.item_main_project_search, parent)
-            object : RecyclerHolder<ProjectBean>(convertView) {
+            object : RecyclerHolder<Any>(convertView) {
                 val tv1 = convertView.findViewById<TextView>(R.id.tv1) as TextView
-                override fun setData(view: View, data: ProjectBean, position: Int) {
-                    var label = data.shortName
-                    if (TextUtils.isEmpty(label))
-                        label = data.name
-                    tv1.text = "${position + 1}.$label"
+                override fun setData(view: View, data: Any, position: Int) {
+                    if (data is CustomSealBean.ValueBean){
+                        var label = data.name
+                        if (TextUtils.isEmpty(label))
+                            label = data.name
+                        tv1.text = "${position + 1}.$label"
+                    }else if (data is FundSmallBean){
+                        tv1.text = data.fundName
+                    }
                 }
             }
         })
@@ -71,68 +80,123 @@ class CompanySelectActivity : BaseRefreshActivity() {
             search_bar.visibility = View.VISIBLE
         }
         adapter.onItemClick = { v, p ->
-            ARouter.getInstance().build(routerPath)
-                    .withSerializable(Extras.DATA, adapter.dataList[p])
-                    .navigation()
+//            ARouter.getInstance().build(routerPath)
+//                    .withSerializable(Extras.DATA, adapter.dataList[p])
+//                    .navigation()
         }
         search_bar.onTextChange = { text ->
-            offset = 0
+            page = 1
             handler.removeCallbacks(searchTask)
             handler.postDelayed(searchTask, 100)
         }
         search_bar.onSearch = { text ->
-            offset = 0
-            doRequest()
+            page = 1
+            getListData()
         }
         handler.postDelayed({
-            doRequest()
+            getListData()
         }, 100)
     }
 
 
     val searchTask = Runnable {
-        offset = 0
-        doRequest()
+        page = 1
+        getListData()
     }
 
     fun doRequest() {
-
         SoguApi.getService(application, NewService::class.java)
-                .listProject(offset = offset, uid = Store.store.getUser(this)!!.uid)
+                .listProject(offset = 0, uid = Store.store.getUser(this)!!.uid)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ payload ->
                     if (payload.isOk) {
-                        if (offset == 0)
-                            adapter.dataList.clear()
-                        payload.payload?.apply {
-                            adapter.dataList.addAll(this)
-                        }
+
                     } else
                         showCustomToast(R.drawable.icon_toast_fail, payload.message)
                 }, { e ->
                     showCustomToast(R.drawable.icon_toast_common, "暂无可用数据")
-                }, {
-                    SupportEmptyView.checkEmpty(this, adapter)
-                    isLoadMoreEnable = adapter.dataList.size % 20 == 0
-                    adapter.notifyDataSetChanged()
-                    if (offset == 0)
-                        finishRefresh()
-                    else
-                        finishLoadMore()
                 })
 
     }
 
+    private fun getListData() {
+        if (routerPath.contains("project")) {
+            title = "选择项目"
+            val text = search_bar.search
+            val params = HashMap<String, Any>()
+            params.put("type", 2)
+            params.put("page", page)
+            params.put("pageSize", 20)
+            params.put("fuzzyQuery", text)
+            SoguApi.getService(application, OtherService::class.java)
+                    .listSelector(params)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe({ payload ->
+                        if (payload.isOk) {
+                            if (page == 1)
+                                adapter.dataList.clear()
+                            payload.payload?.apply {
+                                adapter.dataList.addAll(this)
+                            }
+                        } else
+                            showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                    }, { e ->
+                        Trace.e(e)
+                        //showToast("暂无可用数据")
+                        showCustomToast(R.drawable.icon_toast_common, "暂无可用数据")
+                    }, {
+                        SupportEmptyView.checkEmpty(this, adapter)
+                        isLoadMoreEnable = adapter.dataList.size % 20 == 0
+                        adapter.notifyDataSetChanged()
+                        if (page == 1)
+                            finishRefresh()
+                        else
+                            finishLoadMore()
+                    })
+        } else if (routerPath.contains("fund")) {
+            title = "选择基金"
+            SoguApi.getService(application, FundService::class.java).getAllFunds(sort = FundSmallBean.FundDesc + FundSmallBean.RegTimeAsc, type = 0)
+                    .execute {
+                        onNext { payload ->
+                            if (payload.isOk) {
+                                if (page == 1)
+                                    adapter.dataList.clear()
+                                payload.payload?.apply {
+                                    adapter.dataList.addAll(this)
+                                }
+                            }else{
+                                showErrorToast("暂无可用数据")
+                            }
+                        }
+                        onError { e ->
+                            Trace.e(e)
+                            //showToast("暂无可用数据")
+                            showCustomToast(R.drawable.icon_toast_common, "暂无可用数据")
+                        }
+                        onComplete {
+                            SupportEmptyView.checkEmpty(this@CompanySelectActivity, adapter)
+                            isLoadMoreEnable = adapter.dataList.size % 20 == 0
+                            adapter.notifyDataSetChanged()
+                            if (page == 1)
+                                finishRefresh()
+                            else
+                                finishLoadMore()
+                        }
+                    }
+        }
+    }
+
 
     override fun doRefresh() {
-        offset = 0
-        doRequest()
+        page = 1
+        getListData()
     }
 
     override fun doLoadMore() {
-        offset = adapter.dataList.size
-        doRequest()
+        page += 1
+        getListData()
     }
 
     override fun initRefreshConfig(): RefreshConfig? {

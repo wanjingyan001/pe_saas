@@ -31,7 +31,7 @@ class InviteByPcActivity : ToolbarActivity() {
 
         copyLink.setOnLongClickListener {
             val manager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            manager.primaryClip = ClipData.newPlainText(null, "pewiner.com")
+            manager.primaryClip = ClipData.newPlainText(null, "http://preht.pewinner.com/#/login")
             toast("已复制到剪贴板")
             true
         }

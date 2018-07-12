@@ -77,6 +77,18 @@ public class FileTypeUtils {
 
         return FileType.DOCUMENT;
     }
+    /**
+     * fileName
+     * @param fileName   文件名加后缀
+     * @return
+     */
+    public static FileTypeUtils.FileType getFileType(String fileName) {
+        FileType fileType = fileTypeExtensions.get(getExtension(fileName));
+        if (fileType != null) {
+            return fileType;
+        }
+        return FileTypeUtils.FileType.DOCUMENT;
+    }
 
     public static String getExtension(String fileName) {
         String encoded;

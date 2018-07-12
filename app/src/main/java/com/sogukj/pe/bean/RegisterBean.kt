@@ -2,6 +2,8 @@ package com.sogukj.pe.bean
 
 import android.annotation.SuppressLint
 import android.os.Parcelable
+import com.google.gson.annotations.JsonAdapter
+import com.sogukj.pe.baselibrary.utils.BooleanTypeAdapter
 import kotlinx.android.parcel.Parcelize
 import java.io.Serializable
 
@@ -21,8 +23,8 @@ data class TeamInfoSupplementReq(val position: String?,
 data class JoinTeamResult(val user_id: Int,
                           val key: String) : Serializable
 
-data class InviteCode(val code:String,//邀请码
-                      val path:String//二维码地址
+data class InviteCode(val code: String,//邀请码
+                      val path: String//二维码地址
 )
 
 @SuppressLint("ParcelCreator")
@@ -33,11 +35,18 @@ data class RegisterVerResult(val user_id: Int?,//用户ID
                              val reason: String?,//失败原因
                              val ip: String?,//IP
                              val key: String,//关联企业和用户的key
-                             val is_finish:Int,//是否完成注册 0未完成 1完成
+                             val is_finish: Int?,//是否完成注册 0未完成 1完成
                              val port: String?,//端口
-                             val domain_name: String?, //域名
-                             val mechanism_name: String//机构名称
-):Parcelable
+                             var domain_name: String?, //域名
+                             val mechanism_name: String?,//机构名称
+                             val scale: Int?,//规模 1 ：少于10人 2 ：10～30人 3：30～50人  4：50～100人 5：100人以上
+                             val business_card: String?,
+                             @JsonAdapter(BooleanTypeAdapter::class)
+                             val is_admin: Boolean, // 1管理员
+                             val depart_id: Int?,//部门ID
+                             val position: String?,//职位
+                             val name: String?//名字
+) : Parcelable
 
 data class CompanyTeamInfo(val scale: Int,//规模 1 ：少于10人 2 ：10～30人 3：30～50人  4：50～100人 5：100人以上
                            val key: String,//关联企业和用户的key
@@ -63,9 +72,18 @@ data class MechanismInfo(val mechanism_name: String?,//机构名称
 data class Department(var depart_id: Int,
                       var name: String? = null) : Parcelable
 
-data class DepartmentSite(val depart_head:UserBean?,//部门负责人
-                          val depart_member:List<UserBean>?//部门成员
+data class DepartmentSite(val depart_head: UserBean?,//部门负责人
+                          val depart_member: List<UserBean>?//部门成员
 )
 
 
 data class MemberList(val list: List<UserBean>?)
+
+@SuppressLint("ParcelCreator")
+@Parcelize
+data class MechanismBasicInfo(val mechanism_name: String,
+                         var logo: String?,
+                         var email:String?,
+                         var address:String?,
+                         var website:String?,
+                         var telephone:String?):Parcelable

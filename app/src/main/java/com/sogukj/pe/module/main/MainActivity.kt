@@ -38,6 +38,7 @@ import com.sogukj.pe.App
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
+import com.sogukj.pe.baselibrary.base.ActivityHelper
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.*
 import com.sogukj.pe.database.MainFunIcon
@@ -45,6 +46,7 @@ import com.sogukj.pe.bean.NewsBean
 import com.sogukj.pe.module.fund.FundMainFragment
 import com.sogukj.pe.module.news.NewsDetailActivity
 import com.sogukj.pe.module.project.MainProjectFragment
+import com.sogukj.pe.module.register.PhoneInputActivity
 import com.sogukj.pe.peExtended.defaultIc
 import com.sogukj.pe.peUtils.FileUtil
 import com.sogukj.pe.peUtils.Store
@@ -54,10 +56,7 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.ctx
-import org.jetbrains.anko.find
-import org.jetbrains.anko.imageResource
-import org.jetbrains.anko.info
+import org.jetbrains.anko.*
 import java.io.File
 import java.util.*
 
@@ -92,6 +91,7 @@ class MainActivity : BaseActivity() {
                 .apply(RequestOptions().centerInside())
                 .into(mainLogo)
         ViewCompat.setElevation(mainLogo, 50f)
+        ActivityHelper.finishAllWithoutTop()
     }
 
     private fun initFragments() {
@@ -183,7 +183,8 @@ class MainActivity : BaseActivity() {
     override fun onStart() {
         super.onStart()
         if (!Store.store.checkLogin(this)) {
-            LoginActivity.start(this)
+//            LoginActivity.start(this)
+           startActivity<PhoneInputActivity>()
         }
     }
 
@@ -374,23 +375,5 @@ class MainActivity : BaseActivity() {
             uri = Uri.fromFile(File(param))
         }
         return uri
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == Extras.REQUESTCODE && resultCode == Extras.RESULTCODE && data != null) {
-//            val icons = Gson().arrayFromJson<MainFunIcon>(data.getStringExtra(Extras.LIST))
-//            if (mainHome.isVisible) {
-//                val newData = mainHome.moduleAdapter.dataList.plus(icons).toMutableList()
-//                newData.remove(newData.find { it.path == "/main/edit" })
-//                newData.distinct()
-//                newData.add(MainFunIcon(R.mipmap.icon_adjustment, "调整", "/main/edit", true, false))
-//                mainHome.moduleAdapter.refreshData(newData)
-//                mainHome.moduleAdapter.dataList.clear()
-//                mainHome.moduleAdapter.dataList.addAll(newData)
-//                XmlDb.open(this).set("${Store.store.getUser(ctx)?.uid}${Extras.MAIN_MODULE}",newData.jsonStr)
-//            }
-//            info { icons.jsonStr }
-        }
     }
 }

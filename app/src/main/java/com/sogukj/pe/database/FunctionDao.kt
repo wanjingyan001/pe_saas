@@ -10,17 +10,20 @@ import io.reactivex.Flowable
 @Dao
 interface FunctionDao {
 
-    @Query("SELECT * FROM Function WHERE isCurrent = :status")
+    @Query("SELECT * FROM Function WHERE isCurrent = :status ORDER BY seq")
     fun getSelectFunctions(status:Boolean):LiveData<List<MainFunIcon>>
 
-    @Query("SELECT * FROM Function WHERE module = :mid")
-    fun getModuleFunction(mid:Int):Flowable<List<MainFunIcon>>
+    @Query("SELECT * FROM Function WHERE module = :mid AND functionId != :igId")
+    fun getModuleFunction(mid:Int,igId:Int = 6):Flowable<List<MainFunIcon>>
 
-    @Query("SELECT * FROM Function WHERE module = :mid")
-    fun getModuleData(mid:Int):LiveData<List<MainFunIcon>>
+    @Query("SELECT * FROM Function WHERE module = :mid AND functionId != :igId")
+    fun getModuleData(mid:Int,igId:Int = 6):LiveData<List<MainFunIcon>>
 
     @Query("SELECT * FROM Function")
     fun getAllFunctions():LiveData<List<MainFunIcon>>
+
+    @Query("DELETE FROM Function WHERE 1=1")
+    fun delete()
 
     @Update
     fun updateFunction(function: MainFunIcon)

@@ -13,6 +13,7 @@ import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.extraDelegate
 import com.sogukj.pe.baselibrary.Extended.setVisible
+import com.sogukj.pe.baselibrary.base.ActivityHelper
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.MechanismInfo
@@ -71,18 +72,18 @@ class ReviewActivity : ToolbarActivity() {
                 tipsContent.text = "很抱歉您的审核未通过"
                 tipsContent.textColorResource = R.color.prompt_error
                 failure_reason.setVisible(true)
-                failure_reason.text = "未通过的原因 \n1、凑字数的原因 \n2、因此我们需要对您填写的信息真实性进行审核"
+                failure_reason.text = result?.reason
                 joinNow.setVisible(true)
                 joinNow.text = "返回修改申请信息"
                 getMechanismInfo()
             }
         }
-
+        ActivityHelper.finishAllWithoutTop()
         joinNow.clickWithTrigger {
             when (status) {
                 ReviewStatus.SUCCESSFUL_REVIEW -> {
-
-                    startActivity<UploadBasicInfoActivity>(Extras.BEAN to result)
+                    startActivity<UploadBasicInfoActivity>(Extras.NAME to result?.mechanism_name,
+                            Extras.CODE to result?.phone)
                 }
                 ReviewStatus.FAILURE_REVIEW -> {
                     startActivity<InfoSupplementActivity>(Extras.DATA to result?.phone, Extras.DATA2 to mechanismInfo, Extras.ID to userId.toString())
@@ -92,6 +93,7 @@ class ReviewActivity : ToolbarActivity() {
                 }
             }
         }
+
     }
 
 

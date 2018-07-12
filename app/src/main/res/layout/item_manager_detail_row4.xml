@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/divider_bottom"
+    android:gravity="left"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/tv_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        android:gravity="center"
+        android:textColor="@color/text_1"
+        android:textSize="18sp"
+        android:text="项目名称（必填）" />
+
+    <RadioGroup
+        android:id="@+id/rg_check"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_yes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:button="@null"
+            android:drawableLeft="@drawable/ic_cs_radio"
+            android:text="是"
+            android:textColor="@color/text_3"
+            android:textSize="14sp" />
+
+        <RadioButton
+            android:id="@+id/rb_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:button="@null"
+            android:checked="true"
+            android:drawableLeft="@drawable/ic_cs_radio"
+            android:text="否"
+            android:textColor="@color/text_3"
+            android:textSize="14sp" />
+    </RadioGroup>
+
+</LinearLayout>

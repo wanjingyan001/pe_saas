@@ -9,10 +9,13 @@ class ApproveViewBean {
     var file_list: List<FileBean>? = null   //array	用印文件清单
     var approve: List<ApproverBean>? = null  //array	审批
     var export: List<ApproverBean>? = null    //object	用印环节
-    var click: Int? = null    //number	按钮	1=>申请加急，2=>审批完成，3=>重新发起审批，4=>导出审批单，用印完成，5=>审批
+    //var click: Int? = null    //number	按钮	1=>申请加急，2=>审批完成，3=>重新发起审批，4=>导出审批单，用印完成，5=>审批
+    var click: ArrayList<Int>? = null
     var segment: List<ApproverBean>? = null
     var mainStatus: Int? = null
     var copier: ArrayList<UserBean>? = null
+    var button: HashMap<String, String>? = null
+    var discuss: ArrayList<DiscussBean>? = null
 
     class FromBean {
         var user_id: Int? = null//	string	申请人ID
@@ -46,4 +49,11 @@ class ApproveViewBean {
         var reply: String? = null//: ""
     }
 
+    class DiscussBean {
+        var message: String? = null
+        var time: Int? = null //  1527836205
+        var name: String? = null//
+        var url: String? = null
+        var time_str: String? = null
+    }
 }

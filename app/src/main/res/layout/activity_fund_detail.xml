@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/color_gray_light"
     android:orientation="vertical"
-    tools:context="com.sogukj.pe.ui.fund.FundDetailActivity">
+    tools:context="com.sogukj.pe.module.fund.FundDetailActivity">
 
     <include layout="@layout/toolbar" />
 
@@ -392,7 +392,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="55dp"
                 android:orientation="horizontal">
 
                 <com.sogukj.pe.baselibrary.widgets.TipsView
@@ -415,7 +414,7 @@
                     android:gravity="center"
                     android:paddingBottom="13dp"
                     android:paddingTop="13dp"
-                    android:text="基金总台账" />
+                    android:text="基金台账" />
 
                 <com.sogukj.pe.baselibrary.widgets.TipsView
                     android:id="@+id/fundsWenShu"
@@ -429,6 +428,36 @@
                     android:text="基金文书" />
 
                 <com.sogukj.pe.baselibrary.widgets.TipsView
+                    android:id="@+id/jjxm"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/ic_proj_jjxm"
+                    android:gravity="center"
+                    android:paddingBottom="13dp"
+                    android:paddingTop="13dp"
+                    android:text="已投项目" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="55dp"
+                android:orientation="horizontal">
+
+                <com.sogukj.pe.baselibrary.widgets.TipsView
+                    android:id="@+id/jjxh"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/ic_proj_jjyx"
+                    android:gravity="center"
+                    android:paddingBottom="13dp"
+                    android:paddingTop="13dp"
+                    android:text="基金运行" />
+
+                <com.sogukj.pe.baselibrary.widgets.TipsView
+                    android:visibility="invisible"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -436,10 +465,30 @@
                     android:gravity="center"
                     android:paddingBottom="13dp"
                     android:paddingTop="13dp"
-                    android:text="基金文书111"
-                    android:visibility="invisible" />
-            </LinearLayout>
+                    android:text="" />
 
+                <com.sogukj.pe.baselibrary.widgets.TipsView
+                    android:visibility="invisible"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/ic_proj_jjws"
+                    android:gravity="center"
+                    android:paddingBottom="13dp"
+                    android:paddingTop="13dp"
+                    android:text="" />
+
+                <com.sogukj.pe.baselibrary.widgets.TipsView
+                    android:visibility="invisible"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/ic_proj_jjxm"
+                    android:gravity="center"
+                    android:paddingBottom="13dp"
+                    android:paddingTop="13dp"
+                    android:text="" />
+            </LinearLayout>
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>

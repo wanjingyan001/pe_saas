@@ -34,6 +34,7 @@ import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.DepartmentBean
+import com.sogukj.pe.bean.ProjectBean
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.module.im.TeamCreateActivity
 import com.sogukj.pe.peExtended.getEnvironment
@@ -104,11 +105,13 @@ class ContactsActivity : ToolbarActivity() {
         fun start(context: Context, alreadyList: ArrayList<UserBean>?,
                   canModify: Boolean? = false,
                   isCreateTeam: Boolean? = false,
-                  requestCode: Int? = null) {
+                  requestCode: Int? = null,
+                  project: ProjectBean? = null) {
             val intent = Intent(context, ContactsActivity::class.java)
             intent.putExtra(Extras.LIST, alreadyList)
             intent.putExtra(Extras.FLAG, canModify)
             intent.putExtra(Extras.CREATE_TEAM, isCreateTeam)
+            intent.putExtra(Extras.DATA, project)
             val code = requestCode ?: Extras.REQUESTCODE
             if (context is Fragment) {
                 context.startActivityForResult(intent, code)
@@ -154,7 +157,6 @@ class ContactsActivity : ToolbarActivity() {
         setContentView(R.layout.activity_contacts)
         Utils.setWindowStatusBarColor(this, R.color.color_blue_0888ff)
 
-        title = "选择联系人"
         setBack(true)
 
         getDataFromIntent()
@@ -220,9 +222,13 @@ class ContactsActivity : ToolbarActivity() {
                 company_icon.imageResource = R.mipmap.ic_launcher_yge
                 companyName.text = "雅戈尔"
             }
+            "sr" -> {
+                company_icon.imageResource = R.mipmap.ic_launcher_sr
+                companyName.text = "尚融资本"
+            }
             else -> {
                 company_icon.imageResource = R.mipmap.ic_launcher_pe
-                companyName.text = "海通创新"
+                companyName.text = "搜股X-PE"
             }
         }
     }

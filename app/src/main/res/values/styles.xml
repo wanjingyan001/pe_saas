@@ -281,6 +281,11 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/text_size_17</item>
     </style>
+
+    <style name="expand_style">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_size_25</item>
+    </style>
     <!-- 文本 - 滑动标签标题 -->
     <style name="text_slidingTabTitle">
         <item name="android:layout_width">wrap_content</item>

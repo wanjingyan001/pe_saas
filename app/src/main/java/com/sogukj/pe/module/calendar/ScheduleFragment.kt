@@ -16,12 +16,16 @@ import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.BaseFragment
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.bean.FundSmallBean
+import com.sogukj.pe.bean.ProjectBean
 import com.sogukj.pe.bean.ScheduleBean
 import com.sogukj.pe.interf.MonthSelectListener
 import com.sogukj.pe.interf.ScheduleItemClickListener
 import com.sogukj.pe.module.approve.SealApproveActivity
 import com.sogukj.pe.module.approve.SignApproveActivity
 import com.sogukj.pe.module.calendar.adapter.ScheduleAdapter
+import com.sogukj.pe.module.creditCollection.ShareholderCreditActivity
+import com.sogukj.pe.module.fund.FundDetailActivity
 import com.sogukj.pe.module.project.ProjectActivity
 import com.sogukj.pe.module.project.archives.RecordTraceActivity
 import com.sogukj.pe.service.CalendarService
@@ -136,6 +140,17 @@ class ScheduleFragment : BaseFragment() {
 
         })
 
+    }
+
+    public fun load(date: String) {
+        page = 1
+        selectDate = date
+        val year = Integer.parseInt(date.split("-".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0])
+        val month = Integer.parseInt(date.split("-".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1])
+        val day = Integer.parseInt(date.split("-".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[2])
+        val tmpdate = CalendarDate(year, month, day)
+        calendarAdapter.notifyDataChanged(tmpdate)
+        doRequest(page, selectDate)
     }
 
     override fun onResume() {
@@ -265,6 +280,30 @@ class ScheduleFragment : BaseFragment() {
                     }
                     8 -> {
                         // 出差
+                    }
+                    9 -> {
+                        //征信
+                        var project = ProjectBean()
+                        project.name = ""
+                        project.company_id = 0
+                        ShareholderCreditActivity.start(context, project)
+                    }
+                    10 -> {
+                        //基金
+                        var fund = FundSmallBean()
+                        fund.fundName = ""
+                        fund.id = scheduleBean.data_id!!
+                        FundDetailActivity.start(context, fund)
+                    }
+                    11 -> {
+                        // 被投企业大事件
+                        // 2018-05-26 00:00:00
+                        scheduleBean.start_time?.apply {
+                            val date = this.split(" ")[0]
+                            if (!date.isNullOrEmpty()) {
+                                CalendarMainActivity.start(ctx, date)
+                            }
+                        }
                     }
                 }
             }

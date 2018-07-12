@@ -3,12 +3,25 @@ package com.sogukj.pe.module.project
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
+import android.text.TextUtils
+import android.view.Gravity
+import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
+import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
+import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
+import com.sogukj.pe.bean.CompanySelectBean
 import com.sogukj.pe.bean.ProjectBean
+import com.sogukj.pe.module.user.FormActivity
 import com.sogukj.pe.service.NewService
+import com.sogukj.pe.service.ProjectService
 import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -18,7 +31,7 @@ import kotlinx.android.synthetic.main.activity_add_project.*
  * Created by qinfei on 17/7/18.
  */
 class ProjectAddActivity : ToolbarActivity() {
-
+    lateinit var mCompanyAdapter: RecyclerAdapter<CompanySelectBean>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_project)
@@ -37,13 +50,13 @@ class ProjectAddActivity : ToolbarActivity() {
                     .subscribe({ payload ->
                         if (payload.isOk) {
                             payload.payload?.apply {
-                                et_name.setText(name)
-                                et_name.setSelection(name!!.length)
-                                et_short_name.setText(shortName)
-                                et_faren.setText(legalPersonName)
-                                et_reg_address.setText(regLocation)
-                                et_credit_code.setText(creditCode)
-                                et_other.setText(info)
+                                et_name.text = name
+//                                et_name.setSelection(name!!.length)
+                                et_short_name.text = shortName
+                                et_faren.text = legalPersonName
+                                et_reg_address.text = regLocation
+                                et_credit_code.text = creditCode
+                                et_other.text = info
                             }
                         } else {
                             showCustomToast(R.drawable.icon_toast_fail, payload.message)
@@ -61,19 +74,143 @@ class ProjectAddActivity : ToolbarActivity() {
                 editSave()
             }
         }
+        et_name.setOnClickListener {
+            ll_search.visibility = View.VISIBLE
+            Utils.showInput(context, search_view.et_search)
+
+            search_view.et_search.setText(et_name.text.toString())
+            search_view.et_search.setSelection(et_name.text.length)
+            search_view.et_search.imeOptions = EditorInfo.IME_ACTION_DONE
+            search_view.et_search.setSingleLine(true)
+            search_view.et_search.setOnEditorActionListener { v, actionId, event ->
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    ll_search.visibility = View.GONE
+                    et_name.text = search_view.et_search.text
+                    true
+                }
+                false
+            }
+
+            search_view.onTextChange = { text ->
+                if (!TextUtils.isEmpty(text)) {
+                    handler.postDelayed({ doSearch(text) }, 500)
+                } else {
+                    mCompanyAdapter.dataList.clear()
+                    mCompanyAdapter.notifyDataSetChanged()
+                }
+            }
+
+            search_view.tv_cancel.setOnClickListener {
+                search_view.search = ""
+                mCompanyAdapter.dataList.clear()
+                mCompanyAdapter.notifyDataSetChanged()
+                Utils.closeInput(context, search_view.et_search)
+                ll_search.visibility = View.GONE
+            }
+        }
+
+        mCompanyAdapter = RecyclerAdapter<CompanySelectBean>(this, { _adapter, parent, type ->
+            val convertView = _adapter.getView(R.layout.item_main_project_search, parent) as View
+            object : RecyclerHolder<CompanySelectBean>(convertView) {
+                val tv1 = convertView.findViewById<TextView>(R.id.tv1) as TextView
+                override fun setData(view: View, data: CompanySelectBean, position: Int) {
+                    tv1.text = "${position + 1}." + data.name
+                }
+            }
+        })
+        mCompanyAdapter.onItemClick = { v, p ->
+            val data = mCompanyAdapter.dataList.get(p)
+            et_name.text = data.name
+
+            search_view.search = ""
+            mCompanyAdapter.dataList.clear()
+            mCompanyAdapter.notifyDataSetChanged()
+            Utils.closeInput(context, search_view.et_search)
+            ll_search.visibility = View.GONE
+        }
+        val layoutManager = LinearLayoutManager(this)
+        layoutManager.orientation = LinearLayoutManager.VERTICAL
+        recycler_result.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+        recycler_result.layoutManager = layoutManager
+        recycler_result.adapter = mCompanyAdapter
+
+        et_short_name.setOnClickListener {
+            FormActivity.start(context, "项目名称", et_short_name.text.toString(), SHORT_NAME)
+        }
+        et_faren.setOnClickListener {
+            FormActivity.start(context, "法人代表", et_faren.text.toString(), FA_REN)
+        }
+        et_reg_address.setOnClickListener {
+            FormActivity.start(context, "注册地点", et_reg_address.text.toString(), REG_ADDRESS)
+        }
+        et_credit_code.setOnClickListener {
+            FormActivity.start(context, "统一信用代码", et_credit_code.text.toString(), CREDIT_CODE)
+        }
+        et_other.setOnClickListener {
+            FormActivity.start(context, "其他信息", et_other.text.toString(), OTHER)
+        }
     }
 
-//    override val menuId: Int
-//        get() = R.menu.user_edit
-//
-//    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-//        when (item?.itemId) {
-//            R.id.action_save -> {
-//                doSave();return true;
-//            }
-//        }
-//        return false
-//    }
+    var SHORT_NAME = 0x555
+    var FA_REN = 0x556
+    var REG_ADDRESS = 0x557
+    var CREDIT_CODE = 0x558
+    var OTHER = 0x559
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (data != null) {
+            when (requestCode) {
+                SHORT_NAME -> et_short_name.text = data.getStringExtra(Extras.DATA)
+                FA_REN -> et_faren.text = data.getStringExtra(Extras.DATA)
+                REG_ADDRESS -> et_reg_address.text = data.getStringExtra(Extras.DATA)
+                CREDIT_CODE -> et_credit_code.text = data.getStringExtra(Extras.DATA)
+                OTHER -> {
+                    et_other.text = data.getStringExtra(Extras.DATA)
+                    et_other.viewTreeObserver.addOnGlobalLayoutListener {
+                        if (et_other.layout.lineCount > 1) {
+                            et_other.gravity = Gravity.LEFT
+                        } else {
+                            et_other.gravity = Gravity.RIGHT
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun doSearch(text: String) {
+        var map = HashMap<String, String>()
+        map.put("name", text)
+        recycler_result.visibility = View.VISIBLE
+        iv_empty.visibility = View.GONE
+        SoguApi.getService(application,ProjectService::class.java)
+                .searchCompany(map)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({ payload ->
+                    if (payload.isOk) {
+                        mCompanyAdapter.dataList.clear()
+                        payload?.payload?.apply {
+                            mCompanyAdapter.dataList.addAll(this)
+                        }
+                        mCompanyAdapter.notifyDataSetChanged()
+                    } else {
+                        showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                    }
+                    if (mCompanyAdapter.dataList.size == 0) {
+                        recycler_result.visibility = View.GONE
+                        iv_empty.visibility = View.VISIBLE
+                    }
+                }, { e ->
+                    Trace.e(e)
+                    if (mCompanyAdapter.dataList.size == 0) {
+                        recycler_result.visibility = View.GONE
+                        iv_empty.visibility = View.VISIBLE
+                    }
+                })
+    }
 
     private fun doSave() {
         val project = ProjectBean()

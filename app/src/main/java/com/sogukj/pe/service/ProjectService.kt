@@ -2,6 +2,7 @@ package com.sogukj.pe.service
 
 import com.sogukj.pe.bean.*
 import io.reactivex.Observable
+import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -10,11 +11,12 @@ import retrofit2.http.POST
 /**
  * Created by admin on 2018/5/24.
  */
-interface ProjectService{
+interface ProjectService {
     companion object {
         const val APPKEY_NAME = "appkey"
         const val APPKEY_VALUE = "d5f17cafef0829b5"
     }
+
     @FormUrlEncoded
     @POST("/api/Stockinfo/tenShareHolder")
     fun listTenShareHolders(
@@ -87,5 +89,37 @@ interface ProjectService{
     //跟踪记录-新增记录
     @POST("/api/Archives/addRecord")
     fun addRecord(@Body map: HashMap<String, Any>): Observable<Payload<Object>>
+
+    @FormUrlEncoded
+    @POST("/api/Company/projIncomeOutcome")
+    fun projIncomeOutcome(@Field("projId") projId: Int): Observable<Payload<JinChuKuan>>
+
+    @POST("/api/Index/showStage")
+    fun showStage(): Observable<Payload<ArrayList<StageBean>>>
+
+    //1=>尽调数据,8=>投决数据,10=>投后管理,非空
+    @FormUrlEncoded
+    @POST("/api/Investman/getInvestMan")
+    fun getInvestMan(@Field("type") type: Int): Observable<Payload<ArrayList<ManagerBean>>>
+
+    @POST("/api/InvestMan/subInvestMan")
+    fun subInvestMan(@Body map: HashMap<String, Any>): Observable<Payload<Any>>
+
+    @FormUrlEncoded
+    @POST("/api/Investman/getInvestManDetail")
+    fun getInvestManDetail(@Field("projId") projId: Int, @Field("moduleId") moduleId: Int): Observable<Payload<ArrayList<ManagerDetailBean>>>
+
+    @POST("/api/Investman/uploadFile")
+    fun uploadFile(@Body body: RequestBody): Observable<Payload<ArrayList<String>>>
+
+    @POST("/api/news/searchCompany")
+    fun searchCompany(@Body map: HashMap<String, String>): Observable<Payload<ArrayList<CompanySelectBean>>>
+
+    @POST("/api/Archives/recordsNum")
+    fun recordsNum(): Observable<Payload<RecordsNumBean>>
+
+    @FormUrlEncoded
+    @POST("/api/Archives/projectRecords")
+    fun projectRecords(@Field("type") type: Int): Observable<Payload<ArrayList<ProjectRecordBean>>>
 
 }

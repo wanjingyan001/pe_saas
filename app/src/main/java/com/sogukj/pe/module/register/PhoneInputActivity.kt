@@ -20,6 +20,7 @@ import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.PopupWindow
 import android.widget.RemoteViews
+import androidx.core.content.edit
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.app.hubert.guide.NewbieGuide
 import com.app.hubert.guide.model.GuidePage
@@ -29,6 +30,7 @@ import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.execute
+import com.sogukj.pe.baselibrary.base.ActivityHelper
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.service.Payload
@@ -60,7 +62,7 @@ class PhoneInputActivity : BaseActivity() {
                 showTopSnackBar("手机号格式有误")
             }
         }
-//        initGuideView()
+        ActivityHelper.finishAllWithoutTop()
     }
 
 
@@ -96,6 +98,7 @@ class PhoneInputActivity : BaseActivity() {
                 .execute {
                     onNext { payload ->
                         if (payload.isOk) {
+                            sp.edit { putString(Extras.SaasPhone,phone) }
                             startActivity<VerCodeInputActivity>(Extras.DATA to phone)
                             finish()
                         }

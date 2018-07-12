@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:focusable="true"
     android:focusableInTouchMode="true"
+    android:orientation="vertical"
     tools:context="com.sogukj.pe.ui.approve.SealApproveActivity">
 
     <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
@@ -63,17 +63,20 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="20dp">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:paddingTop="20dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
 
                     <LinearLayout
                         android:id="@+id/ll_user"
@@ -130,29 +133,37 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/ll_user"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
                     android:layout_marginTop="30dp"
                     android:lineSpacingMultiplier="1.5" />
 
-                <include
-                    android:id="@+id/part1"
-                    layout="@layout/sign_approve_part1" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:orientation="vertical">
 
-                <include
-                    android:id="@+id/part2"
-                    layout="@layout/sign_approve_part2" />
+                    <include
+                        android:id="@+id/part1"
+                        layout="@layout/sign_approve_part1" />
 
-                <include
-                    android:id="@+id/part3"
-                    layout="@layout/sign_approve_part3" />
+                    <include
+                        android:id="@+id/part2"
+                        layout="@layout/sign_approve_part2" />
 
-                <include
-                    layout="@layout/state_sign_confim"
-                    android:visibility="gone" />
+                    <include
+                        android:id="@+id/part3"
+                        layout="@layout/sign_approve_part3" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/cs_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -194,44 +205,78 @@
                         android:verticalSpacing="12dp" />
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/btn_single"
+                <LinearLayout
+                    android:id="@+id/discuss_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_marginTop="30dp"
-                    android:background="@drawable/bg_btn_blue"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    tools:text="审批完成" />
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="11dp"
+                        android:layout_marginTop="11dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="5dp"
+                            android:layout_height="10dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@color/color_main" />
+
+                        <TextView
+                            style="@style/SoguTextNormal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="评论专区" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/divider" />
+
+                    <com.sogukj.pe.widgets.CustomRecyclerView
+                        android:id="@+id/discussed"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp" />
+                </LinearLayout>
+
+                <include
+                    layout="@layout/state_sign_confim"
+                    android:visibility="gone" />
 
                 <LinearLayout
-                    android:id="@+id/ll_twins"
+                    android:id="@+id/btnLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="15dp"
+                    android:orientation="vertical">
 
-                    <Button
-                        android:id="@+id/btn_left"
+                    <View
                         android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:layout_marginRight="15dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/bg_rect_blue"
-                        android:text="导出审批单"
-                        android:textColor="@color/colorBlue"
-                        android:textSize="18sp" />
+                        android:layout_height="1dp"
+                        android:background="@color/divider" />
 
-                    <Button
-                        android:id="@+id/btn_right"
+                    <LinearLayout
+                        android:id="@+id/ll_twins"
                         android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/bg_btn_blue"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:text="用印完成" />
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"></LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/divider" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -240,7 +285,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|top"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="50dp"
                 android:src="@drawable/ic_flow_state_agree"
                 android:visibility="gone" />
 
@@ -249,7 +294,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|top"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="50dp"
                 android:src="@drawable/ic_flow_state_signed"
                 android:visibility="gone" />
 

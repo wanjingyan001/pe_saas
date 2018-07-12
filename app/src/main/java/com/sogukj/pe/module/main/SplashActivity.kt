@@ -51,6 +51,12 @@ class SplashActivity : BaseActivity() {
                 params.setMargins(0, 0, 0, Utils.dpToPx(this, 40))
                 splash_bg.layoutParams = params
             }
+            "sr"->{
+                splash_bg.imageResource = R.drawable.img_logo_splash_sr
+                val params = splash_bg.layoutParams as FrameLayout.LayoutParams
+                params.setMargins(0, 0, 0, Utils.dpToPx(this, 40))
+                splash_bg.layoutParams = params
+            }
             else -> {
                 splash_bg.imageResource = R.drawable.img_logo_splash
             }
@@ -63,9 +69,9 @@ class SplashActivity : BaseActivity() {
         handler.postDelayed({
 //            || (NIMClient.getStatus().shouldReLogin() && NimUIKit.getAccount().isNullOrEmpty())
             if (!Store.store.checkLogin(this) ) {
-                LoginActivity.start(this)
-//               startActivity<PhoneInputActivity>()
-//                finish()
+//                LoginActivity.start(this)
+               startActivity<PhoneInputActivity>()
+                finish()
             } else {
                 val url = sp.getString(Extras.HTTPURL, "")
                 if (url.isNotEmpty()){

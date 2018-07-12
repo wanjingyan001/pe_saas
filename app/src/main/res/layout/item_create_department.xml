@@ -35,8 +35,10 @@
     <ImageView
         android:id="@+id/deleteDepartment"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="30dp"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="15dp"
+        android:paddingEnd="15dp"
+        android:paddingStart="15dp"
         android:src="@mipmap/icon_delete_department"
         app:layout_constraintBottom_toBottomOf="@+id/addDepartment"
         app:layout_constraintEnd_toEndOf="parent"

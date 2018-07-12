@@ -176,6 +176,17 @@ public class DateUtils {
 
     }
 
+
+    public static String timesFormat(String time, String pattern) {
+        SimpleDateFormat sdr = new SimpleDateFormat(pattern);
+        @SuppressWarnings("unused")
+        long lcc = Long.valueOf(time);
+        int i = Integer.parseInt(time);
+        String times = sdr.format(new Date(i * 1000L));
+        return times;
+
+    }
+
     /**
      * 调用此方法输入所要转换的时间戳输入例如（1402733340）输出（"2014-06-14  16:09:00"）
      *

@@ -98,9 +98,9 @@ class InviteByCodeActivity : ToolbarActivity(), PlatformActionListener {
         QQLayout.clickWithTrigger {
             shareQQ()
         }
-        dingLayout.clickWithTrigger {
-            shareDD()
-        }
+//        dingLayout.clickWithTrigger {
+//            shareDD()
+//        }
     }
 
 

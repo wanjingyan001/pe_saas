@@ -52,8 +52,8 @@ class FunctionViewModel(private val funDao: FunctionDao) : ViewModel() {
 
 
     fun generateData(application: Application) {
-        RetrofitUrlManager.getInstance().putDomain("homeFunction", "http://prehts.pewinner.com")
-        SoguApi.getService(application, OtherService::class.java).homeModuleButton(1)
+//        RetrofitUrlManager.getInstance().putDomain("homeFunction", "http://prehts.pewinner.com")
+        SoguApi.getService(application, OtherService::class.java).homeModuleButton(HomeFunctionReq(1))
                 .execute {
                     onNext { payload ->
                         if (payload.isOk) {
@@ -61,7 +61,7 @@ class FunctionViewModel(private val funDao: FunctionDao) : ViewModel() {
                                 AnkoLogger("WJY").info { it.jsonStr }
                                 doAsync {
                                     it.forEach {
-                                        funDao.insertFunction(it)
+                                        funDao.saveFunction(it)
                                     }
                                 }
                             }

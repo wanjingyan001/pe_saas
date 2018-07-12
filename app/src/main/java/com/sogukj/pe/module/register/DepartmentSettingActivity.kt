@@ -15,6 +15,7 @@ import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
+import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.bean.Department
 import com.sogukj.pe.bean.DepartmentBean
 import com.sogukj.pe.bean.UserBean
@@ -129,6 +130,10 @@ class DepartmentSettingActivity : ToolbarActivity() {
                                 showTopSnackBar(payload.message)
                             }
                         }
+                        onError { e ->
+                            Trace.e(e)
+                            showTopSnackBar("请填写信息")
+                        }
                     }
         }
     }
@@ -161,8 +166,13 @@ class DepartmentSettingActivity : ToolbarActivity() {
                     memberCount.text = "${memberAdapter.members.size}人"
                 }
                 Extras.REQUESTCODE -> {
-                    principal = list[0]
-                    departmentPrincipal.text = principal?.name
+                    if (list.isNotEmpty()){
+                        principal = list[0]
+                        departmentPrincipal.text = principal?.name
+                    }else{
+                        principal = null
+                        departmentPrincipal.text = ""
+                    }
                 }
             }
         }

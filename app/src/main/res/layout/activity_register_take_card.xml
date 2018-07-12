@@ -11,8 +11,8 @@
 
     <TextView
         android:id="@+id/takeCardTitle"
-        android:text="提交名片"
         style="@style/registerTitleStyle"
+        android:text="提交名片"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
@@ -20,9 +20,10 @@
         android:id="@+id/takeCard"
         android:layout_width="0dp"
         android:layout_height="170dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
+        android:scaleType="centerCrop"
         android:src="@mipmap/bg_register_business_card"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,9 +44,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
+        android:text="@string/tips1"
         android:textColor="@color/shareholder_text_gray"
         android:textSize="@dimen/text_size_13"
-        android:text="@string/tips1"
         app:layout_constraintEnd_toEndOf="@id/takeCard"
         app:layout_constraintStart_toEndOf="@id/tipsIcon"
         app:layout_constraintTop_toBottomOf="@id/takeCard" />

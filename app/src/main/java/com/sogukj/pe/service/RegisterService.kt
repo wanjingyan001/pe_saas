@@ -141,5 +141,12 @@ interface RegisterService {
     @POST("/api/Saas/get_menu")
     fun getUserBean(@Field("phone")phone:String,
                     @Field("user_id")user_id:Int):Observable<Payload<UserBean>>
+
+    /**
+     * 获取基础资料信息
+     */
+    @FormUrlEncoded
+    @POST("/api/Saas/get_basic_data")
+    fun getBasicInfo(@Field("key")key:String):Observable<Payload<MechanismBasicInfo>>
 }
 

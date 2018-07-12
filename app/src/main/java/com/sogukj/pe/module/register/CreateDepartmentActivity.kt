@@ -16,6 +16,7 @@ import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
+import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.bean.Department
 import com.sogukj.pe.bean.DepartmentBean
 import com.sogukj.pe.bean.RegisterVerResult
@@ -32,17 +33,22 @@ class CreateDepartmentActivity : ToolbarActivity() {
     override val menuId: Int
         get() = R.menu.menu_complete
     private lateinit var departmentAdapter: DepartmentAdapter
-    private val bean: RegisterVerResult? by extraDelegate(Extras.BEAN)
+    private lateinit var mechanismName:String
+    private lateinit var phone:String
     private val logoUrl: String by extraDelegate(Extras.DATA, "")
     private val departments = ArrayList<Department>()
     private val model: OrganViewModel by lazy { ViewModelProviders.of(this).get(OrganViewModel::class.java) }
+    private val flag :Boolean by extraDelegate(Extras.FLAG ,false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_department_setting)
         setBack(true)
         title = "创建部门"
-        companyName.text = bean?.mechanism_name
+        mechanismName = intent.getStringExtra(Extras.NAME)
+        phone = intent.getStringExtra(Extras.CODE)
+
+        companyName.text = mechanismName
         Glide.with(this).load(logoUrl).into(companyLogo)
         departmentAdapter = DepartmentAdapter(departments)
         departmentAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { adapter, view, position ->
@@ -120,9 +126,7 @@ class CreateDepartmentActivity : ToolbarActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.complete -> {
-                bean?.let {
-                    login(it.phone)
-                }
+                login(phone)
             }
         }
         return super.onOptionsItemSelected(item)
@@ -130,19 +134,34 @@ class CreateDepartmentActivity : ToolbarActivity() {
 
 
     private fun login(phone: String) {
+        showProgress("正在获取数据...")
         SoguApi.getService(application, RegisterService::class.java).getUserBean(phone,sp.getInt(Extras.SaasUserId,0))
                 .execute {
                     onNext { payload ->
                         if (payload.isOk) {
                             payload.payload?.let {
-                                Store.store.setUser(this@CreateDepartmentActivity,it)
-                                startActivity<MainActivity>()
+                                if (flag) {
+                                    finish()
+                                }else{
+                                    Store.store.setUser(this@CreateDepartmentActivity,it)
+                                    startActivity<MainActivity>()
+                                }
                             }
                         }else{
+                            hideProgress()
                             showTopSnackBar(payload.message)
                         }
                     }
+                    onError { e->
+                        hideProgress()
+                        Trace.e(e)
+                    }
                 }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        hideProgress()
     }
 
     inner class DepartmentAdapter(data: List<Department>) : BaseQuickAdapter<Department, BaseViewHolder>(R.layout.item_create_department, data) {

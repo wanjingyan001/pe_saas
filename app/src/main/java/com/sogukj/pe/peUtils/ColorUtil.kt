@@ -1,12 +1,17 @@
 package com.sogukj.pe.util
 
+import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.ApprovalBean
 import com.sogukj.pe.bean.MessageBean
 import com.sogukj.pe.bean.VacationBean
 import org.jetbrains.anko.backgroundColor
+import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.textColor
 
 /**
@@ -69,5 +74,32 @@ object ColorUtil {
             5 -> Color.parseColor("#e8e2b7")//丧假
             else -> Color.parseColor("#eacec0")
         }
+    }
+
+
+    //1立项,2已投,4储备,5部分退出,6调研,7全部退出
+    fun setColorInFundProject(context: Context, view: TextView, type: Int ?= null){
+        when(type){
+            1 -> view.text = "立项"
+            2 -> view.text = "已投"
+            4 -> view.text = "储备"
+            5 -> view.text = "部分退出"
+            6 -> view.text = "调研"
+            7 -> view.text = "全部退出"
+            else -> view.visibility = View.INVISIBLE
+        }
+        var roundRadius = Utils.dpToPx(context,40)
+        var fillColor = when(type){
+            1 -> Color.parseColor("#f59523")
+            2 -> Color.parseColor("#3cb6c3")
+            4 -> Color.parseColor("#f5c423")
+            5 -> Color.parseColor("#3cb6c3")
+            6 -> Color.parseColor("#1787fb")
+            else -> Color.parseColor("#7f4f9c")
+        }
+        var gd = GradientDrawable()
+        gd.setColor(fillColor)
+        gd.setCornerRadius(roundRadius.toFloat())
+        view.backgroundDrawable = gd
     }
 }

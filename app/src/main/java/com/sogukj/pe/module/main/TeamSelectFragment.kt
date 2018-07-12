@@ -17,6 +17,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.BaseExpandableListAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -49,6 +50,7 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_team_select.*
+import org.jetbrains.anko.find
 import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.support.v4.ctx
 import java.util.*
@@ -76,6 +78,13 @@ class TeamSelectFragment : BaseFragment() {
             loadHead()
             doRequest()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loadHead()
+        initGroupDiscuss()
+        doRequest()
     }
 
     fun loadHead() {
@@ -123,6 +132,7 @@ class TeamSelectFragment : BaseFragment() {
 
         loadHead()
         toolbar_back.setOnClickListener {
+            //UserActivity.start(context)
             val intent = Intent(context, UserActivity::class.java)
             startActivityForResult(intent, 0x789)
         }
@@ -286,9 +296,13 @@ class TeamSelectFragment : BaseFragment() {
                 company_icon.imageResource = R.mipmap.ic_launcher_yge
                 companyName.text = "雅戈尔"
             }
+            "sr" -> {
+                company_icon.imageResource = R.mipmap.ic_launcher_sr
+                companyName.text = "尚融资本"
+            }
             else -> {
                 company_icon.imageResource = R.mipmap.ic_launcher_pe
-                companyName.text = "海通创新"
+                companyName.text = "搜股X-PE"
             }
         }
     }
@@ -297,7 +311,7 @@ class TeamSelectFragment : BaseFragment() {
         //groupDiscuss
         NIMClient.getService(TeamService::class.java).queryTeamList().setCallback(object : RequestCallback<List<Team>> {
             override fun onSuccess(param: List<Team>?) {
-                var parents = ArrayList<String>(Arrays.asList("群聊", "讨论组"))
+                var parents = ArrayList<String>(Arrays.asList("群聊", "项目讨论组"))
                 var ql = ArrayList<Team>()
                 var tlz = ArrayList<Team>()
                 param?.let {
@@ -388,21 +402,24 @@ class TeamSelectFragment : BaseFragment() {
                 })
 
         var user = Store.store.getUser(ctx)
-        SoguApi.getService(baseActivity!!.application,UserService::class.java)
-                .recentContacts(user!!.accid!!)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe({ payload ->
-                    if (payload.isOk) {
-                        contactList.clear()
-                        contactList.addAll(payload.payload!!)
-                        contactAdapter.notifyDataSetChanged()
-                    } else
-                        showCustomToast(R.drawable.icon_toast_fail, payload.message)
-                }, { e ->
-                    Trace.e(e)
-                    showCustomToast(R.drawable.icon_toast_fail, "最近联系人数据获取失败")
-                })
+        user?.accid?.let {
+            SoguApi.getService(baseActivity!!.application,UserService::class.java)
+                    .recentContacts(it)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe({ payload ->
+                        if (payload.isOk) {
+                            contactList.clear()
+                            contactList.addAll(payload.payload!!)
+                            contactAdapter.notifyDataSetChanged()
+                        } //else
+                        //showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                    }, { e ->
+                        Trace.e(e)
+                        showCustomToast(R.drawable.icon_toast_fail, "最近联系人数据获取失败")
+                    })
+        }
+
     }
 
     private fun searchWithName() {
@@ -495,8 +512,8 @@ class TeamSelectFragment : BaseFragment() {
             val departmentName: TextView
 
             init {
-                departmentName = view.findViewById<TextView>(R.id.departmentName) as TextView
-                indicator = view.findViewById<ImageView>(R.id.indicator) as ImageView
+                departmentName = view.find(R.id.departmentName)
+                indicator = view.find(R.id.indicator)
             }
         }
 
@@ -508,10 +525,10 @@ class TeamSelectFragment : BaseFragment() {
             val itemView: View
 
             init {
-                selectIcon = view.findViewById<ImageView>(R.id.selectIcon) as ImageView
-                userImg = view.findViewById<CircleImageView>(R.id.userHeadImg) as CircleImageView
-                userName = view.findViewById<TextView>(R.id.userName) as TextView
-                userPosition = view.findViewById<TextView>(R.id.userPosition) as TextView
+                selectIcon = view.find(R.id.selectIcon)
+                userImg = view.find(R.id.userHeadImg)
+                userName = view.find(R.id.userName)
+                userPosition = view.find(R.id.userPosition)
                 itemView = view
             }
         }
@@ -628,8 +645,8 @@ class TeamSelectFragment : BaseFragment() {
             val departmentName: TextView
 
             init {
-                departmentName = view.findViewById<TextView>(R.id.departmentName) as TextView
-                indicator = view.findViewById<ImageView>(R.id.indicator) as ImageView
+                departmentName = view.find(R.id.departmentName)
+                indicator = view.find(R.id.indicator)
             }
         }
 
@@ -641,10 +658,10 @@ class TeamSelectFragment : BaseFragment() {
             val itemView: View
 
             init {
-                selectIcon = view.findViewById<ImageView>(R.id.selectIcon) as ImageView
-                userImg = view.findViewById<CircleImageView>(R.id.userHeadImg) as CircleImageView
-                userName = view.findViewById<TextView>(R.id.userName) as TextView
-                userPosition = view.findViewById<TextView>(R.id.userPosition) as TextView
+                selectIcon = view.find(R.id.selectIcon)
+                userImg = view.find(R.id.userHeadImg)
+                userName = view.find(R.id.userName)
+                userPosition = view.find(R.id.userPosition)
                 itemView = view
             }
         }
@@ -709,10 +726,10 @@ class TeamSelectFragment : BaseFragment() {
             val userPosition: TextView
 
             init {
-                selectIcon = itemView.findViewById<ImageView>(R.id.selectIcon) as ImageView
-                userImg = itemView.findViewById<CircleImageView>(R.id.userHeadImg) as CircleImageView
-                userName = itemView.findViewById<TextView>(R.id.userName) as TextView
-                userPosition = itemView.findViewById<TextView>(R.id.userPosition) as TextView
+                selectIcon = itemView.find(R.id.selectIcon)
+                userImg = itemView.find(R.id.userHeadImg)
+                userName = itemView.find(R.id.userName)
+                userPosition = itemView.find(R.id.userPosition)
             }
         }
     }

@@ -24,13 +24,13 @@ class ProjectInterceptor : IInterceptor, AnkoLogger {
     override fun process(postcard: Postcard, callback: InterceptorCallback) {
 //        && postcard.tag == Extras.ROUTH_FLAG
         val bundle = postcard.extras
-        if (postcard.path.contains("project") && bundle.getInt(Extras.FLAG) == Extras.ROUTH_FLAG ) {
+        if (postcard.path.contains("project") && bundle.getInt(Extras.FLAG) == Extras.ROUTH_FLAG) {
             ARouter.getInstance()
                     .build("/main/companySelect")
-                    .withString(Extras.ROUTE_PATH,postcard.path)
+                    .withString(Extras.ROUTE_PATH, postcard.path)
                     .navigation()
             callback.onInterrupt(null)
-        }else{
+        } else {
             callback.onContinue(postcard)
         }
     }

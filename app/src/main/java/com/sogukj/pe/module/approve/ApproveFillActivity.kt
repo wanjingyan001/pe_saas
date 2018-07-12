@@ -359,17 +359,17 @@ class ApproveFillActivity : ToolbarActivity() {
         if (flagEdit) {
             if (isOneKey) {
                 var tmpId = XmlDb.open(context).get(Extras.ID, "").toInt()
-                if (tmpId == 10 || tmpId == 11) {
+                if (tmpId == 10 || tmpId == 11 || tmpId == 14) {
                     isLeaveBusiness = true
                 }
             } else {
                 var paramsTitle = intent.getStringExtra(Extras.TITLE)
-                if (paramsTitle.equals("出差") || paramsTitle.equals("请假")) {
+                if (paramsTitle.equals("出差") || paramsTitle.equals("请假") || paramsTitle.equals("外出")) {
                     isLeaveBusiness = true
                 }
             }
         } else {
-            if (paramId == 10 || paramId == 11) {
+            if (paramId == 10 || paramId == 11 || paramId == 14) {
                 isLeaveBusiness = true
             }
         }
@@ -530,21 +530,39 @@ class ApproveFillActivity : ToolbarActivity() {
                             showCustomToast(R.drawable.icon_toast_fail, "提交失败")
                         })
             } else {
-                SoguApi.getService(application, ApproveService::class.java)
-                        .editLeave(builder.build())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeOn(Schedulers.io())
-                        .subscribe({ payload ->
-                            if (payload.isOk) {
-                                showCustomToast(R.drawable.icon_toast_success, "提交成功")
-                                finish()
-                            } else {
-                                showCustomToast(R.drawable.icon_toast_fail, payload.message)
-                            }
-                        }, { e ->
-                            Trace.e(e)
-                            showCustomToast(R.drawable.icon_toast_fail, "提交失败")
-                        })
+                if (judgeIsLeaveBusiness()) {
+                    SoguApi.getService(application,ApproveService::class.java)
+                            .editLeave(builder.build())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeOn(Schedulers.io())
+                            .subscribe({ payload ->
+                                if (payload.isOk) {
+                                    showCustomToast(R.drawable.icon_toast_success, "提交成功")
+                                    finish()
+                                } else {
+                                    showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                                }
+                            }, { e ->
+                                Trace.e(e)
+                                showCustomToast(R.drawable.icon_toast_fail, "提交失败")
+                            })
+                } else {
+                    SoguApi.getService(application,ApproveService::class.java)
+                            .editApprove(builder.build())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeOn(Schedulers.io())
+                            .subscribe({ payload ->
+                                if (payload.isOk) {
+                                    showCustomToast(R.drawable.icon_toast_success, "提交成功")
+                                    finish()
+                                } else {
+                                    showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                                }
+                            }, { e ->
+                                Trace.e(e)
+                                showCustomToast(R.drawable.icon_toast_fail, "提交失败")
+                            })
+                }
             }
         } else {
             builder.add("template_id", "${paramId}")

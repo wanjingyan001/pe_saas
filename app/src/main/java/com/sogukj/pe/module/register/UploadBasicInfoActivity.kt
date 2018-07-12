@@ -3,6 +3,7 @@ package com.sogukj.pe.module.register
 import android.content.Intent
 import android.os.AsyncTask.execute
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import com.bumptech.glide.Glide
 import com.huantansheng.easyphotos.EasyPhotos
@@ -13,6 +14,7 @@ import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.execute
+import com.sogukj.pe.baselibrary.Extended.extraDelegate
 import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.bean.RegisterVerResult
@@ -30,9 +32,10 @@ import java.io.File
 
 class UploadBasicInfoActivity : ToolbarActivity() {
     private var cardPath: String = ""
-    private var mechanismName: String = ""
-    private lateinit var key:String
-    private lateinit var result: RegisterVerResult
+    private lateinit var mechanismName: String
+    private lateinit var key: String
+    private lateinit var phone: String
+    private val flag: Boolean by extraDelegate(Extras.FLAG, false)
 
     override val menuId: Int
         get() = R.menu.next_step
@@ -42,19 +45,18 @@ class UploadBasicInfoActivity : ToolbarActivity() {
         setContentView(R.layout.activity_upload_basic_info)
         title = "基础资料上传"
         setBack(true)
-        result = intent.getParcelableExtra(Extras.BEAN)
-        key = result.key
-        mechanismNameEdt.text = result.mechanism_name
-        RxTextView.textChanges(mechanismNameEdt).subscribe { str ->
-            mechanismName = str.toString()
-        }
-
+        key = sp.getString(Extras.CompanyKey, "")
+        mechanismName = intent.getStringExtra(Extras.NAME)
+        phone = intent.getStringExtra(Extras.CODE)
+        supportInvalidateOptionsMenu()
+        mechanismNameEdt.text = mechanismName
         logoLayout.clickWithTrigger {
             EasyPhotos.createAlbum(this, true, GlideEngine.getInstance())
                     .setFileProviderAuthority(BuildConfig.FILEPROVIDER)
                     .setPuzzleMenu(false)
                     .start(Extras.REQUESTCODE)
         }
+        getBasicInfo()
     }
 
     private fun uploadInfo() {
@@ -65,8 +67,13 @@ class UploadBasicInfoActivity : ToolbarActivity() {
                         onNext { payload ->
                             if (payload.isOk) {
                                 showSuccessToast("提交成功")
-                                startActivity<CreateDepartmentActivity>(Extras.BEAN to result,
-                                        Extras.DATA to cardPath)
+                                if (flag) {
+                                    finish()
+                                } else {
+                                    startActivity<CreateDepartmentActivity>(Extras.NAME to mechanismName,
+                                            Extras.CODE to phone,
+                                            Extras.DATA to cardPath)
+                                }
                             } else {
                                 showTopSnackBar(payload.message)
                             }
@@ -84,12 +91,7 @@ class UploadBasicInfoActivity : ToolbarActivity() {
                 .execute {
                     onNext { payload ->
                         if (payload.isOk) {
-                            payload.payload?.let {
-                                Glide.with(ctx)
-                                        .load(cardPath)
-                                        .thumbnail(0.1f)
-                                        .into(mCompanyLogo)
-                            }
+
                         } else {
                             showTopSnackBar(payload.message)
                         }
@@ -97,9 +99,53 @@ class UploadBasicInfoActivity : ToolbarActivity() {
                 }
     }
 
+    private fun getBasicInfo() {
+        if (key.isNotEmpty() && flag) {
+            SoguApi.getService(application, RegisterService::class.java).getBasicInfo(key)
+                    .execute {
+                        onNext { payload ->
+                            if (payload.isOk) {
+                                payload.payload?.let {
+                                    cardPath = it.logo ?: ""
+                                    mechanismName = it.mechanism_name
+                                    Glide.with(ctx)
+                                            .load(it.logo)
+                                            .into(mCompanyLogo)
+                                    mechanismNameEdt.text = it.mechanism_name
+                                    mPhoneEdt.setText(it.telephone)
+                                    mAddressEdt.setText(it.address)
+                                    emailEdt.setText(it.email)
+                                    webEdt.setText(it.website)
+                                }
+                            } else {
+                                showTopSnackBar(payload.message)
+                            }
+                        }
+                    }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        if (!flag) {
+            menuInflater.inflate(menuId, menu)
+        }
+        return super.onCreateOptionsMenu(menu)
+    }
+
+
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        menu.clear()
+        if (flag) {
+            menuInflater.inflate(R.menu.user_edit, menu)
+        } else {
+            menuInflater.inflate(R.menu.next_step, menu)
+        }
+        return super.onPrepareOptionsMenu(menu)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_next_step -> {
+            R.id.action_next_step, R.id.action_save -> {
                 if (cardPath.isNotEmpty() && mechanismName.isNotEmpty()) {
                     uploadInfo()
                 } else {
@@ -117,6 +163,10 @@ class UploadBasicInfoActivity : ToolbarActivity() {
             val resultPaths = data.getStringArrayListExtra(EasyPhotos.RESULT_PATHS)
             cardPath = resultPaths[0]
             uploadLogo()
+            Glide.with(ctx)
+                    .load(cardPath)
+                    .thumbnail(0.1f)
+                    .into(mCompanyLogo)
         }
     }
 }

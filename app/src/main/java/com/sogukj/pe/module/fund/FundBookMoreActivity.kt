@@ -31,7 +31,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_list_common.*
 import java.text.SimpleDateFormat
-
+@Deprecated("")
 class FundBookMoreActivity : BaseRefreshActivity() {
     lateinit var adapter: RecyclerAdapter<FileListBean>
     lateinit var project: FundSmallBean

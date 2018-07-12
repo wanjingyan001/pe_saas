@@ -1,31 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="51dp"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="50dp"
     android:background="@color/white"
     android:layout_height="45dp">
 
-    <ImageView
-        android:id="@+id/selected_bg"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-     android:layout_centerInParent="true"
-        android:background="@drawable/bg_custom_day" />
-    <!--android:background="@drawable/oval_copy"-->
+    <LinearLayout
+        android:id="@+id/root"
+        android:background="@color/white"
+        android:layout_width="40dp"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_height="45dp">
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            android:text="19"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/nongli"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="廿九"
+            android:maxEms="3"
+            android:singleLine="true"
+            android:textSize="10sp" />
+
+        <ImageView
+            android:id="@+id/maker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            android:background="@drawable/view_syllabus_mark_bg" />
+
+    </LinearLayout>
+
     <TextView
-        android:id="@+id/date"
+        android:id="@+id/state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="19"
-        android:textSize="@dimen/text_size_normal" />
+        android:visibility="invisible"
+        android:text="休"
+        android:layout_gravity="top|right"
+        android:layout_marginRight="5dp"
+        android:textColor="#ff50d59d"
+        android:textSize="10sp" />
 
-    <ImageView
-        android:id="@+id/maker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/date"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="3dp"
-        android:background="@drawable/view_syllabus_mark_bg" />
-
-</RelativeLayout>
+</FrameLayout>

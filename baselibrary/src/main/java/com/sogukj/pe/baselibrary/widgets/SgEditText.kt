@@ -148,6 +148,12 @@ class SgEditText @JvmOverloads constructor(
 
     fun setText(text:CharSequence?) = sgEdt.setText(text)
 
+    fun setEnable(enable:Boolean){
+        sgEdt.isEnabled = enable
+        clearInput.isEnabled = enable
+        clearInput.setVisible(enable)
+    }
+
     inner class AddSpaceTextWatcher(private val editText: EditText,
                                     /** text最大长度限制  */
                                     private val maxLength: Int) : TextWatcher {

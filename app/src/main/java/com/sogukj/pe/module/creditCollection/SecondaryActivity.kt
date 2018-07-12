@@ -190,17 +190,7 @@ class SecondaryActivity : BaseActivity(), View.OnClickListener {
         override fun setData(view: View, data: Any, position: Int) {
             when (type) {
                 SensitiveInfoActivity.CASEDETEIL -> {
-                    // TODO
-//                    if (data is SensitiveInfo.Crime.Item) {
-//                        tv1.text = "案件来源"
-//                        tv2.text = "案发时间区间"
-//                        tv3.text = "案件类别"
-//                        tv4.text = "案件级别"
-//                        courtTime.text = data.caseSource
-//                        plaintiff.text = data.caseTime
-//                        courtName.text = data.caseType
-//                        abstractTv.text = data.caseLevel
-//                    }
+
                 }
                 else -> {
                     if (data is SecondaryBean)
@@ -210,30 +200,30 @@ class SecondaryActivity : BaseActivity(), View.OnClickListener {
                                 tv2.text = "原告"
                                 tv3.text = "法院名称"
                                 tv4.text = "内容概要"
-                                courtTime.text = data.sortTime
-                                plaintiff.text = data.plaintiff
-                                courtName.text = data.court
-                                abstractTv.text = data.body
+                                courtTime.text = if(data.sortTime.isNullOrEmpty()) "无" else data.sortTime
+                                plaintiff.text = if(data.plaintiff.isNullOrEmpty()) "无" else data.plaintiff
+                                courtName.text = if(data.court.isNullOrEmpty()) "无" else data.court
+                                abstractTv.text = if(data.body.isNullOrEmpty()) "无" else data.body
                             }
                             CPWS -> {
                                 tv1.text = "标题"
                                 tv2.text = "审结时间"
                                 tv3.text = "案由"
                                 tv4.text = "判决结果"
-                                courtTime.text = data.title
-                                plaintiff.text = data.sortTime
-                                courtName.text = data.caseCause
-                                abstractTv.text = data.judgeResult
+                                courtTime.text = if(data.title.isNullOrEmpty()) "无" else data.title
+                                plaintiff.text = if(data.sortTime.isNullOrEmpty()) "无" else data.sortTime
+                                courtName.text = if(data.caseCause.isNullOrEmpty()) "无" else data.caseCause
+                                abstractTv.text = if(data.judgeResult.isNullOrEmpty()) "无" else data.judgeResult
                             }
                             ZXGG -> {
                                 tv1.text = "执行时间"
                                 tv2.text = "申请人"
                                 tv3.text = "案件状态"
                                 tv4.text = "内容概要"
-                                courtTime.text = data.sortTime
-                                plaintiff.text = data.proposer
-                                courtName.text = data.caseState
-                                abstractTv.text = data.body
+                                courtTime.text = if(data.sortTime.isNullOrEmpty()) "无" else data.sortTime
+                                plaintiff.text = if(data.proposer.isNullOrEmpty()) "无" else data.proposer
+                                courtName.text = if(data.caseState.isNullOrEmpty()) "无" else data.caseState
+                                abstractTv.text = if(data.body.isNullOrEmpty()) "无" else data.body
                             }
                         }
                 }

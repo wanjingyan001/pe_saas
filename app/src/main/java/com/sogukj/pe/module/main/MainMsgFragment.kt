@@ -14,6 +14,7 @@ import android.text.Editable
 import android.text.Html
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
@@ -48,6 +49,8 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.MessageIndexBean
 import com.sogukj.pe.bean.UserBean
+import com.sogukj.pe.module.approve.ApproveListActivity
+import com.sogukj.pe.module.other.GongGaoDetailActivity
 import com.sogukj.pe.module.other.MessageListActivity
 import com.sogukj.pe.module.user.UserActivity
 import com.sogukj.pe.peUtils.MyGlideUrl
@@ -296,7 +299,13 @@ class MainMsgFragment : BaseFragment() {
                         } else {
                             tvNum.visibility = View.INVISIBLE
                         }
-                        msgIcon.imageResource = R.drawable.ic_msg_alert
+                        if (data.flag == 1) {
+                            tvTitle.text = "审批消息助手"
+                            msgIcon.imageResource = R.drawable.ic_sys_alert
+                        } else if (data.flag == 2) {
+                            tvTitle.text = "系统消息助手"
+                            msgIcon.imageResource = R.drawable.ic_msg_alert
+                        }
                     } else if (data is RecentContact) {
                         val titleName = UserInfoHelper.getUserTitleName(data.contactId, data.sessionType)
                         tvTitle.text = titleName
@@ -371,7 +380,7 @@ class MainMsgFragment : BaseFragment() {
             }
             val data = adapter.dataList[p]
             if (data is MessageIndexBean) {
-                MessageListActivity.start(baseActivity)
+                MessageListActivity.start(baseActivity,data)
             } else if (data is RecentContact) {
                 if (NimUIKit.getAccount().isNotEmpty()) {
                     if (data.sessionType == SessionTypeEnum.P2P) {
@@ -477,6 +486,44 @@ class MainMsgFragment : BaseFragment() {
                 .load(Uri.parse("file:///android_asset/img_loading.gif"))
                 .into(iv_loading)
         iv_loading?.visibility = View.VISIBLE
+        loadPop()
+    }
+    fun loadPop() {
+        pop_layout.setOnClickListener { null }
+        pop_layout.visibility = View.GONE
+        SoguApi.getService(baseActivity!!.application,OtherService::class.java)
+                .getNewPop()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({ payload ->
+                    if (payload.isOk) {
+                        payload?.payload?.apply {
+                            pop_layout.visibility = View.VISIBLE
+                            tvGGTitle.text = title
+                            tvGGContent.text = contents
+
+                            tvConfirm.setOnClickListener {
+                                pop_layout.visibility = View.GONE
+                            }
+                            tvDetail.setOnClickListener {
+                                pop_layout.visibility = View.GONE
+                                if (this.type == 1) {
+                                    // 内部公告
+                                    GongGaoDetailActivity.start(baseActivity, this)
+                                } else {
+                                    // 审批统计信息
+                                    ApproveListActivity.start(baseActivity, 6, this.news_id, this)
+                                }
+                            }
+                        }
+                    } else {
+                        Log.e("message", payload.message)
+                        pop_layout.visibility = View.GONE
+                    }
+                }, { e ->
+                    Trace.e(e)
+                    pop_layout.visibility = View.GONE
+                })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -521,8 +568,40 @@ class MainMsgFragment : BaseFragment() {
                     if (payload.isOk) {
                         adapter.dataList.clear()
                         payload.payload?.apply {
-                            adapter.dataList.add(this)
                             zhushou = this
+                            zhushou.flag = 1
+                            adapter.dataList.add(zhushou)
+                        }
+                        //getIMRecentContact()
+                        getAnnouncement()
+                    } else {
+                        showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                        //getIMRecentContact()
+                        getAnnouncement()
+                    }
+                }, { e ->
+                    Trace.e(e)
+                    //getIMRecentContact()
+                    getAnnouncement()
+                })
+    }
+
+    var zhushou = MessageIndexBean()
+    var sys_zhushou = MessageIndexBean()
+
+    private fun getAnnouncement() {
+//        when (Utils.getEnvironment()) {
+//            "sr" -> {
+        SoguApi.getService(baseActivity!!.application,OtherService::class.java)
+                .sysMsgIndex()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({ payload ->
+                    if (payload.isOk) {
+                        payload.payload?.apply {
+                            sys_zhushou = this
+                            sys_zhushou.flag = 2
+                            adapter.dataList.add(sys_zhushou)
                         }
                         getIMRecentContact()
                     } else {
@@ -533,9 +612,12 @@ class MainMsgFragment : BaseFragment() {
                     Trace.e(e)
                     getIMRecentContact()
                 })
+//            }
+//            else -> {
+//                getIMRecentContact()
+//            }
+//        }
     }
-
-    var zhushou = MessageIndexBean()
 
     private fun getIMRecentContact() {
         recentList.clear()

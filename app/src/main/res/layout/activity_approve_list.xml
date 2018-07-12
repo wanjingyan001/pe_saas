@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -13,8 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_gravity="center"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
         android:visibility="gone"
         app:tabGravity="fill"
         app:tabIndicatorColor="@color/Blue"
@@ -26,13 +25,18 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="50dp"
-            android:text="待我审批的" />
+            android:text="审批完成(0)" />
 
         <android.support.design.widget.TabItem
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="我已审批的" />
+            android:text="待审批(0)" />
     </android.support.design.widget.TabLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider2" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -41,18 +45,80 @@
         android:orientation="horizontal">
 
         <!--<include-->
-            <!--android:id="@+id/search_box"-->
-            <!--layout="@layout/search_box"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:layout_weight="1" />-->
+        <!--android:id="@+id/search_box"-->
+        <!--layout="@layout/search_box"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:layout_weight="1" />-->
 
-        <com.sogukj.pe.widgets.SearchView
-            android:id="@+id/search_box"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+        <!--<com.sogukj.pe.view.SearchView-->
+        <!--android:id="@+id/search_box"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1" />-->
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="55dp"
+            android:background="@color/white"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:padding="10dp">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <EditText
+                    android:id="@+id/search_edt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/team_bg_search2"
+                    android:cursorVisible="true"
+                    android:gravity="center_vertical"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="8dp"
+                    android:singleLine="true"
+                    android:textColor="@color/text_1"
+                    android:textColorHint="@color/text_3"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/delete1"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_refuse_disable"
+                    android:visibility="gone"/>
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/search_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawableLeft="@drawable/ss_small"
+                android:drawablePadding="8dp"
+                android:gravity="center"
+                android:text="搜索"
+                android:textColor="@color/gray7"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/search_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ss_small"
+                android:visibility="gone" />
+
+        </RelativeLayout>
 
         <ImageView
             android:id="@+id/iv_filter"
@@ -63,6 +129,11 @@
             android:src="@drawable/ic_search_filter_blue" />
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider2" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -70,17 +141,36 @@
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:id="@+id/refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/divider2">
+            android:layout_height="match_parent">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view"
+            <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                android:id="@+id/refreshHead"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                app:layoutManager="LinearLayoutManager" />
+                android:layout_height="wrap_content" />
 
-            <include layout="@layout/layout_empty" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layoutManager="LinearLayoutManager" />
+
+                <ImageView
+                    android:id="@+id/iv_empty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/img_empty"
+                    android:visibility="gone"/>
+            </FrameLayout>
+
+            <com.scwang.smartrefresh.layout.footer.BallPulseFooter
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
         <FrameLayout
@@ -161,7 +251,7 @@
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
                         android:layout_marginRight="10dp"
-                        android:background="@color/divider" />
+                        android:background="@color/divider2" />
 
                     <FrameLayout
                         android:layout_width="match_parent"

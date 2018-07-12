@@ -17,6 +17,7 @@ class FundSmallBean : Serializable {
     var fundName: String = ""//基金公司名
     var simpleName: String = ""//基金公司名
     var regTime: String = "--/--/--"//成立时间
+    var type: Int? = null//（（1=>储备，2=>存续，3=>退出））
 
     var logo:String = ""
     var invest:String = ""//7000

@@ -3,16 +3,20 @@ package com.sogukj.pe.module.project.archives
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.WindowManager
 import com.google.gson.Gson
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.DateUtils
 import com.sogukj.pe.baselibrary.utils.Trace
+import com.sogukj.pe.bean.CustomSealBean
 import com.sogukj.pe.bean.ProjectBean
 import com.sogukj.pe.bean.RecordInfoBean
+import com.sogukj.pe.module.approve.ListSelectorActivity
 import com.sogukj.pe.service.ProjectService
 import com.sogukj.pe.widgets.CalendarDingDing
 import com.sogukj.service.SoguApi
@@ -33,22 +37,24 @@ class RecordDetailActivity : ToolbarActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         setContentView(R.layout.activity_record_detail)
 
         type = intent.getStringExtra(Extras.TYPE)
-        if (type.equals("ADD")) {
+        if (type == "ADD") {
             title = "新增记录"
 
-            var calendar = Calendar.getInstance()
+            var startT = Date(System.currentTimeMillis())
+            var endT = Date(System.currentTimeMillis() + 3600 * 1000)
 
-            tv_start_time.text = format.format(calendar.time)
-            tv_end_time.text = format.format(calendar.time)
+            tv_start_time.text = format.format(startT)
+            tv_end_time.text = format.format(endT)
 
             var startDD = CalendarDingDing(context)
             tv_start_time.setOnClickListener {
-                calendar.time = format.parse(tv_start_time.text.toString())
-                startDD.show(2, calendar) { date ->
-                    if(date != null){
+                var time = format.parse(tv_start_time.text.toString())
+                startDD.show(2, time) { date ->
+                    if (date != null) {
                         tv_start_time.text = format.format(date)
                     }
                 }
@@ -56,18 +62,22 @@ class RecordDetailActivity : ToolbarActivity() {
 
             var deadDD = CalendarDingDing(context)
             tv_end_time.setOnClickListener {
-                calendar.time = format.parse(tv_end_time.text.toString())
-                deadDD.show(2, calendar) { date ->
-                    if(date != null){
+                var time = format.parse(tv_end_time.text.toString())
+                deadDD.show(2, time) { date ->
+                    if (date != null) {
                         tv_end_time.text = format.format(date)
                     }
                 }
             }
-        } else if (type == "VIEW") {
-            title = "记录详情"
+        } else if (type.equals("VIEW")) {
+            setTitle("记录详情")
 
             tv_start_time.setOnClickListener(null)
             tv_end_time.setOnClickListener(null)
+            company_name.setOnClickListener(null)
+            company_name.setCompoundDrawables(null, null, null, null)
+            tv_start_time.setCompoundDrawables(null, null, null, null)
+            tv_end_time.setCompoundDrawables(null, null, null, null)
             et_visiter.isFocusable = false
             et_visiter.isEnabled = false
             et_des.isFocusable = false
@@ -77,15 +87,52 @@ class RecordDetailActivity : ToolbarActivity() {
             item = intent.getSerializableExtra(Extras.DATA2) as RecordInfoBean.ListBean
             tv_start_time.text = DateUtils.timet("${item.start_time}")
             tv_end_time.text = DateUtils.timet("${item.end_time}")
-            et_visiter.setText(item.visits)
-            et_des.setText(item.des)
+            et_visiter.setText(if (item.visits.isNullOrEmpty()) "无" else item.visits)
+            et_des.setText(if (item.des.isNullOrEmpty()) "无" else item.des)
             cb_important.isChecked = item.important != 0
+
+            et_visiter.gravity = Gravity.RIGHT
+            et_des.viewTreeObserver.addOnGlobalLayoutListener {
+                if (et_des.layout.lineCount > 1) {
+                    et_des.gravity = Gravity.LEFT
+                } else {
+                    et_des.gravity = Gravity.RIGHT
+                }
+            }
         }
 
         project = intent.getSerializableExtra(Extras.DATA) as ProjectBean
-        company_name.text = project.name
+        if (project.name.isNullOrEmpty()) {
+            company_name.text = ""
+            company_name.hint = "请选择"
+            company_name.setOnClickListener {
+                var map = CustomSealBean.ValueBean()
+                map.type = 2
+                var bean = CustomSealBean()
+                bean.name = "公司名称"
+                bean.value_map = map
+                var data: Int? = null
+                data = try {
+                    intent.getIntExtra(Extras.DATA2, -1)
+                } catch (e: Exception) {
+                    null
+                }
+                ListSelectorActivity.start(this, bean, type = data)
+            }
+        } else {
+            company_name.text = project.name
+        }
 
         setBack(true)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == ListSelectorActivity.REQ_LIST_SELECTOR && resultCode === Activity.RESULT_OK) {
+            val valueBean = data!!.getSerializableExtra(Extras.DATA2) as CustomSealBean.ValueBean
+            company_name.text = valueBean.name
+            project.company_id = valueBean.id
+        }
     }
 
     override val menuId: Int
@@ -106,8 +153,10 @@ class RecordDetailActivity : ToolbarActivity() {
         when (item?.itemId) {
             R.id.action_mark -> {
                 if (type == "ADD") {
-                    project.company_id?.let {
-                        upload(it)
+                    if (project.company_id == null) {
+                        showCustomToast(R.drawable.icon_toast_common, "请选择公司")
+                    } else {
+                        upload(project.company_id!!)
                     }
                 }
             }
@@ -162,10 +211,11 @@ class RecordDetailActivity : ToolbarActivity() {
     }
 
     companion object {
-        fun startAdd(ctx: Activity?, project: ProjectBean) {
+        fun startAdd(ctx: Activity?, project: ProjectBean, type: Int? = null) {
             val intent = Intent(ctx, RecordDetailActivity::class.java)
             intent.putExtra(Extras.DATA, project)
             intent.putExtra(Extras.TYPE, "ADD")
+            intent.putExtra(Extras.DATA2, type)
             ctx?.startActivityForResult(intent, 0x001)
         }
 
@@ -180,7 +230,7 @@ class RecordDetailActivity : ToolbarActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        if (type.equals("VIEW")) {
+        if (type == "VIEW") {
             setResult(Activity.RESULT_CANCELED)
             finish()
         }

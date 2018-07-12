@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <com.sogukj.pe.baselibrary.widgets.DotView
+        android:id="@+id/dot"
+        android:layout_width="30dp"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2018年6月26日"
+                android:textColor="#ff282828"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/tvSeq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="第一次出款"
+                android:textColor="#ff1787fb"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/fundName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:text="出款基金：海通科宇基金"
+            android:textColor="#ffa0a4aa"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/fundMoney"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginTop="10dp"
+            android:background="#fff7f9fc"
+            android:drawableLeft="@drawable/ck"
+            android:drawablePadding="6dp"
+            android:gravity="center"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="出款：300,000,000"
+            android:textColor="#ffa0a4aa"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

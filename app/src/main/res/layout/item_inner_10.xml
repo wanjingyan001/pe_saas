@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        android:gravity="center"
+        android:text="发展阶段选择"
+        android:textColor="@color/text_3" />
+
+    <LinearLayout
+        android:id="@+id/ll_files"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <include layout="@layout/cs_item_file_manager" />
+
+        <include layout="@layout/cs_item_file_manager" />
+
+        <include layout="@layout/cs_item_file_manager" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/tvFile"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        android:background="#fff7f9fc"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableLeft="@drawable/plus"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/text_3"
+            android:gravity="center"
+            android:text="添加文件"
+            android:textColor="#ffb0b0b0"
+            android:textSize="14sp" />
+
+    </FrameLayout>
+</LinearLayout>

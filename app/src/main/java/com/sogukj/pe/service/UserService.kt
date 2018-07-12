@@ -144,4 +144,7 @@ interface UserService{
 
     @POST("/api/UserFont/getDepartment")
     fun getDepartment(): Observable<Payload<ArrayList<ReceiveSpinnerBean>>>
+
+    @POST("/api/UserFont/getWebConfig")
+    fun getWebConfig(): Observable<Payload<WebConfigBean>>
 }

@@ -26,6 +26,14 @@ object ActivityHelper {
         activities.remove(activity)
     }
 
+    fun finishAllWithoutTop() {
+        activities.forEachIndexed { index, _ ->
+            if (index != activities.size - 1) {
+                activities[index].finish()
+            }
+        }
+    }
+
     //退出整个应用
     fun exit() {
         for (activity in activities) {

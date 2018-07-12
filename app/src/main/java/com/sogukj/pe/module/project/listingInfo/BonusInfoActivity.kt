@@ -80,21 +80,6 @@ class BonusInfoActivity : BaseRefreshActivity(), SupportEmptyView {
         recycler_view.layoutManager = layoutManager
         recycler_view.adapter = adapter
 
-//        val header = ProgressLayout(this)
-//        header.setColorSchemeColors(ContextCompat.getColor(this, R.color.color_main))
-//        refresh.setHeaderView(header)
-////        val footer = BallPulseView(this)
-////        footer.setAnimatingColor(ContextCompat.getColor(this, R.color.color_main))
-////        refresh.setBottomView(footer)
-//        refresh.setOverScrollRefreshShow(false)
-//        refresh.setEnableLoadmore(false)
-//        refresh.setOnRefreshListener(object : RefreshListenerAdapter() {
-//            override fun onRefresh(refreshLayout: TwinklingRefreshLayout?) {
-//                doRequest()
-//            }
-//
-//        })
-//        refresh.setAutoLoadMore(false)
         handler.postDelayed({
             doRequest()
         }, 100)

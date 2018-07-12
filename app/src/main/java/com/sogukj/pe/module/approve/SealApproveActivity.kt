@@ -7,15 +7,14 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
 import android.text.TextUtils
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.bumptech.glide.Glide
@@ -28,6 +27,9 @@ import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
+import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
+import com.sogukj.pe.baselibrary.widgets.SpaceItemDecoration
 import com.sogukj.pe.bean.*
 import com.sogukj.pe.peUtils.MyGlideUrl
 import com.sogukj.pe.peUtils.PdfUtil
@@ -40,9 +42,11 @@ import kotlinx.android.synthetic.main.activity_seal_approve.*
 import kotlinx.android.synthetic.main.seal_approve_part1.*
 import kotlinx.android.synthetic.main.seal_approve_part2.*
 import kotlinx.android.synthetic.main.seal_approve_part3.*
+import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.collections.forEachWithIndex
 import org.jetbrains.anko.find
 import org.jetbrains.anko.imageResource
+import org.jetbrains.anko.textColor
 import java.text.SimpleDateFormat
 
 /**
@@ -87,17 +91,15 @@ class SealApproveActivity : ToolbarActivity() {
         title = paramTitle
 
         toolbar_menu.text = ""
-        toolbar_menu.setOnClickListener {
-            if (!toolbar_menu.text.isNullOrEmpty()) {
-                ApproveFillActivity.start(context, true, paramType!!, paramId!!, paramTitle)
-            }
-        }
+    }
 
+    override fun onResume() {
+        super.onResume()
         refresh()
     }
 
     fun refresh() {
-        SoguApi.getService(application, ApproveService::class.java)
+     SoguApi.getService(application,ApproveService::class.java)
                 .showApprove(approval_id = paramId!!, classify = paramType, is_mine = is_mine)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -111,6 +113,7 @@ class SealApproveActivity : ToolbarActivity() {
                         payload.payload?.copier?.apply {
                             initCS(this)
                         }
+                        initDiscuss(payload.payload?.discuss)
                         initButtons(payload.payload?.click)
 
                         iv_state_agreed.visibility = View.GONE
@@ -133,223 +136,314 @@ class SealApproveActivity : ToolbarActivity() {
                 })
     }
 
+    lateinit var adapter: RecyclerAdapter<ApproveViewBean.DiscussBean>
+
+    fun initDiscuss(discussList: ArrayList<ApproveViewBean.DiscussBean>?){
+        if(discussList == null || discussList.size == 0){
+            discuss_layout.visibility = View.GONE
+            return
+        }
+        discuss_layout.visibility = View.VISIBLE
+        adapter = RecyclerAdapter(context, { _adapter, parent, type ->
+            val convertView = _adapter.getView(R.layout.layout_discuss, parent)
+            object : RecyclerHolder<ApproveViewBean.DiscussBean>(convertView) {
+
+                val icon = convertView.find<CircleImageView>(R.id.iv_user)
+                val tvName = convertView.find<TextView>(R.id.tv_name)
+                val tvDiscuss = convertView.find<TextView>(R.id.tv_discuss)
+                val tvTime = convertView.find<TextView>(R.id.tv_time)
+
+                override fun setData(view: View, data: ApproveViewBean.DiscussBean, position: Int) {
+                    if (data.url.isNullOrEmpty()) {
+                        icon.setChar(data.name?.first())
+                    } else {
+                        Glide.with(context)
+                                .load(MyGlideUrl(data.url))
+                                .listener(object : RequestListener<Drawable> {
+                                    override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                                        icon.setImageDrawable(resource)
+                                        return false
+                                    }
+
+                                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                                        icon.setChar(data.name?.first())
+                                        return false
+                                    }
+                                })
+                                .into(icon)
+                    }
+                    tvName.text = data.name
+                    tvDiscuss.text = data.message
+                    if(data.time_str.isNullOrEmpty()){
+                        tvTime.visibility = View.INVISIBLE
+                    } else {
+                        tvTime.text = data.time_str//DateUtils.timesFormat(data.time.toString(), "yyyy-MM-dd HH:mm:ss")
+                    }
+                }
+            }
+        })
+        discussed.layoutManager = LinearLayoutManager(context)
+        discussed.addItemDecoration(SpaceItemDecoration(Utils.dpToPx(context, 10)))
+        discussed.adapter = adapter
+
+        adapter.dataList.addAll(discussList)
+        adapter.notifyDataSetChanged()
+    }
+
     fun initCS(list: ArrayList<UserBean>) {
         var adapter = MyAdapter(context, list)
         grid_chaosong_to.adapter = adapter
-        if(list.size == 0){
+        if (list.size == 0) {
             cs_layout.visibility = View.GONE
         }
     }
 
-    fun initButtons(click: Int?) {
-        btn_single.visibility = View.GONE
-        ll_twins.visibility = View.GONE
-        when (click) {
-            0 -> {
-                btn_single.visibility = View.GONE
+    fun initButtons(click: ArrayList<Int>?) {
+        if(click == null || click.size == 0){
+            btnLayout.visibility = View.GONE
+            return
+        }
+        ll_twins.removeAllViews()
+        click.forEach {
+            var btn = Button(context)
+            var params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f)
+            btn.layoutParams = params
+            //params.setMargins(Utils.dpToPx(context, 15), 0, 0, 0)
+            btn.background = null//btn.setBackgroundResource(R.drawable.bg_rect_blue)
+            btn.text = ""
+            btn.textColor = resources.getColor(R.color.colorBlue)
+            btn.textSize = 14f
+            btn.gravity = Gravity.CENTER
+            ll_twins.addView(btn)
+            if(click.size == 1){
+                btn.setBackgroundResource(R.drawable.bg_btn_blue1)
+                btn.textColor = resources.getColor(R.color.white)
             }
-            1 -> {
-                ll_twins.visibility = View.VISIBLE
-                btn_left.text = "申请加急"
-                btn_left.setOnClickListener {
-                    SoguApi.getService(application,ApproveService::class.java)
-                            .approveUrgent(paramId!!)
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribeOn(Schedulers.io())
-                            .subscribe({ payload ->
-                                if (payload.isOk) {
-                                    showCustomToast(R.drawable.icon_toast_success, "提交成功")
-                                } else {
-                                    showCustomToast(R.drawable.icon_toast_fail, payload.message)
-                                }
-                            }, { e ->
-                                Trace.e(e)
-                                showCustomToast(R.drawable.icon_toast_fail, "请求失败")
-                            })
+
+            var divider = View(context)
+            var p = LinearLayout.LayoutParams(Utils.dpToPx(context, 1), LinearLayout.LayoutParams.MATCH_PARENT)
+            p.setMargins(0, Utils.dpToPx(context, 10), 0, Utils.dpToPx(context, 10))
+            divider.layoutParams = p
+            divider.backgroundColor = resources.getColor(R.color.text_3)
+            divider.alpha = 0.5f
+            ll_twins.addView(divider)
+
+            //0=>'不显示按钮',1=>'申请加急',2=>'修改',3=>'重新发起',4=>'撤销',5=>'审批',6=>'导出pdf|用印单',7=>'用印完成',8=>'确认意见并签字', 9=>'文件签发',10=>'评论'
+            when (it) {
+                0 -> {
+                    ll_twins.removeAllViews()
                 }
-                btn_right.text = "撤销"
-                btn_right.setOnClickListener {
-                    val inflate = LayoutInflater.from(this).inflate(R.layout.layout_input_dialog, null)
-                    val dialog = MaterialDialog.Builder(this)
-                            .customView(inflate, false)
-                            .cancelable(true)
-                            .build()
-                    dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                    val title = inflate.find<TextView>(R.id.approval_comments_title)
-                    val commentInput = inflate.find<EditText>(R.id.approval_comments_input)
-                    val veto = inflate.find<TextView>(R.id.veto_comment)
-                    val confirm = inflate.find<TextView>(R.id.confirm_comment)
-                    commentInput.filters = Utils.getFilter(this)
-                    title.text = "请输入撤销理由"
-                    title.textSize = 16.toFloat()
-                    commentInput.hint = ""
-                    veto.text = "取消"
-                    confirm.text = "提交"
-                    veto.setOnClickListener {
-                        if (dialog.isShowing) {
-                            dialog.dismiss()
-                        }
-                    }
-                    confirm.setOnClickListener {
-                        if (dialog.isShowing) {
-                            dialog.dismiss()
-                        }
-                        SoguApi.getService(application,ApproveService::class.java)
-                                .cancelApprove(paramId!!)
+                1 -> {
+                    btn.text = "申请加急"
+                    btn.setOnClickListener {
+                     SoguApi.getService(application,ApproveService::class.java)
+                                .approveUrgent(paramId!!)
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribeOn(Schedulers.io())
                                 .subscribe({ payload ->
                                     if (payload.isOk) {
                                         showCustomToast(R.drawable.icon_toast_success, "提交成功")
+                                    } else {
+                                        showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                                    }
+                                }, { e ->
+                                    Trace.e(e)
+                                    showCustomToast(R.drawable.icon_toast_fail, "请求失败")
+                                })
+                    }
+                }
+                2 -> {
+                    btn.text = "修改"
+                    btn.setOnClickListener {
+                        ApproveFillActivity.start(context, true, paramType!!, paramId!!, paramTitle)
+                    }
+                }
+                3 -> {
+                    btn.text = "重新发起"
+                    btn.setOnClickListener {
+                        ApproveFillActivity.start(context, true, paramType!!, paramId!!, paramTitle!!, 1)
+                        finish()
+                    }
+                }
+                4 -> {
+                    btn.text = "撤销"
+                    btn.setOnClickListener {
+                        val inflate = LayoutInflater.from(this).inflate(R.layout.layout_input_dialog, null)
+                        val dialog = MaterialDialog.Builder(this)
+                                .customView(inflate, false)
+                                .cancelable(true)
+                                .build()
+                        dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                        val title = inflate.find<TextView>(R.id.approval_comments_title)
+                        val commentInput = inflate.find<EditText>(R.id.approval_comments_input)
+                        val veto = inflate.find<TextView>(R.id.veto_comment)
+                        val confirm = inflate.find<TextView>(R.id.confirm_comment)
+                        commentInput.filters = Utils.getFilter(this)
+                        title.text = "请输入撤销理由"
+                        title.textSize = 16.toFloat()
+                        commentInput.hint = ""
+                        veto.text = "取消"
+                        confirm.text = "提交"
+                        veto.setOnClickListener {
+                            if (dialog.isShowing) {
+                                dialog.dismiss()
+                            }
+                        }
+                        confirm.setOnClickListener {
+                            if (dialog.isShowing) {
+                                dialog.dismiss()
+                            }
+                         SoguApi.getService(application,ApproveService::class.java)
+                                    .cancelApprove(paramId!!)
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribeOn(Schedulers.io())
+                                    .subscribe({ payload ->
+                                        if (payload.isOk) {
+                                            showCustomToast(R.drawable.icon_toast_success, "提交成功")
+                                            refresh()
+                                        } else {
+                                            showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                                        }
+                                    }, { e ->
+                                        Trace.e(e)
+                                        showCustomToast(R.drawable.icon_toast_fail, "撤销失败")
+                                    })
+                        }
+                        dialog.show()
+                    }
+                }
+                5 -> {
+                    btn.text = "审批"
+                    btn.setOnClickListener {
+                        val inflate = LayoutInflater.from(this).inflate(R.layout.layout_input_dialog, null)
+                        val dialog = MaterialDialog.Builder(this)
+                                .customView(inflate, false)
+                                .cancelable(true)
+                                .build()
+                        dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                        val commentInput = inflate.find<EditText>(R.id.approval_comments_input)
+                        val veto = inflate.find<TextView>(R.id.veto_comment)
+                        val confirm = inflate.find<TextView>(R.id.confirm_comment)
+                        commentInput.filters = Utils.getFilter(this)
+                        veto.setOnClickListener {
+                            if (dialog.isShowing) {
+                                dialog.dismiss()
+                            }
+                            showConfirmDialog(-1, commentInput.text.toString())
+                        }
+                        confirm.setOnClickListener {
+                            if (dialog.isShowing) {
+                                dialog.dismiss()
+                            }
+                            showConfirmDialog(1, commentInput.text.toString())
+                        }
+                        dialog.show()
+                    }
+                }
+                6 -> {
+                    btn.text = "导出pdf"
+                    btn.setOnClickListener {
+                     SoguApi.getService(application,ApproveService::class.java)
+                                .exportPdf(paramId!!)
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribeOn(Schedulers.io())
+                                .subscribe({ payload ->
+                                    if (payload.isOk) {
+                                        val bean = payload.payload
+                                        bean?.let {
+                                            PdfUtil.loadPdf(this, it.url, it.name)
+                                        }
+                                    } else {
+                                        showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                                    }
+                                }, { e ->
+                                    Trace.e(e)
+                                    showCustomToast(R.drawable.icon_toast_fail, "请求失败")
+                                })
+                    }
+                }
+                7 -> {
+                    btn.text = "用印完成"
+                    btn.setOnClickListener {
+                     SoguApi.getService(application,ApproveService::class.java)
+                                .finishApprove(paramId!!)
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribeOn(Schedulers.io())
+                                .subscribe({ payload ->
+                                    if (payload.isOk) {
                                         refresh()
                                     } else {
                                         showCustomToast(R.drawable.icon_toast_fail, payload.message)
                                     }
                                 }, { e ->
                                     Trace.e(e)
-                                    showCustomToast(R.drawable.icon_toast_fail, "撤销失败")
+                                    showCustomToast(R.drawable.icon_toast_fail, "请求失败")
                                 })
                     }
-                    dialog.show()
                 }
-                toolbar_menu.text = ""
-            }
-            2 -> {
-                btn_single.visibility = View.VISIBLE
-                btn_single.text = "申请加急"
-                btn_single.setOnClickListener {
-                    SoguApi.getService(application,ApproveService::class.java)
-                            .approveUrgent(paramId!!)
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribeOn(Schedulers.io())
-                            .subscribe({ payload ->
-                                if (payload.isOk) {
-                                    showCustomToast(R.drawable.icon_toast_success, "提交成功")
-                                } else {
-                                    showCustomToast(R.drawable.icon_toast_fail, payload.message)
-                                }
-                            }, { e ->
-                                Trace.e(e)
-                                showCustomToast(R.drawable.icon_toast_fail, "请求失败")
-                            })
-                }
-                toolbar_menu.text = ""
-            }
-            3 -> {
-                btn_single.visibility = View.VISIBLE
-                btn_single.text = "重新发起审批"
-                btn_single.setOnClickListener {
-                    //BuildSealActivity.start(this, paramId!!, paramType, paramTitle, true)
-                    ApproveFillActivity.start(context, true, paramType!!, paramId!!, paramTitle, 1)
-                    finish()
-                }
-                toolbar_menu.text = ""
-            }
-            4 -> {
-                ll_twins.visibility = View.VISIBLE
-                btn_left.setOnClickListener {
-                    SoguApi.getService(application,ApproveService::class.java)
-                            .exportPdf(paramId!!)
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribeOn(Schedulers.io())
-                            .subscribe({ payload ->
-                                if (payload.isOk) {
-                                    val bean = payload.payload
-                                    bean?.let {
-                                        //                                        if (!TextUtils.isEmpty(it.url)) {
-//                                            val intent = Intent(Intent.ACTION_VIEW)
-//                                            intent.data = Uri.parse(it.url)
-//                                            startActivity(intent)
-//                                        }
-                                        PdfUtil.loadPdf(this, it.url, it.name)
-                                    }
-                                } else {
-                                    showCustomToast(R.drawable.icon_toast_fail, payload.message)
-                                }
-                            }, { e ->
-                                Trace.e(e)
-//                                showToast("请求失败")
-                                showCustomToast(R.drawable.icon_toast_fail, "请求失败")
-                            })
-                }
-                btn_right.setOnClickListener {
-                    SoguApi.getService(application,ApproveService::class.java)
-                            .finishApprove(paramId!!)
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribeOn(Schedulers.io())
-                            .subscribe({ payload ->
-                                if (payload.isOk) {
-                                    refresh()
-                                } else {
-                                    showCustomToast(R.drawable.icon_toast_fail, payload.message)
-                                }
-                            }, { e ->
-                                Trace.e(e)
-//                                showToast("请求失败")
-                                showCustomToast(R.drawable.icon_toast_fail, "请求失败")
-                            })
-                }
-            }
-            5 -> {
-                btn_single.visibility = View.VISIBLE
-                btn_single.text = "审批"
-                btn_single.setOnClickListener {
-                    val inflate = LayoutInflater.from(this).inflate(R.layout.layout_input_dialog, null)
-                    val dialog = MaterialDialog.Builder(this)
-                            .customView(inflate, false)
-                            .cancelable(true)
-                            .build()
-                    dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                    val commentInput = inflate.find<EditText>(R.id.approval_comments_input)
-                    val veto = inflate.find<TextView>(R.id.veto_comment)
-                    val confirm = inflate.find<TextView>(R.id.confirm_comment)
-                    commentInput.filters = Utils.getFilter(this)
-                    veto.setOnClickListener {
-                        if (dialog.isShowing) {
-                            dialog.dismiss()
-                        }
-                        showConfirmDialog(-1, commentInput.text.toString())
-                    }
-                    confirm.setOnClickListener {
-                        if (dialog.isShowing) {
-                            dialog.dismiss()
-                        }
-                        showConfirmDialog(1, commentInput.text.toString())
-                    }
-                    dialog.show()
-                }
-            }
-            6 -> {
-                btn_single.visibility = View.VISIBLE
-                btn_single.text = "导出审批单"
-                btn_single.setOnClickListener {
-                    SoguApi.getService(application,ApproveService::class.java)
-                            .exportPdf(paramId!!)
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribeOn(Schedulers.io())
-                            .subscribe({ payload ->
-                                if (payload.isOk) {
-                                    val bean = payload.payload
-//                                    if (!TextUtils.isEmpty(url)) {
-//                                        val intent = Intent(Intent.ACTION_VIEW)
-//                                        intent.data = Uri.parse(url)
-//                                        startActivity(intent)
-//                                    }
-                                    bean?.let {
-                                        PdfUtil.loadPdf(this, it.url, it.name)
-                                    }
-                                } else {
-                                    showCustomToast(R.drawable.icon_toast_fail, payload.message)
-                                }
-                            }, { e ->
-                                Trace.e(e)
-//                                showToast("请求失败")
-                                showCustomToast(R.drawable.icon_toast_fail, "请求失败")
-                            })
-                }
+                8 -> {
+                    btn.text = "确认意见并签字"
+                    btn.setOnClickListener {
 
+                    }
+                }
+                9 -> {
+                    btn.text = "文件签发"
+                    btn.setOnClickListener {
 
+                    }
+                }
+                10 -> {
+                    btn.text = "评论"
+                    btn.setOnClickListener {
+                        val inflate = LayoutInflater.from(this).inflate(R.layout.layout_input_dialog, null)
+                        val dialog = MaterialDialog.Builder(this)
+                                .customView(inflate, false)
+                                .cancelable(true)
+                                .build()
+                        dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                        val commentInput = inflate.find<EditText>(R.id.approval_comments_input)
+                        val veto = inflate.find<TextView>(R.id.veto_comment)
+                        val confirm = inflate.find<TextView>(R.id.confirm_comment)
+                        val title = inflate.find<TextView>(R.id.approval_comments_title)
+                        commentInput.filters = Utils.getFilter(this)
+                        title.text = "评论"
+                        commentInput.hint = "请输入评论（选填）"
+                        veto.text = "取消"
+                        confirm.text = "确认"
+                        veto.setOnClickListener {
+                            if (dialog.isShowing) {
+                                dialog.dismiss()
+                            }
+                        }
+                        confirm.setOnClickListener {
+                            if (dialog.isShowing) {
+                                dialog.dismiss()
+                            }
+                         SoguApi.getService(application,ApproveService::class.java)
+                                    .discuss(paramId!!, commentInput.text.toString())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribeOn(Schedulers.io())
+                                    .subscribe({ payload ->
+                                        if (payload.isOk) {
+                                            showCustomToast(R.drawable.icon_toast_success, "评论成功")
+                                            refresh()
+                                        } else {
+                                            showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                                        }
+                                    }, { e ->
+                                        Trace.e(e)
+                                        showCustomToast(R.drawable.icon_toast_fail, "评论失败")
+                                    })
+                        }
+                        dialog.show()
+                    }
+                }
             }
+        }
+
+        if (ll_twins.childCount >= 1) {
+            ll_twins.removeViewAt(ll_twins.childCount - 1)
         }
     }
 
@@ -380,7 +474,7 @@ class SealApproveActivity : ToolbarActivity() {
     }
 
     fun examineApprove(type: Int, text: String = "") {
-        SoguApi.getService(application,ApproveService::class.java)
+     SoguApi.getService(application,ApproveService::class.java)
                 .examineApprove(paramId!!, type, text)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -408,7 +502,7 @@ class SealApproveActivity : ToolbarActivity() {
         }
         part3.visibility = View.VISIBLE
         val inflater = LayoutInflater.from(this)
-        segments.forEach { v ->
+        segments?.forEach { v ->
             val convertView = inflater.inflate(R.layout.item_approve_seal_segment, null)
             ll_segments.addView(convertView)
 
@@ -426,13 +520,13 @@ class SealApproveActivity : ToolbarActivity() {
             } else {
                 tvTime.visibility = View.GONE
             }
-            if(v.url.isNullOrEmpty()){
+            if (v.url.isNullOrEmpty()) {
                 val ch = v.name?.first()
                 ivUser.setChar(ch)
             } else {
                 Glide.with(this)
                         .load(MyGlideUrl(v.url))
-                        .listener(object :RequestListener<Drawable> {
+                        .listener(object : RequestListener<Drawable> {
                             override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
                                 ivUser.setImageDrawable(resource)
                                 return false
@@ -458,7 +552,7 @@ class SealApproveActivity : ToolbarActivity() {
         }
         part2.visibility = View.VISIBLE
         val inflater = LayoutInflater.from(this)
-        approveList.forEach { v ->
+        approveList?.forEach { v ->
             val convertView = inflater.inflate(R.layout.item_approve_seal_approver, null)
             ll_approvers.addView(convertView)
 
@@ -471,9 +565,9 @@ class SealApproveActivity : ToolbarActivity() {
             val tvContent = convertView.findViewById<TextView>(R.id.tv_content) as TextView
             val llComments = convertView.findViewById<LinearLayout>(R.id.ll_comments) as LinearLayout
 
-            if (v.status == 3) {
+            if (v?.status == 3 || v?.status == 5) {
                 tvEdit.visibility = View.VISIBLE
-                if (v.is_edit_file == 1) {
+                if (v?.is_edit_file == 1) {
                     tvEdit.text = "文件已修改"
                     tvEdit.setBackgroundResource(R.drawable.bg_tag_edit_file_1)
                 } else {
@@ -490,13 +584,13 @@ class SealApproveActivity : ToolbarActivity() {
             } else {
                 tvTime.visibility = View.GONE
             }
-            if(v.url.isNullOrEmpty()){
+            if (v.url.isNullOrEmpty()) {
                 val ch = v.name?.first()
                 ivUser.setChar(ch)
             } else {
                 Glide.with(this)
                         .load(MyGlideUrl(v.url))
-                        .listener(object :RequestListener<Drawable> {
+                        .listener(object : RequestListener<Drawable> {
                             override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
                                 ivUser.setImageDrawable(resource)
                                 return false
@@ -566,7 +660,7 @@ class SealApproveActivity : ToolbarActivity() {
             }
             val text = commentInput.text.toString()
             if (!TextUtils.isEmpty(text))
-                SoguApi.getService(application,ApproveService::class.java)
+             SoguApi.getService(application,ApproveService::class.java)
                         .submitComment(hid, comment_id = commentId, content = text)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
@@ -603,13 +697,13 @@ class SealApproveActivity : ToolbarActivity() {
             buff.append("回复<font color='#608cf8'>${data.reply}</font>")
         buff.append(data.content)
         tvComment.text = Html.fromHtml(buff.toString())
-        if(data.url.isNullOrEmpty()){
+        if (data.url.isNullOrEmpty()) {
             val ch = data.name?.first()
             ivUser.setChar(ch)
         } else {
             Glide.with(this)
                     .load(MyGlideUrl(data.url))
-                    .listener(object :RequestListener<Drawable> {
+                    .listener(object : RequestListener<Drawable> {
                         override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
                             ivUser.setImageDrawable(resource)
                             return false
@@ -637,7 +731,7 @@ class SealApproveActivity : ToolbarActivity() {
         part1.visibility = View.VISIBLE
         ll_files.removeAllViews()
         val inflater = LayoutInflater.from(this)
-        file_list.forEachWithIndex { i, v ->
+        file_list?.forEachWithIndex { i, v ->
             val view = inflater.inflate(R.layout.item_file_single, null) as TextView
             view.text = "${i + 1}、${v.file_name}"
             ll_files.addView(view)
@@ -665,13 +759,13 @@ class SealApproveActivity : ToolbarActivity() {
 
     private fun initUser(fixation: ApproveViewBean.FromBean?) {
         if (null == fixation) return
-        if(fixation.url.isNullOrEmpty()){
+        if (fixation.url.isNullOrEmpty()) {
             val ch = fixation.name?.first()
             iv_user.setChar(ch)
         } else {
             Glide.with(this)
                     .load(fixation.url)
-                    .listener(object :RequestListener<Drawable> {
+                    .listener(object : RequestListener<Drawable> {
                         override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
                             iv_user.setImageDrawable(resource)
                             return false
@@ -748,7 +842,7 @@ class SealApproveActivity : ToolbarActivity() {
             if (conView == null) {
                 viewHolder = ViewHolder()
                 conView = LayoutInflater.from(context).inflate(R.layout.send_item, null) as LinearLayout
-                viewHolder.icon = conView.findViewById<CircleImageView>(R.id.icon) as CircleImageView
+                viewHolder.icon = conView.find<CircleImageView>(R.id.icon)
                 viewHolder.name = conView.findViewById<TextView>(R.id.name) as TextView
                 conView.setTag(viewHolder)
             } else {
@@ -759,14 +853,14 @@ class SealApproveActivity : ToolbarActivity() {
             } else {
                 Glide.with(context)
                         .load(MyGlideUrl(list[position].url))
-                        .listener(object :RequestListener<Drawable> {
+                        .listener(object : RequestListener<Drawable> {
                             override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
                                 viewHolder.icon?.setImageDrawable(resource)
                                 return false
                             }
 
                             override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                                val ch = list[position].name.first()
+                                val ch = list[position].name?.first()
                                 viewHolder.icon?.setChar(ch)
                                 return false
                             }

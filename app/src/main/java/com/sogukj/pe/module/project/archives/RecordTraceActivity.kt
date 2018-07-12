@@ -112,7 +112,6 @@ class RecordTraceActivity : ToolbarActivity() {
                     if (payload.isOk) {
                         contentLayout.visibility = View.VISIBLE
                         var data = payload.payload
-                        Log.d("WJY",Gson().toJson(payload.payload))
                         data?.apply {
                             tv_investCost.text = info?.investCost
                             tv_investDate.text = info?.investDate
@@ -120,7 +119,7 @@ class RecordTraceActivity : ToolbarActivity() {
                             tv_riskControls.text = info?.riskControls
                             tv_invests.text = info?.invests
 
-                            if (list != null && list.size != 0) {
+                            if (list != null && list.isNotEmpty()) {
                                 contentLayout.visibility = View.VISIBLE
                                 iv_empty.visibility = View.GONE
                                 adapter.dataList.clear()

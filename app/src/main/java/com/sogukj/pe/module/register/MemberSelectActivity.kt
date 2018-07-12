@@ -242,7 +242,7 @@ class MemberSelectActivity : ToolbarActivity() {
         val userPosition= itemView.find<TextView>(R.id.userPosition)
         override fun setData(view: View, data: UserBean, position: Int) {
             selectIcon.setVisible(true)
-            userPosition.setVisible(false)
+            userPosition.setVisible(true)
             if (data.headImage().isNullOrEmpty()) {
                 val ch = data.name.first()
                 userImg.setChar(ch)
@@ -255,6 +255,7 @@ class MemberSelectActivity : ToolbarActivity() {
             val find = alreadySelected.find { it.user_id == data.user_id }
             selectIcon.isSelected = find != null
             userName.text = data.name
+            userPosition.text = data.depart_name
             view.clickWithTrigger {
                 search_edt.clearFocus()
                 if (alreadySelected.contains(data)) {

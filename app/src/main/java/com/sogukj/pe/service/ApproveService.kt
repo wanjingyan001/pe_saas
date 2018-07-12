@@ -3,10 +3,7 @@ package com.sogukj.pe.service
 import com.sogukj.pe.bean.*
 import io.reactivex.Observable
 import okhttp3.RequestBody
-import retrofit2.http.Body
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
 
 /**
  * Created by admin on 2018/5/23.
@@ -61,11 +58,7 @@ interface ApproveService{
 
     @FormUrlEncoded
     @POST("/api/Approve/getFundOrProject")
-    fun listSelector(
-            @Field("page") page: Int = 1
-            , @Field("pageSize") pageSize: Int = 20
-            , @Field("type") type: Int
-            , @Field("fuzzyQuery") fuzzyQuery: String? = null): Observable<Payload<List<CustomSealBean.ValueBean>>>
+    fun listSelector(@FieldMap map: HashMap<String, Any>): Observable<Payload<List<CustomSealBean.ValueBean>>>
 
     @POST("/api/Approve/submitApprove")
     fun submitApprove(@Body body: RequestBody): Observable<Payload<Any>>
@@ -165,6 +158,9 @@ interface ApproveService{
     @POST("/api/Approve/editLeave")
     fun editLeave(@Body body: RequestBody): Observable<Payload<Any>>
 
+    @POST("/api/Approve/editApprove")
+    fun editApprove(@Body body: RequestBody): Observable<Payload<Any>>
+
     //撤销出差请假
     @FormUrlEncoded
     @POST("/api/Approve/cancelLeave")
@@ -193,4 +189,16 @@ interface ApproveService{
     fun calcTotalTime(@Field("start_time") start_time: String,
                       @Field("end_time") end_time: String,
                       @Field("type") type: Int): Observable<Payload<String>>
+
+    @FormUrlEncoded
+    @POST("/api/Message/specApprove")
+    fun specApprove(
+            @Field("news_id") news_id: Int
+            , @Field("add_time") add_time: Int? = null
+            , @Field("flag") flag: Int
+            , @Field("search") search: String? = null): Observable<Payload<List<ApprovalBean>>>
+
+    @FormUrlEncoded
+    @POST("/api/Approve/discuss")
+    fun discuss(@Field("approval_id") approval_id: Int, @Field("message") message: String): Observable<Payload<Any>>
 }

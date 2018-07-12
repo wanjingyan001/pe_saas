@@ -42,11 +42,25 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp">
 
-        <ImageView
+        <FrameLayout
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/ic_msg_alert" />
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_msg_alert" />
+
+            <ImageView
+                android:id="@+id/point"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:layout_gravity="right|top"
+                android:src="@drawable/red_point" />
+
+        </FrameLayout>
 
         <LinearLayout
             android:id="@+id/ll_content"
@@ -69,10 +83,12 @@
 
                 <TextView
                     android:id="@+id/tv_title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:singleLine="true"
+                    android:ellipsize="end"
                     android:text="系统消息助手"
                     android:textColor="@color/text_1"
                     android:textSize="14sp" />
@@ -93,10 +109,11 @@
 
                 <TextView
                     android:id="@+id/tv_state"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="right"
+                    android:singleLine="true"
                     android:textColor="@color/textColorBlue"
                     android:textSize="12sp"
                     tools:text="07/07 12:00" />

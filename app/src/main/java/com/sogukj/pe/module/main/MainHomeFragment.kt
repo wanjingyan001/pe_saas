@@ -42,6 +42,7 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.database.MainFunIcon
 import com.sogukj.pe.bean.MessageBean
+import com.sogukj.pe.bean.MessageIndexBean
 import com.sogukj.pe.bean.ProjectBean
 import com.sogukj.pe.database.FunctionViewModel
 import com.sogukj.pe.database.Injection
@@ -54,6 +55,7 @@ import com.sogukj.pe.module.creditCollection.ShareholderCreditActivity
 import com.sogukj.pe.module.other.MessageListActivity
 import com.sogukj.pe.module.partyBuild.PartyMainActivity
 import com.sogukj.pe.module.user.UserActivity
+import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.CacheUtils
 import com.sogukj.pe.peUtils.MyGlideUrl
 import com.sogukj.pe.peUtils.Store
@@ -95,6 +97,38 @@ class MainHomeFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        when (getEnvironment()) {
+            "ht" -> {
+                party_build.backgroundResource = R.drawable.bg_party_build
+                party_build.setOnClickListener {
+                    PartyMainActivity.start(ctx)
+                }
+            }
+            else -> {
+                party_build.backgroundResource = R.drawable.bg_party_build_default
+                party_build.isEnabled = false
+            }
+        }
+        toolbar_title.text = when (getEnvironment()) {
+            "civc" -> {
+                "中缔资本"
+            }
+            "ht" -> {
+                "海通创新"
+            }
+            "kk" -> {
+                "夸克"
+            }
+            "yge" -> {
+                "雅戈尔"
+            }
+            "sr"->{
+                "尚融资本"
+            }
+            else -> {
+                "搜股X-PE"
+            }
+        }
         val factory = Injection.provideViewModelFactory(ctx)
         val model = ViewModelProviders.of(this, factory).get(FunctionViewModel::class.java)
         model.generateData(baseActivity!!.application)
@@ -592,8 +626,9 @@ class MainHomeFragment : BaseFragment() {
                 holder.tvUrgent?.visibility = View.GONE
 
             holder.tvMore?.setOnClickListener {
-                val intent = Intent(context, MessageListActivity::class.java)
-                startActivity(intent)
+                var bean = MessageIndexBean()
+                bean.flag = 1
+                MessageListActivity.start(baseActivity, bean)
             }
             holder.ll_content?.setOnClickListener {
                 val is_mine = if (data.status == -1 || data.status == 4) 1 else 2

@@ -46,6 +46,13 @@ class ScaleSelectionActivity : ToolbarActivity() {
         mAdapter.onItemClick = { v, position ->
             mAdapter.selectedPosition = position
             mAdapter.notifyDataSetChanged()
+            val intent = Intent()
+            if (mAdapter.selectedPosition != -1) {
+                intent.putExtra(Extras.DATA, mAdapter.dataList[mAdapter.selectedPosition])
+                intent.putExtra(Extras.INDEX, mAdapter.selectedPosition + 1)
+                setResult(Extras.RESULTCODE, intent)
+            }
+            finish()
         }
         val array = resources.getStringArray(R.array.register_organ_scale)
         mAdapter.dataList.addAll(array.toMutableList())
@@ -58,15 +65,6 @@ class ScaleSelectionActivity : ToolbarActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        val intent = Intent()
-        if (mAdapter.selectedPosition != -1) {
-            intent.putExtra(Extras.DATA, mAdapter.dataList[mAdapter.selectedPosition])
-            intent.putExtra(Extras.INDEX, mAdapter.selectedPosition + 1)
-            setResult(Extras.RESULTCODE, intent)
-        }
-        finish()
-    }
 
     inner class ScaleHolder(itemView: View) : RecyclerHolder<String>(itemView) {
         private val selectionTv = itemView.find<TextView>(R.id.selectionTv)

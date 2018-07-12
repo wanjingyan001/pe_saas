@@ -2,15 +2,18 @@ package com.sogukj.pe.module.other
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.scwang.smartrefresh.layout.api.RefreshFooter
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
+import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
@@ -19,6 +22,8 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.ApproveFilterBean
 import com.sogukj.pe.bean.MessageBean
+import com.sogukj.pe.bean.MessageIndexBean
+import com.sogukj.pe.module.approve.ApproveListActivity
 import com.sogukj.pe.module.approve.LeaveBusinessApproveActivity
 import com.sogukj.pe.module.approve.SealApproveActivity
 import com.sogukj.pe.module.approve.SignApproveActivity
@@ -30,15 +35,23 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_list_common.*
+import org.jetbrains.anko.singleLine
+import org.jetbrains.anko.textColor
 
 class MessageListActivity : BaseRefreshActivity() {
     lateinit var inflater: LayoutInflater
-
+    lateinit var bean: MessageIndexBean
     lateinit var adapter: RecyclerAdapter<MessageBean>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_common)
-        title = "系统消息助手"
+        bean = intent.getSerializableExtra(Extras.DATA) as MessageIndexBean
+        if (bean.flag == 1) {
+            title = "审批消息助手"
+        } else if (bean.flag == 2) {
+            title = "系统消息助手"
+            iv_filter.visibility = View.INVISIBLE
+        }
         setBack(true)
         inflater = LayoutInflater.from(this)
         adapter = RecyclerAdapter<MessageBean>(this, { _adapter, parent, type ->
@@ -53,50 +66,115 @@ class MessageListActivity : BaseRefreshActivity() {
                 val tvMsg = convertView.findViewById<TextView>(R.id.tv_msg) as TextView
                 val tvUrgent = convertView.findViewById<TextView>(R.id.tv_urgent) as TextView
                 val ll_content = convertView.findViewById<LinearLayout>(R.id.ll_content)
+                val ivIcon = convertView.findViewById<ImageView>(R.id.icon) as ImageView
+                val ivPoint = convertView.findViewById<ImageView>(R.id.point) as ImageView
                 override fun setData(view: View, data: MessageBean, position: Int) {
 
-                    val strType = when (data.type) {
-                        1 -> "出勤休假"
-                        2 -> "用印审批"
-                        3 -> "签字审批"
-                        else -> ""
+                    if (bean.flag == 1) {
+                        val strType = when (data.type) {
+                            1 -> "出勤休假"
+                            2 -> "用印审批"
+                            3 -> "签字审批"
+                            else -> ""
+                        }
+                        if (data.status == 1) {
+                            ll_content.setBackgroundResource(R.drawable.bg_pop_msg_left_1)
+                        } else {
+                            ll_content.setBackgroundResource(R.drawable.bg_pop_msg_left)
+                        }
+                        ivIcon.setImageResource(R.drawable.ic_sys_alert)
+                        ColorUtil.setColorStatus(tvState, data)
+                        tvTitle.text = "$strType ${data.title}"
+                        tvTime.text = data.time
+                        tvFrom.text = "发起人:" + data.username
+                        tvType.text = "类型:" + data.type_name
+                        tvMsg.text = "审批事由:" + data.reasons
+                        val cnt = data.message_count
+                        tvNum.text = "${cnt}"
+                        if (cnt != null && cnt > 0)
+                            tvNum.visibility = View.VISIBLE
+                        else
+                            tvNum.visibility = View.GONE
+                        val urgnet = data.urgent_count
+                        tvUrgent.text = "加急x${urgnet}"
+                        if (urgnet != null && urgnet > 0)
+                            tvUrgent.visibility = View.VISIBLE
+                        else
+                            tvUrgent.visibility = View.GONE
+
+                        ivPoint.visibility = View.GONE
+                        tvMsg.singleLine = true
+                    } else if (bean.flag == 2) {
+                        if (data.type == 1) {
+                            tvUrgent.visibility = View.GONE
+                            ivIcon.setImageResource(R.drawable.ic_msg_alert)
+                            tvTime.text = data.time
+                            val strType = when (data.type) {
+                                1 -> "内部公告"
+                                else -> ""
+                            }
+                            tvTitle.text = "${strType}:${data.title}"
+                            tvTitle.textColor = Color.parseColor("#282828")
+                            tvNum.visibility = View.INVISIBLE
+                            tvState.visibility = View.INVISIBLE
+                            tvFrom.text = "发起人:" + data.username
+                            tvType.visibility = View.INVISIBLE
+                            tvMsg.text = data.contents
+                            tvMsg.singleLine = true
+
+                            if (data.has_read == 0) {
+                                ivPoint.visibility = View.VISIBLE
+                            } else if (data.has_read == 1) {
+                                ivPoint.visibility = View.GONE
+                            } else {
+                                ivPoint.visibility = View.GONE
+                            }
+                        } else if (data.type == 2) {
+                            tvUrgent.visibility = View.GONE
+                            ivIcon.setImageResource(R.drawable.ic_sys_alert)
+                            tvTime.text = data.time
+                            if (data.has_read == 0) {
+                                ivPoint.visibility = View.VISIBLE
+                            } else if (data.has_read == 1) {
+                                ivPoint.visibility = View.GONE
+                            } else {
+                                ivPoint.visibility = View.GONE
+                            }
+                            tvTitle.text = "审批数据报表"
+                            tvTitle.textColor = Color.parseColor("#fff5a623")
+                            tvNum.visibility = View.INVISIBLE
+                            tvState.visibility = View.INVISIBLE
+                            tvFrom.visibility = View.GONE
+                            tvType.visibility = View.GONE
+                            tvMsg.text = data.contents
+                            tvMsg.singleLine = false
+                            tvMsg.maxLines = 2
+                            tvMsg.minLines = 2
+                        }
                     }
-                    if (data.status == 1) {
-                        ll_content.setBackgroundResource(R.drawable.bg_pop_msg_left_1)
-                    } else {
-                        ll_content.setBackgroundResource(R.drawable.bg_pop_msg_left)
-                    }
-                    ColorUtil.setColorStatus(tvState, data)
-                    tvTitle.text = data.title
-                    tvTime.text = data.time
-                    tvFrom.text = "发起人:" + data.username
-                    tvType.text = "类型:" + data.type_name
-                    tvMsg.text = "审批事由:" + data.reasons
-                    val cnt = data.message_count
-                    tvNum.text = "${cnt}"
-                    if (cnt != null && cnt > 0)
-                        tvNum.visibility = View.VISIBLE
-                    else
-                        tvNum.visibility = View.GONE
-                    val urgnet = data.urgent_count
-                    tvUrgent.text = "加急x${urgnet}"
-                    if (urgnet != null && urgnet > 0)
-                        tvUrgent.visibility = View.VISIBLE
-                    else
-                        tvUrgent.visibility = View.GONE
                 }
 
             }
         })
         adapter.onItemClick = { v, p ->
             val data = adapter.dataList.get(p)
-            val is_mine = if (data.status == -1 || data.status == 4) 1 else 2
-            if (data.type == 2)
-                SealApproveActivity.start(this, data, is_mine)
-            else if (data.type == 3)
-                SignApproveActivity.start(this, data, is_mine)
-            else if (data.type == 1)
-                LeaveBusinessApproveActivity.start(this, data, is_mine)//出差  SealApproveActivity
+            if (bean.flag == 1) {
+                val is_mine = if (data.status == -1 || data.status == 4) 1 else 2
+                if (data.type == 2)
+                    SealApproveActivity.start(this, data, is_mine)
+                else if (data.type == 3)
+                    SignApproveActivity.start(this, data, is_mine)
+                else if (data.type == 1)
+                    LeaveBusinessApproveActivity.start(this, data, is_mine)//出差  SealApproveActivity
+            } else if (bean.flag == 2) {
+                if (data.type == 1) {
+                    // 内部公告
+                    GongGaoDetailActivity.start(context, data)
+                } else {
+                    // 审批统计信息
+                    ApproveListActivity.start(this@MessageListActivity, 6, data.news_id, data)
+                }
+            }
         }
         val layoutManager = LinearLayoutManager(this)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
@@ -324,6 +402,7 @@ class MessageListActivity : BaseRefreshActivity() {
 
     var page = 1
     fun doRequest() {
+        if (bean.flag == 1) {
         SoguApi.getService(application, OtherService::class.java)
                 .msgList(page = page, pageSize = 20)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -360,11 +439,41 @@ class MessageListActivity : BaseRefreshActivity() {
                     else
                         finishLoadMore()
                 })
+        } else if (bean.flag == 2) {
+            SoguApi.getService(application,OtherService::class.java)
+                    .sysMsgList(page = page, pageSize = 20)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe({ payload ->
+                        if (payload.isOk) {
+                            if (page == 1) {
+                                adapter.dataList.clear()
+                            }
+                            payload?.payload?.apply {
+                                adapter.dataList.addAll(this)
+                            }
+                            adapter.notifyDataSetChanged()
+                        } else
+                            showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                    }, { e ->
+                        Trace.e(e)
+                        showCustomToast(R.drawable.icon_toast_common, "暂无可用数据")
+                    }, {
+                        SupportEmptyView.checkEmpty(this, adapter)
+                        isLoadMoreEnable = adapter.dataList.size % 20 == 0
+                        adapter.notifyDataSetChanged()
+                        if (page == 1)
+                            finishRefresh()
+                        else
+                            finishLoadMore()
+                    })
+        }
     }
 
     companion object {
-        fun start(ctx: Activity?) {
+        fun start(ctx: Activity?, bean: MessageIndexBean) {
             val intent = Intent(ctx, MessageListActivity::class.java)
+            intent.putExtra(Extras.DATA, bean)
             ctx?.startActivity(intent)
         }
     }

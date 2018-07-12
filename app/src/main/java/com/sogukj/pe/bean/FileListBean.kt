@@ -1,9 +1,17 @@
 package com.sogukj.pe.bean
 
+import java.io.Serializable
+
 /**
  * Created by sogubaby on 2018/5/12.
  */
-class FileListBean {
+class FileListBean :Serializable {
+    var id: Int? = null
+    var dirname: String? = null
+    var amend: Int? = null // 1可删除可改名,0不可改名不可删除
+    var edit_time: String? = null
+    var count: Int? = null
+
     var doc_title: String? = null//	文书标题
     var add_time: String? = null//上传时间
     var submitter: String? = null//提交人

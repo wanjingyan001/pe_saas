@@ -102,7 +102,21 @@ class FundDetailActivity : ToolbarActivity() {
         run {
             structure.setOnClickListener({ FundStructureActivity.start(this, data) })
             fundsDetail.setOnClickListener({ FundAccountActivity.start(this, data) })
-            fundsWenShu.setOnClickListener({ FundBookActivity.start(this, data) })
+            fundsWenShu.setOnClickListener({
+                val stage = when(data.type){//  （1=>储备，2=>存续，3=>退出））
+                    1 -> "储备"
+                    2 -> "存续"
+                    3 -> "退出"
+                    else -> ""
+                }
+                BookListActivity.start(context, data.id, 2, null, "基金文书", data.fundName, stage)
+            })
+            jjxm.setOnClickListener {
+                FundProjectActivity.start(context, data)
+            }
+            jjxh.setOnClickListener {
+                FundAssociationActivity.start(context, 1, 0, data.id)
+            }
         }
     }
 

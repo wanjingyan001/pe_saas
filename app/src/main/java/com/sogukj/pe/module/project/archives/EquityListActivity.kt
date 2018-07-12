@@ -113,7 +113,7 @@ class EquityListActivity : ToolbarActivity() {
             }
             record_time.text = data.time
             root.setOnClickListener {
-                EquityStructureActivity.start(context, data)
+                EquityStructureActivity.start(context, data,true)
             }
         }
     }

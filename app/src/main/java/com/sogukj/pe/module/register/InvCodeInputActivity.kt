@@ -11,6 +11,7 @@ import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.View
+import androidx.core.content.edit
 import com.amap.api.mapcore.util.it
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
@@ -69,34 +70,29 @@ class InvCodeInputActivity : ToolbarActivity(), SingleEditLayout.InputFinish {
                         if (payload.isOk) {
                             payload.payload?.let {
                                 it.domain_name?.let {
-                                    RetrofitUrlManager.getInstance().setGlobalDomain(it)
+                                    val newBaseUtl:String = if (!it.startsWith("http://")){
+                                        "http://$it"
+                                    }else{
+                                        it
+                                    }
+                                    sp.edit { putString(Extras.HTTPURL, newBaseUtl) }
+                                    RetrofitUrlManager.getInstance().setGlobalDomain(newBaseUtl)
                                 }
                                 val info = MechanismInfo(it.mechanism_name, it.scale, null, null, null, it.key)
                                 startActivity<InfoSupplementActivity>(Extras.DATA to phone
                                         , Extras.DATA2 to info
                                         , Extras.FLAG to true)
-                                finish()
                             }
                         } else {
-                            showTopSnackBar(payload.message)
+                            payload.message?.contains("邀请码不存在").takeIf {
+                                showTopSnackBar("邀请码不存在")
+                                return@takeIf true
+                            }
                         }
                     }
                 }
     }
 
-    private fun getUserBean(phone: String) {
-        SoguApi.getService(application, RegisterService::class.java).getUserBean(phone,sp.getInt(Extras.SaasUserId,0))
-                .execute {
-                    onNext { payload ->
-                        if (payload.isOk) {
-                            payload.payload?.let {
-                                Store.store.setUser(this@InvCodeInputActivity, it)
-                                startActivity<MainActivity>()
-                            }
-                        }
-                    }
-                }
-    }
 
     inner class ClickSpann(val context: Context) : ClickableSpan() {
         override fun onClick(widget: View?) {

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    tools:context="com.sogukj.pe.ui.approve.SealApproveActivity">
+    tools:context="com.sogukj.pe.module.approve.SealApproveActivity">
 
     <include layout="@layout/toolbar" />
 
@@ -188,6 +189,36 @@
                         android:verticalSpacing="12dp" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/discuss_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                        android:background="#f3f5f7" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="20dp"
+                        android:gravity="center|left"
+                        android:text="评论专区"
+                        android:textColor="#ff282828"
+                        android:textSize="14sp" />
+
+                    <com.sogukj.pe.widgets.CustomRecyclerView
+                        android:id="@+id/discussed"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="10dp" />
+                </LinearLayout>
+
                 <!--<include-->
                 <!--android:id="@+id/part3"-->
                 <!--layout="@layout/seal_approve_part3" />-->
@@ -197,51 +228,42 @@
                     android:layout_height="10dp"
                     android:background="#f3f5f7" />
 
-                <Button
-                    android:id="@+id/btn_single"
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/bg_btn_blue"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    tools:text="审批完成" />
-
                 <LinearLayout
                     android:id="@+id/ll_twins"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
 
-                    <Button
-                        android:id="@+id/btn_left"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:layout_marginRight="15dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/bg_rect_blue"
-                        android:text="导出审批单"
-                        android:textColor="@color/colorBlue"
-                        android:textSize="18sp" />
+                    <!--<Button-->
+                    <!--android:id="@+id/btn_left"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="45dp"-->
+                    <!--android:layout_marginRight="15dp"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:background="@drawable/bg_rect_blue"-->
+                    <!--android:text="导出审批单"-->
+                    <!--android:textColor="@color/colorBlue"-->
+                    <!--android:textSize="18sp" />-->
 
-                    <Button
-                        android:id="@+id/btn_right"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/bg_btn_blue"
-                        android:text="用印完成"
-                        android:textColor="@color/white"
-                        android:textSize="18sp" />
+                    <!--<Button-->
+                    <!--android:id="@+id/btn_right"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="45dp"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:background="@drawable/bg_btn_blue"-->
+                    <!--android:text="用印完成"-->
+                    <!--android:textColor="@color/white"-->
+                    <!--android:textSize="18sp" />-->
                 </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="#f3f5f7" />
             </LinearLayout>
 
             <ImageView

@@ -12,14 +12,14 @@ object Extras {
     val NAME = "ext.name"
     val CODE = "ext.code"
     val INDEX = "ext.index"
-    val BEAN  = "ext.bean"
+    val BEAN = "ext.bean"
     val STOCK_CODES = "ext.stockCodes"
     val DATA = "ext.data"
     val DATA2 = "ext.data2"
     val LIST = "ext.list"
     val LIST2 = "ext.list2"
     val MAP = "ext.map"
-    val SEND_USERS ="ext.sendUsers"
+    val SEND_USERS = "ext.sendUsers"
     val COPY_FOR_USERS = "ext.copyForUsers"
     val REQUESTCODE = 1001
     val requestCode1 = 1000
@@ -67,9 +67,19 @@ object Extras {
 
     val SCHEDULE_DRAFT = "ext.schedule.draft"//用于保存日程和任务的草稿
 
+
+    val URL = "ext.url"
+    val MODULE_ID = "ext.module_id"
+
     val CompanyKey = "companyKey"
+    val SaasPhone = "saas.Phone"
     val SaasUserId = "saas.userId"
     val HTTPURL = "saas.httpUrl"
-    val ROUTE_PATH = "ext.route.path"//在拦截器中传递path
+    const val ROUTE_PATH = "ext.route.path"//在拦截器中传递path
     val ROUTH_FLAG = Int.MAX_VALUE
+
+
+    val STAGE = "ext.stage"
+    val COMPANY_ID = "ext.company_id"
+    val DIR_ID = "ext.dir_id"
 }

@@ -7,6 +7,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ldf.calendar.CalendarUtils;
+import com.ldf.calendar.LunarBean;
+import com.ldf.calendar.LunarUtils;
 import com.ldf.calendar.Utils;
 import com.ldf.calendar.component.State;
 import com.ldf.calendar.interf.IDayRenderer;
@@ -56,7 +59,7 @@ public class CustomDayView extends DayView {
     private void renderMarker(CalendarDate date, State state) {
         Calendar instance = Calendar.getInstance();
         instance.set(date.year, date.month - 1, date.day);
-        String time = com.sogukj.pe.util.Utils.getTime(instance.getTime(), "yyyy-MM-dd");
+        String time =  com.sogukj.pe.baselibrary.utils.Utils.getTime(instance.getTime(), "yyyy-MM-dd");
         if (Utils.loadMarkData().containsKey(time)) {
 //            if (state == State.SELECT || date.toString().equals(today.toString())) {
 //                marker.setVisibility(GONE);
@@ -105,7 +108,7 @@ public class CustomDayView extends DayView {
 
             final Calendar instance = Calendar.getInstance();
             instance.set(date.year, date.month - 1, date.day);
-            String time = com.sogukj.pe.util.Utils.getTime(instance.getTime(), "yyyyMMdd");
+            String time = com.sogukj.pe.baselibrary.utils.Utils.getTime(instance.getTime(), "yyyyMMdd");
             //法定节假日---休
             //周六周日---班
             LunarBean bean = new LunarUtils().getLunarDate(time, false);

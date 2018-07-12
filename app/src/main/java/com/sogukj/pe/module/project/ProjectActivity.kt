@@ -18,18 +18,27 @@ import android.widget.TextView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
 import com.netease.nim.uikit.api.NimUIKit
+import com.netease.nimlib.sdk.NIMClient
+import com.netease.nimlib.sdk.RequestCallback
+import com.netease.nimlib.sdk.team.TeamService
+import com.netease.nimlib.sdk.team.model.Team
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.R.id.*
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.StatusBarUtil
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.utils.XmlDb
+import com.sogukj.pe.bean.EquityListBean
 import com.sogukj.pe.bean.ProjectBean
 import com.sogukj.pe.bean.ProjectDetailBean
+import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.module.approve.ApproveListActivity
 import com.sogukj.pe.module.creditCollection.ShareHolderDescActivity
 import com.sogukj.pe.module.creditCollection.ShareholderCreditActivity
+import com.sogukj.pe.module.fund.BookListActivity
+import com.sogukj.pe.module.main.ContactsActivity
 import com.sogukj.pe.module.project.archives.*
 import com.sogukj.pe.module.project.businessBg.*
 import com.sogukj.pe.module.project.businessDev.*
@@ -38,6 +47,7 @@ import com.sogukj.pe.module.project.intellectualProperty.ICPListActivity
 import com.sogukj.pe.module.project.intellectualProperty.PatentListActivity
 import com.sogukj.pe.module.project.listingInfo.*
 import com.sogukj.pe.module.project.operate.*
+import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.NewService
 import com.sogukj.pe.service.OtherService
@@ -56,6 +66,7 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
     lateinit var project: ProjectBean
     var position = 0
     var type = 0
+    var projectDetail: ProjectDetailBean? = null
 
     override fun onBackPressed() {
         var intent = Intent()
@@ -102,6 +113,14 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
         //const val TYPE_GZ = 3
         //const val TYPE_DY = 6
         //const val TYPE_TC = 7
+        when (getEnvironment()) {
+            "sr" -> {
+                proj_stage.visibility = View.INVISIBLE
+            }
+            else -> {
+                proj_stage.visibility = View.VISIBLE
+            }
+        }
         if (type == ProjectListFragment.TYPE_DY) {
             proj_stage.text = "储 备"
             //edit.visibility = View.GONE
@@ -161,39 +180,11 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
                 .subscribeOn(Schedulers.io())
                 .subscribe({ payload ->
                     if (payload.isOk) {
-                        payload.payload?.counts?.apply {
-                            refreshGrid(gl_changyonggongneng, get(0).value!!, Color.parseColor("#5785f3"))
-                            refreshGrid(gl_qiyeshangchuan, get(1).value!!, Color.parseColor("#5785f3"))
-                            refreshGrid(gl_xiangmudanganku, get(2).value!!, Color.parseColor("#5785f3"))
-                            refreshGrid(gl_shangshi, get(3).value!!, Color.parseColor("#5785f3"))
-                            refreshGrid(gl_qiyebeijin, get(4).value!!, Color.parseColor("#fe5f39"))
-                            refreshGrid(gl_qiyefazhan, get(5).value!!, Color.parseColor("#5785f3"))
-                            refreshGrid(gl_jinyinzhuankuang, get(6).value!!, Color.parseColor("#fe5f39"))
-                            refreshGrid(gl_zhishichanquan, get(7).value!!, Color.parseColor("#5785f3"))
-                            if (get(0).value!!.size == 0) {
-                                changyonggongneng_layout.visibility = View.GONE
-                            }
-                            if (get(1).value!!.size == 0) {
-                                qiyeshangchuan_layout.visibility = View.GONE
-                            }
-                            if (get(2).value!!.size == 0) {
-                                xiangmudanganku_layout.visibility = View.GONE
-                            }
-                            if (get(3).value!!.size == 0) {
-                                shangshi_layout.visibility = View.GONE
-                            }
-                            if (get(4).value!!.size == 0) {
-                                qiyebeijin_layout.visibility = View.GONE
-                            }
-                            if (get(5).value!!.size == 0) {
-                                qiyefazhan_layout.visibility = View.GONE
-                            }
-                            if (get(6).value!!.size == 0) {
-                                jinyinzhuankuang_layout.visibility = View.GONE
-                            }
-                            if (get(7).value!!.size == 0) {
-                                zhishichanquan_layout.visibility = View.GONE
-                            }
+                        payload.payload?.let {
+                            projectDetail = it
+                        }
+                        payload.payload?.counts?.forEach {
+                            refreshLayout(it)
                         }
 
                         if (payload.payload!!.fu == 0) {
@@ -228,44 +219,52 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
 
         is_business = project.is_business
         is_ability = project.is_ability
-        if (is_business == 1) {
-            btn_yes.setBackgroundResource(R.drawable.bg_rectangle_blue)
-            btn_yes.textColor = Color.parseColor("#ffffff")
+        when (is_business) {
+            1 -> {
+                btn_yes.setBackgroundResource(R.drawable.bg_rectangle_blue)
+                btn_yes.textColor = Color.parseColor("#ffffff")
 
-            btn_no.setBackgroundResource(R.drawable.bg_rectangle_white)
-            btn_no.textColor = Color.parseColor("#282828")
-        } else if (is_business == 2) {
-            btn_no.setBackgroundResource(R.drawable.bg_rectangle_blue)
-            btn_no.textColor = Color.parseColor("#ffffff")
+                btn_no.setBackgroundResource(R.drawable.bg_rectangle_white)
+                btn_no.textColor = Color.parseColor("#282828")
+            }
+            2 -> {
+                btn_no.setBackgroundResource(R.drawable.bg_rectangle_blue)
+                btn_no.textColor = Color.parseColor("#ffffff")
 
-            btn_yes.setBackgroundResource(R.drawable.bg_rectangle_white)
-            btn_yes.textColor = Color.parseColor("#282828")
-        } else if (is_business == null) {
-            btn_yes.setBackgroundResource(R.drawable.bg_rectangle_white)
-            btn_yes.textColor = Color.parseColor("#282828")
+                btn_yes.setBackgroundResource(R.drawable.bg_rectangle_white)
+                btn_yes.textColor = Color.parseColor("#282828")
+            }
+            null -> {
+                btn_yes.setBackgroundResource(R.drawable.bg_rectangle_white)
+                btn_yes.textColor = Color.parseColor("#282828")
 
-            btn_no.setBackgroundResource(R.drawable.bg_rectangle_white)
-            btn_no.textColor = Color.parseColor("#282828")
+                btn_no.setBackgroundResource(R.drawable.bg_rectangle_white)
+                btn_no.textColor = Color.parseColor("#282828")
+            }
         }
 
-        if (is_ability == 1) {
-            btn_you.setBackgroundResource(R.drawable.bg_rectangle_blue)
-            btn_you.textColor = Color.parseColor("#ffffff")
+        when (is_ability) {
+            1 -> {
+                btn_you.setBackgroundResource(R.drawable.bg_rectangle_blue)
+                btn_you.textColor = Color.parseColor("#ffffff")
 
-            btn_wu.setBackgroundResource(R.drawable.bg_rectangle_white)
-            btn_wu.textColor = Color.parseColor("#282828")
-        } else if (is_ability == 2) {
-            btn_wu.setBackgroundResource(R.drawable.bg_rectangle_blue)
-            btn_wu.textColor = Color.parseColor("#ffffff")
+                btn_wu.setBackgroundResource(R.drawable.bg_rectangle_white)
+                btn_wu.textColor = Color.parseColor("#282828")
+            }
+            2 -> {
+                btn_wu.setBackgroundResource(R.drawable.bg_rectangle_blue)
+                btn_wu.textColor = Color.parseColor("#ffffff")
 
-            btn_you.setBackgroundResource(R.drawable.bg_rectangle_white)
-            btn_you.textColor = Color.parseColor("#282828")
-        } else if (is_ability == null) {
-            btn_you.setBackgroundResource(R.drawable.bg_rectangle_white)
-            btn_you.textColor = Color.parseColor("#282828")
+                btn_you.setBackgroundResource(R.drawable.bg_rectangle_white)
+                btn_you.textColor = Color.parseColor("#282828")
+            }
+            null -> {
+                btn_you.setBackgroundResource(R.drawable.bg_rectangle_white)
+                btn_you.textColor = Color.parseColor("#282828")
 
-            btn_wu.setBackgroundResource(R.drawable.bg_rectangle_white)
-            btn_wu.textColor = Color.parseColor("#282828")
+                btn_wu.setBackgroundResource(R.drawable.bg_rectangle_white)
+                btn_wu.textColor = Color.parseColor("#282828")
+            }
         }
 
         btn_yes.setOnClickListener {
@@ -423,14 +422,11 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
                     .subscribeOn(Schedulers.io())
                     .subscribe({ payload ->
                         if (payload.isOk) {
-                            if (type == ProjectListFragment.TYPE_DY) {
-                                showCustomToast(R.drawable.icon_toast_success, "成功添加到储备")
-                            } else if (type == ProjectListFragment.TYPE_CB) {
-                                showCustomToast(R.drawable.icon_toast_success, "成功添加到立项")
-                            } else if (type == ProjectListFragment.TYPE_LX) {
-                                showCustomToast(R.drawable.icon_toast_success, "成功添加到已投")
-                            } else if (type == ProjectListFragment.TYPE_YT) {
-                                showCustomToast(R.drawable.icon_toast_success, "成功添加到退出")
+                            when (type) {
+                                ProjectListFragment.TYPE_DY -> showCustomToast(R.drawable.icon_toast_success, "成功添加到储备")
+                                ProjectListFragment.TYPE_CB -> showCustomToast(R.drawable.icon_toast_success, "成功添加到立项")
+                                ProjectListFragment.TYPE_LX -> showCustomToast(R.drawable.icon_toast_success, "成功添加到已投")
+                                ProjectListFragment.TYPE_YT -> showCustomToast(R.drawable.icon_toast_success, "成功添加到退出")
                             }
                             setResult(Activity.RESULT_OK)
                             finish()
@@ -439,38 +435,15 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
                         }
                     }, { e ->
                         Trace.e(e)
-                        if (type == ProjectListFragment.TYPE_DY) {
-                            showCustomToast(R.drawable.icon_toast_fail, "添加到储备失败")
-                        } else if (type == ProjectListFragment.TYPE_CB) {
-                            showCustomToast(R.drawable.icon_toast_fail, "添加到立项失败")
-                        } else if (type == ProjectListFragment.TYPE_LX) {
-                            showCustomToast(R.drawable.icon_toast_fail, "添加到已投失败")
-                        } else if (type == ProjectListFragment.TYPE_YT) {
-                            showCustomToast(R.drawable.icon_toast_fail, "添加到退出失败")
+                        when (type) {
+                            ProjectListFragment.TYPE_DY -> showCustomToast(R.drawable.icon_toast_fail, "添加到储备失败")
+                            ProjectListFragment.TYPE_CB -> showCustomToast(R.drawable.icon_toast_fail, "添加到立项失败")
+                            ProjectListFragment.TYPE_LX -> showCustomToast(R.drawable.icon_toast_fail, "添加到已投失败")
+                            ProjectListFragment.TYPE_YT -> showCustomToast(R.drawable.icon_toast_fail, "添加到退出失败")
                         }
                     })
         }
         dialog.show()
-    }
-
-    private fun createOrJoin() {
-        val user = Store.store.getUser(this)
-        val accid = user?.accid ?: ""
-        SoguApi.getService(application,NewService::class.java)
-                .createJoinGroup(accid, project.company_id.toString())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe({ payload ->
-                    if (payload.isOk) {
-                        payload.payload?.let {
-                            NimUIKit.startTeamSession(this, it.toString())
-                        }
-                    } else {
-                        showCustomToast(R.drawable.icon_toast_fail, payload.message)
-                    }
-                }, { e ->
-                    Trace.e(e)
-                })
     }
 
     var is_business: Int? = null//非空(1=>有价值 ,2=>无价值)
@@ -502,6 +475,21 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
                         ToastError(e)
                     })
         })
+    }
+
+    fun refreshLayout(bean: ProjectDetailBean.DetailBean) {
+        if (bean.value == null || bean.value!!.size == 0) {
+            return
+        }
+        var view = layoutInflater.inflate(R.layout.project_grid_item, null)
+        root.addView(view)
+
+        var tvTitle = view.findViewById<TextView>(R.id.title) as TextView
+        tvTitle.text = bean.title
+
+
+        var grid = view.findViewById<GridView>(R.id.gl_changyonggongneng) as GridView
+        refreshGrid(grid, bean.value!!)
     }
 
     //"status": 1,
@@ -687,7 +675,11 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
             7 -> ChangeRecordActivity.start(this@ProjectActivity, project)//变更记录
             6 -> InvestmentActivity.start(this@ProjectActivity, project)//对外投资
             5 -> KeyPersonalActivity.start(this@ProjectActivity, project)//主要人员
-//            4 -> EquityStructureActivity.start(this@ProjectActivity, project)//股权结构
+            4 -> {
+                var bean = EquityListBean()
+                bean.hid = project.company_id
+                EquityStructureActivity.start(this@ProjectActivity, bean, false)
+            }//股权结构
             9 -> BranchListActivity.start(this@ProjectActivity, project)//分支机构
             10 -> CompanyInfo2Activity.start(this@ProjectActivity, project)//公司简介
 
@@ -712,7 +704,17 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
             35 -> CopyrightListActivity.start(this@ProjectActivity, project, 2)//著作权
             36 -> ICPListActivity.start(this@ProjectActivity, project)//网站备案
 
-            52 -> ProjectBookActivity.start(this@ProjectActivity, project)//项目文书
+            52 -> {
+                var stage = when (project.type) {//（4是储备，1是立项，3是关注，5是退出，6是调研）
+                    6 -> "调研"
+                    4 -> "储备"
+                    1 -> "立项"
+                    2 -> "已投"
+                    5, 7 -> "退出"
+                    else -> ""
+                }
+                BookListActivity.start(context, project.company_id!!, 1, null, "项目文书", project.name!!, stage)
+            }
             54 -> StoreProjectAddActivity.startView(this@ProjectActivity, project)//储备信息
         //51 -> ShareholderCreditActivity.start(this@ProjectActivity, project)//高管征信（股东征信）
             51 -> {
@@ -728,9 +730,12 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
 
         // 跟踪记录,尽调数据,投决数据,投后管理数据
             55 -> RecordTraceActivity.start(this@ProjectActivity, project)//跟踪记录
-            56 -> SurveyDataActivity.start(this@ProjectActivity, project)//尽调数据
-            57 -> InvestSuggestActivity.start(this@ProjectActivity, project)//投决数据
-            58 -> ManageDataActivity.start(this@ProjectActivity, project)//投后管理
+        //56 -> SurveyDataActivity.start(this@ProjectActivity, project)//尽调数据-----------------------
+        //57 -> InvestSuggestActivity.start(this@ProjectActivity, project)//投决数据------------------------
+        //58 -> ManageDataActivity.start(this@ProjectActivity, project)//投后管理--------------------------
+            56 -> ManagerActivity.start(this@ProjectActivity, project, 1, "尽调数据")//尽调数据-----------------------
+            57 -> ManagerActivity.start(this@ProjectActivity, project, 8, "投决数据")//投决数据------------------------
+            58 -> ManagerActivity.start(this@ProjectActivity, project, 10, "投后管理")//投后管理--------------------------
 
             59 -> ApproveListActivity.start(this@ProjectActivity, null, project.company_id)//审批历史
 
@@ -739,30 +744,41 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
             61 -> FinanceListActivity.start(this@ProjectActivity, project)
 
             R.id.im -> {
-                val inflate = LayoutInflater.from(this).inflate(R.layout.layout_input_dialog1, null)
-                val dialog = MaterialDialog.Builder(this)
-                        .customView(inflate, false)
-                        .cancelable(true)
-                        .build()
-                dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                val veto = inflate.find<TextView>(R.id.veto_comment)
-                val confirm = inflate.find<TextView>(R.id.confirm_comment)
-                val title = inflate.find<TextView>(R.id.approval_comments_title)
-                title.text = "是否加入该项目讨论组?"
-                veto.text = "否"
-                confirm.text = "是"
-                veto.setOnClickListener {
-                    if (dialog.isShowing) {
-                        dialog.dismiss()
+                projectDetail?.let {
+                    when (it.type) {
+                        0 -> {
+                            //群组存在就申请加群
+                            NIMClient.getService(TeamService::class.java).applyJoinTeam(it.group_id.toString(), "")
+                                    .setCallback(object : RequestCallback<Team> {
+                                        override fun onFailed(code: Int) {
+                                            if (code == 809) {
+                                                NimUIKit.startTeamSession(this@ProjectActivity, it.group_id.toString())
+                                            } else {
+                                                showCustomToast(R.drawable.icon_toast_common, "申请已发出")
+                                            }
+                                        }
+
+                                        override fun onSuccess(param: Team) {
+                                            NimUIKit.startTeamSession(this@ProjectActivity, param.id)
+                                        }
+
+                                        override fun onException(exception: Throwable) {
+                                            showCustomToast(R.drawable.icon_toast_fail, exception.message)
+                                        }
+                                    })
+                        }
+                        1 -> {
+                            //可以建群就去建群
+                            val alreadySelect = ArrayList<UserBean>()
+                            alreadySelect.add(Store.store.getUser(this)!!)
+                            ContactsActivity.start(this, alreadySelect, true, true, project = project)
+                        }
+                        2 -> {
+                            //不可以建群就弹提示
+                            showCustomToast(R.drawable.icon_toast_fail, "你没有创建该项目群组的权限")
+                        }
                     }
                 }
-                confirm.setOnClickListener {
-                    if (dialog.isShowing) {
-                        dialog.dismiss()
-                    }
-                    createOrJoin()
-                }
-                dialog.show()
             }
         }
     }

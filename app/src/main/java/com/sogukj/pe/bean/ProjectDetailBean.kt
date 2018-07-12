@@ -13,6 +13,8 @@ class ProjectDetailBean : Serializable {
     var counts: ArrayList<DetailBean>? = null
     var usual: ArrayList<DetailBean>? = null
     var is_focus: Int? = null//是否关注，1是关注，0未关注
+    var type: Int? = null//0 群已存在，1 群不存在&可以建群，2 群不存在&不可以建群
+    var group_id: Int? = null//当type=0显示群id
 
     class DetailBean {
         var title: String? = null

@@ -239,6 +239,10 @@ class MainNewsFragment : BaseRefreshFragment() {
         hisAdapter.notifyDataSetChanged()
         ll_history.visibility = View.VISIBLE
         iv_filter.setOnClickListener {
+            if (tags == null || tags.size == 0) {
+                showCustomToast(R.drawable.icon_toast_common, "暂无热门标签")
+                return@setOnClickListener
+            }
             if (fl_filter.visibility == View.GONE) {
                 view_pager.visibility = View.GONE
                 fl_filter.visibility = View.VISIBLE
@@ -279,7 +283,7 @@ class MainNewsFragment : BaseRefreshFragment() {
         config.disableContentWhenRefresh = true
         return config
     }
-
+    lateinit var tags: ArrayList<String>
     fun loadTags() {
         SoguApi.getService(baseActivity!!.application, NewService::class.java)
                 .getHotTag()
@@ -287,7 +291,7 @@ class MainNewsFragment : BaseRefreshFragment() {
                 .subscribeOn(Schedulers.io())
                 .subscribe({ payload ->
                     if (payload.isOk) {
-                        var tags = payload.payload!!
+                         tags = payload.payload!!
                         for (i in 0 until grid.childCount) {
                             var child = grid.getChildAt(i) as TextView
                             try {

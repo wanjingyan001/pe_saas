@@ -9,13 +9,13 @@ package com.chad.library;
 public final class R {
     public static final class dimen {
         public static int def_height = 0x7f08007f;
-        public static int dp_10 = 0x7f0800ac;
-        public static int dp_4 = 0x7f0800b0;
-        public static int dp_40 = 0x7f0800b1;
-        public static int dp_72 = 0x7f0800b3;
-        public static int sp_12 = 0x7f08013f;
-        public static int sp_14 = 0x7f080140;
-        public static int sp_16 = 0x7f080141;
+        public static int dp_10 = 0x7f0800ad;
+        public static int dp_4 = 0x7f0800b1;
+        public static int dp_40 = 0x7f0800b2;
+        public static int dp_72 = 0x7f0800b4;
+        public static int sp_12 = 0x7f080140;
+        public static int sp_14 = 0x7f080141;
+        public static int sp_16 = 0x7f080142;
     }
     public static final class drawable {
         public static int sample_footer_loading = 0x7f0901b7;

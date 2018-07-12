@@ -38,9 +38,9 @@ public final class R {
         public static int Yellow = 0x7f060005;
     }
     public static final class dimen {
-        public static int item_touch_helper_max_drag_scroll_per_frame = 0x7f0800d7;
-        public static int item_touch_helper_swipe_escape_max_velocity = 0x7f0800d8;
-        public static int item_touch_helper_swipe_escape_velocity = 0x7f0800d9;
+        public static int item_touch_helper_max_drag_scroll_per_frame = 0x7f0800d8;
+        public static int item_touch_helper_swipe_escape_max_velocity = 0x7f0800d9;
+        public static int item_touch_helper_swipe_escape_velocity = 0x7f0800da;
     }
     public static final class drawable {
         public static int anim_loading_view = 0x7f090054;

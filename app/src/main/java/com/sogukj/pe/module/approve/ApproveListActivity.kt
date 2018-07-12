@@ -6,22 +6,30 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.TabLayout
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Trace
+import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.ApprovalBean
 import com.sogukj.pe.bean.ApproveFilterBean
+import com.sogukj.pe.bean.MessageBean
 import com.sogukj.pe.peUtils.SupportEmptyView
 import com.sogukj.pe.service.ApproveService
 import com.sogukj.pe.util.ColorUtil
@@ -53,9 +61,8 @@ class ApproveListActivity : BaseRefreshActivity(), TabLayout.OnTabSelectedListen
         stateDefault()
     }
 
-    class ItemAdapter(context: Context, creator: (adapter: RecyclerAdapter<ApprovalBean>, parent: ViewGroup, type: Int) -> RecyclerHolder<ApprovalBean>)
-        : RecyclerAdapter<ApprovalBean>(context, creator)
-
+    lateinit var bean: MessageBean
+    var flag = 1//1审批完成,2待审批
     lateinit var adapter: RecyclerAdapter<ApprovalBean>
     lateinit var inflater: LayoutInflater
     var mType: Int = 1
@@ -66,14 +73,26 @@ class ApproveListActivity : BaseRefreshActivity(), TabLayout.OnTabSelectedListen
         mType = intent.getIntExtra(Extras.TYPE, 1)
         title = intent.getStringExtra(Extras.TITLE)
         setBack(true)
-        if (mType == 3) {
-            tab_title.visibility = View.GONE
-        } else {
+        if (mType == 6) {
             tab_title.visibility = View.VISIBLE
+            bean = intent.getSerializableExtra(Extras.DATA) as MessageBean
+            tab_title.getTabAt(0)?.text = "审批完成(${bean.finishNum})"
+            tab_title.getTabAt(1)?.text = "待审批(${bean.waitNum})"
+            tab_title.getTabAt(0)?.select()
+            Utils.setUpIndicatorWidth(tab_title, 50, 50, context)
             tab_title.addOnTabSelectedListener(this)
             stateDefault()
+            iv_filter.visibility = View.GONE
+
+            val linearLayout = tab_title.getChildAt(0) as LinearLayout
+            linearLayout.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE)
+            linearLayout.setDividerDrawable(ContextCompat.getDrawable(this,
+                    R.drawable.tab_divider))
+            linearLayout.setDividerPadding(Utils.dpToPx(context,15))
+        } else {
+            tab_title.visibility = View.GONE
         }
-        tab_title.visibility = View.GONE
+        //tab_title.visibility = View.GONE
         adapter = RecyclerAdapter(this, { _adapter, parent, type ->
             val convertView = _adapter.getView(R.layout.item_approval, parent)
 
@@ -131,13 +150,29 @@ class ApproveListActivity : BaseRefreshActivity(), TabLayout.OnTabSelectedListen
                     stateFilter()
                 }
             }
-            search_box.root.backgroundColor = Color.WHITE
-            (search_box.tv_cancel as TextView).textColor = Color.parseColor("#a0a4aa")
-            search_box.tv_cancel.visibility = View.GONE
-            search_box.et_search.hint = "搜索"
-            search_box.onTextChange = { text ->
-                if (null != text && !TextUtils.isEmpty(text)) {
-                    searchStr = text
+        }
+        stateDefault()
+        initSearchView()
+    }
+
+    private fun initSearchView() {
+        search_edt.filters = Utils.getFilter(context)
+        search_edt.setOnFocusChangeListener { v, hasFocus ->
+            if (hasFocus || search_edt.textStr.isNotEmpty()) {
+                search_hint.visibility = View.GONE
+                search_icon.visibility = View.VISIBLE
+                delete1.visibility = View.VISIBLE
+            } else {
+                search_hint.visibility = View.VISIBLE
+                search_icon.visibility = View.GONE
+                delete1.visibility = View.GONE
+                search_edt.clearFocus()
+            }
+        }
+        search_edt.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                if (search_edt.textStr.isNotEmpty()) {
+                    searchStr = search_edt.text.toString()
                     page = 1
                     doRequest()
                 } else {
@@ -145,16 +180,60 @@ class ApproveListActivity : BaseRefreshActivity(), TabLayout.OnTabSelectedListen
                     page = 1
                     stateDefault()
                 }
+                true
+            } else {
+                false
             }
         }
-        stateDefault()
+        delete1.setOnClickListener {
+            Utils.toggleSoftInput(context, search_edt)
+            search_edt.setText("")
+            search_edt.clearFocus()
+            recycler_view.adapter = adapter
+            doRequest()
+        }
+        search_edt.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (search_edt.text.toString().isEmpty()) {
+                    searchStr = null
+                    page = 1
+                    stateDefault()
+                } else {
+                    searchStr = search_edt.text.toString()
+                    page = 1
+                    doRequest()
+                }
+                if (!search_edt.text.isNullOrEmpty()) {
+                    delete1.visibility = View.VISIBLE
+                } else {
+                    delete1.visibility = View.GONE
+                }
+            }
+        })
     }
 
     override fun onResume() {
         super.onResume()
-        handler.postDelayed({
-            doRequest()
-        }, 100)
+        if (mType != 6) {
+            page = 1
+            handler.postDelayed({
+                doRequest()
+            }, 100)
+        } else {
+            if (bean != null) {
+                page = 1
+                handler.postDelayed({
+                    doRequest()
+                }, 100)
+            }
+        }
     }
 
     override fun doRefresh() {
@@ -355,8 +434,82 @@ class ApproveListActivity : BaseRefreshActivity(), TabLayout.OnTabSelectedListen
             pro_id = null
             status_tyoe = mType
         }
-        if (mType != 4) {
-            SoguApi.getService(application, ApproveService::class.java)
+        when (mType) {
+            4 -> SoguApi.getService(application,ApproveService::class.java)
+                    .showCopy(page = page, template_id = templates)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe({ payload ->
+                        if (payload.isOk) {
+                            if (page == 1)
+                                adapter.dataList.clear()
+                            payload.payload?.apply {
+                                adapter.dataList.addAll(this)
+                            }
+                            refreshHead.setLastUpdateText("更新了${adapter.dataList.size}条数据")
+                        } else {
+                            showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                            refreshHead.setLastUpdateText("无数据更新")
+                        }
+                    }, { e ->
+                        Trace.e(e)
+                        //showToast("暂无可用数据")
+                        refreshHead.setLastUpdateText("无数据更新")
+                        //showCustomToast(R.drawable.icon_toast_common, "暂无可用数据")
+                        //SupportEmptyView.checkEmpty(this, adapter)
+                        if (adapter.dataList.size == 0) {
+                            iv_empty.visibility = View.VISIBLE
+                        } else {
+                            iv_empty.visibility = View.GONE
+                        }
+                    }, {
+                        //SupportEmptyView.checkEmpty(this, adapter)
+                        if (adapter.dataList.size == 0) {
+                            iv_empty.visibility = View.VISIBLE
+                        } else {
+                            iv_empty.visibility = View.GONE
+                        }
+                        adapter.notifyDataSetChanged()
+                    })
+            6 -> SoguApi.getService(application,ApproveService::class.java)
+                    .specApprove(news_id = bean.news_id!!, add_time = bean.add_time, flag = flag, search = searchStr)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe({ payload ->
+                        if (payload.isOk) {
+                            adapter.dataList.clear()
+                            payload.payload?.apply {
+                                adapter.dataList.addAll(this)
+                            }
+                            refreshHead.setLastUpdateText("更新了${adapter.dataList.size}条数据")
+                            if (flag == 1) {
+                                tab_title.getTabAt(0)?.text = "审批完成(${adapter.dataList.size})"
+                            } else if (flag == 2) {
+                                tab_title.getTabAt(1)?.text = "待审批(${adapter.dataList.size})"
+                            }
+                        } else {
+                            showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                            refreshHead.setLastUpdateText("无数据更新")
+                        }
+                    }, { e ->
+                        Trace.e(e)
+                        refreshHead.setLastUpdateText("无数据更新")
+                        //SupportEmptyView.checkEmpty(this, adapter)
+                        if (adapter.dataList.size == 0) {
+                            iv_empty.visibility = View.VISIBLE
+                        } else {
+                            iv_empty.visibility = View.GONE
+                        }
+                    }, {
+                        //SupportEmptyView.checkEmpty(this, adapter)
+                        if (adapter.dataList.size == 0) {
+                            iv_empty.visibility = View.VISIBLE
+                        } else {
+                            iv_empty.visibility = View.GONE
+                        }
+                        adapter.notifyDataSetChanged()
+                    })
+            else -> SoguApi.getService(application,ApproveService::class.java)
                     .listApproval(status = status_tyoe, page = page,
                             fuzzyQuery = searchStr,
                             type = filterType, template_id = templates, filter = status, project_id = pro_id)
@@ -369,54 +522,33 @@ class ApproveListActivity : BaseRefreshActivity(), TabLayout.OnTabSelectedListen
                             payload.payload?.apply {
                                 adapter.dataList.addAll(this)
                             }
+                            refreshHead.setLastUpdateText("更新了${adapter.dataList.size}条数据")
                         } else {
+                            refreshHead.setLastUpdateText("无数据更新")
                             showCustomToast(R.drawable.icon_toast_fail, payload.message)
                         }
                     }, { e ->
                         Trace.e(e)
-                        SupportEmptyView.checkEmpty(this, adapter)
-                    }, {
-                        SupportEmptyView.checkEmpty(this, adapter)
-                        isLoadMoreEnable = adapter.dataList.size % 20 == 0
-                        adapter.notifyDataSetChanged()
-                        if (page == 1)
-                            finishRefresh()
-                        else
-                            finishLoadMore()
-                    })
-        } else if (mType == 4) {
-            SoguApi.getService(application, ApproveService::class.java)
-                    .showCopy(page = page, template_id = templates)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.io())
-                    .subscribe({ payload ->
-                        if (payload.isOk) {
-                            if (page == 1)
-                                adapter.dataList.clear()
-                            payload.payload?.apply {
-                                adapter.dataList.addAll(this)
-                            }
+                        refreshHead.setLastUpdateText("无数据更新")
+                        //SupportEmptyView.checkEmpty(this, adapter)
+                        if (adapter.dataList.size == 0) {
+                            iv_empty.visibility = View.VISIBLE
                         } else {
-                            showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                            iv_empty.visibility = View.GONE
                         }
-                    }, { e ->
-                        Trace.e(e)
-                        //showToast("暂无可用数据")
-                        showCustomToast(R.drawable.icon_toast_common, "暂无可用数据")
-                        SupportEmptyView.checkEmpty(this, adapter)
                     }, {
-                        SupportEmptyView.checkEmpty(this, adapter)
-                        isLoadMoreEnable = adapter.dataList.size % 20 == 0
+                        //SupportEmptyView.checkEmpty(this, adapter)
+                        if (adapter.dataList.size == 0) {
+                            iv_empty.visibility = View.VISIBLE
+                        } else {
+                            iv_empty.visibility = View.GONE
+                        }
                         adapter.notifyDataSetChanged()
-                        if (page == 1)
-                            finishRefresh()
-                        else
-                            finishLoadMore()
                     })
         }
 
 
-        SoguApi.getService(application, ApproveService::class.java)
+        SoguApi.getService(application,ApproveService::class.java)
                 .approveFilter()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -433,18 +565,21 @@ class ApproveListActivity : BaseRefreshActivity(), TabLayout.OnTabSelectedListen
 
 
     companion object {
-        fun start(ctx: Activity?, type: Int? = null, id: Int? = null) {
+        fun start(ctx: Activity?, type: Int? = null, id: Int? = null, bean: MessageBean? = null) {
             val intent = Intent(ctx, ApproveListActivity::class.java)
             val title = when (type) {
                 1 -> "待我审批"
                 2 -> "我已审批"
                 3 -> "我发起的"
                 4 -> "抄送我的"
-                else -> "审批历史"
+                5 -> "审批历史"
+                6 -> "审批消息助手"
+                else -> ""
             }
             intent.putExtra(Extras.TYPE, type)
             intent.putExtra(Extras.TITLE, title)
             intent.putExtra(Extras.ID, id)
+            intent.putExtra(Extras.DATA, bean)
             ctx?.startActivity(intent)
         }
     }

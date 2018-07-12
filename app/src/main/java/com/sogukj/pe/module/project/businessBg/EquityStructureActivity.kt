@@ -72,7 +72,7 @@ class EquityStructureActivity : ToolbarActivity(), PlatformActionListener {
                             tvName.text = it.name
                             tvPercent.text = it.percent
                             tvAmount.text = it.amount
-                            val cbxHeader = ll_node.findViewById<CheckBox>(R.id.cbx_header) as CheckBox
+                            val cbxHeader = ll_node.find<CheckBox>(R.id.cbx_header)
                             cbxHeader.setOnCheckedChangeListener { buttonView, isChecked ->
                                 if (isChecked) {
                                     if (it.children == null || it.children?.size == 0) {
@@ -181,13 +181,16 @@ class EquityStructureActivity : ToolbarActivity(), PlatformActionListener {
         tvAmount.text = data.amount
     }
 
+
     companion object {
-        fun start(ctx: Activity?, bean: EquityListBean) {
+        fun start(ctx: Activity?, bean: EquityListBean, isFromList: Boolean) {
             val intent = Intent(ctx, EquityStructureActivity::class.java)
             intent.putExtra(Extras.DATA, bean)
+            intent.putExtra(Extras.FLAG, isFromList)
             ctx?.startActivity(intent)
         }
     }
+
 
     private fun share() {
         val dialog = Dialog(this@EquityStructureActivity, R.style.AppTheme_Dialog)

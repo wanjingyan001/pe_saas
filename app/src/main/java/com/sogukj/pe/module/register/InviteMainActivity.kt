@@ -69,7 +69,6 @@ class InviteMainActivity : ToolbarActivity() {
         }
         mAdapter.onItemChildClickListener = BaseQuickAdapter.OnItemChildClickListener { adapter, view, position ->
             val myContacts = adapter.data[position] as MyContacts
-            info { "姓名:${myContacts.t.name}===>电话:${myContacts.t.phone}" }
             sendInviteMessage(myContacts.t.phone, myContacts.t.name)
         }
         sideBar.setOnLetterChangedListener { index, c ->

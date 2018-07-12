@@ -10,10 +10,13 @@ import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
+import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.MechanismInfo
 import com.sogukj.pe.bean.TeamInfoSupplementReq
+import com.sogukj.pe.interf.ReviewStatus
 import com.sogukj.pe.module.main.MainActivity
+import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.RegisterService
 import com.sogukj.service.SoguApi
 import io.reactivex.Observable
@@ -35,6 +38,7 @@ class InfoSupplementActivity : ToolbarActivity() {
         setContentView(R.layout.activity_register_info_supplement)
         Utils.setWindowStatusBarColor(this, R.color.white)
         toolbar?.setBackgroundColor(resources.getColor(R.color.white))
+        setBack(true)
         phone = intent.getStringExtra(Extras.DATA)
         mechanismInfo = intent.getParcelableExtra(Extras.DATA2)
         flag = intent.getBooleanExtra(Extras.FLAG, false)
@@ -66,14 +70,14 @@ class InfoSupplementActivity : ToolbarActivity() {
             showTopSnackBar("请选择规模")
             return
         }
-        val type = if (user_id != null) {
-            3//修改信息
-        } else {
+        val type = if (user_id.isNullOrEmpty()) {
             if (mechanismInfo != null) {
                 1 //加入
             } else {
                 2//创建
             }
+        } else {
+            3//修改信息
         }
         val teamInfo = TeamInfoSupplementReq(mPositionEdt.getInput(), mNameEdt.getInput(), index, organNameEdt.getInput(), type, phone, mechanismInfo?.key, user_id)
         SoguApi.getService(application, RegisterService::class.java).teamInfoSupplement(teamInfo)
@@ -81,13 +85,18 @@ class InfoSupplementActivity : ToolbarActivity() {
                     onNext { payload ->
                         if (payload.isOk) {
                             payload.payload?.let {
+                                user_id = it.user_id.toString()
                                 sp.edit { putString(Extras.CompanyKey, it.key) }
                                 when (type) {
-                                    1 -> startActivity<MainActivity>()
-                                    2 -> startActivity<TakeCardActivity>(Extras.DATA to it)
-                                    3 -> startActivity<ReviewActivity>()
+                                    1 -> login(phone, user_id!!.toInt())
+                                    2, 3 -> {
+                                        if (!flag){
+                                            startActivity<TakeCardActivity>(Extras.DATA to it)
+                                        }else{
+                                            login(phone, user_id!!.toInt())
+                                        }
+                                    }
                                 }
-                                finish()
                             }
                         } else {
                             showTopSnackBar(payload.message)
@@ -99,6 +108,7 @@ class InfoSupplementActivity : ToolbarActivity() {
     private fun initView() {
         mechanismInfo?.let {
             organNameEdt.setText(it.mechanism_name)
+            index = it.scale ?: 0
             organScale.text = when (it.scale) {
                 1 -> "少于10人"
                 2 -> "10～30人"
@@ -111,10 +121,37 @@ class InfoSupplementActivity : ToolbarActivity() {
             mNameEdt.setText(it.name)
             mPositionEdt.setText(it.position)
             if (flag) {
-                organNameEdt.isEnabled = false
+                organNameEdt.setEnable(false)
                 organScale.isEnabled = false
             }
         }
+    }
+
+    private fun login(phone: String, userId: Int) {
+        showProgress("正在获取数据...")
+        SoguApi.getService(application, RegisterService::class.java).getUserBean(phone, userId)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk) {
+                            payload.payload?.let {
+                                Store.store.setUser(this@InfoSupplementActivity, it)
+                                startActivity<MainActivity>()
+                            }
+                        }else{
+                            hideProgress()
+                            showTopSnackBar(payload.message)
+                        }
+                    }
+                    onError { e->
+                        hideProgress()
+                        Trace.e(e)
+                    }
+                }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        hideProgress()
     }
 
 

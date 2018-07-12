@@ -23,10 +23,8 @@
 
         <ImageView
             android:id="@+id/reviewStatusImg"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
             android:src="@mipmap/bg_under_review"
             app:layout_constraintEnd_toEndOf="parent"
@@ -41,7 +39,6 @@
             android:layout_marginTop="16dp"
             android:src="@mipmap/icon_blue_tips"
             android:visibility="invisible"
-            android:layout_marginStart="35dp"
             app:layout_constraintStart_toStartOf="@id/reviewStatusImg"
             app:layout_constraintTop_toBottomOf="@id/reviewStatusImg"
             app:layout_goneMarginTop="16dp" />

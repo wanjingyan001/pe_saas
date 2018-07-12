@@ -44,10 +44,10 @@ class DotView : ImageView {
             canvas.drawRect(rect, mPaint)
         }
         if (mImportant) {
-            mPaint.color = Color.parseColor("#ff5858")
+            mPaint.color = importantColor
             canvas.drawCircle(width.toFloat() / 2, center_pos.toFloat(), radius.toFloat(), mPaint)
         } else {
-            mPaint.color = Color.parseColor("#608cf8")
+            mPaint.color = normalColor
             canvas.drawCircle(width.toFloat() / 2, center_pos.toFloat(), radius.toFloat(), mPaint)
         }
     }
@@ -66,4 +66,7 @@ class DotView : ImageView {
         this.mImportant = isImportant
         invalidate()
     }
+
+    var importantColor = Color.parseColor("#ff5858")
+    var normalColor = Color.parseColor("#608cf8")
 }

@@ -15,16 +15,23 @@ import com.sogukj.pe.App
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.utils.XmlDb
+import com.sogukj.pe.database.Injection
 import com.sogukj.pe.module.main.LoginActivity
 import com.sogukj.pe.module.register.PhoneInputActivity
+import com.sogukj.pe.module.register.UploadBasicInfoActivity
 import com.sogukj.pe.peUtils.Store
 import kotlinx.android.synthetic.main.activity_setting.*
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
+import org.jetbrains.anko.ctx
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.support.v4.ctx
+import org.jetbrains.anko.support.v4.startActivity
 
 class SettingActivity : BaseActivity() {
 
@@ -73,12 +80,20 @@ class SettingActivity : BaseActivity() {
                 IMLogout()
                 Store.store.clearUser(this)
                 startActivity<PhoneInputActivity>()
-//                LoginActivity.start(this)
+                doAsync {
+                    Injection.provideFunctionSource(this@SettingActivity).delete()
+                }
                 finish()
             }
             dialog.show()
         }
-
+        val user = Store.store.getUser(this)
+        createDep.setVisible(user?.is_admin == 1)
+        createDep.clickWithTrigger {
+            startActivity<UploadBasicInfoActivity>(Extras.NAME to user?.company!!,
+                    Extras.CODE to user.phone,
+                    Extras.FLAG to true)
+        }
     }
 
     /**

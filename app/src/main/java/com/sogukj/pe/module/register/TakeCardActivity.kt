@@ -62,12 +62,7 @@ class TakeCardActivity : ToolbarActivity() {
                 .execute {
                     onNext { payload ->
                         if (payload.isOk) {
-                            payload.payload?.let {
-                                Glide.with(this@TakeCardActivity)
-                                        .load(cardPath)
-                                        .thumbnail(0.1f)
-                                        .into(takeCard)
-                            }
+
                         } else {
                             showTopSnackBar(payload.message)
                         }
@@ -82,6 +77,10 @@ class TakeCardActivity : ToolbarActivity() {
             val resultPaths = data.getStringArrayListExtra(EasyPhotos.RESULT_PATHS)
             cardPath = resultPaths[0]
             uploadCard()
+            Glide.with(this@TakeCardActivity)
+                    .load(cardPath)
+                    .thumbnail(0.1f)
+                    .into(takeCard)
         }
     }
 }

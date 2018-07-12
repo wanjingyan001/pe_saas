@@ -36,7 +36,9 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -513,6 +515,67 @@ public class Utils {
             e.printStackTrace();
         }
         return null;
+    }
+
+
+    public static void setTabWidth(TabLayout tabLayout, Context context, int newWidth) {
+        try {
+            //拿到tabLayout的mTabStrip属性
+            Field mTabStripField = tabLayout.getClass().getDeclaredField("mTabStrip");
+            mTabStripField.setAccessible(true);
+
+            LinearLayout mTabStrip = (LinearLayout) mTabStripField.get(tabLayout);
+
+            int dp10 = dpToPx(context, 10);
+
+            for (int i = 0; i < mTabStrip.getChildCount(); i++) {
+                View tabView = mTabStrip.getChildAt(i);
+
+                //拿到tabView的mTextView属性
+                Field mTextViewField = tabView.getClass().getDeclaredField("mTextView");
+                mTextViewField.setAccessible(true);
+
+                TextView mTextView = (TextView) mTextViewField.get(tabView);
+
+                tabView.setPadding(0, 0, 0, 0);
+
+                //因为我想要的效果是   字多宽线就多宽，所以测量mTextView的宽度
+                int width = 0;
+                width = mTextView.getWidth();
+                if (width == 0) {
+                    mTextView.measure(0, 0);
+                    width = mTextView.getMeasuredWidth();
+                }
+
+                //设置tab左右间距为10dp  注意这里不能使用Padding 因为源码中线的宽度是根据 tabView的宽度来设置的
+                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) tabView.getLayoutParams();
+                params.width = newWidth;
+                //params.leftMargin = dp10;
+                //params.rightMargin = dp10;
+                tabView.setLayoutParams(params);
+
+                tabView.invalidate();
+            }
+
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //适配
+    public static void changeTabIcon(TabLayout.Tab tab) throws Exception {
+        Class<?> tabClass = tab.getClass();
+        Field mTabView = tabClass.getDeclaredField("mView");
+        mTabView.setAccessible(true);
+        LinearLayout layout = (LinearLayout) mTabView.get(tab);//mView
+
+        Class<?> iconClass = layout.getClass();
+        Field mIconView = iconClass.getDeclaredField("mIconView");
+        mIconView.setAccessible(true);
+        ImageView img = (ImageView) mIconView.get(layout);//mIconView
+        img.setScaleType(ImageView.ScaleType.FIT_XY);
     }
 
     /**

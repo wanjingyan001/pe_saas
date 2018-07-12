@@ -36,7 +36,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_fund_book.*
 import kotlinx.android.synthetic.main.search_view.*
 import java.text.SimpleDateFormat
-
+@Deprecated("")
 class FundBookActivity : BaseRefreshActivity(), SupportEmptyView {
 
     lateinit var adapter1: ListAdapter<ProjectBookBean>

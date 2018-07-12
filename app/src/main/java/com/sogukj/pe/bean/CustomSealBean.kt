@@ -36,5 +36,6 @@ class CustomSealBean : Serializable {
         val hide: String = ""
         val pla: String = ""
         val value: Any? = null
+        val supFields:String?=null//value_map里面
     }
 }
