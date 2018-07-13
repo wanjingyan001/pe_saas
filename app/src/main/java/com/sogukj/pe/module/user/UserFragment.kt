@@ -3,14 +3,22 @@ package com.sogukj.pe.module.user
 import android.annotation.TargetApi
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.*
+import android.text.SpannableString
+import android.text.Spanned
 import android.text.TextUtils
+import android.text.style.AbsoluteSizeSpan
+import android.text.style.ForegroundColorSpan
+import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
+import android.widget.LinearLayout
 import android.widget.TextView
 import cn.sharesdk.framework.Platform
 import cn.sharesdk.framework.PlatformActionListener
@@ -39,6 +47,7 @@ import com.sogukj.pe.baselibrary.utils.HeaderImgKey
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.DepartmentBean
+import com.sogukj.pe.bean.ProjectBelongBean
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.bean.WebConfigBean
 import com.sogukj.pe.module.fileSelector.FileMainActivity
@@ -102,16 +111,16 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
         focus_layout.clickWithTrigger {
             ProjectFocusActivity.start(activity, ProjectListFragment.TYPE_GZ)
         }
-        tv_1.setOnClickListener(this)
-        tv_11.setOnClickListener(this)
-        tv_2.setOnClickListener(this)
-        tv_22.setOnClickListener(this)
-        tv_3.setOnClickListener(this)
-        tv_33.setOnClickListener(this)
-        tv_4.setOnClickListener(this)
-        tv_44.setOnClickListener(this)
-        tv_5.setOnClickListener(this)
-        tv_55.setOnClickListener(this)
+//        tv_1.setOnClickListener(this)
+//        tv_11.setOnClickListener(this)
+//        tv_2.setOnClickListener(this)
+//        tv_22.setOnClickListener(this)
+//        tv_3.setOnClickListener(this)
+//        tv_33.setOnClickListener(this)
+//        tv_4.setOnClickListener(this)
+//        tv_44.setOnClickListener(this)
+//        tv_5.setOnClickListener(this)
+//        tv_55.setOnClickListener(this)
         toolbar_menu.clickWithTrigger {
             //切换用户没有正确显示
             Store.store.getUser(ctx)?.let {
@@ -119,7 +128,7 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
             }
         }
         share.clickWithTrigger {
-            SoguApi.getService(baseActivity!!.application,UserService::class.java)
+            SoguApi.getService(baseActivity!!.application, UserService::class.java)
                     .getWebConfig()
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
@@ -286,36 +295,77 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
 
 
     private fun getBelongBean(userId: Int) {
+//        SoguApi.getService(baseActivity!!.application, UserService::class.java)
+//                .getBelongProject(userId)
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribeOn(Schedulers.io())
+//                .subscribe({ payload ->
+//                    if (payload.isOk) {
+//                        payload.payload?.let {
+//                            it.dy?.let {
+//                                tv_1.text = it.count.toString()
+//                                point1.visibility = if (it.red == null || it.red == 0) View.GONE else View.VISIBLE
+//                            }
+//                            it.cb?.let {
+//                                tv_2.text = it.count.toString()
+//                                point2.visibility = if (it.red == null || it.red == 0) View.GONE else View.VISIBLE
+//                            }
+//                            it.lx?.let {
+//                                tv_3.text = it.count.toString()
+//                                point3.visibility = if (it.red == null || it.red == 0) View.GONE else View.VISIBLE
+//                            }
+//                            it.yt?.let {
+//                                tv_4.text = it.count.toString()
+//                                point4.visibility = if (it.red == null || it.red == 0) View.GONE else View.VISIBLE
+//                            }
+//                            it.tc?.let {
+//                                tv_5.text = it.count.toString()
+//                                point5.visibility = if (it.red == null || it.red == 0) View.GONE else View.VISIBLE
+//                            }
+//                            it.gz?.let {
+//                                tv_6.text = it.count.toString()
+//                                point.visibility = if (it.red == null || it.red == 0) View.GONE else View.VISIBLE
+//                            }
+//                        }
+//                    } else {
+//                        showCustomToast(R.drawable.icon_toast_fail, payload.message)
+//                    }
+//                }, { e ->
+//                    Trace.e(e)
+//                    ToastError(e)
+//                })
+
         SoguApi.getService(baseActivity!!.application, UserService::class.java)
-                .getBelongProject(userId)
+                .getProject(userId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ payload ->
                     if (payload.isOk) {
                         payload.payload?.let {
-                            it.dy?.let {
-                                tv_1.text = it.count.toString()
-                                point1.visibility = if (it.red == null || it.red == 0) View.GONE else View.VISIBLE
-                            }
-                            it.cb?.let {
-                                tv_2.text = it.count.toString()
-                                point2.visibility = if (it.red == null || it.red == 0) View.GONE else View.VISIBLE
-                            }
-                            it.lx?.let {
-                                tv_3.text = it.count.toString()
-                                point3.visibility = if (it.red == null || it.red == 0) View.GONE else View.VISIBLE
-                            }
-                            it.yt?.let {
-                                tv_4.text = it.count.toString()
-                                point4.visibility = if (it.red == null || it.red == 0) View.GONE else View.VISIBLE
-                            }
-                            it.tc?.let {
-                                tv_5.text = it.count.toString()
-                                point5.visibility = if (it.red == null || it.red == 0) View.GONE else View.VISIBLE
-                            }
+                            //                            it.dy?.let {
+//                                tv_1.text = it.count.toString()
+//                                point1.visibility = if (it.red == null || it.red == 0) View.GONE else View.VISIBLE
+//                            }
+//                            it.cb?.let {
+//                                tv_2.text = it.count.toString()
+//                                point2.visibility = if (it.red == null || it.red == 0) View.GONE else View.VISIBLE
+//                            }
+//                            it.lx?.let {
+//                                tv_3.text = it.count.toString()
+//                                point3.visibility = if (it.red == null || it.red == 0) View.GONE else View.VISIBLE
+//                            }
+//                            it.yt?.let {
+//                                tv_4.text = it.count.toString()
+//                                point4.visibility = if (it.red == null || it.red == 0) View.GONE else View.VISIBLE
+//                            }
+//                            it.tc?.let {
+//                                tv_5.text = it.count.toString()
+//                                point5.visibility = if (it.red == null || it.red == 0) View.GONE else View.VISIBLE
+//                            }
+                            loadStage(it.xm!!)
                             it.gz?.let {
                                 tv_6.text = it.count.toString()
-                                point.visibility = if (it.red == null || it.red == 0) View.GONE else View.VISIBLE
+                                //point.visibility = if (it.red == null || it.red == 0) View.GONE else View.VISIBLE
                             }
                         }
                     } else {
@@ -325,6 +375,47 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
                     Trace.e(e)
                     ToastError(e)
                 })
+    }
+
+    fun loadStage(stageList: ArrayList<ProjectBelongBean.Cell1>) {
+        var size = stageList.size
+
+        val wm = context!!.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val dm = DisplayMetrics()
+        wm.defaultDisplay.getMetrics(dm)
+        val screenW = dm.widthPixels
+        stages.removeAllViews()
+        for (i in 0..(size - 1)) {
+            var params: LinearLayout.LayoutParams
+            if (size <= 5) {
+                params = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT)
+                params.width = screenW / 5
+            } else {
+                params = LinearLayout.LayoutParams(screenW / 5 + 5, LinearLayout.LayoutParams.MATCH_PARENT)
+                params.width = screenW / 5 + 5
+            }
+            var textView = TextView(context)
+            textView.layoutParams = params
+            textView.gravity = Gravity.CENTER
+
+            val str1 = stageList.get(i).count.toString()
+            val str2 = stageList.get(i).name
+            val sStr = SpannableString(str1 + "\n" + str2)
+
+            sStr.setSpan(AbsoluteSizeSpan(Utils.spToPx(context, 18)), 0, str1.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            sStr.setSpan(ForegroundColorSpan(Color.parseColor("#282828")), 0, str1.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+            sStr.setSpan(AbsoluteSizeSpan(Utils.spToPx(context, 12)), str1.length + 1, sStr.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            sStr.setSpan(ForegroundColorSpan(Color.parseColor("#a0a4aa")), str1.length + 1, sStr.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+            textView.text = sStr
+
+            textView.setOnClickListener {
+                ProjectFocusActivity.start(activity, stageList.get(i).type!!)
+            }
+
+            stages.addView(textView)
+        }
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
@@ -393,23 +484,23 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
     }
 
     override fun onClick(view: View) {
-        when (view.id) {
-            R.id.tv_1, R.id.tv_11 -> {
-                ProjectFocusActivity.start(activity, ProjectListFragment.TYPE_DY)
-            }
-            R.id.tv_2, R.id.tv_22 -> {
-                ProjectFocusActivity.start(activity, ProjectListFragment.TYPE_CB)
-            }
-            R.id.tv_3, R.id.tv_33 -> {
-                ProjectFocusActivity.start(activity, ProjectListFragment.TYPE_LX)
-            }
-            R.id.tv_4, R.id.tv_44 -> {
-                ProjectFocusActivity.start(activity, ProjectListFragment.TYPE_YT)
-            }
-            R.id.tv_5, R.id.tv_55 -> {
-                ProjectFocusActivity.start(activity, ProjectListFragment.TYPE_TC)
-            }
-        }
+//        when (view.id) {
+//            R.id.tv_1, R.id.tv_11 -> {
+//                ProjectFocusActivity.start(activity, ProjectListFragment.TYPE_DY)
+//            }
+//            R.id.tv_2, R.id.tv_22 -> {
+//                ProjectFocusActivity.start(activity, ProjectListFragment.TYPE_CB)
+//            }
+//            R.id.tv_3, R.id.tv_33 -> {
+//                ProjectFocusActivity.start(activity, ProjectListFragment.TYPE_LX)
+//            }
+//            R.id.tv_4, R.id.tv_44 -> {
+//                ProjectFocusActivity.start(activity, ProjectListFragment.TYPE_YT)
+//            }
+//            R.id.tv_5, R.id.tv_55 -> {
+//                ProjectFocusActivity.start(activity, ProjectListFragment.TYPE_TC)
+//            }
+//        }
     }
 
 

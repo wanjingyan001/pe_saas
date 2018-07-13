@@ -56,6 +56,7 @@ class Consts {
             "pe" -> when (BuildConfig.BUILD_TYPE) {
 //            "debug" -> "http://dev.pe.stockalert.cn/"
 //                "debug" -> "http://sales.pewinner.com/"
+//                "debug" -> "http://prehts.pewinner.com/"
                 "debug" -> "https://sougu.pewinner.com"
                 "release" -> "https://sougu.pewinner.com"
                 else -> ""

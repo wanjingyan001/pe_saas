@@ -147,4 +147,8 @@ interface UserService{
 
     @POST("/api/UserFont/getWebConfig")
     fun getWebConfig(): Observable<Payload<WebConfigBean>>
+
+    @FormUrlEncoded
+    @POST("/api/UserFont/getProject")
+    fun getProject(@Field("user_id") user_id: Int): Observable<Payload<ProjectBelongBean>>
 }
