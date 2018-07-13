@@ -16,14 +16,12 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import com.afollestad.materialdialogs.MaterialDialog
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.textStr
+import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.DateUtils
 import com.sogukj.pe.baselibrary.utils.Trace
@@ -45,7 +43,7 @@ import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.padding
 import kotlin.collections.HashMap
 
-class BookListActivity : ToolbarActivity() {
+class BookListActivity : BaseActivity() {
 
     var company_id: Int? = null
     var dir_id: Int? = null
@@ -80,8 +78,14 @@ class BookListActivity : ToolbarActivity() {
             dir_id = null
         }
 
-        setBack(true)
-        title = intent.getStringExtra(Extras.TITLE)
+        toolbar?.apply {
+            val back = this.findViewById<FrameLayout>(R.id.toolbar_back)
+            back?.visibility = View.VISIBLE
+            back?.setOnClickListener {
+                onBackPressed()
+            }
+        }
+        toolbar_title.text = intent.getStringExtra(Extras.TITLE)
 
         toolbar_menu.setOnClickListener {
             if (dir_id == null) {
@@ -424,7 +428,7 @@ class BookListActivity : ToolbarActivity() {
                 var map = HashMap<String, Any>()
                 map.put("type", type!!)
                 map.put("dirId", selected.get(0).id!!)
-                SoguApi.getService(application,FundService::class.java)
+                SoguApi.getService(application, FundService::class.java)
                         .delDir(map)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
@@ -451,7 +455,7 @@ class BookListActivity : ToolbarActivity() {
 
                 var map = HashMap<String, Any>()
                 map.put("idStr", fileIdStr)
-                SoguApi.getService(application,FundService::class.java)
+                SoguApi.getService(application, FundService::class.java)
                         .delFile(map)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
@@ -507,7 +511,7 @@ class BookListActivity : ToolbarActivity() {
                 map.put("type", type!!)
                 map.put("fileIdStr", fileIdStr)
                 map.put("newDirId", data.getIntExtra(Extras.ID, -1))
-                SoguApi.getService(application,FundService::class.java)
+                SoguApi.getService(application, FundService::class.java)
                         .moveFile(map)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
@@ -577,7 +581,7 @@ class BookListActivity : ToolbarActivity() {
     var newDirName = ""
 
     fun newDir() {
-        SoguApi.getService(application,FundService::class.java)
+        SoguApi.getService(application, FundService::class.java)
                 .mkProjOrFundDir(type = type!!, dirname = newDirName, id = company_id!!, pid = dir_id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -600,7 +604,7 @@ class BookListActivity : ToolbarActivity() {
         map.put("type", type!!)
         map.put("dirId", selected.get(0).id!!)
         map.put("dirname", newDirName)
-        SoguApi.getService(application,FundService::class.java)
+        SoguApi.getService(application, FundService::class.java)
                 .editDirname(map)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -638,7 +642,7 @@ class BookListActivity : ToolbarActivity() {
         map.put("page", page)
         map.put("pageSize", 20)
 
-        SoguApi.getService(application,FundService::class.java)
+        SoguApi.getService(application, FundService::class.java)
                 .fileList(map)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -744,7 +748,7 @@ class BookListActivity : ToolbarActivity() {
         map.put("pageSize", 20)
         map.put("query", searchKey)
 
-        SoguApi.getService(application,FundService::class.java)
+        SoguApi.getService(application, FundService::class.java)
                 .fileList(map)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())

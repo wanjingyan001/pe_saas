@@ -66,9 +66,11 @@ abstract class BaseRefreshActivity : ToolbarActivity(), SGRefreshListener {
                 }
                 it.setOnRefreshListener {
                     doRefresh()
+                    refresh.finishRefresh(1000)
                 }
                 it.setOnLoadMoreListener {
                     doLoadMore()
+                    refresh.finishLoadMore(1000)
                 }
             }
         }
@@ -82,13 +84,13 @@ abstract class BaseRefreshActivity : ToolbarActivity(), SGRefreshListener {
     open fun initRefreshFooter(): RefreshFooter? = defaultFooter
 
     fun finishRefresh() {
-        if (this::refresh.isLateinit) {
+        if (this::refresh.isLateinit && refresh.isRefreshing) {
             refresh.finishRefresh()
         }
     }
 
     fun finishLoadMore() {
-        if (this::refresh.isLateinit) {
+        if (this::refresh.isLateinit && refresh.isLoading) {
             refresh.finishLoadMore()
         }
     }

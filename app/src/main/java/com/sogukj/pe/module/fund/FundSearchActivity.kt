@@ -14,6 +14,8 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.Theme
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
@@ -82,11 +84,17 @@ class FundSearchActivity : BaseRefreshActivity(), View.OnClickListener {
     //历史记录列表初始化
     private fun initHistoryAdapter() {
         historyAdapter = RecyclerAdapter(this, { _adapter, parent, _ ->
-            val convertView = _adapter.getView(R.layout.item_main_project_search, parent)
+            val convertView = _adapter.getView(R.layout.item_project_search_item, parent)
             object : RecyclerHolder<String>(convertView) {
                 val tv1 = convertView.findViewById<TextView>(R.id.tv1) as TextView
+                val delete = convertView.findViewById<ImageView>(R.id.delete) as ImageView
                 override fun setData(view: View, data: String, position: Int) {
                     tv1.text = data
+                    delete.setOnClickListener {
+                        historyAdapter.dataList.removeAt(position)
+                        historyAdapter.notifyDataSetChanged()
+                        Store.store.fundSearchRemover(context, position)
+                    }
                 }
             }
         })
@@ -249,9 +257,18 @@ class FundSearchActivity : BaseRefreshActivity(), View.OnClickListener {
                 finish()
             }
             R.id.iv_clear -> {
-                Store.store.clearFundSearch(this)
-                historyAdapter.dataList.clear()
-                historyAdapter.notifyDataSetChanged()
+                MaterialDialog.Builder(context)
+                        .theme(Theme.LIGHT)
+                        .title("提示")
+                        .content("确认全部删除?")
+                        .positiveText("确认")
+                        .negativeText("取消")
+                        .onPositive { dialog, which ->
+                            Store.store.clearFundSearch(this)
+                            historyAdapter.dataList.clear()
+                            historyAdapter.notifyDataSetChanged()
+                        }
+                        .show()
             }
         }
     }

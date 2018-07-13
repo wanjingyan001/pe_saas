@@ -737,7 +737,7 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
             57 -> ManagerActivity.start(this@ProjectActivity, project, 8, "投决数据")//投决数据------------------------
             58 -> ManagerActivity.start(this@ProjectActivity, project, 10, "投后管理")//投后管理--------------------------
 
-            59 -> ApproveListActivity.start(this@ProjectActivity, null, project.company_id)//审批历史
+            59 -> ApproveListActivity.start(this@ProjectActivity, 5, project.company_id)//审批历史
 
             60 -> EquityListActivity.start(this@ProjectActivity, project)
 

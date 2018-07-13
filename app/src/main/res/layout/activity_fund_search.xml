@@ -82,9 +82,7 @@
             android:padding="10dp"
             android:text="@string/tv_title_result_news"
             android:textColor="@color/text_2"
-            android:textSize="14sp"
-            android:visibility="gone" />
-
+            android:textSize="14sp" />
 
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:id="@id/refresh"

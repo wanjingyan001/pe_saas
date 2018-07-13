@@ -7,7 +7,7 @@
 
     <include layout="@layout/weeklylabel" />
 
-    <com.sogukj.pe.widgets.MyListView
+    <com.sogukj.pe.baselibrary.widgets.MyListView
         android:id="@+id/event_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -18,6 +18,8 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.scwang.smartrefresh.layout.api.RefreshHeader
+import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.textStr
@@ -54,9 +56,9 @@ class ApproveListActivity : BaseRefreshActivity(), TabLayout.OnTabSelectedListen
 
     override fun onTabSelected(tab: TabLayout.Tab?) {
         if (tab?.position == 1) {
-            mType = 2
+            flag = 2
         } else {
-            mType = 1
+            flag = 1
         }
         stateDefault()
     }
@@ -417,6 +419,10 @@ class ApproveListActivity : BaseRefreshActivity(), TabLayout.OnTabSelectedListen
                 tvTag.setBackgroundResource(bgColor0)
             }
         }
+    }
+
+    override fun initRefreshHeader(): RefreshHeader? {
+        return findViewById<ClassicsHeader>(R.id.refreshHead)
     }
 
     var searchStr: String? = null

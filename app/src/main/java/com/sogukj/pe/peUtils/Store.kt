@@ -191,6 +191,13 @@ class Store private constructor() {
         XmlDb.open(ctx).set("fund.search", GSON.toJson(this.fundSearchList.toArray()))
     }
 
+    fun fundSearchRemover(ctx: Context, position: Int) {
+        if (position < fundSearchList.size) {
+            fundSearchList.removeAt(position)
+            XmlDb.open(ctx).set("fund.search", GSON.toJson(this.fundSearchList.toArray()))
+        }
+    }
+
     class SizeList<E> : LinkedList<E>() {
 
         fun distinct() {

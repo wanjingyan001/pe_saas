@@ -161,6 +161,7 @@ class MainMsgFragment : BaseFragment() {
                     searchKey = ""
                     adapter.dataList.clear()
                     adapter.dataList.add(zhushou)
+                    adapter.dataList.add(sys_zhushou)
                     adapter.dataList.addAll(recentList)
                     recycler_view.adapter = adapter
                     adapter.notifyDataSetChanged()
