@@ -31,4 +31,10 @@ object ARouterPath {
     const val MainNewsActivity: String = "/news/main"
     //项目跟踪
     const val ProjectTraceActivity:String = "/main/projectTrace"
+    //基金总台账
+    const val FundAccountActivity:String = "/fund/jjztz"
+    //基金文书
+    const val BookListActivity:String = "/fund/jjws"
+    //基金项目
+    const val FundProjectActivity:String = "/fund/jjxm"
 }

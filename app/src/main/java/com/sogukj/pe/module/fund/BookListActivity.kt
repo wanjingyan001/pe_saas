@@ -18,6 +18,10 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import com.afollestad.materialdialogs.MaterialDialog
+import com.alibaba.android.arouter.facade.annotation.Autowired
+import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
+import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.textStr
@@ -29,6 +33,7 @@ import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.FileListBean
+import com.sogukj.pe.bean.FundSmallBean
 import com.sogukj.pe.module.fund.BookUploadActivity
 import com.sogukj.pe.module.fund.MoveActivity
 import com.sogukj.pe.peUtils.FileTypeUtils
@@ -43,6 +48,7 @@ import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.padding
 import kotlin.collections.HashMap
 
+@Route(path = ARouterPath.BookListActivity)
 class BookListActivity : BaseActivity() {
 
     var company_id: Int? = null
@@ -50,6 +56,8 @@ class BookListActivity : BaseActivity() {
     var type: Int? = null
     lateinit var adapter: RecyclerAdapter<FileListBean>
     lateinit var mFileAdapter: RecyclerAdapter<FileListBean>
+
+    var fundBean: FundSmallBean? = null
 
     companion object {
         // type	（1=>项目，2=>基金）
@@ -86,6 +94,20 @@ class BookListActivity : BaseActivity() {
             }
         }
         toolbar_title.text = intent.getStringExtra(Extras.TITLE)
+        fundBean = intent.getSerializableExtra(Extras.DATA) as FundSmallBean
+        if (fundBean != null) {
+            company_id = fundBean?.id
+            type = 2
+            toolbar_title.text = "基金文书"
+            intent.putExtra(Extras.NAME, fundBean?.fundName)
+            val stage = when (fundBean?.type) {//  （1=>储备，2=>存续，3=>退出））
+                1 -> "储备"
+                2 -> "存续"
+                3 -> "退出"
+                else -> ""
+            }
+            intent.putExtra(Extras.STAGE, stage)
+        }
 
         toolbar_menu.setOnClickListener {
             if (dir_id == null) {

@@ -12,7 +12,7 @@ object Extras {
     val NAME = "ext.name"
     val CODE = "ext.code"
     val INDEX = "ext.index"
-    val BEAN = "ext.bean"
+    const val BEAN = "ext.bean"
     val STOCK_CODES = "ext.stockCodes"
     val DATA = "ext.data"
     val DATA2 = "ext.data2"

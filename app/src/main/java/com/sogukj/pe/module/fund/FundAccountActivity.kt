@@ -9,7 +9,9 @@ import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.gson.Gson
+import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
@@ -20,7 +22,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_fund_account.*
 import org.jetbrains.anko.find
-
+@Route(path = ARouterPath.FundAccountActivity)
 class FundAccountActivity : ToolbarActivity() {
     private lateinit var adapter: FundAccountAdapter
     private var map = HashMap<String, String?>()

@@ -1034,15 +1034,15 @@
         <activity
             android:name=".module.register.PhoneInputActivity"
             android:configChanges="orientation|screenSize"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
+            android:windowSoftInputMode="stateAlwaysVisible" />
         <activity
             android:name=".module.register.VerCodeInputActivity"
             android:configChanges="orientation|screenSize"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
+            android:windowSoftInputMode="stateAlwaysVisible" />
         <activity
             android:name=".module.register.InvCodeInputActivity"
             android:configChanges="orientation|screenSize"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
+            android:windowSoftInputMode="stateAlwaysVisible" />
         <activity
             android:name=".module.register.InfoSupplementActivity"
             android:configChanges="orientation|screenSize"

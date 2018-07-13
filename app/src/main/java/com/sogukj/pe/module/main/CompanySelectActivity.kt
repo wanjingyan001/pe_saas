@@ -230,9 +230,4 @@ class CompanySelectActivity : BaseRefreshActivity() {
         return config
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        RetrofitUrlManager.getInstance().clearAllDomain()
-    }
-
 }

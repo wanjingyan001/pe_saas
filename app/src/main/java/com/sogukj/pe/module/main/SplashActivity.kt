@@ -29,38 +29,10 @@ class SplashActivity : BaseActivity() {
         setContentView(R.layout.activity_splash)
         StatusBarUtil.setTransparent(this)
         ShortcutBadger.removeCount(this)
-        when (getEnvironment()) {
-            "civc" -> {
-                splash_bg.imageResource = R.drawable.img_logo_splash_zd
-            }
-            "ht" -> {
-                splash_bg.imageResource = R.drawable.img_logo_splash_ht
-                val params = splash_bg.layoutParams as FrameLayout.LayoutParams
-                params.setMargins(0, 0, 0, Utils.dpToPx(this, 40))
-                splash_bg.layoutParams = params
-            }
-            "kk" -> {
-                splash_bg.imageResource = R.drawable.img_logo_splash_kk
-                val params = splash_bg.layoutParams as FrameLayout.LayoutParams
-                params.setMargins(0, 0, 0, Utils.dpToPx(this, 40))
-                splash_bg.layoutParams = params
-            }
-            "yge" -> {
-                splash_bg.imageResource = R.drawable.img_logo_splash_yge
-                val params = splash_bg.layoutParams as FrameLayout.LayoutParams
-                params.setMargins(0, 0, 0, Utils.dpToPx(this, 40))
-                splash_bg.layoutParams = params
-            }
-            "sr"->{
-                splash_bg.imageResource = R.drawable.img_logo_splash_sr
-                val params = splash_bg.layoutParams as FrameLayout.LayoutParams
-                params.setMargins(0, 0, 0, Utils.dpToPx(this, 40))
-                splash_bg.layoutParams = params
-            }
-            else -> {
-                splash_bg.imageResource = R.drawable.img_logo_splash
-            }
-        }
+        splash_bg.imageResource = R.mipmap.img_logo_splash
+        val params = splash_bg.layoutParams as FrameLayout.LayoutParams
+        params.setMargins(0, 0, 0, Utils.dpToPx(this, 40))
+        splash_bg.layoutParams = params
     }
 
     override fun onResume() {

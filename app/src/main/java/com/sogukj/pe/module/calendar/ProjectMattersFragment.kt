@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.Gravity
 import android.view.View
+import android.widget.LinearLayout
 import com.google.gson.Gson
 import com.scwang.smartrefresh.header.MaterialHeader
 import com.scwang.smartrefresh.layout.api.RefreshHeader
@@ -78,14 +79,6 @@ class ProjectMattersFragment : BaseRefreshFragment(), ScheduleItemClickListener 
         projectAdapter.setItemClickListener(this)
         projectList.layoutManager = LinearLayoutManager(context)
         projectList.adapter = projectAdapter
-        window = CalendarWindow(context) { date ->
-            page = 1
-            val calendar = java.util.Calendar.getInstance()
-            calendar.set(date?.year!!, date.month - 1, date.day)
-            MDTime.text = Utils.getTime(calendar.time, "MM月dd日")
-            this.date = Utils.getTime(calendar.time.time, "yyyy-MM-dd")
-            doRequest(page, this.date, companyId)
-        }
         MDTime.text = Utils.getTime(System.currentTimeMillis(), "MM月dd日")
         matters_img1.setOnClickListener {
             //跳转公司列表
@@ -95,6 +88,16 @@ class ProjectMattersFragment : BaseRefreshFragment(), ScheduleItemClickListener 
             //选择日期
             window.showAtLocation(find(R.id.project_matter_main), Gravity.BOTTOM, 0, 0)
         }
+        handler.postDelayed({
+            window = CalendarWindow(context) { date ->
+                page = 1
+                val calendar = Calendar.getInstance()
+                calendar.set(date?.year!!, date.month - 1, date.day)
+                MDTime.text = Utils.getTime(calendar.time, "MM月dd日")
+                this.date = Utils.getTime(calendar.time.time, "yyyy-MM-dd")
+                doRequest(page, this.date, companyId)
+            }
+        },1000)
     }
 
 

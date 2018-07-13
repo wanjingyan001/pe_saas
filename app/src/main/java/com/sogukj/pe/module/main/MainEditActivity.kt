@@ -159,7 +159,7 @@ class MainEditActivity : ToolbarActivity() {
                             info { "项目功能" + it.jsonStr }
                             allModule.add(MainFunction(it))
                         }
-                        allModuleAdapter.notifyDataSetChanged()
+//                        allModuleAdapter.notifyDataSetChanged()
                     }
                     return@flatMap flowable
                 }.flatMap {
@@ -169,7 +169,7 @@ class MainEditActivity : ToolbarActivity() {
                     info { "基金功能" + it.jsonStr }
                     allModule.add(MainFunction(it))
                 }
-                allModuleAdapter.notifyDataSetChanged()
+//                allModuleAdapter.notifyDataSetChanged()
             }
             return@flatMap flowable1
         }.subscribe {
