@@ -41,8 +41,7 @@ data class RegisterVerResult(val user_id: Int?,//用户ID
                              val mechanism_name: String?,//机构名称
                              val scale: Int?,//规模 1 ：少于10人 2 ：10～30人 3：30～50人  4：50～100人 5：100人以上
                              val business_card: String?,
-                             @JsonAdapter(BooleanTypeAdapter::class)
-                             val is_admin: Boolean, // 1管理员
+                             val is_admin: Int, // 1管理员
                              val depart_id: Int?,//部门ID
                              val position: String?,//职位
                              val name: String?//名字

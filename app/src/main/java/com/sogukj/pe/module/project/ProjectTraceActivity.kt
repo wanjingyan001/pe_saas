@@ -11,7 +11,9 @@ import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.view.View
 import anet.channel.util.Utils.context
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.amap.api.mapcore.util.it
+import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.R
 import com.sogukj.pe.R.id.*
 import com.sogukj.pe.baselibrary.base.BaseFragment
@@ -28,7 +30,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_contacts.*
 import kotlinx.android.synthetic.main.activity_project_trace.*
-
+@Route(path = ARouterPath.ProjectTraceActivity)
 class ProjectTraceActivity : ToolbarActivity() {
 
     companion object {

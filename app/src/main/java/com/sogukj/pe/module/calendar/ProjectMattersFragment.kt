@@ -78,14 +78,14 @@ class ProjectMattersFragment : BaseRefreshFragment(), ScheduleItemClickListener 
         projectAdapter.setItemClickListener(this)
         projectList.layoutManager = LinearLayoutManager(context)
         projectList.adapter = projectAdapter
-        window = CalendarWindow(context, { date ->
+        window = CalendarWindow(context) { date ->
             page = 1
             val calendar = java.util.Calendar.getInstance()
             calendar.set(date?.year!!, date.month - 1, date.day)
             MDTime.text = Utils.getTime(calendar.time, "MM月dd日")
             this.date = Utils.getTime(calendar.time.time, "yyyy-MM-dd")
             doRequest(page, this.date, companyId)
-        })
+        }
         MDTime.text = Utils.getTime(System.currentTimeMillis(), "MM月dd日")
         matters_img1.setOnClickListener {
             //跳转公司列表
@@ -117,7 +117,7 @@ class ProjectMattersFragment : BaseRefreshFragment(), ScheduleItemClickListener 
     }
 
     override fun initRefreshHeader(): RefreshHeader? {
-        return  MaterialHeader(ctx)
+        return MaterialHeader(ctx)
     }
 
     override fun onResume() {

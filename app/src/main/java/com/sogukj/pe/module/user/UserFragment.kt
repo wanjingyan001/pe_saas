@@ -30,15 +30,19 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
+import com.google.gson.Gson
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
+import com.sogukj.pe.baselibrary.Extended.execute
+import com.sogukj.pe.baselibrary.Extended.fromJson
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.ToolbarFragment
 import com.sogukj.pe.baselibrary.utils.HeaderImgKey
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.DepartmentBean
+import com.sogukj.pe.bean.MechanismBasicInfo
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.bean.WebConfigBean
 import com.sogukj.pe.module.fileSelector.FileMainActivity
@@ -48,6 +52,7 @@ import com.sogukj.pe.module.register.CreateDepartmentActivity
 import com.sogukj.pe.module.register.UploadBasicInfoActivity
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.Store
+import com.sogukj.pe.service.RegisterService
 import com.sogukj.pe.service.UserService
 import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -119,7 +124,7 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
             }
         }
         share.clickWithTrigger {
-            SoguApi.getService(baseActivity!!.application,UserService::class.java)
+            SoguApi.getService(baseActivity!!.application, UserService::class.java)
                     .getWebConfig()
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
@@ -140,12 +145,15 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
         createDep.setVisible(user?.is_admin == 1)
         createDep.clickWithTrigger {
             user?.let {
-                startActivity<CreateDepartmentActivity>(Extras.NAME to it.company!!,
-                        Extras.CODE to it.phone,
-                        Extras.FLAG to true)
+                val company = sp.getString(Extras.CompanyDetail, "")
+                val detail = Gson().fromJson<MechanismBasicInfo?>(company)
+                detail?.let {
+                    startActivity<CreateDepartmentActivity>(Extras.NAME to it.mechanism_name,
+                            Extras.CODE to user.phone,
+                            Extras.FLAG to true)
+                }
             }
         }
-
     }
 
     fun share(bean: WebConfigBean) {

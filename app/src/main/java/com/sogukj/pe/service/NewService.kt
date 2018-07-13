@@ -2,10 +2,7 @@ package com.sogukj.pe.service
 
 import com.sogukj.pe.bean.*
 import io.reactivex.Observable
-import retrofit2.http.Body
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
 
 /**
  * Created by admin on 2018/5/23.
@@ -25,6 +22,7 @@ interface NewService {
                  , @Field("fuzzyQuery") fuzzyQuery: String? = null)
             : Observable<Payload<List<NewsBean>>>
 
+//    @Headers(value = "Domain-Name: homeFunction")
     @FormUrlEncoded
     @POST("/api/news/focusCompanyLists")
     fun listProject(@Field("offset") offset: Int
@@ -33,6 +31,7 @@ interface NewService {
                     , @Field("type") type: Int? = null
                     , @Field("sort") sort: Int? = null
                     , @Field("fuzzyQuery") fuzzyQuery: String? = null
+                    , @Field("id") id: Int? = null
                     , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE): Observable<Payload<List<ProjectBean>>>
 
     @FormUrlEncoded
@@ -59,7 +58,7 @@ interface NewService {
     @FormUrlEncoded
     @POST("/api/news/showProject")
     fun showProject(
-            @Field("company_id") company_id: Int):Observable<Payload<ProjectBean>>
+            @Field("company_id") company_id: Int): Observable<Payload<ProjectBean>>
 
     @FormUrlEncoded
     @POST("/api/news/ncFocus")

@@ -52,9 +52,9 @@ class VerCodeInputActivity : BaseActivity() {
                             payload.payload?.let {
                                 it.domain_name?.let {
                                     if (it.isNotEmpty()) {
-                                        val newBaseUtl:String = if (!it.startsWith("http://")){
+                                        val newBaseUtl: String = if (!it.startsWith("http://")) {
                                             "http://$it"
-                                        }else{
+                                        } else {
                                             it
                                         }
                                         sp.edit { putString(Extras.HTTPURL, newBaseUtl) }
@@ -72,10 +72,11 @@ class VerCodeInputActivity : BaseActivity() {
                                                 startActivity<InvCodeInputActivity>(Extras.DATA to phone)
                                             } else {
                                                 if (it.business_card.isNullOrEmpty()) {
+                                                    val isAdmin = it.is_admin != 1
                                                     val info = MechanismInfo(it.mechanism_name, it.scale, it.business_card, it.name, it.position, it.key)
                                                     startActivity<InfoSupplementActivity>(Extras.DATA to phone
                                                             , Extras.DATA2 to info
-                                                            , Extras.FLAG to !it.is_admin
+                                                            , Extras.FLAG to isAdmin
                                                             , Extras.ID to it.user_id.toString())
                                                 } else {
                                                     val status = when (it.status) {
@@ -118,12 +119,12 @@ class VerCodeInputActivity : BaseActivity() {
                                 Store.store.setUser(this@VerCodeInputActivity, it)
                                 startActivity<MainActivity>()
                             }
-                        }else{
+                        } else {
                             hideProgress()
                             showTopSnackBar(payload.message)
                         }
                     }
-                    onError { e->
+                    onError { e ->
                         hideProgress()
                         Trace.e(e)
                     }

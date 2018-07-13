@@ -1,7 +1,9 @@
 package com.sogukj.pe.baselibrary.base
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
+import android.preference.PreferenceManager
 import android.support.annotation.DrawableRes
 import android.support.v4.app.Fragment
 import android.view.Gravity
@@ -18,6 +20,7 @@ import com.sogukj.pe.baselibrary.widgets.snackbar.TSnackbar
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.find
 import org.jetbrains.anko.imageResource
+import org.jetbrains.anko.support.v4.ctx
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
@@ -31,6 +34,7 @@ abstract class BaseFragment : Fragment(),AnkoLogger {
     val handler = Handler()
     var baseActivity: BaseActivity? = null
         private set
+    val sp : SharedPreferences by lazy { PreferenceManager.getDefaultSharedPreferences(ctx) }
 
     open val titleId: Int
         get() = 0

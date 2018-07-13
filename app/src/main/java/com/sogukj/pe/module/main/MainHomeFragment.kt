@@ -33,6 +33,7 @@ import com.google.gson.Gson
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.arrayFromJson
+import com.sogukj.pe.baselibrary.Extended.fromJson
 import com.sogukj.pe.baselibrary.Extended.jsonStr
 import com.sogukj.pe.baselibrary.base.BaseFragment
 import com.sogukj.pe.baselibrary.utils.Trace
@@ -40,6 +41,7 @@ import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.utils.XmlDb
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
+import com.sogukj.pe.bean.MechanismBasicInfo
 import com.sogukj.pe.database.MainFunIcon
 import com.sogukj.pe.bean.MessageBean
 import com.sogukj.pe.bean.MessageIndexBean
@@ -109,29 +111,12 @@ class MainHomeFragment : BaseFragment() {
                 party_build.isEnabled = false
             }
         }
-        toolbar_title.text = when (getEnvironment()) {
-            "civc" -> {
-                "中缔资本"
-            }
-            "ht" -> {
-                "海通创新"
-            }
-            "kk" -> {
-                "夸克"
-            }
-            "yge" -> {
-                "雅戈尔"
-            }
-            "sr"->{
-                "尚融资本"
-            }
-            else -> {
-                "搜股X-PE"
-            }
+        val company = sp.getString(Extras.CompanyDetail, "")
+        if (company.isNotEmpty()) {
+            initHeadTitle(Gson().fromJson<MechanismBasicInfo?>(company)?.mechanism_name)
         }
         val factory = Injection.provideViewModelFactory(ctx)
         val model = ViewModelProviders.of(this, factory).get(FunctionViewModel::class.java)
-        model.generateData(baseActivity!!.application)
 
         moduleAdapter = RecyclerAdapter(ctx) { _adapter, parent, _ ->
             val itemView = _adapter.getView(R.layout.item_function_icon, parent)
@@ -149,6 +134,7 @@ class MainHomeFragment : BaseFragment() {
         }
 
         model.getMainModules().observe(this, Observer<List<MainFunIcon>> { functions ->
+            info { functions.jsonStr }
             functions?.let {
                 moduleAdapter.dataList.clear()
                 moduleAdapter.dataList.addAll(it)
@@ -306,6 +292,10 @@ class MainHomeFragment : BaseFragment() {
                     })
                     .into(header)
         }
+    }
+
+    fun initHeadTitle(title:String?){
+        toolbar_title.text = title
     }
 
     lateinit var totalData: ArrayList<MessageBean>

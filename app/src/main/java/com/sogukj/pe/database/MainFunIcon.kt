@@ -29,11 +29,11 @@ data class MainFunIcon(
         @ColumnInfo(name = "editable")
         var editable: Boolean,//0=不可编辑(一定会显示在首页),1=可编辑
         @ColumnInfo(name = "seq")
-        var seq: Int, //当前按钮的排序
+        var seq: Long, //当前按钮的排序
         @ColumnInfo(name = "module")
         var mid: Int,//按钮所属的模块,1=默认模块,2=项目模块,3=基金模块
         @ColumnInfo(name = "floor")
-        var floor: Int,//按钮在所属模块中的排序
+        var floor: Long,//按钮在所属模块中的排序
         @PrimaryKey
         @ColumnInfo(name = "functionId")
         val id: Long = 0

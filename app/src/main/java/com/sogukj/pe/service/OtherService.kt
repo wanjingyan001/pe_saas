@@ -11,6 +11,7 @@ import retrofit2.http.*
  * Created by admin on 2018/5/22.
  */
 interface OtherService {
+//    @Headers(value = "Domain-Name: homeFunction")
     @FormUrlEncoded
     @POST("/api/Approve/getFundOrProject")
     fun listSelector(@FieldMap map: HashMap<String, Any>): Observable<Payload<List<CustomSealBean.ValueBean>>>
@@ -49,7 +50,7 @@ interface OtherService {
     /**
      * app首页按钮系列
      */
-    @Headers(value = "Domain-Name: homeFunction")
+//    @Headers(value = "Domain-Name: homeFunction")
     @POST("/api/Index/homeButton")
     fun homeModuleButton(@Body req:HomeFunctionReq): Observable<Payload<List<MainFunIcon>>>
 

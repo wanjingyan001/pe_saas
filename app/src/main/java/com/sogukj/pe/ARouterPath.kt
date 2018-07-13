@@ -29,4 +29,6 @@ object ARouterPath {
     const val MainEditActivity: String = "/main/edit"
     //情报
     const val MainNewsActivity: String = "/news/main"
+    //项目跟踪
+    const val ProjectTraceActivity:String = "/main/projectTrace"
 }

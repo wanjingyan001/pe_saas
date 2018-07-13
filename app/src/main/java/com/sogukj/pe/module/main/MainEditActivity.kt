@@ -31,6 +31,7 @@ import com.sogukj.pe.database.*
 import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main_edit.*
 import kotlinx.coroutines.experimental.CommonPool
@@ -49,6 +50,7 @@ class MainEditActivity : ToolbarActivity() {
     private lateinit var model: FunctionViewModel
     private lateinit var allModuleAdapter: AllModuleAdapter
     private lateinit var mainModuleAdapter: MainModuleAdapter
+    private lateinit var subscribe: Disposable
 
     companion object {
         private var isEdit = false
@@ -133,6 +135,7 @@ class MainEditActivity : ToolbarActivity() {
         }
     }
 
+
     private fun getData() = runBlocking {
         val factory = Injection.provideViewModelFactory(this@MainEditActivity)
         model = ViewModelProviders.of(this@MainEditActivity, factory).get(FunctionViewModel::class.java)
@@ -147,7 +150,7 @@ class MainEditActivity : ToolbarActivity() {
         val flowable0 = model.getModuleFunctions(MainFunIcon.Project)
         val flowable = model.getModuleFunctions(MainFunIcon.Fund)
         val flowable1 = model.getModuleFunctions(MainFunIcon.Default)
-        flowable0.subscribeOn(Schedulers.io())
+        subscribe = flowable0.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap {
                     if (allModule.find { it.header == "项目功能" } == null) {
@@ -179,6 +182,7 @@ class MainEditActivity : ToolbarActivity() {
                 allModuleAdapter.notifyDataSetChanged()
             }
         }
+        subscribe
     }
 
 
@@ -228,12 +232,13 @@ class MainEditActivity : ToolbarActivity() {
     override fun onDestroy() {
         super.onDestroy()
         isEdit = false
+        subscribe.dispose()
     }
 
     private fun submitModules() {
         val list = ArrayList<FuncReqBean>()
         mainModuleAdapter.data.forEachIndexed  {index, mainFunIcon ->
-            mainFunIcon.seq = index +1
+            mainFunIcon.seq = (index +1).toLong()
             model.updateFunction(mainFunIcon)
             list.add(FuncReqBean(mainFunIcon.id, index + 1))
         }
