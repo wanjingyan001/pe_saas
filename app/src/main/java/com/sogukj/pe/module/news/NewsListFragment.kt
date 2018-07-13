@@ -16,6 +16,7 @@ import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.BaseRefreshFragment
 import com.sogukj.pe.baselibrary.utils.DateUtils
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
@@ -32,6 +33,7 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_list_news.*
+import kotlinx.android.synthetic.main.layout_empty.*
 import kotlinx.android.synthetic.main.layout_loading.*
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.textColor
@@ -139,15 +141,22 @@ class NewsListFragment : BaseRefreshFragment(), SupportEmptyView {
                     Trace.e(e)
                     iv_loading?.visibility = View.GONE
                     SupportEmptyView.checkEmpty(this, adapter)
+                    loadDataEnd()
                 }, {
                     SupportEmptyView.checkEmpty(this, adapter)
                     isLoadMoreEnable = adapter.dataList.size % 20 == 0
                     adapter.notifyDataSetChanged()
-                    if (page == 1)
-                        finishRefresh()
-                    else
-                        finishLoadMore()
+                    loadDataEnd()
                 })
+    }
+
+    private fun loadDataEnd() {
+        if (page == 1)
+            finishRefresh()
+        else
+            finishLoadMore()
+        refresh.setVisible(adapter.dataList.isNotEmpty())
+        iv_empty.setVisible(adapter.dataList.isEmpty())
     }
 
     private var queryTxt = ""

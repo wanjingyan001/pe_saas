@@ -13,10 +13,12 @@ import android.widget.TextView
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.amap.api.mapcore.util.it
 import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.execute
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Trace
@@ -35,7 +37,9 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_company_select2.*
+import kotlinx.android.synthetic.main.layout_empty.*
 import kotlinx.android.synthetic.main.toolbar_search.*
+import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import org.jetbrains.anko.backgroundColor
 
 @Route(path = ARouterPath.CompanySelectActivity)
@@ -60,12 +64,12 @@ class CompanySelectActivity : BaseRefreshActivity() {
             object : RecyclerHolder<Any>(convertView) {
                 val tv1 = convertView.findViewById<TextView>(R.id.tv1) as TextView
                 override fun setData(view: View, data: Any, position: Int) {
-                    if (data is CustomSealBean.ValueBean){
+                    if (data is CustomSealBean.ValueBean) {
                         var label = data.name
                         if (TextUtils.isEmpty(label))
                             label = data.name
                         tv1.text = "${position + 1}.$label"
-                    }else if (data is FundSmallBean){
+                    } else if (data is FundSmallBean) {
                         tv1.text = data.fundName
                     }
                 }
@@ -80,9 +84,15 @@ class CompanySelectActivity : BaseRefreshActivity() {
             search_bar.visibility = View.VISIBLE
         }
         adapter.onItemClick = { v, p ->
-//            ARouter.getInstance().build(routerPath)
-//                    .withSerializable(Extras.DATA, adapter.dataList[p])
-//                    .navigation()
+            if (routerPath.contains("project")) {
+                val bean = adapter.dataList[p] as CustomSealBean.ValueBean
+                doRequest(bean.id!!)
+            } else if (routerPath.contains("fund")) {
+                val bean = adapter.dataList[p] as FundSmallBean
+                ARouter.getInstance().build(routerPath)
+                        .withSerializable(Extras.DATA, bean)
+                        .navigation()
+            }
         }
         search_bar.onTextChange = { text ->
             page = 1
@@ -104,13 +114,19 @@ class CompanySelectActivity : BaseRefreshActivity() {
         getListData()
     }
 
-    fun doRequest() {
+    fun doRequest(id: Int) {
+//        RetrofitUrlManager.getInstance().putDomain("homeFunction", "http://prehts.pewinner.com")
         SoguApi.getService(application, NewService::class.java)
-                .listProject(offset = 0, uid = Store.store.getUser(this)!!.uid)
+                .listProject(offset = 0, uid = Store.store.getUser(this)!!.uid, id = id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ payload ->
                     if (payload.isOk) {
+                        payload.payload?.let {
+                            ARouter.getInstance().build(routerPath)
+                                    .withSerializable(Extras.DATA, it[0])
+                                    .navigation()
+                        }
 
                     } else
                         showCustomToast(R.drawable.icon_toast_fail, payload.message)
@@ -122,6 +138,7 @@ class CompanySelectActivity : BaseRefreshActivity() {
 
     private fun getListData() {
         if (routerPath.contains("project")) {
+//            RetrofitUrlManager.getInstance().putDomain("homeFunction", "http://prehts.pewinner.com")
             title = "选择项目"
             val text = search_bar.search
             val params = HashMap<String, Any>()
@@ -154,6 +171,9 @@ class CompanySelectActivity : BaseRefreshActivity() {
                             finishRefresh()
                         else
                             finishLoadMore()
+
+                        refresh.setVisible(adapter.dataList.isNotEmpty())
+                        iv_empty.setVisible(adapter.dataList.isEmpty())
                     })
         } else if (routerPath.contains("fund")) {
             title = "选择基金"
@@ -166,7 +186,7 @@ class CompanySelectActivity : BaseRefreshActivity() {
                                 payload.payload?.apply {
                                     adapter.dataList.addAll(this)
                                 }
-                            }else{
+                            } else {
                                 showErrorToast("暂无可用数据")
                             }
                         }
@@ -183,6 +203,9 @@ class CompanySelectActivity : BaseRefreshActivity() {
                                 finishRefresh()
                             else
                                 finishLoadMore()
+
+                            refresh.setVisible(adapter.dataList.isNotEmpty())
+                            iv_empty.setVisible(adapter.dataList.isEmpty())
                         }
                     }
         }
@@ -205,6 +228,11 @@ class CompanySelectActivity : BaseRefreshActivity() {
         config.autoLoadMoreEnable = true
         config.disableContentWhenRefresh = true
         return config
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        RetrofitUrlManager.getInstance().clearAllDomain()
     }
 
 }

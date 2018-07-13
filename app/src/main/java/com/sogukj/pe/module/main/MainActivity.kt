@@ -4,6 +4,7 @@ import android.Manifest
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.app.Activity
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -27,8 +28,10 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.ScrollView
 import android.widget.TextView
+import androidx.core.content.edit
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
+import com.amap.api.mapcore.util.it
 import com.ashokvarma.bottomnavigation.BottomNavigationBar
 import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.bumptech.glide.Glide
@@ -43,20 +46,26 @@ import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.*
 import com.sogukj.pe.database.MainFunIcon
 import com.sogukj.pe.bean.NewsBean
+import com.sogukj.pe.database.FunctionViewModel
+import com.sogukj.pe.database.Injection
 import com.sogukj.pe.module.fund.FundMainFragment
 import com.sogukj.pe.module.news.NewsDetailActivity
 import com.sogukj.pe.module.project.MainProjectFragment
+import com.sogukj.pe.module.register.CreateDepartmentActivity
 import com.sogukj.pe.module.register.PhoneInputActivity
 import com.sogukj.pe.peExtended.defaultIc
 import com.sogukj.pe.peUtils.FileUtil
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.OtherService
+import com.sogukj.pe.service.RegisterService
 import com.sogukj.pe.widgets.MyProgressBar
 import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.internal.util.HalfSerializer.onNext
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.*
+import org.jetbrains.anko.support.v4.ctx
 import java.io.File
 import java.util.*
 
@@ -86,11 +95,12 @@ class MainActivity : BaseActivity() {
         initBottomNavBar()
         changeFragment(0)
         updateVersion()
-        Glide.with(this)
-                .load(defaultIc())
-                .apply(RequestOptions().centerInside())
-                .into(mainLogo)
+
         ViewCompat.setElevation(mainLogo, 50f)
+        val factory = Injection.provideViewModelFactory(ctx)
+        val model = ViewModelProviders.of(this, factory).get(FunctionViewModel::class.java)
+        model.generateData(application)
+        getCompanyInfo()
         ActivityHelper.finishAllWithoutTop()
     }
 
@@ -186,6 +196,30 @@ class MainActivity : BaseActivity() {
 //            LoginActivity.start(this)
            startActivity<PhoneInputActivity>()
         }
+    }
+
+
+    private fun getCompanyInfo(){
+        SoguApi.getService(application, RegisterService::class.java)
+                .getBasicInfo(sp.getString(Extras.CompanyKey, ""))
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk) {
+                            payload.payload?.let {
+                               sp.edit { putString(Extras.CompanyDetail,it.jsonStr) }
+                                teamSelect.initHeader(it)
+                                mainHome.initHeadTitle(it.mechanism_name)
+                                Glide.with(this@MainActivity)
+                                        .load(it.logo)
+                                        .apply(RequestOptions().centerInside().placeholder(R.drawable.ic_launcher).error(R.drawable.ic_launcher))
+                                        .into(mainLogo)
+                            }
+                        } else {
+                            showErrorToast(payload.message)
+                        }
+
+                    }
+                }
     }
 
     private fun updateVersion() {

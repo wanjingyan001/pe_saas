@@ -392,6 +392,7 @@
                 android:paddingRight="10dp"
                 app:layoutManager="LinearLayoutManager"
                 tools:listitem="@layout/item_main_project" />
+            <include layout="@layout/layout_empty"/>
         </LinearLayout>
     </RelativeLayout>
 

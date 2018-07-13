@@ -24,6 +24,7 @@ import kotlinx.coroutines.experimental.runBlocking
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.error
 import org.jetbrains.anko.info
 
 /**
@@ -61,11 +62,14 @@ class FunctionViewModel(private val funDao: FunctionDao) : ViewModel() {
                                 AnkoLogger("WJY").info { it.jsonStr }
                                 doAsync {
                                     it.forEach {
-                                        funDao.saveFunction(it)
+                                        funDao.insertFunction(it)
                                     }
                                 }
                             }
                         }
+                    }
+                    onError { e->
+                        AnkoLogger("WJY").error { e.message }
                     }
                 }
     }

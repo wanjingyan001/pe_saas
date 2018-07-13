@@ -145,10 +145,8 @@
         <!-- android:value="${UMENG_CHANNEL_VALUE}" /> -->
 
         <activity android:name=".module.main.SplashActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -200,7 +198,7 @@
             android:name=".module.main.CompanySelectActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <!-- User -->
         <activity
             android:name=".module.user.CardActivity"
@@ -1026,7 +1024,6 @@
             android:exported="true"
             android:launchMode="singleInstance"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
         <activity
             android:name="com.xuexuan.zxing.android.activity.CaptureActivity"
             android:screenOrientation="portrait"
@@ -1111,6 +1108,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity android:name=".module.other.GongGaoDetailActivity" />
+        <activity android:name=".module.main.GuideActivity"></activity>
     </application>
 
 </manifest>

@@ -72,6 +72,7 @@ object Extras {
     val MODULE_ID = "ext.module_id"
 
     val CompanyKey = "companyKey"
+    val CompanyDetail = "saas.company"
     val SaasPhone = "saas.Phone"
     val SaasUserId = "saas.userId"
     val HTTPURL = "saas.httpUrl"
@@ -82,4 +83,6 @@ object Extras {
     val STAGE = "ext.stage"
     val COMPANY_ID = "ext.company_id"
     val DIR_ID = "ext.dir_id"
+
+    val isFirstEnter = "ext.first.enter"//第一次进入APP
 }

@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.TextView
 import com.afollestad.materialdialogs.MaterialDialog
+import com.google.gson.Gson
 import com.netease.nim.uikit.api.NimUIKit
 import com.netease.nimlib.sdk.NIMClient
 import com.netease.nimlib.sdk.auth.AuthService
@@ -15,15 +16,22 @@ import com.sogukj.pe.App
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
+import com.sogukj.pe.baselibrary.Extended.execute
+import com.sogukj.pe.baselibrary.Extended.fromJson
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.utils.XmlDb
+import com.sogukj.pe.bean.MechanismBasicInfo
 import com.sogukj.pe.database.Injection
 import com.sogukj.pe.module.main.LoginActivity
+import com.sogukj.pe.module.register.CreateDepartmentActivity
 import com.sogukj.pe.module.register.PhoneInputActivity
 import com.sogukj.pe.module.register.UploadBasicInfoActivity
 import com.sogukj.pe.peUtils.Store
+import com.sogukj.pe.service.RegisterService
+import com.sogukj.service.SoguApi
+import io.reactivex.internal.util.HalfSerializer.onNext
 import kotlinx.android.synthetic.main.activity_setting.*
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import org.jetbrains.anko.ctx
@@ -90,9 +98,15 @@ class SettingActivity : BaseActivity() {
         val user = Store.store.getUser(this)
         createDep.setVisible(user?.is_admin == 1)
         createDep.clickWithTrigger {
-            startActivity<UploadBasicInfoActivity>(Extras.NAME to user?.company!!,
-                    Extras.CODE to user.phone,
-                    Extras.FLAG to true)
+            user?.let {
+                val company = sp.getString(Extras.CompanyDetail, "")
+                val detail = Gson().fromJson<MechanismBasicInfo?>(company)
+                detail?.let {
+                    startActivity<UploadBasicInfoActivity>(Extras.NAME to it.mechanism_name,
+                            Extras.CODE to user.phone,
+                            Extras.FLAG to true)
+                }
+            }
         }
     }
 

@@ -30,12 +30,15 @@ import com.netease.nimlib.sdk.NIMClient
 import com.netease.nimlib.sdk.RequestCallback
 import com.netease.nimlib.sdk.team.TeamService
 import com.netease.nimlib.sdk.team.model.Team
+import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.fromJson
 import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.base.BaseFragment
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.DepartmentBean
+import com.sogukj.pe.bean.MechanismBasicInfo
 import com.sogukj.pe.bean.TeamBean
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.module.im.PersonalInfoActivity
@@ -124,12 +127,14 @@ class TeamSelectFragment : BaseFragment() {
         mine = Store.store.getUser(ctx)
         initSearchView()
         initResultList()
-        initHeader()
         initGroupDiscuss()
         initOrganizationList()
         //initContactList()
         doRequest()
-
+        val company = sp.getString(Extras.CompanyDetail, "")
+        if (company.isNotEmpty()) {
+            initHeader(Gson().fromJson(company))
+        }
         loadHead()
         toolbar_back.setOnClickListener {
             //UserActivity.start(context)
@@ -278,32 +283,12 @@ class TeamSelectFragment : BaseFragment() {
         })
     }
 
-    private fun initHeader() {
-        when (getEnvironment()) {
-            "civc" -> {
-                company_icon.imageResource = R.mipmap.ic_launcher_zd
-                companyName.text = "中缔资本"
-            }
-            "ht" -> {
-                company_icon.imageResource = R.mipmap.ic_launcher_ht
-                companyName.text = "海通创新"
-            }
-            "kk" -> {
-                company_icon.imageResource = R.mipmap.ic_launcher_kk
-                companyName.text = "夸克"
-            }
-            "yge" -> {
-                company_icon.imageResource = R.mipmap.ic_launcher_yge
-                companyName.text = "雅戈尔"
-            }
-            "sr" -> {
-                company_icon.imageResource = R.mipmap.ic_launcher_sr
-                companyName.text = "尚融资本"
-            }
-            else -> {
-                company_icon.imageResource = R.mipmap.ic_launcher_pe
-                companyName.text = "搜股X-PE"
-            }
+    fun initHeader(info: MechanismBasicInfo?) {
+        info?.let {
+            Glide.with(this)
+                    .load(info.logo)
+                    .into(company_icon)
+            companyName.text = info.mechanism_name
         }
     }
 

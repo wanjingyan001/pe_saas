@@ -36,8 +36,8 @@
             android:orientation="vertical"
             app:layoutManager="LinearLayoutManager" />
 
-        <include layout="@layout/layout_empty" />
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    <include layout="@layout/layout_empty" />
 
 </LinearLayout>

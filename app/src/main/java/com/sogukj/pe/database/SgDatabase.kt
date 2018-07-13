@@ -30,9 +30,9 @@ abstract class SgDatabase : RoomDatabase() {
 
         private val MIGRATION_1_2: Migration = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("ALTER TABLE Function ADD COLUMN seq INTEGER," +
-                        "module INTEGER," +
-                        "floor INTEGER")
+                database.execSQL("ALTER TABLE Function ADD COLUMN seq LONG  ")
+                database.execSQL("ALTER TABLE Function ADD COLUMN module INTEGER")
+                database.execSQL("ALTER TABLE Function ADD COLUMN floor INTEGER")
             }
         }
     }

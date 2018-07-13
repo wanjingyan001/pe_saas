@@ -20,9 +20,8 @@
             app:layoutManager="LinearLayoutManager"
             tools:listitem="@layout/item_main_news" />
 
-        <include layout="@layout/layout_empty" />
-
-        <include layout="@layout/layout_loading" />
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    <include layout="@layout/layout_empty" />
 
+    <include layout="@layout/layout_loading" />
 </LinearLayout>

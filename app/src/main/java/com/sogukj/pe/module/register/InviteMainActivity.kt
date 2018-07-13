@@ -24,6 +24,8 @@ class InviteMainActivity : ToolbarActivity() {
     private lateinit var mAdapter: InviteAdapter
     private var inviteCode: String? = null
     private lateinit var invitePath: String
+    private lateinit var header: View
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_invite_main)
@@ -31,38 +33,19 @@ class InviteMainActivity : ToolbarActivity() {
         toolbar?.setBackgroundColor(resources.getColor(R.color.white))
         title = "邀请同事加入"
         setBack(true)
-        val map = getContacts()
-        val data = ArrayList<MyContacts>()
-        val contacts = ArrayList<Contact>()
-        map.asIterable().forEach {
-            val contact = Contact(it.key, it.value)
-            contacts.add(contact)
-        }
-        contacts.sortBy { it.name.firstLetter }
-        contacts.forEachIndexed { index, contact ->
-            val thisLetter = contact.name.firstLetter
-            if (index == 0) {
-                data.add(MyContacts(true, thisLetter))
-            } else {
-                val lastLetter = contacts[index - 1].name.firstLetter
-                if (thisLetter != lastLetter) {
-                    data.add(MyContacts(true, thisLetter))
-                }
-            }
-            data.add(MyContacts(contact))
-        }
+        val data = inviteData()
         mAdapter = InviteAdapter(data)
         contactsList.apply {
             layoutManager = LinearLayoutManager(this@InviteMainActivity)
             adapter = mAdapter
         }
-        val header = layoutInflater.inflate(R.layout.layout_invite_main_header, contactsList.parent as ViewGroup, false)
+        header = layoutInflater.inflate(R.layout.layout_invite_main_header, contactsList.parent as ViewGroup, false)
         mAdapter.addHeaderView(header)
         header.find<View>(R.id.addByPhoneLayout).clickWithTrigger {
             startActivity<InviteByPhoneActivity>(Extras.DATA to inviteCode)
         }
         header.find<View>(R.id.addByShareLayout).clickWithTrigger {
-            startActivity<InviteByCodeActivity>(Extras.DATA to inviteCode,Extras.DATA2 to invitePath)
+            startActivity<InviteByCodeActivity>(Extras.DATA to inviteCode, Extras.DATA2 to invitePath)
         }
         header.find<View>(R.id.addByPCLayout).clickWithTrigger {
             startActivity<InviteByPcActivity>()
@@ -80,8 +63,39 @@ class InviteMainActivity : ToolbarActivity() {
             }
         }
         getInviteCode()
+        initSearch()
     }
 
+    private fun initSearch() {
+        mSearchView.doSearch = { key ->
+            if (key.isNotEmpty()) {
+                val filter = mAdapter.data.filter {
+                    if (!it.isHeader) {
+                        it.t.name.contains(key) || it.t.phone.contains(key)
+                    } else {
+                        it.header.isEmpty()
+                    }
+                }
+                if (filter.isNotEmpty()) {
+                    mAdapter.removeHeaderView(header)
+                    mAdapter.data.clear()
+                    mAdapter.data.addAll(filter)
+                    mAdapter.notifyDataSetChanged()
+                }
+            }
+        }
+        mSearchView.onTextChange = { text ->
+            if (text.isEmpty()) {
+                val data = inviteData()
+                if (mAdapter.headerLayoutCount == 0) {
+                    mAdapter.addHeaderView(header)
+                    mAdapter.data.clear()
+                    mAdapter.data.addAll(data)
+                    mAdapter.notifyDataSetChanged()
+                }
+            }
+        }
+    }
 
     private fun getContacts(): Map<String, String> {
         val map = HashMap<String, String>()
@@ -110,6 +124,29 @@ class InviteMainActivity : ToolbarActivity() {
         return map
     }
 
+    private fun inviteData(): List<MyContacts> {
+        val map = getContacts()
+        val data = ArrayList<MyContacts>()
+        val contacts = ArrayList<Contact>()
+        map.asIterable().forEach {
+            val contact = Contact(it.key, it.value)
+            contacts.add(contact)
+        }
+        contacts.sortBy { it.name.firstLetter }
+        contacts.forEachIndexed { index, contact ->
+            val thisLetter = contact.name.firstLetter
+            if (index == 0) {
+                data.add(MyContacts(true, thisLetter))
+            } else {
+                val lastLetter = contacts[index - 1].name.firstLetter
+                if (thisLetter != lastLetter) {
+                    data.add(MyContacts(true, thisLetter))
+                }
+            }
+            data.add(MyContacts(contact))
+        }
+        return data
+    }
 
 
     private fun getInviteCode() {
@@ -137,7 +174,7 @@ class InviteMainActivity : ToolbarActivity() {
                     .execute {
                         onNext { payload ->
                             if (payload.isOk) {
-                               showSuccessToast("邀请成功")
+                                showSuccessToast("邀请成功")
                             } else {
                                 showTopSnackBar(payload.message)
                             }

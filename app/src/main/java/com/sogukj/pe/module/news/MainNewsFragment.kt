@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.BaseRefreshFragment
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Trace
@@ -36,6 +37,7 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_main_news.*
+import kotlinx.android.synthetic.main.layout_empty.*
 import kotlinx.android.synthetic.main.search_view.*
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.textColor
@@ -283,6 +285,7 @@ class MainNewsFragment : BaseRefreshFragment() {
         config.disableContentWhenRefresh = true
         return config
     }
+
     lateinit var tags: ArrayList<String>
     fun loadTags() {
         SoguApi.getService(baseActivity!!.application, NewService::class.java)
@@ -291,7 +294,7 @@ class MainNewsFragment : BaseRefreshFragment() {
                 .subscribeOn(Schedulers.io())
                 .subscribe({ payload ->
                     if (payload.isOk) {
-                         tags = payload.payload!!
+                        tags = payload.payload!!
                         for (i in 0 until grid.childCount) {
                             var child = grid.getChildAt(i) as TextView
                             try {
@@ -394,18 +397,24 @@ class MainNewsFragment : BaseRefreshFragment() {
                         showCustomToast(R.drawable.icon_toast_fail, payload.message)
                 }, { e ->
                     Trace.e(e)
+                    loadDataEnd()
                 }, {
-                    ll_history.visibility = View.GONE
-                    adapter.notifyDataSetChanged()
-                    if (page == 1)
-                        finishRefresh()
-                    else
-                        finishLoadMore()
-
-                    hisAdapter.dataList.clear()
-                    hisAdapter.dataList.addAll(Store.store.newsSearch(baseActivity!!))
-                    hisAdapter.notifyDataSetChanged()
+                    loadDataEnd()
                 })
+    }
+
+    private fun loadDataEnd() {
+        ll_history.visibility = View.GONE
+        adapter.notifyDataSetChanged()
+        if (page == 1)
+            finishRefresh()
+        else
+            finishLoadMore()
+        hisAdapter.dataList.clear()
+        hisAdapter.dataList.addAll(Store.store.newsSearch(baseActivity!!))
+        hisAdapter.notifyDataSetChanged()
+        refresh.setVisible(adapter.dataList.isNotEmpty())
+        iv_empty.setVisible(adapter.dataList.isEmpty())
     }
 
     val fmt = SimpleDateFormat("yyyy/MM/dd HH:mm")
