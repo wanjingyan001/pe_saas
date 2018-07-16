@@ -33,7 +33,7 @@
         android:layout_centerHorizontal="true"
         android:visibility="gone"
         android:scaleType="centerInside"
-        android:src="@drawable/ic_launcher"  />
+        android:src="@mipmap/ic_launcher_mian_circle"  />
     <!--<RadioGroup-->
     <!--android:id="@+id/rg_tab_main"-->
     <!--android:layout_width="match_parent"-->

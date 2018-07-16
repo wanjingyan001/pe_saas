@@ -8,6 +8,7 @@ import com.alibaba.android.arouter.facade.callback.InterceptorCallback
 import com.alibaba.android.arouter.facade.template.IInterceptor
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
+import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.baselibrary.Extended.jsonStr
 import com.sogukj.pe.bean.CustomSealBean
@@ -24,9 +25,17 @@ class ProjectInterceptor : IInterceptor, AnkoLogger {
     override fun process(postcard: Postcard, callback: InterceptorCallback) {
 //        && postcard.tag == Extras.ROUTH_FLAG
         val bundle = postcard.extras
-        if (postcard.path.contains("project") && bundle.getInt(Extras.FLAG) == Extras.ROUTH_FLAG) {
+        if (postcard.path.contains("/main/bookList")) {
+            val name = postcard.path.substring(postcard.path.lastIndexOf("/") + 1, postcard.path.length)
             ARouter.getInstance()
-                    .build("/main/companySelect")
+                    .build(ARouterPath.CompanySelectActivity)
+                    .withString(Extras.ROUTE_PATH, postcard.path)
+                    .withString(Extras.NAME,name)
+                    .navigation()
+            callback.onInterrupt(null)
+        } else if ((postcard.path.startsWith("/project") || postcard.path.startsWith("/fund")) && bundle.getInt(Extras.FLAG) == Extras.ROUTH_FLAG) {
+            ARouter.getInstance()
+                    .build(ARouterPath.CompanySelectActivity)
                     .withString(Extras.ROUTE_PATH, postcard.path)
                     .navigation()
             callback.onInterrupt(null)

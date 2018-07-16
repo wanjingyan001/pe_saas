@@ -94,20 +94,6 @@ class BookListActivity : BaseActivity() {
             }
         }
         toolbar_title.text = intent.getStringExtra(Extras.TITLE)
-        fundBean = intent.getSerializableExtra(Extras.DATA) as FundSmallBean
-        if (fundBean != null) {
-            company_id = fundBean?.id
-            type = 2
-            toolbar_title.text = "基金文书"
-            intent.putExtra(Extras.NAME, fundBean?.fundName)
-            val stage = when (fundBean?.type) {//  （1=>储备，2=>存续，3=>退出））
-                1 -> "储备"
-                2 -> "存续"
-                3 -> "退出"
-                else -> ""
-            }
-            intent.putExtra(Extras.STAGE, stage)
-        }
 
         toolbar_menu.setOnClickListener {
             if (dir_id == null) {

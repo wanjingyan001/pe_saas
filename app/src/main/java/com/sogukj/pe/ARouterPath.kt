@@ -14,7 +14,7 @@ object ARouterPath {
     //投后管理
     const val ManageDataActivity: String = "/project/thgl"
     //项目文书
-    const val ProjectBookActivity: String = "/project/xmws"
+    const val ProjectBookActivity: String = "/main/bookList/project"
     //跟踪记录
     const val RecordTraceActivity: String = "/project/gzjl"
     //尽调数据
@@ -34,7 +34,7 @@ object ARouterPath {
     //基金总台账
     const val FundAccountActivity:String = "/fund/jjztz"
     //基金文书
-    const val BookListActivity:String = "/fund/jjws"
+    const val BookListActivity:String = "/main/bookList/fund"
     //基金项目
     const val FundProjectActivity:String = "/fund/jjxm"
 }

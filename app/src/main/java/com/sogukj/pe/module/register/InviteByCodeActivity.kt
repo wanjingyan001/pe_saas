@@ -28,6 +28,7 @@ import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.extraDelegate
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
+import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.ddshare.DDShareActivity
 import com.sogukj.pe.module.main.MainActivity
@@ -44,7 +45,7 @@ import kotlinx.android.synthetic.main.activity_invite_by_code.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import org.jetbrains.anko.toast
-import java.io.File
+import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.properties.Delegates
@@ -95,6 +96,7 @@ class InviteByCodeActivity : ToolbarActivity(), PlatformActionListener {
         weChatLayout.clickWithTrigger {
             shareWeChat()
         }
+        copyAssets("img_logo.png")
         QQLayout.clickWithTrigger {
             shareQQ()
         }
@@ -142,11 +144,45 @@ class InviteByCodeActivity : ToolbarActivity(), PlatformActionListener {
 
     private fun shareQQ() {
         val sp = Platform.ShareParams()
-       sp.titleUrl = QRPath
+        sp.titleUrl = QRPath
         sp.title = "邀请码"
+        sp.text = invite
+        val logoUrl = File(Environment.getExternalStorageDirectory(), "ic_launcher_pe.png").toString()
+        sp.imageUrl = logoUrl
+        info { logoUrl }
         val qq = ShareSDK.getPlatform(QQ.NAME)
         qq.platformActionListener = this
         qq.share(sp)
+    }
+
+    private fun copyAssets(filename: String) {
+        val assetManager = assets
+        var `in`: InputStream? = null
+        var out: OutputStream? = null
+        try {
+            `in` = assetManager.open(filename)
+
+            val outFile = File(Environment.getExternalStorageDirectory(), filename)
+            out = FileOutputStream(outFile)
+            copyFile(`in`, out)
+            `in`!!.close()
+            out.flush()
+            out.close()
+        } catch (e: IOException) {
+            Trace.e("tag", "Failed to copy asset file: " + filename, e)
+        }
+
+    }
+
+    @Throws(IOException::class)
+    private fun copyFile(`in`: InputStream, out: OutputStream) {
+        val buffer = ByteArray(1024)
+        var read: Int
+        while (true) {
+            read = `in`.read(buffer)
+            if (read == -1) break
+            out.write(buffer, 0, read)
+        }
     }
 
     private lateinit var ddShareApi: IDDShareApi
@@ -182,7 +218,6 @@ class InviteByCodeActivity : ToolbarActivity(), PlatformActionListener {
     }
 
 
-
     override fun onComplete(p0: Platform, p1: Int, p2: HashMap<String, Any>) {
         when (p0.name) {
             Wechat.NAME -> showSuccessToast("微信分享成功")
@@ -208,20 +243,20 @@ class InviteByCodeActivity : ToolbarActivity(), PlatformActionListener {
         outputPic.delete()
     }
 
-      /**
+    /**
      * 校验分享到钉钉的参数是否有效
      * @return
      */
-    private fun checkShareToDingDingValid() :Boolean{
-        if(!TextUtils.equals(ONLINE_PACKAGE_NAME, packageName)){
+    private fun checkShareToDingDingValid(): Boolean {
+        if (!TextUtils.equals(ONLINE_PACKAGE_NAME, packageName)) {
             Toast.makeText(this, "包名与线上申请的不匹配", Toast.LENGTH_SHORT).show()
             return false
         }
-        if(!TextUtils.equals(ONLINE_APP_ID, CURRENT_USING_APP_ID)){
+        if (!TextUtils.equals(ONLINE_APP_ID, CURRENT_USING_APP_ID)) {
             Toast.makeText(this, "APP_ID 与生成的不匹配", Toast.LENGTH_SHORT).show()
             return false
         }
-        if(!TextUtils.equals(ONLINE_SIGNATURE, SignatureCheck.getMD5Signature(this, packageName))){
+        if (!TextUtils.equals(ONLINE_SIGNATURE, SignatureCheck.getMD5Signature(this, packageName))) {
             Toast.makeText(this, "签名与线上生成的不符", Toast.LENGTH_SHORT).show()
             return false
         }

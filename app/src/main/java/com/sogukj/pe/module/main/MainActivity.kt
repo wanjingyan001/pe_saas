@@ -208,10 +208,9 @@ class MainActivity : BaseActivity() {
                             payload.payload?.let {
                                sp.edit { putString(Extras.CompanyDetail,it.jsonStr) }
                                 teamSelect.initHeader(it)
-                                mainHome.initHeadTitle(it.mechanism_name)
                                 Glide.with(this@MainActivity)
                                         .load(it.logo)
-                                        .apply(RequestOptions().centerInside().placeholder(R.drawable.ic_launcher).error(R.drawable.ic_launcher))
+                                        .apply(RequestOptions().centerInside().placeholder(R.mipmap.ic_launcher_mian_circle).error(R.mipmap.ic_launcher_mian_circle))
                                         .into(mainLogo)
                             }
                         } else {

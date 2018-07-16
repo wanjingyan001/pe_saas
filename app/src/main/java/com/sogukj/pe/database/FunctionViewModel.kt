@@ -62,7 +62,7 @@ class FunctionViewModel(private val funDao: FunctionDao) : ViewModel() {
                                 AnkoLogger("WJY").info { it.jsonStr }
                                 doAsync {
                                     it.forEach {
-                                        funDao.insertFunction(it)
+                                        funDao.saveFunction(it)
                                     }
                                 }
                             }

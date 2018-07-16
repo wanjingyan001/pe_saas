@@ -27,6 +27,7 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.CustomSealBean
 import com.sogukj.pe.bean.FundSmallBean
 import com.sogukj.pe.bean.ProjectBean
+import com.sogukj.pe.module.fund.BookListActivity
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.peUtils.SupportEmptyView
 import com.sogukj.pe.service.ApproveService
@@ -50,6 +51,10 @@ class CompanySelectActivity : BaseRefreshActivity() {
     @JvmField
     @Autowired(name = Extras.ROUTE_PATH)
     var routerPath = ""
+
+    @JvmField
+    @Autowired(name = "ext.name")
+    var name = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ARouter.getInstance().inject(this)
@@ -89,9 +94,19 @@ class CompanySelectActivity : BaseRefreshActivity() {
                 doRequest(bean.id!!)
             } else if (routerPath.contains("fund")) {
                 val bean = adapter.dataList[p] as FundSmallBean
-                ARouter.getInstance().build(routerPath)
-                        .withSerializable(Extras.DATA, bean)
-                        .navigation()
+                if (name == "fund"){
+                    val stage = when(bean.type){//  （1=>储备，2=>存续，3=>退出））
+                        1 -> "储备"
+                        2 -> "存续"
+                        3 -> "退出"
+                        else -> ""
+                    }
+                    BookListActivity.start(this,bean.id,2,null,"基金文书",bean.fundName,stage)
+                }else{
+                    ARouter.getInstance().build(routerPath)
+                            .withSerializable(Extras.DATA, bean)
+                            .navigation()
+                }
             }
         }
         search_bar.onTextChange = { text ->
@@ -123,9 +138,21 @@ class CompanySelectActivity : BaseRefreshActivity() {
                 .subscribe({ payload ->
                     if (payload.isOk) {
                         payload.payload?.let {
-                            ARouter.getInstance().build(routerPath)
-                                    .withSerializable(Extras.DATA, it[0])
-                                    .navigation()
+                            if (name == "project"){
+                                val stage = when (it[0].type) {//（4是储备，1是立项，3是关注，5是退出，6是调研）
+                                    6 -> "调研"
+                                    4 -> "储备"
+                                    1 -> "立项"
+                                    2 -> "已投"
+                                    5, 7 -> "退出"
+                                    else -> ""
+                                }
+                                BookListActivity.start(context, it[0].company_id!!, 1, null, "项目文书", it[0].name!!, stage)
+                            }else{
+                                ARouter.getInstance().build(routerPath)
+                                        .withSerializable(Extras.DATA, it[0])
+                                        .navigation()
+                            }
                         }
 
                     } else

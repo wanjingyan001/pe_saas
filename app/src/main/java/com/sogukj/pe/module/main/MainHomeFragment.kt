@@ -111,10 +111,7 @@ class MainHomeFragment : BaseFragment() {
                 party_build.isEnabled = false
             }
         }
-        val company = sp.getString(Extras.CompanyDetail, "")
-        if (company.isNotEmpty()) {
-            initHeadTitle(Gson().fromJson<MechanismBasicInfo?>(company)?.mechanism_name)
-        }
+        toolbar_title.text = "搜股X-PE"
         val factory = Injection.provideViewModelFactory(ctx)
         val model = ViewModelProviders.of(this, factory).get(FunctionViewModel::class.java)
 
@@ -295,7 +292,7 @@ class MainHomeFragment : BaseFragment() {
     }
 
     fun initHeadTitle(title:String?){
-        toolbar_title.text = title
+
     }
 
     lateinit var totalData: ArrayList<MessageBean>

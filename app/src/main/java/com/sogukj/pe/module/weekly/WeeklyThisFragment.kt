@@ -504,10 +504,14 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
                 viewHolder.name?.text = "添加"
             } else {
 //                viewHolder.icon?.setChar(list[position].name.first())
-                Glide.with(context)
-                        .load(MyGlideUrl(list[position].headImage()))
-                        .apply(RequestOptions().error(R.drawable.nim_avatar_default).fallback(R.drawable.nim_avatar_default))
-                        .into(viewHolder.icon!!)
+                if (list[position].headImage().isNullOrEmpty()){
+                    viewHolder.icon?.setChar(list[position].name.first())
+                }else{
+                    Glide.with(context)
+                            .load(MyGlideUrl(list[position].headImage()))
+                            .apply(RequestOptions().error(R.drawable.nim_avatar_default).fallback(R.drawable.nim_avatar_default))
+                            .into(viewHolder.icon!!)
+                }
                 viewHolder.name?.text = list[position].name
             }
             return conView
