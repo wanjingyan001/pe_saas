@@ -12,6 +12,7 @@ import android.widget.TextView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.gson.Gson
 import com.sogukj.pe.ARouterPath
+import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
@@ -29,10 +30,9 @@ class FundAccountActivity : ToolbarActivity() {
 
     companion object {
         val TAG = FundAccountActivity::class.java.simpleName
-        val DATA = "DATA"
         fun start(ctx: Context?, bean: FundSmallBean) {
             val intent = Intent(ctx, FundAccountActivity::class.java)
-            intent.putExtra(DATA, bean)
+            intent.putExtra(Extras.DATA, bean)
             ctx?.startActivity(intent)
         }
     }
@@ -40,7 +40,7 @@ class FundAccountActivity : ToolbarActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fund_account)
-        val bean = intent.getSerializableExtra(DATA) as FundSmallBean
+        val bean = intent.getSerializableExtra(Extras.DATA) as FundSmallBean
         setBack(true)
         title = "基金台账"
         find<TextView>(R.id.cardCompanyName).text = bean.fundName
