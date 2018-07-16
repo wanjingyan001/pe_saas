@@ -161,7 +161,7 @@ class NewsDetailActivity : ToolbarActivity(), PlatformActionListener {
                 shareImgUrl = File(Environment.getExternalStorageDirectory(), "ic_launcher_yge.png").toString()
             }
             else -> {
-                shareImgUrl = File(Environment.getExternalStorageDirectory(), "img_logo.png").toString()
+                shareImgUrl = File(Environment.getExternalStorageDirectory(), "ic_launcher_pe.png").toString()
             }
         }
         tvCopy.setOnClickListener {

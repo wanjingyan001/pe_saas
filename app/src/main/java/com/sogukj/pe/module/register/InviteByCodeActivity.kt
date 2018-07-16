@@ -96,7 +96,7 @@ class InviteByCodeActivity : ToolbarActivity(), PlatformActionListener {
         weChatLayout.clickWithTrigger {
             shareWeChat()
         }
-        copyAssets("img_logo.png")
+        copyAssets("ic_launcher_pe.png")
         QQLayout.clickWithTrigger {
             shareQQ()
         }
