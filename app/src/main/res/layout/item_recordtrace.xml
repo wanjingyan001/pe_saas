@@ -4,7 +4,7 @@
     android:layout_height="70dp"
     android:orientation="horizontal">
 
-    <com.sogukj.pe.widgets.DotView
+    <com.sogukj.pe.baselibrary.widgets.DotView
         android:id="@+id/dot"
         android:layout_width="60dp"
         android:layout_height="70dp" />
