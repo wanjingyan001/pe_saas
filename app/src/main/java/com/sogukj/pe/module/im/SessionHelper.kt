@@ -15,6 +15,7 @@ import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum
 import com.netease.nimlib.sdk.msg.model.IMMessage
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo
 import com.sogukj.pe.R
+import com.sogukj.pe.peUtils.Store
 
 /**
  * Created by admin on 2018/1/25.
@@ -106,8 +107,10 @@ object SessionHelper {
             teamCustomization?.withSticker = true
             val buttons = ArrayList<SessionCustomization.OptionsButton>()
             val infoBtn = object : SessionCustomization.OptionsButton() {
-                override fun onClick(context: Context?, view: View?, sessionId: String?) {
-                    TeamInfoActivity.start(context!!, sessionId!!)
+                override fun onClick(context: Context, view: View?, sessionId: String?) {
+                    if (!Store.store.getUser(context)?.accid.isNullOrEmpty()) {
+                        TeamInfoActivity.start(context, sessionId!!)
+                    }
                 }
             }
             infoBtn.iconId = R.drawable.im_team_info

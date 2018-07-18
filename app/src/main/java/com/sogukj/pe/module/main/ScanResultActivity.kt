@@ -6,11 +6,16 @@ import android.os.Bundle
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.BaseActivity
+import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_scan_result.*
+import me.jessyan.retrofiturlmanager.RetrofitUrlManager
+import org.jetbrains.anko.ctx
+import org.jetbrains.anko.info
+import org.jetbrains.anko.support.v4.ctx
 
 class ScanResultActivity : BaseActivity() {
 
@@ -40,9 +45,9 @@ class ScanResultActivity : BaseActivity() {
             var scanResult = intent.getStringExtra(Extras.DATA)
 
             var index = scanResult.indexOf("/api/")
-
+            RetrofitUrlManager.getInstance().putDomain("QRCode", scanResult.substring(0,index))
             SoguApi.getService(application, OtherService::class.java)
-                    .qrNotify(scanResult.substring(index), 2)
+                    .qrNotify_saas(scanResult.substring(index), 2, Store.store.getUser(this)?.phone!!)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .subscribe({ payload ->

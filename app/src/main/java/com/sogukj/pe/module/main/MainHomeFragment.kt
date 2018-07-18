@@ -120,6 +120,7 @@ class MainHomeFragment : BaseFragment() {
             object : RecyclerHolder<MainFunIcon>(itemView) {
                 val icon = itemView.find<ImageView>(R.id.funIcon)
                 val name = itemView.find<TextView>(R.id.functionName)
+                val count = itemView.find<TextView>(R.id.pointCount)
                 override fun setData(view: View, data: MainFunIcon, position: Int) {
                     Glide.with(ctx)
                             .load(data.icon)

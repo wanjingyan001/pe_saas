@@ -178,8 +178,10 @@ class MainEditActivity : ToolbarActivity() {
                 it?.forEach {
                     info { "默认功能" + it.jsonStr }
                     allModule.add(MainFunction(it))
+                    allModuleList.post {
+                        allModuleAdapter.notifyDataSetChanged()
+                    }
                 }
-                allModuleAdapter.notifyDataSetChanged()
             }
         }
         subscribe

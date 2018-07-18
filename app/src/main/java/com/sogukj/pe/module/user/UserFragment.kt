@@ -55,6 +55,7 @@ import com.sogukj.pe.bean.MechanismBasicInfo
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.bean.WebConfigBean
 import com.sogukj.pe.module.fileSelector.FileMainActivity
+import com.sogukj.pe.module.other.PayPackageActivity
 import com.sogukj.pe.module.project.ProjectFocusActivity
 import com.sogukj.pe.module.project.ProjectListFragment
 import com.sogukj.pe.module.register.CreateDepartmentActivity
@@ -110,6 +111,9 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
         documentManagement.clickWithTrigger {
             FileMainActivity.start(ctx)
         }
+        payPackageLayout.clickWithTrigger {
+            startActivity<PayPackageActivity>()
+        }
         setting.clickWithTrigger {
             SettingActivity.start(context)
         }
@@ -156,8 +160,8 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
             user?.let {
                 val company = sp.getString(Extras.CompanyDetail, "")
                 val detail = Gson().fromJson<MechanismBasicInfo?>(company)
-                detail?.let {
-                    startActivity<CreateDepartmentActivity>(Extras.NAME to it.mechanism_name,
+                detail?.mechanism_name?.let {
+                    startActivity<CreateDepartmentActivity>(Extras.NAME to it,
                             Extras.CODE to user.phone,
                             Extras.FLAG to true)
                 }

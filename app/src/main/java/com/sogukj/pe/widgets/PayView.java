@@ -103,7 +103,7 @@ public class PayView extends View {
     /**
      * type=1 征信, type=2 项目管理
      */
-    public void show(int type, final String telephone, final PermissionListener listener) {
+    public void show(int type, final String telephone) {
         if (rootView.getParent() == null) {
             decorView.addView(rootView);
             rootView.startAnimation(getInAnimation());
@@ -135,7 +135,6 @@ public class PayView extends View {
                         // 用户拒绝过这个权限了，应该提示用户，为什么需要这个权限。
                     } else {
                         // 申请授权。
-                        listener.requestPermission(Manifest.permission.CALL_PHONE, telephone);
                     }
                 } else {
                     Intent intent = new Intent(Intent.ACTION_CALL);

@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.TextView
+import androidx.core.content.edit
 import com.afollestad.materialdialogs.MaterialDialog
 import com.google.gson.Gson
 import com.netease.nim.uikit.api.NimUIKit
@@ -84,6 +85,7 @@ class SettingActivity : BaseActivity() {
                     dialog.dismiss()
                 }
                 RetrofitUrlManager.getInstance().removeGlobalDomain()
+                sp.edit { putString(Extras.HTTPURL,"") }
                 App.INSTANCE.resetPush(false)
                 IMLogout()
                 Store.store.clearUser(this)
@@ -101,8 +103,8 @@ class SettingActivity : BaseActivity() {
             user?.let {
                 val company = sp.getString(Extras.CompanyDetail, "")
                 val detail = Gson().fromJson<MechanismBasicInfo?>(company)
-                detail?.let {
-                    startActivity<UploadBasicInfoActivity>(Extras.NAME to it.mechanism_name,
+                detail?.mechanism_name?.let {
+                    startActivity<UploadBasicInfoActivity>(Extras.NAME to it,
                             Extras.CODE to user.phone,
                             Extras.FLAG to true)
                 }

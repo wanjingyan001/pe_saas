@@ -681,14 +681,14 @@ public final class R {
         public static int shifting_no_title_icon_height = 0x7f08013c;
         public static int shifting_no_title_icon_width = 0x7f08013d;
         public static int shifting_width_custom_padding = 0x7f08013e;
-        public static int tooltip_corner_radius = 0x7f080165;
-        public static int tooltip_horizontal_padding = 0x7f080166;
-        public static int tooltip_margin = 0x7f080167;
-        public static int tooltip_precise_anchor_extra_offset = 0x7f080168;
-        public static int tooltip_precise_anchor_threshold = 0x7f080169;
-        public static int tooltip_vertical_padding = 0x7f08016a;
-        public static int tooltip_y_offset_non_touch = 0x7f08016b;
-        public static int tooltip_y_offset_touch = 0x7f08016c;
+        public static int tooltip_corner_radius = 0x7f080166;
+        public static int tooltip_horizontal_padding = 0x7f080167;
+        public static int tooltip_margin = 0x7f080168;
+        public static int tooltip_precise_anchor_extra_offset = 0x7f080169;
+        public static int tooltip_precise_anchor_threshold = 0x7f08016a;
+        public static int tooltip_vertical_padding = 0x7f08016b;
+        public static int tooltip_y_offset_non_touch = 0x7f08016c;
+        public static int tooltip_y_offset_touch = 0x7f08016d;
     }
     public static final class drawable {
         public static int abc_ab_share_pack_mtrl_alpha = 0x7f090001;

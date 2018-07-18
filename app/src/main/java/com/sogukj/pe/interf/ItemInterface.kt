@@ -24,3 +24,8 @@ interface AddPersonListener {
     fun addPerson(tag: String)
     fun remove(tag: String, user: UserBean)
 }
+
+
+interface CalendarSelectListener {
+    fun daySelect(calendarDate: CalendarDate)
+}

@@ -83,7 +83,7 @@ class PersonalInfoActivity : BaseActivity(), View.OnClickListener, TextWatcher, 
     }
 
     private fun queryUserInfo(uid: Int) {
-        SoguApi.getService(application,ImService::class.java)
+        SoguApi.getService(application, ImService::class.java)
                 .showIMUserInfo(uid)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -155,7 +155,7 @@ class PersonalInfoActivity : BaseActivity(), View.OnClickListener, TextWatcher, 
 
     override fun afterTextChanged(s: Editable?) {
         s?.let {
-            if (it.toString().trim().isNotEmpty()) {
+            if (it.toString().trim().isNotEmpty() && !user?.accid.isNullOrEmpty()) {
                 db.set(user?.accid!!, it.toString())
             }
         }

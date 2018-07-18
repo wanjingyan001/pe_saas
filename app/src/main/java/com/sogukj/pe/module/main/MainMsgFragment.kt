@@ -62,8 +62,10 @@ import com.xuexuan.zxing.android.activity.CaptureActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_msg_center.*
+import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import org.jetbrains.anko.backgroundResource
 import org.jetbrains.anko.imageResource
+import org.jetbrains.anko.info
 import org.jetbrains.anko.support.v4.ctx
 import java.util.*
 import kotlin.collections.ArrayList
@@ -534,8 +536,10 @@ class MainMsgFragment : BaseFragment() {
             val scanResult = bundle!!.getString("result")//       /api/qrlogin/notify
             if (scanResult.contains("/api/qrlogin/notify")) {
                 var index = scanResult.indexOf("/api/")
+                info { scanResult.substring(0,index) }
+                RetrofitUrlManager.getInstance().putDomain("QRCode", scanResult.substring(0,index))
                 SoguApi.getService(baseActivity!!.application,OtherService::class.java)
-                        .qrNotify(scanResult.substring(index), 1)
+                        .qrNotify_saas(scanResult.substring(index), 1,Store.store.getUser(ctx)?.phone!!)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
                         .subscribe({ payload ->
@@ -699,13 +703,8 @@ class MainMsgFragment : BaseFragment() {
     private fun onRecentContactChanged(recentContacts: List<RecentContact>) {
         var index: Int
         for (r in recentContacts) {
-            index = -1
-            for (i in recentList.indices) {
-                if (r.contactId == recentList[i].contactId && r.sessionType == recentList[i].sessionType) {
-                    index = i
-                    break
-                }
-            }
+            index = recentList.indices.firstOrNull { r.contactId == recentList[it].contactId && r.sessionType == recentList[it].sessionType }
+                    ?: -1
             if (index >= 0) {
                 recentList.removeAt(index)
             }
