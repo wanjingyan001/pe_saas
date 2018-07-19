@@ -70,7 +70,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="50dp"
                     android:layout_marginTop="40dp"
-                    android:text="项目·扩容套餐"
                     android:textColor="#AEA48F"
                     android:textSize="@dimen/text_size_normal"
                     app:layout_constraintStart_toStartOf="parent"
@@ -84,7 +83,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="60dp"
                     android:layout_marginTop="10dp"
-                    android:text="1个项目"
                     android:textColor="#978252"
                     android:textSize="@dimen/text_size_24"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -96,7 +94,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="已使用9个"
                     android:textColor="#978252"
                     android:textSize="@dimen/text_size_samll"
                     app:layout_constraintEnd_toEndOf="@id/currentTotal"
@@ -125,7 +122,7 @@
             app:pi_allowWidthFull="true"
             app:pi_bottomLineHeight="1dp"
             app:pi_disableTensileSlidingBlock="true"
-            app:pi_slidingBlock="@drawable/iamge_pay_indicator">
+            app:pi_slidingBlock="@mipmap/iamge_pay_indicator">
 
         </com.sogukj.pe.baselibrary.widgets.PagerIndicator>
 
@@ -146,7 +143,8 @@
             android:layout_marginStart="24dp"
             android:background="@drawable/bg_border_pay_btn"
             android:gravity="center"
-            android:text="支付宝支付"
+            android:text="去支付"
+            android:enabled="false"
             android:textColor="@color/white"
             android:layout_marginTop="16dp"
             android:textSize="@dimen/text_size_normal" />

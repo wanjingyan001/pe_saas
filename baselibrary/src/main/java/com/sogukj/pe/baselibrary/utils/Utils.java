@@ -49,6 +49,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -987,5 +988,56 @@ public class Utils {
         hashtable.put("82", "澳门");
         hashtable.put("91", "国外");
         return hashtable;
+    }
+
+    /**
+     * 金额分割，四舍五人金额
+     * @param s
+     * @return
+     */
+    public static String formatMoney(BigDecimal s){
+        String retVal = "";
+        String str = "";
+        boolean is_positive_integer = false;
+        if(null == s){
+            return "0.00";
+        }
+
+        if(0 == s.doubleValue()){
+            return "0.00";
+        }
+        //判断是否正整数
+        is_positive_integer = s.toString().contains("-");
+        //是负整数
+        if(is_positive_integer){
+            //去掉 - 号
+            s = new BigDecimal(s.toString().substring(1, s.toString().length()));
+        }
+        str = s.setScale(2, BigDecimal.ROUND_HALF_UP).toString();
+        StringBuffer sb = new StringBuffer();
+        String[] strs = str.split("\\.");
+        int j = 1;
+        for(int i = 0; i < strs[0].length(); i++){
+            char a = strs[0].charAt(strs[0].length()-i-1);
+            sb.append(a);
+            if(j % 3 == 0 && i != strs[0].length()-1){
+                sb.append(",");
+            }
+            j++;
+        }
+        String str1 = sb.toString();
+        StringBuffer sb1 = new StringBuffer();
+        for(int i = 0; i < str1.length(); i++){
+            char a = str1.charAt(str1.length()-1-i);
+            sb1.append(a);
+        }
+        sb1.append(".");
+        sb1.append(strs[1]);
+        retVal = sb1.toString();
+
+        if(is_positive_integer){
+            retVal = "-" + retVal;
+        }
+        return retVal;
     }
 }

@@ -1,6 +1,7 @@
 package com.sogukj.pe.widgets;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -28,6 +29,8 @@ import android.widget.TextView;
 
 import com.bigkoo.pickerview.utils.PickerViewAnimateUtil;
 import com.sogukj.pe.R;
+import com.sogukj.pe.bean.PackageBean;
+import com.sogukj.pe.bean.PackageChild;
 
 /**
  * Created by sogubaby on 2018/7/8.
@@ -42,6 +45,7 @@ public class PayView extends View {
     private ImageView mImgDelete;
     private TextView mTvProj, mTvZhengX;
     private LinearLayout mBgPic, mTelephone, mTaoCan;
+    private PackageBean payBean;
 
     private Animation getInAnimation() {
         int res = PickerViewAnimateUtil.getAnimationResource(Gravity.BOTTOM, true);
@@ -53,9 +57,10 @@ public class PayView extends View {
         return AnimationUtils.loadAnimation(mContext, res);
     }
 
-    public PayView(Context context) {
+    public PayView(Context context,PackageBean packageBean) {
         super(context);
         mContext = context;
+        this.payBean = packageBean;
         init();
     }
 
@@ -91,7 +96,6 @@ public class PayView extends View {
         mTelephone = rootView.findViewById(R.id.mTelephone);
         mBgPic = rootView.findViewById(R.id.bg_pic);
         mTaoCan = rootView.findViewById(R.id.taocan);
-
         mImgDelete.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,6 +108,7 @@ public class PayView extends View {
      * type=1 征信, type=2 项目管理
      */
     public void show(int type, final String telephone) {
+        mTaoCan.removeAllViews();
         if (rootView.getParent() == null) {
             decorView.addView(rootView);
             rootView.startAnimation(getInAnimation());
@@ -127,29 +132,24 @@ public class PayView extends View {
         }
         ((TextView) mTelephone.getChildAt(0)).setText(telephone);
         mTelephone.setOnClickListener(new OnClickListener() {
+            @SuppressLint("MissingPermission")
             @Override
             public void onClick(View view) {
-                if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    // 没有权限。
-                    if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) mContext, Manifest.permission.CALL_PHONE)) {
-                        // 用户拒绝过这个权限了，应该提示用户，为什么需要这个权限。
-                    } else {
-                        // 申请授权。
-                    }
-                } else {
-                    Intent intent = new Intent(Intent.ACTION_CALL);
-                    Uri data = Uri.parse("tel:" + telephone);
-                    intent.setData(data);
-                    mContext.startActivity(intent);
-                }
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                Uri data = Uri.parse("tel:" + telephone);
+                intent.setData(data);
+                mContext.startActivity(intent);
             }
         });
-
-        // mTaoCan
-    }
-
-    public interface PermissionListener {
-        void requestPermission(String permission, String telephone);
+        for (int i = 0; i < payBean.getList().size(); i++) {
+            PackageChild child = payBean.getList().get(i);
+            View inflate = LayoutInflater.from(mContext).inflate(R.layout.item_paystd, null);
+            TextView name = inflate.findViewById(R.id.packageName);
+            TextView price = inflate.findViewById(R.id.packagePrice);
+            name.setText(child.getName());
+            price.setText(child.getPricestr());
+            mTaoCan.addView(inflate);
+        }
     }
 
     public void dismiss() {

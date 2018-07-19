@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="70dp"
+    android:layout_height="105dp"
+    android:background="@drawable/bg_latest_pic"
+    android:orientation="vertical"
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp"
+    android:paddingBottom="8dp"
+    android:paddingTop="4dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="你可能要发送的照片:"
+        android:textColor="@color/action_bar_black_title_color"
+        android:textSize="@dimen/text_size_11" />
+
+    <ImageView
+        android:id="@+id/latestPic"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:scaleType="centerInside"/>
+
+
+</LinearLayout>

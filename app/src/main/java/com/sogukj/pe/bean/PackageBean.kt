@@ -12,11 +12,14 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class PackageBean(val mealName: String,
                        val tel: String,
-                       val list: List<PackageChild>):Parcelable
+                       val used: Int,
+                       val max: Int,
+                       val list: List<PackageChild>) : Parcelable
 
 @SuppressLint("ParcelCreator")
 @Parcelize
 data class PackageChild(val id: Int,
                         val name: String,
-                        val quantity: String,
-                        val price: String):Parcelable
+                        val quantity: Int,
+                        val pricestr: String,
+                        val price:Int) : Parcelable

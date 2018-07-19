@@ -3,11 +3,8 @@ package com.sogukj.pe.module.other
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.view.menu.MenuView
 import android.support.v7.widget.GridLayoutManager
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 
@@ -32,7 +29,7 @@ class PackageFragment : BaseFragment() {
     override val containerViewId: Int
         get() = R.layout.fragment_package
     private var mParam1: PackageBean? = null
-    private lateinit var payAdapter: RecyclerAdapter<PackageChild>
+    lateinit var payAdapter: RecyclerAdapter<PackageChild>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,9 +48,21 @@ class PackageFragment : BaseFragment() {
                 val selectImg = itemView.find<ImageView>(R.id.selectImg)
                 override fun setData(view: View, data: PackageChild, position: Int) {
                     amount.text = data.name
-                    money.text = data.price
-                    selectImg.setVisible(false)
+                    money.text = data.pricestr
+                    selectImg.setVisible(payAdapter.selectedPosition == position)
+                    itemView.isSelected = payAdapter.selectedPosition == position
                 }
+            }
+        }
+        payAdapter.onItemClick = { v, p ->
+            payAdapter.selectedPosition = p
+        }
+        payAdapter.selectChange = { old, new ->
+            val activity = activity as PayPackageActivity
+            if (payAdapter.selectedPosition != -1){
+                activity.sId = payAdapter.dataList[payAdapter.selectedPosition].id
+            }else{
+                activity.sId = 0
             }
         }
         mParam1?.let {

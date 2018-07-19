@@ -16,6 +16,7 @@ import android.view.View
 import android.widget.EditText
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.base.ActivityHelper
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.RxBus
@@ -28,6 +29,7 @@ import com.sogukj.pe.module.approve.ListSelectorActivity
 import com.sogukj.pe.peExtended.hasCreditListActivity
 import com.sogukj.pe.peExtended.removeStep1
 import com.sogukj.pe.service.CreditService
+import com.sogukj.pe.service.OtherService
 import com.sogukj.pe.widgets.IOSPopwindow
 import com.sogukj.pe.widgets.PayView
 import com.sogukj.service.SoguApi
@@ -165,15 +167,6 @@ class ShareHolderStepActivity : ToolbarActivity(), View.OnClickListener {
                     ShareHolderStepActivity.start(context, 2, selectId, companyName.text.toString())
                     //ActivityHelper已添加
                 } else if (step == 2) {
-//                    val permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE)
-//                    if (permission != PackageManager.PERMISSION_GRANTED) {
-//                        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CALL_PHONE), 0x001)
-//                    } else {
-//                        val pay = PayView(context)
-//                        pay.show(1, "1137800599")
-//                    }
-
-
                     if (!prepare()) {
                         return
                     }
@@ -199,7 +192,30 @@ class ShareHolderStepActivity : ToolbarActivity(), View.OnClickListener {
                                     }
                                     finish()
                                 } else {
-                                    showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                                    if (payload.message == "9528") {
+                                        //提示支付
+                                        val permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE)
+                                        if (permission != PackageManager.PERMISSION_GRANTED) {
+                                            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CALL_PHONE), 0x001)
+                                        } else {
+                                            SoguApi.getService(application, OtherService::class.java).getPayType()
+                                                    .execute {
+                                                        onNext {payload ->
+                                                            if (payload.isOk) {
+                                                                payload.payload?.let {
+                                                                    val bean = it.find { it.mealName == "征信套餐" }
+                                                                    val pay = PayView(context,bean)
+                                                                    pay.show(1, bean?.tel)
+                                                                }
+                                                            }else{
+                                                                showErrorToast(payload.message)
+                                                            }
+                                                        }
+                                                    }
+                                        }
+                                    }else{
+                                        showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                                    }
                                 }
                             }, { e ->
                                 enter.isEnabled = true

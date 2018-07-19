@@ -85,4 +85,6 @@ object Extras {
     val DIR_ID = "ext.dir_id"
 
     val isFirstEnter = "ext.first.enter"//第一次进入APP
+
+    const val PAY_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsCwJulgR5oVnHMkf3YiY5b1e02BYrLGq+NYuKhtGtTMb7cRHdnw44iEw1SNmxVEgi1+FEI0bCnB1tYGqOdWL8k+RfIMonjs4Z4MYkb88ioa0GnyVfa7r3B2xcDEHWowrFX2Tk0hdHRXvTdoQ0PgKIfXB1o2bleWfbqLWATpOyJ/iDxDy0rA4ADpqa3BN+UD4D5S7bVIz8AVRCYZmCHVyW70JvLMfHwov86WGr5VRROgsEprWNKktYTQNlh4+lwsBRTQTgurla98sC4GiLETOTtvrss3OKjV1zAfKSWBByMjO14e/XFZ3ZRxO6aqHXpfhw2/30mJrtO3ap9sBTq/2fwIDAQAB"
 }

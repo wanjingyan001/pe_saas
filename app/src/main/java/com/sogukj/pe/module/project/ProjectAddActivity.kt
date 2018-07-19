@@ -1,8 +1,11 @@
 package com.sogukj.pe.module.project
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
@@ -12,6 +15,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -21,7 +25,9 @@ import com.sogukj.pe.bean.CompanySelectBean
 import com.sogukj.pe.bean.ProjectBean
 import com.sogukj.pe.module.user.FormActivity
 import com.sogukj.pe.service.NewService
+import com.sogukj.pe.service.OtherService
 import com.sogukj.pe.service.ProjectService
+import com.sogukj.pe.widgets.PayView
 import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -236,7 +242,29 @@ class ProjectAddActivity : ToolbarActivity() {
                         showCustomToast(R.drawable.icon_toast_success, "保存成功")
                         finish()
                     } else {
-                        showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                        if (payload.message === "9527"){
+                            val permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE)
+                            if (permission != PackageManager.PERMISSION_GRANTED) {
+                                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CALL_PHONE), 0x001)
+                            } else {
+                                SoguApi.getService(application, OtherService::class.java).getPayType()
+                                        .execute {
+                                            onNext {payload ->
+                                                if (payload.isOk) {
+                                                    payload.payload?.let {
+                                                        val bean = it.find { it.mealName == "项目套餐" }
+                                                        val pay = PayView(context, bean)
+                                                        pay.show(2, bean?.tel)
+                                                    }
+                                                }else{
+                                                    showErrorToast(payload.message)
+                                                }
+                                            }
+                                        }
+                            }
+                        }else{
+                            showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                        }
                     }
 
                 }, { e ->

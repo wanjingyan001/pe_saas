@@ -454,7 +454,7 @@ public final class R {
         public static int switch_thumb_material_light = 0x7f06010c;
         public static int switch_thumb_normal_material_dark = 0x7f06010d;
         public static int switch_thumb_normal_material_light = 0x7f06010e;
-        public static int transparent = 0x7f060130;
+        public static int transparent = 0x7f060132;
     }
     public static final class dimen {
         public static int abc_action_bar_content_inset_material = 0x7f080001;

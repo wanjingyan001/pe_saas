@@ -18,13 +18,16 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.sogukj.pe.baselibrary.R
+import com.sogukj.pe.baselibrary.interf.MoneyUnit
 import com.sogukj.pe.baselibrary.utils.DiffCallBack
+import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.OnClickFastListener
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.windowManager
+import java.math.BigDecimal
 
 /**
  * kotlin扩展方法
@@ -90,6 +93,15 @@ fun CharSequence?.checkEmpty(): CharSequence {
         ""
     else
         this
+}
+
+fun Number.toMoney(needDecimal: Boolean = false): String {
+    return toMoney(MoneyUnit.Default, needDecimal)
+}
+
+fun Number.toMoney(unit: MoneyUnit, needDecimal: Boolean = false): String {
+    val money = Utils.formatMoney(BigDecimal(this.toDouble() / unit.unit))
+    return if (needDecimal) money else money.substring(0, money.lastIndexOf("."))
 }
 
 

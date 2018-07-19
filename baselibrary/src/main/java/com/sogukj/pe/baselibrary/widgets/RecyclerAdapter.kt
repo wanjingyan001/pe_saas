@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.sogukj.pe.baselibrary.utils.DiffCallBack
 import java.util.*
+import kotlin.properties.Delegates
 
 /**
  * Created by qinfei on 16/10/19.
@@ -27,7 +28,14 @@ open class RecyclerAdapter<T>(val context: Context, val creator: (RecyclerAdapte
     var onItemLongClick: ((v: View, position: Int) -> Boolean)? = null
     var selectedItems = ArrayList<Int>()
     var mode: Int = 0
-    var selectedPosition = -1
+    var selectChange: ((oldValue: Int, newValue: Int) -> Unit)? = null
+    var selectedPosition: Int by Delegates.observable(-1, { _, oldValue, newValue ->
+        notifyItemChanged(oldValue)
+        notifyItemChanged(newValue)
+        if (selectChange != null) {
+            selectChange!!.invoke(oldValue, newValue)
+        }
+    })
 
     init {
         this.selectedItems = ArrayList<Int>()
