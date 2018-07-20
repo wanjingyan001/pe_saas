@@ -6,22 +6,22 @@
 
     <TextView
         android:id="@+id/title_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="2017年11月"
-        android:textColor="@color/text_1"
-        android:textSize="24sp" />
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:gravity="center|left"
+        android:paddingLeft="20dp"
+        android:text="2018年2月"
+        android:textColor="#ff808080"
+        android:textSize="14sp" />
 
-    <com.sogukj.pe.baselibrary.widgets.MyGridView
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider2" />
+
+    <com.sogukj.pe.baselibrary.widgets.MyListView
         android:id="@+id/grid_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:horizontalSpacing="18dp"
-        android:numColumns="4"
-        android:verticalSpacing="20dp">
-
-    </com.sogukj.pe.baselibrary.widgets.MyGridView>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

@@ -37,4 +37,6 @@ object ARouterPath {
     const val BookListActivity:String = "/main/bookList/fund"
     //基金项目
     const val FundProjectActivity:String = "/fund/jjxm"
+
+    const val WeeklyActivity:String = "/weekly/main"
 }

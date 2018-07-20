@@ -23,6 +23,7 @@ class WeeklyThisBean : Serializable {
             var data_id: Int? = null//来源数据id	  用于点击跳转对应来源页面
             var start_time: String? = null
             var end_time: String? = null
+            var add_time: String? = null // 2018-07-09 14:58:18
         }
     }
 
@@ -33,5 +34,6 @@ class WeeklyThisBean : Serializable {
         var info: String? = null//周报内容
         var week_id: Int? = null//周报id
         var is_send_week = 2//是否发送过，2未发送，1发送过
+        var date: String? = null//周报内容
     }
 }

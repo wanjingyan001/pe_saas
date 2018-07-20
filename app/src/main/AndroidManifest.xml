@@ -1109,7 +1109,8 @@
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity android:name=".module.other.GongGaoDetailActivity" />
         <activity android:name=".module.main.GuideActivity" />
-        <activity android:name=".module.project.DangerousActivity"></activity>
+        <activity android:name=".module.project.DangerousActivity" />
+        <activity android:name=".module.weekly.WeeklySelectActivity"/>
     </application>
 
 </manifest>

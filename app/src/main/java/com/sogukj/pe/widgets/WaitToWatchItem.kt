@@ -38,7 +38,7 @@ class WaitToWatchItem : LinearLayout {
     fun setClick(flag: Boolean) {
         if (flag) {
             tag_item.visibility = View.VISIBLE
-            des.textColor = resources.getColor(R.color.text_1)
+            des.textColor = resources.getColor(R.color.colorPrimary)
         } else {
             tag_item.visibility = View.INVISIBLE
             des.textColor = resources.getColor(R.color.text_3)

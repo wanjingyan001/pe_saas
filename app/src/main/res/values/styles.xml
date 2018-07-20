@@ -21,10 +21,10 @@
     </style>
 
     <!--<style name="SwipeBackLayout">-->
-        <!--<item name="edge_size">50dip</item>-->
-        <!--<item name="shadow_left">@drawable/shadow_left</item>-->
-        <!--<item name="shadow_right">@drawable/shadow_right</item>-->
-        <!--<item name="shadow_bottom">@drawable/shadow_bottom</item>-->
+    <!--<item name="edge_size">50dip</item>-->
+    <!--<item name="shadow_left">@drawable/shadow_left</item>-->
+    <!--<item name="shadow_right">@drawable/shadow_right</item>-->
+    <!--<item name="shadow_bottom">@drawable/shadow_bottom</item>-->
     <!--</style>-->
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -83,6 +83,7 @@
         <item name="android:textColor">@color/textColorPrimary</item>
         <item name="android:textSize">10sp</item>
     </style>
+
     <style name="SoguToolbarTitleBlack">
         <item name="android:textColor">@color/text_1</item>
         <item name="android:textSize">18sp</item>
@@ -102,6 +103,10 @@
         <item name="android:alpha">1.0</item>
         <item name="android:textSize">@dimen/text_size_samll</item>
         <item name="android:textColor">@color/text_1</item>
+    </style>
+
+    <style name="TabLayoutTextStyleSmall">
+        <item name="android:textSize">10sp</item>
     </style>
 
     <style name="SoguTextMedium">
@@ -297,6 +302,7 @@
         <item name="android:gravity">center</item>
         <item name="android:textSize">14sp</item>
     </style>
+
     <style name="BottomSheetDialogStyle" parent="Theme.Design.BottomSheetDialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
@@ -314,6 +320,7 @@
         <item name="android:textSize">@dimen/text_size_large</item>
         <item name="android:gravity">center</item>
     </style>
+
     <style name="registerTitleStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

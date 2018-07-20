@@ -125,6 +125,10 @@ fun BottomNavigationItem.initNavTextColor1(): BottomNavigationItem =
         setActiveColorResource(R.color.white)
                 .setInActiveColorResource(R.color.text_3)
 
+fun BottomNavigationItem.initNavTextColor2(): BottomNavigationItem =
+        setActiveColorResource(R.color.colorPrimary)
+                .setInActiveColorResource(R.color.text_3)
+
 val Context.inputIsActive: Boolean
     get() {
         val manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F7F9FC"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <TableRow
+            android:id="@+id/tr_start_time"
+            android:paddingBottom="18dp"
+            android:paddingTop="18dp">
+
+            <TextView
+                style="@style/ItemTextLabel"
+                android:layout_height="20dp"
+                android:text="开始时间" />
+
+            <TextView
+                android:id="@+id/tv_start_time"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_weight="1"
+                android:drawableRight="@drawable/jt_copy"
+                android:gravity="right" />
+        </TableRow>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider2" />
+
+        <TableRow
+            android:id="@+id/tr_end_time"
+            android:paddingBottom="18dp"
+            android:paddingTop="18dp">
+
+            <TextView
+                style="@style/ItemTextLabel"
+                android:layout_height="20dp"
+                android:text="结束时间" />
+
+            <TextView
+                android:id="@+id/tv_end_time"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_weight="1"
+                android:drawableRight="@drawable/jt_copy"
+                android:gravity="right" />
+        </TableRow>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider2" />
+
+        <TableRow
+            android:id="@+id/tr_depart"
+            android:paddingBottom="18dp"
+            android:paddingTop="18dp">
+
+            <TextView
+                style="@style/ItemTextLabel"
+                android:layout_height="20dp"
+                android:text="部门" />
+
+            <TextView
+                android:id="@+id/tv_depart"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_weight="1"
+                android:drawableRight="@drawable/jt_copy"
+                android:gravity="right" />
+        </TableRow>
+    </TableLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_commit"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_btn_blue"
+            android:text="完成" />
+    </LinearLayout>
+
+</LinearLayout>

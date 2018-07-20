@@ -2,17 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingTop="30dp">
+    android:background="@color/white"
+    android:orientation="vertical">
 
-    <include layout="@layout/weeklylabel" />
+    <!--<include layout="@layout/weeklylabel" />-->
 
     <com.sogukj.pe.baselibrary.widgets.MyListView
         android:id="@+id/event_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:divider="#ffffff"
-        android:dividerHeight="10dp" />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

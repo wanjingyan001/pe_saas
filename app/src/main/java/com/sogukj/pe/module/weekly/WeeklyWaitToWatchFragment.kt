@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,17 +13,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.google.gson.JsonSyntaxException
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+import com.lcodecore.tkrefreshlayout.footer.BallPulseView
+import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.base.BaseRefreshFragment
-import com.sogukj.pe.baselibrary.utils.RefreshConfig
+import com.sogukj.pe.baselibrary.base.BaseFragment
 import com.sogukj.pe.baselibrary.utils.Trace
+import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.MyGridView
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.baselibrary.widgets.SpaceItemDecoration
 import com.sogukj.pe.bean.ReceiveSpinnerBean
 import com.sogukj.pe.bean.WeeklyWatchBean
+import com.sogukj.pe.module.weekly.PersonalWeeklyActivity
 import com.sogukj.pe.service.UserService
 import com.sogukj.pe.service.WeeklyService
 import com.sogukj.pe.widgets.CalendarDingDing
@@ -42,7 +48,7 @@ import kotlin.collections.ArrayList
 /**
  * A simple [Fragment] subclass.
  */
-class WeeklyWaitToWatchFragment : BaseRefreshFragment(), View.OnClickListener {
+class WeeklyWaitToWatchFragment : BaseFragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.resetRefresh -> getDepartmentData()
@@ -63,6 +69,10 @@ class WeeklyWaitToWatchFragment : BaseRefreshFragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        var drawable = resources.getDrawable(R.drawable.iv_search_filter_gray)
+        drawable.setBounds(0, 0, Utils.dpToPx(context, 16), Utils.dpToPx(context, 16))
+        filter.setCompoundDrawables(drawable, null, null, null)
 
         arr_adapter = ArrayAdapter(context, R.layout.spinner_item)
         arr_adapter.setDropDownViewResource(R.layout.spinner_dropdown)
@@ -86,11 +96,11 @@ class WeeklyWaitToWatchFragment : BaseRefreshFragment(), View.OnClickListener {
             }
         }
 
-        adapter = RecyclerAdapter(ctx, { _adapter, parent, type ->
+        adapter = RecyclerAdapter<WeeklyWatchBean>(ctx, { _adapter, parent, type ->
             val convertView = _adapter.getView(R.layout.item_wait_watch, parent) as LinearLayout
             object : RecyclerHolder<WeeklyWatchBean>(convertView) {
-                val tv_title = convertView.findViewById<TextView>(R.id.title_date) as TextView
-                val grid = convertView.findViewById<MyGridView>(R.id.grid_list) as MyGridView
+                val tv_title = convertView.findViewById<TextView>(R.id.title_date)
+                val grid = convertView.findViewById<MyGridView>(R.id.grid_list)
                 override fun setData(view: View, data: WeeklyWatchBean, position: Int) {
                     tv_title.text = data.date
                     data.data?.let {
@@ -122,7 +132,7 @@ class WeeklyWaitToWatchFragment : BaseRefreshFragment(), View.OnClickListener {
         list.addItemDecoration(SpaceItemDecoration(20))
         list.adapter = adapter
 
-        currentClick = 0
+        currentClick == 0
         total.setClick(true)
         unread.setClick(false)
         readed.setClick(false)
@@ -229,25 +239,27 @@ class WeeklyWaitToWatchFragment : BaseRefreshFragment(), View.OnClickListener {
 //                    .setCancelColor(resources.getColor(R.color.shareholder_text_gray))
 //                    .build()
 //            timePicker.show()
-            startDD.show(1, calendar, CalendarDingDing.onTimeClick { date ->
-                if(date != null){
-                    if (end.text.trim() == "结束时间") {
+            startDD.show(1, calendar, object : CalendarDingDing.onTimeClick {
+                override fun onClick(date: Date?) {
+                    if(date != null){
+                        if (end.text.trim() == "结束时间") {
+                            start.text = format.format(date)
+                            return
+                        }
+
+                        var startBean = date
+                        var endBean = format.parse(end.text.toString())
+                        if (startBean.compareTo(endBean) > 0) {
+                            showCustomToast(R.drawable.icon_toast_common, "日期选择错误")
+                            return
+                        }
+
                         start.text = format.format(date)
-                        return@onTimeClick
+
+                        adapter.dataList.clear()
+                        adapter.notifyDataSetChanged()
+                        doRequest()
                     }
-
-                    var startBean = date
-                    var endBean = format.parse(end.text.toString())
-                    if (startBean > endBean) {
-                        showCustomToast(R.drawable.icon_toast_common, "日期选择错误")
-                        return@onTimeClick
-                    }
-
-                    start.text = format.format(date)
-
-                    adapter.dataList.clear()
-                    adapter.notifyDataSetChanged()
-                    doRequest()
                 }
             })
         }
@@ -289,55 +301,60 @@ class WeeklyWaitToWatchFragment : BaseRefreshFragment(), View.OnClickListener {
 //                    .setCancelColor(resources.getColor(R.color.shareholder_text_gray))
 //                    .build()
 //            timePicker.show()
-            deadDD.show(1, calendar, CalendarDingDing.onTimeClick { date ->
-                if(date != null){
-                    if (start.text.trim() == "开始时间") {
+            deadDD.show(1, calendar, object : CalendarDingDing.onTimeClick {
+                override fun onClick(date: Date?) {
+                    if(date != null){
+                        if (start.text.trim() == "开始时间") {
+                            end.text = format.format(date)
+                            return
+                        }
+
+                        var startBean = format.parse(start.text.toString())
+                        var endBean = date
+                        if (startBean.compareTo(endBean) > 0) {
+                            showCustomToast(R.drawable.icon_toast_common, "日期选择错误")
+                            return
+                        }
+
                         end.text = format.format(date)
-                        return@onTimeClick
+
+                        adapter.dataList.clear()
+                        adapter.notifyDataSetChanged()
+                        doRequest()
                     }
-
-                    var startBean = format.parse(start.text.toString())
-                    var endBean = date
-                    if (startBean.compareTo(endBean) > 0) {
-                        showCustomToast(R.drawable.icon_toast_common, "日期选择错误")
-                        return@onTimeClick
-                    }
-
-                    end.text = format.format(date)
-
-                    adapter.dataList.clear()
-                    adapter.notifyDataSetChanged()
-                    doRequest()
                 }
             })
         }
 
         currentClick = 0
         selected_depart_id = 0
+
         getDepartmentData()
-    }
 
+        val header = ProgressLayout(baseActivity)
+        header.setColorSchemeColors(ContextCompat.getColor(ctx, R.color.color_main))
+        refresh.setHeaderView(header)
+        val footer = BallPulseView(baseActivity)
+        footer.setAnimatingColor(ContextCompat.getColor(ctx, R.color.color_main))
+        refresh.setBottomView(footer)
+        refresh.setOverScrollRefreshShow(false)
+        refresh.setOnRefreshListener(object : RefreshListenerAdapter() {
+            override fun onRefresh(refreshLayout: TwinklingRefreshLayout?) {
+                page = 1
+                doRequest()
+            }
 
-    override fun doRefresh() {
-        page = 1
-        doRequest()
-    }
+            override fun onLoadMore(refreshLayout: TwinklingRefreshLayout?) {
+                ++page
+                doRequest()
+            }
 
-    override fun doLoadMore() {
-        ++page
-        doRequest()
-    }
-
-    override fun initRefreshConfig(): RefreshConfig? {
-        val config = RefreshConfig()
-        config.loadMoreEnable = true
-        config.autoLoadMoreEnable = true
-        config.disableContentWhenRefresh = true
-        return config
+        })
+        refresh.setAutoLoadMore(true)
     }
 
     private fun getDepartmentData() {
-        SoguApi.getService(baseActivity!!.application,UserService::class.java)
+        SoguApi.getService(baseActivity!!.application, UserService::class.java)
                 .getDepartment()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -396,7 +413,7 @@ class WeeklyWaitToWatchFragment : BaseRefreshFragment(), View.OnClickListener {
             end_time = end.text.toString()
         }
 
-        SoguApi.getService(baseActivity!!.application,WeeklyService::class.java)
+        SoguApi.getService(baseActivity!!.application, WeeklyService::class.java)
                 .receive(is_read, de_id, start_time, end_time, page, pageSize)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -416,20 +433,46 @@ class WeeklyWaitToWatchFragment : BaseRefreshFragment(), View.OnClickListener {
                     Trace.e(e)
                     ToastError(e)
                 }, {
-                   isLoadMoreEnable = adapter.dataList.size % pageSize == 0
+                    refresh.setEnableLoadmore(adapter.dataList.size % pageSize == 0)
                     adapter.notifyDataSetChanged()
                     if (page == 1)
-                        finishRefresh()
+                        refresh.finishRefreshing()
                     else
-                       finishLoadMore()
+                        refresh.finishLoadmore()
                 })
     }
 
+//    private fun sort() {
+//        if (currentClick == 0) {
+//            adapter.dataList = loadedData
+//            adapter.notifyDataSetChanged()
+//        } else {
+//            // 未读-1-false，已读-2-true
+//            var flag = if (currentClick == 1) 1 else 2
+//            var obj_list = ArrayList<WeeklyWatchBean>()
+//            for (i in 0 until loadedData.size) {
+//                var objs = ArrayList<WeeklyWatchBean.BeanObj>()
+//                for (j in 0 until loadedData[i].data!!.size) {
+//                    if (loadedData[i].data[j].is_read == flag) {
+//                        objs.add(loadedData[i].data[j])
+//                    }
+//                }
+//                if (objs.size != 0) {
+//                    var bean = WeeklyWatchBean()
+//                    bean.date = loadedData[i].date
+//                    bean.data?.addAll(objs)
+//                    obj_list.add(bean)
+//                }
+//            }
+//            adapter.dataList = obj_list
+//            adapter.notifyDataSetChanged()
+//        }
+//    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 0x011) {
-            var grid = root.findViewWithTag<MyGridView>("CLICK") as MyGridView
+            var grid = root.findViewWithTag<GridView>("CLICK")
             (grid.adapter as MyAdapter).sort()
             (grid.adapter as MyAdapter).notifyDataSetChanged()
             grid.tag = ""
@@ -461,8 +504,8 @@ class WeeklyWaitToWatchFragment : BaseRefreshFragment(), View.OnClickListener {
             if (conView == null) {
                 viewHolder = ViewHolder()
                 conView = LayoutInflater.from(context).inflate(R.layout.watch_item, null) as LinearLayout
-                viewHolder.icon = conView.findViewById<CircleImageView>(R.id.icon) as CircleImageView
-                viewHolder.name = conView.findViewById<TextView>(R.id.name) as TextView
+                viewHolder.icon = conView.findViewById<CircleImageView>(R.id.icon)
+                viewHolder.name = conView.findViewById<TextView>(R.id.name)
                 conView.setTag(viewHolder)
             } else {
                 viewHolder = conView.tag as ViewHolder

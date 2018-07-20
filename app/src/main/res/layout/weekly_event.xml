@@ -2,14 +2,13 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="85dp"
-    android:background="@drawable/timebg"
+    android:layout_height="wrap_content"
     android:orientation="horizontal">
 
     <com.sogukj.pe.widgets.WeeklyDotView
         android:id="@+id/dot"
-        android:layout_width="60dp"
-        android:layout_height="85dp" />
+        android:layout_width="35dp"
+        android:layout_height="match_parent" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,64 +19,64 @@
         android:orientation="vertical"
         android:paddingLeft="5dp">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp">
+
+            <com.sogukj.pe.widgets.CircleImageView
+                android:id="@+id/circleImageView"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_centerVertical="true" />
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="15dp"
+                android:layout_toEndOf="@+id/circleImageView"
+                android:text="张无忌的周报"
+                android:textColor="#ff282828"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/name"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_toEndOf="@+id/circleImageView"
+                android:text="周一    09:30"
+                android:textColor="#ffa0a4aa"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
         <TextView
             android:id="@+id/event"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:ellipsize="end"
             android:maxLines="2"
             android:text="投资经理在上海接见公司董事长和ceo，投资经理在上海接见公司董事长和ceo,投资经理在上海接见公司董事长和ceo"
             android:textColor="@color/text_1"
             android:textSize="14sp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <LinearLayout
-            android:id="@+id/time"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/AI"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
+            android:layout_gravity="left"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/invalidname"
+            android:drawablePadding="5dp"
             android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/AI"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/invalidname"
-                android:gravity="center"
-                android:text="AI采集"
-                android:textColor="#FFADB1BE"
-                android:textSize="10sp" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
-            <TextView
-                android:id="@+id/tag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="12dp"
-                android:background="#AEC9D6"
-                android:gravity="right"
-                android:padding="2dp"
-                android:text="会议"
-                android:textColor="#ffffff"
-                android:textSize="8sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="详情 >"
-                android:textColor="#FF4B5266"
-                android:textSize="10sp" />
-        </LinearLayout>
+            android:text="AI采集"
+            android:textColor="#FFADB1BE"
+            android:textSize="10sp" />
 
     </LinearLayout>
 

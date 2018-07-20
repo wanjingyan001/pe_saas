@@ -3,13 +3,18 @@ package com.sogukj.pe.module.weekly
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.sogukj.pe.Extras
@@ -19,16 +24,22 @@ import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.utils.XmlDb
 import com.sogukj.pe.baselibrary.widgets.MyListView
+import com.sogukj.pe.bean.FundSmallBean
+import com.sogukj.pe.bean.ProjectBean
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.bean.WeeklyThisBean
 import com.sogukj.pe.module.approve.SealApproveActivity
 import com.sogukj.pe.module.approve.SignApproveActivity
+import com.sogukj.pe.module.calendar.CalendarMainActivity
 import com.sogukj.pe.module.calendar.ModifyTaskActivity
 import com.sogukj.pe.module.calendar.TaskDetailActivity
+import com.sogukj.pe.module.creditCollection.ShareholderCreditActivity
+import com.sogukj.pe.module.fund.FundDetailActivity
 import com.sogukj.pe.module.main.ContactsActivity
 import com.sogukj.pe.module.project.ProjectActivity
 import com.sogukj.pe.module.project.archives.RecordTraceActivity
 import com.sogukj.pe.peUtils.MyGlideUrl
+import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.NewService
 import com.sogukj.pe.service.WeeklyService
 import com.sogukj.pe.widgets.CircleImageView
@@ -36,20 +47,22 @@ import com.sogukj.pe.widgets.WeeklyDotView
 import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.buchong_empty.*
 import kotlinx.android.synthetic.main.buchong_full.*
 import kotlinx.android.synthetic.main.fragment_weekly_this.*
 import kotlinx.android.synthetic.main.send.*
-import org.jetbrains.anko.support.v4.ctx
 import java.text.SimpleDateFormat
+import kotlin.collections.ArrayList
+import kotlinx.android.synthetic.main.buchong_empty.*
+import org.jetbrains.anko.support.v4.ctx
+import java.util.*
 
 //import kotlinx.android.synthetic.main.layout_network_error.*
 
 
 class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
     override fun onClick(v: View?) {
-        when(v?.id){
-            R.id.resetRefresh->doRequest()
+        when (v?.id) {
+            R.id.resetRefresh -> doRequest()
         }
     }
 
@@ -62,6 +75,18 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
     var issue: Int? = null//可空（1=>个人事务,2=>项目事务）
     var TYPE: String = ""
     lateinit var db: XmlDb
+
+    fun hide() {
+        LL_list.forEach {
+            it.visibility = View.GONE
+        }
+    }
+
+    fun show() {
+        LL_list.forEach {
+            it.visibility = View.VISIBLE
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -96,13 +121,13 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
         TYPE = arguments!!.getString(Extras.FLAG)
         if (TYPE == "MAIN") {
             spinner_this.visibility = View.GONE
-            buchong_hint.visibility = View.VISIBLE
+            //buchong_hint.visibility = View.VISIBLE
             user_id = null
             issue = null
             week_id = null
             doRequest()
         } else if (TYPE == "PERSONAL") {
-            buchong_hint.visibility = View.GONE
+            //buchong_hint.visibility = View.GONE
             spinner_this.visibility = View.VISIBLE
             var obj = arguments!!.getSerializable(Extras.DATA) as WeeklyThisBean
             //initView(obj)
@@ -138,12 +163,12 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
         Glide.with(ctx).asGif().load(R.drawable.loading).into(iv_loading)
         iv_loading.visibility = View.VISIBLE
         if (TYPE == "MAIN") {
-            buchong_hint.visibility = View.GONE
+            //buchong_hint.visibility = View.GONE
         } else if (TYPE == "PERSONAL") {
             spinner_this.visibility = View.GONE
         }
         baseActivity?.let {
-            SoguApi.getService(it.application,WeeklyService::class.java)
+            SoguApi.getService(it.application, WeeklyService::class.java)
                     .getWeekly(user_id, issue, s_time, e_time, week_id)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
@@ -159,9 +184,19 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
                     }, { e ->
                         Trace.e(e)
                         ToastError(e)
+//                        when (e) {
+//                            is JsonSyntaxException -> showToast("后台数据出错")
+//                            is UnknownHostException -> {
+//                                showToast("网络出错")
+//                                rootScroll.visibility = View.GONE
+//                                networkErrorLayout.visibility = View.VISIBLE
+//                                resetRefresh.setOnClickListener(this)
+//                            }
+//                            else -> showToast("未知错误")
+//                        }
                     }, {
                         if (TYPE == "MAIN") {
-                            buchong_hint.visibility = View.VISIBLE
+                            //buchong_hint.visibility = View.VISIBLE
                         } else if (TYPE == "PERSONAL") {
                             spinner_this.visibility = View.VISIBLE
                         }
@@ -175,29 +210,32 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
     lateinit var send_adapter: MyAdapter
     lateinit var chaosong_adapter: MyAdapter
 
+    var LL_list = ArrayList<LinearLayout>()
+
     fun initView(loaded: WeeklyThisBean) {
 //        if (spinner_this.visibility == View.VISIBLE) {
 //            childs = 1
 //        }
         if (TYPE == "MAIN") {
-            buchong_hint.visibility = View.VISIBLE
+            //buchong_hint.visibility = View.VISIBLE
         } else if (TYPE == "PERSONAL") {
             spinner_this.visibility = View.VISIBLE
             childs = 1
         }
 
+        LL_list.clear()
         loaded.automatic?.let {
             for (items in it.iterator()) {
                 val item = inflate.inflate(R.layout.weekly_item, null) as LinearLayout
-                val index = item.findViewById<TextView>(R.id.tv_index) as TextView
-                val weekday = item.findViewById<TextView>(R.id.tv_week) as TextView
-                val date = item.findViewById<TextView>(R.id.tv_date) as TextView
-                val event_list = item.findViewById<MyListView>(R.id.event_list) as MyListView
+                //val index = item.findViewById(R.id.tv_index) as TextView
+                //val weekday = item.findViewById(R.id.tv_week) as TextView
+                //val date = item.findViewById(R.id.tv_date) as TextView
+                val event_list = item.findViewById<MyListView>(R.id.event_list)
 
-                var str = items.date!!.split("-")
-                index.text = str[2].toInt().toString()
-                date.text = "${str[0]}年${str[1]}月"
-                weekday.text = Utils.getTime(SimpleDateFormat("yyyy-MM-dd").parse(items.date), "E")
+//                var str = items.date!!.split("-")
+//                index.text = str[2].toInt().toString()
+//                date.text = "${str[0]}年${str[1]}月"
+//                weekday.text = Utils.getTime(SimpleDateFormat("yyyy-MM-dd").parse(items.date), "E")
 
                 val adapter = WeeklyEventAdapter(ctx, items.data!!)
                 event_list.adapter = adapter
@@ -237,16 +275,41 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
                         8 -> {
                             // 出差
                         }
+                        9 -> {
+                            //征信
+                            var project = ProjectBean()
+                            project.name = ""
+                            project.company_id = 0
+                            ShareholderCreditActivity.start(context, project)
+                        }
+                        10 -> {
+                            //基金
+                            var fund = FundSmallBean()
+                            fund.fundName = ""
+                            fund.id = weeklyData.data_id!!
+                            FundDetailActivity.start(context, fund)
+                        }
+                        11 -> {
+                            // 被投企业大事件
+                            // 2018-05-28 08:31:04
+                            weeklyData.start_time?.apply {
+                                val date = this.split(" ")[0]
+                                if (!date.isNullOrEmpty()) {
+                                    CalendarMainActivity.start(ctx, date)
+                                }
+                            }
+                        }
                     }
                 }
 
+                LL_list.add(item)
                 root.addView(item, childs++)
             }
         }
 
-        if (TYPE == "PERSONAL") {
-            return
-        }
+//        if (TYPE == "PERSONAL") {
+//            return
+//        }
 
         if (loaded.week?.is_send_week == 1) {
             send_layout.visibility = View.GONE
@@ -268,16 +331,23 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
             bu_chong_empty.visibility = View.GONE
             buchong_full.visibility = View.VISIBLE
             week = loaded.week as WeeklyThisBean.Week
-            var time = buchong_full.findViewById<TextView>(R.id.time) as TextView
-            var times = buchong_full.findViewById<TextView>(R.id.times) as TextView
-            var info = buchong_full.findViewById<TextView>(R.id.info) as TextView
-            var buchong_edit = buchong_full.findViewById<ImageView>(R.id.buchong_edit) as ImageView
+            //var time = buchong_full.findViewById(R.id.time) as TextView
+            //var times = buchong_full.findViewById(R.id.times) as TextView
+            var info = buchong_full.findViewById<TextView>(R.id.info)
+            var buchong_edit = buchong_full.findViewById<ImageView>(R.id.buchong_edit)
 
             var S_TIME = week.start_time?.split("-")
             var E_TIME = week.end_time?.split("-")
 
-            time.text = week.time
-            times.text = "${S_TIME?.get(1)}.${S_TIME?.get(2)}-${E_TIME?.get(1)}.${E_TIME?.get(2)}"
+            var user = Store.store.getUser(baseActivity!!)
+            loadHead(buchong_full.findViewById<CircleImageView>(R.id.circleImageView))
+            buchong_full.findViewById<TextView>(R.id.name).setText("${user!!.name}的周报补充记录")
+            var YMD = week.date!!.split(" ")[0]
+            var HMS = week.date!!.split(" ")[1]
+            buchong_full.findViewById<TextView>(R.id.time).text = "${YMD.split("-")[1]}月${YMD.split("-")[2]}日      ${HMS.substring(0, 5)}"
+
+            //time.text = week.time
+            //times.text = "${S_TIME?.get(1)}.${S_TIME?.get(2)}-${E_TIME?.get(1)}.${E_TIME?.get(2)}"
             info.text = week.info
 
             buchong_edit.setOnClickListener {
@@ -307,7 +377,8 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
 
         grid_send_to.setOnItemClickListener { parent, view, position, id ->
             if (position == list.size) {
-                ContactsActivity.startFromFragment(this,send_adapter.getData(),true,false,requestCode = SEND)
+//                TeamSelectActivity.startForResult(this, true, send_adapter.getData(), false, false, SEND)
+                ContactsActivity.startFromFragment(this, send_adapter.getData(), true, false, requestCode = SEND)
             } else {
                 list.removeAt(position)
                 send_adapter.notifyDataSetChanged()
@@ -317,12 +388,17 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
 
         grid_chaosong_to.setOnItemClickListener { parent, view, position, id ->
             if (position == list1.size) {
-                ContactsActivity.startFromFragment(this,chaosong_adapter.getData(),true,false,requestCode = CHAO_SONG)
+//                TeamSelectActivity.startForResult(this, true, chaosong_adapter.getData(), false, false, CHAO_SONG)
+                ContactsActivity.startFromFragment(this, chaosong_adapter.getData(), true, false, requestCode = CHAO_SONG)
             } else {
                 list1.removeAt(position)
                 chaosong_adapter.notifyDataSetChanged()
                 db.set(Extras.COPY_FOR_USERS, Gson().toJson(list1))
             }
+        }
+
+        if (TYPE == "PERSONAL") {
+            send_layout.visibility = View.GONE
         }
 
         btn_commit.setOnClickListener {
@@ -367,7 +443,7 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
                 }
             }
 
-            SoguApi.getService(baseActivity!!.application,WeeklyService::class.java)
+            SoguApi.getService(baseActivity!!.application, WeeklyService::class.java)
                     .sendReport(weekly_id, accept_uid, copy_uid)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
@@ -391,7 +467,116 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
     var SEND = 0x007
     var CHAO_SONG = 0x008
 
-    inner class WeeklyEventAdapter(var context: Context, val list: ArrayList<WeeklyThisBean.Automatic.WeeklyData>) : BaseAdapter() {
+    internal fun loadHead(header: CircleImageView) {
+        val user = Store.store.getUser(baseActivity!!)
+        if (user?.url.isNullOrEmpty()) {
+            val ch = user?.name?.first()
+            header.setChar(ch)
+        } else {
+            Glide.with(ctx)
+                    .load(MyGlideUrl(user?.url))
+                    .listener(object : RequestListener<Drawable> {
+                        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                            header.setImageDrawable(resource)
+                            return true
+                        }
+
+                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                            val ch = user?.name?.first()
+                            header.setChar(ch)
+                            return true
+                        }
+                    })
+                    .into(header)
+        }
+    }
+
+    internal fun fillAI(item: WeeklyThisBean.Automatic.WeeklyData, tv: TextView) {
+
+        var cellW = Utils.dpToPx(context, 10)
+
+        var drawable = resources.getDrawable(R.drawable.ai)
+        drawable.setBounds(0, 0, cellW, cellW)
+        tv.setCompoundDrawables(drawable, null, null, null)
+        tv.setText("AI采集")
+        if (item.is_collect != 1) {
+            // 0日程，1任务 2会议      5跟踪记录           6项目 3用印审批 4签字审批(AI)            7请假 8出差
+            if (item.type == 0) {
+                drawable = resources.getDrawable(R.drawable.huiyi)
+                drawable.setBounds(0, 0, cellW, cellW)
+                tv.setCompoundDrawables(drawable, null, null, null)
+                tv.setText("日程")
+            } else if (item.type == 1) {
+                drawable = resources.getDrawable(R.drawable.huiyi)
+                drawable.setBounds(0, 0, cellW, cellW)
+                tv.setCompoundDrawables(drawable, null, null, null)
+                tv.setText("任务")
+            } else if (item.type == 2) {
+                drawable = resources.getDrawable(R.drawable.huiyi)
+                drawable.setBounds(0, 0, cellW, cellW)
+                tv.setCompoundDrawables(drawable, null, null, null)
+                tv.setText("会议")
+            } else if (item.type == 3) {
+                drawable = resources.getDrawable(R.drawable.ai)
+                drawable.setBounds(0, 0, cellW, cellW)
+                tv.setCompoundDrawables(drawable, null, null, null)
+                tv.setText("用印审批")
+            } else if (item.type == 4) {
+                drawable = resources.getDrawable(R.drawable.ai)
+                drawable.setBounds(0, 0, cellW, cellW)
+                tv.setCompoundDrawables(drawable, null, null, null)
+                tv.setText("签字审批")
+            } else if (item.type == 5) {
+                drawable = resources.getDrawable(R.drawable.gzjl)
+                drawable.setBounds(0, 0, cellW, cellW)
+                tv.setCompoundDrawables(drawable, null, null, null)
+                tv.setText("跟踪记录")
+            } else if (item.type == 6) {
+                drawable = resources.getDrawable(R.drawable.ai)
+                drawable.setBounds(0, 0, cellW, cellW)
+                tv.setCompoundDrawables(drawable, null, null, null)
+                tv.setText("项目")
+            } else if (item.type == 7) {
+                drawable = resources.getDrawable(R.drawable.ccqj)
+                drawable.setBounds(0, 0, cellW, cellW)
+                tv.setCompoundDrawables(drawable, null, null, null)
+                tv.setText("请假")
+            } else if (item.type == 8) {
+                drawable = resources.getDrawable(R.drawable.ccqj)
+                drawable.setBounds(0, 0, cellW, cellW)
+                tv.setCompoundDrawables(drawable, null, null, null)
+                tv.setText("出差")
+            }
+        }
+    }
+
+    // 2018-07-09 14:58:18
+    internal fun loadTime(time: String, tv: TextView) {
+        var YMD = time.split(" ")[0]
+        var HMS = time.split(" ")[1]
+
+        val sdf = SimpleDateFormat("yyyy-MM-dd")
+        val date = sdf.parse(YMD)
+        val calendar = Calendar.getInstance()
+        calendar.setTime(date)
+        if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
+            tv.setText("周一      ${HMS.substring(0, 5)}")
+        } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY) {
+            tv.setText("周二      ${HMS.substring(0, 5)}")
+        } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY) {
+            tv.setText("周三      ${HMS.substring(0, 5)}")
+        } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY) {
+            tv.setText("周四      ${HMS.substring(0, 5)}")
+        } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY) {
+            tv.setText("周五      ${HMS.substring(0, 5)}")
+        } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+            tv.setText("周六      ${HMS.substring(0, 5)}")
+        } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+            tv.setText("周日      ${HMS.substring(0, 5)}")
+        }
+    }
+
+    inner class WeeklyEventAdapter(var context: Context, val list: ArrayList<WeeklyThisBean.Automatic.WeeklyData>) : BaseAdapter() {//  time=2017-10-06
 
         val EVENT = 0x001//AI采集
         val LEAVE = 0x002//非AI采集
@@ -399,35 +584,46 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             var conView = convertView
             var item = list.get(position)
+            var user = Store.store.getUser(baseActivity!!)
 
             if (getItemViewType(position) == EVENT) {
                 // 会议，跟踪记录
                 conView = LayoutInflater.from(context).inflate(R.layout.weekly_event, null) as LinearLayout
-                var dot = conView.findViewById<WeeklyDotView>(R.id.dot) as WeeklyDotView
-                var event = conView.findViewById<TextView>(R.id.event) as TextView
-                var AI = conView.findViewById<TextView>(R.id.AI) as TextView
-                var tag = conView.findViewById<TextView>(R.id.tag) as TextView
+                var dot = conView.findViewById<WeeklyDotView>(R.id.dot)
+                var event = conView.findViewById<TextView>(R.id.event)
+                var AI = conView.findViewById<TextView>(R.id.AI)
+                //var tag = conView.findViewById(R.id.tag) as TextView
 
-                dot.setTime(item.time!!)
+                //dot.setTime(item.time!!)
                 event.text = item.title
-                AI.visibility = if (item.is_collect == 1) View.VISIBLE else View.INVISIBLE
-                tag.text = item.type_name
+                fillAI(item, AI)
+                //AI.visibility = if (item.is_collect == 1) View.VISIBLE else View.INVISIBLE
+                //tag.text = item.type_name
+
+                loadHead(conView.findViewById<CircleImageView>(R.id.circleImageView))
+                conView.findViewById<TextView>(R.id.name).setText("${user!!.name}的周报")
+                loadTime(item.add_time!!, conView.findViewById<TextView>(R.id.time))
             } else {
                 // 请假，出差
                 conView = LayoutInflater.from(context).inflate(R.layout.weekly_leave, null) as LinearLayout
-                var dot = conView.findViewById<WeeklyDotView>(R.id.dot) as WeeklyDotView
-                var event = conView.findViewById<TextView>(R.id.event) as TextView
-                var AI = conView.findViewById<TextView>(R.id.AI) as TextView
-                var tv_start_time = conView.findViewById<TextView>(R.id.tv_start_time) as TextView
-                var tv_end_time = conView.findViewById<TextView>(R.id.tv_end_time) as TextView
-                var tag = conView.findViewById<TextView>(R.id.tag) as TextView
+                var dot = conView.findViewById<WeeklyDotView>(R.id.dot)
+                var event = conView.findViewById<TextView>(R.id.event)
+                var AI = conView.findViewById<TextView>(R.id.AI)
+                var tv_start_time = conView.findViewById<TextView>(R.id.tv_start_time)
+                var tv_end_time = conView.findViewById<TextView>(R.id.tv_end_time)
+                //var tag = conView.findViewById(R.id.tag) as TextView
 
-                dot.setTime(item.time!!)
+                //dot.setTime(item.time!!)
                 event.text = item.title
-                AI.visibility = if (item.is_collect == 1) View.VISIBLE else View.INVISIBLE
-                tag.text = item.type_name
+                //AI.visibility = if (item.is_collect == 1) View.VISIBLE else View.INVISIBLE
+                fillAI(item, AI)
+                //tag.text = item.type_name
                 tv_start_time.text = item.start_time
                 tv_end_time.text = item.end_time
+
+                loadHead(conView.findViewById<CircleImageView>(R.id.circleImageView))
+                conView.findViewById<TextView>(R.id.name).setText("${user!!.name}的周报")
+                loadTime(item.add_time!!, conView.findViewById<TextView>(R.id.time))
             }
             return conView
         }
@@ -458,7 +654,7 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun getCompanyDetail(cId: Int, type: Int) {
-        SoguApi.getService(baseActivity!!.application, NewService::class.java)
+        SoguApi.getService(activity!!.application, NewService::class.java)
                 .singleCompany(cId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -471,9 +667,6 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
                                 }
                                 6 -> {
                                     ProjectActivity.start(activity, it)
-                                }
-                                else->{
-
                                 }
                             }
                         }
@@ -493,26 +686,35 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
             if (conView == null) {
                 viewHolder = ViewHolder()
                 conView = LayoutInflater.from(context).inflate(R.layout.send_item, null) as LinearLayout
-                viewHolder.icon = conView.findViewById<CircleImageView>(R.id.icon) as CircleImageView
-                viewHolder.name = conView.findViewById<TextView>(R.id.name) as TextView
+                viewHolder.icon = conView.findViewById<CircleImageView>(R.id.icon)
+                viewHolder.name = conView.findViewById<TextView>(R.id.name)
+                viewHolder.cs_add = conView.findViewById<ImageView>(R.id.cs_add)
+                viewHolder.cs_default = conView.findViewById<ImageView>(R.id.cs_default)
                 conView.setTag(viewHolder)
             } else {
                 viewHolder = conView.tag as ViewHolder
             }
             if (position == list.size) {
-                viewHolder.icon?.setImageResource(R.drawable.send_add)
+                //viewHolder.icon?.setBackgroundResource(R.drawable.send_add)
+                Glide.with(context)
+                        .load(R.drawable.send_add)
+                        .into(viewHolder.icon!!)
                 viewHolder.name?.text = "添加"
+                viewHolder.cs_add?.visibility = View.GONE
+                viewHolder.cs_default?.visibility = View.GONE
             } else {
 //                viewHolder.icon?.setChar(list[position].name.first())
-                if (list[position].headImage().isNullOrEmpty()){
+                if (list[position].headImage().isNullOrEmpty()) {
                     viewHolder.icon?.setChar(list[position].name.first())
-                }else{
+                } else {
                     Glide.with(context)
-                            .load(MyGlideUrl(list[position].headImage()))
+                            .load(list[position].headImage())
                             .apply(RequestOptions().error(R.drawable.nim_avatar_default).fallback(R.drawable.nim_avatar_default))
                             .into(viewHolder.icon!!)
                 }
                 viewHolder.name?.text = list[position].name
+                viewHolder.cs_add?.visibility = View.VISIBLE
+                viewHolder.cs_default?.visibility = View.GONE
             }
             return conView
         }
@@ -534,6 +736,8 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
         class ViewHolder {
             var icon: CircleImageView? = null
             var name: TextView? = null
+            var cs_add: ImageView? = null
+            var cs_default: ImageView? = null
         }
     }
 
@@ -544,22 +748,37 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
             buchong_full.visibility = View.VISIBLE
 
             week = data?.getSerializableExtra(Extras.DATA) as WeeklyThisBean.Week
-            var time = buchong_full.findViewById<TextView>(R.id.time) as TextView
-            var times = buchong_full.findViewById<TextView>(R.id.times) as TextView
-            var info = buchong_full.findViewById<TextView>(R.id.info) as TextView
+            //var time = buchong_full.findViewById(R.id.time) as TextView
+            //var times = buchong_full.findViewById(R.id.times) as TextView
+            var info = buchong_full.findViewById<TextView>(R.id.info)
 
             var S_TIME = week.start_time?.split("-")
             var E_TIME = week.end_time?.split("-")
 
-            time.text = week.time
-            times.text = "${S_TIME?.get(1)}.${S_TIME?.get(2)}-${E_TIME?.get(1)}.${E_TIME?.get(2)}"
+            var user = Store.store.getUser(baseActivity!!)
+            loadHead(buchong_full.findViewById<CircleImageView>(R.id.circleImageView))
+            buchong_full.findViewById<TextView>(R.id.name).setText("${user!!.name}的周报补充记录")
+            var YMD = week.date!!.split(" ")[0]
+            var HMS = week.date!!.split(" ")[1]
+            buchong_full.findViewById<TextView>(R.id.time).text = "${YMD.split("-")[1]}月${YMD.split("-")[2]}日      ${HMS.substring(0, 5)}"
+
+            var buchong_edit = buchong_full.findViewById<ImageView>(R.id.buchong_edit)
+            buchong_edit.setOnClickListener {
+                val intent = Intent(context, WeeklyRecordActivity::class.java)
+                intent.putExtra(Extras.FLAG, "EDIT")
+                intent.putExtra(Extras.DATA, week)
+                startActivityForResult(intent, EDIT)
+            }
+
+            //time.text = week.time
+            //times.text = "${S_TIME?.get(1)}.${S_TIME?.get(2)}-${E_TIME?.get(1)}.${E_TIME?.get(2)}"
             info.text = week.info
         } else if (requestCode == EDIT && resultCode == Activity.RESULT_OK) {//EDIT
             bu_chong_empty.visibility = View.GONE
             buchong_full.visibility = View.VISIBLE
 
             week = data?.getSerializableExtra(Extras.DATA) as WeeklyThisBean.Week
-            var info = buchong_full.findViewById<TextView>(R.id.info) as TextView
+            var info = buchong_full.findViewById<TextView>(R.id.info)
             info.text = week.info
         } else if (requestCode == SEND && resultCode == Extras.RESULTCODE) {//SEND
             var beanObj = data?.getSerializableExtra(Extras.DATA) as ArrayList<UserBean>

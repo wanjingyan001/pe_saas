@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_record"
     android:orientation="vertical">
 
     <ScrollView
@@ -21,30 +22,33 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="30dp"
+                android:layout_height="35dp"
+                android:background="@color/white"
+                android:gravity="bottom"
                 android:orientation="horizontal">
 
                 <com.sogukj.pe.widgets.WaitToWatchItem
                     android:id="@+id/total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
                     app:name="全部" />
 
                 <com.sogukj.pe.widgets.WaitToWatchItem
                     android:id="@+id/unread"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     app:name="未读" />
 
                 <com.sogukj.pe.widgets.WaitToWatchItem
                     android:id="@+id/readed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     app:name="已读" />
 
                 <View
@@ -59,7 +63,24 @@
                     android:layout_gravity="top"
                     android:gravity="right|center" />
 
+                <TextView
+                    android:id="@+id/filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:drawableLeft="@drawable/iv_search_filter_gray"
+                    android:drawablePadding="5dp"
+                    android:layout_gravity="center"
+                    android:text="筛选"
+                    android:textColor="#ffa0a4aa"
+                    android:textSize="14sp" />
+
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider2" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -74,7 +95,7 @@
                     android:layout_width="28dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/icon_time"/>
+                    android:background="@drawable/icon_time" />
 
                 <TextView
                     android:id="@+id/start"
@@ -106,8 +127,8 @@
 
             </LinearLayout>
 
-            <com.scwang.smartrefresh.layout.SmartRefreshLayout
-                android:id="@id/refresh"
+            <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+                android:id="@+id/refresh"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="20dp"
@@ -118,12 +139,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
-            </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+            </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
 
         </LinearLayout>
 
     </ScrollView>
-    <include layout="@layout/layout_network_error"/>
+
+    <include layout="@layout/layout_network_error" />
 </LinearLayout>
 
 

@@ -1,104 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.sogukj.pe.ui.weekly.PersonalWeeklyActivity">
+    android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:background="@drawable/bg" />
-
-    <FrameLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height"
-        android:background="@color/transparent">
+        android:background="@color/white"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:theme="@style/AppTheme.AppBarOverlay">
 
         <ImageView
-            android:id="@+id/back"
+            android:id="@+id/toolbar_back"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="left|center"
+            android:layout_gravity="left"
+            android:gravity="center"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:src="@drawable/sogu_ic_back" />
+            android:src="@drawable/back_chevron" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <TextView
+            android:id="@id/toolbar_title"
+            style="@style/SoguTextTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:singleLine="true"
+            tools:text="主    页" />
 
-            <com.sogukj.pe.widgets.CircleImageView
-                android:id="@+id/icon"
-                android:layout_width="31dp"
-                android:layout_height="31dp" />
+        <ImageView
+            android:id="@+id/toolbar_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:paddingBottom="16dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="16dp"
+            android:src="@drawable/only" />
+    </android.support.v7.widget.Toolbar>
 
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider2" />
 
-        </LinearLayout>
-
-    </FrameLayout>
-
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="56dp"
-        android:orientation="vertical">
+        android:background="@color/white" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="@android:color/transparent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/weekly"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="本周周报"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/record_buchong"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="补充记录"
-                android:textSize="16sp" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="我发出的"
-                android:textSize="16sp"
-                android:visibility="invisible" />
-        </LinearLayout>
-
-        <FrameLayout
-            android:id="@+id/container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white" />
-
-    </LinearLayout>
-
-</FrameLayout>
+</LinearLayout>
