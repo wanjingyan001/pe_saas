@@ -48,7 +48,9 @@ interface OtherService {
     @POST
     fun qrNotify_saas(@Url url: String, @Field("status") status: Int, @Field("phone") phone: String): Observable<Payload<Any>>
 
+
     //版本更新
+    @Headers(value = "Domain-Name: upgrade")
     @POST("/api/Index/version")
     fun getVersion(): Observable<Payload<VersionBean>>
 

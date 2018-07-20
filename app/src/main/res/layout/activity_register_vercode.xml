@@ -13,6 +13,15 @@
     tools:context="com.sogukj.pe.module.register.VerCodeInputActivity">
 
     <ImageView
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:src="@drawable/icon_back_gray"
+        />
+
+    <ImageView
         android:id="@+id/mVerCodeInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -111,6 +111,12 @@ fun <T1, T2, T3> Context.ifNotNull(value1: T1?, value2: T2?, value3: T3?, bothNo
     }
 }
 
+fun <T1, T2> Context.ifNotNull(value1: T1?, value2: T2?, bothNotNull: (T1, T2) -> (Unit)) {
+    if (value1 != null && value2 != null) {
+        bothNotNull(value1, value2)
+    }
+}
+
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 fun Activity.fullScreen() {
     val sdkInt = Build.VERSION.SDK_INT

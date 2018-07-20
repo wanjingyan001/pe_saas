@@ -131,7 +131,7 @@ class PersonalInfoActivity : BaseActivity(), View.OnClickListener, TextWatcher, 
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.sendMsg -> {
-                if (NimUIKit.getAccount().isNotEmpty() && user?.accid != null) {
+                if (!NimUIKit.getAccount().isNullOrEmpty() && user?.accid != null) {
                     if (!pathByUri.isNullOrEmpty()) {
                         NimUIKit.startP2PSession(this, user?.accid, pathByUri)
                     } else {

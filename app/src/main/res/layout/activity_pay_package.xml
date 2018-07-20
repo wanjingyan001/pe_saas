@@ -146,14 +146,14 @@
             android:text="去支付"
             android:enabled="false"
             android:textColor="@color/white"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="18dp"
             android:drawableLeft="@mipmap/icon_telphone"
             android:drawablePadding="6dp"
             android:gravity="center_vertical"

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/messageActivityBottomLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/message_bottom_text_input" />
+
+    <include layout="@layout/message_operate_layout" />
+
+    <RelativeLayout
+        android:id="@+id/record_layout"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/white"
+        android:visibility="gone" >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentTop="true"
+            android:background="#f7f9fc" />
+
+        <ImageView
+            android:id="@+id/record_gif1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/record_tv"
+            android:layout_alignTop="@+id/record_tv"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/record_tv" />
+
+        <TextView
+            android:id="@+id/record_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/record_btn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:text="按住说话" />
+
+        <ImageView
+            android:id="@+id/record_gif2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/record_tv"
+            android:layout_alignTop="@+id/record_tv"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/record_tv" />
+
+        <ImageView
+            android:id="@+id/record_btn"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/record_btn_bg"
+            android:scaleType="center"
+            android:src="@drawable/mkf" />
+
+        <ImageView
+            android:id="@+id/record_delete"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_alignTop="@+id/record_btn"
+            android:layout_marginLeft="50dp"
+            android:layout_toRightOf="@+id/record_btn"
+            android:src="@drawable/invalid_name" />
+
+    </RelativeLayout>
+
+</LinearLayout>

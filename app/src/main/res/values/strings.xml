@@ -131,10 +131,10 @@
     <string name="next_step">下一步</string>
     <string name="phone_input">输入手机号</string>
     <string name="vercode_input">输入验证码</string>
-    <string name="join_team">加入团队</string>
+    <string name="join_team">输入邀请码</string>
     <string name="join_now">立即加入</string>
     <!--<string name="jump_link"><![CDATA[还没团队?立刻创建团队>>]]></string>-->
-    <string name="jump_link">还没团队?立刻创建团队>></string>
+    <string name="jump_link">还没团队? 立刻创建团队>></string>
     <string name="tips1">本产品只面向私募机构开放，因此我们需要对您提供名片进行审核</string>
     <string name="tips_under_review">审核预计需要2个工作日，我们会短信通知您结果，请耐心等待</string>
 </resources>

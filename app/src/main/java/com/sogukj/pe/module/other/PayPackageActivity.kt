@@ -1,5 +1,7 @@
 package com.sogukj.pe.module.other
 
+import android.annotation.TargetApi
+import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -138,6 +140,7 @@ class PayPackageActivity : BaseActivity() {
     }
 
 
+    @TargetApi(Build.VERSION_CODES.N)
     private fun aliPay(commodityInfo: String) {
         Observable.create<Map<String, String>> { e ->
             val payTask = PayTask(this)
@@ -145,21 +148,21 @@ class PayPackageActivity : BaseActivity() {
             e.onNext(result)
         }.execute {
             onNext { result ->
-                info { result.jsonStr }
+                result.forEach { t, u ->
+                    info { "key:$t ==> value:$u \n" }
+                }
                 val payResult = Gson().fromJson<PayResult?>(result.jsonStr)
                 if (payResult != null) {
                     when (payResult.resultStatus) {
                         "9000" -> {
                             showSuccessToast("支付成功")
-
-                        }
-                        else -> {
-                            showErrorToast(payResult.memo)
-
                             val typeAdapter = mAdapter.currentFragment.payAdapter
                             startActivity<PayResultActivity>(Extras.DATA to packageBean,
                                     Extras.BEAN to typeAdapter.dataList[typeAdapter.selectedPosition])
                             finish()
+                        }
+                        else -> {
+                            showErrorToast(payResult.memo)
                         }
                     }
                 } else {

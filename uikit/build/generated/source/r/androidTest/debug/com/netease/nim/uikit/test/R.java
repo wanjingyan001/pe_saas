@@ -2472,7 +2472,7 @@ containing a value of this type.
 <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
 <tr><td><code>none</code></td><td>0</td><td></td></tr>
 <tr><td><code>standard</code></td><td>3</td><td></td></tr>
-<tr><td><code>direct</code></td><td>1</td><td> for now only direct & barriers </td></tr>
+<tr><td><code>direct</code></td><td>1</td><td></td></tr>
 <tr><td><code>barrier</code></td><td>2</td><td></td></tr>
 <tr><td><code>chains</code></td><td>4</td><td></td></tr>
 <tr><td><code>dimensions</code></td><td>8</td><td></td></tr>
@@ -2530,18 +2530,17 @@ theme attribute (in the form
 containing a value of this type.
          */
         public static final int layout_srlBackgroundColor=0x7f010211;
-        /** 填满布局
-         <p>Must be one of the following constant values.</p>
+        /** <p>Must be one of the following constant values.</p>
 <table>
 <colgroup align="left" />
 <colgroup align="left" />
 <colgroup align="left" />
 <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
 <tr><td><code>Translate</code></td><td>0</td><td></td></tr>
-<tr><td><code>Scale</code></td><td>1</td><td>平行移动</td></tr>
-<tr><td><code>FixedBehind</code></td><td>2</td><td>拉伸形变</td></tr>
-<tr><td><code>FixedFront</code></td><td>3</td><td>固定在背后</td></tr>
-<tr><td><code>MatchLayout</code></td><td>4</td><td>固定在前面</td></tr>
+<tr><td><code>Scale</code></td><td>1</td><td></td></tr>
+<tr><td><code>FixedBehind</code></td><td>2</td><td></td></tr>
+<tr><td><code>FixedFront</code></td><td>3</td><td></td></tr>
+<tr><td><code>MatchLayout</code></td><td>4</td><td></td></tr>
 </table>
          */
         public static final int layout_srlSpinnerStyle=0x7f01003e;
@@ -3820,16 +3819,15 @@ theme attribute (in the form
 containing a value of this type.
          */
         public static final int srlAnimatingColor=0x7f010117;
-        /** 固定在背后
-         <p>Must be one of the following constant values.</p>
+        /** <p>Must be one of the following constant values.</p>
 <table>
 <colgroup align="left" />
 <colgroup align="left" />
 <colgroup align="left" />
 <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
 <tr><td><code>Translate</code></td><td>0</td><td></td></tr>
-<tr><td><code>Scale</code></td><td>1</td><td>平行移动</td></tr>
-<tr><td><code>FixedBehind</code></td><td>2</td><td>拉伸形变</td></tr>
+<tr><td><code>Scale</code></td><td>1</td><td></td></tr>
+<tr><td><code>FixedBehind</code></td><td>2</td><td></td></tr>
 </table>
          */
         public static final int srlClassicsSpinnerStyle=0x7f01005d;
@@ -5138,30 +5136,30 @@ containing a value of this type.
         public static final int GreyWhite=0x7f0e0003;
         public static final int Orange=0x7f0e0004;
         public static final int Yellow=0x7f0e0005;
-        public static final int abc_background_cache_hint_selector_material_dark=0x7f0e0119;
-        public static final int abc_background_cache_hint_selector_material_light=0x7f0e011a;
-        public static final int abc_btn_colored_borderless_text_material=0x7f0e011b;
-        public static final int abc_btn_colored_text_material=0x7f0e011c;
-        public static final int abc_color_highlight_material=0x7f0e011d;
-        public static final int abc_hint_foreground_material_dark=0x7f0e011e;
-        public static final int abc_hint_foreground_material_light=0x7f0e011f;
+        public static final int abc_background_cache_hint_selector_material_dark=0x7f0e011b;
+        public static final int abc_background_cache_hint_selector_material_light=0x7f0e011c;
+        public static final int abc_btn_colored_borderless_text_material=0x7f0e011d;
+        public static final int abc_btn_colored_text_material=0x7f0e011e;
+        public static final int abc_color_highlight_material=0x7f0e011f;
+        public static final int abc_hint_foreground_material_dark=0x7f0e0120;
+        public static final int abc_hint_foreground_material_light=0x7f0e0121;
         public static final int abc_input_method_navigation_guard=0x7f0e0006;
-        public static final int abc_primary_text_disable_only_material_dark=0x7f0e0120;
-        public static final int abc_primary_text_disable_only_material_light=0x7f0e0121;
-        public static final int abc_primary_text_material_dark=0x7f0e0122;
-        public static final int abc_primary_text_material_light=0x7f0e0123;
-        public static final int abc_search_url_text=0x7f0e0124;
+        public static final int abc_primary_text_disable_only_material_dark=0x7f0e0122;
+        public static final int abc_primary_text_disable_only_material_light=0x7f0e0123;
+        public static final int abc_primary_text_material_dark=0x7f0e0124;
+        public static final int abc_primary_text_material_light=0x7f0e0125;
+        public static final int abc_search_url_text=0x7f0e0126;
         public static final int abc_search_url_text_normal=0x7f0e0007;
         public static final int abc_search_url_text_pressed=0x7f0e0008;
         public static final int abc_search_url_text_selected=0x7f0e0009;
-        public static final int abc_secondary_text_material_dark=0x7f0e0125;
-        public static final int abc_secondary_text_material_light=0x7f0e0126;
-        public static final int abc_tint_btn_checkable=0x7f0e0127;
-        public static final int abc_tint_default=0x7f0e0128;
-        public static final int abc_tint_edittext=0x7f0e0129;
-        public static final int abc_tint_seek_thumb=0x7f0e012a;
-        public static final int abc_tint_spinner=0x7f0e012b;
-        public static final int abc_tint_switch_track=0x7f0e012c;
+        public static final int abc_secondary_text_material_dark=0x7f0e0127;
+        public static final int abc_secondary_text_material_light=0x7f0e0128;
+        public static final int abc_tint_btn_checkable=0x7f0e0129;
+        public static final int abc_tint_default=0x7f0e012a;
+        public static final int abc_tint_edittext=0x7f0e012b;
+        public static final int abc_tint_seek_thumb=0x7f0e012c;
+        public static final int abc_tint_spinner=0x7f0e012d;
+        public static final int abc_tint_switch_track=0x7f0e012e;
         public static final int accent_material_dark=0x7f0e000a;
         public static final int accent_material_light=0x7f0e000b;
         public static final int action_bar_black_title_1f1f1f=0x7f0e000c;
@@ -5240,7 +5238,7 @@ containing a value of this type.
         public static final int color_green_00d3a9=0x7f0e0055;
         public static final int color_green_01d9ae=0x7f0e0056;
         public static final int color_green_disable=0x7f0e0057;
-        public static final int color_green_text_view_selector=0x7f0e012d;
+        public static final int color_green_text_view_selector=0x7f0e012f;
         public static final int color_grey_555555=0x7f0e0058;
         public static final int color_grey_999999=0x7f0e0059;
         public static final int color_grey_ababab=0x7f0e005a;
@@ -5248,7 +5246,7 @@ containing a value of this type.
         public static final int color_main=0x7f0e005c;
         public static final int color_main_light=0x7f0e005d;
         public static final int color_message_default_bg=0x7f0e005e;
-        public static final int color_picker_preview_selector=0x7f0e012e;
+        public static final int color_picker_preview_selector=0x7f0e0130;
         public static final int color_prompt_red=0x7f0e005f;
         public static final int color_red_ccfa3c55=0x7f0e0060;
         public static final int color_split_line_cccccc=0x7f0e0061;
@@ -5262,7 +5260,7 @@ containing a value of this type.
         public static final int contact_search_hit=0x7f0e0069;
         public static final int contacts_letters_color=0x7f0e006a;
         public static final int design_bottom_navigation_shadow_color=0x7f0e006b;
-        public static final int design_error=0x7f0e012f;
+        public static final int design_error=0x7f0e0131;
         public static final int design_fab_shadow_end_color=0x7f0e006c;
         public static final int design_fab_shadow_mid_color=0x7f0e006d;
         public static final int design_fab_shadow_start_color=0x7f0e006e;
@@ -5271,7 +5269,7 @@ containing a value of this type.
         public static final int design_fab_stroke_top_inner_color=0x7f0e0071;
         public static final int design_fab_stroke_top_outer_color=0x7f0e0072;
         public static final int design_snackbar_background_color=0x7f0e0073;
-        public static final int design_tint_password_toggle=0x7f0e0130;
+        public static final int design_tint_password_toggle=0x7f0e0132;
         public static final int dim_foreground_disabled_material_dark=0x7f0e0074;
         public static final int dim_foreground_disabled_material_light=0x7f0e0075;
         public static final int dim_foreground_material_dark=0x7f0e0076;
@@ -5396,8 +5394,8 @@ containing a value of this type.
         public static final int split_line_grey_color_d9d9d9=0x7f0e00ec;
         public static final int switch_thumb_disabled_material_dark=0x7f0e00ed;
         public static final int switch_thumb_disabled_material_light=0x7f0e00ee;
-        public static final int switch_thumb_material_dark=0x7f0e0131;
-        public static final int switch_thumb_material_light=0x7f0e0132;
+        public static final int switch_thumb_material_dark=0x7f0e0133;
+        public static final int switch_thumb_material_light=0x7f0e0134;
         public static final int switch_thumb_normal_material_dark=0x7f0e00ef;
         public static final int switch_thumb_normal_material_light=0x7f0e00f0;
         public static final int tag1=0x7f0e00f1;
@@ -5417,29 +5415,31 @@ containing a value of this type.
         public static final int text_3=0x7f0e00ff;
         public static final int text_4=0x7f0e0100;
         public static final int text_5=0x7f0e0101;
-        public static final int text_more=0x7f0e0102;
-        public static final int text_sticker_black_easy_photos=0x7f0e0103;
-        public static final int text_sticker_blue_easy_photos=0x7f0e0104;
-        public static final int text_sticker_cyan_easy_photos=0x7f0e0105;
-        public static final int text_sticker_editor_fragment_bar_easy_photos=0x7f0e0106;
-        public static final int text_sticker_editor_fragment_bg_easy_photos=0x7f0e0107;
-        public static final int text_sticker_gray_easy_photos=0x7f0e0108;
-        public static final int text_sticker_green_easy_photos=0x7f0e0109;
-        public static final int text_sticker_orange_easy_photos=0x7f0e010a;
-        public static final int text_sticker_purple_easy_photos=0x7f0e010b;
-        public static final int text_sticker_red_easy_photos=0x7f0e010c;
-        public static final int text_sticker_white_easy_photos=0x7f0e010d;
-        public static final int text_sticker_yellow_easy_photos=0x7f0e010e;
-        public static final int title_color_01d9ae=0x7f0e010f;
-        public static final int tooltip_background_dark=0x7f0e0110;
-        public static final int tooltip_background_light=0x7f0e0111;
-        public static final int transparent=0x7f0e0112;
-        public static final int transparent_easy_photos=0x7f0e0113;
-        public static final int weekly_label=0x7f0e0114;
-        public static final int white=0x7f0e0115;
-        public static final int white2=0x7f0e0116;
-        public static final int white_easy_photos=0x7f0e0117;
-        public static final int windowBackground=0x7f0e0118;
+        public static final int text_6=0x7f0e0102;
+        public static final int text_7=0x7f0e0103;
+        public static final int text_more=0x7f0e0104;
+        public static final int text_sticker_black_easy_photos=0x7f0e0105;
+        public static final int text_sticker_blue_easy_photos=0x7f0e0106;
+        public static final int text_sticker_cyan_easy_photos=0x7f0e0107;
+        public static final int text_sticker_editor_fragment_bar_easy_photos=0x7f0e0108;
+        public static final int text_sticker_editor_fragment_bg_easy_photos=0x7f0e0109;
+        public static final int text_sticker_gray_easy_photos=0x7f0e010a;
+        public static final int text_sticker_green_easy_photos=0x7f0e010b;
+        public static final int text_sticker_orange_easy_photos=0x7f0e010c;
+        public static final int text_sticker_purple_easy_photos=0x7f0e010d;
+        public static final int text_sticker_red_easy_photos=0x7f0e010e;
+        public static final int text_sticker_white_easy_photos=0x7f0e010f;
+        public static final int text_sticker_yellow_easy_photos=0x7f0e0110;
+        public static final int title_color_01d9ae=0x7f0e0111;
+        public static final int tooltip_background_dark=0x7f0e0112;
+        public static final int tooltip_background_light=0x7f0e0113;
+        public static final int transparent=0x7f0e0114;
+        public static final int transparent_easy_photos=0x7f0e0115;
+        public static final int weekly_label=0x7f0e0116;
+        public static final int white=0x7f0e0117;
+        public static final int white2=0x7f0e0118;
+        public static final int white_easy_photos=0x7f0e0119;
+        public static final int windowBackground=0x7f0e011a;
     }
     public static final class dimen {
         public static final int abc_action_bar_content_inset_material=0x7f0a000d;
@@ -8022,8 +8022,6 @@ containing a value of this type.
         public static final int dialog_message_text_style=0x7f0b019e;
         public static final int dialog_title_text_style=0x7f0b019f;
         public static final int easy_dialog_edit_text_style=0x7f0b01a0;
-        /**  后面的activity变暗 
-         */
         public static final int easy_dialog_style=0x7f0b01a1;
         public static final int edit_text_style=0x7f0b01a2;
         public static final int grid_view=0x7f0b01a3;
@@ -10972,7 +10970,7 @@ containing a value of this type.
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
            <tr><td><code>{@link #BallPulseFooter_srlAnimatingColor com.netease.nim.uikit.test:srlAnimatingColor}</code></td><td></td></tr>
-           <tr><td><code>{@link #BallPulseFooter_srlClassicsSpinnerStyle com.netease.nim.uikit.test:srlClassicsSpinnerStyle}</code></td><td>固定在背后</td></tr>
+           <tr><td><code>{@link #BallPulseFooter_srlClassicsSpinnerStyle com.netease.nim.uikit.test:srlClassicsSpinnerStyle}</code></td><td></td></tr>
            <tr><td><code>{@link #BallPulseFooter_srlIndicatorColor com.netease.nim.uikit.test:srlIndicatorColor}</code></td><td></td></tr>
            <tr><td><code>{@link #BallPulseFooter_srlNormalColor com.netease.nim.uikit.test:srlNormalColor}</code></td><td></td></tr>
            </table>
@@ -11000,9 +10998,8 @@ containing a value of this type.
         */
         public static final int BallPulseFooter_srlAnimatingColor = 2;
         /**
-          <p>
-          @attr description
-          固定在背后
+          <p>This symbol is the offset where the {@link com.netease.nim.uikit.test.R.attr#srlClassicsSpinnerStyle}
+          attribute's value can be found in the {@link #BallPulseFooter} array.
 
 
           <p>Must be one of the following constant values.</p>
@@ -11012,10 +11009,9 @@ containing a value of this type.
 <colgroup align="left" />
 <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
 <tr><td><code>Translate</code></td><td>0</td><td></td></tr>
-<tr><td><code>Scale</code></td><td>1</td><td>平行移动</td></tr>
-<tr><td><code>FixedBehind</code></td><td>2</td><td>拉伸形变</td></tr>
+<tr><td><code>Scale</code></td><td>1</td><td></td></tr>
+<tr><td><code>FixedBehind</code></td><td>2</td><td></td></tr>
 </table>
-          <p>This is a private symbol.
           @attr name com.netease.nim.uikit.test:srlClassicsSpinnerStyle
         */
         public static final int BallPulseFooter_srlClassicsSpinnerStyle = 0;
@@ -11793,7 +11789,7 @@ containing a value of this type.
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
            <tr><td><code>{@link #ClassicsFooter_srlAccentColor com.netease.nim.uikit.test:srlAccentColor}</code></td><td></td></tr>
-           <tr><td><code>{@link #ClassicsFooter_srlClassicsSpinnerStyle com.netease.nim.uikit.test:srlClassicsSpinnerStyle}</code></td><td>固定在背后</td></tr>
+           <tr><td><code>{@link #ClassicsFooter_srlClassicsSpinnerStyle com.netease.nim.uikit.test:srlClassicsSpinnerStyle}</code></td><td></td></tr>
            <tr><td><code>{@link #ClassicsFooter_srlDrawableArrow com.netease.nim.uikit.test:srlDrawableArrow}</code></td><td></td></tr>
            <tr><td><code>{@link #ClassicsFooter_srlDrawableArrowSize com.netease.nim.uikit.test:srlDrawableArrowSize}</code></td><td></td></tr>
            <tr><td><code>{@link #ClassicsFooter_srlDrawableMarginRight com.netease.nim.uikit.test:srlDrawableMarginRight}</code></td><td></td></tr>
@@ -11837,9 +11833,8 @@ containing a value of this type.
         */
         public static final int ClassicsFooter_srlAccentColor = 0;
         /**
-          <p>
-          @attr description
-          固定在背后
+          <p>This symbol is the offset where the {@link com.netease.nim.uikit.test.R.attr#srlClassicsSpinnerStyle}
+          attribute's value can be found in the {@link #ClassicsFooter} array.
 
 
           <p>Must be one of the following constant values.</p>
@@ -11849,10 +11844,9 @@ containing a value of this type.
 <colgroup align="left" />
 <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
 <tr><td><code>Translate</code></td><td>0</td><td></td></tr>
-<tr><td><code>Scale</code></td><td>1</td><td>平行移动</td></tr>
-<tr><td><code>FixedBehind</code></td><td>2</td><td>拉伸形变</td></tr>
+<tr><td><code>Scale</code></td><td>1</td><td></td></tr>
+<tr><td><code>FixedBehind</code></td><td>2</td><td></td></tr>
 </table>
-          <p>This is a private symbol.
           @attr name com.netease.nim.uikit.test:srlClassicsSpinnerStyle
         */
         public static final int ClassicsFooter_srlClassicsSpinnerStyle = 1;
@@ -11992,7 +11986,7 @@ containing a value of this type.
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
            <tr><td><code>{@link #ClassicsHeader_srlAccentColor com.netease.nim.uikit.test:srlAccentColor}</code></td><td></td></tr>
-           <tr><td><code>{@link #ClassicsHeader_srlClassicsSpinnerStyle com.netease.nim.uikit.test:srlClassicsSpinnerStyle}</code></td><td>固定在背后</td></tr>
+           <tr><td><code>{@link #ClassicsHeader_srlClassicsSpinnerStyle com.netease.nim.uikit.test:srlClassicsSpinnerStyle}</code></td><td></td></tr>
            <tr><td><code>{@link #ClassicsHeader_srlDrawableArrow com.netease.nim.uikit.test:srlDrawableArrow}</code></td><td></td></tr>
            <tr><td><code>{@link #ClassicsHeader_srlDrawableArrowSize com.netease.nim.uikit.test:srlDrawableArrowSize}</code></td><td></td></tr>
            <tr><td><code>{@link #ClassicsHeader_srlDrawableMarginRight com.netease.nim.uikit.test:srlDrawableMarginRight}</code></td><td></td></tr>
@@ -12043,9 +12037,8 @@ containing a value of this type.
         */
         public static final int ClassicsHeader_srlAccentColor = 0;
         /**
-          <p>
-          @attr description
-          固定在背后
+          <p>This symbol is the offset where the {@link com.netease.nim.uikit.test.R.attr#srlClassicsSpinnerStyle}
+          attribute's value can be found in the {@link #ClassicsHeader} array.
 
 
           <p>Must be one of the following constant values.</p>
@@ -12055,10 +12048,9 @@ containing a value of this type.
 <colgroup align="left" />
 <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
 <tr><td><code>Translate</code></td><td>0</td><td></td></tr>
-<tr><td><code>Scale</code></td><td>1</td><td>平行移动</td></tr>
-<tr><td><code>FixedBehind</code></td><td>2</td><td>拉伸形变</td></tr>
+<tr><td><code>Scale</code></td><td>1</td><td></td></tr>
+<tr><td><code>FixedBehind</code></td><td>2</td><td></td></tr>
 </table>
-          <p>This is a private symbol.
           @attr name com.netease.nim.uikit.test:srlClassicsSpinnerStyle
         */
         public static final int ClassicsHeader_srlClassicsSpinnerStyle = 1;
@@ -13753,7 +13745,7 @@ containing a value of this type.
 <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
 <tr><td><code>none</code></td><td>0</td><td></td></tr>
 <tr><td><code>standard</code></td><td>3</td><td></td></tr>
-<tr><td><code>direct</code></td><td>1</td><td> for now only direct & barriers </td></tr>
+<tr><td><code>direct</code></td><td>1</td><td></td></tr>
 <tr><td><code>barrier</code></td><td>2</td><td></td></tr>
 <tr><td><code>chains</code></td><td>4</td><td></td></tr>
 <tr><td><code>dimensions</code></td><td>8</td><td></td></tr>
@@ -19284,7 +19276,7 @@ containing a value of this type.
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
            <tr><td><code>{@link #SmartRefreshLayout_Layout_layout_srlBackgroundColor com.netease.nim.uikit.test:layout_srlBackgroundColor}</code></td><td></td></tr>
-           <tr><td><code>{@link #SmartRefreshLayout_Layout_layout_srlSpinnerStyle com.netease.nim.uikit.test:layout_srlSpinnerStyle}</code></td><td>填满布局</td></tr>
+           <tr><td><code>{@link #SmartRefreshLayout_Layout_layout_srlSpinnerStyle com.netease.nim.uikit.test:layout_srlSpinnerStyle}</code></td><td></td></tr>
            </table>
            @see #SmartRefreshLayout_Layout_layout_srlBackgroundColor
            @see #SmartRefreshLayout_Layout_layout_srlSpinnerStyle
@@ -19308,9 +19300,8 @@ containing a value of this type.
         */
         public static final int SmartRefreshLayout_Layout_layout_srlBackgroundColor = 1;
         /**
-          <p>
-          @attr description
-          填满布局
+          <p>This symbol is the offset where the {@link com.netease.nim.uikit.test.R.attr#layout_srlSpinnerStyle}
+          attribute's value can be found in the {@link #SmartRefreshLayout_Layout} array.
 
 
           <p>Must be one of the following constant values.</p>
@@ -19320,12 +19311,11 @@ containing a value of this type.
 <colgroup align="left" />
 <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
 <tr><td><code>Translate</code></td><td>0</td><td></td></tr>
-<tr><td><code>Scale</code></td><td>1</td><td>平行移动</td></tr>
-<tr><td><code>FixedBehind</code></td><td>2</td><td>拉伸形变</td></tr>
-<tr><td><code>FixedFront</code></td><td>3</td><td>固定在背后</td></tr>
-<tr><td><code>MatchLayout</code></td><td>4</td><td>固定在前面</td></tr>
+<tr><td><code>Scale</code></td><td>1</td><td></td></tr>
+<tr><td><code>FixedBehind</code></td><td>2</td><td></td></tr>
+<tr><td><code>FixedFront</code></td><td>3</td><td></td></tr>
+<tr><td><code>MatchLayout</code></td><td>4</td><td></td></tr>
 </table>
-          <p>This is a private symbol.
           @attr name com.netease.nim.uikit.test:layout_srlSpinnerStyle
         */
         public static final int SmartRefreshLayout_Layout_layout_srlSpinnerStyle = 0;

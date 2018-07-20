@@ -1,8 +1,10 @@
 package com.netease.nim.uikit.business.session.fragment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -49,6 +51,7 @@ import com.netease.nimlib.sdk.robot.model.RobotMsgType;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -269,7 +272,10 @@ public class MessageFragment extends TFragment implements ModuleProxy {
         if (message.getSessionType() == SessionTypeEnum.Team){
             message.setMsgAck();
         }
-        Log.d("WJY","发送信息时1ack:"+message.needMsgAck());
+        Map<String,Object> ext = new HashMap<>();
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
+        ext.put("domain",sp.getString( "saas.httpUrl",""));
+        message.setRemoteExtension(ext);
         NIMClient.getService(MsgService.class).sendMessage(message, false).setCallback(new RequestCallback<Void>() {
             @Override
             public void onSuccess(Void param) {

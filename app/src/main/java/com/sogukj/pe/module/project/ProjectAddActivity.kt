@@ -45,9 +45,9 @@ class ProjectAddActivity : ToolbarActivity() {
 
         var type = intent.getStringExtra(Extras.TYPE)
         if (type == "ADD") {
-            title = "申请新增项目数据"
+            setTitle("添加调研项目")
         } else if (type == "EDIT") {
-            title = "编辑调研项目"
+            setTitle("编辑调研项目")
             var data = intent.getSerializableExtra(Extras.DATA) as ProjectBean
             SoguApi.getService(application, NewService::class.java)
                     .showProject(data.company_id!!)
