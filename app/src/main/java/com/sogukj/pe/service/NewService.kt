@@ -187,4 +187,7 @@ interface NewService {
     @FormUrlEncoded
     @POST("/api/News/createJoinGroup")
     fun createJoinGroup(@Field("accid") accid: String, @Field("company_id") company_id: String): Observable<Payload<Int>>
+
+    @POST("/api/News/negativeCompanyList")
+    fun negativeCompanyList(): Observable<Payload<ArrayList<ProjectBean>>>
 }

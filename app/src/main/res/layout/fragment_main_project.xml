@@ -137,6 +137,14 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </android.support.design.widget.CoordinatorLayout>
+    
+    <ImageView
+        android:id="@+id/dangerous"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="50dp"
+        android:layout_gravity="left|bottom"
+        android:background="@drawable/dangerous" />
 
     <RelativeLayout
         android:id="@+id/ll_search"

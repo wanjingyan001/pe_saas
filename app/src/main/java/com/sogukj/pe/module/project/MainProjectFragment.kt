@@ -117,6 +117,10 @@ class MainProjectFragment : BaseRefreshFragment() {
             startActivityForResult(intent, 0x789)
         }
 
+        dangerous.setOnClickListener {
+            DangerousActivity.start(baseActivity)
+        }
+
         adapter = RecyclerAdapter(baseActivity!!, { _adapter, parent, type ->
             val convertView = _adapter.getView(R.layout.item_main_project_search, parent)
             object : RecyclerHolder<ProjectBean>(convertView) {
@@ -315,7 +319,7 @@ class MainProjectFragment : BaseRefreshFragment() {
             //滑到新页面才算，没滑到又返回不算
             override fun onPageSelected(position: Int) {
                 tabs?.getTabAt(position)?.select()
-                fb_add.visibility = if (position == 0 || position == 1) View.VISIBLE else View.GONE
+                fb_add.visibility = if (position == 0) View.VISIBLE else View.GONE
                 if (previousState == "TOP") {
                     tabs.setBackgroundResource(R.drawable.tab_bg_2)
                     tabs.setTabTextColors(Color.parseColor("#ff7bb4fc"), Color.parseColor("#ffffff"))
