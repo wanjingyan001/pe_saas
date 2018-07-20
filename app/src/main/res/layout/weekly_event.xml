@@ -59,7 +59,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:maxLines="2"
             android:text="投资经理在上海接见公司董事长和ceo，投资经理在上海接见公司董事长和ceo,投资经理在上海接见公司董事长和ceo"
             android:textColor="@color/text_1"
             android:textSize="14sp" />

@@ -3,6 +3,7 @@ package com.sogukj.pe.module.weekly
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -12,6 +13,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.google.gson.JsonSyntaxException
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
@@ -22,16 +28,13 @@ import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.BaseFragment
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
-import com.sogukj.pe.baselibrary.widgets.MyGridView
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.baselibrary.widgets.SpaceItemDecoration
 import com.sogukj.pe.bean.ReceiveSpinnerBean
 import com.sogukj.pe.bean.WeeklyWatchBean
-import com.sogukj.pe.module.weekly.PersonalWeeklyActivity
-import com.sogukj.pe.service.UserService
+import com.sogukj.pe.peUtils.MyGlideUrl
 import com.sogukj.pe.service.WeeklyService
-import com.sogukj.pe.widgets.CalendarDingDing
 import com.sogukj.pe.widgets.CircleImageView
 import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -48,24 +51,17 @@ import kotlin.collections.ArrayList
 /**
  * A simple [Fragment] subclass.
  */
-class WeeklyWaitToWatchFragment : BaseFragment(), View.OnClickListener {
-    override fun onClick(v: View?) {
-        when (v?.id) {
-            R.id.resetRefresh -> getDepartmentData()
-        }
-    }
+class WeeklyWaitToWatchFragment : BaseFragment() {
 
     override val containerViewId: Int
         get() = R.layout.fragment_weekly_wait_to_watch
 
-    lateinit var adapter: RecyclerAdapter<WeeklyWatchBean>
+    lateinit var adapter: RecyclerAdapter<WeeklyWatchBean.BeanObj>
     var format = SimpleDateFormat("yyyy-MM-dd")
-    lateinit var arr_adapter: ArrayAdapter<String>
     var currentClick = 0
 
-    var loadedData = ArrayList<WeeklyWatchBean>()
-    var spinner_data = ArrayList<ReceiveSpinnerBean>()
-    var selected_depart_id: Long = 0
+    var selected_depart_id: Int = 0
+    var selected_depart_name: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -73,58 +69,74 @@ class WeeklyWaitToWatchFragment : BaseFragment(), View.OnClickListener {
         var drawable = resources.getDrawable(R.drawable.iv_search_filter_gray)
         drawable.setBounds(0, 0, Utils.dpToPx(context, 16), Utils.dpToPx(context, 16))
         filter.setCompoundDrawables(drawable, null, null, null)
-
-        arr_adapter = ArrayAdapter(context, R.layout.spinner_item)
-        arr_adapter.setDropDownViewResource(R.layout.spinner_dropdown)
-        spinner.adapter = arr_adapter
-        spinner.setSelection(0, true)
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View,
-                                        pos: Int, id: Long) {
-                selected_depart_id = parent.selectedItemId
-                Log.e("IIIIIDDDDDD", "${selected_depart_id}")
-                var selected_depart = spinner_data.get(selected_depart_id.toInt()).name
-                Log.e("IIIIIDDDDDD", selected_depart)
-                Log.e("IIIIIDDDDDD", "${spinner_data.get(selected_depart_id.toInt()).id ?: 100000}")
-
-                adapter.dataList.clear()
-                adapter.notifyDataSetChanged()
-                doRequest()
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {
-            }
+        filter.setOnClickListener {
+            val intent = Intent(context, WeeklySelectActivity::class.java)
+            intent.putExtra(Extras.DATA, true)
+            startActivityForResult(intent, 0x001)
         }
 
-        adapter = RecyclerAdapter<WeeklyWatchBean>(ctx, { _adapter, parent, type ->
-            val convertView = _adapter.getView(R.layout.item_wait_watch, parent) as LinearLayout
-            object : RecyclerHolder<WeeklyWatchBean>(convertView) {
-                val tv_title = convertView.findViewById<TextView>(R.id.title_date)
-                val grid = convertView.findViewById<MyGridView>(R.id.grid_list)
-                override fun setData(view: View, data: WeeklyWatchBean, position: Int) {
-                    tv_title.text = data.date
-                    data.data?.let {
-                        var adapter = MyAdapter(ctx, it)
-                        adapter.sort()
-                        grid.adapter = adapter
+        adapter = RecyclerAdapter<WeeklyWatchBean.BeanObj>(ctx, { _adapter, parent, type ->
+            val convertView = _adapter.getView(R.layout.senditem, parent) as RelativeLayout
+            object : RecyclerHolder<WeeklyWatchBean.BeanObj>(convertView) {
+                val icon = convertView.findViewById<CircleImageView>(R.id.circleImageView)
+                val name = convertView.findViewById<TextView>(R.id.name)
+                val time = convertView.findViewById<TextView>(R.id.time)
+                val tvState = convertView.findViewById<TextView>(R.id.state)
+                override fun setData(view: View, data: WeeklyWatchBean.BeanObj, position: Int) {
+                    if (data.url.isNullOrEmpty()) {
+                        val ch = data.name?.first()
+                        icon.setChar(ch)
+                    } else {
+                        Glide.with(ctx)
+                                .load(MyGlideUrl(data.url))
+                                .listener(object : RequestListener<Drawable> {
+                                    override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                                        icon.setImageDrawable(resource)
+                                        return true
+                                    }
 
-                        grid.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
-                            (grid.adapter.getItem(position) as WeeklyWatchBean.BeanObj).is_read = 2
-                            grid.tag = "CLICK"
+                                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                                        val ch = data.name?.first()
+                                        icon.setChar(ch)
+                                        return true
+                                    }
+                                })
+                                .into(icon)
+                    }
+                    name.text = "${data.name}的周报"
 
-                            val intent = Intent(context, PersonalWeeklyActivity::class.java)
-                            intent.putExtra(Extras.DATA, grid.adapter.getItem(position) as WeeklyWatchBean.BeanObj)
-                            intent.putExtra(Extras.TIME1, data.start_time)
-                            intent.putExtra(Extras.TIME2, data.end_time)
-                            intent.putExtra(Extras.NAME, "Other")
-                            startActivityForResult(intent, 0x011)
-                        }
+                    if (data.date.isNullOrEmpty()) {
+                        time.visibility = View.INVISIBLE
+                    } else {
+                        var YMD = data.date!!.split(" ")[0]
+                        var HMS = data.date!!.split(" ")[1]
+                        time.text = "${YMD.split("-")[0]}年${YMD.split("-")[1]}月${YMD.split("-")[2]}日      ${HMS.substring(0, 5)}"
+                    }
+
+                    tvState.visibility = View.VISIBLE
+                    if (data.is_read == 2) {
+                        tvState.text = "已读"
+                        tvState.textColor = Color.parseColor("#1787fb")
+                        tvState.setBackgroundResource(R.drawable.bg_border_blue1)
+                    } else {
+                        tvState.text = "未读"
+                        tvState.textColor = Color.parseColor("#a0a4aa")
+                        tvState.setBackgroundResource(R.drawable.bg_border_blue11)
                     }
                 }
             }
         }
         )
         adapter.onItemClick = { v, p ->
+            var bean = adapter.dataList.get(p)
+            val intent = Intent(context, PersonalWeeklyActivity::class.java)
+            intent.putExtra(Extras.DATA, bean)
+            intent.putExtra(Extras.TIME1, bean.start_time)
+            intent.putExtra(Extras.TIME2, bean.end_time)
+            intent.putExtra(Extras.NAME, "Other")
+            startActivityForResult(intent, 0x011)
+
+            selectPosition = p
         }
         val layoutManager = LinearLayoutManager(context)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
@@ -132,14 +144,11 @@ class WeeklyWaitToWatchFragment : BaseFragment(), View.OnClickListener {
         list.addItemDecoration(SpaceItemDecoration(20))
         list.adapter = adapter
 
-        currentClick == 0
+        currentClick = 0
         total.setClick(true)
         unread.setClick(false)
         readed.setClick(false)
         total.setOnClickListener {
-            if (spinner_data.size == 0) {
-                return@setOnClickListener
-            }
             if (currentClick == 0) {
                 return@setOnClickListener
             }
@@ -148,17 +157,13 @@ class WeeklyWaitToWatchFragment : BaseFragment(), View.OnClickListener {
             unread.setClick(false)
             readed.setClick(false)
 
-            //sort()
-
             adapter.dataList.clear()
             adapter.notifyDataSetChanged()
 
+            page = 1
             doRequest()
         }
         unread.setOnClickListener {
-            if (spinner_data.size == 0) {
-                return@setOnClickListener
-            }
             if (currentClick == 1) {
                 return@setOnClickListener
             }
@@ -167,17 +172,13 @@ class WeeklyWaitToWatchFragment : BaseFragment(), View.OnClickListener {
             unread.setClick(true)
             readed.setClick(false)
 
-            //sort()
-
             adapter.dataList.clear()
             adapter.notifyDataSetChanged()
 
+            page = 1
             doRequest()
         }
         readed.setOnClickListener {
-            if (spinner_data.size == 0) {
-                return@setOnClickListener
-            }
             if (currentClick == 2) {
                 return@setOnClickListener
             }
@@ -186,215 +187,60 @@ class WeeklyWaitToWatchFragment : BaseFragment(), View.OnClickListener {
             unread.setClick(false)
             readed.setClick(true)
 
-            //sort()
-
             adapter.dataList.clear()
             adapter.notifyDataSetChanged()
 
+            page = 1
             doRequest()
-        }
-
-
-        var calendar = Calendar.getInstance()
-
-//        start.text = formatTime(startBean)
-//        end.text = formatTime(endBean)
-        start.text = "开始时间"
-        end.text = "结束时间"
-
-        var startDD = CalendarDingDing(context)
-        start.setOnClickListener {
-            if (spinner_data.size == 0) {
-                return@setOnClickListener
-            }
-            if (start.text != "开始时间") {
-                calendar.time = format.parse(start.text.toString())
-            } else {
-                calendar = Calendar.getInstance()
-            }
-//            val timePicker = TimePickerView.Builder(context, { date, view ->
-//                if (end.text.trim() == "结束时间") {
-//                    start.text = format.format(date)
-//                    return@Builder
-//                }
-//
-//                var startBean = date
-//                var endBean = format.parse(end.text.toString())
-//                if (startBean.compareTo(endBean) > 0) {
-//                    showToast("日期选择错误")
-//                    return@Builder
-//                }
-//
-//                start.text = format.format(date)
-//
-//                adapter.dataList.clear()
-//                adapter.notifyDataSetChanged()
-//                doRequest()
-//            })
-//                    //年月日时分秒 的显示与否，不设置则默认全部显示
-//                    .setType(booleanArrayOf(true, true, true, false, false, false))
-//                    .setDividerColor(Color.DKGRAY)
-//                    .setContentSize(20)
-//                    .setDate(calendar)
-//                    .setCancelColor(resources.getColor(R.color.shareholder_text_gray))
-//                    .build()
-//            timePicker.show()
-            startDD.show(1, calendar, object : CalendarDingDing.onTimeClick {
-                override fun onClick(date: Date?) {
-                    if(date != null){
-                        if (end.text.trim() == "结束时间") {
-                            start.text = format.format(date)
-                            return
-                        }
-
-                        var startBean = date
-                        var endBean = format.parse(end.text.toString())
-                        if (startBean.compareTo(endBean) > 0) {
-                            showCustomToast(R.drawable.icon_toast_common, "日期选择错误")
-                            return
-                        }
-
-                        start.text = format.format(date)
-
-                        adapter.dataList.clear()
-                        adapter.notifyDataSetChanged()
-                        doRequest()
-                    }
-                }
-            })
-        }
-
-        var deadDD = CalendarDingDing(context)
-        end.setOnClickListener {
-            if (spinner_data.size == 0) {
-                return@setOnClickListener
-            }
-            if (end.text != "结束时间") {
-                calendar.time = format.parse(end.text.toString())
-            } else {
-                calendar = Calendar.getInstance()
-            }
-//            val timePicker = TimePickerView.Builder(context, { date, view ->
-//                if (start.text.trim() == "开始时间") {
-//                    end.text = format.format(date)
-//                    return@Builder
-//                }
-//
-//                var startBean = format.parse(start.text.toString())
-//                var endBean = date
-//                if (startBean.compareTo(endBean) > 0) {
-//                    showToast("日期选择错误")
-//                    return@Builder
-//                }
-//
-//                end.text = format.format(date)
-//
-//                adapter.dataList.clear()
-//                adapter.notifyDataSetChanged()
-//                doRequest()
-//            })
-//                    //年月日时分秒 的显示与否，不设置则默认全部显示
-//                    .setType(booleanArrayOf(true, true, true, false, false, false))
-//                    .setDividerColor(Color.DKGRAY)
-//                    .setContentSize(20)
-//                    .setDate(calendar)
-//                    .setCancelColor(resources.getColor(R.color.shareholder_text_gray))
-//                    .build()
-//            timePicker.show()
-            deadDD.show(1, calendar, object : CalendarDingDing.onTimeClick {
-                override fun onClick(date: Date?) {
-                    if(date != null){
-                        if (start.text.trim() == "开始时间") {
-                            end.text = format.format(date)
-                            return
-                        }
-
-                        var startBean = format.parse(start.text.toString())
-                        var endBean = date
-                        if (startBean.compareTo(endBean) > 0) {
-                            showCustomToast(R.drawable.icon_toast_common, "日期选择错误")
-                            return
-                        }
-
-                        end.text = format.format(date)
-
-                        adapter.dataList.clear()
-                        adapter.notifyDataSetChanged()
-                        doRequest()
-                    }
-                }
-            })
         }
 
         currentClick = 0
         selected_depart_id = 0
+        page = 1
+        doRequest()
 
-        getDepartmentData()
-
-        val header = ProgressLayout(baseActivity)
-        header.setColorSchemeColors(ContextCompat.getColor(ctx, R.color.color_main))
-        refresh.setHeaderView(header)
-        val footer = BallPulseView(baseActivity)
-        footer.setAnimatingColor(ContextCompat.getColor(ctx, R.color.color_main))
-        refresh.setBottomView(footer)
-        refresh.setOverScrollRefreshShow(false)
-        refresh.setOnRefreshListener(object : RefreshListenerAdapter() {
-            override fun onRefresh(refreshLayout: TwinklingRefreshLayout?) {
-                page = 1
-                doRequest()
-            }
-
-            override fun onLoadMore(refreshLayout: TwinklingRefreshLayout?) {
-                ++page
-                doRequest()
-            }
-
-        })
-        refresh.setAutoLoadMore(true)
+        refresh.setOnRefreshListener {
+            page = 1
+            doRequest()
+            refresh.finishRefresh(1000)
+        }
+        refresh.setOnLoadMoreListener {
+            ++page
+            doRequest()
+            refresh.finishLoadMore(1000)
+        }
     }
 
-    private fun getDepartmentData() {
-        SoguApi.getService(baseActivity!!.application, UserService::class.java)
-                .getDepartment()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe({ payload ->
-                    if (payload.isOk) {
-                        root.visibility = View.VISIBLE
-                        networkErrorLayout.visibility = View.GONE
-                        payload.payload?.apply {
-                            spinner_data.clear()
-                            spinner_data = this
-                            var total = ReceiveSpinnerBean()
-                            total.id = null
-                            total.name = "全部"
-                            spinner_data.add(0, total)
-
-                            for (item in spinner_data) {
-                                arr_adapter.add(item.name)
-                            }
-                            arr_adapter.notifyDataSetChanged()
-                        }
-                    } else
-                        showCustomToast(R.drawable.icon_toast_fail, payload.message)
-                }, { e ->
-                    Trace.e(e)
-                    //ToastError(e)
-                    when (e) {
-                        is JsonSyntaxException -> showCustomToast(R.drawable.icon_toast_fail, "后台数据出错")
-                        is UnknownHostException -> {
-                            showCustomToast(R.drawable.icon_toast_fail, "网络出错")
-                            root.visibility = View.GONE
-                            networkErrorLayout.visibility = View.VISIBLE
-                            resetRefresh.setOnClickListener(this)
-                        }
-                        else -> showCustomToast(R.drawable.icon_toast_fail, "未知错误")
-                    }
-                })
+    /**
+     * 每周的第一天和最后一天
+     * @param dataStr
+     * @param dateFormat
+     * @param resultDateFormat
+     * @return
+     * @throws ParseException
+     */
+    fun getFirstAndLastOfWeek(): ArrayList<String> {
+        val cal = Calendar.getInstance()
+        cal.time = Date()
+        var d = 0
+        if (cal.get(Calendar.DAY_OF_WEEK) === Calendar.SUNDAY) {
+            d = -6
+        } else {
+            d = 2 - cal.get(Calendar.DAY_OF_WEEK)
+        }
+        cal.add(Calendar.DAY_OF_WEEK, d)
+        // 所在周开始日期
+        val data1 = SimpleDateFormat("yyyy-MM-dd").format(cal.time)
+        cal.add(Calendar.DAY_OF_WEEK, 6)
+        // 所在周结束日期
+        val data2 = SimpleDateFormat("yyyy-MM-dd").format(cal.time)
+        return arrayListOf(data1, data2)
     }
 
     var page = 1
     var pageSize = 5
+    var start_time: String? = null
+    var end_time: String? = null
 
     fun doRequest() {
         var is_read: Int? = null
@@ -404,17 +250,20 @@ class WeeklyWaitToWatchFragment : BaseFragment(), View.OnClickListener {
             is_read = 2
         }
 
-        var de_id = spinner_data.get(selected_depart_id.toInt()).id
-
-        var start_time: String? = null
-        var end_time: String? = null
-        if (start.text.trim() != "") {
-            start_time = start.text.toString()
-            end_time = end.text.toString()
+        if (start_time.isNullOrEmpty() || end_time.isNullOrEmpty()) {
+            start_time = getFirstAndLastOfWeek()[0]
+            end_time = getFirstAndLastOfWeek()[1]
+            selected_depart_id = 0
+            selected_depart_name = "全部"
+        }
+        range.visibility = View.VISIBLE
+        range.text = "${selected_depart_name}部门    ${start_time}到${end_time}的周报"
+        range.setOnClickListener {
+            range.visibility = View.GONE
         }
 
         SoguApi.getService(baseActivity!!.application, WeeklyService::class.java)
-                .receive(is_read, de_id, start_time, end_time, page, pageSize)
+                .receive(is_read, selected_depart_id, start_time, end_time, page, pageSize)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ payload ->
@@ -422,9 +271,12 @@ class WeeklyWaitToWatchFragment : BaseFragment(), View.OnClickListener {
                         if (page == 1) {
                             adapter.dataList.clear()
                         }
-                        payload.payload?.apply {
-                            loadedData = this
-                            adapter.dataList.addAll(this)
+                        payload.payload?.forEach { cell ->
+                            cell.data?.forEach { item ->
+                                item.start_time = cell.start_time
+                                item.end_time = cell.end_time
+                                adapter.dataList.add(item)
+                            }
                             //adapter.notifyDataSetChanged()
                         }
                     } else
@@ -432,71 +284,39 @@ class WeeklyWaitToWatchFragment : BaseFragment(), View.OnClickListener {
                 }, { e ->
                     Trace.e(e)
                     ToastError(e)
+                    iv_empty.visibility = if (adapter.dataList.isEmpty()) View.VISIBLE else View.GONE
                 }, {
-                    refresh.setEnableLoadmore(adapter.dataList.size % pageSize == 0)
+                    iv_empty.visibility = if (adapter.dataList.isEmpty()) View.VISIBLE else View.GONE
                     adapter.notifyDataSetChanged()
-                    if (page == 1)
-                        refresh.finishRefreshing()
-                    else
-                        refresh.finishLoadmore()
                 })
     }
 
-//    private fun sort() {
-//        if (currentClick == 0) {
-//            adapter.dataList = loadedData
-//            adapter.notifyDataSetChanged()
-//        } else {
-//            // 未读-1-false，已读-2-true
-//            var flag = if (currentClick == 1) 1 else 2
-//            var obj_list = ArrayList<WeeklyWatchBean>()
-//            for (i in 0 until loadedData.size) {
-//                var objs = ArrayList<WeeklyWatchBean.BeanObj>()
-//                for (j in 0 until loadedData[i].data!!.size) {
-//                    if (loadedData[i].data[j].is_read == flag) {
-//                        objs.add(loadedData[i].data[j])
-//                    }
-//                }
-//                if (objs.size != 0) {
-//                    var bean = WeeklyWatchBean()
-//                    bean.date = loadedData[i].date
-//                    bean.data?.addAll(objs)
-//                    obj_list.add(bean)
-//                }
-//            }
-//            adapter.dataList = obj_list
-//            adapter.notifyDataSetChanged()
-//        }
-//    }
+    var selectPosition = -1
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 0x011) {
-            var grid = root.findViewWithTag<GridView>("CLICK")
-            (grid.adapter as MyAdapter).sort()
-            (grid.adapter as MyAdapter).notifyDataSetChanged()
-            grid.tag = ""
+            if (selectPosition >= 0) {
+                adapter.dataList.get(selectPosition).is_read = 2
+                adapter.notifyDataSetChanged()
+            }
+        } else if (requestCode == 0x001) {
+            data?.apply {
+                selected_depart_id = getIntExtra(Extras.DATA, 0)
+                selected_depart_name = getStringExtra(Extras.DATA2)
+                start_time = getStringExtra(Extras.TIME1)
+                end_time = getStringExtra(Extras.TIME2)
+
+                adapter.dataList.clear()
+                adapter.notifyDataSetChanged()
+
+                page = 1
+                doRequest()
+            }
         }
     }
 
     class MyAdapter(var context: Context, val list: ArrayList<WeeklyWatchBean.BeanObj>) : BaseAdapter() {
-
-        // click=true放前面
-        fun sort() {
-            for (i in 0 until list.size) {
-                if (list[i].is_read == 1) {
-                    for (j in (i + 1) until list.size) {
-                        if (list[j].is_read == 2) {
-                            var tmp = list[i]
-                            list[i] = list[j]
-                            list[j] = tmp
-                            break
-                        }
-                    }
-                    break
-                }
-            }
-        }
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             var viewHolder: ViewHolder

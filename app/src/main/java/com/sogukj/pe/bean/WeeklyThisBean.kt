@@ -8,6 +8,7 @@ import java.io.Serializable
 class WeeklyThisBean : Serializable {
     var automatic: ArrayList<Automatic>? = null//本周周报
     var week: Week? = null//补充记录
+    var usr:UserBean?=null
 
     class Automatic : Serializable{
         var date: String? = null//2017-10-06

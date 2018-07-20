@@ -18,6 +18,6 @@
         android:layout_width="18dp"
         android:layout_height="2dp"
         android:layout_marginTop="5dp"
-        android:background="#FF4B5266" />
+        android:background="@color/colorPrimary" />
 
 </LinearLayout>

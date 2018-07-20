@@ -125,6 +125,7 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
             user_id = null
             issue = null
             week_id = null
+            clearView()
             doRequest()
         } else if (TYPE == "PERSONAL") {
             //buchong_hint.visibility = View.GONE
@@ -134,31 +135,41 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
         }
     }
 
-    fun clearView() {
-        if (TYPE == "MAIN") {
-            //不存在这种情况
-        } else if (TYPE == "PERSONAL") {
-            var flag = true
-            while (flag) {
-                try {
-                    root.getChildAt(1) as TextView
-                    flag = false
-                } catch (e: Exception) {
-                    root.removeViewAt(1)
-                }
-            }
-        }
+    override fun onResume() {
+        super.onResume()
+        clearView()
+        doRequest()
     }
+
+    fun clearView() {
+//        if (TYPE == "MAIN") {
+//            //不存在这种情况
+//        } else if (TYPE == "PERSONAL") {
+//            var flag = true
+//            while (flag) {
+//                try {
+//                    root.getChildAt(1) as TextView
+//                    flag = false
+//                } catch (e: Exception) {
+//                    root.removeViewAt(1)
+//                }
+//            }
+//        }
+    }
+
+    lateinit var user: UserBean
 
     fun doRequest() {
         var s_time: String? = null
         var e_time: String? = null
         if (TYPE == "MAIN") {
             //
+            user = Store.store.getUser(baseActivity!!)!!
         } else if (TYPE == "PERSONAL") {
             s_time = arguments!!.getString(Extras.TIME1)
             e_time = arguments!!.getString(Extras.TIME2)
             week_id = arguments!!.getInt(Extras.CODE)
+            user = arguments!!.getSerializable(Extras.DATA2) as UserBean
         }
         Glide.with(ctx).asGif().load(R.drawable.loading).into(iv_loading)
         iv_loading.visibility = View.VISIBLE
@@ -169,7 +180,7 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
         }
         baseActivity?.let {
             SoguApi.getService(it.application, WeeklyService::class.java)
-                    .getWeekly(user_id, issue, s_time, e_time, week_id)
+                    .getWeekly(user.user_id, issue, s_time, e_time, week_id)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .subscribe({ payload ->
@@ -216,11 +227,21 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
 //        if (spinner_this.visibility == View.VISIBLE) {
 //            childs = 1
 //        }
-        if (TYPE == "MAIN") {
-            //buchong_hint.visibility = View.VISIBLE
-        } else if (TYPE == "PERSONAL") {
-            spinner_this.visibility = View.VISIBLE
-            childs = 1
+//        if (TYPE == "MAIN") {
+//            //buchong_hint.visibility = View.VISIBLE
+//        } else if (TYPE == "PERSONAL") {
+//            spinner_this.visibility = View.VISIBLE
+//            childs = 1
+//        }
+
+        childs = 2
+
+        while (true) {
+            if (root.getChildAt(2) is LinearLayout) {
+                root.removeViewAt(2)
+            } else {
+                break
+            }
         }
 
         LL_list.clear()
@@ -339,7 +360,6 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
             var S_TIME = week.start_time?.split("-")
             var E_TIME = week.end_time?.split("-")
 
-            var user = Store.store.getUser(baseActivity!!)
             loadHead(buchong_full.findViewById<CircleImageView>(R.id.circleImageView))
             buchong_full.findViewById<TextView>(R.id.name).setText("${user!!.name}的周报补充记录")
             var YMD = week.date!!.split(" ")[0]
@@ -408,16 +428,6 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
                 return@setOnClickListener
             }
 
-            var weekly_id: Int? = null
-            try {
-                if (week != null) {
-                    weekly_id = week.week_id
-                }
-            } catch (e: Exception) {
-                //week未初始化
-                showCustomToast(R.drawable.icon_toast_common, "补充记录不能为空")
-                return@setOnClickListener
-            }
             var accept_uid: String = ""
             for (item in send_adapter.list) {
                 if (item.name == "添加") {
@@ -443,22 +453,69 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
                 }
             }
 
-            SoguApi.getService(baseActivity!!.application, WeeklyService::class.java)
-                    .sendReport(weekly_id, accept_uid, copy_uid)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.io())
-                    .subscribe({ payload ->
-                        if (payload.isOk) {
-                            payload.payload?.apply {
+            var weekly_id: Int? = null
+            try {
+                if (week != null) {
+                    weekly_id = week.week_id
+                    SoguApi.getService(baseActivity!!.application, WeeklyService::class.java)
+                            .sendReport(weekly_id, accept_uid, copy_uid)
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeOn(Schedulers.io())
+                            .subscribe({ payload ->
+                                if (payload.isOk) {
+                                    payload.payload?.apply {
 
-                            }
-                            baseActivity?.finish()
-                        } else
-                            showCustomToast(R.drawable.icon_toast_fail, payload.message)
-                    }, { e ->
-                        Trace.e(e)
-                        ToastError(e)
-                    })
+                                    }
+                                    db.set(Extras.SEND_USERS, "")
+                                    db.set(Extras.COPY_FOR_USERS, "")
+                                    baseActivity?.finish()
+                                } else
+                                    showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                            }, { e ->
+                                Trace.e(e)
+                                ToastError(e)
+                            })
+                }
+            } catch (e: Exception) {
+                //week未初始化
+//                showCustomToast(R.drawable.icon_toast_common, "补充记录不能为空")
+//                return@setOnClickListener
+                weekly_id = null
+                SoguApi.getService(baseActivity!!.application, WeeklyService::class.java)
+                        .addEditReport(start_time = loaded.week!!.start_time!!, end_time = loaded.week!!.end_time!!, content = "", week_id = null)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe({ payload ->
+                            if (payload.isOk) {
+                                payload.payload?.apply {
+
+                                    weekly_id = this.toString().split(".")[0].toInt()
+                                    SoguApi.getService(baseActivity!!.application, WeeklyService::class.java)
+                                            .sendReport(weekly_id, accept_uid, copy_uid)
+                                            .observeOn(AndroidSchedulers.mainThread())
+                                            .subscribeOn(Schedulers.io())
+                                            .subscribe({ payload ->
+                                                if (payload.isOk) {
+                                                    payload.payload?.apply {
+
+                                                    }
+                                                    db.set(Extras.SEND_USERS, "")
+                                                    db.set(Extras.COPY_FOR_USERS, "")
+                                                    baseActivity?.finish()
+                                                } else
+                                                    showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                                            }, { e ->
+                                                Trace.e(e)
+                                                ToastError(e)
+                                            })
+                                }
+                            } else
+                                showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                        }, { e ->
+                            Trace.e(e)
+                            ToastError(e)
+                        })
+            }
         }
     }
 
@@ -468,7 +525,6 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
     var CHAO_SONG = 0x008
 
     internal fun loadHead(header: CircleImageView) {
-        val user = Store.store.getUser(baseActivity!!)
         if (user?.url.isNullOrEmpty()) {
             val ch = user?.name?.first()
             header.setChar(ch)
@@ -499,54 +555,52 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
         drawable.setBounds(0, 0, cellW, cellW)
         tv.setCompoundDrawables(drawable, null, null, null)
         tv.setText("AI采集")
-        if (item.is_collect != 1) {
-            // 0日程，1任务 2会议      5跟踪记录           6项目 3用印审批 4签字审批(AI)            7请假 8出差
-            if (item.type == 0) {
-                drawable = resources.getDrawable(R.drawable.huiyi)
-                drawable.setBounds(0, 0, cellW, cellW)
-                tv.setCompoundDrawables(drawable, null, null, null)
-                tv.setText("日程")
-            } else if (item.type == 1) {
-                drawable = resources.getDrawable(R.drawable.huiyi)
-                drawable.setBounds(0, 0, cellW, cellW)
-                tv.setCompoundDrawables(drawable, null, null, null)
-                tv.setText("任务")
-            } else if (item.type == 2) {
-                drawable = resources.getDrawable(R.drawable.huiyi)
-                drawable.setBounds(0, 0, cellW, cellW)
-                tv.setCompoundDrawables(drawable, null, null, null)
-                tv.setText("会议")
-            } else if (item.type == 3) {
-                drawable = resources.getDrawable(R.drawable.ai)
-                drawable.setBounds(0, 0, cellW, cellW)
-                tv.setCompoundDrawables(drawable, null, null, null)
-                tv.setText("用印审批")
-            } else if (item.type == 4) {
-                drawable = resources.getDrawable(R.drawable.ai)
-                drawable.setBounds(0, 0, cellW, cellW)
-                tv.setCompoundDrawables(drawable, null, null, null)
-                tv.setText("签字审批")
-            } else if (item.type == 5) {
-                drawable = resources.getDrawable(R.drawable.gzjl)
-                drawable.setBounds(0, 0, cellW, cellW)
-                tv.setCompoundDrawables(drawable, null, null, null)
-                tv.setText("跟踪记录")
-            } else if (item.type == 6) {
-                drawable = resources.getDrawable(R.drawable.ai)
-                drawable.setBounds(0, 0, cellW, cellW)
-                tv.setCompoundDrawables(drawable, null, null, null)
-                tv.setText("项目")
-            } else if (item.type == 7) {
-                drawable = resources.getDrawable(R.drawable.ccqj)
-                drawable.setBounds(0, 0, cellW, cellW)
-                tv.setCompoundDrawables(drawable, null, null, null)
-                tv.setText("请假")
-            } else if (item.type == 8) {
-                drawable = resources.getDrawable(R.drawable.ccqj)
-                drawable.setBounds(0, 0, cellW, cellW)
-                tv.setCompoundDrawables(drawable, null, null, null)
-                tv.setText("出差")
-            }
+        // 0日程，1任务 2会议      5跟踪记录           6项目 3用印审批 4签字审批(AI)            7请假 8出差
+        if (item.type == 0) {
+            drawable = resources.getDrawable(R.drawable.huiyi)
+            drawable.setBounds(0, 0, cellW, cellW)
+            tv.setCompoundDrawables(drawable, null, null, null)
+            tv.setText("日程")
+        } else if (item.type == 1) {
+            drawable = resources.getDrawable(R.drawable.huiyi)
+            drawable.setBounds(0, 0, cellW, cellW)
+            tv.setCompoundDrawables(drawable, null, null, null)
+            tv.setText("任务")
+        } else if (item.type == 2) {
+            drawable = resources.getDrawable(R.drawable.huiyi)
+            drawable.setBounds(0, 0, cellW, cellW)
+            tv.setCompoundDrawables(drawable, null, null, null)
+            tv.setText("会议")
+        } else if (item.type == 3) {
+            drawable = resources.getDrawable(R.drawable.ai)
+            drawable.setBounds(0, 0, cellW, cellW)
+            tv.setCompoundDrawables(drawable, null, null, null)
+            tv.setText("用印审批")
+        } else if (item.type == 4) {
+            drawable = resources.getDrawable(R.drawable.ai)
+            drawable.setBounds(0, 0, cellW, cellW)
+            tv.setCompoundDrawables(drawable, null, null, null)
+            tv.setText("签字审批")
+        } else if (item.type == 5) {
+            drawable = resources.getDrawable(R.drawable.gzjl)
+            drawable.setBounds(0, 0, cellW, cellW)
+            tv.setCompoundDrawables(drawable, null, null, null)
+            tv.setText("跟踪记录")
+        } else if (item.type == 6) {
+            drawable = resources.getDrawable(R.drawable.ai)
+            drawable.setBounds(0, 0, cellW, cellW)
+            tv.setCompoundDrawables(drawable, null, null, null)
+            tv.setText("项目")
+        } else if (item.type == 7) {
+            drawable = resources.getDrawable(R.drawable.ccqj)
+            drawable.setBounds(0, 0, cellW, cellW)
+            tv.setCompoundDrawables(drawable, null, null, null)
+            tv.setText("请假")
+        } else if (item.type == 8) {
+            drawable = resources.getDrawable(R.drawable.ccqj)
+            drawable.setBounds(0, 0, cellW, cellW)
+            tv.setCompoundDrawables(drawable, null, null, null)
+            tv.setText("出差")
         }
     }
 
@@ -584,7 +638,6 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             var conView = convertView
             var item = list.get(position)
-            var user = Store.store.getUser(baseActivity!!)
 
             if (getItemViewType(position) == EVENT) {
                 // 会议，跟踪记录
@@ -755,7 +808,6 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
             var S_TIME = week.start_time?.split("-")
             var E_TIME = week.end_time?.split("-")
 
-            var user = Store.store.getUser(baseActivity!!)
             loadHead(buchong_full.findViewById<CircleImageView>(R.id.circleImageView))
             buchong_full.findViewById<TextView>(R.id.name).setText("${user!!.name}的周报补充记录")
             var YMD = week.date!!.split(" ")[0]
@@ -798,7 +850,7 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
 
     companion object {
 
-        fun newInstance(tag: String, data: WeeklyThisBean? = null, s_time: String? = null, e_time: String? = null, week_id: Int): WeeklyThisFragment {
+        fun newInstance(tag: String, data: WeeklyThisBean? = null, s_time: String? = null, e_time: String? = null, week_id: Int, bean: UserBean? = null): WeeklyThisFragment {
             val fragment = WeeklyThisFragment()
             var args = Bundle()
             args.putString(Extras.FLAG, tag)
@@ -806,6 +858,7 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
             args.putString(Extras.TIME1, s_time)
             args.putString(Extras.TIME2, e_time)
             args.putInt(Extras.CODE, week_id)
+            args.putSerializable(Extras.DATA2, bean)
             fragment.arguments = args
             return fragment
         }

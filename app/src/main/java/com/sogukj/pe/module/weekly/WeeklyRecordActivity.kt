@@ -151,10 +151,10 @@ class WeeklyRecordActivity : BaseActivity() {
             if (tag == "EDIT") {
                 weekly_id = week.week_id
             }
-            if (et_des.text.toString().trim() == "") {
-                showCustomToast(R.drawable.icon_toast_common, "工作内容不能为空")
-                return@setOnClickListener
-            }
+//            if (et_des.text.toString().trim() == "") {
+//                showCustomToast(R.drawable.icon_toast_common, "工作内容不能为空")
+//                return@setOnClickListener
+//            }
             SoguApi.getService(application,WeeklyService::class.java)
                     .addEditReport(tv_start_time.text.toString(), tv_end_time.text.toString(), et_des.text.toString(), weekly_id)
                     .observeOn(AndroidSchedulers.mainThread())
@@ -172,6 +172,7 @@ class WeeklyRecordActivity : BaseActivity() {
                                     setResult(Activity.RESULT_OK, intent)
                                     finish()
                                 } else {
+                                    week.date = SimpleDateFormat("yyyy-MM-DD HH:mm:ss").format(Date())
 //                                    week = WeeklyThisBean.Week()
                                     week.time = df.format(Date())
 //                                    week.s_times = tv_start_time.text.toString()

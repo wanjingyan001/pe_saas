@@ -23,7 +23,7 @@
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:paddingTop="5dp"
-        android:text="填写本周周报"
+        android:text="补充本周周报"
         android:textColor="#ffffffff"
         android:textSize="14sp" />
 

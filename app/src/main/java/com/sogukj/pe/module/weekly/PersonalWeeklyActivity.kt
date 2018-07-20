@@ -2,12 +2,8 @@ package com.sogukj.pe.module.weekly
 
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.view.View
-import android.widget.TextView
-import com.bumptech.glide.Glide
-import com.google.gson.JsonSyntaxException
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
@@ -21,8 +17,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_personal_weekly.*
 import org.jetbrains.anko.textColor
-import java.net.UnknownHostException
-import kotlin.properties.Delegates
 
 class PersonalWeeklyActivity : ToolbarActivity() {
 
@@ -115,7 +109,8 @@ class PersonalWeeklyActivity : ToolbarActivity() {
 //                                    RecordBuChongFragment.newInstance(this.week)
 //                            )
 
-                            fragment = WeeklyThisFragment.newInstance("PERSONAL", this, intent.getStringExtra(Extras.TIME1), intent.getStringExtra(Extras.TIME2), week_id)
+                            this.usr!!.user_id = user_id
+                            fragment = WeeklyThisFragment.newInstance("PERSONAL", this, intent.getStringExtra(Extras.TIME1), intent.getStringExtra(Extras.TIME2), week_id, this.usr)
 
                             manager = supportFragmentManager
                             manager.beginTransaction().add(R.id.container, fragment).commit()

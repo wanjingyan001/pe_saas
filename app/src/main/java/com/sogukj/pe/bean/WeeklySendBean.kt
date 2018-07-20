@@ -12,5 +12,6 @@ class WeeklySendBean {
         var week_id: Int? = null//周报ID
         var start_time: String? = null
         var end_time: String? = null
+        var date: String? = null//1994-07-12 12:12:12
     }
 }

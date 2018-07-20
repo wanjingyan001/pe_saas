@@ -93,6 +93,9 @@ class WeeklyActivity : ToolbarActivity() {
                 if (position == 0) {
                     toolbar_title.text = "本周周报"
                     toolbar_menu.visibility = View.VISIBLE
+                    state = "FULL"
+                    toolbar_menu.setImageResource(R.drawable.full1)
+                    (fragments.get(0) as WeeklyThisFragment).show()
                     toolbar_menu.setOnClickListener {
                         if (state == "FULL") {
                             state = "ONLY"

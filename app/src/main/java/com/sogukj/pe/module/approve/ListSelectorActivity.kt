@@ -132,7 +132,9 @@ class ListSelectorActivity : BaseRefreshActivity() {
 
             try {
                 var data = intent.getIntExtra(Extras.DATA2, -1)
-                params.put("tp", data)
+                if(data != -1){
+                    params.put("tp", data)
+                }
             } catch (e: Exception) {
             }
             SoguApi.getService(application, ApproveService::class.java)

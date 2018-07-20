@@ -106,6 +106,7 @@ class WeeklyISendFragment : BaseFragment() {
             refresh.finishLoadMore(1000)
         }
 
+        page = 1
         doRequest("", "")
     }
 
@@ -114,13 +115,41 @@ class WeeklyISendFragment : BaseFragment() {
     var startTime = ""
     var endTime = ""
 
+    /**
+     * 每周的第一天和最后一天
+     * @param dataStr
+     * @param dateFormat
+     * @param resultDateFormat
+     * @return
+     * @throws ParseException
+     */
+    fun getFirstAndLastOfWeek(): ArrayList<String> {
+        val cal = Calendar.getInstance()
+        cal.time = Date()
+        var d = 0
+        if (cal.get(Calendar.DAY_OF_WEEK) === Calendar.SUNDAY) {
+            d = -6
+        } else {
+            d = 2 - cal.get(Calendar.DAY_OF_WEEK)
+        }
+        cal.add(Calendar.DAY_OF_WEEK, d)
+        // 所在周开始日期
+        val data1 = SimpleDateFormat("yyyy-MM-dd").format(cal.time)
+        cal.add(Calendar.DAY_OF_WEEK, 6)
+        // 所在周结束日期
+        val data2 = SimpleDateFormat("yyyy-MM-dd").format(cal.time)
+        return arrayListOf(data1, data2)
+    }
+
     fun doRequest(startT: String, endT: String) {
+        if (startT != startTime && endT != endTime) {
+            page = 1
+        }
         startTime = startT
         endTime = endT
         if (startTime == "" || endTime == "") {
-            iv_empty.visibility = View.VISIBLE
-            range.visibility = View.GONE
-            return
+            startTime = getFirstAndLastOfWeek()[0]
+            endTime = getFirstAndLastOfWeek()[1]
         }
         range.visibility = View.VISIBLE
         range.text = "${startTime}到${endTime}的周报"
@@ -198,7 +227,16 @@ class WeeklyISendFragment : BaseFragment() {
                         .into(viewHolder.icon!!)
             }
             viewHolder.name?.text = "${user!!.name}的周报"
-            //
+
+            var bean = list.get(position)
+            if (bean.date.isNullOrEmpty()) {
+                viewHolder.time?.visibility = View.INVISIBLE
+            } else {
+                var YMD = bean.date!!.split(" ")[0]
+                var HMS = bean.date!!.split(" ")[1]
+                viewHolder.time?.text = "${YMD.split("-")[0]}年${YMD.split("-")[1]}月${YMD.split("-")[2]}日      ${HMS.substring(0, 5)}"
+            }
+
             return conView!!
         }
 

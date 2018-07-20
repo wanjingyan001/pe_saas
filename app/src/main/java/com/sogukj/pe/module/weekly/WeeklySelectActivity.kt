@@ -7,11 +7,18 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import com.bigkoo.pickerview.OptionsPickerView
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
+import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.bean.ReceiveSpinnerBean
+import com.sogukj.pe.service.UserService
 import com.sogukj.pe.widgets.CalendarDingDing
+import com.sogukj.service.SoguApi
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_weekly_select.*
 import org.jetbrains.anko.textColor
 import java.text.SimpleDateFormat
@@ -78,6 +85,16 @@ class WeeklySelectActivity : ToolbarActivity() {
 
         if (hasDepart) {
             tr_depart.visibility = View.VISIBLE
+
+            getDepartmentData()
+
+            tr_depart.setOnClickListener {
+                var pvOptions = OptionsPickerView.Builder(this@WeeklySelectActivity, OptionsPickerView.OnOptionsSelectListener { options1, option2, options3, v ->
+                    fillData(spinner_data.get(options1))
+                }).build()
+                pvOptions.setPicker(spinner_data.map { it.name })
+                pvOptions.show()
+            }
         } else {
             tr_depart.visibility = View.GONE
         }
@@ -99,10 +116,54 @@ class WeeklySelectActivity : ToolbarActivity() {
                     showCustomToast(R.drawable.icon_toast_common, "请选择部门")
                     return@setOnClickListener
                 }
-                intent.putExtra(Extras.DATA, tv_depart.text)
+                intent.putExtra(Extras.DATA, selected_depart_id)
+                intent.putExtra(Extras.DATA2, tv_depart.text)
             }
             setResult(Activity.RESULT_OK, intent)
             finish()
         }
+    }
+
+    var spinner_data = ArrayList<ReceiveSpinnerBean>()
+    var selected_depart_id: Int = 0
+
+    private fun fillData(bean: ReceiveSpinnerBean) {
+        selected_depart_id = bean.id!!
+        tv_depart.text = bean.name
+    }
+
+    private fun getDepartmentData() {
+        spinner_data.clear()
+        SoguApi.getService(application, UserService::class.java)
+                .getDepartment()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({ payload ->
+                    if (payload.isOk) {
+                        payload.payload?.apply {
+                            spinner_data = this
+                            var total = ReceiveSpinnerBean()
+                            total.id = 0
+                            total.name = "全部"
+                            spinner_data.add(0, total)
+                            fillData(total)
+                        }
+                    } else {
+                        //showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                        var total = ReceiveSpinnerBean()
+                        total.id = 0
+                        total.name = "全部"
+                        spinner_data.add(0, total)
+                        fillData(total)
+                    }
+                }, { e ->
+                    Trace.e(e)
+                    var total = ReceiveSpinnerBean()
+                    total.id = 0
+                    total.name = "全部"
+                    spinner_data.add(0, total)
+                    fillData(total)
+                    //ToastError(e)
+                })
     }
 }
