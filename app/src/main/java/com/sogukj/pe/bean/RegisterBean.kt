@@ -85,4 +85,5 @@ data class MechanismBasicInfo(val mechanism_name: String,
                          var email:String?,
                          var address:String?,
                          var website:String?,
-                         var telephone:String?):Parcelable
+                         var telephone:String?,
+                         var homeCardFlag:Int?):Parcelable

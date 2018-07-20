@@ -85,4 +85,6 @@ object Extras {
     val DIR_ID = "ext.dir_id"
 
     val isFirstEnter = "ext.first.enter"//第一次进入APP
+
+    val main_flag = "main.flag"
 }

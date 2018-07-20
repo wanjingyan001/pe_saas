@@ -13,6 +13,7 @@ import android.os.Bundle
 import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.GridLayoutManager
+import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -36,16 +37,14 @@ import com.sogukj.pe.baselibrary.Extended.arrayFromJson
 import com.sogukj.pe.baselibrary.Extended.fromJson
 import com.sogukj.pe.baselibrary.Extended.jsonStr
 import com.sogukj.pe.baselibrary.base.BaseFragment
+import com.sogukj.pe.baselibrary.utils.DateUtils
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.utils.XmlDb
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
-import com.sogukj.pe.bean.MechanismBasicInfo
+import com.sogukj.pe.bean.*
 import com.sogukj.pe.database.MainFunIcon
-import com.sogukj.pe.bean.MessageBean
-import com.sogukj.pe.bean.MessageIndexBean
-import com.sogukj.pe.bean.ProjectBean
 import com.sogukj.pe.database.FunctionViewModel
 import com.sogukj.pe.database.Injection
 import com.sogukj.pe.module.approve.LeaveBusinessApproveActivity
@@ -54,6 +53,8 @@ import com.sogukj.pe.module.approve.SignApproveActivity
 import com.sogukj.pe.module.creditCollection.ShareHolderDescActivity
 import com.sogukj.pe.module.creditCollection.ShareHolderStepActivity
 import com.sogukj.pe.module.creditCollection.ShareholderCreditActivity
+import com.sogukj.pe.module.news.MainNewsActivity
+import com.sogukj.pe.module.news.NewsDetailActivity
 import com.sogukj.pe.module.other.MessageListActivity
 import com.sogukj.pe.module.partyBuild.PartyMainActivity
 import com.sogukj.pe.module.user.UserActivity
@@ -62,6 +63,7 @@ import com.sogukj.pe.peUtils.CacheUtils
 import com.sogukj.pe.peUtils.MyGlideUrl
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.CreditService
+import com.sogukj.pe.service.NewService
 import com.sogukj.pe.service.OtherService
 import com.sogukj.pe.util.ColorUtil
 import com.sogukj.pe.widgets.CircleImageView
@@ -291,11 +293,11 @@ class MainHomeFragment : BaseFragment() {
         }
     }
 
-    fun initHeadTitle(title:String?){
+    fun initHeadTitle(title: String?) {
 
     }
 
-    lateinit var totalData: ArrayList<MessageBean>
+    lateinit var totalData: ArrayList<Any>
 
     override fun onResume() {
         super.onResume()
@@ -305,6 +307,127 @@ class MainHomeFragment : BaseFragment() {
     }
 
     fun doRequest() {
+        var flag = sp.getInt(Extras.main_flag, 1)
+        if (flag == 1) {
+            doRequestMsgList()
+        } else {
+            doRequestQB()
+        }
+        SoguApi.getService(baseActivity!!.application, OtherService::class.java)
+                .getNumber()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({ payload ->
+                    if (payload.isOk) {
+                        payload.payload?.apply {
+                            local_sp = sp
+                        }
+                    } else
+                        showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                }, { e ->
+                    Trace.e(e)
+                    ToastError(e)
+                })
+    }
+
+    fun doRequestQB() {
+        iv_empty.visibility = View.GONE
+        noleftviewpager.visibility = View.VISIBLE
+        totalData = ArrayList()
+        var cacheData = cache.getDiskCacheNews("${Store.store.getUser(ctx)?.uid}")
+        if (cacheData != null) {
+            if (page == 1) {
+                if (Utils.isNetworkError(context)) {
+                    adapter.datas.clear()
+                    adapter.datas.addAll(cacheData)
+                    adapter.notifyDataSetChanged()
+
+                    totalData.clear()
+                    totalData.addAll(cacheData)
+                } else {
+                    adapter.datas.clear()
+                    adapter.notifyDataSetChanged()
+                }
+            }
+        }
+        SoguApi.getService(baseActivity!!.application, NewService::class.java)
+                .listNews(page = page, type = null)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({ payload ->
+                    if (payload.isOk) {
+                        payload.payload?.apply {
+                            if (page == 1) {
+                                //adapter.datas.clear()
+                                //重新设置adapter
+                                adapter = ViewPagerAdapter(ArrayList(), ctx)
+                                noleftviewpager.adapter = adapter
+                            }
+                            adapter.datas.addAll(this)
+                            adapter.notifyDataSetChanged()
+
+                            if (this.size == 0) {
+                                iv_empty.visibility = View.VISIBLE
+                                iv_empty.setBackgroundResource(R.drawable.sl)
+                                noleftviewpager.visibility = View.GONE
+                                iv_empty.setOnClickListener {
+                                    iv_empty.visibility = View.GONE
+                                    noleftviewpager.visibility = View.VISIBLE
+                                    page = 1
+                                    doRequest()
+                                }
+                            }
+
+                            if (page == 1) {
+                                cache.addToDiskCacheNews("${Store.store.getUser(ctx)?.uid}", this)
+                                totalData.clear()
+                                totalData.addAll(this)
+                            }
+                        }
+                    } else
+                        showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                    pb.visibility = View.GONE
+                }, { e ->
+                    Trace.e(e)
+                    ToastError(e)
+                    pb.visibility = View.GONE
+                    if (adapter.datas.size == 0) {
+                        iv_empty.visibility = View.VISIBLE
+                        if (page == 1) {
+                            iv_empty.setBackgroundResource(R.drawable.zw)
+                        } else {
+                            showCustomToast(R.drawable.icon_toast_common, "暂无最新数据")
+                            iv_empty.setBackgroundResource(R.drawable.sl)
+                        }
+                        noleftviewpager.visibility = View.GONE
+                    }
+                    if (e is UnknownHostException) {
+                        iv_empty.visibility = View.VISIBLE
+                        iv_empty.setBackgroundResource(R.drawable.dw)
+                        noleftviewpager.visibility = View.GONE
+                        iv_empty.setOnClickListener {
+                            iv_empty.visibility = View.GONE
+                            noleftviewpager.visibility = View.VISIBLE
+                            page = 1
+                            doRequest()
+                        }
+                    }
+                }, {
+                    pb.visibility = View.GONE
+                    if (adapter.datas.size == 0) {
+                        iv_empty.visibility = View.VISIBLE
+                        if (page == 1) {
+                            iv_empty.setBackgroundResource(R.drawable.zw)
+                        } else {
+                            showCustomToast(R.drawable.icon_toast_common, "暂无最新数据")
+                            iv_empty.setBackgroundResource(R.drawable.sl)
+                        }
+                        noleftviewpager.visibility = View.GONE
+                    }
+                })
+    }
+
+    fun doRequestMsgList() {
         iv_empty.visibility = View.GONE
         noleftviewpager.visibility = View.VISIBLE
         totalData = ArrayList()
@@ -398,21 +521,6 @@ class MainHomeFragment : BaseFragment() {
                         }
                         noleftviewpager.visibility = View.GONE
                     }
-                })
-        SoguApi.getService(baseActivity!!.application, OtherService::class.java)
-                .getNumber()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe({ payload ->
-                    if (payload.isOk) {
-                        payload.payload?.apply {
-                            local_sp = sp
-                        }
-                    } else
-                        showCustomToast(R.drawable.icon_toast_fail, payload.message)
-                }, { e ->
-                    Trace.e(e)
-                    ToastError(e)
                 })
     }
 
@@ -535,7 +643,7 @@ class MainHomeFragment : BaseFragment() {
 
     var SHENPI = 0x500
 
-    inner class ViewPagerAdapter(var datas: ArrayList<MessageBean>, private val mContext: Context) : PagerAdapter() {
+    inner class ViewPagerAdapter(var datas: ArrayList<Any>, private val mContext: Context) : PagerAdapter() {
 
         private var mViewCache: LinkedList<View>? = null
 
@@ -583,63 +691,92 @@ class MainHomeFragment : BaseFragment() {
             }
 
             var data = datas!![position]
-            val strType = when (data.type) {
-                1 -> "出勤休假"
-                2 -> "用印审批"
-                3 -> "签字审批"
-                else -> ""
-            }
-            //ColorUtil.setColorStatus(holder.tvState!!, data)
-            holder.tvState!!.text = data.status_str
-            try {
-                holder.tvTitle?.text = strType
-                holder.tvSeq?.text = data.title
-            } catch (e: Exception) {
-            }
-            holder.tvFrom?.text = "发起人:" + data.username
-            holder.tvType?.text = "类型:" + data.type_name
-            holder.tvMsg?.text = "审批事由:" + data.reasons
-            val cnt = data.message_count
-            holder.tvNum?.text = "${cnt}"
-            if (cnt != null && cnt > 0)
-                holder.tvNum?.visibility = View.VISIBLE
-            else
-                holder.tvNum?.visibility = View.GONE
-            val urgnet = data.urgent_count
-            holder.tvUrgent?.text = "加急x${urgnet}"
-            if (urgnet != null && urgnet > 0)
-                holder.tvUrgent?.visibility = View.VISIBLE
-            else
-                holder.tvUrgent?.visibility = View.GONE
-
-            holder.tvMore?.setOnClickListener {
-                var bean = MessageIndexBean()
-                bean.flag = 1
-                MessageListActivity.start(baseActivity, bean)
-            }
-            holder.ll_content?.setOnClickListener {
-                val is_mine = if (data.status == -1 || data.status == 4) 1 else 2
-                if (data.type == 2) {
-                    //SealApproveActivity.start(context, data, is_mine)
-                    val intent = Intent(context, SealApproveActivity::class.java)
-                    intent.putExtra("is_mine", is_mine)
-                    intent.putExtra(Extras.DATA, data)
-                    startActivityForResult(intent, SHENPI)
-                } else if (data.type == 3) {
-                    //SignApproveActivity.start(context, data, is_mine)
-                    val intent = Intent(context, SignApproveActivity::class.java)
-                    intent.putExtra(Extras.DATA, data)
-                    intent.putExtra("is_mine", is_mine)
-                    startActivityForResult(intent, SHENPI)
-                } else if (data.type == 1) {
-                    val intent = Intent(context, LeaveBusinessApproveActivity::class.java)
-                    intent.putExtra(Extras.DATA, data)
-                    intent.putExtra("is_mine", is_mine)
-                    startActivityForResult(intent, SHENPI)
+            if (data is MessageBean) {
+                val strType = when (data.type) {
+                    1 -> "出勤休假"
+                    2 -> "用印审批"
+                    3 -> "签字审批"
+                    else -> ""
                 }
-            }
+                //ColorUtil.setColorStatus(holder.tvState!!, data)
+                holder.tvState!!.text = data.status_str
+                try {
+                    holder.tvTitle?.text = strType
+                    holder.tvSeq?.text = data.title
+                } catch (e: Exception) {
+                }
+                holder.tvFrom?.text = "发起人:" + data.username
+                holder.tvType?.text = "类型:" + data.type_name
+                holder.tvMsg?.text = "审批事由:" + data.reasons
+                val cnt = data.message_count
+                holder.tvNum?.text = "${cnt}"
+                if (cnt != null && cnt > 0)
+                    holder.tvNum?.visibility = View.VISIBLE
+                else
+                    holder.tvNum?.visibility = View.GONE
+                val urgnet = data.urgent_count
+                holder.tvUrgent?.text = "加急x${urgnet}"
+                if (urgnet != null && urgnet > 0)
+                    holder.tvUrgent?.visibility = View.VISIBLE
+                else
+                    holder.tvUrgent?.visibility = View.GONE
 
-            container.addView(convertView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+                holder.tvMore?.setOnClickListener {
+                    var bean = MessageIndexBean()
+                    bean.flag = 1
+                    MessageListActivity.start(baseActivity, bean)
+                }
+                holder.ll_content?.setOnClickListener {
+                    val is_mine = if (data.status == -1 || data.status == 4) 1 else 2
+                    if (data.type == 2) {
+                        //SealApproveActivity.start(context, data, is_mine)
+                        val intent = Intent(context, SealApproveActivity::class.java)
+                        intent.putExtra("is_mine", is_mine)
+                        intent.putExtra(Extras.DATA, data)
+                        startActivityForResult(intent, SHENPI)
+                    } else if (data.type == 3) {
+                        //SignApproveActivity.start(context, data, is_mine)
+                        val intent = Intent(context, SignApproveActivity::class.java)
+                        intent.putExtra(Extras.DATA, data)
+                        intent.putExtra("is_mine", is_mine)
+                        startActivityForResult(intent, SHENPI)
+                    } else if (data.type == 1) {
+                        val intent = Intent(context, LeaveBusinessApproveActivity::class.java)
+                        intent.putExtra(Extras.DATA, data)
+                        intent.putExtra("is_mine", is_mine)
+                        startActivityForResult(intent, SHENPI)
+                    }
+                }
+
+                container.addView(convertView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+            } else if (data is NewsBean) {
+                holder.tvTitle?.text = "情报"
+                holder.tvNum?.visibility = View.GONE
+                if (data.tag.isNullOrEmpty()) {
+                    holder.tvSeq?.visibility = View.GONE
+                    holder.tvState!!.visibility = View.GONE
+                } else {
+                    holder.tvSeq?.text = data.tag?.split("#")?.get(0)
+                    holder.tvState?.text = data.tag?.split("#")?.get(1)
+                }
+                holder.tvUrgent?.visibility = View.GONE
+                holder.tvFrom?.text = data.source
+                if (data.source.isNullOrEmpty()) {
+                    holder.tvFrom?.visibility = View.GONE
+                }
+                holder.tvType?.text = data.time
+                holder.tvMsg?.text = Html.fromHtml(data.title)
+
+
+                holder.tvMore?.setOnClickListener {
+                    MainNewsActivity.start(baseActivity)
+                }
+                holder.ll_content?.setOnClickListener {
+                    NewsDetailActivity.start(baseActivity, data)
+                }
+
+                container.addView(convertView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+            }
 
             return convertView
         }

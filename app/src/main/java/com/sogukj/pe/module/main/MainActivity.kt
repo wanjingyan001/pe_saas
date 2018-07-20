@@ -207,6 +207,9 @@ class MainActivity : BaseActivity() {
                         if (payload.isOk) {
                             payload.payload?.let {
                                sp.edit { putString(Extras.CompanyDetail,it.jsonStr) }
+
+                                sp.edit { putInt(Extras.main_flag,it.homeCardFlag?:1) }
+
                                 teamSelect.initHeader(it)
                                 Glide.with(this@MainActivity)
                                         .load(it.logo)

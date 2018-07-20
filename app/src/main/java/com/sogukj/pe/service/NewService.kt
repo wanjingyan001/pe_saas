@@ -20,7 +20,7 @@ interface NewService {
                  , @Field("type") type: Int? = null
                  , @Field("company_id") company_id: Int? = null
                  , @Field("fuzzyQuery") fuzzyQuery: String? = null)
-            : Observable<Payload<List<NewsBean>>>
+            : Observable<Payload<ArrayList<NewsBean>>>
 
 //    @Headers(value = "Domain-Name: homeFunction")
     @FormUrlEncoded
