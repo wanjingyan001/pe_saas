@@ -9,8 +9,8 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.Gravity
 import android.view.View
-import android.widget.LinearLayout
 import com.google.gson.Gson
+import com.ldf.calendar.model.CalendarDate
 import com.scwang.smartrefresh.header.MaterialHeader
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.sogukj.pe.Extras
@@ -23,6 +23,7 @@ import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.CustomSealBean
 import com.sogukj.pe.bean.ProjectMatterCompany
 import com.sogukj.pe.bean.ScheduleBean
+import com.sogukj.pe.interf.CalendarSelectListener
 import com.sogukj.pe.interf.ScheduleItemClickListener
 import com.sogukj.pe.module.approve.SealApproveActivity
 import com.sogukj.pe.module.approve.SignApproveActivity
@@ -75,29 +76,31 @@ class ProjectMattersFragment : BaseRefreshFragment(), ScheduleItemClickListener 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        projectAdapter = ProjectAdapter(context, data)
+        projectAdapter = ProjectAdapter(ctx, data)
         projectAdapter.setItemClickListener(this)
-        projectList.layoutManager = LinearLayoutManager(context)
+        projectList.layoutManager = LinearLayoutManager(ctx)
         projectList.adapter = projectAdapter
         MDTime.text = Utils.getTime(System.currentTimeMillis(), "MM月dd日")
         matters_img1.setOnClickListener {
             //跳转公司列表
-            startActivityForResult(Intent(context, CompanySelectActivity::class.java), Extras.REQUESTCODE)
+            startActivityForResult(Intent(ctx, CompanySelectActivity::class.java), Extras.REQUESTCODE)
         }
         matters_img2.setOnClickListener {
             //选择日期
             window.showAtLocation(find(R.id.project_matter_main), Gravity.BOTTOM, 0, 0)
         }
         handler.postDelayed({
-            window = CalendarWindow(context) { date ->
-                page = 1
-                val calendar = Calendar.getInstance()
-                calendar.set(date?.year!!, date.month - 1, date.day)
-                MDTime.text = Utils.getTime(calendar.time, "MM月dd日")
-                this.date = Utils.getTime(calendar.time.time, "yyyy-MM-dd")
-                doRequest(page, this.date, companyId)
-            }
-        },1000)
+            window = CalendarWindow(ctx, object : CalendarSelectListener {
+                override fun daySelect(calendarDate: CalendarDate) {
+                    page = 1
+                    val calendar = Calendar.getInstance()
+                    calendar.set(calendarDate.year, calendarDate.month - 1, calendarDate.day)
+                    MDTime.text = Utils.getTime(calendar.time, "MM月dd日")
+                    date = Utils.getTime(calendar.time.time, "yyyy-MM-dd")
+                    doRequest(page, date, companyId)
+                }
+            })
+        }, 1000)
     }
 
 

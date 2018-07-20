@@ -105,6 +105,9 @@ class MainEditActivity : ToolbarActivity() {
                 val funIcon = adapter.data[position] as MainFunIcon
                 val find = allModule.find { it.t == funIcon }
                 find?.let {
+                    if (it.t.name == "审批") {
+                        return@OnItemClickListener
+                    }
                     it.t.isCurrent = false
                     model.updateFunction(it.t)
                     allModuleAdapter.notifyItemChanged(allModule.indexOf(it))
@@ -115,6 +118,9 @@ class MainEditActivity : ToolbarActivity() {
             val function = allModule[position]
             if (!function.isHeader and isEdit) {
                 val funIcon = function.t
+                if (funIcon.name == "审批") {
+                    return@OnItemClickListener
+                }
                 funIcon.isCurrent = !funIcon.isCurrent
                 model.updateFunction(funIcon)
                 allModuleAdapter.notifyItemChanged(position)
@@ -178,8 +184,10 @@ class MainEditActivity : ToolbarActivity() {
                 it?.forEach {
                     info { "默认功能" + it.jsonStr }
                     allModule.add(MainFunction(it))
+                    allModuleList.post {
+                        allModuleAdapter.notifyDataSetChanged()
+                    }
                 }
-                allModuleAdapter.notifyDataSetChanged()
             }
         }
         subscribe
@@ -237,8 +245,8 @@ class MainEditActivity : ToolbarActivity() {
 
     private fun submitModules() {
         val list = ArrayList<FuncReqBean>()
-        mainModuleAdapter.data.forEachIndexed  {index, mainFunIcon ->
-            mainFunIcon.seq = (index +1).toLong()
+        mainModuleAdapter.data.forEachIndexed { index, mainFunIcon ->
+            mainFunIcon.seq = (index + 1).toLong()
             model.updateFunction(mainFunIcon)
             list.add(FuncReqBean(mainFunIcon.id, index + 1))
         }

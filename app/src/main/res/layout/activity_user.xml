@@ -198,6 +198,21 @@
                 android:gravity="center" />
         </HorizontalScrollView>
 
+
+        <TextView
+            android:id="@+id/payPackageLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@mipmap/icon_pay_package"
+            android:drawablePadding="10dp"
+            android:drawableRight="@drawable/ic_right"
+            android:gravity="start|center_vertical"
+            android:padding="18dp"
+            android:text="套餐购买" />
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

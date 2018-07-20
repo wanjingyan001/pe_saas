@@ -1,5 +1,6 @@
 package com.sogukj.pe.module.creditCollection
 
+import android.Manifest
 import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
@@ -9,11 +10,13 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.view.Gravity
 import android.view.View
 import android.widget.EditText
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.base.ActivityHelper
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.RxBus
@@ -26,9 +29,11 @@ import com.sogukj.pe.module.approve.ListSelectorActivity
 import com.sogukj.pe.peExtended.hasCreditListActivity
 import com.sogukj.pe.peExtended.removeStep1
 import com.sogukj.pe.service.CreditService
+import com.sogukj.pe.service.OtherService
 import com.sogukj.pe.widgets.IOSPopwindow
 import com.sogukj.pe.widgets.PayView
 import com.sogukj.service.SoguApi
+import com.taobao.accs.ACCSManager.mContext
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_share_holder_step.*
@@ -135,7 +140,7 @@ class ShareHolderStepActivity : ToolbarActivity(), View.OnClickListener {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             0x001 -> {
-                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // 权限被用户同意，可以去放肆了。
                     try {
                         val intent = Intent(Intent.ACTION_CALL)
@@ -162,13 +167,6 @@ class ShareHolderStepActivity : ToolbarActivity(), View.OnClickListener {
                     ShareHolderStepActivity.start(context, 2, selectId, companyName.text.toString())
                     //ActivityHelper已添加
                 } else if (step == 2) {
-
-//                    var pay = PayView(context)
-//                    pay.show(1, "1137800599", PayView.PermissionListener { permission, telephone ->
-//                        this.telephone = telephone
-//                        ActivityCompat.requestPermissions(this, arrayOf(permission), 0x001)
-//                    })
-
                     if (!prepare()) {
                         return
                     }
@@ -194,7 +192,30 @@ class ShareHolderStepActivity : ToolbarActivity(), View.OnClickListener {
                                     }
                                     finish()
                                 } else {
-                                    showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                                    if (payload.message == "9528") {
+                                        //提示支付
+                                        val permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE)
+                                        if (permission != PackageManager.PERMISSION_GRANTED) {
+                                            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CALL_PHONE), 0x001)
+                                        } else {
+                                            SoguApi.getService(application, OtherService::class.java).getPayType()
+                                                    .execute {
+                                                        onNext {payload ->
+                                                            if (payload.isOk) {
+                                                                payload.payload?.let {
+                                                                    val bean = it.find { it.mealName == "征信套餐" }
+                                                                    val pay = PayView(context,bean)
+                                                                    pay.show(1, bean?.tel)
+                                                                }
+                                                            }else{
+                                                                showErrorToast(payload.message)
+                                                            }
+                                                        }
+                                                    }
+                                        }
+                                    }else{
+                                        showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                                    }
                                 }
                             }, { e ->
                                 enter.isEnabled = true

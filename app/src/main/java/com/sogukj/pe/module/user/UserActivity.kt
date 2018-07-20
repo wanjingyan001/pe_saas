@@ -2,9 +2,14 @@ package com.sogukj.pe.module.user
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
+import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
+import com.sogukj.pe.module.other.PayPackageActivity
+import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.support.v4.startActivity
 
 class UserActivity : ToolbarActivity() {
 
@@ -15,6 +20,13 @@ class UserActivity : ToolbarActivity() {
                 .beginTransaction()
                 .replace(R.id.fl_container, UserFragment.newInstance())
                 .commit()
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        if (requestCode == Extras.REQUESTCODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            startActivity<PayPackageActivity>()
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     companion object {

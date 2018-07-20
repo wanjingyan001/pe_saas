@@ -7,61 +7,42 @@ import com.sogukj.pe.peExtended.getEnvironment
  */
 class Consts {
     companion object {
-        //        val HTTP_HOST = when (Utils.getEnvironment()) {
-//            "civc" -> {
-//                "http://zhongdi.stockalert.cn"//中缔
+        val HTTP_HOST = "https://sougu.pewinner.com"
+//        val HTTP_HOST = when (getEnvironment()) {
+//            "civc" -> when (BuildConfig.BUILD_TYPE) {
+//                "debug" -> "http://prezds.pewinner.com/"
+//                "release" -> "http://zds.pewinner.com/"
+//                else -> ""
 //            }
-//            "ht" -> {
-////                "http://ht.stockalert.cn"
-//                "http://hts.pewinner.com"
+//            "ht" -> when (BuildConfig.BUILD_TYPE) {
+//            //"debug" -> "http://prehts.pewinner.com/"
+//                "release" -> "http://hts.pewinner.com/"
+//                else -> ""
 //            }
-//            "kk" -> {
-//                "http://kuake.stockalert.cn/"
+//            "kk" -> when (BuildConfig.BUILD_TYPE) {
+//            //"debug" -> "http://kuake.stockalert.cn/"
+//                "release" -> "http://kuakes.pewinner.com/"
+//                else -> ""
 //            }
-//            "yge" -> {
-//                "http://yager.stockalert.cn/"
+//            "yge" -> when (BuildConfig.BUILD_TYPE) {
+//            //"debug" -> "http://yager.stockalert.cn/"
+//                "release" -> "http://yagers.pewinner.com/"
+//                else -> ""
 //            }
-//            else -> {
-////                "http://dev.ht.stockalert.cn"
-////                "http://pre.pe.stockalert.cn"
-//                "http://prehts.pewinner.com"
+//            "sr" -> when (BuildConfig.BUILD_TYPE) {
+//                "debug" -> "http://srzbs.pewinner.com/"
+//                "release" -> "http://srzbs.pewinner.com/"
+//                else -> ""
 //            }
+//            "pe" -> when (BuildConfig.BUILD_TYPE) {
+////            "debug" -> "http://dev.pe.stockalert.cn/"
+////                "debug" -> "http://sales.pewinner.com/"
+////                "debug" -> "http://prehts.pewinner.com/"
+//                "debug" -> "https://sougu.pewinner.com"
+//                "release" -> "https://sougu.pewinner.com"
+//                else -> ""
+//            }
+//            else -> ""
 //        }
-        val HTTP_HOST = when (getEnvironment()) {
-            "civc" -> when (BuildConfig.BUILD_TYPE) {
-                "debug" -> "http://prezds.pewinner.com/"
-                "release" -> "http://zds.pewinner.com/"
-                else -> ""
-            }
-            "ht" -> when (BuildConfig.BUILD_TYPE) {
-            //"debug" -> "http://prehts.pewinner.com/"
-                "release" -> "http://hts.pewinner.com/"
-                else -> ""
-            }
-            "kk" -> when (BuildConfig.BUILD_TYPE) {
-            //"debug" -> "http://kuake.stockalert.cn/"
-                "release" -> "http://kuakes.pewinner.com/"
-                else -> ""
-            }
-            "yge" -> when (BuildConfig.BUILD_TYPE) {
-            //"debug" -> "http://yager.stockalert.cn/"
-                "release" -> "http://yagers.pewinner.com/"
-                else -> ""
-            }
-            "sr" -> when (BuildConfig.BUILD_TYPE) {
-                "debug" -> "http://srzbs.pewinner.com/"
-                "release" -> "http://srzbs.pewinner.com/"
-                else -> ""
-            }
-            "pe" -> when (BuildConfig.BUILD_TYPE) {
-//            "debug" -> "http://dev.pe.stockalert.cn/"
-//                "debug" -> "http://sales.pewinner.com/"
-//                "debug" -> "http://prehts.pewinner.com/"
-                "debug" -> "https://sougu.pewinner.com"
-                "release" -> "https://sougu.pewinner.com"
-                else -> ""
-            }
-            else -> ""
-        }
     }
 }

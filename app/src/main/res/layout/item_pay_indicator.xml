@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/indicatorTv"
+    android:layout_width="wrap_content"
+    android:layout_height="38dp"
+    android:layout_marginLeft="24dp"
+    android:layout_marginRight="24dp"
+    android:gravity="center"
+    android:paddingBottom="8dp"
+    android:paddingTop="10dp"
+    android:textColor="@color/color_pay_indicator"
+    android:textSize="@dimen/text_size_normal">
+
+</TextView>

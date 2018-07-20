@@ -122,4 +122,8 @@ interface ProjectService {
     @POST("/api/Archives/projectRecords")
     fun projectRecords(@Field("type") type: Int): Observable<Payload<ArrayList<ProjectRecordBean>>>
 
+    //股权结构
+    @FormUrlEncoded
+    @POST("/api/StockInfo/equityRatio")
+    fun equityRatio(@Field("company_id") company_id: Int): Observable<Payload<EquityStructureBean>>
 }

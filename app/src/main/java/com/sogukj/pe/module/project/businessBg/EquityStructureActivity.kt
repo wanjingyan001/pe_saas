@@ -20,6 +20,7 @@ import cn.sharesdk.tencent.qq.QQ
 import cn.sharesdk.tencent.qzone.QQClientNotExistException
 import cn.sharesdk.wechat.friends.Wechat
 import cn.sharesdk.wechat.utils.WechatClientNotExistException
+import com.amap.api.mapcore.util.it
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.setOnClickFastListener
@@ -45,90 +46,152 @@ class EquityStructureActivity : ToolbarActivity(), PlatformActionListener {
     lateinit var bean: EquityListBean
     lateinit var inflater: LayoutInflater
     val fmt = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+    private var isFromList=false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         bean = intent.getSerializableExtra(Extras.DATA) as EquityListBean
         setContentView(R.layout.activity_equity_structure)
         setBack(true)
-        var data = SimpleDateFormat("yyyy年MM月dd日").parse(bean.time)
-        var tim = SimpleDateFormat("yyyy-MM-dd").format(data)
-        setTitle("${tim} ${bean.title}")
-        lunci.text = "轮次：${bean.lunci}"
-        inflater = LayoutInflater.from(context)
-        SoguApi.getService(application,ProjectService::class.java)
-                .equityInfo(bean.hid!!)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe({ payload ->
-                    if (payload.isOk) {
-                        val data = payload.payload
-                        data?.forEach {
-                            val ll_node = inflater.inflate(R.layout.item_equity_structure, null)
-                            val llHeader = ll_node.findViewById<FrameLayout>(R.id.fl_header) as FrameLayout
-                            val llChildren = ll_node.findViewById<LinearLayout>(R.id.ll_children) as LinearLayout
-                            var tvName = ll_node.findViewById<TextView>(R.id.tv_name) as TextView
-                            var tvPercent = ll_node.findViewById<TextView>(R.id.tv_percent) as TextView
-                            var tvAmount = ll_node.findViewById<TextView>(R.id.tv_amount) as TextView
-                            tvName.text = it.name
-                            tvPercent.text = it.percent
-                            tvAmount.text = it.amount
-                            val cbxHeader = ll_node.find<CheckBox>(R.id.cbx_header)
-                            cbxHeader.setOnCheckedChangeListener { buttonView, isChecked ->
-                                if (isChecked) {
-                                    if (it.children == null || it.children?.size == 0) {
-                                        llChildren.visibility = View.GONE
+        isFromList = intent.getBooleanExtra(Extras.FLAG, false)
+        if (isFromList) {
+            var data = SimpleDateFormat("yyyy年MM月dd日").parse(bean.time)
+            var tim = SimpleDateFormat("yyyy-MM-dd").format(data)
+            setTitle("${tim} ${bean.title}")
+            lunci.text = "轮次：${bean.lunci}"
+            SoguApi.getService(application,ProjectService::class.java)
+                    .equityInfo(bean.hid!!)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe({ payload ->
+                        if (payload.isOk) {
+                            val data = payload.payload
+                            data?.forEach {
+                                val ll_node = layoutInflater.inflate(R.layout.item_equity_structure, null)
+                                val llHeader = ll_node.findViewById<FrameLayout>(R.id.fl_header) as FrameLayout
+                                val llChildren = ll_node.findViewById<LinearLayout>(R.id.ll_children) as LinearLayout
+                                var tvName = ll_node.findViewById<TextView>(R.id.tv_name) as TextView
+                                var tvPercent = ll_node.findViewById<TextView>(R.id.tv_percent) as TextView
+                                var tvAmount = ll_node.findViewById<TextView>(R.id.tv_amount) as TextView
+                                tvName.text = it.name
+                                tvPercent.text = it.percent
+                                tvAmount.text = it.amount
+                                val cbxHeader = ll_node.findViewById<CheckBox>(R.id.cbx_header) as CheckBox
+                                cbxHeader.setOnCheckedChangeListener { buttonView, isChecked ->
+                                    if (isChecked) {
+                                        if (it.children == null || it.children?.size == 0) {
+                                            llChildren.visibility = View.GONE
+                                        } else {
+                                            llChildren.visibility = View.VISIBLE
+                                        }
                                     } else {
-                                        llChildren.visibility = View.VISIBLE
+                                        llChildren.visibility = View.GONE
                                     }
-                                } else {
-                                    llChildren.visibility = View.GONE
                                 }
+                                cbxHeader.isChecked = true
+                                it.children?.apply {
+                                    setChildren(llChildren, this, 0)
+                                }
+                                nestedRoot.addView(ll_node)
                             }
-                            cbxHeader.isChecked = true
-                            it.children?.apply {
-                                setChildren(llChildren, this, 0)
-                            }
-                            nestedRoot.addView(ll_node)
-                        }
-                        loaded = true
-                    } else
-                        showCustomToast(R.drawable.icon_toast_fail, payload.message)
-                }, { e ->
-                    Trace.e(e)
-                    showCustomToast(R.drawable.icon_toast_fail, "查询失败")
-                })
+                            loaded = true
+                        } else
+                            showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                    }, { e ->
+                        Trace.e(e)
+                        showCustomToast(R.drawable.icon_toast_fail, "查询失败")
+                    })
 
-        Thread(Runnable {
+            Thread(Runnable {
 
-            try {
-                Thread.sleep(1000)
-            } catch (e: Exception) {
-            }
-
-            if (!loaded) {
-                return@Runnable
-            }
-
-            runOnUiThread {
-                if (Utils.saveNestedScroolViewImage(mNestedScrollView, Environment.getExternalStorageDirectory().absolutePath)) {
-                    //share()
-                    canShare = true
-                } else {
-                    canShare = false
-                    showCustomToast(R.drawable.icon_toast_common, "生成截图失败,请检查手机内存")
+                try {
+                    Thread.sleep(1000)
+                } catch (e: Exception) {
                 }
-            }
 
-        }).start()
+                if (!loaded) {
+                    return@Runnable
+                }
 
-        toolbar_menu.visibility = View.VISIBLE
-        toolbar_menu.setImageResource(R.drawable.share)
-        toolbar_menu.setOnClickListener {
-            if (!canShare) {
-                showCustomToast(R.drawable.icon_toast_common, "请等待截图生成再分享")
-                return@setOnClickListener
+                runOnUiThread {
+                    if (Utils.saveNestedScroolViewImage(mNestedScrollView, Environment.getExternalStorageDirectory().absolutePath)) {
+                        //share()
+                        canShare = true
+                    } else {
+                        canShare = false
+                        showCustomToast(R.drawable.icon_toast_common, "生成截图失败,请检查手机内存")
+                    }
+                }
+
+            }).start()
+
+            toolbar_menu.visibility = View.VISIBLE
+            toolbar_menu.setImageResource(R.drawable.share)
+            toolbar_menu.setOnClickListener {
+                if (!canShare) {
+                    showCustomToast(R.drawable.icon_toast_common, "请等待截图生成再分享")
+                    return@setOnClickListener
+                }
+                share()
             }
-            share()
+        } else {
+            //股权结构
+            setTitle("股权结构")
+            lunci.visibility = View.GONE
+            SoguApi.getService(application,ProjectService::class.java)
+                    .equityRatio(bean.hid!!)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe({ payload ->
+                        if (payload.isOk) {
+                            val data = payload.payload
+                            data?.apply {
+                                info?.apply {
+                                    tv_companyName.text = companyName
+                                    tv_companyName.visibility = View.VISIBLE
+                                    layout1.visibility = View.VISIBLE
+                                    tv_controllerName.text = controllerName
+                                    layout2.visibility = View.VISIBLE
+                                    tv_mainPercent.text = percent
+                                }
+                                structure?.forEach {
+                                    val ll_node = layoutInflater.inflate(R.layout.item_equity_structure, null)
+                                    val llHeader = ll_node.findViewById<FrameLayout>(R.id.fl_header) as FrameLayout
+                                    val llChildren = ll_node.findViewById<LinearLayout>(R.id.ll_children) as LinearLayout
+                                    var tvName = ll_node.findViewById<TextView>(R.id.tv_name) as TextView
+                                    var tvPercent = ll_node.findViewById<TextView>(R.id.tv_percent) as TextView
+                                    var tvAmount = ll_node.findViewById<TextView>(R.id.tv_amount) as TextView
+                                    tvName.text = it.name
+                                    tvPercent.text = it.percent
+                                    tvAmount.text = it.amount
+                                    val cbxHeader = ll_node.findViewById<CheckBox>(R.id.cbx_header) as CheckBox
+                                    cbxHeader.setOnCheckedChangeListener { buttonView, isChecked ->
+                                        if (isChecked) {
+                                            if (it.children == null || it.children?.size == 0) {
+                                                llChildren.visibility = View.GONE
+                                            } else {
+                                                llChildren.visibility = View.VISIBLE
+                                            }
+                                        } else {
+                                            llChildren.visibility = View.GONE
+                                        }
+                                    }
+                                    cbxHeader.isChecked = true
+                                    it.children?.apply {
+                                        setChildren(llChildren, this, 0)
+                                    }
+                                    nestedRoot.addView(ll_node)
+                                }
+
+                            }
+                            loaded = true
+                        } else
+                            showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                    }, { e ->
+                        Trace.e(e)
+                        showCustomToast(R.drawable.icon_toast_fail, "查询失败")
+                    })
         }
     }
 

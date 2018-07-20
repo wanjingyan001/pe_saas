@@ -56,6 +56,8 @@
     <color name="text_3">#a0a4aa</color>
     <color name="text_4">#3A3635</color>
     <color name="text_5">#3C98E8</color>
+    <color name="text_6">#FE5F39</color>
+    <color name="text_7">#F9C73F</color>
 
     <color name="chart_highLight_color">#666</color>
     <color name="chart_kline_color">#4fcee9</color>

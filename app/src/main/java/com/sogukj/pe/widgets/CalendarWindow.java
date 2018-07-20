@@ -17,6 +17,7 @@ import com.ldf.calendar.view.Calendar;
 import com.ldf.calendar.view.MonthPager;
 import com.sogukj.pe.R;
 import com.sogukj.pe.baselibrary.utils.Utils;
+import com.sogukj.pe.interf.CalendarSelectListener;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,6 +31,7 @@ public class CalendarWindow extends PopupWindow {
     private MonthPager calendarView;
     private TextView monthAndYear;
     private CalendarDate seedDate;
+    private CalendarSelectListener listener;
 
     public CalendarWindow(Context context, CalendarSelectListener listener) {
         super(context);
@@ -108,13 +110,4 @@ public class CalendarWindow extends PopupWindow {
         super.showAtLocation(parent, gravity, x, y);
         calendarView.setViewheight(Utils.dpToPx(context, 270));
     }
-
-
-    private CalendarSelectListener listener;
-
-
-    interface CalendarSelectListener {
-        void daySelect(CalendarDate date);
-    }
-
 }

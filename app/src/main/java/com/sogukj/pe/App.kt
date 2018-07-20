@@ -32,6 +32,7 @@ import com.sogukj.pe.module.im.NimSDKOptionConfig
 import com.sogukj.pe.module.im.SessionHelper
 import com.sogukj.pe.module.main.LoginActivity
 import com.sogukj.pe.module.news.NewsDetailActivity
+import com.sogukj.pe.module.register.PhoneInputActivity
 import com.sogukj.pe.module.weekly.PersonalWeeklyActivity
 import com.sogukj.pe.peExtended.defaultIc
 import com.sogukj.pe.peUtils.Store
@@ -47,6 +48,7 @@ import com.umeng.message.entity.UMessage
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.leolin.shortcutbadger.ShortcutBadger
+import org.jetbrains.anko.doAsync
 import org.json.JSONObject
 
 
@@ -59,115 +61,117 @@ class App : MultiDexApplication() {
         INSTANCE = this
 //        MobSDK.init(this, "137b5c5ce8f55", "b28db523803b31a66b590150cb96c4fd")
         //ARouter阿里路由
-        if (BuildConfig.DEBUG) {
-            ARouter.openLog()
-            ARouter.openDebug()
-        }
-        ARouter.init(this)
-        CrashReport.initCrashReport(this, "49fb9e37b7", true)
-        SgDatabase.getInstance(this)
-        MobSDK.init(this, "214eaf8217e6c", "c1ddfcaa333020a5a06812bc745d508c")
-        val mPushAgent = PushAgent.getInstance(this)
-        mPushAgent.setDebugMode(false)
-        mPushAgent.displayNotificationNumber = 5
-        mPushAgent.notificationPlayLights = MsgConstant.NOTIFICATION_PLAY_SDK_ENABLE
-        mPushAgent.register(object : IUmengRegisterCallback {
-
-            override fun onSuccess(deviceToken: String) {
-                //注册成功会返回device token
-                Log.d("WJY", "IUmengRegisterCallback:$deviceToken")
-                Store.store.setUToken(this@App, deviceToken)
+        doAsync {
+            if (BuildConfig.DEBUG) {
+                ARouter.openLog()
+                ARouter.openDebug()
             }
+            ARouter.init(INSTANCE)
+            CrashReport.initCrashReport(INSTANCE, "49fb9e37b7", true)
+            SgDatabase.getInstance(INSTANCE)
+            MobSDK.init(INSTANCE, "214eaf8217e6c", "c1ddfcaa333020a5a06812bc745d508c")
+            val mPushAgent = PushAgent.getInstance(INSTANCE)
+            mPushAgent.setDebugMode(false)
+            mPushAgent.displayNotificationNumber = 5
+            mPushAgent.notificationPlayLights = MsgConstant.NOTIFICATION_PLAY_SDK_ENABLE
+            mPushAgent.register(object : IUmengRegisterCallback {
 
-            override fun onFailure(s: String, s1: String) {
-                println("IUmengRegisterCallback:$s=>$s1")
+                override fun onSuccess(deviceToken: String) {
+                    //注册成功会返回device token
+                    Log.d("WJY", "IUmengRegisterCallback:$deviceToken")
+                    Store.store.setUToken(this@App, deviceToken)
+                }
+
+                override fun onFailure(s: String, s1: String) {
+                    println("IUmengRegisterCallback:$s=>$s1")
+                }
+            })
+            PushAgent.getInstance(INSTANCE).messageHandler = object : UmengMessageHandler() {
+                override fun getNotification(p0: Context?, p1: UMessage?): Notification {
+                    Log.d("WJY", "推送==>" + Gson().toJson(p1))
+                    val builder = Notification.Builder(this@App)
+                    val myNotificationView = RemoteViews(this@App.packageName, R.layout.upush_notification)
+                    myNotificationView.setTextViewText(R.id.notification_title, p1?.title)
+                    myNotificationView.setTextViewText(R.id.notification_text, p1?.text)
+                    myNotificationView.setImageViewBitmap(R.id.notification_large_icon1, getLargeIcon(this@App, p1))
+                    myNotificationView.setImageViewResource(R.id.notification_large_icon1, getSmallIconId(this@App, p1))
+                    builder.setContent(myNotificationView)
+                            .setSmallIcon(defaultIc())
+                            .setTicker(p1?.ticker)
+                            .setAutoCancel(true)
+                    val notification = builder.notification
+                    notification.defaults = Notification.DEFAULT_LIGHTS
+                    try {
+                        p1?.let {
+                            if (it.extra != null && it.extra.containsKey("badge")) {
+                                it.extra["badge"]?.let {
+                                    ShortcutBadger.applyCount(this@App, it.toInt())
+                                }
+                            }
+                        }
+                    } catch (e: Exception) {
+                    }
+                    return notification
+                }
             }
-        })
-        PushAgent.getInstance(this).messageHandler = object : UmengMessageHandler() {
-            override fun getNotification(p0: Context?, p1: UMessage?): Notification {
-                Log.d("WJY", "推送==>" + Gson().toJson(p1))
-                val builder = Notification.Builder(this@App)
-                val myNotificationView = RemoteViews(this@App.packageName, R.layout.upush_notification)
-                myNotificationView.setTextViewText(R.id.notification_title, p1?.title)
-                myNotificationView.setTextViewText(R.id.notification_text, p1?.text)
-                myNotificationView.setImageViewBitmap(R.id.notification_large_icon1, getLargeIcon(this@App, p1))
-                myNotificationView.setImageViewResource(R.id.notification_large_icon1, getSmallIconId(this@App, p1))
-                builder.setContent(myNotificationView)
-                        .setSmallIcon(defaultIc())
-                        .setTicker(p1?.ticker)
-                        .setAutoCancel(true)
-                val notification = builder.notification
-                notification.defaults = Notification.DEFAULT_LIGHTS
+            PushAgent.getInstance(INSTANCE).setNotificationClickHandler({ context, uMessage ->
                 try {
-                    p1?.let {
-                        if (it.extra != null && it.extra.containsKey("badge")) {
-                            it.extra["badge"]?.let {
-                                ShortcutBadger.applyCount(this@App, it.toInt())
+                    ShortcutBadger.removeCount(context)
+                    uMessage.custom?.apply {
+                        val json = JSONObject(this)
+                        val type = json.getInt("type")
+                        val data = json.getJSONObject("data")
+                        //1.负面信息  2.任务  3.日程 4签字,用印 5.周报
+                        when (type) {
+                            1 -> handle(context, json)
+                            2 -> {
+                                val data_id = data.getInt("data_id")
+                                TaskDetailActivity.start(context, data_id, uMessage.title, ModifyTaskActivity.Task)
+                            }
+                            3 -> {
+                                val data_id = data.getInt("data_id")
+                                TaskDetailActivity.start(context, data_id, uMessage.title, ModifyTaskActivity.Schedule)
+                            }
+                            4 -> {
+                                val approval_id = data.getInt("approval_id")
+                                val is_mine = data.getInt("is_mine")
+                                var title = ""
+                                if (data.has("qs") && data.getInt("qs") == 1) {
+                                    title = "签字审批"
+                                    SignApproveActivity.start(context, approval_id, is_mine, "签字审批")
+                                } else if (data.has("qs") && data.getInt("qs") == 2) {
+                                    title = when (data.getInt("tid")) {
+                                        10 -> "出差"
+                                        11 -> "请假"
+                                        else -> ""
+                                    }
+                                    LeaveBusinessApproveActivity.start(context, approval_id, is_mine, title)
+                                } else {
+                                    title = "用印审批"
+                                    SealApproveActivity.start(context, approval_id, is_mine, "用印审批")
+                                }
+                            }
+                            5 -> {
+                                val weekId = data.getInt("week_id")
+                                val userId = data.getInt("user_id")
+                                val postName = data.getString("postName")
+                                val intent = Intent(context, PersonalWeeklyActivity::class.java)
+                                intent.putExtra(Extras.ID, weekId)
+                                intent.putExtra(Extras.NAME, "Push")
+                                intent.putExtra(Extras.TYPE1, userId)
+                                intent.putExtra(Extras.TYPE2, postName)
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                context.startActivity(intent)
+                            }
+                            else -> {
                             }
                         }
                     }
                 } catch (e: Exception) {
+                    Trace.e(e)
                 }
-                return notification
-            }
+            })
         }
-        PushAgent.getInstance(this).setNotificationClickHandler({ context, uMessage ->
-            try {
-                ShortcutBadger.removeCount(context)
-                uMessage.custom?.apply {
-                    val json = JSONObject(this)
-                    val type = json.getInt("type")
-                    val data = json.getJSONObject("data")
-                    //1.负面信息  2.任务  3.日程 4签字,用印 5.周报
-                    when (type) {
-                        1 -> handle(context, json)
-                        2 -> {
-                            val data_id = data.getInt("data_id")
-                            TaskDetailActivity.start(context, data_id, uMessage.title, ModifyTaskActivity.Task)
-                        }
-                        3 -> {
-                            val data_id = data.getInt("data_id")
-                            TaskDetailActivity.start(context, data_id, uMessage.title, ModifyTaskActivity.Schedule)
-                        }
-                        4 -> {
-                            val approval_id = data.getInt("approval_id")
-                            val is_mine = data.getInt("is_mine")
-                            var title = ""
-                            if (data.has("qs") && data.getInt("qs") == 1) {
-                                title = "签字审批"
-                                SignApproveActivity.start(context, approval_id, is_mine, "签字审批")
-                            } else if (data.has("qs") && data.getInt("qs") == 2) {
-                                title = when (data.getInt("tid")) {
-                                    10 -> "出差"
-                                    11 -> "请假"
-                                    else -> ""
-                                }
-                                LeaveBusinessApproveActivity.start(context, approval_id, is_mine, title)
-                            } else {
-                                title = "用印审批"
-                                SealApproveActivity.start(context, approval_id, is_mine, "用印审批")
-                            }
-                        }
-                        5 -> {
-                            val weekId = data.getInt("week_id")
-                            val userId = data.getInt("user_id")
-                            val postName = data.getString("postName")
-                            val intent = Intent(context, PersonalWeeklyActivity::class.java)
-                            intent.putExtra(Extras.ID, weekId)
-                            intent.putExtra(Extras.NAME, "Push")
-                            intent.putExtra(Extras.TYPE1, userId)
-                            intent.putExtra(Extras.TYPE2, postName)
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            context.startActivity(intent)
-                        }
-                        else -> {
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                Trace.e(e)
-            }
-        })
         initNIM()
     }
 
@@ -202,7 +206,7 @@ class App : MultiDexApplication() {
         val uToken = Store.store.getUToken(this)
         if (user?.uid != null && uToken != null) {
             val token = if (enable) uToken else ""
-            SoguApi.getService(this,UserService::class.java)
+            SoguApi.getService(INSTANCE,UserService::class.java)
                     .saveUser(uid = user.uid!!, advice_token = token)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
@@ -217,14 +221,14 @@ class App : MultiDexApplication() {
      */
     private fun initNIM() {
         // 在初始化SDK的时候，传入 loginInfo()， 其中包含用户信息，用以自动登录
-        NIMClient.init(this, getIMLoginInfo(), NimSDKOptionConfig.getSDKOptions(this))
+        NIMClient.init(INSTANCE, getIMLoginInfo(), NimSDKOptionConfig.getSDKOptions(INSTANCE))
         // 设置地理位置提供者。如果需要发送地理位置消息，该参数必须提供。如果不需要，可以忽略。
         NimUIKit.setLocationProvider(NimDemoLocationProvider())
         // 以下逻辑只在主进程初始化时执行
-        if (NIMUtil.isMainProcess(this)) {
+        if (NIMUtil.isMainProcess(INSTANCE)) {
             SessionHelper.init()
             NIMClient.toggleNotification(true)
-            NimUIKit.init(this)
+            NimUIKit.init(INSTANCE)
             NIMClient.getService(AuthServiceObserver::class.java).observeOnlineStatus({ statusCode ->
                 when (statusCode) {
                     StatusCode.UNLOGIN -> Log.d("WJY", "未登录/登录失败")
@@ -238,8 +242,8 @@ class App : MultiDexApplication() {
                         ActivityHelper.exit()
                         resetPush(false)
                         IMLogout()
-                        Store.store.clearUser(this)
-                        val intent = Intent(this, LoginActivity::class.java)
+                        Store.store.clearUser(INSTANCE)
+                        val intent = Intent(INSTANCE, PhoneInputActivity::class.java)
                         intent.putExtra(Extras.FLAG, statusCode)
                         intent.addFlags(FLAG_ACTIVITY_NEW_TASK)
                         startActivity(intent)
@@ -270,7 +274,7 @@ class App : MultiDexApplication() {
      * 网易云信IM注销
      */
     private fun IMLogout() {
-        val xmlDb = XmlDb.open(this)
+        val xmlDb = XmlDb.open(INSTANCE)
         xmlDb.set(Extras.NIMACCOUNT, "")
         xmlDb.set(Extras.NIMTOKEN, "")
         NIMClient.getService(AuthService::class.java).logout()

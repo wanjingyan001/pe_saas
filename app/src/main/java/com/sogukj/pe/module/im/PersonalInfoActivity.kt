@@ -83,7 +83,7 @@ class PersonalInfoActivity : BaseActivity(), View.OnClickListener, TextWatcher, 
     }
 
     private fun queryUserInfo(uid: Int) {
-        SoguApi.getService(application,ImService::class.java)
+        SoguApi.getService(application, ImService::class.java)
                 .showIMUserInfo(uid)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -131,7 +131,7 @@ class PersonalInfoActivity : BaseActivity(), View.OnClickListener, TextWatcher, 
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.sendMsg -> {
-                if (NimUIKit.getAccount().isNotEmpty() && user?.accid != null) {
+                if (!NimUIKit.getAccount().isNullOrEmpty() && user?.accid != null) {
                     if (!pathByUri.isNullOrEmpty()) {
                         NimUIKit.startP2PSession(this, user?.accid, pathByUri)
                     } else {
@@ -155,7 +155,7 @@ class PersonalInfoActivity : BaseActivity(), View.OnClickListener, TextWatcher, 
 
     override fun afterTextChanged(s: Editable?) {
         s?.let {
-            if (it.toString().trim().isNotEmpty()) {
+            if (it.toString().trim().isNotEmpty() && !user?.accid.isNullOrEmpty()) {
                 db.set(user?.accid!!, it.toString())
             }
         }

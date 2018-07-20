@@ -25,6 +25,7 @@ import com.netease.nimlib.sdk.team.model.Team
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.R.id.*
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.StatusBarUtil
 import com.sogukj.pe.baselibrary.utils.Trace
@@ -174,6 +175,7 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
         //shangshi_layout.visibility = if (project.is_volatility == 0) View.GONE else View.VISIBLE
 
         val user = Store.store.getUser(this)
+        im.setVisible(!user?.accid.isNullOrEmpty())
         SoguApi.getService(application, NewService::class.java)
                 .projectPage(company_id = project.company_id!!)
                 .observeOn(AndroidSchedulers.mainThread())

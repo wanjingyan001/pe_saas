@@ -38,6 +38,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
 import com.sogukj.pe.App
+import com.sogukj.pe.Consts
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
@@ -64,6 +65,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.internal.util.HalfSerializer.onNext
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
+import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import org.jetbrains.anko.*
 import org.jetbrains.anko.support.v4.ctx
 import java.io.File
@@ -252,7 +254,7 @@ class MainActivity : BaseActivity() {
             hint.setSpan(ForegroundColorSpan(Color.parseColor("#FF6174")), 9, hint.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
             prompt.text = hint
         }
-
+        RetrofitUrlManager.getInstance().putDomain("upgrade", Consts.HTTP_HOST)
         SoguApi.getService(application, OtherService::class.java)
                 .getVersion()
                 .observeOn(AndroidSchedulers.mainThread())

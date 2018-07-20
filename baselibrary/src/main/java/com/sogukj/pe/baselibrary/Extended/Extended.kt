@@ -18,13 +18,16 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.sogukj.pe.baselibrary.R
+import com.sogukj.pe.baselibrary.interf.MoneyUnit
 import com.sogukj.pe.baselibrary.utils.DiffCallBack
+import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.OnClickFastListener
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.windowManager
+import java.math.BigDecimal
 
 /**
  * kotlin扩展方法
@@ -92,10 +95,25 @@ fun CharSequence?.checkEmpty(): CharSequence {
         this
 }
 
+fun Number.toMoney(needDecimal: Boolean = false): String {
+    return toMoney(MoneyUnit.Default, needDecimal)
+}
+
+fun Number.toMoney(unit: MoneyUnit, needDecimal: Boolean = false): String {
+    val money = Utils.formatMoney(BigDecimal(this.toDouble() / unit.unit))
+    return if (needDecimal) money else money.substring(0, money.lastIndexOf("."))
+}
+
 
 fun <T1, T2, T3> Context.ifNotNull(value1: T1?, value2: T2?, value3: T3?, bothNotNull: (T1, T2, T3) -> (Unit)) {
     if (value1 != null && value2 != null && value3 != null) {
         bothNotNull(value1, value2, value3)
+    }
+}
+
+fun <T1, T2> Context.ifNotNull(value1: T1?, value2: T2?, bothNotNull: (T1, T2) -> (Unit)) {
+    if (value1 != null && value2 != null) {
+        bothNotNull(value1, value2)
     }
 }
 

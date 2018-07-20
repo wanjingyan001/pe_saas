@@ -26,6 +26,7 @@ import com.app.hubert.guide.NewbieGuide
 import com.app.hubert.guide.model.GuidePage
 import com.app.hubert.guide.model.HighLight
 import com.jakewharton.rxbinding2.widget.RxTextView
+import com.netease.nimlib.sdk.StatusCode
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
@@ -60,6 +61,14 @@ class PhoneInputActivity : BaseActivity() {
                 sendPhoneInput(phoneEdt.getInput())
             } else {
                 showTopSnackBar("手机号格式有误")
+            }
+        }
+
+        val extra = intent.getSerializableExtra(Extras.FLAG) as? StatusCode
+        extra?.let {
+            when (extra) {
+                StatusCode.KICKOUT, StatusCode.KICK_BY_OTHER_CLIENT -> showCustomToast(R.drawable.icon_toast_common, "您的帐号已在其他设备登陆，您已被迫下线")
+                StatusCode.FORBIDDEN -> showCustomToast(R.drawable.icon_toast_common, "您的帐号已被禁止登录,请联系管理员")
             }
         }
         ActivityHelper.finishAllWithoutTop()
@@ -101,7 +110,6 @@ class PhoneInputActivity : BaseActivity() {
                             sp.edit { putString(Extras.SaasPhone,phone) }
                             showSuccessToast("验证码已经发送，请查收")
                             startActivity<VerCodeInputActivity>(Extras.DATA to phone)
-                            finish()
                         }
                     }
                 }

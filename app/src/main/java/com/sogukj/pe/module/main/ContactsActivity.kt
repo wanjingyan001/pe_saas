@@ -296,21 +296,23 @@ class ContactsActivity : ToolbarActivity() {
         }
 
         val user = Store.store.getUser(context)
-        SoguApi.getService(application,UserService::class.java)
-                .recentContacts(user!!.accid!!)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe({ payload ->
-                    if (payload.isOk) {
-                        contactsAdapter.dataList.clear()
-                        contactsAdapter.dataList.addAll(payload.payload!!)
-                        contactsAdapter.notifyDataSetChanged()
-                    } else
-                        showCustomToast(R.drawable.icon_toast_fail, payload.message)
-                }, { e ->
-                    Trace.e(e)
-                    showCustomToast(R.drawable.icon_toast_fail, "最近联系人数据获取失败")
-                })
+        user?.accid?.let {
+            SoguApi.getService(application,UserService::class.java)
+                    .recentContacts(it)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe({ payload ->
+                        if (payload.isOk) {
+                            contactsAdapter.dataList.clear()
+                            contactsAdapter.dataList.addAll(payload.payload!!)
+                            contactsAdapter.notifyDataSetChanged()
+                        } else
+                            showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                    }, { e ->
+                        Trace.e(e)
+                        showCustomToast(R.drawable.icon_toast_fail, "最近联系人数据获取失败")
+                    })
+        }
     }
 
     private fun initTissueAdapter() {
@@ -540,7 +542,9 @@ class ContactsActivity : ToolbarActivity() {
                         contactsAdapter.notifyDataSetChanged()
                     } else {
                         //发送文件消息
-                        NimUIKit.startP2PSession(this@ContactsActivity, userBean.accid, pathByUri)
+                        userBean.accid?.let {
+                            NimUIKit.startP2PSession(this@ContactsActivity, userBean.accid, pathByUri)
+                        }
                     }
                 }
             }
@@ -621,7 +625,9 @@ class ContactsActivity : ToolbarActivity() {
                     tissueAdapter.notifyDataSetChanged()
                 } else {
                     //发送文件消息
-                    NimUIKit.startP2PSession(this@ContactsActivity, userBean.accid, pathByUri)
+                    userBean.accid?.let {
+                        NimUIKit.startP2PSession(this@ContactsActivity, userBean.accid, pathByUri)
+                    }
                 }
             }
         }

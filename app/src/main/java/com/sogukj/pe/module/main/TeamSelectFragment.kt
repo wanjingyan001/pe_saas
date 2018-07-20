@@ -165,7 +165,9 @@ class TeamSelectFragment : BaseFragment() {
                 if (alreadyList.size == 0) {
                     return@setOnClickListener
                 }
-                TeamCreateActivity.start(ctx, alreadyList)
+                mine?.accid?.let {
+                    TeamCreateActivity.start(ctx, alreadyList)
+                }
 
                 isSelectUser = false
                 var list = ArrayList<DepartmentBean>(departList)
@@ -287,6 +289,7 @@ class TeamSelectFragment : BaseFragment() {
         info?.let {
             Glide.with(this)
                     .load(info.logo)
+                    .apply(RequestOptions().placeholder(R.mipmap.ic_launcher_pe).error(R.mipmap.ic_launcher_pe))
                     .into(company_icon)
             companyName.text = info.mechanism_name
         }

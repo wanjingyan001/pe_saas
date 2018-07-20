@@ -63,6 +63,10 @@ class SoguApi {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(client)
                 .build()
+        val newBaseUrl =  PreferenceManager.getDefaultSharedPreferences(context).getString(Extras.HTTPURL, "")
+        if (newBaseUrl.isNotEmpty()){
+            RetrofitUrlManager.getInstance().setGlobalDomain(newBaseUrl)
+        }
     }
 
     private fun <T> getService(service: Class<T>): T {
@@ -88,9 +92,13 @@ class SoguApi {
         user?.let {
             newBuilder.addHeader("uid", it.uid.toString())
         }
-        key.isNotEmpty().takeIf {
-            newBuilder.addHeader("key", key)
-            return@takeIf true
+        if (getEnvironment() == "sr") {
+            newBuilder.addHeader("key", "d5f17cafef0829b5")
+        }else{
+            key.isNotEmpty().takeIf {
+                newBuilder.addHeader("key", key)
+                return@takeIf true
+            }
         }
         val request = newBuilder
                 .addHeader("appkey", "d5f17cafef0829b5")

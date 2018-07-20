@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?><!--<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:app="http://schemas.android.com/apk/res-auto"--><!--xmlns:tools="http://schemas.android.com/tools"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:background="@color/white"--><!--tools:context="com.sogukj.pe.module.other.PayPackageActivity">-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.sogukj.pe.module.other.PayPackageActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/bg_pay_title_banner"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:title="">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/payToolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/toolbar_height"
+                    android:background="@color/transparent"
+                    app:contentInsetEnd="0dp"
+                    app:contentInsetLeft="0dp"
+                    app:contentInsetRight="0dp"
+                    app:contentInsetStart="0dp"
+                    app:layout_collapseMode="pin"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/toolbar_back"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp"
+                            android:src="@mipmap/icon_back_white" />
+
+
+                        <TextView
+                            android:id="@+id/toolbarTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_centerInParent="true"
+                            android:gravity="center"
+                            android:text="套餐购买"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_18" />
+                    </RelativeLayout>
+
+
+                </android.support.v7.widget.Toolbar>
+
+                <TextView
+                    android:id="@+id/payPackageName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="40dp"
+                    android:textColor="#AEA48F"
+                    android:textSize="@dimen/text_size_normal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/payToolbar"
+                    tools:ignore="MissingConstraints" />
+
+
+                <TextView
+                    android:id="@+id/currentTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="60dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#978252"
+                    android:textSize="@dimen/text_size_24"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/payPackageName" />
+
+
+                <TextView
+                    android:id="@+id/currentlyUsed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textColor="#978252"
+                    android:textSize="@dimen/text_size_samll"
+                    app:layout_constraintEnd_toEndOf="@id/currentTotal"
+                    app:layout_constraintTop_toBottomOf="@+id/currentTotal" />
+
+
+            </android.support.constraint.ConstraintLayout>
+
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+
+        <com.sogukj.pe.baselibrary.widgets.PagerIndicator
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:pi_allowWidthFull="true"
+            app:pi_bottomLineHeight="1dp"
+            app:pi_disableTensileSlidingBlock="true"
+            app:pi_slidingBlock="@mipmap/iamge_pay_indicator">
+
+        </com.sogukj.pe.baselibrary.widgets.PagerIndicator>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/payContentPager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+        </android.support.v4.view.ViewPager>
+
+
+        <TextView
+            android:id="@+id/aliPayBtn"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
+            android:background="@drawable/bg_border_pay_btn"
+            android:gravity="center"
+            android:text="去支付"
+            android:enabled="false"
+            android:textColor="@color/white"
+            android:layout_marginTop="12dp"
+            android:textSize="@dimen/text_size_normal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="18dp"
+            android:drawableLeft="@mipmap/icon_telphone"
+            android:drawablePadding="6dp"
+            android:gravity="center_vertical"
+            android:text="021-80129519"
+            android:textColor="@color/text_3"
+            android:textSize="@dimen/text_size_medium" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="6dp"
+            android:text="具体详情请联系我们进行咨询"
+            android:textColor="@color/text_3"
+            android:layout_marginBottom="12dp"
+            android:textSize="@dimen/text_size_samll" />
+
+
+    </LinearLayout>
+
+</LinearLayout>
+
+
+    <!--</android.support.design.widget.CoordinatorLayout>-->

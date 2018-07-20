@@ -64,6 +64,10 @@ class TakeCardActivity : ToolbarActivity() {
                         if (payload.isOk) {
 
                         } else {
+                            cardPath = ""
+                            Glide.with(this@TakeCardActivity)
+                                    .load(cardPath)
+                                    .into(takeCard)
                             showTopSnackBar(payload.message)
                         }
                     }

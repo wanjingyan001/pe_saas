@@ -1,5 +1,6 @@
 package com.sogukj.pe.module.user
 
+import android.Manifest
 import android.annotation.TargetApi
 import android.app.Activity
 import android.app.Dialog
@@ -9,6 +10,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.*
+import android.support.v4.app.ActivityCompat
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
@@ -55,9 +57,11 @@ import com.sogukj.pe.bean.MechanismBasicInfo
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.bean.WebConfigBean
 import com.sogukj.pe.module.fileSelector.FileMainActivity
+import com.sogukj.pe.module.other.PayPackageActivity
 import com.sogukj.pe.module.project.ProjectFocusActivity
 import com.sogukj.pe.module.project.ProjectListFragment
 import com.sogukj.pe.module.register.CreateDepartmentActivity
+import com.sogukj.pe.module.register.InviteMainActivity
 import com.sogukj.pe.module.register.UploadBasicInfoActivity
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.Store
@@ -110,6 +114,16 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
         documentManagement.clickWithTrigger {
             FileMainActivity.start(ctx)
         }
+        payPackageLayout.clickWithTrigger {
+            val permission = ActivityCompat.checkSelfPermission(ctx, Manifest.permission.READ_PHONE_STATE)
+            if (permission != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(baseActivity!!,
+                        arrayOf(Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_CONTACTS),
+                        Extras.REQUESTCODE)
+            }else{
+                startActivity<PayPackageActivity>()
+            }
+        }
         setting.clickWithTrigger {
             SettingActivity.start(context)
         }
@@ -156,8 +170,8 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
             user?.let {
                 val company = sp.getString(Extras.CompanyDetail, "")
                 val detail = Gson().fromJson<MechanismBasicInfo?>(company)
-                detail?.let {
-                    startActivity<CreateDepartmentActivity>(Extras.NAME to it.mechanism_name,
+                detail?.mechanism_name?.let {
+                    startActivity<CreateDepartmentActivity>(Extras.NAME to it,
                             Extras.CODE to user.phone,
                             Extras.FLAG to true)
                 }

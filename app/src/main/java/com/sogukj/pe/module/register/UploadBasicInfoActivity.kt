@@ -93,7 +93,11 @@ class UploadBasicInfoActivity : ToolbarActivity() {
                         if (payload.isOk) {
 
                         } else {
+                            cardPath = ""
                             showTopSnackBar(payload.message)
+                            Glide.with(ctx)
+                                    .load(cardPath)
+                                    .into(mCompanyLogo)
                         }
                     }
                 }

@@ -11,7 +11,7 @@ import retrofit2.http.*
  * Created by admin on 2018/5/22.
  */
 interface OtherService {
-//    @Headers(value = "Domain-Name: homeFunction")
+    //    @Headers(value = "Domain-Name: homeFunction")
     @FormUrlEncoded
     @POST("/api/Approve/getFundOrProject")
     fun listSelector(@FieldMap map: HashMap<String, Any>): Observable<Payload<List<CustomSealBean.ValueBean>>>
@@ -41,9 +41,16 @@ interface OtherService {
 
     @FormUrlEncoded
     @POST
-    fun qrNotify(@Url url: String, @Field("status") status: Int): Observable<Payload<Object>>
+    fun qrNotify(@Url url: String, @Field("status") status: Int): Observable<Payload<Any>>
+
+    @Headers(value = "Domain-Name: QRCode")
+    @FormUrlEncoded
+    @POST
+    fun qrNotify_saas(@Url url: String, @Field("status") status: Int, @Field("phone") phone: String): Observable<Payload<Any>>
+
 
     //版本更新
+    @Headers(value = "Domain-Name: upgrade")
     @POST("/api/Index/version")
     fun getVersion(): Observable<Payload<VersionBean>>
 
@@ -52,7 +59,7 @@ interface OtherService {
      */
 //    @Headers(value = "Domain-Name: homeFunction")
     @POST("/api/Index/homeButton")
-    fun homeModuleButton(@Body req:HomeFunctionReq): Observable<Payload<List<MainFunIcon>>>
+    fun homeModuleButton(@Body req: HomeFunctionReq): Observable<Payload<List<MainFunIcon>>>
 
 
     @POST("/api/Message/sysMessageIndex")
@@ -74,4 +81,19 @@ interface OtherService {
     @POST("/api/Message/sysMessageList")
     fun sysMsgList(@Field("page") page: Int? = 1,
                    @Field("pageSize") pageSize: Int? = 20): Observable<Payload<ArrayList<MessageBean>>>
+
+
+    /**
+     * 获取付费套餐
+     */
+    @POST("/api/Pay/payBillCombo")
+    fun getPayType(): Observable<Payload<List<PackageBean>>>
+
+    /**
+     * 获取支付的订单信息
+     */
+    @FormUrlEncoded
+    @POST("/api/Saas/Alipay")
+    fun getPayInfo(@Field("key") key: String,
+                   @Field("sid") sid: Int): Observable<Payload<String>>
 }
