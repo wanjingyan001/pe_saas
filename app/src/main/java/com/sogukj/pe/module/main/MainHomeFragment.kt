@@ -240,7 +240,7 @@ class MainHomeFragment : BaseFragment() {
         cache = CacheUtils(ctx)
         Glide.with(ctx).asGif().load(R.drawable.loading).into(pb)
         pb.visibility = View.VISIBLE
-        doRequest()
+        //doRequest()
 
         refresh.setOnRefreshListener {
             page = 1

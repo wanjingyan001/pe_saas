@@ -135,12 +135,6 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        clearView()
-        doRequest()
-    }
-
     fun clearView() {
 //        if (TYPE == "MAIN") {
 //            //不存在这种情况

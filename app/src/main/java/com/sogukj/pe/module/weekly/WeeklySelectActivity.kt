@@ -37,6 +37,32 @@ class WeeklySelectActivity : ToolbarActivity() {
     var format = SimpleDateFormat("yyyy-MM-dd")
     var hasDepart = false
 
+    /**
+     * 每周的第一天和最后一天
+     * @param dataStr
+     * @param dateFormat
+     * @param resultDateFormat
+     * @return
+     * @throws ParseException
+     */
+    fun getFirstAndLastOfWeek(): ArrayList<String> {
+        val cal = Calendar.getInstance()
+        cal.time = Date()
+        var d = 0
+        if (cal.get(Calendar.DAY_OF_WEEK) === Calendar.SUNDAY) {
+            d = -6
+        } else {
+            d = 2 - cal.get(Calendar.DAY_OF_WEEK)
+        }
+        cal.add(Calendar.DAY_OF_WEEK, d)
+        // 所在周开始日期
+        val data1 = SimpleDateFormat("yyyy-MM-dd").format(cal.time)
+        cal.add(Calendar.DAY_OF_WEEK, 6)
+        // 所在周结束日期
+        val data2 = SimpleDateFormat("yyyy-MM-dd").format(cal.time)
+        return arrayListOf(data1, data2)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weekly_select)
@@ -56,8 +82,10 @@ class WeeklySelectActivity : ToolbarActivity() {
         title = "请选择"
 
         var calendar = Calendar.getInstance()
-        tv_start_time.text = format.format(calendar.time)
-        tv_end_time.text = format.format(calendar.time)
+//        tv_start_time.text = format.format(calendar.time)
+//        tv_end_time.text = format.format(calendar.time)
+        tv_start_time.text = getFirstAndLastOfWeek()[0]
+        tv_end_time.text = getFirstAndLastOfWeek()[1]
 
         var startDD = CalendarDingDing(context)
         tr_start_time.setOnClickListener {

@@ -36,6 +36,7 @@ import com.sogukj.pe.bean.FileListBean
 import com.sogukj.pe.bean.FundSmallBean
 import com.sogukj.pe.module.fund.BookUploadActivity
 import com.sogukj.pe.module.fund.MoveActivity
+import com.sogukj.pe.module.other.OnlinePreviewActivity
 import com.sogukj.pe.peUtils.FileTypeUtils
 import com.sogukj.pe.service.FundService
 import com.sogukj.service.SoguApi
@@ -177,10 +178,10 @@ class BookListActivity : BaseActivity() {
             adapter.onItemClick = { v, p ->
                 val data = adapter.getItem(p);
                 if (!TextUtils.isEmpty(data.url)) {
-                    //OnlinePreviewActivity.start(context, data.url!!, data.doc_title!!)
-                    val intent = Intent(Intent.ACTION_VIEW)
-                    intent.data = Uri.parse(data.url)
-                    startActivity(intent)
+                    OnlinePreviewActivity.start(context, data.url!!, data.doc_title!!)
+//                    val intent = Intent(Intent.ACTION_VIEW)
+//                    intent.data = Uri.parse(data.url)
+//                    startActivity(intent)
                 }
             }
         }
@@ -306,10 +307,10 @@ class BookListActivity : BaseActivity() {
                             }
                             if (data.dirname.isNullOrEmpty()) {
                                 if (!TextUtils.isEmpty(data.url)) {
-                                    //OnlinePreviewActivity.start(context, data.url!!, data.doc_title!!)
-                                    val intent = Intent(Intent.ACTION_VIEW)
-                                    intent.data = Uri.parse(data.url)
-                                    startActivity(intent)
+                                    OnlinePreviewActivity.start(context, data.url!!, data.doc_title!!)
+//                                    val intent = Intent(Intent.ACTION_VIEW)
+//                                    intent.data = Uri.parse(data.url)
+//                                    startActivity(intent)
                                 }
                             } else {
                                 BookListActivity.start(context, company_id!!, type!!, data.id, data.dirname!!, intent.getStringExtra(Extras.NAME), intent.getStringExtra(Extras.STAGE))
