@@ -45,9 +45,14 @@ class ProjectAddActivity : ToolbarActivity() {
 
         var type = intent.getStringExtra(Extras.TYPE)
         if (type == "ADD") {
-            setTitle("添加调研项目")
+            var title = intent.getStringExtra(Extras.TITLE)
+            if (title.contains("项目")) {
+                setTitle("添加${title}")
+            } else {
+                setTitle("添加${title}项目")
+            }
         } else if (type == "EDIT") {
-            setTitle("编辑调研项目")
+            setTitle("编辑项目")
             var data = intent.getSerializableExtra(Extras.DATA) as ProjectBean
             SoguApi.getService(application, NewService::class.java)
                     .showProject(data.company_id!!)
@@ -191,7 +196,7 @@ class ProjectAddActivity : ToolbarActivity() {
         map.put("name", text)
         recycler_result.visibility = View.VISIBLE
         iv_empty.visibility = View.GONE
-        SoguApi.getService(application,ProjectService::class.java)
+        SoguApi.getService(application, ProjectService::class.java)
                 .searchCompany(map)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -242,27 +247,27 @@ class ProjectAddActivity : ToolbarActivity() {
                         showCustomToast(R.drawable.icon_toast_success, "保存成功")
                         finish()
                     } else {
-                        if (payload.message === "9527"){
+                        if (payload.message === "9527") {
                             val permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE)
                             if (permission != PackageManager.PERMISSION_GRANTED) {
                                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CALL_PHONE), 0x001)
                             } else {
                                 SoguApi.getService(application, OtherService::class.java).getPayType()
                                         .execute {
-                                            onNext {payload ->
+                                            onNext { payload ->
                                                 if (payload.isOk) {
                                                     payload.payload?.let {
                                                         val bean = it.find { it.mealName == "项目套餐" }
                                                         val pay = PayView(context, bean)
                                                         pay.show(2, bean?.tel)
                                                     }
-                                                }else{
+                                                } else {
                                                     showErrorToast(payload.message)
                                                 }
                                             }
                                         }
                             }
-                        }else{
+                        } else {
                             showCustomToast(R.drawable.icon_toast_fail, payload.message)
                         }
                     }

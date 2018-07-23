@@ -15,14 +15,15 @@ class ProjectFocusActivity : ToolbarActivity() {
         setContentView(R.layout.activity_project_focus)
         setBack(true)
         val type = intent.getIntExtra(Extras.TYPE, -1)
-        when (type) {
-            ProjectListFragment.TYPE_GZ -> title = "关注"
-            ProjectListFragment.TYPE_DY -> title = "调研"
-            ProjectListFragment.TYPE_CB -> title = "储备"
-            ProjectListFragment.TYPE_LX -> title = "立项"
-            ProjectListFragment.TYPE_YT -> title = "已投"
-            ProjectListFragment.TYPE_TC -> title = "退出"
-        }
+        title = intent.getStringExtra(Extras.TITLE)
+//        when (type) {
+//            ProjectListFragment.TYPE_GZ -> title = "关注"
+//            ProjectListFragment.TYPE_DY -> title = "调研"
+//            ProjectListFragment.TYPE_CB -> title = "储备"
+//            ProjectListFragment.TYPE_LX -> title = "立项"
+//            ProjectListFragment.TYPE_YT -> title = "已投"
+//            ProjectListFragment.TYPE_TC -> title = "退出"
+//        }
 
         supportFragmentManager
                 .beginTransaction()
@@ -31,9 +32,10 @@ class ProjectFocusActivity : ToolbarActivity() {
     }
 
     companion object {
-        fun start(ctx: Activity?, @IntRange(from = 1, to = 7) type: Int) {
+        fun start(ctx: Activity?, @IntRange(from = 1, to = 7) type: Int, title: String) {
             val intent = Intent(ctx, ProjectFocusActivity::class.java)
             intent.putExtra(Extras.TYPE, type)
+            intent.putExtra(Extras.TITLE, title)
             ctx?.startActivity(intent)
         }
     }

@@ -88,7 +88,10 @@ public class SideBar extends View {
             }
             //x坐标等于中间-字符串宽度的一办(????????)
             float xPos = width / 2 - paint.measureText(b.get(i)) / 2;
-            float yPos = singleHeight * i + singleHeight;
+            //float yPos = singleHeight * i + singleHeight;
+            //如果我们想要计算这个文字的高度，只需要使用(descent-ascent)
+            float h = paint.getFontMetrics().descent - paint.getFontMetrics().ascent;
+            float yPos = singleHeight / 2 + h / 2 + singleHeight * i;
             canvas.drawText(b.get(i), xPos, yPos, paint);
             paint.reset();//重置画笔
         }

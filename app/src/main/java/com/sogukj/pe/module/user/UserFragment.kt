@@ -128,7 +128,7 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
             SettingActivity.start(context)
         }
         focus_layout.clickWithTrigger {
-            ProjectFocusActivity.start(activity, ProjectListFragment.TYPE_GZ)
+            ProjectFocusActivity.start(activity, ProjectListFragment.TYPE_GZ, "关注")
         }
 //        tv_1.setOnClickListener(this)
 //        tv_11.setOnClickListener(this)
@@ -433,7 +433,7 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
             textView.text = sStr
 
             textView.setOnClickListener {
-                ProjectFocusActivity.start(activity, stageList.get(i).type!!)
+                ProjectFocusActivity.start(activity, stageList.get(i).type!!, stageList.get(i).name!!)
             }
 
             stages.addView(textView)

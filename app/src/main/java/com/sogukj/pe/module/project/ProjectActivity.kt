@@ -114,14 +114,20 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
         //const val TYPE_GZ = 3
         //const val TYPE_DY = 6
         //const val TYPE_TC = 7
-        when (getEnvironment()) {
-            "sr" -> {
-                proj_stage.visibility = View.INVISIBLE
-            }
-            else -> {
-                proj_stage.visibility = View.VISIBLE
-            }
+        var baseurl = sp.getString(Extras.HTTPURL, "")
+        if (baseurl.contains("sr")) {
+            proj_stage.visibility = View.INVISIBLE
+        } else {
+            proj_stage.visibility = View.VISIBLE
         }
+//        when (getEnvironment()) {
+//            "sr" -> {
+//                proj_stage.visibility = View.INVISIBLE
+//            }
+//            else -> {
+//                proj_stage.visibility = View.VISIBLE
+//            }
+//        }
         if (type == ProjectListFragment.TYPE_DY) {
             proj_stage.text = "储 备"
             //edit.visibility = View.GONE
@@ -364,14 +370,16 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
             if (dialog.isShowing) {
                 dialog.dismiss()
             }
-            SoguApi.getService(application,NewService::class.java)
+            SoguApi.getService(application, NewService::class.java)
                     .delProject(project.company_id!!)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .subscribe({ payload ->
                         if (payload.isOk) {
                             showCustomToast(R.drawable.icon_toast_success, "删除成功")
-                            setResult(Activity.RESULT_OK)
+                            var intent1 = Intent()
+                            intent1.putExtra(Extras.FLAG, "DELETE")
+                            setResult(Activity.RESULT_OK, intent1)
                             finish()
                         } else
                             showCustomToast(R.drawable.icon_toast_fail, payload.message)
@@ -418,7 +426,7 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
                 ProjectListFragment.TYPE_LX -> 3
                 else -> return@setOnClickListener
             }
-            SoguApi.getService(application,NewService::class.java)
+            SoguApi.getService(application, NewService::class.java)
                     .changeStatus(project.company_id!!, status)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
@@ -461,7 +469,7 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
         var id = project.company_id
 
         ifNotNull(is_business, is_ability, id, { is_business, is_ability, id ->
-            SoguApi.getService(application,OtherService::class.java)
+            SoguApi.getService(application, OtherService::class.java)
                     .assess(id, is_business, is_ability)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
@@ -646,7 +654,7 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
     val colorGray = Color.parseColor("#D9D9D9")
     override fun onClick(view: View) {
         if (view.id in 1..61) {
-            SoguApi.getService(application,NewService::class.java)
+            SoguApi.getService(application, NewService::class.java)
                     .saveClick(view.id)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())

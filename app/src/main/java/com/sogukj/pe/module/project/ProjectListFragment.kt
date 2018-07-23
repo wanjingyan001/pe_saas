@@ -217,6 +217,9 @@ class ProjectListFragment : BaseFragment(), SupportEmptyView {
         if (requestCode == 0x001) {
             doRequest()
             if (resultCode == Activity.RESULT_OK) {
+                if (data!!.getStringExtra(Extras.FLAG) == "DELETE") {
+                    return
+                }
                 var mPFragment = parentFragment as MainProjectFragment
                 var viewpager = mPFragment.getViewPager()
                 ++viewpager.currentItem
@@ -230,7 +233,7 @@ class ProjectListFragment : BaseFragment(), SupportEmptyView {
 
     fun doRequest() {
         val user = Store.store.getUser(baseActivity!!)
-        SoguApi.getService(baseActivity!!.application,NewService::class.java)
+        SoguApi.getService(baseActivity!!.application, NewService::class.java)
                 .listProject(offset = offset, type = type, uid = user!!.uid)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -345,7 +348,7 @@ class ProjectListFragment : BaseFragment(), SupportEmptyView {
             }
             ivSC.setOnClickListener {
                 val user = Store.store.getUser(ctx) ?: return@setOnClickListener
-                SoguApi.getService(baseActivity!!.application,NewService::class.java)
+                SoguApi.getService(baseActivity!!.application, NewService::class.java)
                         .mark(uid = user!!.uid!!, company_id = data.company_id!!, type = (1 - data.is_focus))
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())

@@ -271,6 +271,7 @@ class MainProjectFragment : BaseRefreshFragment() {
             if (view_pager.currentItem == 0) {
                 var intent = Intent(context, ProjectAddActivity::class.java)
                 intent.putExtra(Extras.TYPE, "ADD")
+                intent.putExtra(Extras.TITLE, mTypeMap.get(mTypeList.get(0)))
                 startActivityForResult(intent, 0x543)
             } else if (view_pager.currentItem == 1) {
                 val intent = Intent(context, StoreProjectAddActivity::class.java)
