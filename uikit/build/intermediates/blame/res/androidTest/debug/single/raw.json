@@ -1,13 +1,6 @@
 [
     {
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/raw/audio_end_tip.wav",
-        "source": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/bundles/debug/res/raw/audio_end_tip.wav"
-<<<<<<< Updated upstream
-    },
-    {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/raw/audio_end_tip.wav",
         "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/raw/audio_end_tip.wav"
-=======
->>>>>>> Stashed changes
     }
 ]

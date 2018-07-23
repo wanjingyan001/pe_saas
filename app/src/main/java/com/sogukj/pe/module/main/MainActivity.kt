@@ -52,7 +52,6 @@ import com.sogukj.pe.database.Injection
 import com.sogukj.pe.module.fund.FundMainFragment
 import com.sogukj.pe.module.news.NewsDetailActivity
 import com.sogukj.pe.module.project.MainProjectFragment
-import com.sogukj.pe.module.register.CreateDepartmentActivity
 import com.sogukj.pe.module.register.PhoneInputActivity
 import com.sogukj.pe.peExtended.defaultIc
 import com.sogukj.pe.peUtils.FileUtil
@@ -96,7 +95,7 @@ class MainActivity : BaseActivity() {
         initFragments()
         initBottomNavBar()
         changeFragment(0)
-        updateVersion()
+//        updateVersion()
 
         ViewCompat.setElevation(mainLogo, 50f)
         val factory = Injection.provideViewModelFactory(ctx)

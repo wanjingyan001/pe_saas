@@ -120,7 +120,7 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
                 ActivityCompat.requestPermissions(baseActivity!!,
                         arrayOf(Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_CONTACTS),
                         Extras.REQUESTCODE)
-            }else{
+            } else {
                 startActivity<PayPackageActivity>()
             }
         }
@@ -170,9 +170,12 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
             user?.let {
                 val company = sp.getString(Extras.CompanyDetail, "")
                 val detail = Gson().fromJson<MechanismBasicInfo?>(company)
-                detail?.mechanism_name?.let {
-                    startActivity<CreateDepartmentActivity>(Extras.NAME to it,
+                detail?.let {
+                    val name = it.mechanism_name ?: ""
+                    val logo = it.logo ?: ""
+                    startActivity<CreateDepartmentActivity>(Extras.NAME to name,
                             Extras.CODE to user.phone,
+                            Extras.DATA to logo,
                             Extras.FLAG to true)
                 }
             }
@@ -238,7 +241,7 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
         tvWexin.setOnClickListener {
             dialog.dismiss()
             val sp = cn.sharesdk.framework.Platform.ShareParams()
-            sp.setShareType(cn.sharesdk.framework.Platform.SHARE_WEBPAGE)//非常重要：一定要设置分享属性
+            sp.setShareType(cn.sharesdk.framework.Platform.SHARE_WEBPAGE)//非常重要：一定\要设置分享属性
             sp.setTitle(shareTitle)  //分享标题
             sp.setText(shareSummry)   //分享文本
 //            if (null != news!!.imgUrl) {

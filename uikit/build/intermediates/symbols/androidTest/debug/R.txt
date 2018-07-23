@@ -666,7 +666,6 @@ int color Green 0x7f0e0002
 int color GreyWhite 0x7f0e0003
 int color Orange 0x7f0e0004
 int color Yellow 0x7f0e0005
-<<<<<<< Updated upstream
 int color abc_background_cache_hint_selector_material_dark 0x7f0e011b
 int color abc_background_cache_hint_selector_material_light 0x7f0e011c
 int color abc_btn_colored_borderless_text_material 0x7f0e011d
@@ -691,32 +690,6 @@ int color abc_tint_edittext 0x7f0e012b
 int color abc_tint_seek_thumb 0x7f0e012c
 int color abc_tint_spinner 0x7f0e012d
 int color abc_tint_switch_track 0x7f0e012e
-=======
-int color abc_background_cache_hint_selector_material_dark 0x7f0e0119
-int color abc_background_cache_hint_selector_material_light 0x7f0e011a
-int color abc_btn_colored_borderless_text_material 0x7f0e011b
-int color abc_btn_colored_text_material 0x7f0e011c
-int color abc_color_highlight_material 0x7f0e011d
-int color abc_hint_foreground_material_dark 0x7f0e011e
-int color abc_hint_foreground_material_light 0x7f0e011f
-int color abc_input_method_navigation_guard 0x7f0e0006
-int color abc_primary_text_disable_only_material_dark 0x7f0e0120
-int color abc_primary_text_disable_only_material_light 0x7f0e0121
-int color abc_primary_text_material_dark 0x7f0e0122
-int color abc_primary_text_material_light 0x7f0e0123
-int color abc_search_url_text 0x7f0e0124
-int color abc_search_url_text_normal 0x7f0e0007
-int color abc_search_url_text_pressed 0x7f0e0008
-int color abc_search_url_text_selected 0x7f0e0009
-int color abc_secondary_text_material_dark 0x7f0e0125
-int color abc_secondary_text_material_light 0x7f0e0126
-int color abc_tint_btn_checkable 0x7f0e0127
-int color abc_tint_default 0x7f0e0128
-int color abc_tint_edittext 0x7f0e0129
-int color abc_tint_seek_thumb 0x7f0e012a
-int color abc_tint_spinner 0x7f0e012b
-int color abc_tint_switch_track 0x7f0e012c
->>>>>>> Stashed changes
 int color accent_material_dark 0x7f0e000a
 int color accent_material_light 0x7f0e000b
 int color action_bar_black_title_1f1f1f 0x7f0e000c
@@ -795,11 +768,7 @@ int color color_gray_light 0x7f0e0054
 int color color_green_00d3a9 0x7f0e0055
 int color color_green_01d9ae 0x7f0e0056
 int color color_green_disable 0x7f0e0057
-<<<<<<< Updated upstream
 int color color_green_text_view_selector 0x7f0e012f
-=======
-int color color_green_text_view_selector 0x7f0e012d
->>>>>>> Stashed changes
 int color color_grey_555555 0x7f0e0058
 int color color_grey_999999 0x7f0e0059
 int color color_grey_ababab 0x7f0e005a
@@ -807,11 +776,7 @@ int color color_grey_eaeaea 0x7f0e005b
 int color color_main 0x7f0e005c
 int color color_main_light 0x7f0e005d
 int color color_message_default_bg 0x7f0e005e
-<<<<<<< Updated upstream
 int color color_picker_preview_selector 0x7f0e0130
-=======
-int color color_picker_preview_selector 0x7f0e012e
->>>>>>> Stashed changes
 int color color_prompt_red 0x7f0e005f
 int color color_red_ccfa3c55 0x7f0e0060
 int color color_split_line_cccccc 0x7f0e0061
@@ -825,11 +790,7 @@ int color contact_list_hover 0x7f0e0068
 int color contact_search_hit 0x7f0e0069
 int color contacts_letters_color 0x7f0e006a
 int color design_bottom_navigation_shadow_color 0x7f0e006b
-<<<<<<< Updated upstream
 int color design_error 0x7f0e0131
-=======
-int color design_error 0x7f0e012f
->>>>>>> Stashed changes
 int color design_fab_shadow_end_color 0x7f0e006c
 int color design_fab_shadow_mid_color 0x7f0e006d
 int color design_fab_shadow_start_color 0x7f0e006e
@@ -838,11 +799,7 @@ int color design_fab_stroke_end_outer_color 0x7f0e0070
 int color design_fab_stroke_top_inner_color 0x7f0e0071
 int color design_fab_stroke_top_outer_color 0x7f0e0072
 int color design_snackbar_background_color 0x7f0e0073
-<<<<<<< Updated upstream
 int color design_tint_password_toggle 0x7f0e0132
-=======
-int color design_tint_password_toggle 0x7f0e0130
->>>>>>> Stashed changes
 int color dim_foreground_disabled_material_dark 0x7f0e0074
 int color dim_foreground_disabled_material_light 0x7f0e0075
 int color dim_foreground_material_dark 0x7f0e0076
@@ -967,13 +924,8 @@ int color shareholder_text_gray 0x7f0e00eb
 int color split_line_grey_color_d9d9d9 0x7f0e00ec
 int color switch_thumb_disabled_material_dark 0x7f0e00ed
 int color switch_thumb_disabled_material_light 0x7f0e00ee
-<<<<<<< Updated upstream
 int color switch_thumb_material_dark 0x7f0e0133
 int color switch_thumb_material_light 0x7f0e0134
-=======
-int color switch_thumb_material_dark 0x7f0e0131
-int color switch_thumb_material_light 0x7f0e0132
->>>>>>> Stashed changes
 int color switch_thumb_normal_material_dark 0x7f0e00ef
 int color switch_thumb_normal_material_light 0x7f0e00f0
 int color tag1 0x7f0e00f1
@@ -993,7 +945,6 @@ int color text_2 0x7f0e00fe
 int color text_3 0x7f0e00ff
 int color text_4 0x7f0e0100
 int color text_5 0x7f0e0101
-<<<<<<< Updated upstream
 int color text_6 0x7f0e0102
 int color text_7 0x7f0e0103
 int color text_more 0x7f0e0104
@@ -1019,31 +970,6 @@ int color white 0x7f0e0117
 int color white2 0x7f0e0118
 int color white_easy_photos 0x7f0e0119
 int color windowBackground 0x7f0e011a
-=======
-int color text_more 0x7f0e0102
-int color text_sticker_black_easy_photos 0x7f0e0103
-int color text_sticker_blue_easy_photos 0x7f0e0104
-int color text_sticker_cyan_easy_photos 0x7f0e0105
-int color text_sticker_editor_fragment_bar_easy_photos 0x7f0e0106
-int color text_sticker_editor_fragment_bg_easy_photos 0x7f0e0107
-int color text_sticker_gray_easy_photos 0x7f0e0108
-int color text_sticker_green_easy_photos 0x7f0e0109
-int color text_sticker_orange_easy_photos 0x7f0e010a
-int color text_sticker_purple_easy_photos 0x7f0e010b
-int color text_sticker_red_easy_photos 0x7f0e010c
-int color text_sticker_white_easy_photos 0x7f0e010d
-int color text_sticker_yellow_easy_photos 0x7f0e010e
-int color title_color_01d9ae 0x7f0e010f
-int color tooltip_background_dark 0x7f0e0110
-int color tooltip_background_light 0x7f0e0111
-int color transparent 0x7f0e0112
-int color transparent_easy_photos 0x7f0e0113
-int color weekly_label 0x7f0e0114
-int color white 0x7f0e0115
-int color white2 0x7f0e0116
-int color white_easy_photos 0x7f0e0117
-int color windowBackground 0x7f0e0118
->>>>>>> Stashed changes
 int dimen abc_action_bar_content_inset_material 0x7f0a000d
 int dimen abc_action_bar_content_inset_with_nav 0x7f0a000e
 int dimen abc_action_bar_default_height_material 0x7f0a0001
@@ -1383,7 +1309,6 @@ int dimen text_size_20 0x7f0a014f
 int dimen text_size_21 0x7f0a0150
 int dimen text_size_24 0x7f0a0151
 int dimen text_size_25 0x7f0a0152
-<<<<<<< Updated upstream
 int dimen text_size_26 0x7f0a0153
 int dimen text_size_30 0x7f0a0154
 int dimen text_size_32 0x7f0a0155
@@ -1411,34 +1336,6 @@ int dimen tooltip_vertical_padding 0x7f0a016a
 int dimen tooltip_y_offset_non_touch 0x7f0a016b
 int dimen tooltip_y_offset_touch 0x7f0a016c
 int dimen very_samll_text_size 0x7f0a016d
-=======
-int dimen text_size_30 0x7f0a0153
-int dimen text_size_32 0x7f0a0154
-int dimen text_size_35 0x7f0a0155
-int dimen text_size_37 0x7f0a0156
-int dimen text_size_40 0x7f0a0157
-int dimen text_size_45 0x7f0a0158
-int dimen text_size_46 0x7f0a0159
-int dimen text_size_55 0x7f0a015a
-int dimen text_size_9 0x7f0a015b
-int dimen text_size_large 0x7f0a015c
-int dimen text_size_medium 0x7f0a015d
-int dimen text_size_normal 0x7f0a015e
-int dimen text_size_samll 0x7f0a015f
-int dimen text_small_size_ten_sp 0x7f0a0160
-int dimen thick_line_size 0x7f0a0161
-int dimen toolbar_height 0x7f0a0162
-int dimen toolbar_size_easy_photos 0x7f0a0163
-int dimen tooltip_corner_radius 0x7f0a0164
-int dimen tooltip_horizontal_padding 0x7f0a0165
-int dimen tooltip_margin 0x7f0a0166
-int dimen tooltip_precise_anchor_extra_offset 0x7f0a0167
-int dimen tooltip_precise_anchor_threshold 0x7f0a0168
-int dimen tooltip_vertical_padding 0x7f0a0169
-int dimen tooltip_y_offset_non_touch 0x7f0a016a
-int dimen tooltip_y_offset_touch 0x7f0a016b
-int dimen very_samll_text_size 0x7f0a016c
->>>>>>> Stashed changes
 int drawable abc_ab_share_pack_mtrl_alpha 0x7f020000
 int drawable abc_action_bar_item_background_material 0x7f020001
 int drawable abc_btn_borderless_material 0x7f020002

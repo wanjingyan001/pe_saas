@@ -1,33 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true"
-  >
+    android:layout_height="match_parent">
+
+    <include layout="@layout/white_toolbar" />
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.53"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-        <include layout="@layout/white_toolbar" />
 
         <TextView
             android:id="@+id/infoSupplementTitle"
             style="@style/registerTitleStyle"
             android:text="@string/join_team"
+            app:layout_constraintBottom_toTopOf="@+id/toCreateTeam"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread_inside" />
 
         <TextView
             android:id="@+id/toCreateTeam"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="22dp"
             android:text="@string/jump_link"
             android:textSize="@dimen/text_size_medium"
+            app:layout_constraintBottom_toTopOf="@+id/invCodeLayout"
             app:layout_constraintStart_toStartOf="@+id/infoSupplementTitle"
             app:layout_constraintTop_toBottomOf="@+id/infoSupplementTitle" />
 
@@ -37,8 +42,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="27dp"
             android:layout_marginStart="27dp"
-            android:layout_marginTop="100dp"
             app:editCount="6"
+            app:layout_constraintBottom_toTopOf="@+id/joinNow"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toCreateTeam"
@@ -49,11 +54,13 @@
         <TextView
             android:id="@+id/joinNow"
             style="@style/registerNextStep"
+            android:layout_marginBottom="12dp"
             android:enabled="false"
             android:text="@string/join_now"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/invCodeLayout" />
 
     </android.support.constraint.ConstraintLayout>
-</ScrollView>
+</android.support.constraint.ConstraintLayout>

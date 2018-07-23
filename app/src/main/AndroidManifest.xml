@@ -85,7 +85,7 @@
             android:value="${AMAP_KEY}" />
         <meta-data
             android:name="com.netease.nim.appKey"
-            android:value="${IM_KEY}" />
+            android:value="a0af02d86ecfb1ee160dde8369a5035e" />
         <!-- 测试版 -->
         <!-- a0af02d86ecfb1ee160dde8369a5035e -->
         <!-- 正式版 -->
@@ -1054,6 +1054,7 @@
         <activity
             android:name=".module.register.PhoneInputActivity"
             android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysVisible" />
         <activity
             android:name=".module.register.VerCodeInputActivity"

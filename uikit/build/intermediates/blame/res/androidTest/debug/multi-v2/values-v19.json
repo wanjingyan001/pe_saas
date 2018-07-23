@@ -1,39 +1,6 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-v19/values-v19.xml",
-            "map": [
-                {
-                    "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/3c83ecebdf25884c4d6ffd482b5c03a4/res/values-v19/values-v19.xml",
-                    "from": {
-                        "startLines": "2,9",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,509",
-                        "endLines": "8,9",
-                        "endColumns": "12,78",
-                        "endOffsets": "504,583"
-                    }
-                }
-            ]
-        },
-        {
-            "outputFile": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/values-v19/values-v19.xml",
-            "map": [
-                {
-                    "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/3c83ecebdf25884c4d6ffd482b5c03a4/res/values-v19/values-v19.xml",
-                    "from": {
-                        "startLines": "2,9",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,509",
-                        "endLines": "8,9",
-                        "endColumns": "12,78",
-                        "endOffsets": "504,583"
-                    }
-                }
-            ]
-<<<<<<< Updated upstream
-        },
-        {
             "outputFile": "/Users/admin/dev/pe_saas/uikit/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-v19/values-v19.xml",
             "map": [
                 {
@@ -64,8 +31,6 @@
                     }
                 }
             ]
-=======
->>>>>>> Stashed changes
         }
     ]
 }

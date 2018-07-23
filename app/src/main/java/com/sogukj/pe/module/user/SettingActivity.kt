@@ -26,7 +26,6 @@ import com.sogukj.pe.baselibrary.utils.XmlDb
 import com.sogukj.pe.bean.MechanismBasicInfo
 import com.sogukj.pe.database.Injection
 import com.sogukj.pe.module.main.LoginActivity
-import com.sogukj.pe.module.register.CreateDepartmentActivity
 import com.sogukj.pe.module.register.PhoneInputActivity
 import com.sogukj.pe.module.register.UploadBasicInfoActivity
 import com.sogukj.pe.peUtils.Store

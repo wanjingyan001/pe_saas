@@ -1,28 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/white"
     android:layout_height="match_parent">
+
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/parentLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.62"
+        app:layout_constraintStart_toStartOf="parent"
         tools:context="com.sogukj.pe.module.register.PhoneInputActivity">
 
         <ImageView
             android:id="@+id/mPhoneInputIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="70dp"
             android:src="@mipmap/icon_register_phone_input"
+            app:layout_constraintBottom_toTopOf="@+id/mPhoneInputTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
 
 
         <TextView
@@ -33,6 +36,7 @@
             android:text="@string/phone_input"
             android:textColor="@color/text_1"
             android:textSize="@dimen/text_size_24"
+            app:layout_constraintBottom_toTopOf="@+id/inputLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mPhoneInputIcon" />
@@ -47,6 +51,7 @@
             android:layout_marginTop="50dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/line"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mPhoneInputTitle">
@@ -82,6 +87,7 @@
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:background="@color/divider2"
+            app:layout_constraintBottom_toTopOf="@+id/nextStep"
             app:layout_constraintEnd_toEndOf="@+id/inputLayout"
             app:layout_constraintStart_toStartOf="@+id/inputLayout"
             app:layout_constraintTop_toBottomOf="@+id/inputLayout" />
@@ -91,9 +97,10 @@
             style="@style/registerNextStep"
             android:enabled="false"
             android:text="@string/next_step"
+            android:layout_marginBottom="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/line" />
+            app:layout_constraintStart_toStartOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
-</ScrollView>
+</android.support.constraint.ConstraintLayout>

@@ -18,6 +18,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.BaseExpandableListAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
@@ -26,6 +27,7 @@ import com.netease.nimlib.sdk.team.model.Team
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.execute
+import com.sogukj.pe.baselibrary.Extended.fromJson
 import com.sogukj.pe.baselibrary.Extended.setOnClickFastListener
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
@@ -34,6 +36,7 @@ import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.DepartmentBean
+import com.sogukj.pe.bean.MechanismBasicInfo
 import com.sogukj.pe.bean.ProjectBean
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.module.im.TeamCreateActivity
@@ -156,7 +159,6 @@ class ContactsActivity : ToolbarActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contacts)
         Utils.setWindowStatusBarColor(this, R.color.color_blue_0888ff)
-
         setBack(true)
 
         getDataFromIntent()
@@ -192,7 +194,7 @@ class ContactsActivity : ToolbarActivity() {
         if (alreadySelected.isNotEmpty()) {
             selectNumber.text = "已选择: ${alreadySelected.size} 人"
         }
-
+        title = if (isCreateTeam) "创建群聊" else "选择联系人"
         if (intent.action == Intent.ACTION_SEND && intent.extras.containsKey(Intent.EXTRA_STREAM)) {
             val uri = intent.extras.getParcelable<Uri>(Intent.EXTRA_STREAM)
             pathByUri = Utils.getFileAbsolutePathByUri(this, uri)
@@ -227,8 +229,13 @@ class ContactsActivity : ToolbarActivity() {
                 companyName.text = "尚融资本"
             }
             else -> {
-                company_icon.imageResource = R.mipmap.ic_launcher_pe
-                companyName.text = "搜股X-PE"
+                val company = sp.getString(Extras.CompanyDetail, "")
+                val detail = Gson().fromJson<MechanismBasicInfo?>(company)
+                Glide.with(this)
+                        .load(detail?.logo)
+                        .apply(RequestOptions().placeholder(R.mipmap.ic_launcher_pe).error(R.mipmap.ic_launcher_pe))
+                        .into(company_icon)
+                companyName.text = detail?.mechanism_name ?: "搜股X-PE"
             }
         }
     }
@@ -297,7 +304,7 @@ class ContactsActivity : ToolbarActivity() {
 
         val user = Store.store.getUser(context)
         user?.accid?.let {
-            SoguApi.getService(application,UserService::class.java)
+            SoguApi.getService(application, UserService::class.java)
                     .recentContacts(it)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
@@ -340,7 +347,7 @@ class ContactsActivity : ToolbarActivity() {
 
 
     private fun getTissueData() {
-        SoguApi.getService(application,UserService::class.java)
+        SoguApi.getService(application, UserService::class.java)
                 .userDepart()
                 .execute {
                     onNext { payload ->

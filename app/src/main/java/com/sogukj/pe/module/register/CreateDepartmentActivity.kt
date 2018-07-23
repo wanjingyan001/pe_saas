@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.sogukj.pe.Extras
@@ -49,7 +50,10 @@ class CreateDepartmentActivity : ToolbarActivity() {
         phone = intent.getStringExtra(Extras.CODE)
 
         companyName.text = mechanismName
-        Glide.with(this).load(logoUrl).into(companyLogo)
+        Glide.with(this)
+                .load(logoUrl)
+                .apply(RequestOptions().placeholder(R.mipmap.ic_launcher_pe).error(R.mipmap.ic_launcher_pe))
+                .into(companyLogo)
         departmentAdapter = DepartmentAdapter(departments)
         departmentAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { adapter, view, position ->
             startActivity<DepartmentSettingActivity>(Extras.DATA to departmentAdapter.data[position])

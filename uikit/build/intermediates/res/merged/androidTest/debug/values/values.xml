@@ -534,11 +534,8 @@
     <color name="text_3">#a0a4aa</color>
     <color name="text_4">#3A3635</color>
     <color name="text_5">#3C98E8</color>
-<<<<<<< Updated upstream
     <color name="text_6">#FE5F39</color>
     <color name="text_7">#F9C73F</color>
-=======
->>>>>>> Stashed changes
     <color name="text_more">#3a5a95</color>
     <color name="text_sticker_black_easy_photos">#000000</color>
     <color name="text_sticker_blue_easy_photos">#4a90e2</color>
@@ -1411,10 +1408,7 @@
     <dimen name="text_size_21">21sp</dimen>
     <dimen name="text_size_24">24sp</dimen>
     <dimen name="text_size_25">25sp</dimen>
-<<<<<<< Updated upstream
     <dimen name="text_size_26">26sp</dimen>
-=======
->>>>>>> Stashed changes
     <dimen name="text_size_30">30sp</dimen>
     <dimen name="text_size_32">32sp</dimen>
     <dimen name="text_size_35">35sp</dimen>

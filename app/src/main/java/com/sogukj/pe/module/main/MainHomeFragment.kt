@@ -113,7 +113,7 @@ class MainHomeFragment : BaseFragment() {
                 party_build.isEnabled = false
             }
         }
-        toolbar_title.text = "搜股X-PE"
+        toolbar_title.text = "X-PE"
         val factory = Injection.provideViewModelFactory(ctx)
         val model = ViewModelProviders.of(this, factory).get(FunctionViewModel::class.java)
 
