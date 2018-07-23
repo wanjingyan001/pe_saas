@@ -216,7 +216,7 @@ class ProjectListFragment : BaseFragment(), SupportEmptyView {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 0x001) {
             doRequest()
-            if (resultCode == Activity.RESULT_OK) {
+            if (resultCode == Activity.RESULT_OK && parentFragment != null) {
                 if (data!!.getStringExtra(Extras.FLAG) == "DELETE") {
                     return
                 }

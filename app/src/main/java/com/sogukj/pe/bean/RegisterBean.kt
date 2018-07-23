@@ -80,7 +80,7 @@ data class MemberList(val list: List<UserBean>?)
 
 @SuppressLint("ParcelCreator")
 @Parcelize
-data class MechanismBasicInfo(val mechanism_name: String,
+data class MechanismBasicInfo(val mechanism_name: String?,
                          var logo: String?,
                          var email:String?,
                          var address:String?,

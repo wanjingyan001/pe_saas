@@ -1,81 +1,78 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:fillViewport="true"
-    android:layout_height="match_parent">
+<?xml version="1.0" encoding="utf-8"?><!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:app="http://schemas.android.com/apk/res-auto"--><!--xmlns:tools="http://schemas.android.com/tools"--><!--android:layout_width="match_parent"--><!--android:fillViewport="true"--><!--android:layout_height="match_parent">-->
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.sogukj.pe.module.register.VerCodeInputActivity">
-
-    <ImageView
-        android:id="@+id/back"
-        android:layout_width="wrap_content"
-        android:layout_height="56dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:src="@drawable/icon_back_gray"
-        />
-
-    <ImageView
-        android:id="@+id/mVerCodeInput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
-        android:src="@mipmap/icon_ver_code_input"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:layout_height="match_parent">
 
 
-    <TextView
-        android:id="@+id/mPhoneInputTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/vercode_input"
-        android:textColor="@color/text_1"
-        android:textSize="@dimen/text_size_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mVerCodeInput" />
-
-    <com.sogukj.pe.baselibrary.widgets.SingleEditLayout
-        android:id="@+id/verCodeLayout"
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="27dp"
-        android:layout_marginStart="27dp"
-        android:layout_marginTop="37dp"
-        app:editCount="6"
-        app:singleWidth="40"
+        android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.62"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mPhoneInputTitle"/>
+        tools:context="com.sogukj.pe.module.register.VerCodeInputActivity">
 
-    <!--<TextView-->
-    <!--android:layout_width="54dp"-->
-    <!--android:layout_height="40dp"-->
-    <!--android:textColor="@color/text_1"-->
-    <!--android:gravity="center"-->
-    <!--android:layout_margin="13dp"-->
-    <!--android:background="@drawable/bg_single_edt"-->
-    <!--android:textSize="@dimen/text_size_normal"/>-->
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:src="@drawable/icon_back_gray"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <!--</com.sogukj.pe.baselibrary.widgets.SingleEditLayout>-->
+        <ImageView
+            android:id="@+id/mVerCodeInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_ver_code_input"
+            app:layout_constraintBottom_toTopOf="@+id/mPhoneInputTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/back"
+            app:layout_constraintVertical_chainStyle="spread" />
 
-    <TextView
-        android:id="@+id/nextStep"
-        style="@style/registerNextStep"
-        android:enabled="false"
-        android:text="@string/next_step"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/verCodeLayout" />
 
-</android.support.constraint.ConstraintLayout>
-</ScrollView>
+        <TextView
+            android:id="@+id/mPhoneInputTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/vercode_input"
+            android:textColor="@color/text_1"
+            android:textSize="@dimen/text_size_24"
+            app:layout_constraintBottom_toTopOf="@+id/verCodeLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mVerCodeInput" />
+
+        <com.sogukj.pe.baselibrary.widgets.SingleEditLayout
+            android:id="@+id/verCodeLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="27dp"
+            android:layout_marginStart="27dp"
+            app:editCount="6"
+            app:layout_constraintBottom_toTopOf="@+id/nextStep"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mPhoneInputTitle"
+            app:singleWidth="40" />
+
+
+        <TextView
+            android:id="@+id/nextStep"
+            style="@style/registerNextStep"
+            android:layout_marginBottom="12dp"
+            android:enabled="false"
+            android:text="@string/next_step"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout><!--</ScrollView>-->

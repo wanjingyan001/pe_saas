@@ -1,10 +1,5 @@
 [
     {
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/layout-v14/md_stub_progress_indeterminate.xml",
-        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/3bfb9c14fe40cb834a797c1193d05f3f/res/layout-v14/md_stub_progress_indeterminate.xml"
-    },
-    {
-<<<<<<< Updated upstream
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout-v14/md_stub_progress_indeterminate_horizontal.xml",
         "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/a99f0a6100010ac458852a7a11738977/res/layout-v14/md_stub_progress_indeterminate_horizontal.xml"
     },
@@ -13,20 +8,7 @@
         "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/a99f0a6100010ac458852a7a11738977/res/layout-v14/md_stub_progress.xml"
     },
     {
-=======
->>>>>>> Stashed changes
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/layout-v14/md_stub_progress.xml",
-        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/3bfb9c14fe40cb834a797c1193d05f3f/res/layout-v14/md_stub_progress.xml"
-    },
-    {
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/layout-v14/md_stub_progress_indeterminate_horizontal.xml",
-        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/3bfb9c14fe40cb834a797c1193d05f3f/res/layout-v14/md_stub_progress_indeterminate_horizontal.xml"
-<<<<<<< Updated upstream
-    },
-    {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout-v14/md_stub_progress_indeterminate.xml",
         "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/a99f0a6100010ac458852a7a11738977/res/layout-v14/md_stub_progress_indeterminate.xml"
-=======
->>>>>>> Stashed changes
     }
 ]

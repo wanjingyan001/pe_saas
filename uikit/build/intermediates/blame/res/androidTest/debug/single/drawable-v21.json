@@ -1,51 +1,39 @@
 [
     {
-<<<<<<< Updated upstream
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/abc_btn_colored_material.xml",
         "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/drawable-v21/abc_btn_colored_material.xml"
     },
     {
-=======
->>>>>>> Stashed changes
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/md_btn_selector_ripple_dark.xml",
-        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/3bfb9c14fe40cb834a797c1193d05f3f/res/drawable-v21/md_btn_selector_ripple_dark.xml"
-    },
-    {
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/md_btn_shape.xml",
-        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/3bfb9c14fe40cb834a797c1193d05f3f/res/drawable-v21/md_btn_shape.xml"
-    },
-    {
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/abc_edit_text_material.xml",
-        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/d37ed2f77ff877640c1210bd1d06774a/res/drawable-v21/abc_edit_text_material.xml"
-    },
-    {
-<<<<<<< Updated upstream
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/nim_touch_bg.xml",
         "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-v21/nim_touch_bg.xml"
     },
     {
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/md_btn_selector_ripple.xml",
-        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/3bfb9c14fe40cb834a797c1193d05f3f/res/drawable-v21/md_btn_selector_ripple.xml"
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/md_btn_selector_ripple.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/a99f0a6100010ac458852a7a11738977/res/drawable-v21/md_btn_selector_ripple.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/abc_action_bar_item_background_material.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/drawable-v21/abc_action_bar_item_background_material.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/md_btn_selector_ripple_dark.xml",
         "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/a99f0a6100010ac458852a7a11738977/res/drawable-v21/md_btn_selector_ripple_dark.xml"
     },
     {
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/bg_clickable.xml",
-        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/library-1.8.aar/45a2d77b5667bd78543d81454121be55/res/drawable-v21/bg_clickable.xml"
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/notification_action_background.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/266594d5e4bf1ff18bcc89b38e8dbcf2/res/drawable-v21/notification_action_background.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/design_bottom_navigation_item_background.xml",
         "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/0000feb02ed9850fa63110d2c9bd4d26/res/drawable-v21/design_bottom_navigation_item_background.xml"
     },
     {
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/notification_action_background.xml",
-        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/143b30e02e829f94e973581cfce37c6e/res/drawable-v21/notification_action_background.xml"
-    },
-    {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/avd_show_password.xml",
         "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/0000feb02ed9850fa63110d2c9bd4d26/res/drawable-v21/avd_show_password.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/md_btn_shape.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/a99f0a6100010ac458852a7a11738977/res/drawable-v21/md_btn_shape.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/design_password_eye.xml",
@@ -56,83 +44,11 @@
         "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/drawable-v21/abc_edit_text_material.xml"
     },
     {
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/avd_show_password.xml",
-        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/d67e9ce546a8c444c7f36889fdff208d/res/drawable-v21/avd_show_password.xml"
-    },
-    {
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/design_password_eye.xml",
-        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/d67e9ce546a8c444c7f36889fdff208d/res/drawable-v21/design_password_eye.xml"
-    },
-    {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/avd_hide_password.xml",
         "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/0000feb02ed9850fa63110d2c9bd4d26/res/drawable-v21/avd_hide_password.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/bg_clickable.xml",
         "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/library-1.8.aar/051830ba79bf17e91877f4a87ac02cd1/res/drawable-v21/bg_clickable.xml"
-    },
-    {
-=======
->>>>>>> Stashed changes
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/abc_btn_colored_material.xml",
-        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/d37ed2f77ff877640c1210bd1d06774a/res/drawable-v21/abc_btn_colored_material.xml"
-    },
-    {
-<<<<<<< Updated upstream
-        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/md_btn_selector_ripple.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/a99f0a6100010ac458852a7a11738977/res/drawable-v21/md_btn_selector_ripple.xml"
-=======
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/md_btn_selector_ripple.xml",
-        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/3bfb9c14fe40cb834a797c1193d05f3f/res/drawable-v21/md_btn_selector_ripple.xml"
->>>>>>> Stashed changes
-    },
-    {
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/avd_hide_password.xml",
-        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/d67e9ce546a8c444c7f36889fdff208d/res/drawable-v21/avd_hide_password.xml"
-    },
-    {
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/abc_action_bar_item_background_material.xml",
-        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/d37ed2f77ff877640c1210bd1d06774a/res/drawable-v21/abc_action_bar_item_background_material.xml"
-    },
-    {
-<<<<<<< Updated upstream
-        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/abc_action_bar_item_background_material.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/drawable-v21/abc_action_bar_item_background_material.xml"
-=======
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/bg_clickable.xml",
-        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/library-1.8.aar/45a2d77b5667bd78543d81454121be55/res/drawable-v21/bg_clickable.xml"
->>>>>>> Stashed changes
-    },
-    {
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/design_bottom_navigation_item_background.xml",
-        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/d67e9ce546a8c444c7f36889fdff208d/res/drawable-v21/design_bottom_navigation_item_background.xml"
-    },
-    {
-<<<<<<< Updated upstream
-        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/notification_action_background.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/266594d5e4bf1ff18bcc89b38e8dbcf2/res/drawable-v21/notification_action_background.xml"
-    },
-    {
-        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/md_btn_shape.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/a99f0a6100010ac458852a7a11738977/res/drawable-v21/md_btn_shape.xml"
-=======
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/notification_action_background.xml",
-        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/143b30e02e829f94e973581cfce37c6e/res/drawable-v21/notification_action_background.xml"
-    },
-    {
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/avd_show_password.xml",
-        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/d67e9ce546a8c444c7f36889fdff208d/res/drawable-v21/avd_show_password.xml"
->>>>>>> Stashed changes
-    },
-    {
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/nim_touch_bg.xml",
-        "source": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/bundles/debug/res/drawable-v21/nim_touch_bg.xml"
-<<<<<<< Updated upstream
-=======
-    },
-    {
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/drawable-v21/design_password_eye.xml",
-        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/d67e9ce546a8c444c7f36889fdff208d/res/drawable-v21/design_password_eye.xml"
->>>>>>> Stashed changes
     }
 ]

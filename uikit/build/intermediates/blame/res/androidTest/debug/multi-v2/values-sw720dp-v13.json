@@ -1,7 +1,6 @@
 {
     "logs": [
         {
-<<<<<<< Updated upstream
             "outputFile": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/values-sw720dp-v13/values-sw720dp-v13.xml",
             "map": [
                 {
@@ -17,39 +16,6 @@
             ]
         },
         {
-=======
->>>>>>> Stashed changes
-            "outputFile": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-sw720dp-v13/values-sw720dp-v13.xml",
-            "map": [
-                {
-                    "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/3bfb9c14fe40cb834a797c1193d05f3f/res/values-sw720dp-v13/values-sw720dp-v13.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "51",
-                        "endOffsets": "102"
-                    }
-                }
-            ]
-        },
-        {
-            "outputFile": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/values-sw720dp-v13/values-sw720dp-v13.xml",
-            "map": [
-                {
-                    "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/3bfb9c14fe40cb834a797c1193d05f3f/res/values-sw720dp-v13/values-sw720dp-v13.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "51",
-                        "endOffsets": "102"
-                    }
-                }
-            ]
-<<<<<<< Updated upstream
-        },
-        {
             "outputFile": "/Users/admin/dev/pe_saas/uikit/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-sw720dp-v13/values-sw720dp-v13.xml",
             "map": [
                 {
@@ -63,8 +29,6 @@
                     }
                 }
             ]
-=======
->>>>>>> Stashed changes
         }
     ]
 }

@@ -111,7 +111,7 @@ class UploadBasicInfoActivity : ToolbarActivity() {
                             if (payload.isOk) {
                                 payload.payload?.let {
                                     cardPath = it.logo ?: ""
-                                    mechanismName = it.mechanism_name
+                                    mechanismName =  it.mechanism_name ?: ""
                                     Glide.with(ctx)
                                             .load(it.logo)
                                             .into(mCompanyLogo)

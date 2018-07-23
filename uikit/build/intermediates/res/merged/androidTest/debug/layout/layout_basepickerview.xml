@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     android:id="@+id/outmost_container"
@@ -14,21 +13,4 @@
         android:layout_height="wrap_content">
     </FrameLayout>
 
-=======
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    android:id="@+id/outmost_container"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clickable="true"
-    android:background="@color/pickerview_bgColor_overlay">
-
-    <FrameLayout
-        android:id="@+id/content_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    </FrameLayout>
-
->>>>>>> Stashed changes
 </FrameLayout>
