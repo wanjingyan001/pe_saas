@@ -11,10 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.GridView
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
 import com.netease.nim.uikit.api.NimUIKit
@@ -57,6 +54,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_project.*
 import org.jetbrains.anko.backgroundResource
+import org.jetbrains.anko.ctx
 import org.jetbrains.anko.find
 import org.jetbrains.anko.textColor
 
@@ -194,6 +192,11 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
                         payload.payload?.counts?.forEach {
                             refreshLayout(it)
                         }
+
+                        var view = View(ctx)
+                        var params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Utils.dpToPx(ctx, 80))
+                        view.layoutParams = params
+                        root.addView(view)
 
                         if (payload.payload!!.fu == 0) {
                             neg_num.text = "运营良好"

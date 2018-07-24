@@ -81,7 +81,11 @@ class OnlinePreviewActivity : ToolbarActivity() {
             web.loadUrl("file:///android_asset/pdfjs/web/viewer.html?file=" + url)
         } else {
             if (FileUtil.getFileType(File(url.split("?")[0])) == FileUtil.FileType.DOC) {
-                web.loadUrl("https://view.officeapps.live.com/op/view.aspx?src=" + url)
+                if (url.contains("txt")) {
+                    web.loadUrl(url)
+                } else {
+                    web.loadUrl("https://view.officeapps.live.com/op/view.aspx?src=" + url)
+                }
             } else if (FileUtil.getFileType(File(url.split("?")[0])) == FileUtil.FileType.IMAGE) {
                 web.loadUrl(url)
             }

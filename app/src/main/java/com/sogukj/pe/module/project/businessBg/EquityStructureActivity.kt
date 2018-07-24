@@ -232,7 +232,7 @@ class EquityStructureActivity : ToolbarActivity(), PlatformActionListener {
     val headers = arrayOf(R.drawable.bg_header_0, R.drawable.bg_header_1, R.drawable.bg_header_2, R.drawable.bg_header_3)
 
     fun setHeader(llHeader: View, data: StructureBean, index: Int) {
-        llHeader.setBackgroundResource(headers[index])
+        llHeader.setBackgroundResource(headers[index % headers.size])
         var llContent = llHeader.findViewById<LinearLayout>(R.id.ll_content)
         var tvName = llHeader.findViewById<TextView>(R.id.tv_name) as TextView
         var tvPercent = llHeader.findViewById<TextView>(R.id.tv_percent) as TextView
