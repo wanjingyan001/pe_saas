@@ -1,6 +1,7 @@
 package com.sogukj.pe.module.fund
 
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -14,7 +15,9 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.RelativeSizeSpan
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
@@ -190,7 +193,17 @@ class FundListFragment : BaseFragment() {
         iv_loading?.visibility = View.VISIBLE
 
         doRequest()
+        //isViewCreated = true
     }
+
+//    var isViewCreated = false
+//
+//    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+//        super.setUserVisibleHint(isVisibleToUser)
+//        if (isVisibleToUser && isViewCreated) {
+//            doRequest()
+//        }
+//    }
 
     class FundCountDownColor(var millisInFuture: Long, var countDownInterval: Long, var view: View, var data: Int) : CountDownTimer(millisInFuture, countDownInterval) {
         override fun onFinish() {
@@ -306,11 +319,6 @@ class FundListFragment : BaseFragment() {
                         }
                         SortUtil.sortByName(list)
                         adapter.dataList.addAll(list)
-                        if (offset != 0) {
-                            if (payload.payload == null || payload.payload!!.isEmpty()) {
-                                showCustomToast(R.drawable.icon_toast_common, "已加载全部")
-                            }
-                        }
                     } else
                         showCustomToast(R.drawable.icon_toast_fail, payload.message)
                     iv_loading?.visibility = View.GONE

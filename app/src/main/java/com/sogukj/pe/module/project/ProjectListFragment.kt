@@ -105,9 +105,9 @@ class ProjectListFragment : BaseFragment(), SupportEmptyView {
                 .load(Uri.parse("file:///android_asset/img_loading.gif"))
                 .into(iv_loading)
         iv_loading?.visibility = View.VISIBLE
-        handler.postDelayed({
-            doRequest()
-        }, 100)
+//        handler.postDelayed({
+//            doRequest()
+//        }, 100)
         Log.e("onViewCreated", "${type}")
         isViewCreated = true
 
