@@ -110,6 +110,8 @@ class PhoneInputActivity : BaseActivity() {
                             sp.edit { putString(Extras.SaasPhone,phone) }
                             showSuccessToast("验证码已经发送，请查收")
                             startActivity<VerCodeInputActivity>(Extras.DATA to phone)
+                        }else{
+                            showErrorToast(payload.message)
                         }
                     }
                 }

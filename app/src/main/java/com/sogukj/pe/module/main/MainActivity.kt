@@ -37,10 +37,7 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
-import com.sogukj.pe.App
-import com.sogukj.pe.Consts
-import com.sogukj.pe.Extras
-import com.sogukj.pe.R
+import com.sogukj.pe.*
 import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.ActivityHelper
 import com.sogukj.pe.baselibrary.base.BaseActivity
@@ -81,6 +78,11 @@ class MainActivity : BaseActivity() {
     private val mainHome: MainHomeFragment by lazy { MainHomeFragment.newInstance() }
     private val project: MainProjectFragment by lazy { MainProjectFragment.newInstance() }
     private val mainFund: FundMainFragment by lazy { FundMainFragment.newInstance() }
+    private val defaultIndex = 0
+
+    private val modules = listOf("消息", "通讯录", "首页", "项目", "基金")
+
+    private lateinit var items: List<BottomNavigationItem>
 
     lateinit var manager: FragmentManager
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,10 +94,10 @@ class MainActivity : BaseActivity() {
             if (null != news) NewsDetailActivity.start(this@MainActivity, news)
         }
         verifyPermissions(this)
-        initFragments()
         initBottomNavBar()
-        changeFragment(0)
-//        updateVersion()
+        initFragments()
+        changeFragment(defaultIndex)
+        updateVersion()
 
         ViewCompat.setElevation(mainLogo, 50f)
         val factory = Injection.provideViewModelFactory(ctx)
@@ -122,33 +124,44 @@ class MainActivity : BaseActivity() {
         fragments.add(mainFund)
     }
 
+
     private fun initBottomNavBar() {
-//        .addItem(BottomNavigationItem(R.drawable.ic_qb_sel12, "首页").setInactiveIconResource(R.drawable.ic_qb_nor2).initNavTextColor1())
-        bottomBar.addItem(BottomNavigationItem(R.drawable.ic_qb_sel11, "消息").setInactiveIconResource(R.drawable.ic_qb_nor).initNavTextColor())
-                .addItem(BottomNavigationItem(R.drawable.ic_qb_sel15, "通讯录").setInactiveIconResource(R.drawable.ic_qb_nor1).initNavTextColor())
-                .addItem(BottomNavigationItem(R.drawable.ic_qb_selnull, "首页").setInactiveIconResource(R.drawable.ic_qb_nor2).initNavTextColor1())
-                .addItem(BottomNavigationItem(R.drawable.ic_tab_main_proj_11, "项目").setInactiveIconResource(R.drawable.ic_tab_main_proj_0).initNavTextColor())
-                .addItem(BottomNavigationItem(R.drawable.ic_main_fund22, "基金").setInactiveIconResource(R.drawable.ic_main_fund).initNavTextColor())
-                .setMode(BottomNavigationBar.MODE_FIXED)
+//        val mainItem0 = BottomNavigationItem(R.drawable.ic_qb_sel12, "首页").setInactiveIconResource(R.drawable.ic_qb_nor2).initNavTextColor()
+        val msgItem = BottomNavigationItem(R.drawable.ic_qb_sel11, "消息").setInactiveIconResource(R.drawable.ic_qb_nor).initNavTextColor()
+        val contactItem = BottomNavigationItem(R.drawable.ic_qb_sel15, "通讯录").setInactiveIconResource(R.drawable.ic_qb_nor1).initNavTextColor()
+        val mainItem = BottomNavigationItem(R.drawable.ic_qb_selnull, "首页").setInactiveIconResource(R.drawable.ic_qb_nor2).initNavTextColor1()
+        val projectItem = BottomNavigationItem(R.drawable.ic_tab_main_proj_11, "项目").setInactiveIconResource(R.drawable.ic_tab_main_proj_0).initNavTextColor()
+        val fundItem = BottomNavigationItem(R.drawable.ic_main_fund22, "基金").setInactiveIconResource(R.drawable.ic_main_fund).initNavTextColor()
+        items = listOf(msgItem, contactItem, mainItem, projectItem, fundItem)
+        items.forEach {
+            bottomBar.addItem(it)
+        }
+        bottomBar.setMode(BottomNavigationBar.MODE_FIXED)
                 .setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC)
                 .setBarBackgroundColor(R.color.white)
-                .setFirstSelectedPosition(0)
+                .setFirstSelectedPosition(defaultIndex)
                 .initialise()
         bottomBar.setTabSelectedListener(object : BottomNavigationBar.SimpleOnTabSelectedListener() {
             override fun onTabSelected(position: Int) {
-                if (position == 2) {
-                    mainLogo.setVisible(true)
-                    val scalex = PropertyValuesHolder.ofFloat("scaleX", 0.7f, 1f)
-                    val scaley = PropertyValuesHolder.ofFloat("scaleY", 0.7f, 1f)
-                    val animator = ObjectAnimator.ofPropertyValuesHolder(mainLogo, scalex, scaley).setDuration(300)
-                    animator.interpolator = DecelerateInterpolator()
-                    animator.start()
-                } else {
-                    mainLogo.setVisible(false)
+                if (fragments.size.rem(2) != 0) {
+                    if (position == 2) {
+                        mainLogo.setVisible(true)
+                        val scalex = PropertyValuesHolder.ofFloat("scaleX", 0.7f, 1f)
+                        val scaley = PropertyValuesHolder.ofFloat("scaleY", 0.7f, 1f)
+                        val animator = ObjectAnimator.ofPropertyValuesHolder(mainLogo, scalex, scaley).setDuration(300)
+                        animator.interpolator = DecelerateInterpolator()
+                        animator.start()
+                    } else {
+                        mainLogo.setVisible(false)
+                    }
                 }
                 changeFragment(position)
             }
         })
+        val rem = fragments.size.rem(2) == 0
+        val b = (fragments.size.rem(2) != 0).and(fragments.size.div(2) == defaultIndex)
+        mainLogo.setVisible(rem or b)
+        mainLogo.isEnabled = fragments.size.rem(2) != 0
     }
 
     /**
@@ -195,21 +208,21 @@ class MainActivity : BaseActivity() {
         super.onStart()
         if (!Store.store.checkLogin(this)) {
 //            LoginActivity.start(this)
-           startActivity<PhoneInputActivity>()
+            startActivity<PhoneInputActivity>()
         }
     }
 
 
-    private fun getCompanyInfo(){
+    private fun getCompanyInfo() {
         SoguApi.getService(application, RegisterService::class.java)
                 .getBasicInfo(sp.getString(Extras.CompanyKey, ""))
                 .execute {
                     onNext { payload ->
                         if (payload.isOk) {
                             payload.payload?.let {
-                               sp.edit { putString(Extras.CompanyDetail,it.jsonStr) }
+                                sp.edit { putString(Extras.CompanyDetail, it.jsonStr) }
 
-                                sp.edit { putInt(Extras.main_flag,it.homeCardFlag?:1) }
+                                sp.edit { putInt(Extras.main_flag, it.homeCardFlag ?: 1) }
 
                                 teamSelect.initHeader(it)
                                 Glide.with(this@MainActivity)
@@ -226,6 +239,9 @@ class MainActivity : BaseActivity() {
     }
 
     private fun updateVersion() {
+        if (BuildConfig.DEBUG) {
+            return
+        }
         val mDialog = MaterialDialog.Builder(this)
                 .customView(R.layout.dialog_updated, false)
                 .theme(Theme.LIGHT)

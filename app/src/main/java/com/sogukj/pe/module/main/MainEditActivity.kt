@@ -53,7 +53,7 @@ class MainEditActivity : ToolbarActivity() {
     private lateinit var subscribe: Disposable
 
     companion object {
-        private var isEdit = false
+        private var isEdit = true
 
     }
 
@@ -87,6 +87,7 @@ class MainEditActivity : ToolbarActivity() {
                 info { "drag end" }
             }
         })
+        mainModuleAdapter.enableDragItem(touchHelper)
         mainModuleList.apply {
             layoutManager = GridLayoutManager(ctx, 4)
             adapter = mainModuleAdapter
@@ -165,7 +166,6 @@ class MainEditActivity : ToolbarActivity() {
                             info { "项目功能" + it.jsonStr }
                             allModule.add(MainFunction(it))
                         }
-//                        allModuleAdapter.notifyDataSetChanged()
                     }
                     return@flatMap flowable
                 }.flatMap {
@@ -175,7 +175,6 @@ class MainEditActivity : ToolbarActivity() {
                     info { "基金功能" + it.jsonStr }
                     allModule.add(MainFunction(it))
                 }
-//                allModuleAdapter.notifyDataSetChanged()
             }
             return@flatMap flowable1
         }.subscribe {
@@ -190,7 +189,6 @@ class MainEditActivity : ToolbarActivity() {
                 }
             }
         }
-        subscribe
     }
 
 
@@ -227,7 +225,6 @@ class MainEditActivity : ToolbarActivity() {
                 if (allModule.find { it.header == "默认功能" } == null) {
                     allModule.add(MainFunction(true, "默认功能"))
                     it?.forEach {
-                        info { it.jsonStr }
                         allModule.add(MainFunction(it))
                     }
                     allModule.distinct()
@@ -236,6 +233,13 @@ class MainEditActivity : ToolbarActivity() {
             })
         }.join()
     }
+
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        submitModules()
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()
@@ -259,6 +263,13 @@ class MainEditActivity : ToolbarActivity() {
                         } else {
                             showTopSnackBar(payload.message)
                         }
+                    }
+                    onError {
+                        finish()
+                    }
+                    onComplete {
+                        showSuccessToast("修改已提交")
+                        finish()
                     }
                 }
     }

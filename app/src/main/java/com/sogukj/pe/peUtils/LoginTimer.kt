@@ -8,7 +8,7 @@ import java.util.*
  * Created by qff on 2016/4/23.
  */
 class LoginTimer(sleep: Int, internal var handler: android.os.Handler, internal var tv: TextView) : TimerTask() {
-    internal var sleep = 60
+    private var sleep = 45
 
     init {
         this.sleep = sleep
@@ -18,11 +18,11 @@ class LoginTimer(sleep: Int, internal var handler: android.os.Handler, internal 
         handler.post {
             if (sleep <= 0) {
                 cancel()
-                tv.setText(R.string.get_code)
-                tv.isClickable = true
+                tv.text = "重新获取验证码"
+                tv.isEnabled = true
             } else {
-                tv.text = tv.context.getString(R.string.get_code_disable, sleep)
-                tv.isClickable = false
+                tv.text ="${sleep}s 重新发送"
+                tv.isEnabled = false
                 sleep--
             }
         }

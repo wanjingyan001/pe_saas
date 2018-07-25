@@ -180,6 +180,9 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
                 }
             }
         }
+        adminSetting.clickWithTrigger {
+            startActivity<AdminMainActivity>()
+        }
     }
 
     fun share(bean: WebConfigBean) {

@@ -25,7 +25,7 @@ import kotlin.properties.Delegates
 class SingleEditLayout @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr), TextWatcher, AnkoLogger, View.OnClickListener {
-    private var count: Int = 4
+    private var count: Int = 6
     private var singleWidth: Int = 56
     private var currentSelector = 0
     private val inputs = ArrayList<TextView>()
@@ -36,7 +36,7 @@ class SingleEditLayout @JvmOverloads constructor(
     init {
         attrs?.let {
             val attributes = context.obtainStyledAttributes(it, R.styleable.SingleEditLayout)
-            count = attributes.getInteger(R.styleable.SingleEditLayout_editCount, 4)
+            count = attributes.getInteger(R.styleable.SingleEditLayout_editCount, 6)
             singleWidth = attributes.getInteger(R.styleable.SingleEditLayout_singleWidth, 56)
             attributes.recycle()
         }

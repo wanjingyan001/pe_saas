@@ -8,6 +8,7 @@ import android.os.Build
 import android.support.v7.util.DiffUtil
 import android.support.v7.util.DiffUtil.calculateDiff
 import android.util.DisplayMetrics
+import android.util.SparseArray
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -146,6 +147,7 @@ fun BottomNavigationItem.initNavTextColor1(): BottomNavigationItem =
 fun BottomNavigationItem.initNavTextColor2(): BottomNavigationItem =
         setActiveColorResource(R.color.colorPrimary)
                 .setInActiveColorResource(R.color.text_3)
+
 
 val Context.inputIsActive: Boolean
     get() {
