@@ -363,7 +363,7 @@ class MainProjectFragment : BaseRefreshFragment() {
                         payload?.payload?.forEach {
                             mTypeList.add(it.type!!)
                             mTypeMap.put(it.type!!, it.name!!)
-                            fragments.add(ProjectListFragment.newInstance(it.type!!))
+                            fragments.add(ProjectListFragment.newInstance(it.type!!, false))
                             var tab = tabs.newTab().setText(it.name!!)
                             tabs.addTab(tab)
 

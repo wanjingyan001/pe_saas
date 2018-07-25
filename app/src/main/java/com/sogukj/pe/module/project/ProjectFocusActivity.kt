@@ -27,7 +27,7 @@ class ProjectFocusActivity : ToolbarActivity() {
 
         supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.fl_container, ProjectListFragment.newInstance(type))
+                .replace(R.id.fl_container, ProjectListFragment.newInstance(type, true))
                 .commit()
     }
 

@@ -26,7 +26,7 @@ import org.jetbrains.anko.support.v4.find
 /**
  * A simple [Fragment] subclass.
  */
-abstract class BaseRefreshFragment : BaseFragment(),SGRefreshListener {
+abstract class BaseRefreshFragment : BaseFragment(), SGRefreshListener {
     lateinit var refresh: SmartRefreshLayout
         private set
     lateinit var config: RefreshConfig
@@ -39,38 +39,36 @@ abstract class BaseRefreshFragment : BaseFragment(),SGRefreshListener {
 
     private fun initRefresh() {
         refresh = find(R.id.refresh)
-        if (this::refresh.isLateinit) {
-            refresh.let {
-                config = initRefreshConfig() ?: RefreshConfig.Default
-                it.setDragRate(config.dragRate)
-                it.isEnableRefresh = config.refreshEnable
-                it.isEnableLoadMore = config.loadMoreEnable
-                it.isEnableAutoLoadMore = config.autoLoadMoreEnable
-                it.isNestedScrollingEnabled = config.nestedScrollEnable
-                it.isEnableOverScrollBounce = config.overScrollBounceEnable
-                it.setDisableContentWhenLoading(config.disableContentWhenLoading)
-                it.setDisableContentWhenRefresh(config.disableContentWhenRefresh)
-                it.setEnableLoadMoreWhenContentNotFull(config.loadMoreWhenContentNotFull)
-                it.setEnableOverScrollDrag(config.overScrollDrag)
-                it.setEnableFooterFollowWhenLoadFinished(config.footerFollowWhenLoadFinished)
-                val header = initRefreshHeader()
-                if (header == null) {
-                    it.setRefreshHeader(ClassicsHeader(ctx), 0, 0)
-                } else {
-                    it.setRefreshHeader(header)
-                }
-                val footer = initRefreshFooter()
-                if (footer == null) {
-                    it.setRefreshFooter(ClassicsFooter(ctx), 0, 0)
-                } else {
-                    it.setRefreshFooter(footer)
-                }
-                it.setOnRefreshListener{
-                    doRefresh()
-                }
-                it.setOnLoadMoreListener{
-                    doLoadMore()
-                }
+        refresh?.let {
+            config = initRefreshConfig() ?: RefreshConfig.Default
+            it.setDragRate(config.dragRate)
+            it.isEnableRefresh = config.refreshEnable
+            it.isEnableLoadMore = config.loadMoreEnable
+            it.isEnableAutoLoadMore = config.autoLoadMoreEnable
+            it.isNestedScrollingEnabled = config.nestedScrollEnable
+            it.isEnableOverScrollBounce = config.overScrollBounceEnable
+            it.setDisableContentWhenLoading(config.disableContentWhenLoading)
+            it.setDisableContentWhenRefresh(config.disableContentWhenRefresh)
+            it.setEnableLoadMoreWhenContentNotFull(config.loadMoreWhenContentNotFull)
+            it.setEnableOverScrollDrag(config.overScrollDrag)
+            it.setEnableFooterFollowWhenLoadFinished(config.footerFollowWhenLoadFinished)
+            val header = initRefreshHeader()
+            if (header == null) {
+                it.setRefreshHeader(ClassicsHeader(ctx), 0, 0)
+            } else {
+                it.setRefreshHeader(header)
+            }
+            val footer = initRefreshFooter()
+            if (footer == null) {
+                it.setRefreshFooter(ClassicsFooter(ctx), 0, 0)
+            } else {
+                it.setRefreshFooter(footer)
+            }
+            it.setOnRefreshListener {
+                doRefresh()
+            }
+            it.setOnLoadMoreListener {
+                doLoadMore()
             }
         }
     }
@@ -107,7 +105,7 @@ abstract class BaseRefreshFragment : BaseFragment(),SGRefreshListener {
     var isRefreshEnable: Boolean = RefreshConfig.Default.refreshEnable
         get() = if (this::refresh.isLateinit) refresh.isEnableRefresh else field
         set(value) {
-            if (this::refresh.isLateinit){
+            if (this::refresh.isLateinit) {
                 field = value
                 refresh.isEnableRefresh = value
                 config.refreshEnable = value

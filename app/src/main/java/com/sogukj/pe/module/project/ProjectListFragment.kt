@@ -112,6 +112,10 @@ class ProjectListFragment : BaseFragment(), SupportEmptyView {
         isViewCreated = true
 
         initSideBar()
+
+        if (arguments!!.getBoolean(Extras.FLAG, false)) {
+            doRequest()
+        }
     }
 
     fun initSideBar() {
@@ -274,10 +278,11 @@ class ProjectListFragment : BaseFragment(), SupportEmptyView {
         const val TYPE_DY = 6
         const val TYPE_TC = 7
 
-        fun newInstance(type: Int): ProjectListFragment {
+        fun newInstance(type: Int, isFocus: Boolean): ProjectListFragment {
             val fragment = ProjectListFragment()
             val intent = Bundle()
             intent.putInt(Extras.TYPE, type)
+            intent.putBoolean(Extras.FLAG, isFocus)
             fragment.arguments = intent
             return fragment
         }

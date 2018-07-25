@@ -55,18 +55,34 @@ class StorageFileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        files = FileUtil.getFileListByDirPath(mPath, null).toMutableList()
-        mDirectoryAdapter = DirectoryAdapter(ctx, files as MutableList<File>, fileActivity)
-        mDirectoryAdapter.setOnItemClickListener(object : DirectoryAdapter.OnItemClickListener {
-            override fun onItemClick(view: View, position: Int) {
-                if (mFileClickListener != null) {
-                    mFileClickListener?.onFileClicked(mDirectoryAdapter.getModel(position))
-                }
+//        files = FileUtil.getFileListByDirPath(mPath, null).toMutableList()
+//        mDirectoryAdapter = DirectoryAdapter(ctx, files as MutableList<File>, fileActivity)
+//        mDirectoryAdapter.setOnItemClickListener(object : DirectoryAdapter.OnItemClickListener {
+//            override fun onItemClick(view: View, position: Int) {
+//                if (mFileClickListener != null) {
+//                    mFileClickListener?.onFileClicked(mDirectoryAdapter.getModel(position))
+//                }
+//            }
+//        })
+//        directory_recycler_view.layoutManager = LinearLayoutManager(context)
+//        directory_recycler_view.adapter = mDirectoryAdapter
+//        directory_recycler_view.setEmptyView(directory_empty_view)
+        Thread(Runnable {
+            files = FileUtil.getFileListByDirPath(mPath, null).toMutableList()
+            activity!!.runOnUiThread {
+                mDirectoryAdapter = DirectoryAdapter(ctx, files as MutableList<File>, fileActivity)
+                mDirectoryAdapter.setOnItemClickListener(object : DirectoryAdapter.OnItemClickListener {
+                    override fun onItemClick(view: View, position: Int) {
+                        if (mFileClickListener != null) {
+                            mFileClickListener?.onFileClicked(mDirectoryAdapter.getModel(position))
+                        }
+                    }
+                })
+                directory_recycler_view.layoutManager = LinearLayoutManager(context)
+                directory_recycler_view.adapter = mDirectoryAdapter
+                directory_recycler_view.setEmptyView(directory_empty_view)
             }
-        })
-        directory_recycler_view.layoutManager = LinearLayoutManager(context)
-        directory_recycler_view.adapter = mDirectoryAdapter
-        directory_recycler_view.setEmptyView(directory_empty_view)
+        }).start()
     }
 
 
