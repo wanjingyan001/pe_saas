@@ -81,9 +81,18 @@ data class MemberList(val list: List<UserBean>?)
 @SuppressLint("ParcelCreator")
 @Parcelize
 data class MechanismBasicInfo(val mechanism_name: String?,
-                         var logo: String?,
-                         var email:String?,
-                         var address:String?,
-                         var website:String?,
-                         var telephone:String?,
-                         var homeCardFlag:Int?):Parcelable
+                              var logo: String?,
+                              var email: String?,
+                              var address: String?,
+                              var website: String?,
+                              var telephone: String?,
+                              var homeCardFlag: Int?,
+                              var web_url:String?,
+                              var homeBottomButton:List<MainBottomBar>) : Parcelable
+
+
+
+@SuppressLint("ParcelCreator")
+@Parcelize
+data class MainBottomBar(val id:Int,
+                         val name:String): Parcelable

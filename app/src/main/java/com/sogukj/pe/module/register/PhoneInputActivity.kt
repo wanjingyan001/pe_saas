@@ -115,6 +115,9 @@ class PhoneInputActivity : BaseActivity() {
                             showErrorToast(payload.message)
                         }
                     }
+                    onError {
+                        nextStep.isClickable = true
+                    }
                     onComplete {
                         nextStep.isClickable = true
                     }

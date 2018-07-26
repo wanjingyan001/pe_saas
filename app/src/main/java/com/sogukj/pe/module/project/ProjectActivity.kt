@@ -46,6 +46,7 @@ import com.sogukj.pe.module.project.intellectualProperty.PatentListActivity
 import com.sogukj.pe.module.project.listingInfo.*
 import com.sogukj.pe.module.project.operate.*
 import com.sogukj.pe.peExtended.getEnvironment
+import com.sogukj.pe.peExtended.needIm
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.NewService
 import com.sogukj.pe.service.OtherService
@@ -179,7 +180,7 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
         //shangshi_layout.visibility = if (project.is_volatility == 0) View.GONE else View.VISIBLE
 
         val user = Store.store.getUser(this)
-        im.setVisible(!user?.accid.isNullOrEmpty())
+        im.setVisible(!user?.accid.isNullOrEmpty() && needIm())
         SoguApi.getService(application, NewService::class.java)
                 .projectPage(company_id = project.company_id!!)
                 .observeOn(AndroidSchedulers.mainThread())

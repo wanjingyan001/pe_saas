@@ -44,7 +44,6 @@ import com.google.gson.Gson
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
-import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.fromJson
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.ToolbarFragment
@@ -61,17 +60,13 @@ import com.sogukj.pe.module.other.PayPackageActivity
 import com.sogukj.pe.module.project.ProjectFocusActivity
 import com.sogukj.pe.module.project.ProjectListFragment
 import com.sogukj.pe.module.register.CreateDepartmentActivity
-import com.sogukj.pe.module.register.InviteMainActivity
-import com.sogukj.pe.module.register.UploadBasicInfoActivity
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.Store
-import com.sogukj.pe.service.RegisterService
 import com.sogukj.pe.service.UserService
 import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_user.*
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
@@ -169,7 +164,7 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
         createDep.setVisible((user?.is_admin == 1) or (user?.is_admin == 2))
         createDep.clickWithTrigger {
             user?.let {
-                val company = sp.getString(Extras.CompanyDetail, "")
+                val company = sp.getString(Extras.SAAS_BASIC_DATA, "")
                 val detail = Gson().fromJson<MechanismBasicInfo?>(company)
                 detail?.let {
                     val name = it.mechanism_name ?: ""

@@ -17,7 +17,6 @@ import com.sogukj.pe.App
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
-import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.fromJson
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.BaseActivity
@@ -25,21 +24,14 @@ import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.utils.XmlDb
 import com.sogukj.pe.bean.MechanismBasicInfo
 import com.sogukj.pe.database.Injection
-import com.sogukj.pe.module.main.LoginActivity
 import com.sogukj.pe.module.register.PhoneInputActivity
 import com.sogukj.pe.module.register.UploadBasicInfoActivity
 import com.sogukj.pe.peUtils.Store
-import com.sogukj.pe.service.RegisterService
-import com.sogukj.service.SoguApi
-import io.reactivex.internal.util.HalfSerializer.onNext
 import kotlinx.android.synthetic.main.activity_setting.*
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
-import org.jetbrains.anko.ctx
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.support.v4.ctx
-import org.jetbrains.anko.support.v4.startActivity
 
 class SettingActivity : BaseActivity() {
 
@@ -100,7 +92,7 @@ class SettingActivity : BaseActivity() {
         createDep.setVisible((user?.is_admin == 1) or (user?.is_admin == 2))
         createDep.clickWithTrigger {
             user?.let {
-                val company = sp.getString(Extras.CompanyDetail, "")
+                val company = sp.getString(Extras.SAAS_BASIC_DATA, "")
                 val detail = Gson().fromJson<MechanismBasicInfo?>(company)
                 detail?.mechanism_name?.let {
                     startActivity<UploadBasicInfoActivity>(Extras.NAME to it,

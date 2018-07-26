@@ -18,7 +18,6 @@ import android.view.inputmethod.EditorInfo
 import android.widget.BaseExpandableListAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
@@ -229,7 +228,7 @@ class ContactsActivity : ToolbarActivity() {
                 companyName.text = "尚融资本"
             }
             else -> {
-                val company = sp.getString(Extras.CompanyDetail, "")
+                val company = sp.getString(Extras.SAAS_BASIC_DATA, "")
                 val detail = Gson().fromJson<MechanismBasicInfo?>(company)
                 Glide.with(this)
                         .load(detail?.logo)

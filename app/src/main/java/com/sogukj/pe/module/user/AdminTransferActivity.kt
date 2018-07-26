@@ -118,8 +118,7 @@ class AdminTransferActivity : ToolbarActivity() {
         val user = Store.store.getUser(this@AdminTransferActivity)
         val key = sp.getString(Extras.CompanyKey, "")
         model.loadMemberList(application, key).observe(this@AdminTransferActivity, Observer {
-
-            it?.filter { it.is_admin == 0 &&  user?.uid != it.uid }?.let {
+            it?.filter { user?.is_admin!! > it.is_admin && user.uid != it.uid }?.let {
                 it.forEach {
                     it.uid = it.user_id
                 }
