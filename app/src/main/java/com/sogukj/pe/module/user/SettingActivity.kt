@@ -84,7 +84,7 @@ class SettingActivity : BaseActivity() {
                     dialog.dismiss()
                 }
                 RetrofitUrlManager.getInstance().removeGlobalDomain()
-                sp.edit { putString(Extras.HTTPURL,"") }
+                sp.edit { putString(Extras.HTTPURL, "") }
                 App.INSTANCE.resetPush(false)
                 IMLogout()
                 Store.store.clearUser(this)
@@ -97,7 +97,7 @@ class SettingActivity : BaseActivity() {
             dialog.show()
         }
         val user = Store.store.getUser(this)
-        createDep.setVisible(user?.is_admin == 1)
+        createDep.setVisible((user?.is_admin == 1) or (user?.is_admin == 2))
         createDep.clickWithTrigger {
             user?.let {
                 val company = sp.getString(Extras.CompanyDetail, "")

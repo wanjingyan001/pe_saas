@@ -42,12 +42,16 @@ class MemberSelectActivity : ToolbarActivity() {
      */
     private var isSingle: Boolean = false
     /**
+     * 是否是选择管理员
+     */
+    private var isAdmin: Boolean = false
+    /**
      * 组织架构adapter
      */
     private lateinit var tissueAdapter: TissueAdapter
-    private lateinit var memberAdapter:RecyclerAdapter<UserBean>
+    private lateinit var memberAdapter: RecyclerAdapter<UserBean>
     private val departList = ArrayList<DepartmentBean>() //组织架构
-    private val model  by lazy { ViewModelProviders.of(this).get(OrganViewModel::class.java) }
+    private val model by lazy { ViewModelProviders.of(this).get(OrganViewModel::class.java) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,8 +60,8 @@ class MemberSelectActivity : ToolbarActivity() {
         title = "选择部门成员"
         getDataFromIntent()
         initTissueAdapter()
-        memberAdapter = RecyclerAdapter(this){_adapter,parent,_->
-                MemberHolder(_adapter.getView(R.layout.item_team_organization_chlid,parent))
+        memberAdapter = RecyclerAdapter(this) { _adapter, parent, _ ->
+            MemberHolder(_adapter.getView(R.layout.item_team_organization_chlid, parent))
         }
         memberList.apply {
             layoutManager = LinearLayoutManager(ctx)
@@ -77,7 +81,8 @@ class MemberSelectActivity : ToolbarActivity() {
         val list = intent.getSerializableExtra(Extras.LIST) as? ArrayList<UserBean>
         alreadySelected = list?.toMutableSet() ?: ArrayList<UserBean>().toMutableSet()
         isSingle = intent.getBooleanExtra(Extras.FLAG, false)
-        if (alreadySelected.any { it.user_id !=null }) {
+        isAdmin = intent.getBooleanExtra(Extras.FLAG2, false)
+        if (alreadySelected.any { it.user_id != null }) {
             selectNumber.text = "已选择: ${alreadySelected.size} 人"
         }
     }
@@ -123,19 +128,27 @@ class MemberSelectActivity : ToolbarActivity() {
                 }
     }
 
-    private fun getMemberList() = runBlocking{
+    private fun getMemberList() = runBlocking {
         val key = sp.getString(Extras.CompanyKey, "")
-        model.loadMemberList(application,key).observe(this@MemberSelectActivity, Observer {
-                it?.let {
-                    memberAdapter.refreshData(it)
-                    it.forEach { user->
-                        val find = alreadySelected.find { it.user_id == user.user_id }
-                        if (find!=null){
-                            alreadySelected.remove(find)
-                            alreadySelected.add(user)
-                        }
+        model.loadMemberList(application, key).observe(this@MemberSelectActivity, Observer {
+            val data = if (isAdmin) {
+                it?.filter { it.is_admin  == 0 }
+            }else{
+                it
+            }
+            data?.forEach {
+                it.uid = it.user_id
+            }
+            data?.let {
+                memberAdapter.refreshData(it)
+                it.forEach { user ->
+                    val find = alreadySelected.find { it.user_id == user.user_id }
+                    if (find != null) {
+                        alreadySelected.remove(find)
+                        alreadySelected.add(user)
                     }
                 }
+            }
         })
     }
 
@@ -208,7 +221,7 @@ class MemberSelectActivity : ToolbarActivity() {
                     if (alreadySelected.contains(userBean)) {
                         alreadySelected.remove(userBean)
                     } else {
-                        if (isSingle){
+                        if (isSingle) {
                             alreadySelected.clear()
                         }
                         alreadySelected.add(userBean)
@@ -235,11 +248,11 @@ class MemberSelectActivity : ToolbarActivity() {
         val itemView: View = view
     }
 
-    inner class MemberHolder(itemView:View):RecyclerHolder<UserBean>(itemView){
-        val selectIcon= itemView.find<ImageView>(R.id.selectIcon)
+    inner class MemberHolder(itemView: View) : RecyclerHolder<UserBean>(itemView) {
+        val selectIcon = itemView.find<ImageView>(R.id.selectIcon)
         val userImg = itemView.find<CircleImageView>(R.id.userHeadImg)
-        val userName= itemView.find<TextView>(R.id.userName)
-        val userPosition= itemView.find<TextView>(R.id.userPosition)
+        val userName = itemView.find<TextView>(R.id.userName)
+        val userPosition = itemView.find<TextView>(R.id.userPosition)
         override fun setData(view: View, data: UserBean, position: Int) {
             selectIcon.setVisible(true)
             userPosition.setVisible(true)
@@ -261,7 +274,7 @@ class MemberSelectActivity : ToolbarActivity() {
                 if (alreadySelected.contains(data)) {
                     alreadySelected.remove(data)
                 } else {
-                    if (isSingle){
+                    if (isSingle) {
                         alreadySelected.clear()
                     }
                     alreadySelected.add(data)

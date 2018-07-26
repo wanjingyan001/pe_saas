@@ -9,35 +9,49 @@
 
     <include layout="@layout/toolbar" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/adminList"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-    </android.support.v7.widget.RecyclerView>
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:id="@+id/addAdmins"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/white"
-        android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@+id/adminList" >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableStart="@mipmap/icon_add_admin"
-            android:gravity="center"
-            android:padding="15dp"
-            android:text="添加管理员"
-            android:drawablePadding="8dp"
-            android:textColor="@color/main_blue_color"
-            android:textSize="@dimen/text_size_medium" />
-    </LinearLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/adminList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:background="@color/white">
 
+            </android.support.v7.widget.RecyclerView>
+
+            <LinearLayout
+                android:id="@+id/addAdmins"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:gravity="center"
+                app:layout_constraintTop_toBottomOf="@+id/adminList">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="8dp"
+                    android:drawableStart="@mipmap/icon_add_admin"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    android:text="添加管理员"
+                    android:textColor="@color/main_blue_color"
+                    android:textSize="@dimen/text_size_medium" />
+            </LinearLayout>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v4.widget.NestedScrollView>
 
 
 </android.support.constraint.ConstraintLayout>

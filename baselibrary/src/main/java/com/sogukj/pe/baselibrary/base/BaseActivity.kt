@@ -3,6 +3,8 @@ package com.sogukj.pe.baselibrary.base
 import android.app.Activity
 import android.app.ProgressDialog
 import android.content.SharedPreferences
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Bundle
 import android.os.Handler
 import android.os.Trace
@@ -233,6 +235,15 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger {
     fun showDesignSnack(text: CharSequence) {
         val viewGroup = findViewById<View>(android.R.id.content).rootView as ViewGroup
         Snackbar.make(viewGroup, text, Snackbar.LENGTH_SHORT).show()
+    }
+
+    override fun getResources(): Resources {
+        val res = super.getResources()
+        val config = Configuration()
+        config.setToDefaults()
+//        createConfigurationContext(config)
+        res.updateConfiguration(config, res.displayMetrics)
+        return super.getResources()
     }
 
     companion object {
