@@ -103,6 +103,7 @@ class PhoneInputActivity : BaseActivity() {
 
 
     private fun sendPhoneInput(phone: String) {
+        nextStep.isClickable = false
         SoguApi.getService(application, RegisterService::class.java).sendVerCode(phone)
                 .execute {
                     onNext { payload ->
@@ -113,6 +114,9 @@ class PhoneInputActivity : BaseActivity() {
                         }else{
                             showErrorToast(payload.message)
                         }
+                    }
+                    onComplete {
+                        nextStep.isClickable = true
                     }
                 }
     }

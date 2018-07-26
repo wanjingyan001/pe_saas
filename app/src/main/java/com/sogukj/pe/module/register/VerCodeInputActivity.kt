@@ -142,7 +142,7 @@ class VerCodeInputActivity : BaseActivity() {
                             payload.payload?.let {
                                 AnkoLogger("SAAS用户").info { it.jsonStr }
                                 Store.store.setUser(this@VerCodeInputActivity, it)
-                                ifNotNull("50148c54d21d1832", "6d30c0cd7bdb5091324fe3797fac91d8", { accid, token ->
+                                ifNotNull(it.accid, it.token, { accid, token ->
                                     IMLogin(accid, token)
                                 })
                                 startActivity<MainActivity>()

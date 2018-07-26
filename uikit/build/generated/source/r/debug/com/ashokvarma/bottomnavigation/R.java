@@ -18,12 +18,12 @@ public final class R {
         public static int abc_slide_in_top = 0x7f010008;
         public static int abc_slide_out_bottom = 0x7f010009;
         public static int abc_slide_out_top = 0x7f01000a;
+        public static int abc_tooltip_enter = 0x7f01000b;
+        public static int abc_tooltip_exit = 0x7f01000c;
         public static int design_bottom_sheet_slide_in = 0x7f01000e;
         public static int design_bottom_sheet_slide_out = 0x7f01000f;
         public static int design_snackbar_in = 0x7f010012;
         public static int design_snackbar_out = 0x7f010013;
-        public static int tooltip_enter = 0x7f01001a;
-        public static int tooltip_exit = 0x7f01001b;
     }
     public static final class animator {
         public static int design_appbar_state_list_animator = 0x7f020001;
@@ -107,6 +107,7 @@ public final class R {
         public static int buttonBarPositiveButtonStyle = 0x7f040051;
         public static int buttonBarStyle = 0x7f040052;
         public static int buttonGravity = 0x7f040053;
+        public static int buttonIconDimen = 0x7f040054;
         public static int buttonPanelSideLayout = 0x7f040055;
         public static int buttonStyle = 0x7f040056;
         public static int buttonStyleSmall = 0x7f040057;
@@ -141,6 +142,7 @@ public final class R {
         public static int contentInsetStartWithNavigation = 0x7f040085;
         public static int contentScrim = 0x7f04008b;
         public static int controlBackground = 0x7f04008c;
+        public static int coordinatorLayoutStyle = 0x7f04008d;
         public static int counterEnabled = 0x7f04008e;
         public static int counterMaxLength = 0x7f04008f;
         public static int counterOverflowTextAppearance = 0x7f040090;
@@ -173,6 +175,7 @@ public final class R {
         public static int expandedTitleMarginStart = 0x7f0400b0;
         public static int expandedTitleMarginTop = 0x7f0400b1;
         public static int expandedTitleTextAppearance = 0x7f0400b2;
+        public static int fabCustomSize = 0x7f0400b3;
         public static int fabSize = 0x7f0400b4;
         public static int fastScrollEnabled = 0x7f0400b5;
         public static int fastScrollHorizontalThumbDrawable = 0x7f0400b6;
@@ -372,6 +375,7 @@ public final class R {
         public static int trackTint = 0x7f040262;
         public static int trackTintMode = 0x7f040263;
         public static int useCompatPadding = 0x7f040264;
+        public static int viewInflaterClass = 0x7f040267;
         public static int voiceIcon = 0x7f040268;
         public static int windowActionBar = 0x7f040269;
         public static int windowActionBarOverlay = 0x7f04026a;
@@ -388,7 +392,6 @@ public final class R {
         public static int abc_action_bar_embed_tabs = 0x7f050001;
         public static int abc_allow_stacked_button_bar = 0x7f050002;
         public static int abc_config_actionMenuItemAllCaps = 0x7f050003;
-        public static int abc_config_closeDialogWhenTouchOutside = 0x7f050004;
         public static int abc_config_showMenuShortcutsWhenKeyboardPresent = 0x7f050005;
     }
     public static final class color {
@@ -507,6 +510,7 @@ public final class R {
         public static int abc_action_button_min_width_material = 0x7f080010;
         public static int abc_action_button_min_width_overflow_material = 0x7f080011;
         public static int abc_alert_dialog_button_bar_height = 0x7f080012;
+        public static int abc_alert_dialog_button_dimen = 0x7f080013;
         public static int abc_button_inset_horizontal_material = 0x7f080014;
         public static int abc_button_inset_vertical_material = 0x7f080015;
         public static int abc_button_padding_horizontal_material = 0x7f080016;
@@ -1004,6 +1008,7 @@ public final class R {
         public static int abc_search_dropdown_item_icons_2line = 0x7f0f0019;
         public static int abc_search_view = 0x7f0f001a;
         public static int abc_select_dialog_material = 0x7f0f001b;
+        public static int abc_tooltip = 0x7f0f001c;
         public static int bottom_navigation_bar_container = 0x7f0f0022;
         public static int design_bottom_navigation_item = 0x7f0f0023;
         public static int design_bottom_sheet_dialog = 0x7f0f0024;
@@ -1040,7 +1045,6 @@ public final class R {
         public static int select_dialog_singlechoice_material = 0x7f0f00e2;
         public static int shifting_bottom_navigation_item = 0x7f0f00e3;
         public static int support_simple_spinner_dropdown_item = 0x7f0f00e4;
-        public static int tooltip = 0x7f0f00e6;
     }
     public static final class string {
         public static int abc_action_bar_home_description = 0x7f150001;
@@ -1168,11 +1172,6 @@ public final class R {
         public static int Base_Theme_AppCompat_Light_Dialog_Alert = 0x7f160056;
         public static int Base_Theme_AppCompat_Light_Dialog_FixedSize = 0x7f160057;
         public static int Base_Theme_AppCompat_Light_Dialog_MinWidth = 0x7f160058;
-        public static int Base_V11_ThemeOverlay_AppCompat_Dialog = 0x7f160059;
-        public static int Base_V11_Theme_AppCompat_Dialog = 0x7f16005a;
-        public static int Base_V11_Theme_AppCompat_Light_Dialog = 0x7f16005b;
-        public static int Base_V12_Widget_AppCompat_AutoCompleteTextView = 0x7f16005c;
-        public static int Base_V12_Widget_AppCompat_EditText = 0x7f16005d;
         public static int Base_V14_Widget_Design_AppBarLayout = 0x7f16005e;
         public static int Base_V21_ThemeOverlay_AppCompat_Dialog = 0x7f16005f;
         public static int Base_V21_Theme_AppCompat = 0x7f160060;
@@ -1260,10 +1259,6 @@ public final class R {
         public static int Platform_ThemeOverlay_AppCompat = 0x7f1600c0;
         public static int Platform_ThemeOverlay_AppCompat_Dark = 0x7f1600c1;
         public static int Platform_ThemeOverlay_AppCompat_Light = 0x7f1600c2;
-        public static int Platform_V11_AppCompat = 0x7f1600c3;
-        public static int Platform_V11_AppCompat_Light = 0x7f1600c4;
-        public static int Platform_V14_AppCompat = 0x7f1600c5;
-        public static int Platform_V14_AppCompat_Light = 0x7f1600c6;
         public static int Platform_V21_AppCompat = 0x7f1600c7;
         public static int Platform_V21_AppCompat_Light = 0x7f1600c8;
         public static int Platform_V25_AppCompat = 0x7f1600c9;
@@ -1470,6 +1465,7 @@ public final class R {
         public static int Widget_Design_Snackbar = 0x7f1601a8;
         public static int Widget_Design_TabLayout = 0x7f1601a9;
         public static int Widget_Design_TextInputLayout = 0x7f1601aa;
+        public static int Widget_Support_CoordinatorLayout = 0x7f1601b3;
     }
     public static final class styleable {
         public static int[] ActionBar = { 0x7f040035, 0x7f040036, 0x7f040037, 0x7f040080, 0x7f040081, 0x7f040082, 0x7f040083, 0x7f040084, 0x7f040085, 0x7f040092, 0x7f040099, 0x7f04009a, 0x7f0400a6, 0x7f0400d7, 0x7f0400d8, 0x7f0400dc, 0x7f0400dd, 0x7f0400de, 0x7f0400e3, 0x7f0400ea, 0x7f040144, 0x7f040180, 0x7f0401a3, 0x7f0401a7, 0x7f0401a8, 0x7f04020d, 0x7f040210, 0x7f04023e, 0x7f040248 };

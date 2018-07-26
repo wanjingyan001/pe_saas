@@ -54,7 +54,6 @@ class MainEditActivity : ToolbarActivity() {
 
     companion object {
         private var isEdit = true
-
     }
 
 
@@ -106,7 +105,7 @@ class MainEditActivity : ToolbarActivity() {
                 val funIcon = adapter.data[position] as MainFunIcon
                 val find = allModule.find { it.t == funIcon }
                 find?.let {
-                    if (it.t.name == "审批") {
+                    if (!it.t.editable) {
                         return@OnItemClickListener
                     }
                     it.t.isCurrent = false
@@ -119,7 +118,7 @@ class MainEditActivity : ToolbarActivity() {
             val function = allModule[position]
             if (!function.isHeader and isEdit) {
                 val funIcon = function.t
-                if (funIcon.name == "审批") {
+                if (!funIcon.editable) {
                     return@OnItemClickListener
                 }
                 funIcon.isCurrent = !funIcon.isCurrent
@@ -243,7 +242,6 @@ class MainEditActivity : ToolbarActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        isEdit = false
         subscribe.dispose()
     }
 
@@ -290,7 +288,7 @@ class MainEditActivity : ToolbarActivity() {
                 Glide.with(ctx)
                         .load(this.icon)
                         .into(icon)
-                aAndR.setVisible(isEdit)
+                aAndR.setVisible(isEdit && this.editable)
                 functionName.text = name
                 if (isCurrent) {
                     aAndR.imageResource = R.mipmap.icon_remove_function
@@ -312,7 +310,7 @@ class MainEditActivity : ToolbarActivity() {
                 Glide.with(ctx)
                         .load(this.icon)
                         .into(icon)
-                aAndR.setVisible(isEdit)
+                aAndR.setVisible(isEdit && this.editable)
                 functionName.text = name
             }
         }
