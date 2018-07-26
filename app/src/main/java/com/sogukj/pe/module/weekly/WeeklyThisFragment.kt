@@ -151,6 +151,17 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
 //        }
     }
 
+    var isFresh = false
+
+    override fun onResume() {
+        super.onResume()
+        if (isFresh) {
+            isFresh = false
+            clearView()
+            doRequest()
+        }
+    }
+
     lateinit var user: UserBean
 
     fun doRequest() {
@@ -256,6 +267,7 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
                 event_list.adapter = adapter
                 event_list.setOnItemClickListener { parent, view, position, id ->
                     val weeklyData = items.data?.get(position)
+                    isFresh = true
                     when (weeklyData?.type) {
                         0 -> {
                             //日程

@@ -72,6 +72,7 @@ class WeeklyWaitToWatchFragment : BaseFragment() {
         filter.setOnClickListener {
             val intent = Intent(context, WeeklySelectActivity::class.java)
             intent.putExtra(Extras.DATA, true)
+            intent.putExtra(Extras.TITLE, "我发出的")
             startActivityForResult(intent, 0x001)
         }
 
@@ -116,12 +117,12 @@ class WeeklyWaitToWatchFragment : BaseFragment() {
                     tvState.visibility = View.VISIBLE
                     if (data.is_read == 2) {
                         tvState.text = "已读"
-                        tvState.textColor = Color.parseColor("#1787fb")
-                        tvState.setBackgroundResource(R.drawable.bg_border_blue1)
-                    } else {
-                        tvState.text = "未读"
                         tvState.textColor = Color.parseColor("#a0a4aa")
                         tvState.setBackgroundResource(R.drawable.bg_border_blue11)
+                    } else {
+                        tvState.text = "未读"
+                        tvState.textColor = Color.parseColor("#1787fb")
+                        tvState.setBackgroundResource(R.drawable.bg_border_blue1)
                     }
                 }
             }

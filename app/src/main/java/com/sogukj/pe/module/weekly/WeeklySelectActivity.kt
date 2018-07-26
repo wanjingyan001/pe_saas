@@ -27,9 +27,10 @@ import java.util.*
 class WeeklySelectActivity : ToolbarActivity() {
 
     companion object {
-        fun start(ctx: Activity?, hasDepart: Boolean) {
+        fun start(ctx: Activity?, hasDepart: Boolean, title: String) {
             val intent = Intent(ctx, WeeklySelectActivity::class.java)
             intent.putExtra(Extras.DATA, hasDepart)
+            intent.putExtra(Extras.TITLE, title)
             ctx?.startActivityForResult(intent, 0x001)
         }
     }
@@ -79,7 +80,7 @@ class WeeklySelectActivity : ToolbarActivity() {
             back.setImageResource(R.drawable.back_chevron)
         }
         setBack(true)
-        title = "请选择"
+        title = intent.getStringExtra(Extras.TITLE)
 
         var calendar = Calendar.getInstance()
 //        tv_start_time.text = format.format(calendar.time)

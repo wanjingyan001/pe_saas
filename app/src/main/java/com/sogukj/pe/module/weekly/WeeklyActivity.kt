@@ -115,7 +115,7 @@ class WeeklyActivity : ToolbarActivity() {
                     toolbar_menu.visibility = View.VISIBLE
                     toolbar_menu.setImageResource(R.drawable.iv_search_filter_gray)
                     toolbar_menu.setOnClickListener {
-                        WeeklySelectActivity.start(context, false)
+                        WeeklySelectActivity.start(context, false, "我发出的")
                     }
                 }
             }
