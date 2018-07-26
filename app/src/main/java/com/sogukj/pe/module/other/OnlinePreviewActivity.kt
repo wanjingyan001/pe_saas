@@ -94,30 +94,6 @@ class OnlinePreviewActivity : ToolbarActivity(), PlatformActionListener {
 
         web.setWebChromeClient(WebChromeClient())
 
-//        if (url.toLowerCase().contains("pdf")) {
-//            if (!"".equals(url)) {
-//                var bytes: ByteArray? = null
-//                try {// 获取以字符编码为utf-8的字符
-//                    bytes = url.toByteArray(Charsets.UTF_8)
-//                } catch (e: UnsupportedEncodingException) {
-//                    e.printStackTrace();
-//                }
-//                if (bytes != null) {
-//                    url = BASE64Encoder().encode(bytes)
-//                }
-//            }
-//            web.loadUrl("file:///android_asset/pdfjs/web/viewer.html?file=" + url)
-//        } else {
-//            if (FileUtil.getFileType(File(url.split("?")[0])) == FileUtil.FileType.DOC) {
-//                if (url.contains("txt")) {
-//                    web.loadUrl(url)
-//                } else {
-//                    web.loadUrl("https://view.officeapps.live.com/op/view.aspx?src=" + url)
-//                }
-//            } else if (FileUtil.getFileType(File(url.split("?")[0])) == FileUtil.FileType.IMAGE) {
-//                web.loadUrl(url)
-//            }
-//        }
         var map = HashMap<String, String>()
         map.put("url", url)
         SoguApi.getService(application, FundService::class.java)
@@ -127,11 +103,35 @@ class OnlinePreviewActivity : ToolbarActivity(), PlatformActionListener {
                 .subscribe({ payload ->
                     if (payload.isOk) {
                         transUrl = payload.payload!!
-                        web.loadUrl(payload.payload!!)
                     }
                 }, { e ->
                     Trace.e(e)
                 })
+
+        if (url.toLowerCase().contains("pdf")) {
+            if (!"".equals(url)) {
+                var bytes: ByteArray? = null
+                try {// 获取以字符编码为utf-8的字符
+                    bytes = url.toByteArray(Charsets.UTF_8)
+                } catch (e: UnsupportedEncodingException) {
+                    e.printStackTrace();
+                }
+                if (bytes != null) {
+                    url = BASE64Encoder().encode(bytes)
+                }
+            }
+            web.loadUrl("file:///android_asset/pdfjs/web/viewer.html?file=" + url)
+        } else {
+            if (FileUtil.getFileType(File(url.split("?")[0])) == FileUtil.FileType.DOC) {
+                if (url.contains("txt")) {
+                    web.loadUrl(url)
+                } else {
+                    web.loadUrl("https://view.officeapps.live.com/op/view.aspx?src=" + url)
+                }
+            } else if (FileUtil.getFileType(File(url.split("?")[0])) == FileUtil.FileType.IMAGE) {
+                web.loadUrl(url)
+            }
+        }
     }
 
     override val menuId: Int
