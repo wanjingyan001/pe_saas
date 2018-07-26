@@ -22,10 +22,12 @@ import com.bumptech.glide.request.target.Target
 import com.netease.nim.uikit.api.NimUIKit
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.utils.XmlDb
 import com.sogukj.pe.bean.UserBean
+import com.sogukj.pe.peExtended.needIm
 import com.sogukj.pe.service.ImService
 import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -70,6 +72,7 @@ class PersonalInfoActivity : BaseActivity(), View.OnClickListener, TextWatcher, 
             val uid = intent.getIntExtra(Extras.ID, -1)
             queryUserInfo(uid)
         }
+        sendMsg.setVisible(!user?.accid.isNullOrEmpty() && needIm())
         sendMsg.setOnClickListener(this)
         call_phone.setOnClickListener(this)
 

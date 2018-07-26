@@ -3,16 +3,23 @@ package com.sogukj.pe.module.main
 import android.content.Intent
 import android.os.Bundle
 import android.widget.FrameLayout
+import androidx.core.content.edit
+import com.amap.api.mapcore.util.it
 import com.netease.nim.uikit.api.NimUIKit
 import com.netease.nimlib.sdk.NIMClient
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.execute
+import com.sogukj.pe.baselibrary.Extended.jsonStr
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.StatusBarUtil
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.module.register.PhoneInputActivity
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.Store
+import com.sogukj.pe.service.RegisterService
+import com.sogukj.service.SoguApi
+import io.reactivex.internal.util.HalfSerializer.onNext
 import kotlinx.android.synthetic.main.activity_splash.*
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import me.leolin.shortcutbadger.ShortcutBadger
@@ -33,6 +40,8 @@ class SplashActivity : BaseActivity() {
         val params = splash_bg.layoutParams as FrameLayout.LayoutParams
         params.setMargins(0, 0, 0, Utils.dpToPx(this, 40))
         splash_bg.layoutParams = params
+
+        getCompanyInfo()
     }
 
     override fun onResume() {
@@ -57,5 +66,27 @@ class SplashActivity : BaseActivity() {
                 finish()
             }
         }, 500)
+    }
+
+
+
+    private fun getCompanyInfo() {
+        val key = sp.getString(Extras.CompanyKey, "")
+        if (key.isNotEmpty()) {
+            SoguApi.getService(application, RegisterService::class.java)
+                    .getBasicInfo(key)
+                    .execute {
+                        onNext { payload ->
+                            if (payload.isOk) {
+                                payload.payload?.let {
+                                    sp.edit { putString(Extras.SAAS_BASIC_DATA, it.jsonStr) }
+                                    sp.edit { putInt(Extras.main_flag, it.homeCardFlag ?: 1) }
+                                }
+                            } else {
+                                showErrorToast(payload.message)
+                            }
+                        }
+                    }
+        }
     }
 }

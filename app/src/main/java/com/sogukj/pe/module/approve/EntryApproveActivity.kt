@@ -14,6 +14,7 @@ import com.google.gson.Gson
 import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.isNullOrEmpty
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.bean.SpGroupBean
@@ -98,6 +99,9 @@ class EntryApproveActivity : ToolbarActivity(), View.OnClickListener {
         if (payload == null) return
         val inflater = LayoutInflater.from(this)
         payload.forEach { spGroupBean ->
+            if(spGroupBean.item.isNullOrEmpty()){
+                return@forEach
+            }
             val groupView = inflater.inflate(R.layout.cs_group, null, false) as LinearLayout
             ll_custom.addView(groupView)
             groupView.removeAllViews()

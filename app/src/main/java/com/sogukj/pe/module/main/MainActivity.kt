@@ -31,20 +31,19 @@ import android.widget.TextView
 import androidx.core.content.edit
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
-import com.alibaba.android.arouter.utils.PackageUtils.updateVersion
 import com.amap.api.mapcore.util.it
 import com.ashokvarma.bottomnavigation.BottomNavigationBar
 import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
-import com.netease.nim.uikit.common.util.sys.NetworkUtil.isWifi
 import com.sogukj.pe.*
 import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.ActivityHelper
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.*
-import com.sogukj.pe.database.MainFunIcon
+import com.sogukj.pe.bean.MainBottomBar
+import com.sogukj.pe.bean.MechanismBasicInfo
 import com.sogukj.pe.bean.NewsBean
 import com.sogukj.pe.database.FunctionViewModel
 import com.sogukj.pe.database.Injection
@@ -52,7 +51,6 @@ import com.sogukj.pe.module.fund.FundMainFragment
 import com.sogukj.pe.module.news.NewsDetailActivity
 import com.sogukj.pe.module.project.MainProjectFragment
 import com.sogukj.pe.module.register.PhoneInputActivity
-import com.sogukj.pe.peExtended.defaultIc
 import com.sogukj.pe.peUtils.FileUtil
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.OtherService
@@ -60,17 +58,13 @@ import com.sogukj.pe.service.RegisterService
 import com.sogukj.pe.widgets.MyProgressBar
 import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.internal.util.HalfSerializer.onNext
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import org.jetbrains.anko.*
-import org.jetbrains.anko.support.v4.ctx
 import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.reflect.full.memberProperties
-import kotlin.reflect.jvm.isAccessible
 
 
 /**
@@ -86,8 +80,7 @@ class MainActivity : BaseActivity() {
     private val defaultIndex = 0
 
     //    "消息", "通讯录", "基金"
-    private val modules = listOf( "消息", "通讯录","首页", "项目", "基金")
-
+    private lateinit var modules:List<MainBottomBar>
     private var items = ArrayList<BottomNavigationItem>()
 
     lateinit var manager: FragmentManager
@@ -99,35 +92,27 @@ class MainActivity : BaseActivity() {
             val news = intent.getSerializableExtra(Extras.DATA) as NewsBean?
             if (null != news) NewsDetailActivity.start(this@MainActivity, news)
         }
+        //现在公司logo
+        val company = sp.getString(Extras.SAAS_BASIC_DATA, "")
+        val detail = Gson().fromJson<MechanismBasicInfo?>(company)
+        detail?.let {
+            modules =  it.homeBottomButton
+            Glide.with(this@MainActivity)
+                    .load(it.logo)
+                    .apply(RequestOptions().centerInside().placeholder(R.mipmap.ic_launcher_mian_circle).error(R.mipmap.ic_launcher_mian_circle))
+                    .into(mainLogo)
+            initBottomNavBar()
+            changeFragment(defaultIndex)
+        }
         verifyPermissions(this)
-        initBottomNavBar()
-        changeFragment(defaultIndex)
         updateVersion()
-
         ViewCompat.setElevation(mainLogo, 50f)
         val factory = Injection.provideViewModelFactory(ctx)
         val model = ViewModelProviders.of(this, factory).get(FunctionViewModel::class.java)
         model.generateData(application)
-        getCompanyInfo()
         ActivityHelper.finishAllWithoutTop()
     }
 
-    private fun initFragments() {
-        manager = supportFragmentManager
-        manager.beginTransaction()
-                .add(R.id.container, mainMsg)
-                .add(R.id.container, teamSelect)
-                .add(R.id.container, mainHome)
-                .add(R.id.container, project)
-                .add(R.id.container, mainFund)
-                .commit()
-
-        fragments.add(mainMsg)
-        fragments.add(teamSelect)
-        fragments.add(mainHome)
-        fragments.add(project)
-        fragments.add(mainFund)
-    }
 
 
     private fun initBottomNavBar() {
@@ -138,7 +123,7 @@ class MainActivity : BaseActivity() {
         val projectItem = BottomNavigationItem(R.drawable.ic_tab_main_proj_11, "项目").setInactiveIconResource(R.drawable.ic_tab_main_proj_0).initNavTextColor()
         val fundItem = BottomNavigationItem(R.drawable.ic_main_fund22, "基金").setInactiveIconResource(R.drawable.ic_main_fund).initNavTextColor()
         modules.forEach {
-            when (it) {
+            when (it.name) {
                 "首页" -> {
                     if (modules.size.rem(2) == 0) {
                         items.add(mainItem0)
@@ -258,34 +243,6 @@ class MainActivity : BaseActivity() {
         if (!Store.store.checkLogin(this)) {
             startActivity<PhoneInputActivity>()
         }
-    }
-
-
-    private fun getCompanyInfo() {
-        SoguApi.getService(application, RegisterService::class.java)
-                .getBasicInfo(sp.getString(Extras.CompanyKey, ""))
-                .execute {
-                    onNext { payload ->
-                        if (payload.isOk) {
-                            payload.payload?.let {
-                                sp.edit { putString(Extras.CompanyDetail, it.jsonStr) }
-
-                                sp.edit { putInt(Extras.main_flag, it.homeCardFlag ?: 1) }
-
-                                if (teamSelect.isAdded) {
-                                    teamSelect.initHeader(it)
-                                }
-                                Glide.with(this@MainActivity)
-                                        .load(it.logo)
-                                        .apply(RequestOptions().centerInside().placeholder(R.mipmap.ic_launcher_mian_circle).error(R.mipmap.ic_launcher_mian_circle))
-                                        .into(mainLogo)
-                            }
-                        } else {
-                            showErrorToast(payload.message)
-                        }
-
-                    }
-                }
     }
 
     private fun updateVersion() {

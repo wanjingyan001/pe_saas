@@ -17,7 +17,6 @@ import android.view.inputmethod.EditorInfo
 import android.widget.BaseExpandableListAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -44,7 +43,6 @@ import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.module.im.PersonalInfoActivity
 import com.sogukj.pe.module.im.TeamCreateActivity
 import com.sogukj.pe.module.user.UserActivity
-import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.MyGlideUrl
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.UserService
@@ -131,10 +129,7 @@ class TeamSelectFragment : BaseFragment() {
         initOrganizationList()
         //initContactList()
         doRequest()
-        val company = sp.getString(Extras.CompanyDetail, "")
-        if (company.isNotEmpty()) {
-            initHeader(Gson().fromJson(company))
-        }
+        initHeader()
         loadHead()
         toolbar_back.setOnClickListener {
             //UserActivity.start(context)
@@ -285,13 +280,15 @@ class TeamSelectFragment : BaseFragment() {
         })
     }
 
-    fun initHeader(info: MechanismBasicInfo?) {
-        info?.let {
+   private fun initHeader() {
+        val company = sp.getString(Extras.SAAS_BASIC_DATA, "")
+        val detail = Gson().fromJson<MechanismBasicInfo?>(company)
+        detail?.let {
             Glide.with(this)
-                    .load(info.logo)
+                    .load(it.logo)
                     .apply(RequestOptions().placeholder(R.mipmap.ic_launcher_pe).error(R.mipmap.ic_launcher_pe))
                     .into(company_icon)
-            companyName.text = info.mechanism_name
+            companyName.text = it.mechanism_name
         }
     }
 

@@ -159,7 +159,7 @@ class MainEditActivity : ToolbarActivity() {
         subscribe = flowable0.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap {
-                    if (allModule.find { it.header == "项目功能" } == null) {
+                    if (it.isNotEmpty() && allModule.find { it.header == "项目功能" } == null) {
                         allModule.add(MainFunction(true, "项目功能"))
                         it.forEach {
                             info { "项目功能" + it.jsonStr }
@@ -168,7 +168,7 @@ class MainEditActivity : ToolbarActivity() {
                     }
                     return@flatMap flowable
                 }.flatMap {
-            if (allModule.find { it.header == "基金功能" } == null) {
+            if (it.isNotEmpty() && allModule.find { it.header == "基金功能" } == null) {
                 allModule.add(MainFunction(true, "基金功能"))
                 it.forEach {
                     info { "基金功能" + it.jsonStr }
@@ -177,7 +177,7 @@ class MainEditActivity : ToolbarActivity() {
             }
             return@flatMap flowable1
         }.subscribe {
-            if (allModule.find { it.header == "默认功能" } == null) {
+            if (it.isNotEmpty() && allModule.find { it.header == "默认功能" } == null) {
                 allModule.add(MainFunction(true, "默认功能"))
                 it?.forEach {
                     info { "默认功能" + it.jsonStr }

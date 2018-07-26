@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.core.content.edit
 import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -148,7 +149,7 @@ class CreateDepartmentActivity : ToolbarActivity() {
                                     finish()
                                 }else{
                                     Store.store.setUser(this@CreateDepartmentActivity,it)
-                                    startActivity<MainActivity>()
+                                    getCompanyInfo()
                                 }
                             }
                         }else{
@@ -161,6 +162,28 @@ class CreateDepartmentActivity : ToolbarActivity() {
                         Trace.e(e)
                     }
                 }
+    }
+
+
+    private fun getCompanyInfo() {
+        val key = sp.getString(Extras.CompanyKey, "")
+        if (key.isNotEmpty()) {
+            SoguApi.getService(application, RegisterService::class.java)
+                    .getBasicInfo(key)
+                    .execute {
+                        onNext { payload ->
+                            if (payload.isOk) {
+                                payload.payload?.let {
+                                    sp.edit { putString(Extras.SAAS_BASIC_DATA, it.jsonStr) }
+                                    sp.edit { putInt(Extras.main_flag, it.homeCardFlag ?: 1) }
+                                    startActivity<MainActivity>()
+                                }
+                            } else {
+                                showErrorToast(payload.message)
+                            }
+                        }
+                    }
+        }
     }
 
     override fun onDestroy() {

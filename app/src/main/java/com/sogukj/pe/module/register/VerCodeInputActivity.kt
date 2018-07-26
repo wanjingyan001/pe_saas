@@ -145,7 +145,7 @@ class VerCodeInputActivity : BaseActivity() {
                                 ifNotNull(it.accid, it.token, { accid, token ->
                                     IMLogin(accid, token)
                                 })
-                                startActivity<MainActivity>()
+                                getCompanyInfo()
                             }
                         } else {
                             hideProgress()
@@ -189,6 +189,29 @@ class VerCodeInputActivity : BaseActivity() {
                 //showToast("无效输入")
             }
         })
+    }
+
+
+    private fun getCompanyInfo() {
+        val key = sp.getString(Extras.CompanyKey, "")
+        if (key.isNotEmpty()) {
+            SoguApi.getService(application, RegisterService::class.java)
+                    .getBasicInfo(key)
+                    .execute {
+                        onNext { payload ->
+                            if (payload.isOk) {
+                                payload.payload?.let {
+                                    sp.edit { putString(Extras.SAAS_BASIC_DATA, it.jsonStr) }
+                                    sp.edit { putInt(Extras.main_flag, it.homeCardFlag ?: 1) }
+                                    startActivity<MainActivity>()
+                                }
+                            } else {
+                                hideProgress()
+                                showErrorToast(payload.message)
+                            }
+                        }
+                    }
+        }
     }
 
     override fun onDestroy() {

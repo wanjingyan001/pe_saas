@@ -1,6 +1,9 @@
 package com.sogukj.pe.peExtended
 
+import android.content.Context
+import android.preference.PreferenceManager
 import com.sogukj.pe.BuildConfig
+import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ActivityHelper
 import com.sogukj.pe.baselibrary.utils.CharacterParser
@@ -46,6 +49,10 @@ val String.firstLetter: String
         }
     }
 
+fun Context.needIm():Boolean{
+    val data = PreferenceManager.getDefaultSharedPreferences(this).getString(Extras.SAAS_BASIC_DATA, "")
+   return data.contains("消息")
+}
 
 fun getEnvironment(): String {
     return BuildConfig.ENVIRONMENT
