@@ -85,7 +85,8 @@
             android:value="${AMAP_KEY}" />
         <meta-data
             android:name="com.netease.nim.appKey"
-            android:value="a0af02d86ecfb1ee160dde8369a5035e" />
+            android:value="${IM_KEY}" />
+        <!-- android:value="1b5749bc47e9f1eef0cd2cff240dc7da" /> -->
         <!-- 测试版 -->
         <!-- a0af02d86ecfb1ee160dde8369a5035e -->
         <!-- 正式版 -->
@@ -151,13 +152,13 @@
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name="com.alipay.sdk.app.H5AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".module.main.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -429,7 +430,7 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name=".module.weekly.WeeklySelectActivity"/>
+        <activity android:name=".module.weekly.WeeklySelectActivity" />
         <!-- 日历日程任务 -->
         <activity
             android:name=".module.calendar.ArrangeDetailActivity"
@@ -989,7 +990,7 @@
         <activity android:name=".module.project.DangerousActivity" />
 
         <!-- Other -->
-        <activity android:name=".module.other.PayResultActivity"/>
+        <activity android:name=".module.other.PayResultActivity" />
         <activity android:name=".module.other.GongGaoDetailActivity" />
         <activity
             android:name=".module.other.CompanySelectActivity"
@@ -1128,6 +1129,9 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity android:name=".module.user.AdminMainActivity" />
+        <activity android:name=".module.user.AddAdminActivity" />
+        <activity android:name=".module.user.AdminTransferActivity"></activity>
     </application>
 
 </manifest>

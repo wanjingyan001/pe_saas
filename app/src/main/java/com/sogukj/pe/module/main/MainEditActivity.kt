@@ -53,8 +53,7 @@ class MainEditActivity : ToolbarActivity() {
     private lateinit var subscribe: Disposable
 
     companion object {
-        private var isEdit = false
-
+        private var isEdit = true
     }
 
 
@@ -87,6 +86,7 @@ class MainEditActivity : ToolbarActivity() {
                 info { "drag end" }
             }
         })
+        mainModuleAdapter.enableDragItem(touchHelper)
         mainModuleList.apply {
             layoutManager = GridLayoutManager(ctx, 4)
             adapter = mainModuleAdapter
@@ -105,7 +105,7 @@ class MainEditActivity : ToolbarActivity() {
                 val funIcon = adapter.data[position] as MainFunIcon
                 val find = allModule.find { it.t == funIcon }
                 find?.let {
-                    if (it.t.name == "审批") {
+                    if (!it.t.editable) {
                         return@OnItemClickListener
                     }
                     it.t.isCurrent = false
@@ -118,7 +118,7 @@ class MainEditActivity : ToolbarActivity() {
             val function = allModule[position]
             if (!function.isHeader and isEdit) {
                 val funIcon = function.t
-                if (funIcon.name == "审批") {
+                if (!funIcon.editable) {
                     return@OnItemClickListener
                 }
                 funIcon.isCurrent = !funIcon.isCurrent
@@ -165,7 +165,6 @@ class MainEditActivity : ToolbarActivity() {
                             info { "项目功能" + it.jsonStr }
                             allModule.add(MainFunction(it))
                         }
-//                        allModuleAdapter.notifyDataSetChanged()
                     }
                     return@flatMap flowable
                 }.flatMap {
@@ -175,7 +174,6 @@ class MainEditActivity : ToolbarActivity() {
                     info { "基金功能" + it.jsonStr }
                     allModule.add(MainFunction(it))
                 }
-//                allModuleAdapter.notifyDataSetChanged()
             }
             return@flatMap flowable1
         }.subscribe {
@@ -190,7 +188,6 @@ class MainEditActivity : ToolbarActivity() {
                 }
             }
         }
-        subscribe
     }
 
 
@@ -227,7 +224,6 @@ class MainEditActivity : ToolbarActivity() {
                 if (allModule.find { it.header == "默认功能" } == null) {
                     allModule.add(MainFunction(true, "默认功能"))
                     it?.forEach {
-                        info { it.jsonStr }
                         allModule.add(MainFunction(it))
                     }
                     allModule.distinct()
@@ -237,9 +233,15 @@ class MainEditActivity : ToolbarActivity() {
         }.join()
     }
 
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        submitModules()
+    }
+
+
     override fun onDestroy() {
         super.onDestroy()
-        isEdit = false
         subscribe.dispose()
     }
 
@@ -260,6 +262,13 @@ class MainEditActivity : ToolbarActivity() {
                             showTopSnackBar(payload.message)
                         }
                     }
+                    onError {
+                        finish()
+                    }
+                    onComplete {
+                        showSuccessToast("修改已提交")
+                        finish()
+                    }
                 }
     }
 
@@ -279,7 +288,7 @@ class MainEditActivity : ToolbarActivity() {
                 Glide.with(ctx)
                         .load(this.icon)
                         .into(icon)
-                aAndR.setVisible(isEdit)
+                aAndR.setVisible(isEdit && this.editable)
                 functionName.text = name
                 if (isCurrent) {
                     aAndR.imageResource = R.mipmap.icon_remove_function
@@ -301,7 +310,7 @@ class MainEditActivity : ToolbarActivity() {
                 Glide.with(ctx)
                         .load(this.icon)
                         .into(icon)
-                aAndR.setVisible(isEdit)
+                aAndR.setVisible(isEdit && this.editable)
                 functionName.text = name
             }
         }

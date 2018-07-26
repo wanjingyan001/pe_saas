@@ -124,26 +124,31 @@ class InviteMainActivity : ToolbarActivity() {
         return map
     }
 
+
     private fun inviteData(): List<MyContacts> {
-        val map = getContacts()
-        val data = ArrayList<MyContacts>()
-        val contacts = ArrayList<Contact>()
-        map.asIterable().forEach {
-            val contact = Contact(it.key, it.value)
-            contacts.add(contact)
-        }
-        contacts.sortBy { it.name.firstLetter }
-        contacts.forEachIndexed { index, contact ->
-            val thisLetter = contact.name.firstLetter
-            if (index == 0) {
-                data.add(MyContacts(true, thisLetter))
-            } else {
-                val lastLetter = contacts[index - 1].name.firstLetter
-                if (thisLetter != lastLetter) {
-                    data.add(MyContacts(true, thisLetter))
-                }
+        val data =  ArrayList<MyContacts>()
+        try {
+            val map = getContacts()
+            val contacts = ArrayList<Contact>()
+            map.asIterable().forEach {
+                val contact = Contact(it.key, it.value)
+                contacts.add(contact)
             }
-            data.add(MyContacts(contact))
+            contacts.sortBy { it.name.firstLetter }
+            contacts.forEachIndexed { index, contact ->
+                val thisLetter = contact.name.firstLetter
+                if (index == 0) {
+                    data.add(MyContacts(true, thisLetter))
+                } else {
+                    val lastLetter = contacts[index - 1].name.firstLetter
+                    if (thisLetter != lastLetter) {
+                        data.add(MyContacts(true, thisLetter))
+                    }
+                }
+                data.add(MyContacts(contact))
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
         return data
     }

@@ -9,6 +9,7 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.module.creditCollection.ShareHolderStepActivity
 import com.sogukj.pe.module.creditCollection.ShareholderCreditActivity
 import com.sogukj.pe.module.main.ContactsActivity
+import java.util.regex.Pattern
 
 /**
  * Created by admin on 2018/5/22.
@@ -32,9 +33,17 @@ fun ActivityHelper.hasCreditListActivity(): Boolean {
 /**
  * 限定汉字
  */
+
 val String.firstLetter: String
     get() {
-        return CharacterParser.getInstance().getAlpha(Utils.stringFilter(this)).toUpperCase().substring(0, 1)
+        val pattern = Pattern.compile("[^\\u4E00-\\u9FA5]")
+        val matcher = pattern.matcher(this)
+        val s = CharacterParser.getInstance().getAlpha(Utils.stringFilter(this.filter { matcher.find() })).toUpperCase()
+        return if (s.isEmpty()) {
+            ""
+        }else{
+            s.substring(0, 1)
+        }
     }
 
 

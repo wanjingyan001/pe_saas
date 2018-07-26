@@ -241,6 +241,7 @@ dependencies {
     compile project(':stack-layout')
     compile project(':PushSDK')
     compile project(':shareSDK')
+
     //3D地图so及jar
     implementation "com.amap.api:3dmap:${map_version}"
     //定位功能

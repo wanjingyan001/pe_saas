@@ -140,6 +140,7 @@ open class RecyclerAdapter<T>(val context: Context, val creator: (RecyclerAdapte
         result.dispatchUpdatesTo(this)
         dataList.clear()
         dataList.addAll(newData)
+        notifyDataSetChanged()
     }
 
 

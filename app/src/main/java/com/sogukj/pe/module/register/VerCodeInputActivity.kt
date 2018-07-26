@@ -1,6 +1,7 @@
 package com.sogukj.pe.module.register
 
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import androidx.core.content.edit
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -23,6 +24,7 @@ import com.sogukj.pe.bean.MechanismInfo
 import com.sogukj.pe.interf.ReviewStatus
 import com.sogukj.pe.module.main.LoginActivity
 import com.sogukj.pe.module.main.MainActivity
+import com.sogukj.pe.peUtils.LoginTimer
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.RegisterService
 import com.sogukj.service.SoguApi
@@ -33,6 +35,7 @@ import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.info
 import org.jetbrains.anko.startActivity
+import java.util.*
 
 class VerCodeInputActivity : BaseActivity() {
 
@@ -51,6 +54,18 @@ class VerCodeInputActivity : BaseActivity() {
         }
         nextStep.clickWithTrigger {
             verificationCode(phone, verCodeLayout.getCompleteInput())
+        }
+        reSendCode.clickWithTrigger {
+            SoguApi.getService(application, RegisterService::class.java).sendVerCode(phone).execute {
+                onNext { payload ->
+                    if (payload.isOk) {
+                        showSuccessToast("验证码已经发送，请查收")
+                        Timer().scheduleAtFixedRate(LoginTimer(45, Handler(), reSendCode), 0, 1000)
+                    }else{
+                        showErrorToast(payload.message)
+                    }
+                }
+            }
         }
     }
 

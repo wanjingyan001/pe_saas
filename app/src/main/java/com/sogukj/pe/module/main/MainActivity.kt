@@ -31,16 +31,15 @@ import android.widget.TextView
 import androidx.core.content.edit
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
+import com.alibaba.android.arouter.utils.PackageUtils.updateVersion
 import com.amap.api.mapcore.util.it
 import com.ashokvarma.bottomnavigation.BottomNavigationBar
 import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
-import com.sogukj.pe.App
-import com.sogukj.pe.Consts
-import com.sogukj.pe.Extras
-import com.sogukj.pe.R
+import com.netease.nim.uikit.common.util.sys.NetworkUtil.isWifi
+import com.sogukj.pe.*
 import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.ActivityHelper
 import com.sogukj.pe.baselibrary.base.BaseActivity
@@ -69,6 +68,9 @@ import org.jetbrains.anko.*
 import org.jetbrains.anko.support.v4.ctx
 import java.io.File
 import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.reflect.full.memberProperties
+import kotlin.reflect.jvm.isAccessible
 
 
 /**
@@ -81,6 +83,12 @@ class MainActivity : BaseActivity() {
     private val mainHome: MainHomeFragment by lazy { MainHomeFragment.newInstance() }
     private val project: MainProjectFragment by lazy { MainProjectFragment.newInstance() }
     private val mainFund: FundMainFragment by lazy { FundMainFragment.newInstance() }
+    private val defaultIndex = 0
+
+    //    "消息", "通讯录", "基金"
+    private val modules = listOf("消息", "通讯录","首页", "项目", "基金")
+
+    private var items = ArrayList<BottomNavigationItem>()
 
     lateinit var manager: FragmentManager
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,10 +100,9 @@ class MainActivity : BaseActivity() {
             if (null != news) NewsDetailActivity.start(this@MainActivity, news)
         }
         verifyPermissions(this)
-        initFragments()
         initBottomNavBar()
-        changeFragment(0)
-//        updateVersion()
+        changeFragment(defaultIndex)
+        updateVersion()
 
         ViewCompat.setElevation(mainLogo, 50f)
         val factory = Injection.provideViewModelFactory(ctx)
@@ -122,51 +129,106 @@ class MainActivity : BaseActivity() {
         fragments.add(mainFund)
     }
 
+
     private fun initBottomNavBar() {
-//        .addItem(BottomNavigationItem(R.drawable.ic_qb_sel12, "首页").setInactiveIconResource(R.drawable.ic_qb_nor2).initNavTextColor1())
-        bottomBar.addItem(BottomNavigationItem(R.drawable.ic_qb_sel11, "消息").setInactiveIconResource(R.drawable.ic_qb_nor).initNavTextColor())
-                .addItem(BottomNavigationItem(R.drawable.ic_qb_sel15, "通讯录").setInactiveIconResource(R.drawable.ic_qb_nor1).initNavTextColor())
-                .addItem(BottomNavigationItem(R.drawable.ic_qb_selnull, "首页").setInactiveIconResource(R.drawable.ic_qb_nor2).initNavTextColor1())
-                .addItem(BottomNavigationItem(R.drawable.ic_tab_main_proj_11, "项目").setInactiveIconResource(R.drawable.ic_tab_main_proj_0).initNavTextColor())
-                .addItem(BottomNavigationItem(R.drawable.ic_main_fund22, "基金").setInactiveIconResource(R.drawable.ic_main_fund).initNavTextColor())
-                .setMode(BottomNavigationBar.MODE_FIXED)
+        val mainItem0 = BottomNavigationItem(R.drawable.ic_qb_sel12, "首页").setInactiveIconResource(R.drawable.ic_qb_nor2).initNavTextColor()
+        val msgItem = BottomNavigationItem(R.drawable.ic_qb_sel11, "消息").setInactiveIconResource(R.drawable.ic_qb_nor).initNavTextColor()
+        val contactItem = BottomNavigationItem(R.drawable.ic_qb_sel15, "通讯录").setInactiveIconResource(R.drawable.ic_qb_nor1).initNavTextColor()
+        val mainItem = BottomNavigationItem(R.drawable.ic_qb_selnull, "首页").setInactiveIconResource(R.drawable.ic_qb_nor2).initNavTextColor1()
+        val projectItem = BottomNavigationItem(R.drawable.ic_tab_main_proj_11, "项目").setInactiveIconResource(R.drawable.ic_tab_main_proj_0).initNavTextColor()
+        val fundItem = BottomNavigationItem(R.drawable.ic_main_fund22, "基金").setInactiveIconResource(R.drawable.ic_main_fund).initNavTextColor()
+        modules.forEach {
+            when (it) {
+                "首页" -> {
+                    if (modules.size.rem(2) == 0) {
+                        items.add(mainItem0)
+                    } else {
+                        items.add(mainItem)
+                    }
+                    fragments.add(mainHome)
+                }
+                "消息" -> {
+                    items.add(msgItem)
+                    fragments.add(mainMsg)
+                }
+                "通讯录" -> {
+                    items.add(contactItem)
+                    fragments.add(teamSelect)
+                }
+                "项目" -> {
+                    items.add(projectItem)
+                    fragments.add(project)
+                }
+                "基金" -> {
+                    items.add(fundItem)
+                    fragments.add(mainFund)
+                }
+            }
+        }
+        if (modules.size.rem(2) == 0) {
+            mainItem.isEnable(false)
+            items.add(modules.size.div(2), mainItem)
+        }
+        items.forEach {
+            bottomBar.addItem(it)
+        }
+        bottomBar.setMode(BottomNavigationBar.MODE_FIXED)
                 .setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC)
                 .setBarBackgroundColor(R.color.white)
-                .setFirstSelectedPosition(0)
+                .setFirstSelectedPosition(defaultIndex)
                 .initialise()
         bottomBar.setTabSelectedListener(object : BottomNavigationBar.SimpleOnTabSelectedListener() {
             override fun onTabSelected(position: Int) {
-                if (position == 2) {
-                    mainLogo.setVisible(true)
-                    val scalex = PropertyValuesHolder.ofFloat("scaleX", 0.7f, 1f)
-                    val scaley = PropertyValuesHolder.ofFloat("scaleY", 0.7f, 1f)
-                    val animator = ObjectAnimator.ofPropertyValuesHolder(mainLogo, scalex, scaley).setDuration(300)
-                    animator.interpolator = DecelerateInterpolator()
-                    animator.start()
+                if (fragments.size.rem(2) != 0) {
+                    if (position == 2) {
+                        mainLogo.setVisible(true)
+                        val scalex = PropertyValuesHolder.ofFloat("scaleX", 0.7f, 1f)
+                        val scaley = PropertyValuesHolder.ofFloat("scaleY", 0.7f, 1f)
+                        val animator = ObjectAnimator.ofPropertyValuesHolder(mainLogo, scalex, scaley).setDuration(300)
+                        animator.interpolator = DecelerateInterpolator()
+                        animator.start()
+                    } else {
+                        mainLogo.setVisible(false)
+                    }
+                    changeFragment(position)
                 } else {
-                    mainLogo.setVisible(false)
+                    if (position != items.size.div(2)) {
+                        val index = if (position > items.size.div(2)) position - 1 else position
+                        changeFragment(index)
+                    } else {
+                        return
+                    }
                 }
-                changeFragment(position)
+
             }
         })
+        val rem = fragments.size.rem(2) == 0
+        val b = (fragments.size.rem(2) != 0).and(fragments.size.div(2) == defaultIndex)
+        mainLogo.setVisible(rem or b)
+        mainLogo.isEnabled = fragments.size.rem(2) != 0
+
+        manager = supportFragmentManager
+        fragments.forEach {
+            manager.beginTransaction().add(R.id.container, it).commit()
+        }
     }
 
     /**
      * 切换Tab，切换到对应的Fragment
      */
     private fun changeFragment(position: Int) {
-        when (position) {
-            0, 3, 4 -> {
-                StatusBarUtil.setColor(this, resources.getColor(R.color.colorPrimary), 0)
-                StatusBarUtil.setDarkMode(this)
-            }
-            1 -> {
+        when(fragments[position]::class.java.simpleName){
+            TeamSelectFragment::class.java.simpleName -> {
                 StatusBarUtil.setColor(this, resources.getColor(R.color.color_blue_0888ff), 0)
                 StatusBarUtil.setDarkMode(this)
             }
-            2 -> {
+            MainHomeFragment::class.java.simpleName ->{
                 StatusBarUtil.setColor(this, resources.getColor(R.color.white), 0)
                 StatusBarUtil.setLightMode(this)
+            }
+            else ->{
+                StatusBarUtil.setColor(this, resources.getColor(R.color.colorPrimary), 0)
+                StatusBarUtil.setDarkMode(this)
             }
         }
         val ft = supportFragmentManager.beginTransaction()
@@ -194,24 +256,25 @@ class MainActivity : BaseActivity() {
     override fun onStart() {
         super.onStart()
         if (!Store.store.checkLogin(this)) {
-//            LoginActivity.start(this)
-           startActivity<PhoneInputActivity>()
+            startActivity<PhoneInputActivity>()
         }
     }
 
 
-    private fun getCompanyInfo(){
+    private fun getCompanyInfo() {
         SoguApi.getService(application, RegisterService::class.java)
                 .getBasicInfo(sp.getString(Extras.CompanyKey, ""))
                 .execute {
                     onNext { payload ->
                         if (payload.isOk) {
                             payload.payload?.let {
-                               sp.edit { putString(Extras.CompanyDetail,it.jsonStr) }
+                                sp.edit { putString(Extras.CompanyDetail, it.jsonStr) }
 
-                                sp.edit { putInt(Extras.main_flag,it.homeCardFlag?:1) }
+                                sp.edit { putInt(Extras.main_flag, it.homeCardFlag ?: 1) }
 
-                                teamSelect.initHeader(it)
+                                if (teamSelect.isAdded) {
+                                    teamSelect.initHeader(it)
+                                }
                                 Glide.with(this@MainActivity)
                                         .load(it.logo)
                                         .apply(RequestOptions().centerInside().placeholder(R.mipmap.ic_launcher_mian_circle).error(R.mipmap.ic_launcher_mian_circle))
@@ -226,6 +289,9 @@ class MainActivity : BaseActivity() {
     }
 
     private fun updateVersion() {
+        if (BuildConfig.DEBUG) {
+            return
+        }
         val mDialog = MaterialDialog.Builder(this)
                 .customView(R.layout.dialog_updated, false)
                 .theme(Theme.LIGHT)
