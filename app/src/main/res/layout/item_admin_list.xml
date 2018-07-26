@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="62dp"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/selectIcon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/team_select_bg"
+        android:visibility="gone" />
+
+    <com.sogukj.pe.widgets.CircleImageView
+        android:id="@+id/userHeadImg"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@+id/selectIcon"
+        android:src="@drawable/oval_5_copy_5" />
+
+    <TextView
+        android:id="@+id/userName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/userHeadImg"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@+id/userHeadImg"
+        android:text="张三三"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/userPosition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/userName"
+        android:layout_below="@+id/userName"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="7dp"
+        android:text="总监理兼任董事"
+        android:textColor="#b4b4b4"
+        android:textSize="12sp" />
+
+    <ImageView
+        android:id="@+id/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:padding="20dp"
+        android:src="@mipmap/icon_admin_delete" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignLeft="@+id/userName"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="15dp"
+        android:background="#f1f1f1" />
+</RelativeLayout>

@@ -1,5 +1,6 @@
 package com.sogukj.pe.module.user
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.sogukj.pe.Extras
@@ -8,6 +9,7 @@ import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import kotlinx.android.synthetic.main.activity_admin_main.*
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.startActivityForResult
 
 class AdminMainActivity : ToolbarActivity() {
 
@@ -20,7 +22,15 @@ class AdminMainActivity : ToolbarActivity() {
             startActivity<AddAdminActivity>()
         }
         transferAdministrator.clickWithTrigger {
-            startActivity<AdminTransferActivity>()
+            startActivityForResult<AdminTransferActivity>(Extras.REQUESTCODE)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == Extras.REQUESTCODE && resultCode == Extras.RESULTCODE) {
+            setResult(resultCode)
+            finish()
         }
     }
 }

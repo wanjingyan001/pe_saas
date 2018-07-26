@@ -2,6 +2,7 @@ package com.sogukj.pe.module.user
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.graphics.drawable.Drawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -11,14 +12,20 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import android.widget.TextView
+import anet.channel.util.Utils.context
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
+import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -26,7 +33,10 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.module.register.OrganViewModel
+import com.sogukj.pe.peUtils.Store
+import com.sogukj.pe.service.UserService
 import com.sogukj.pe.widgets.CircleImageView
+import com.sogukj.service.SoguApi
 import io.reactivex.Maybe
 import kotlinx.android.synthetic.main.activity_admin_transfer.*
 import kotlinx.coroutines.experimental.runBlocking
@@ -56,8 +66,7 @@ class AdminTransferActivity : ToolbarActivity() {
                     .positiveText("同意")
                     .negativeText("取消")
                     .onPositive { dialog, which ->
-                        dialog.dismiss()
-                        //todo 调用接口转让管理员.
+                        transferAdmin(memberAdapter.dataList[p].uid!!)
                     }.show()
         }
         memberList.apply {
@@ -106,12 +115,32 @@ class AdminTransferActivity : ToolbarActivity() {
 
 
     private fun getMemberList() = runBlocking {
+        val user = Store.store.getUser(this@AdminTransferActivity)
         val key = sp.getString(Extras.CompanyKey, "")
         model.loadMemberList(application, key).observe(this@AdminTransferActivity, Observer {
-            it?.let {
+
+            it?.filter { it.is_admin == 0 &&  user?.uid != it.uid }?.let {
+                it.forEach {
+                    it.uid = it.user_id
+                }
                 memberAdapter.refreshData(it)
             }
         })
+    }
+
+    private fun transferAdmin(id: Int) {
+        SoguApi.getService(application, UserService::class.java)
+                .operateAdmin(3, id = id)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk) {
+                            setResult(Extras.RESULTCODE)
+                            finish()
+                        } else {
+                            showErrorToast(payload.message)
+                        }
+                    }
+                }
     }
 
     inner class MemberHolder(itemView: View) : RecyclerHolder<UserBean>(itemView) {
@@ -128,11 +157,21 @@ class AdminTransferActivity : ToolbarActivity() {
             } else {
                 Glide.with(context)
                         .load(data.headImage())
-                        .apply(RequestOptions().error(R.drawable.nim_avatar_default).placeholder(R.drawable.nim_avatar_default))
+                        .listener(object : RequestListener<Drawable> {
+                            override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                                return false
+                            }
+
+                            override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                                userImg.setChar(data.name.first())
+                                return false
+                            }
+
+                        })
                         .into(userImg)
             }
             userName.text = data.name
-            userPosition.text = data.depart_name
+            userPosition.text = data.position
         }
     }
 }

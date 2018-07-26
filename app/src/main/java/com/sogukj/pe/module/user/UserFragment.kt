@@ -74,6 +74,7 @@ import kotlinx.android.synthetic.main.activity_user.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.startActivity
+import org.jetbrains.anko.support.v4.startActivityForResult
 import java.io.File
 import java.util.HashMap
 
@@ -165,7 +166,7 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
                     })
         }
         val user = Store.store.getUser(ctx)
-        createDep.setVisible(user?.is_admin == 1)
+        createDep.setVisible((user?.is_admin == 1) or (user?.is_admin == 2))
         createDep.clickWithTrigger {
             user?.let {
                 val company = sp.getString(Extras.CompanyDetail, "")
@@ -180,8 +181,9 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
                 }
             }
         }
+        adminSetting.setVisible((user?.is_admin == 1) or (user?.is_admin == 2))
         adminSetting.clickWithTrigger {
-            startActivity<AdminMainActivity>()
+            startActivityForResult<AdminMainActivity>(Extras.REQUESTCODE)
         }
     }
 
@@ -529,6 +531,15 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
 //                ProjectFocusActivity.start(activity, ProjectListFragment.TYPE_TC)
 //            }
 //        }
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == Extras.REQUESTCODE && resultCode == Extras.RESULTCODE){
+            adminSetting.setVisible(false)
+            createDep.setVisible(false)
+        }
     }
 
 

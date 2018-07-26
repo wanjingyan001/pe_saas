@@ -82,11 +82,11 @@ class MainActivity : BaseActivity() {
     private val teamSelect: TeamSelectFragment by lazy { TeamSelectFragment.newInstance() }
     private val mainHome: MainHomeFragment by lazy { MainHomeFragment.newInstance() }
     private val project: MainProjectFragment by lazy { MainProjectFragment.newInstance() }
-    private val mainFund: FundMainFragment by lazy { FundMainFragment.newInstance() }
+    private val mainFund: FundMainFragment by lazy {  FundMainFragment.newInstance()}
     private val defaultIndex = 0
 
     //    "消息", "通讯录", "基金"
-    private val modules = listOf("消息", "通讯录","首页", "项目", "基金")
+    private val modules = listOf( "消息", "通讯录","首页", "项目", "基金")
 
     private var items = ArrayList<BottomNavigationItem>()
 
@@ -217,16 +217,16 @@ class MainActivity : BaseActivity() {
      * 切换Tab，切换到对应的Fragment
      */
     private fun changeFragment(position: Int) {
-        when(fragments[position]::class.java.simpleName){
+        when (fragments[position]::class.java.simpleName) {
             TeamSelectFragment::class.java.simpleName -> {
                 StatusBarUtil.setColor(this, resources.getColor(R.color.color_blue_0888ff), 0)
                 StatusBarUtil.setDarkMode(this)
             }
-            MainHomeFragment::class.java.simpleName ->{
+            MainHomeFragment::class.java.simpleName -> {
                 StatusBarUtil.setColor(this, resources.getColor(R.color.white), 0)
                 StatusBarUtil.setLightMode(this)
             }
-            else ->{
+            else -> {
                 StatusBarUtil.setColor(this, resources.getColor(R.color.colorPrimary), 0)
                 StatusBarUtil.setDarkMode(this)
             }

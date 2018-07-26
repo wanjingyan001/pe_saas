@@ -1,5 +1,6 @@
 package com.sogukj.pe.service
 
+import android.support.annotation.IntRange
 import com.sogukj.pe.bean.*
 import io.reactivex.Observable
 import okhttp3.RequestBody
@@ -11,11 +12,12 @@ import retrofit2.http.POST
 /**
  * Created by admin on 2018/5/22.
  */
-interface UserService{
+interface UserService {
     companion object {
         const val APPKEY_NAME = "appkey"
         const val APPKEY_VALUE = "d5f17cafef0829b5"
     }
+
     @FormUrlEncoded
     @POST("/api/index/send_code")
     fun sendVerifyCode(@Field("phone") phone: String
@@ -151,4 +153,16 @@ interface UserService{
     @FormUrlEncoded
     @POST("/api/UserFont/getProject")
     fun getProject(@Field("user_id") user_id: Int): Observable<Payload<ProjectBelongBean>>
+
+    /**
+     * 管理员操作
+     */
+    @FormUrlEncoded
+    @POST("/api/Admin/operateAdmin")
+    fun operateAdmin(
+            @IntRange(from = 1, to = 4)
+            @Field("flag") flag: Int,//1管理员和超管列表,2添加管理员(可添加多个),3转让管理员或超管,4删除管理员(单个)
+            @Field("idStr") idStr: String? = null,//把被操作的用户id用逗号拼接,当flag=2时,非空
+            @Field("id") id: Int? = null//被操作的用户id,当flag=3或4时,非空
+    ): Observable<Payload<List<UserBean>>>
 }
