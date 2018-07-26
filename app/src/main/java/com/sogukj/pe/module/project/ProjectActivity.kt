@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.*
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
 import com.netease.nim.uikit.api.NimUIKit
 import com.netease.nimlib.sdk.NIMClient
 import com.netease.nimlib.sdk.RequestCallback
@@ -22,16 +23,14 @@ import com.netease.nimlib.sdk.team.model.Team
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.R.id.*
+import com.sogukj.pe.baselibrary.Extended.fromJson
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.StatusBarUtil
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.utils.XmlDb
-import com.sogukj.pe.bean.EquityListBean
-import com.sogukj.pe.bean.ProjectBean
-import com.sogukj.pe.bean.ProjectDetailBean
-import com.sogukj.pe.bean.UserBean
+import com.sogukj.pe.bean.*
 import com.sogukj.pe.module.approve.ApproveListActivity
 import com.sogukj.pe.module.creditCollection.ShareHolderDescActivity
 import com.sogukj.pe.module.creditCollection.ShareholderCreditActivity
@@ -181,6 +180,19 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
 
         val user = Store.store.getUser(this)
         im.setVisible(!user?.accid.isNullOrEmpty() && needIm())
+        //如果没有消息，也就不需要im
+        val company = sp.getString(Extras.SAAS_BASIC_DATA, "")
+        val detail = Gson().fromJson<MechanismBasicInfo?>(company)
+        detail?.let {
+            var hasIM = false
+            var modules = it.homeBottomButton
+            modules.forEach {
+                if (it.name == "消息") {
+                    hasIM = true
+                }
+            }
+            im.setVisible(hasIM)
+        }
         SoguApi.getService(application, NewService::class.java)
                 .projectPage(company_id = project.company_id!!)
                 .observeOn(AndroidSchedulers.mainThread())
