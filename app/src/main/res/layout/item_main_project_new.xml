@@ -72,7 +72,7 @@
                 android:id="@+id/tv_dsz"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/icon_dsz"
+                android:drawableLeft="@drawable/icon_dsz1"
                 android:drawablePadding="4dp"
                 android:gravity="center"
                 android:lineSpacingExtra="0sp"
@@ -89,10 +89,10 @@
                 android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/icon_date"
+                android:drawableLeft="@drawable/icon_fzr"
                 android:drawablePadding="4dp"
                 android:gravity="center"
-                android:text="2017/07/07"
+                android:text="负责人：张方三"
                 android:textColor="@color/text_3"
                 android:textSize="10sp" />
 

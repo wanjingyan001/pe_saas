@@ -16,7 +16,8 @@ class ProjectBean : Serializable {
     var status: Int = 1//	Int	状态（默认1）	0禁用 1准备中  2已完成（type=1时取此数据）
     var company_id: Int? = null
     var is_focus: Int = 0//	Int	是否关注	is_focus=1表示关注is_focus=0表示未关注
-    //
+    var chargeName: String? = null
+    var charge: Int? = null
     var legalPersonName: String? = null//	varchar		法人	可空
     var regLocation: String? = null//	varchar		注册地址	可空
     var creditCode: String? = null//	varchar		统一社会信用代码	可空

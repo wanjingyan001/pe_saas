@@ -85,6 +85,10 @@ class MemberSelectActivity : ToolbarActivity() {
         if (alreadySelected.any { it.user_id != null }) {
             selectNumber.text = "已选择: ${alreadySelected.size} 人"
         }
+        var titleStr = intent.getStringExtra(Extras.TITLE)
+        if (!titleStr.isNullOrEmpty()) {
+            title = titleStr
+        }
     }
 
     private fun initTissueAdapter() {
@@ -132,8 +136,8 @@ class MemberSelectActivity : ToolbarActivity() {
         val key = sp.getString(Extras.CompanyKey, "")
         model.loadMemberList(application, key).observe(this@MemberSelectActivity, Observer {
             val data = if (isAdmin) {
-                it?.filter { it.is_admin  == 0 }
-            }else{
+                it?.filter { it.is_admin == 0 }
+            } else {
                 it
             }
             data?.forEach {

@@ -377,16 +377,24 @@ class ProjectListFragment : BaseFragment(), SupportEmptyView {
             tvTitle.text = label
 
             tvDSZ.text = "董事长：${data.chairman.checkEmpty()}"
+            if (data.chairman.isNullOrEmpty()) {
+                tvDSZ.visibility = View.INVISIBLE
+            }
+            tvDate.text = "负责人：${data.chargeName.checkEmpty()}"
+            if (data.chargeName.isNullOrEmpty()) {
+                tvDate.visibility = View.INVISIBLE
+            }
 
             val strTime = data.add_time
             if (!TextUtils.isEmpty(strTime)) {
-                val strs = strTime!!.trim().split(" ")
-                tvDate.text = strs
-                        .getOrNull(0)
-                tvTime.text = strs
-                        .getOrNull(1)
+                try {
+                    val strs = strTime!!.trim().split(" ") // 2018/07/08 18:23
+                    var time = strs.get(0).split("/")
+                    tvTime.text = "${time[1]}-${time[2]} ${strs.get(1)}"
+                } catch (e: Exception) {
+                    tvTime.visibility = View.INVISIBLE
+                }
             } else {
-                tvDate.visibility = View.INVISIBLE
                 tvTime.visibility = View.INVISIBLE
             }
 

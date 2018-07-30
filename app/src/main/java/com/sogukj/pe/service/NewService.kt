@@ -52,6 +52,7 @@ interface NewService {
             , @Field("creditCode") creditCode: String? = null
             , @Field("info") info: String? = null
             , @Field("type") type: Int? = null
+            , @Field("charge") charge: Int = 0
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<Any>>
 

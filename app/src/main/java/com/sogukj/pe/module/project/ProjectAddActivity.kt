@@ -23,6 +23,8 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.CompanySelectBean
 import com.sogukj.pe.bean.ProjectBean
+import com.sogukj.pe.bean.UserBean
+import com.sogukj.pe.module.register.MemberSelectActivity
 import com.sogukj.pe.module.user.FormActivity
 import com.sogukj.pe.service.NewService
 import com.sogukj.pe.service.OtherService
@@ -32,6 +34,7 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_add_project.*
+import org.jetbrains.anko.startActivityForResult
 
 /**
  * Created by qinfei on 17/7/18.
@@ -62,7 +65,9 @@ class ProjectAddActivity : ToolbarActivity() {
                         if (payload.isOk) {
                             payload.payload?.apply {
                                 et_name.text = name
-//                                et_name.setSelection(name!!.length)
+                                et_fuzeren.text = chargeName
+                                chargerStr = chargeName ?: ""
+                                chargerId = charge ?: 0
                                 et_short_name.text = shortName
                                 et_faren.text = legalPersonName
                                 et_reg_address.text = regLocation
@@ -160,6 +165,9 @@ class ProjectAddActivity : ToolbarActivity() {
         et_other.setOnClickListener {
             FormActivity.start(context, "其他信息", et_other.text.toString(), OTHER)
         }
+        et_fuzeren.setOnClickListener {
+            startActivityForResult<MemberSelectActivity>(FUZEREN, Extras.FLAG to true, Extras.TITLE to "请选择负责人")
+        }
     }
 
     var SHORT_NAME = 0x555
@@ -167,6 +175,7 @@ class ProjectAddActivity : ToolbarActivity() {
     var REG_ADDRESS = 0x557
     var CREDIT_CODE = 0x558
     var OTHER = 0x559
+    var FUZEREN = 0x560
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -187,9 +196,18 @@ class ProjectAddActivity : ToolbarActivity() {
                         }
                     }
                 }
+                FUZEREN -> {
+                    var userList = data.getSerializableExtra(Extras.DATA) as ArrayList<UserBean>
+                    chargerId = userList.get(0).uid ?: 0
+                    chargerStr = userList.get(0).name ?: ""
+                    et_fuzeren.text = chargerStr
+                }
             }
         }
     }
+
+    var chargerStr = ""
+    var chargerId = 0
 
     fun doSearch(text: String) {
         var map = HashMap<String, String>()
@@ -232,6 +250,8 @@ class ProjectAddActivity : ToolbarActivity() {
         project.regLocation = et_reg_address?.text?.trim()?.toString()
         project.creditCode = et_credit_code?.text?.trim()?.toString()
         project.info = et_other?.text?.trim()?.toString()
+        project.charge = chargerId
+        project.chargeName = chargerStr
         SoguApi.getService(application, NewService::class.java)
                 .addProject(name = project.name!!
                         , shortName = project.shortName!!
@@ -239,6 +259,7 @@ class ProjectAddActivity : ToolbarActivity() {
                         , legalPersonName = project.legalPersonName
                         , regLocation = project.regLocation
                         , info = project.info
+                        , charge = chargerId
                         , type = 6)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -287,7 +308,8 @@ class ProjectAddActivity : ToolbarActivity() {
         data.regLocation = et_reg_address?.text?.trim()?.toString()
         data.creditCode = et_credit_code?.text?.trim()?.toString()
         data.info = et_other?.text?.trim()?.toString()
-
+        data.charge = chargerId
+        data.chargeName = chargerStr
         SoguApi.getService(application, NewService::class.java)
                 .addProject(company_id = data.company_id
                         , name = data.name!!
@@ -296,6 +318,7 @@ class ProjectAddActivity : ToolbarActivity() {
                         , legalPersonName = data.legalPersonName
                         , regLocation = data.regLocation
                         , info = data.info
+                        , charge = chargerId
                         , type = 6)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())

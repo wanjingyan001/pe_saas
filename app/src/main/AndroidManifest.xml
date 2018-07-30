@@ -674,8 +674,7 @@
         <activity
             android:name=".module.project.ProjectAddActivity"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible|adjustPan" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.project.ProjectFocusActivity"
             android:configChanges="orientation|screenSize"
