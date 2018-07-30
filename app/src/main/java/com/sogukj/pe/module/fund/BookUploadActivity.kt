@@ -315,6 +315,7 @@ class BookUploadActivity : ToolbarActivity() {
                 if (type == 2) {
                     tag_layout.visibility = View.GONE
                 } else {
+                    data.type = 0
                     tag_layout.visibility = View.VISIBLE
                     tv_class.text = ""
                     val rMap = HashMap<String, Int>()
