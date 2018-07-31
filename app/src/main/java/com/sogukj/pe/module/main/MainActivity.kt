@@ -18,6 +18,7 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.content.FileProvider
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
 import android.support.v4.view.ViewCompat
 import android.text.SpannableString
 import android.text.Spanned
@@ -28,10 +29,8 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.ScrollView
 import android.widget.TextView
-import androidx.core.content.edit
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
-import com.amap.api.mapcore.util.it
 import com.ashokvarma.bottomnavigation.BottomNavigationBar
 import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.bumptech.glide.Glide
@@ -51,10 +50,10 @@ import com.sogukj.pe.module.fund.FundMainFragment
 import com.sogukj.pe.module.news.NewsDetailActivity
 import com.sogukj.pe.module.project.MainProjectFragment
 import com.sogukj.pe.module.register.PhoneInputActivity
+import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.FileUtil
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.OtherService
-import com.sogukj.pe.service.RegisterService
 import com.sogukj.pe.widgets.MyProgressBar
 import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -76,11 +75,15 @@ class MainActivity : BaseActivity() {
     private val teamSelect: TeamSelectFragment by lazy { TeamSelectFragment.newInstance() }
     private val mainHome: MainHomeFragment by lazy { MainHomeFragment.newInstance() }
     private val project: MainProjectFragment by lazy { MainProjectFragment.newInstance() }
-    private val mainFund: FundMainFragment by lazy {  FundMainFragment.newInstance()}
+    private val mainFund: FundMainFragment by lazy { FundMainFragment.newInstance() }
     private val defaultIndex = 0
 
     //    "消息", "通讯录", "基金"
-    private lateinit var modules:List<MainBottomBar>
+    private val modules = arrayListOf(MainBottomBar(1, "消息"),
+            MainBottomBar(2, "通讯录"),
+            MainBottomBar(3, "首页"),
+            MainBottomBar(4, "项目"),
+            MainBottomBar(5, "基金"))
     private var items = ArrayList<BottomNavigationItem>()
 
     lateinit var manager: FragmentManager
@@ -96,10 +99,21 @@ class MainActivity : BaseActivity() {
         val company = sp.getString(Extras.SAAS_BASIC_DATA, "")
         val detail = Gson().fromJson<MechanismBasicInfo?>(company)
         detail?.let {
-            modules =  it.homeBottomButton
+            modules.clear()
+            if (!it.homeBottomButton.isNullOrEmpty()) {
+                modules.addAll(it.homeBottomButton!!)
+            }
+            val defaultLogo = when (getEnvironment()) {
+                "zgh" -> R.mipmap.ic_launcher_zgh
+                else -> R.mipmap.ic_launcher_mian_circle
+
+            }
             Glide.with(this@MainActivity)
                     .load(it.logo)
-                    .apply(RequestOptions().centerInside().placeholder(R.mipmap.ic_launcher_mian_circle).error(R.mipmap.ic_launcher_mian_circle))
+                    .apply(RequestOptions()
+                            .centerInside()
+                            .placeholder(defaultLogo)
+                            .error(defaultLogo))
                     .into(mainLogo)
             initBottomNavBar()
             changeFragment(defaultIndex)
@@ -112,7 +126,6 @@ class MainActivity : BaseActivity() {
         model.generateData(application)
         ActivityHelper.finishAllWithoutTop()
     }
-
 
 
     private fun initBottomNavBar() {

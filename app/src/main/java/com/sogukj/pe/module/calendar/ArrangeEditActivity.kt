@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.support.v7.widget.DefaultItemAnimator
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
@@ -75,6 +77,7 @@ class ArrangeEditActivity : ToolbarActivity() {
         arrangeEditList.setItemViewCacheSize(0)
         arrangeEditList.layoutManager = LinearLayoutManager(this)
         arrangeEditList.adapter = editAdapter
+        arrangeEditList.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         saveBtn.clickWithTrigger {
             submitWeeklyWork(true)
         }

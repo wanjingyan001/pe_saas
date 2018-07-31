@@ -1,10 +1,20 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/sogubaby/Desktop/saas/pe-saas-android/zxingLib/build/intermediates/res/merged/androidTest/debug/values-sv/values-sv.xml",
+            "outputFile": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-sv/values-sv.xml",
             "map": [
                 {
-                    "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/143b30e02e829f94e973581cfce37c6e/res/values-sv/values-sv.xml",
+                    "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/values-sv/values-sv.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,211,314,425,510,612,725,801,877,957,1063,1163,1259,1364,1466,1568,1722,1824",
+                        "endColumns": "105,102,110,84,101,112,75,75,79,105,99,95,104,101,101,153,101,78",
+                        "endOffsets": "206,309,420,505,607,720,796,872,952,1058,1158,1254,1359,1461,1563,1717,1819,1898"
+                    }
+                },
+                {
+                    "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/266594d5e4bf1ff18bcc89b38e8dbcf2/res/values-sv/values-sv.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -18,25 +28,25 @@
                         "startOffsets": "1903",
                         "endColumns": "100",
                         "endOffsets": "1999"
-                    }
-                },
-                {
-                    "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/d37ed2f77ff877640c1210bd1d06774a/res/values-sv/values-sv.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,211,314,425,510,612,725,801,877,957,1063,1163,1259,1364,1466,1568,1722,1824",
-                        "endColumns": "105,102,110,84,101,112,75,75,79,105,99,95,104,101,101,153,101,78",
-                        "endOffsets": "206,309,420,505,607,720,796,872,952,1058,1158,1254,1359,1461,1563,1717,1819,1898"
                     }
                 }
             ]
         },
         {
-            "outputFile": "/Users/sogubaby/Desktop/saas/pe-saas-android/zxingLib/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-sv/values-sv.xml",
+            "outputFile": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/res/merged/androidTest/debug/values-sv/values-sv.xml",
             "map": [
                 {
-                    "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/143b30e02e829f94e973581cfce37c6e/res/values-sv/values-sv.xml",
+                    "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/values-sv/values-sv.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,211,314,425,510,612,725,801,877,957,1063,1163,1259,1364,1466,1568,1722,1824",
+                        "endColumns": "105,102,110,84,101,112,75,75,79,105,99,95,104,101,101,153,101,78",
+                        "endOffsets": "206,309,420,505,607,720,796,872,952,1058,1158,1254,1359,1461,1563,1717,1819,1898"
+                    }
+                },
+                {
+                    "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/266594d5e4bf1ff18bcc89b38e8dbcf2/res/values-sv/values-sv.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -50,16 +60,6 @@
                         "startOffsets": "1903",
                         "endColumns": "100",
                         "endOffsets": "1999"
-                    }
-                },
-                {
-                    "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/d37ed2f77ff877640c1210bd1d06774a/res/values-sv/values-sv.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,211,314,425,510,612,725,801,877,957,1063,1163,1259,1364,1466,1568,1722,1824",
-                        "endColumns": "105,102,110,84,101,112,75,75,79,105,99,95,104,101,101,153,101,78",
-                        "endOffsets": "206,309,420,505,607,720,796,872,952,1058,1158,1254,1359,1461,1563,1717,1819,1898"
                     }
                 }
             ]

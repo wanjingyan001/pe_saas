@@ -300,7 +300,7 @@ class SgEditText @JvmOverloads constructor(
             when (spaceType) {
                 SpaceType.DefaultType// 相隔四位空格
                 -> if (index > 3 && index % (4 * (spaceNumberAfter + 1)) == spaceNumberAfter) {
-                    buffer.insert(index, ' ')
+//                    buffer.insert(index, ' ')
                     spaceNumberAfter++
                 }
                 SpaceType.BankCardNumberType -> if (index > 3 && index % (4 * (spaceNumberAfter + 1)) == spaceNumberAfter) {

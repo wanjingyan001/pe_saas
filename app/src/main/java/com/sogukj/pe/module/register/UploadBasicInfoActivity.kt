@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.huantansheng.easyphotos.EasyPhotos
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.netease.nim.uikit.support.glide.GlideEngine
@@ -18,6 +19,7 @@ import com.sogukj.pe.baselibrary.Extended.extraDelegate
 import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.bean.RegisterVerResult
+import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.service.RegisterService
 import com.sogukj.service.SoguApi
 import io.reactivex.internal.util.HalfSerializer.onNext
@@ -112,8 +114,14 @@ class UploadBasicInfoActivity : ToolbarActivity() {
                                 payload.payload?.let {
                                     cardPath = it.logo ?: ""
                                     mechanismName =  it.mechanism_name ?: ""
+                                    val defaultLogo = when(getEnvironment()){
+                                        "zgh" ->R.mipmap.ic_launcher_zgh
+                                        else -> R.mipmap.ic_launcher_pe
+
+                                    }
                                     Glide.with(ctx)
                                             .load(it.logo)
+                                            .apply(RequestOptions().placeholder(defaultLogo).error(defaultLogo))
                                             .into(mCompanyLogo)
                                     mechanismNameEdt.text = it.mechanism_name
                                     mPhoneEdt.setText(it.telephone)

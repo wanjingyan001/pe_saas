@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-kn/values-kn.xml",
+            "outputFile": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/values-kn/values-kn.xml",
             "map": [
                 {
-                    "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/143b30e02e829f94e973581cfce37c6e/res/values-kn/values-kn.xml",
+                    "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/266594d5e4bf1ff18bcc89b38e8dbcf2/res/values-kn/values-kn.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/d37ed2f77ff877640c1210bd1d06774a/res/values-kn/values-kn.xml",
+                    "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/values-kn/values-kn.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -33,10 +33,10 @@
             ]
         },
         {
-            "outputFile": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/values-kn/values-kn.xml",
+            "outputFile": "/Users/admin/dev/pe_saas/uikit/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-kn/values-kn.xml",
             "map": [
                 {
-                    "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/143b30e02e829f94e973581cfce37c6e/res/values-kn/values-kn.xml",
+                    "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/266594d5e4bf1ff18bcc89b38e8dbcf2/res/values-kn/values-kn.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -53,7 +53,7 @@
                     }
                 },
                 {
-                    "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/d37ed2f77ff877640c1210bd1d06774a/res/values-kn/values-kn.xml",
+                    "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/values-kn/values-kn.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

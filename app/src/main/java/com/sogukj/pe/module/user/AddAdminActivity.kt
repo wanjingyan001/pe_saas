@@ -72,6 +72,9 @@ class AddAdminActivity : ToolbarActivity() {
             adapter = mAdapter
             addItemDecoration(decoration)
         }
+        mine?.let {
+            addAdmins.setVisible(it.is_admin == 2)
+        }
         addAdmins.clickWithTrigger {
             startActivityForResult<MemberSelectActivity>(Extras.REQUESTCODE, Extras.FLAG2 to true)
         }

@@ -36,7 +36,14 @@ class SplashActivity : BaseActivity() {
         setContentView(R.layout.activity_splash)
         StatusBarUtil.setTransparent(this)
         ShortcutBadger.removeCount(this)
-        splash_bg.imageResource = R.mipmap.img_logo_splash
+        when (getEnvironment()) {
+            "zgh" -> {
+                splash_bg.imageResource = R.mipmap.img_logo_splash_zh
+            }
+            else -> {
+                splash_bg.imageResource = R.mipmap.img_logo_splash
+            }
+        }
         val params = splash_bg.layoutParams as FrameLayout.LayoutParams
         params.setMargins(0, 0, 0, Utils.dpToPx(this, 40))
         splash_bg.layoutParams = params

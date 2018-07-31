@@ -88,7 +88,7 @@ data class MechanismBasicInfo(val mechanism_name: String?,
                               var telephone: String?,
                               var homeCardFlag: Int?,
                               var web_url:String?,
-                              var homeBottomButton:List<MainBottomBar>) : Parcelable
+                              var homeBottomButton:List<MainBottomBar>?) : Parcelable
 
 
 

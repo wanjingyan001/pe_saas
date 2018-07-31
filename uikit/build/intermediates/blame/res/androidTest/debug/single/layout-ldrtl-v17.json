@@ -1,10 +1,10 @@
 [
     {
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/layout-ldrtl-v17/md_listitem_multichoice.xml",
-        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/3bfb9c14fe40cb834a797c1193d05f3f/res/layout-ldrtl-v17/md_listitem_multichoice.xml"
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout-ldrtl-v17/md_listitem_multichoice.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/a99f0a6100010ac458852a7a11738977/res/layout-ldrtl-v17/md_listitem_multichoice.xml"
     },
     {
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/layout-ldrtl-v17/md_listitem_singlechoice.xml",
-        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/3bfb9c14fe40cb834a797c1193d05f3f/res/layout-ldrtl-v17/md_listitem_singlechoice.xml"
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout-ldrtl-v17/md_listitem_singlechoice.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/a99f0a6100010ac458852a7a11738977/res/layout-ldrtl-v17/md_listitem_singlechoice.xml"
     }
 ]

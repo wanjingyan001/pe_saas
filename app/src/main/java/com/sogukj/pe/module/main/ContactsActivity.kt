@@ -227,6 +227,10 @@ class ContactsActivity : ToolbarActivity() {
                 company_icon.imageResource = R.mipmap.ic_launcher_sr
                 companyName.text = "尚融资本"
             }
+            "zgh" ->{
+                company_icon.imageResource = R.mipmap.ic_launcher_zgh
+                companyName.text = "中广核"
+            }
             else -> {
                 val company = sp.getString(Extras.SAAS_BASIC_DATA, "")
                 val detail = Gson().fromJson<MechanismBasicInfo?>(company)

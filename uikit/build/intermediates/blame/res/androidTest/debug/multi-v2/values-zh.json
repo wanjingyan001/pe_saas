@@ -1,27 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/values-zh/values-zh.xml",
+            "outputFile": "/Users/admin/dev/pe_saas/uikit/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-zh/values-zh.xml",
             "map": [
                 {
-                    "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/library-1.8.aar/45a2d77b5667bd78543d81454121be55/res/values-zh/values-zh.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,98,153,194,239,287,333,378,422,467,509,551,592,641",
-                        "endColumns": "42,54,40,44,47,45,44,43,44,41,41,40,48,42",
-                        "endOffsets": "93,148,189,234,282,328,373,417,462,504,546,587,636,679"
-                    },
-                    "to": {
-                        "startLines": "2,3,6,7,8,9,10,11,12,13,14,15,16,17",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,98,353,394,439,487,533,578,622,667,709,751,792,841",
-                        "endColumns": "42,54,40,44,47,45,44,43,44,41,41,40,48,42",
-                        "endOffsets": "93,148,389,434,482,528,573,617,662,704,746,787,836,879"
-                    }
-                },
-                {
-                    "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/SmartRefreshLayout-1.0.5.1.aar/31863eede659672105e7b0f7e2cb44bd/res/values-zh/values-zh.xml",
+                    "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/SmartRefreshLayout-1.0.5.1.aar/1c20604d4733c5e66a1b26fcb40380ae/res/values-zh/values-zh.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",
@@ -35,32 +18,32 @@
                         "startOffsets": "153,261",
                         "endColumns": "107,91",
                         "endOffsets": "256,348"
+                    }
+                },
+                {
+                    "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/library-1.8.aar/051830ba79bf17e91877f4a87ac02cd1/res/values-zh/values-zh.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,98,153,194,239,287,333,378,422,467,509,551,592,641",
+                        "endColumns": "42,54,40,44,47,45,44,43,44,41,41,40,48,42",
+                        "endOffsets": "93,148,189,234,282,328,373,417,462,504,546,587,636,679"
+                    },
+                    "to": {
+                        "startLines": "2,3,6,7,8,9,10,11,12,13,14,15,16,17",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,98,353,394,439,487,533,578,622,667,709,751,792,841",
+                        "endColumns": "42,54,40,44,47,45,44,43,44,41,41,40,48,42",
+                        "endOffsets": "93,148,389,434,482,528,573,617,662,704,746,787,836,879"
                     }
                 }
             ]
         },
         {
-            "outputFile": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-zh/values-zh.xml",
+            "outputFile": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/values-zh/values-zh.xml",
             "map": [
                 {
-                    "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/library-1.8.aar/45a2d77b5667bd78543d81454121be55/res/values-zh/values-zh.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,98,153,194,239,287,333,378,422,467,509,551,592,641",
-                        "endColumns": "42,54,40,44,47,45,44,43,44,41,41,40,48,42",
-                        "endOffsets": "93,148,189,234,282,328,373,417,462,504,546,587,636,679"
-                    },
-                    "to": {
-                        "startLines": "2,3,6,7,8,9,10,11,12,13,14,15,16,17",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,98,353,394,439,487,533,578,622,667,709,751,792,841",
-                        "endColumns": "42,54,40,44,47,45,44,43,44,41,41,40,48,42",
-                        "endOffsets": "93,148,389,434,482,528,573,617,662,704,746,787,836,879"
-                    }
-                },
-                {
-                    "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/SmartRefreshLayout-1.0.5.1.aar/31863eede659672105e7b0f7e2cb44bd/res/values-zh/values-zh.xml",
+                    "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/SmartRefreshLayout-1.0.5.1.aar/1c20604d4733c5e66a1b26fcb40380ae/res/values-zh/values-zh.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",
@@ -74,6 +57,23 @@
                         "startOffsets": "153,261",
                         "endColumns": "107,91",
                         "endOffsets": "256,348"
+                    }
+                },
+                {
+                    "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/library-1.8.aar/051830ba79bf17e91877f4a87ac02cd1/res/values-zh/values-zh.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,98,153,194,239,287,333,378,422,467,509,551,592,641",
+                        "endColumns": "42,54,40,44,47,45,44,43,44,41,41,40,48,42",
+                        "endOffsets": "93,148,189,234,282,328,373,417,462,504,546,587,636,679"
+                    },
+                    "to": {
+                        "startLines": "2,3,6,7,8,9,10,11,12,13,14,15,16,17",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,98,353,394,439,487,533,578,622,667,709,751,792,841",
+                        "endColumns": "42,54,40,44,47,45,44,43,44,41,41,40,48,42",
+                        "endOffsets": "93,148,389,434,482,528,573,617,662,704,746,787,836,879"
                     }
                 }
             ]

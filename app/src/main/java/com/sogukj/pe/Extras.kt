@@ -73,6 +73,8 @@ object Extras {
     val MODULE_ID = "ext.module_id"
 
     val CompanyKey = "companyKey"
+    val CompanyName = "CompanyName"
+    val UserName = "saas.userName"
     val SAAS_BASIC_DATA = "saas.basic.data"
     val SaasPhone = "saas.Phone"
     val SaasUserId = "saas.userId"

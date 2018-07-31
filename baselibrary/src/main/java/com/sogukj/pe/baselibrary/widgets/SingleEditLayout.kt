@@ -99,13 +99,13 @@ class SingleEditLayout @JvmOverloads constructor(
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
         info { "s:${s}==start:${start} == before:${before} == count:${count}" }
 
-        if (before == 0 && currentSelector < inputs.size) {
+        if (before == 0 && currentSelector < inputs.size && inputs.isNotEmpty() && verCodeStr.isNotEmpty()) {
             inputs[currentSelector].text = s?.get(start - before).toString()
             verCodeStr[currentSelector] = s?.get(start - before).toString()
             currentSelector++
         }
 
-        if (before > 0 && currentSelector > 0) {
+        if (before > 0 && currentSelector > 0  && inputs.isNotEmpty() && verCodeStr.isNotEmpty()) {
             currentSelector--
             inputs[currentSelector].text = ""
             verCodeStr[currentSelector] = ""

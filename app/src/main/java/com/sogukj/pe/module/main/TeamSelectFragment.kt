@@ -43,6 +43,7 @@ import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.module.im.PersonalInfoActivity
 import com.sogukj.pe.module.im.TeamCreateActivity
 import com.sogukj.pe.module.user.UserActivity
+import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.MyGlideUrl
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.UserService
@@ -284,9 +285,14 @@ class TeamSelectFragment : BaseFragment() {
         val company = sp.getString(Extras.SAAS_BASIC_DATA, "")
         val detail = Gson().fromJson<MechanismBasicInfo?>(company)
         detail?.let {
+            val defaultLogo = when(getEnvironment()){
+                "zgh" ->R.mipmap.ic_launcher_zgh
+                else -> R.mipmap.ic_launcher_pe
+
+            }
             Glide.with(this)
                     .load(it.logo)
-                    .apply(RequestOptions().placeholder(R.mipmap.ic_launcher_pe).error(R.mipmap.ic_launcher_pe))
+                    .apply(RequestOptions().placeholder(defaultLogo).error(defaultLogo))
                     .into(company_icon)
             companyName.text = it.mechanism_name
         }

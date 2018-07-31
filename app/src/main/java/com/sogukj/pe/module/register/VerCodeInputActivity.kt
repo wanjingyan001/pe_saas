@@ -9,6 +9,7 @@ import com.amap.api.mapcore.util.it
 import com.netease.nim.uikit.api.NimUIKit
 import com.netease.nimlib.sdk.RequestCallback
 import com.netease.nimlib.sdk.auth.LoginInfo
+import com.sogukj.pe.App
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
@@ -28,6 +29,7 @@ import com.sogukj.pe.peUtils.LoginTimer
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.RegisterService
 import com.sogukj.service.SoguApi
+import io.reactivex.Observable
 import io.reactivex.internal.util.HalfSerializer.onNext
 import kotlinx.android.synthetic.main.activity_register_vercode.*
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
@@ -49,6 +51,7 @@ class VerCodeInputActivity : BaseActivity() {
             }
         })
         val phone = intent.getStringExtra(Extras.DATA)
+        Timer().scheduleAtFixedRate(LoginTimer(60, Handler(), reSendCode), 0, 1000)
         back.clickWithTrigger {
             finish()
         }
@@ -60,7 +63,7 @@ class VerCodeInputActivity : BaseActivity() {
                 onNext { payload ->
                     if (payload.isOk) {
                         showSuccessToast("验证码已经发送，请查收")
-                        Timer().scheduleAtFixedRate(LoginTimer(45, Handler(), reSendCode), 0, 1000)
+                        Timer().scheduleAtFixedRate(LoginTimer(60, Handler(), reSendCode), 0, 1000)
                     }else{
                         showErrorToast(payload.message)
                     }
@@ -176,17 +179,14 @@ class VerCodeInputActivity : BaseActivity() {
 
             override fun onFailed(p0: Int) {
                 if (p0 == 302 || p0 == 404) {
-                    showCustomToast(R.drawable.icon_toast_fail, "帐号或密码错误")
-                    //showToast("帐号或密码错误")
+//                    showCustomToast(R.drawable.icon_toast_fail, "帐号或密码错误")
                 } else {
-                    showCustomToast(R.drawable.icon_toast_fail, "登录失败")
-                    //showToast("登录失败")
+//                    showCustomToast(R.drawable.icon_toast_fail, "登录失败")
                 }
             }
 
             override fun onException(p0: Throwable?) {
-                showCustomToast(R.drawable.icon_toast_common, "无效输入")
-                //showToast("无效输入")
+//                showCustomToast(R.drawable.icon_toast_common, "无效输入")
             }
         })
     }

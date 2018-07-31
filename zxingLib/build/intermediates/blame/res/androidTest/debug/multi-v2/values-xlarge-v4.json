@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/sogubaby/Desktop/saas/pe-saas-android/zxingLib/build/intermediates/res/merged/androidTest/debug/values-xlarge-v4/values-xlarge-v4.xml",
+            "outputFile": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-xlarge-v4/values-xlarge-v4.xml",
             "map": [
                 {
-                    "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/d37ed2f77ff877640c1210bd1d06774a/res/values-xlarge-v4/values-xlarge-v4.xml",
+                    "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/values-xlarge-v4/values-xlarge-v4.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7",
                         "startColumns": "4,4,4,4,4,4",
@@ -16,10 +16,10 @@
             ]
         },
         {
-            "outputFile": "/Users/sogubaby/Desktop/saas/pe-saas-android/zxingLib/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-xlarge-v4/values-xlarge-v4.xml",
+            "outputFile": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/res/merged/androidTest/debug/values-xlarge-v4/values-xlarge-v4.xml",
             "map": [
                 {
-                    "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/d37ed2f77ff877640c1210bd1d06774a/res/values-xlarge-v4/values-xlarge-v4.xml",
+                    "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/values-xlarge-v4/values-xlarge-v4.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7",
                         "startColumns": "4,4,4,4,4,4",

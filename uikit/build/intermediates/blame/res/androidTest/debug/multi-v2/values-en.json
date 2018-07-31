@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/values-en/values-en.xml",
+            "outputFile": "/Users/admin/dev/pe_saas/uikit/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-en/values-en.xml",
             "map": [
                 {
-                    "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/Android-PickerView-3.2.7.aar/929f35b0cab3c9db6571b6cda1bfb556/res/values-en/values-en.xml",
+                    "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/Android-PickerView-3.2.7.aar/5b675e2b3ec7a53c55c63ee4975cfa06/res/values-en/values-en.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/bundles/debug/res/values-en/values-en.xml",
+                    "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/values-en/values-en.xml",
                     "from": {
                         "startLines": "2,3,4",
                         "startColumns": "4,4,4",
@@ -33,10 +33,10 @@
             ]
         },
         {
-            "outputFile": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-en/values-en.xml",
+            "outputFile": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/values-en/values-en.xml",
             "map": [
                 {
-                    "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/Android-PickerView-3.2.7.aar/929f35b0cab3c9db6571b6cda1bfb556/res/values-en/values-en.xml",
+                    "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/Android-PickerView-3.2.7.aar/5b675e2b3ec7a53c55c63ee4975cfa06/res/values-en/values-en.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -53,7 +53,7 @@
                     }
                 },
                 {
-                    "source": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/bundles/debug/res/values-en/values-en.xml",
+                    "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/values-en/values-en.xml",
                     "from": {
                         "startLines": "2,3,4",
                         "startColumns": "4,4,4",

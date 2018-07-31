@@ -529,15 +529,6 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
     }
 
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == Extras.REQUESTCODE && resultCode == Extras.RESULTCODE){
-            adminSetting.setVisible(false)
-            createDep.setVisible(false)
-        }
-    }
-
-
     companion object {
         fun start(ctx: Activity?) {
             ctx?.startActivity(Intent(ctx, UserFragment::class.java))
