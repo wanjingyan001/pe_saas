@@ -63,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="25dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:drawableLeft="@drawable/id_card"
             android:drawablePadding="12dp"
             android:gravity="center|left"
@@ -77,13 +77,25 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:drawableLeft="@drawable/zhengxin_company"
             android:drawablePadding="12dp"
             android:gravity="center|left"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:text="上海搜股科技股份有限联合科技文化传媒科技股份有限联合"
             android:textColor="@color/shareholder_text_gray"
             android:textSize="@dimen/text_size_samll" />
+
+        <TextView
+            android:id="@+id/quireTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="最新查询时间：2018/05/09"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="25dp"
+            android:textColor="#ffff7676"
+            android:textSize="10sp" />
 
     </LinearLayout>
 

@@ -177,7 +177,7 @@ class ShareholderCreditActivity : BaseActivity(), View.OnClickListener {
                     delete1.setOnClickListener {
                         search_edt.setText("")
                     }
-                }else{
+                } else {
                     delete1.visibility = View.GONE
                 }
             }
@@ -207,7 +207,7 @@ class ShareholderCreditActivity : BaseActivity(), View.OnClickListener {
     var offset = 0
 
     fun doRequest(companyId: Int?) {
-        SoguApi.getService(application,CreditService::class.java)
+        SoguApi.getService(application, CreditService::class.java)
                 .showCreditList(company_id = companyId, offset = offset, fuzzyQuery = searchKey)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -247,6 +247,7 @@ class ShareholderCreditActivity : BaseActivity(), View.OnClickListener {
         private val phoneNumberTv = convertView.find<TextView>(R.id.phoneNumberTv)
         private val IDCardTv = convertView.find<TextView>(R.id.IDCardTv)
         private val companyTv = convertView.find<TextView>(R.id.companyTv)
+        private val quireTimeTv = convertView.find<TextView>(R.id.quireTime)
         private val edit = convertView.find<ImageView>(R.id.edit)
         private val number = convertView.find<TextView>(R.id.number)//失败
         private val fail = convertView.find<FrameLayout>(R.id.fail)//失败
@@ -271,6 +272,12 @@ class ShareholderCreditActivity : BaseActivity(), View.OnClickListener {
             } else {
                 companyTv.visibility = View.VISIBLE
                 companyTv.text = data.company
+            }
+            if (data.queryTime.isNullOrEmpty()) {
+                quireTimeTv.visibility = View.GONE
+            } else {
+                quireTimeTv.visibility = View.VISIBLE
+                quireTimeTv.text = data.queryTime
             }
             when (data.status) {
                 1 -> {

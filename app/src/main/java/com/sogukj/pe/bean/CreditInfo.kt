@@ -21,6 +21,7 @@ class CreditInfo : Serializable {
         var status = -1//查询状态 1=>正在查询  2=>查询完成，3=>查询失败：
         var error_info: String? = null//错误信息
         var sum: Int? = null//负面信息总数(第一次进入不返回此字段)
+        var queryTime: String? = null//2018-09-08 12:13
         //var piece: Piece? = null//负面信息分布(进入详情时带入（第一次进入不返回此字段）)
         var company: String? = null
         var reason: String? = null
