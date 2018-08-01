@@ -277,7 +277,7 @@ class ShareholderCreditActivity : BaseActivity(), View.OnClickListener {
                 quireTimeTv.visibility = View.GONE
             } else {
                 quireTimeTv.visibility = View.VISIBLE
-                quireTimeTv.text = data.queryTime
+                quireTimeTv.text = "最新查询时间：${data.queryTime}"
             }
             when (data.status) {
                 1 -> {

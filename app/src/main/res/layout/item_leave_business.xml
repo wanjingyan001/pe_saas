@@ -61,5 +61,12 @@
             android:textColor="@color/text_1"
             android:textSize="12sp" />
 
+        <LinearLayout
+            android:id="@+id/ll_comments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/divider_top"
+            android:orientation="vertical"
+            android:visibility="gone"></LinearLayout>
     </LinearLayout>
 </LinearLayout>

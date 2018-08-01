@@ -38,6 +38,7 @@ import com.sogukj.pe.peUtils.MyGlideUrl
 import com.sogukj.pe.peUtils.PdfUtil
 import com.sogukj.pe.service.ApproveService
 import com.sogukj.pe.widgets.CircleImageView
+import com.sogukj.pe.widgets.MyCSAdapter
 import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -205,8 +206,9 @@ class SignApproveActivity : ToolbarActivity() {
     }
 
     fun initCS(list: ArrayList<UserBean>) {
-        var adapter = MyAdapter(context, list)
+        var adapter = MyCSAdapter(context, list)
         grid_chaosong_to.adapter = adapter
+        adapter.filter.filter("")
         if(list.size == 0){
             cs_layout.visibility = View.GONE
         }
@@ -687,61 +689,6 @@ class SignApproveActivity : ToolbarActivity() {
             intent.putExtra(Extras.TITLE, title)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             ctx.startActivity(intent)
-        }
-    }
-
-    class MyAdapter(var context: Context, val list: ArrayList<UserBean>) : BaseAdapter() {
-
-        override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            var viewHolder: ViewHolder
-            var conView = convertView
-            if (conView == null) {
-                viewHolder = ViewHolder()
-                conView = LayoutInflater.from(context).inflate(R.layout.send_item, null) as LinearLayout
-                viewHolder.icon = conView.findViewById<CircleImageView>(R.id.icon) as CircleImageView
-                viewHolder.name = conView.findViewById<TextView>(R.id.name) as TextView
-                conView.setTag(viewHolder)
-            } else {
-                viewHolder = conView.tag as ViewHolder
-            }
-            if (list[position].url.isNullOrEmpty()) {
-                viewHolder.icon?.setChar(list[position].name.first())
-            } else {
-                Glide.with(context)
-                        .load(MyGlideUrl(list[position].url))
-                        .listener(object : RequestListener<Drawable> {
-                            override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                                viewHolder.icon?.setImageDrawable(resource)
-                                return false
-                            }
-
-                            override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                                val ch = list[position].name?.first()
-                                viewHolder.icon?.setChar(ch)
-                                return false
-                            }
-                        })
-                        .into(viewHolder.icon!!)
-            }
-            viewHolder.name?.text = list[position].name
-            return conView
-        }
-
-        override fun getItem(position: Int): Any {
-            return list.get(position)
-        }
-
-        override fun getItemId(position: Int): Long {
-            return position.toLong()
-        }
-
-        override fun getCount(): Int {
-            return list.size
-        }
-
-        class ViewHolder {
-            var icon: CircleImageView? = null
-            var name: TextView? = null
         }
     }
 }

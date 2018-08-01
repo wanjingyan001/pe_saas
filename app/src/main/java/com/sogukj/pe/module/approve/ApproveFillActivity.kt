@@ -58,6 +58,7 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class ApproveFillActivity : ToolbarActivity() {
 
@@ -531,7 +532,7 @@ class ApproveFillActivity : ToolbarActivity() {
                         })
             } else {
                 if (judgeIsLeaveBusiness()) {
-                    SoguApi.getService(application,ApproveService::class.java)
+                    SoguApi.getService(application, ApproveService::class.java)
                             .editLeave(builder.build())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribeOn(Schedulers.io())
@@ -547,7 +548,7 @@ class ApproveFillActivity : ToolbarActivity() {
                                 showCustomToast(R.drawable.icon_toast_fail, "提交失败")
                             })
                 } else {
-                    SoguApi.getService(application,ApproveService::class.java)
+                    SoguApi.getService(application, ApproveService::class.java)
                             .editApprove(builder.build())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribeOn(Schedulers.io())
@@ -721,15 +722,22 @@ class ApproveFillActivity : ToolbarActivity() {
         }
         //----------------------------------------------------------------------------------------------------------------------------------------------------
         if (bean.is_fresh == 1) {
-            reloadSPCS(bean, bean.value_map?.id)
+            if (!isInit) {
+                isInit = true
+                reloadSPCS(bean, bean.value_map?.id)
+            }
         }
     }
+
+    var pro_id: Int? = null
+    var fund_id: Int? = null
+    var isInit = false
 
     fun reloadSPCS(bean: CustomSealBean, id: Int? = null) {
         ll_approver.removeAllViews()
 
-        var pro_id = if (bean.fields == "project_id") id else null
-        var fund_id = if (bean.fields == "fund_id") id else null
+        pro_id = if (paramMap.get("project_id") == null) null else paramMap.get("project_id") as Int
+        fund_id = if (paramMap.get("fund_id") == null) null else paramMap.get("fund_id") as Int
 
         SoguApi.getService(application, ApproveService::class.java)
                 .leaveInfo(template_id = if (flagEdit) null else paramId!!,
@@ -1497,10 +1505,11 @@ class ApproveFillActivity : ToolbarActivity() {
             val bean = data?.getSerializableExtra(Extras.DATA) as CustomSealBean
             val data = data.getSerializableExtra(Extras.DATA2) as CustomSealBean.ValueBean
             paramMap.put(bean.fields, data.id)
+            refreshListSelector(bean, data)
             if (bean.is_fresh == 1) {
                 reloadSPCS(bean, data.id)
             }
-            refreshListSelector(bean, data)
+            //refreshListSelector(bean, data)
         } else if (requestCode == SEND && resultCode == Extras.RESULTCODE) {
             var grid_to = ll_approver.findViewWithTag<GridView>("CS") as GridView
             if (grid_to != null) {
