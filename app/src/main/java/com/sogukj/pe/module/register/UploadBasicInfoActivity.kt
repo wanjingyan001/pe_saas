@@ -5,19 +5,19 @@ import android.os.AsyncTask.execute
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.core.content.edit
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.gson.Gson
 import com.huantansheng.easyphotos.EasyPhotos
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.netease.nim.uikit.support.glide.GlideEngine
 import com.sogukj.pe.BuildConfig
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
-import com.sogukj.pe.baselibrary.Extended.execute
-import com.sogukj.pe.baselibrary.Extended.extraDelegate
-import com.sogukj.pe.baselibrary.Extended.textStr
+import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
+import com.sogukj.pe.bean.MechanismBasicInfo
 import com.sogukj.pe.bean.RegisterVerResult
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.service.RegisterService
@@ -93,7 +93,10 @@ class UploadBasicInfoActivity : ToolbarActivity() {
                 .execute {
                     onNext { payload ->
                         if (payload.isOk) {
-
+                            Gson().fromJson<MechanismBasicInfo?>(sp.getString(Extras.SAAS_BASIC_DATA, ""))?.let {
+                                it.logo = payload.payload
+                                sp.edit { putString(Extras.SAAS_BASIC_DATA, it.jsonStr) }
+                            }
                         } else {
                             cardPath = ""
                             showTopSnackBar(payload.message)
@@ -113,9 +116,9 @@ class UploadBasicInfoActivity : ToolbarActivity() {
                             if (payload.isOk) {
                                 payload.payload?.let {
                                     cardPath = it.logo ?: ""
-                                    mechanismName =  it.mechanism_name ?: ""
-                                    val defaultLogo = when(getEnvironment()){
-                                        "zgh" ->R.mipmap.ic_launcher_zgh
+                                    mechanismName = it.mechanism_name ?: ""
+                                    val defaultLogo = when (getEnvironment()) {
+                                        "zgh" -> R.mipmap.ic_launcher_zgh
                                         else -> R.mipmap.ic_launcher_pe
 
                                     }

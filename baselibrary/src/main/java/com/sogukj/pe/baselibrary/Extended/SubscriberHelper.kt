@@ -1,6 +1,7 @@
 package com.sogukj.pe.baselibrary.Extended
 
 import com.sogukj.pe.baselibrary.utils.Trace
+import com.tencent.bugly.crashreport.CrashReport
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 
@@ -37,6 +38,7 @@ class SubscriberHelper<T> : Observer<T> {
 
     override fun onError(e: Throwable) {
         Trace.e(e)
+        CrashReport.postCatchedException(e)
         onErrorListener?.invoke(e)
     }
 

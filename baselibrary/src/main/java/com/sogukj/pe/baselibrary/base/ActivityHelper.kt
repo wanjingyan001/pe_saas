@@ -44,7 +44,7 @@ object ActivityHelper {
         activities.clear()
 //        val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
 //        activityManager.killBackgroundProcesses(context.packageName)
-        System.exit(0)
+//        System.exit(0)
     }
 
     fun getActivityList(): ArrayList<BaseActivity> {

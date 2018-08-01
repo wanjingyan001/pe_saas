@@ -76,7 +76,7 @@ class InviteByCodeActivity : ToolbarActivity(), PlatformActionListener {
         invite = intent.getStringExtra(Extras.DATA)
         inviteCode.text = invite
         val userId = sp.getInt(Extras.SaasUserId, 0)
-        QRPath = invitePath + "?userId=$userId"
+        QRPath = "$invitePath?userId=$userId&code=$invite"
         outputPic = makeTempFile(Environment.getExternalStorageDirectory().path + "/Sogu/Saas/", "qr_", ".jpg")
         parentLayout.doOnLayout {
             Observable.just(QRPath)

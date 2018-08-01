@@ -186,7 +186,7 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
         detail?.let {
             var hasIM = false
             var modules = it.homeBottomButton
-            modules.forEach {
+            modules?.forEach {
                 if (it.name == "消息") {
                     hasIM = true
                 }
@@ -801,7 +801,8 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
                         }
                         2 -> {
                             //不可以建群就弹提示
-                            showCustomToast(R.drawable.icon_toast_fail, "你没有创建该项目群组的权限")
+                            im.setVisible(false)
+                            showCustomToast(R.drawable.icon_toast_fail, "你不是该项目负责人，无权限创建项目群组")
                         }
                     }
                 }

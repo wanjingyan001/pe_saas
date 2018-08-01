@@ -51,7 +51,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import me.leolin.shortcutbadger.ShortcutBadger
+import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.info
 import org.json.JSONObject
 
 
@@ -70,7 +72,7 @@ class App : MultiDexApplication() {
                 ARouter.openDebug()
             }
             ARouter.init(INSTANCE)
-            CrashReport.initCrashReport(INSTANCE, "49fb9e37b7", true)
+            CrashReport.initCrashReport(INSTANCE, "49fb9e37b7", BuildConfig.DEBUG)
             SgDatabase.getInstance(INSTANCE)
             MobSDK.init(INSTANCE, "214eaf8217e6c", "c1ddfcaa333020a5a06812bc745d508c")
             val mPushAgent = PushAgent.getInstance(INSTANCE)

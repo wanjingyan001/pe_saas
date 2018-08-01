@@ -292,12 +292,12 @@
                     android:id="@+id/adminSetting"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/icon_create_dep"
+                    android:drawableLeft="@mipmap/icon_admin_privileges"
                     android:drawablePadding="10dp"
                     android:drawableRight="@drawable/ic_right"
                     android:gravity="start|center_vertical"
                     android:padding="18dp"
-                    android:text="管理员" />
+                    android:text="管理员权限" />
 
             </LinearLayout>
 
