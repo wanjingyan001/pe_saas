@@ -3,13 +3,16 @@ package com.sogukj.pe.baselibrary.utils;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Application;
 import android.content.ClipboardManager;
+import android.content.ComponentCallbacks;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -175,8 +178,8 @@ public class Utils {
 
     @TargetApi(Build.VERSION_CODES.M)
     public static void setWindowStatusBarColor(Activity activity, int colorResId) {
-        StatusBarUtil.setColor(activity, activity.getResources().getColor(colorResId),0);
-        if (colorResId == R.color.white){
+        StatusBarUtil.setColor(activity, activity.getResources().getColor(colorResId), 0);
+        if (colorResId == R.color.white) {
             StatusBarUtil.setLightMode(activity);
         }
     }
@@ -587,7 +590,7 @@ public class Utils {
      * @return 视图生成失败返回null
      * 视图生成成功返回视图的绝对路径
      */
-    public static boolean saveImage(Activity activity, View v,String path) {
+    public static boolean saveImage(Activity activity, View v, String path) {
         Bitmap bitmap;
         View view = activity.getWindow().getDecorView();
         view.setDrawingCacheEnabled(true);
@@ -617,18 +620,21 @@ public class Utils {
 
     public static InputFilter[] getFilter(final Context context) {
         InputFilter filter = new InputFilter() {
-            Pattern pattern = Pattern.compile("[^a-zA-Z0-9\\u4E00-\\u9FA5_`~!@#$%^&*()+=|{}':;',\\\\[\\\\].<>?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]");
+            Pattern pattern = Pattern.compile("[^\\u0000-\\uFFFF]");
 
             @Override
             public CharSequence filter(CharSequence charSequence, int i, int i1, Spanned spanned, int i2, int i3) {
-                Matcher matcher = pattern.matcher(charSequence);
-                if (!matcher.find()) {
+                if (charSequence == "") {
                     return null;
                 } else {
-                    Toast.makeText(context, "只能输入汉字,英文，数字和标点符号", Toast.LENGTH_SHORT).show();
-                    return "";
+                    Matcher matcher = pattern.matcher(charSequence);
+                    if (!matcher.find()) {
+                        return null;
+                    } else {
+                        Toast.makeText(context, "只能输入汉字,英文，数字和标点符号", Toast.LENGTH_SHORT).show();
+                        return null;
+                    }
                 }
-
             }
         };
         return new InputFilter[]{filter};
@@ -657,11 +663,10 @@ public class Utils {
     }
 
     /**
-     *
      * @param scrollView
      * @param filePath(不带后缀名)
      */
-    public static boolean saveNestedScroolViewImage(NestedScrollView scrollView, String filePath){
+    public static boolean saveNestedScroolViewImage(NestedScrollView scrollView, String filePath) {
         int h = 0;
         Bitmap bitmap = null;
         // 获取scrollview实际高度
@@ -704,7 +709,7 @@ public class Utils {
     }
 
 
-    public static void saveImageToGallery(Context context,String path) {
+    public static void saveImageToGallery(Context context, String path) {
         File file = new File(path);
         // 其次把文件插入到系统图库
         try {
@@ -992,24 +997,25 @@ public class Utils {
 
     /**
      * 金额分割，四舍五人金额
+     *
      * @param s
      * @return
      */
-    public static String formatMoney(BigDecimal s){
+    public static String formatMoney(BigDecimal s) {
         String retVal = "";
         String str = "";
         boolean is_positive_integer = false;
-        if(null == s){
+        if (null == s) {
             return "0.00";
         }
 
-        if(0 == s.doubleValue()){
+        if (0 == s.doubleValue()) {
             return "0.00";
         }
         //判断是否正整数
         is_positive_integer = s.toString().contains("-");
         //是负整数
-        if(is_positive_integer){
+        if (is_positive_integer) {
             //去掉 - 号
             s = new BigDecimal(s.toString().substring(1, s.toString().length()));
         }
@@ -1017,27 +1023,63 @@ public class Utils {
         StringBuffer sb = new StringBuffer();
         String[] strs = str.split("\\.");
         int j = 1;
-        for(int i = 0; i < strs[0].length(); i++){
-            char a = strs[0].charAt(strs[0].length()-i-1);
+        for (int i = 0; i < strs[0].length(); i++) {
+            char a = strs[0].charAt(strs[0].length() - i - 1);
             sb.append(a);
-            if(j % 3 == 0 && i != strs[0].length()-1){
+            if (j % 3 == 0 && i != strs[0].length() - 1) {
                 sb.append(",");
             }
             j++;
         }
         String str1 = sb.toString();
         StringBuffer sb1 = new StringBuffer();
-        for(int i = 0; i < str1.length(); i++){
-            char a = str1.charAt(str1.length()-1-i);
+        for (int i = 0; i < str1.length(); i++) {
+            char a = str1.charAt(str1.length() - 1 - i);
             sb1.append(a);
         }
         sb1.append(".");
         sb1.append(strs[1]);
         retVal = sb1.toString();
 
-        if(is_positive_integer){
+        if (is_positive_integer) {
             retVal = "-" + retVal;
         }
         return retVal;
+    }
+
+    private static float sNonCompatDensity;
+    private static float sNonCompatScaledDensity;
+
+    public static void setCustomDensity(@NonNull Activity activity, @NonNull final Application application) {
+        final DisplayMetrics appDisplayMetrics = application.getResources().getDisplayMetrics();
+        if (sNonCompatDensity == 0) {
+            sNonCompatDensity = appDisplayMetrics.density;
+            sNonCompatScaledDensity = appDisplayMetrics.scaledDensity;
+            application.registerComponentCallbacks(new ComponentCallbacks() {
+                @Override
+                public void onConfigurationChanged(Configuration newConfig) {
+                    if (newConfig != null && newConfig.fontScale > 0) {
+                        sNonCompatScaledDensity = application.getResources().getDisplayMetrics().scaledDensity;
+                    }
+                }
+
+                @Override
+                public void onLowMemory() {
+
+                }
+            });
+            final float targetDensity = appDisplayMetrics.widthPixels / 375;
+            final float targetScaledDensity = targetDensity * (sNonCompatScaledDensity / sNonCompatDensity);
+            int targetDensityDpi = (int) (targetDensity * 160);
+
+            appDisplayMetrics.density = targetDensity;
+            appDisplayMetrics.scaledDensity = targetScaledDensity;
+            appDisplayMetrics.densityDpi = targetDensityDpi;
+
+            final DisplayMetrics metrics = activity.getResources().getDisplayMetrics();
+            metrics.density = targetDensity;
+            metrics.scaledDensity = targetScaledDensity;
+            metrics.densityDpi = targetDensityDpi;
+        }
     }
 }

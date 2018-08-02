@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.amap.api.mapcore.util.it
 import com.scwang.smartrefresh.layout.api.RefreshFooter
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.sogukj.pe.R
@@ -22,6 +24,7 @@ import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
+import com.sogukj.pe.bean.ArrangeReqBean
 import com.sogukj.pe.bean.ChildBean
 import com.sogukj.pe.bean.NewArrangeBean
 import com.sogukj.pe.bean.WeeklyArrangeBean
@@ -124,11 +127,11 @@ class ArrangeListFragment : BaseRefreshFragment() {
     }
 
 
-    fun getWeeklyData(): ArrayList<WeeklyArrangeBean> {
+    fun getWeeklyData(): ArrayList<NewArrangeBean> {
         val list = arrangeAdapter.dataList
-        val newList = ArrayList<WeeklyArrangeBean>()
+        val newList = ArrayList<NewArrangeBean>()
         list.forEach {
-            if (it is WeeklyArrangeBean)
+            if (it is NewArrangeBean)
                 newList.add(it)
         }
         return newList
@@ -142,7 +145,7 @@ class ArrangeListFragment : BaseRefreshFragment() {
 
     private fun doRequest() {
         SoguApi.getService(baseActivity!!.application, CalendarService::class.java)
-                .getWeeklyWorkList(flag = 1, offset = offset)
+                .getWeeklyWorkList(ArrangeReqBean(flag = 1, offset = offset))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ payload ->
@@ -257,7 +260,7 @@ class ArrangeListFragment : BaseRefreshFragment() {
             fun setData(view: View, arrangeBean: NewArrangeBean, position: Int) {
                 weekly.text = arrangeBean.weekday
                 dayOfMonth.text = arrangeBean.date.substring(5, arrangeBean.date.length)
-                if (arrangeBean.child.isEmpty()) {
+                if (arrangeBean.child.size == 1 && arrangeBean.child[0].id == 0) {
                     emptyLayout.visibility = View.VISIBLE
                     contentLayout.visibility = View.GONE
                 } else {
@@ -333,6 +336,7 @@ class ArrangeListFragment : BaseRefreshFragment() {
                     mAdapter.dataList.addAll(arrangeBean.child)
                     contentLayout.apply {
                         layoutManager = LinearLayoutManager(ctx)
+                        addItemDecoration(DividerItemDecoration(ctx, DividerItemDecoration.VERTICAL))
                         adapter = mAdapter
                     }
                 }
