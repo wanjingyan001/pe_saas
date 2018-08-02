@@ -4,9 +4,11 @@ import android.app.Notification
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
+import android.preference.PreferenceManager
 import android.support.multidex.MultiDexApplication
 import android.util.Log
 import android.widget.RemoteViews
+import androidx.core.content.edit
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.gson.Gson
 import com.mob.MobSDK
@@ -47,8 +49,11 @@ import com.umeng.message.UmengMessageHandler
 import com.umeng.message.entity.UMessage
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import me.leolin.shortcutbadger.ShortcutBadger
+import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.info
 import org.json.JSONObject
 
 
@@ -60,14 +65,14 @@ class App : MultiDexApplication() {
         super.onCreate()
         INSTANCE = this
 //        MobSDK.init(this, "137b5c5ce8f55", "b28db523803b31a66b590150cb96c4fd")
-        //ARouter阿里路由
         doAsync {
+            //ARouter阿里路由
             if (BuildConfig.DEBUG) {
                 ARouter.openLog()
                 ARouter.openDebug()
             }
             ARouter.init(INSTANCE)
-            CrashReport.initCrashReport(INSTANCE, "49fb9e37b7", true)
+            CrashReport.initCrashReport(INSTANCE, "49fb9e37b7", BuildConfig.DEBUG)
             SgDatabase.getInstance(INSTANCE)
             MobSDK.init(INSTANCE, "214eaf8217e6c", "c1ddfcaa333020a5a06812bc745d508c")
             val mPushAgent = PushAgent.getInstance(INSTANCE)
@@ -239,10 +244,12 @@ class App : MultiDexApplication() {
                     StatusCode.LOGINED -> Log.d("WJY", "已成功登录")
                     StatusCode.KICKOUT, StatusCode.KICK_BY_OTHER_CLIENT, StatusCode.FORBIDDEN -> {
                         Log.d("WJY", "被其他端的登录踢掉")
-                        ActivityHelper.exit()
+                        RetrofitUrlManager.getInstance().removeGlobalDomain()
+                        PreferenceManager.getDefaultSharedPreferences(INSTANCE).edit { putString(Extras.HTTPURL, "") }
                         resetPush(false)
                         IMLogout()
                         Store.store.clearUser(INSTANCE)
+                        ActivityHelper.exit(INSTANCE)
                         val intent = Intent(INSTANCE, PhoneInputActivity::class.java)
                         intent.putExtra(Extras.FLAG, statusCode)
                         intent.addFlags(FLAG_ACTIVITY_NEW_TASK)
@@ -273,7 +280,7 @@ class App : MultiDexApplication() {
     /**
      * 网易云信IM注销
      */
-    private fun IMLogout() {
+    fun IMLogout() {
         val xmlDb = XmlDb.open(INSTANCE)
         xmlDb.set(Extras.NIMACCOUNT, "")
         xmlDb.set(Extras.NIMTOKEN, "")

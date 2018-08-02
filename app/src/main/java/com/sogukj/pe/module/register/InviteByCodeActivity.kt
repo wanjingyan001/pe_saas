@@ -16,6 +16,7 @@ import cn.sharesdk.tencent.qq.QQ
 import cn.sharesdk.tencent.qzone.QQClientNotExistException
 import cn.sharesdk.wechat.friends.Wechat
 import cn.sharesdk.wechat.utils.WechatClientNotExistException
+import com.amap.api.mapcore.util.it
 import com.android.dingtalk.share.ddsharemodule.DDShareApiFactory
 import com.android.dingtalk.share.ddsharemodule.IDDShareApi
 import com.android.dingtalk.share.ddsharemodule.message.DDMediaMessage
@@ -23,15 +24,19 @@ import com.android.dingtalk.share.ddsharemodule.message.DDWebpageMessage
 import com.android.dingtalk.share.ddsharemodule.message.SendMessageToDD
 import com.android.dingtalk.share.ddsharemodule.plugin.SignatureCheck
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.extraDelegate
+import com.sogukj.pe.baselibrary.Extended.fromJson
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.bean.MechanismBasicInfo
 import com.sogukj.pe.ddshare.DDShareActivity
 import com.sogukj.pe.module.main.MainActivity
+import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.peUtils.ZxingUtils
 import com.tencent.wework.api.IWWAPI
 import com.tencent.wework.api.WWAPIFactory
@@ -57,6 +62,8 @@ class InviteByCodeActivity : ToolbarActivity(), PlatformActionListener {
     private var stringId: Int by Delegates.notNull()
     private lateinit var iwwapi: IWWAPI
     private lateinit var QRPath: String
+    private lateinit var companyName: String
+    private lateinit var userName: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,7 +76,7 @@ class InviteByCodeActivity : ToolbarActivity(), PlatformActionListener {
         invite = intent.getStringExtra(Extras.DATA)
         inviteCode.text = invite
         val userId = sp.getInt(Extras.SaasUserId, 0)
-        QRPath = invitePath + "?userId=$userId"
+        QRPath = "$invitePath?userId=$userId&code=$invite"
         outputPic = makeTempFile(Environment.getExternalStorageDirectory().path + "/Sogu/Saas/", "qr_", ".jpg")
         parentLayout.doOnLayout {
             Observable.just(QRPath)
@@ -84,7 +91,16 @@ class InviteByCodeActivity : ToolbarActivity(), PlatformActionListener {
                         }
                     }
         }
-
+        companyName = sp.getString(Extras.CompanyName, "")
+        if (companyName.isEmpty()) {
+            val company = sp.getString(Extras.SAAS_BASIC_DATA, "")
+            val detail = Gson().fromJson<MechanismBasicInfo?>(company)
+            companyName = detail?.mechanism_name ?: ""
+        }
+        userName = sp.getString(Extras.UserName, "")
+        if (userName.isEmpty()) {
+            userName = Store.store.getUser(this)?.name ?: ""
+        }
 
         inviteCodeLayout.clickWithTrigger {
             if (inviteCode.text.isNotEmpty()) {
@@ -112,8 +128,8 @@ class InviteByCodeActivity : ToolbarActivity(), PlatformActionListener {
         iwwapi.registerApp(SCHEMA)
         val link = WWMediaLink()
         link.webpageUrl = QRPath
-        link.title = "邀请码"
-        link.description = "分享邀请码"
+        link.title = "${userName}邀请你加入${companyName}"
+        link.description = "立即加入${companyName}，享受智能化投资体验"
         link.appPkg = packageName
         link.appName = getString(stringId)
         link.appId = APPID
@@ -134,8 +150,8 @@ class InviteByCodeActivity : ToolbarActivity(), PlatformActionListener {
     private fun shareWeChat() {
         val sp = cn.sharesdk.framework.Platform.ShareParams()
         sp.shareType = cn.sharesdk.framework.Platform.SHARE_WEBPAGE//非常重要：一定要设置分享属性
-        sp.title = "邀请码"  //分享标题
-        sp.text = invite   //分享文本
+        sp.title = "${userName}邀请你加入${companyName}"  //分享标题
+        sp.text = "立即加入${companyName}，享受智能化投资体验"   //分享文本
         sp.url = QRPath
         val wechat = ShareSDK.getPlatform(Wechat.NAME)
         wechat.platformActionListener = this
@@ -145,8 +161,8 @@ class InviteByCodeActivity : ToolbarActivity(), PlatformActionListener {
     private fun shareQQ() {
         val sp = Platform.ShareParams()
         sp.titleUrl = QRPath
-        sp.title = "邀请码"
-        sp.text = invite
+        sp.title ="${userName}邀请你加入${companyName}"
+        sp.text = "立即加入${companyName}，享受智能化投资体验"
         val logoUrl = File(Environment.getExternalStorageDirectory(), "ic_launcher_pe.png").toString()
         sp.imageUrl = logoUrl
         info { logoUrl }

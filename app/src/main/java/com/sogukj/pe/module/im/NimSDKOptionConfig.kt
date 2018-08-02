@@ -42,7 +42,6 @@ class NimSDKOptionConfig {
             options.reducedIM = false
             // 是否检查manifest 配置，调试阶段打开，调试通过之后请关掉
             options.checkManifestConfig = true
-
             return options
         }
 

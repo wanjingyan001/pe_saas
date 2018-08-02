@@ -25,12 +25,4 @@ class AdminMainActivity : ToolbarActivity() {
             startActivityForResult<AdminTransferActivity>(Extras.REQUESTCODE)
         }
     }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == Extras.REQUESTCODE && resultCode == Extras.RESULTCODE) {
-            setResult(resultCode)
-            finish()
-        }
-    }
 }

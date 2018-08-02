@@ -1,5 +1,8 @@
 package com.sogukj.pe.bean
 
+import android.annotation.SuppressLint
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 import java.io.Serializable
 
 /**
@@ -21,3 +24,20 @@ class WeeklyArrangeBean : Serializable {
         var position: String? = null
     }
 }
+
+data class NewArrangeBean(val pid: Int,//具体某一天的id
+                          val date: String,//日期
+                          val weekday: String, //周几
+                          val child: List<ChildBean> //存那天中的所有安排,如果那天一个安排都没有则child:[]
+)  : Serializable
+
+
+data class ChildBean(val id: Int = 0,
+                     val reasons: String? = null,//事由
+                     val place: String? = null,//地点
+                     val create_id:Int,//发表该条安排的用户的id,如果为0则说明发表该条安排的用户未知
+                     val lv:Int, //发表该条安排的用户的等级,0普通用户,1管理员,2超级管理员
+                     val attendee: List<UserBean>? = null,//出席人
+                     val participant: List<UserBean>? = null//参加人
+) :Serializable
+

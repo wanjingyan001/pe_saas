@@ -1,6 +1,9 @@
 package com.sogukj.pe.baselibrary.base
 
 import android.annotation.SuppressLint
+import android.app.ActivityManager
+import android.content.Context
+import anet.channel.util.Utils.context
 import java.util.ArrayList
 
 /**
@@ -33,12 +36,15 @@ object ActivityHelper {
             }
         }
     }
-
     //退出整个应用
-    fun exit() {
+    fun exit(context: Context) {
         for (activity in activities) {
             activity.finish()
         }
+        activities.clear()
+//        val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+//        activityManager.killBackgroundProcesses(context.packageName)
+//        System.exit(0)
     }
 
     fun getActivityList(): ArrayList<BaseActivity> {

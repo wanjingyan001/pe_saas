@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
+    android:paddingStart="20dp"
+    android:paddingTop="20dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <TextView
+        android:id="@+id/weeklyTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="周一"
+        android:textColor="@color/text_1"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/dayOfMonth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="02-24"
+        android:textColor="@color/text_3"
+        android:textSize="10sp"
+        app:layout_constraintLeft_toLeftOf="@+id/weeklyTv"
+        app:layout_constraintRight_toRightOf="@+id/weeklyTv"
+        app:layout_constraintTop_toBottomOf="@+id/weeklyTv" />
+
+
+    <View
+        android:id="@+id/blueBlocks"
+        android:layout_width="3dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="12dp"
+        android:background="#4a90e2"
+        app:layout_constraintBottom_toBottomOf="@+id/weeklyTv"
+        app:layout_constraintLeft_toRightOf="@+id/weeklyTv"
+        app:layout_constraintTop_toTopOf="@+id/weeklyTv" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/color_gray_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/blueBlocks"
+        app:layout_constraintStart_toStartOf="@+id/blueBlocks"
+        app:layout_constraintTop_toBottomOf="@+id/blueBlocks" />
+
+    <EditText
+        android:id="@+id/workContentEdit"
+        android:layout_width="0dp"
+        android:layout_height="90dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="20dp"
+        android:background="@null"
+        android:gravity="top|left"
+        android:hint="@string/work_edit_hint"
+        android:padding="5dp"
+        android:textColor="@color/text_1"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/blueBlocks"
+        app:layout_constraintTop_toTopOf="@+id/weeklyTv" />
+
+    <LinearLayout
+        android:id="@+id/attendLayout"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/workContentEdit"
+        app:layout_constraintStart_toStartOf="@+id/workContentEdit"
+        app:layout_constraintTop_toBottomOf="@+id/workContentEdit">
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/icon_attend" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="@string/people_attending" />
+
+
+        <com.sogukj.pe.widgets.WorkArrangePerson
+            android:id="@+id/person_attend"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+        </com.sogukj.pe.widgets.WorkArrangePerson>
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/ic_right" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/line1"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/color_gray_light"
+        app:layout_constraintEnd_toEndOf="@+id/workContentEdit"
+        app:layout_constraintStart_toStartOf="@+id/workContentEdit"
+        app:layout_constraintTop_toBottomOf="@+id/attendLayout" />
+
+    <LinearLayout
+        android:id="@+id/participateLayout"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/workContentEdit"
+        app:layout_constraintStart_toStartOf="@+id/workContentEdit"
+        app:layout_constraintTop_toBottomOf="@+id/line1">
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/icon_participate" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="@string/people_participate" />
+
+
+        <com.sogukj.pe.widgets.WorkArrangePerson
+            android:id="@+id/person_participate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+        </com.sogukj.pe.widgets.WorkArrangePerson>
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/ic_right" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/color_gray_light"
+        app:layout_constraintEnd_toEndOf="@+id/workContentEdit"
+        app:layout_constraintStart_toStartOf="@+id/workContentEdit"
+        app:layout_constraintTop_toBottomOf="@+id/participateLayout" />
+
+    <LinearLayout
+        android:id="@+id/addressLayout"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/workContentEdit"
+        app:layout_constraintStart_toStartOf="@+id/workContentEdit"
+        app:layout_constraintTop_toBottomOf="@+id/line2">
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/icon_dis_arrange_address" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:text="@string/arrange_address" />
+
+
+        <EditText
+            android:id="@+id/addressEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:background="@null"
+            android:hint="@string/address_edit_hint"
+            android:maxLines="2"
+            android:gravity="right"
+            android:textColor="@color/text_1"
+            android:textSize="12sp" />
+
+
+    </LinearLayout>
+
+
+
+</android.support.constraint.ConstraintLayout>

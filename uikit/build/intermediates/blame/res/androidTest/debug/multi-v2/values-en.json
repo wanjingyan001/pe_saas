@@ -1,6 +1,38 @@
 {
     "logs": [
         {
+            "outputFile": "/Users/admin/dev/pe_saas/uikit/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-en/values-en.xml",
+            "map": [
+                {
+                    "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/Android-PickerView-3.2.7.aar/5b675e2b3ec7a53c55c63ee4975cfa06/res/values-en/values-en.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,108,153,200,249,296,345,399",
+                        "endColumns": "52,44,46,48,46,48,53,45",
+                        "endOffsets": "103,148,195,244,291,340,394,440"
+                    },
+                    "to": {
+                        "startLines": "5,6,7,8,9,10,11,12",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "209,262,307,354,403,450,499,553",
+                        "endColumns": "52,44,46,48,46,48,53,45",
+                        "endOffsets": "257,302,349,398,445,494,548,594"
+                    }
+                },
+                {
+                    "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/values-en/values-en.xml",
+                    "from": {
+                        "startLines": "2,3,4",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,105,162",
+                        "endColumns": "49,56,46",
+                        "endOffsets": "100,157,204"
+                    }
+                }
+            ]
+        },
+        {
             "outputFile": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/values-en/values-en.xml",
             "map": [
                 {
@@ -54,6 +86,38 @@
                 },
                 {
                     "source": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/bundles/debug/res/values-en/values-en.xml",
+                    "from": {
+                        "startLines": "2,3,4",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,105,162",
+                        "endColumns": "49,56,46",
+                        "endOffsets": "100,157,204"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/values-en/values-en.xml",
+            "map": [
+                {
+                    "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/Android-PickerView-3.2.7.aar/5b675e2b3ec7a53c55c63ee4975cfa06/res/values-en/values-en.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,108,153,200,249,296,345,399",
+                        "endColumns": "52,44,46,48,46,48,53,45",
+                        "endOffsets": "103,148,195,244,291,340,394,440"
+                    },
+                    "to": {
+                        "startLines": "5,6,7,8,9,10,11,12",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "209,262,307,354,403,450,499,553",
+                        "endColumns": "52,44,46,48,46,48,53,45",
+                        "endOffsets": "257,302,349,398,445,494,548,594"
+                    }
+                },
+                {
+                    "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/values-en/values-en.xml",
                     "from": {
                         "startLines": "2,3,4",
                         "startColumns": "4,4,4",

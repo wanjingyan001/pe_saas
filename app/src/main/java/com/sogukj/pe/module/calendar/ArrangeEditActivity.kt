@@ -4,7 +4,10 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.support.v7.widget.DefaultItemAnimator
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
@@ -15,9 +18,11 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
+import com.amap.api.mapcore.util.it
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
+import com.sogukj.pe.baselibrary.Extended.extraDelegate
 import com.sogukj.pe.baselibrary.Extended.noSpace
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
@@ -25,9 +30,7 @@ import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
-import com.sogukj.pe.bean.UserBean
-import com.sogukj.pe.bean.WeeklyArrangeBean
-import com.sogukj.pe.bean.WeeklyReqBean
+import com.sogukj.pe.bean.*
 import com.sogukj.pe.module.main.ContactsActivity
 import com.sogukj.pe.service.CalendarService
 import com.sogukj.pe.widgets.WorkArrangePerson
@@ -40,17 +43,18 @@ import org.jetbrains.anko.*
 class ArrangeEditActivity : ToolbarActivity() {
     override val menuId: Int
         get() = R.menu.arrange_edit_save
-    private lateinit var editAdapter: RecyclerAdapter<WeeklyArrangeBean>
     val attendRequestCode = 0x001
     val participateRequestCode = 0x002
-    lateinit var data: ArrayList<WeeklyArrangeBean>
+    lateinit var data: ArrayList<NewArrangeBean>
     private var currentPosition = 0
+    private val position: Int by extraDelegate(Extras.INDEX, -1)
 
     companion object {
-        fun start(context: Activity, weeklyData: ArrayList<WeeklyArrangeBean>, offset: String?) {
+        fun start(context: Activity, weeklyData: ArrayList<NewArrangeBean>, offset: String?, position: Int? = null) {
             val intent = Intent(context, ArrangeEditActivity::class.java)
             intent.putExtra(Extras.LIST, weeklyData)
             intent.putExtra(Extras.ID, offset)
+            intent.putExtra(Extras.INDEX, position)
             context.startActivityForResult(intent, Extras.REQUESTCODE)
         }
     }
@@ -60,50 +64,7 @@ class ArrangeEditActivity : ToolbarActivity() {
         setContentView(R.layout.activity_arrange_edit)
         title = "班子工作安排详情"
         setBack(true)
-        data = intent.getSerializableExtra(Extras.LIST) as ArrayList<WeeklyArrangeBean>
-        val offset = intent.getStringExtra(Extras.ID)
-        supportInvalidateOptionsMenu()
-        if (data.size == 1) {
-            saveLayout.setVisible(true)
-        } else {
-            saveLayout.setVisible(false)
-        }
-        editAdapter = RecyclerAdapter(this, { adapter, parent, type ->
-            EditHolder(adapter.getView(R.layout.item_arrange_edit, parent))
-        })
-        editAdapter.dataList.addAll(data)
-        arrangeEditList.setItemViewCacheSize(0)
-        arrangeEditList.layoutManager = LinearLayoutManager(this)
-        arrangeEditList.adapter = editAdapter
-        saveBtn.clickWithTrigger {
-            submitWeeklyWork(true)
-        }
 
-        if (offset != null) {
-            val inflate = layoutInflater.inflate(R.layout.layout_arrange_weekly_header, arrangeEditList, false)
-            arrangeEditList.addHeaderView(inflate)
-            when (offset.toInt()) {
-                -1 -> {
-                    inflate.backgroundResource = R.drawable.bg_last_week
-                    inflate.find<TextView>(R.id.weeklyTv).text = "上周"
-                }
-                0 -> {
-                    inflate.backgroundResource = R.drawable.bg_this_week
-                    inflate.find<TextView>(R.id.weeklyTv).text = "本周"
-                }
-                1 -> {
-                    inflate.backgroundResource = R.drawable.bg_next_week
-                    inflate.find<TextView>(R.id.weeklyTv).text = "下周"
-                }
-                else -> {
-                    inflate.backgroundColor = Color.parseColor("#f7f9fc")
-                    val firstTime = data[0].date
-                    val lastTime = data[6].date
-                    inflate.find<TextView>(R.id.weeklyTv).text = "${firstTime?.substring(5, firstTime.length)}~${lastTime?.substring(5, lastTime.length)}"
-
-                }
-            }
-        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
@@ -130,12 +91,12 @@ class ArrangeEditActivity : ToolbarActivity() {
                         .onPositive { dialog, which ->
                             dialog.dismiss()
                             val bean = data[0]
-                            bean.apply {
-                                reasons = ""
-                                place = ""
-                                attendee = ArrayList()
-                                participant = ArrayList()
-                            }
+//                            bean.apply {
+//                                reasons = ""
+//                                place = ""
+//                                attendee = ArrayList()
+//                                participant = ArrayList()
+//                            }
                             submitWeeklyWork(false)
                         }
                         .onNegative { dialog, which ->
@@ -160,63 +121,66 @@ class ArrangeEditActivity : ToolbarActivity() {
                 person.position = it.position
                 persons.add(person)
             }
-            when (requestCode) {
-                attendRequestCode -> {
-                    runOnUiThread {
-                        this.data[currentPosition].attendee = persons
-                        arrangeEditList.adapter = editAdapter
-                    }
-                }
-                participateRequestCode -> {
-                    runOnUiThread {
-                        this.data[currentPosition].participant = persons
-                        arrangeEditList.adapter = editAdapter
-                    }
+//            when (requestCode) {
+//                attendRequestCode -> {
+//                    runOnUiThread {
+//                        this.data[currentPosition].attendee = persons
+//                        arrangeEditList.adapter = editAdapter
+//                    }
+//                }
+//                participateRequestCode -> {
+//                    runOnUiThread {
+//                        this.data[currentPosition].participant = persons
+//                        arrangeEditList.adapter = editAdapter
+//                    }
+//                }
+//            }
+        }
+    }
+
+    private fun submitWeeklyWork(isSave: Boolean) {
+//        SoguApi.getService(application, CalendarService::class.java)
+//                .submitWeeklyWork(WeeklyReqBean(data))
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribeOn(Schedulers.io())
+//                .subscribe({ payload ->
+//                    if (payload.isOk) {
+//                        if (isSave) {
+//                            toast("保存成功")
+//                        } else {
+//                            toast("删除成功")
+//                        }
+//                        val intent = Intent()
+//                        intent.putExtra(Extras.DATA, data)
+//                        setResult(Extras.RESULTCODE, intent)
+//                        finish()
+//                    } else {
+//                        toast(payload.message.toString())
+//                    }
+//                }, { e ->
+//                    Trace.e(e)
+//                    hideProgress()
+//                }, {
+//                    hideProgress()
+//                }, {
+//                    showProgress("正在保存")
+//                })
+    }
+
+    inner class ArrangeHolder(item: View) : RecyclerHolder<NewArrangeBean>(item) {
+        val list = item.find<RecyclerView>(R.id.arrangeContentList)
+        val add = item.find<TextView>(R.id.addArrange)
+        override fun setData(view: View, data: NewArrangeBean, position: Int) {
+            list.apply {
+                layoutManager = LinearLayoutManager(ctx)
+                adapter = RecyclerAdapter<ChildBean>(ctx) { _adapter, parent, _ ->
+                    EditHolder(_adapter.getView(R.layout.item_arrange_edit_child, parent))
                 }
             }
         }
     }
 
-    private fun submitWeeklyWork(isSave: Boolean) {
-//        val newList = data.filter { !it.reasons.isNullOrEmpty() && it.reasons != "" }
-//        val findBean = data.find { (!it.place.isNullOrEmpty() || !it.attendee.isNullOrEmpty() || !it.participant.isNullOrEmpty()) && it.reasons.isNullOrEmpty() }
-//        findBean?.let {
-//            toast("请填写工作内容")
-//            return
-//        }
-//        if (newList.isEmpty()) {
-//            toast("请填写工作内容")
-//            return
-//        }
-        SoguApi.getService(application,CalendarService::class.java)
-                .submitWeeklyWork(WeeklyReqBean(data))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe({ payload ->
-                    if (payload.isOk) {
-                        if (isSave){
-                            toast("保存成功")
-                        }else{
-                            toast("删除成功")
-                        }
-                        val intent = Intent()
-                        intent.putExtra(Extras.DATA, data)
-                        setResult(Extras.RESULTCODE, intent)
-                        finish()
-                    } else {
-                        toast(payload.message.toString())
-                    }
-                }, { e ->
-                    Trace.e(e)
-                    hideProgress()
-                }, {
-                    hideProgress()
-                }, {
-                    showProgress("正在保存")
-                })
-    }
-
-    inner class EditHolder(convertView: View) : RecyclerHolder<WeeklyArrangeBean>(convertView) {
+    inner class EditHolder(convertView: View) : RecyclerHolder<ChildBean>(convertView) {
         val weeklyTv = convertView.find<TextView>(R.id.weeklyTv)
         val dayOfMonth = convertView.find<TextView>(R.id.dayOfMonth)
         val workContentEdit = convertView.find<EditText>(R.id.workContentEdit)
@@ -227,9 +191,9 @@ class ArrangeEditActivity : ToolbarActivity() {
         val addressLayout = convertView.find<LinearLayout>(R.id.addressLayout)
         val addressEdit = convertView.find<EditText>(R.id.addressEdit)
 
-        override fun setData(view: View, data: WeeklyArrangeBean, position: Int) {
-            weeklyTv.text = data.weekday
-            dayOfMonth.text = data.date?.substring(5, data.date?.length!!)
+        override fun setData(view: View, data: ChildBean, position: Int) {
+//            weeklyTv.text = data.weekday
+//            dayOfMonth.text = data.date?.substring(5, data.date?.length!!)
             workContentEdit.filters = Utils.getFilter(ctx)
             addressEdit.filters = Utils.getFilter(ctx)
             if (data.reasons.isNullOrEmpty()) {
@@ -296,7 +260,7 @@ class ArrangeEditActivity : ToolbarActivity() {
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     val content = workContentEdit.noSpace
-                    this@ArrangeEditActivity.data[position].reasons = content
+//                    this@ArrangeEditActivity.data[position].reasons = content
                 }
 
             }
@@ -313,7 +277,7 @@ class ArrangeEditActivity : ToolbarActivity() {
             }
             val addressWatcher: TextWatcher = object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) {
-                    this@ArrangeEditActivity.data[position].place = addressEdit.noSpace
+//                    this@ArrangeEditActivity.data[position].place = addressEdit.noSpace
                 }
 
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {

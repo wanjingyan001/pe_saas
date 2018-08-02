@@ -240,7 +240,7 @@ class LoginActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
-        ActivityHelper.exit()
+        ActivityHelper.exit(this)
         super.onBackPressed()
     }
 

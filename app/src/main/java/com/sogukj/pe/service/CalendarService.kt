@@ -10,7 +10,7 @@ import retrofit2.http.POST
 /**
  * Created by admin on 2018/5/23.
  */
-interface CalendarService{
+interface CalendarService {
 
     /**
      * 获取日程/团队日程
@@ -128,6 +128,16 @@ interface CalendarService{
     @FormUrlEncoded
     @POST("/api/Weekly/getWeeklyWorkList")
     fun getWeeklyWorkList(@Field("offset") offset: Int): Observable<Payload<List<WeeklyArrangeBean>>>
+
+    /**
+     * 新每周工作安排
+     */
+    @FormUrlEncoded
+    @POST("/api/Weekly/newWeeklyWork")
+    fun getWeeklyWorkList(@Field("flag") flag: Int,//1=列表,2添加或修改
+                          @Field("offset") offset: Int? = null,//偏移量:-1上周,0本周,1下周 flag=1时非空
+                          @Field("data") data: List<NewArrangeBean>? = null//待提交的数据  flag=2时非空
+    ): Observable<Payload<List<NewArrangeBean>>>
 
     //提交|修改 每周工作安排
 //    @FormUrlEncoded

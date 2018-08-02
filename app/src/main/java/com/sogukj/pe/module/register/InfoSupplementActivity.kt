@@ -87,12 +87,14 @@ class InfoSupplementActivity : ToolbarActivity() {
                             payload.payload?.let {
                                 user_id = it.user_id.toString()
                                 sp.edit { putString(Extras.CompanyKey, it.key) }
+                                sp.edit { putString(Extras.CompanyName, organNameEdt.getInput()) }
+                                sp.edit { putString(Extras.UserName,mNameEdt.getInput()) }
                                 when (type) {
                                     1 -> login(phone, user_id!!.toInt())
                                     2, 3 -> {
-                                        if (!flag){
+                                        if (!flag) {
                                             startActivity<TakeCardActivity>(Extras.DATA to it)
-                                        }else{
+                                        } else {
                                             login(phone, user_id!!.toInt())
                                         }
                                     }
@@ -137,12 +139,12 @@ class InfoSupplementActivity : ToolbarActivity() {
                                 Store.store.setUser(this@InfoSupplementActivity, it)
                                 startActivity<MainActivity>()
                             }
-                        }else{
+                        } else {
                             hideProgress()
                             showTopSnackBar(payload.message)
                         }
                     }
-                    onError { e->
+                    onError { e ->
                         hideProgress()
                         Trace.e(e)
                     }

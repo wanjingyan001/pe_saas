@@ -19,6 +19,7 @@ import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.fromJson
 import com.sogukj.pe.baselibrary.Extended.setVisible
+import com.sogukj.pe.baselibrary.base.ActivityHelper
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.utils.XmlDb
@@ -80,6 +81,7 @@ class SettingActivity : BaseActivity() {
                 App.INSTANCE.resetPush(false)
                 IMLogout()
                 Store.store.clearUser(this)
+                ActivityHelper.exit(App.INSTANCE)
                 startActivity<PhoneInputActivity>()
                 doAsync {
                     Injection.provideFunctionSource(this@SettingActivity).delete()

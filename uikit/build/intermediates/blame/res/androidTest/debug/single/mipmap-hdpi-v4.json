@@ -1,11 +1,15 @@
 [
     {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-hdpi-v4/refresh_loading09.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/d342dcb4b46e71c1fea5b0a400020b03/res/mipmap-hdpi-v4/refresh_loading09.png"
+    },
+    {
         "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-hdpi-v4/refresh_loading04.png",
         "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/dd88c24ede0eb15ebf5e4be6c4d5be82/res/mipmap-hdpi-v4/refresh_loading04.png"
     },
     {
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-hdpi-v4/refresh_loading11.png",
-        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/dd88c24ede0eb15ebf5e4be6c4d5be82/res/mipmap-hdpi-v4/refresh_loading11.png"
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-hdpi-v4/refresh_loading03.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/d342dcb4b46e71c1fea5b0a400020b03/res/mipmap-hdpi-v4/refresh_loading03.png"
     },
     {
         "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-hdpi-v4/refresh_loading07.png",
@@ -16,14 +20,6 @@
         "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/dd88c24ede0eb15ebf5e4be6c4d5be82/res/mipmap-hdpi-v4/refresh_loading12.png"
     },
     {
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-hdpi-v4/refresh_loading06.png",
-        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/dd88c24ede0eb15ebf5e4be6c4d5be82/res/mipmap-hdpi-v4/refresh_loading06.png"
-    },
-    {
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-hdpi-v4/refresh_loading09.png",
-        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/dd88c24ede0eb15ebf5e4be6c4d5be82/res/mipmap-hdpi-v4/refresh_loading09.png"
-    },
-    {
         "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-hdpi-v4/refresh_loading01.png",
         "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/dd88c24ede0eb15ebf5e4be6c4d5be82/res/mipmap-hdpi-v4/refresh_loading01.png"
     },
@@ -32,12 +28,24 @@
         "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/dd88c24ede0eb15ebf5e4be6c4d5be82/res/mipmap-hdpi-v4/refresh_loading10.png"
     },
     {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-hdpi-v4/refresh_loading01.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/d342dcb4b46e71c1fea5b0a400020b03/res/mipmap-hdpi-v4/refresh_loading01.png"
+    },
+    {
         "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-hdpi-v4/refresh_head_arrow.png",
         "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/dd88c24ede0eb15ebf5e4be6c4d5be82/res/mipmap-hdpi-v4/refresh_head_arrow.png"
     },
     {
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-hdpi-v4/refresh_loading03.png",
-        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/dd88c24ede0eb15ebf5e4be6c4d5be82/res/mipmap-hdpi-v4/refresh_loading03.png"
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-hdpi-v4/refresh_loading12.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/d342dcb4b46e71c1fea5b0a400020b03/res/mipmap-hdpi-v4/refresh_loading12.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-hdpi-v4/refresh_loading08.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/d342dcb4b46e71c1fea5b0a400020b03/res/mipmap-hdpi-v4/refresh_loading08.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-hdpi-v4/refresh_loading04.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/d342dcb4b46e71c1fea5b0a400020b03/res/mipmap-hdpi-v4/refresh_loading04.png"
     },
     {
         "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-hdpi-v4/refresh_loading08.png",
@@ -50,5 +58,49 @@
     {
         "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-hdpi-v4/refresh_loading05.png",
         "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/dd88c24ede0eb15ebf5e4be6c4d5be82/res/mipmap-hdpi-v4/refresh_loading05.png"
+    },
+    {
+        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-hdpi-v4/refresh_loading11.png",
+        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/dd88c24ede0eb15ebf5e4be6c4d5be82/res/mipmap-hdpi-v4/refresh_loading11.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-hdpi-v4/refresh_loading05.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/d342dcb4b46e71c1fea5b0a400020b03/res/mipmap-hdpi-v4/refresh_loading05.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-hdpi-v4/refresh_loading07.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/d342dcb4b46e71c1fea5b0a400020b03/res/mipmap-hdpi-v4/refresh_loading07.png"
+    },
+    {
+        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-hdpi-v4/refresh_loading06.png",
+        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/dd88c24ede0eb15ebf5e4be6c4d5be82/res/mipmap-hdpi-v4/refresh_loading06.png"
+    },
+    {
+        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-hdpi-v4/refresh_loading09.png",
+        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/dd88c24ede0eb15ebf5e4be6c4d5be82/res/mipmap-hdpi-v4/refresh_loading09.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-hdpi-v4/refresh_loading10.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/d342dcb4b46e71c1fea5b0a400020b03/res/mipmap-hdpi-v4/refresh_loading10.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-hdpi-v4/refresh_loading02.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/d342dcb4b46e71c1fea5b0a400020b03/res/mipmap-hdpi-v4/refresh_loading02.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-hdpi-v4/refresh_head_arrow.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/d342dcb4b46e71c1fea5b0a400020b03/res/mipmap-hdpi-v4/refresh_head_arrow.png"
+    },
+    {
+        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-hdpi-v4/refresh_loading03.png",
+        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/dd88c24ede0eb15ebf5e4be6c4d5be82/res/mipmap-hdpi-v4/refresh_loading03.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-hdpi-v4/refresh_loading11.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/d342dcb4b46e71c1fea5b0a400020b03/res/mipmap-hdpi-v4/refresh_loading11.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-hdpi-v4/refresh_loading06.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/d342dcb4b46e71c1fea5b0a400020b03/res/mipmap-hdpi-v4/refresh_loading06.png"
     }
 ]
