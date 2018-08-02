@@ -26,4 +26,19 @@ interface ImService {
     @FormUrlEncoded
     @POST("/api/News/createJoinGroup")
     fun createJoinGroup(@Field("accid") accid: String, @Field("company_id") company_id: String): Observable<Payload<Int>>
+
+    /**
+     * 保存群id
+     */
+    @FormUrlEncoded
+    @POST("/api/Message/saveGroup")
+    fun saveGroupId(@Field("company_id") company_id: Int,
+                    @Field("group_id") group_id: String): Observable<Payload<Any>>
+
+    /**
+     * 创建群组时获取群头像
+     */
+    @FormUrlEncoded
+    @POST("/api/Message/groupImage")
+    fun getTeamGroupHeader(@Field("uids") uids: String): Observable<Payload<String>>
 }

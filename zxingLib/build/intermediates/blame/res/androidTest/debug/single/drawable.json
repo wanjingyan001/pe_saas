@@ -16,12 +16,12 @@
         "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/266594d5e4bf1ff18bcc89b38e8dbcf2/res/drawable/notification_bg_low.xml"
     },
     {
-        "merged": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/res/merged/androidTest/debug/drawable/abc_edit_text_material.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/drawable/abc_edit_text_material.xml"
-    },
-    {
         "merged": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/res/merged/androidTest/debug/drawable/abc_ic_ab_back_material.xml",
         "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/drawable/abc_ic_ab_back_material.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/res/merged/androidTest/debug/drawable/abc_edit_text_material.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/drawable/abc_edit_text_material.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/res/merged/androidTest/debug/drawable/line.png",
@@ -52,12 +52,12 @@
         "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/drawable/abc_item_background_holo_light.xml"
     },
     {
-        "merged": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/res/merged/androidTest/debug/drawable/shadow.png",
-        "source": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/bundles/debug/res/drawable/shadow.png"
-    },
-    {
         "merged": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/res/merged/androidTest/debug/drawable/abc_btn_default_mtrl_shape.xml",
         "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/drawable/abc_btn_default_mtrl_shape.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/res/merged/androidTest/debug/drawable/shadow.png",
+        "source": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/bundles/debug/res/drawable/shadow.png"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/res/merged/androidTest/debug/drawable/abc_cab_background_top_material.xml",

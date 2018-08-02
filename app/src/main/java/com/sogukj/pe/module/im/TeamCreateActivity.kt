@@ -3,12 +3,18 @@ package com.sogukj.pe.module.im
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
+import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import com.huantansheng.easyphotos.EasyPhotos
 import com.netease.nim.uikit.api.NimUIKit
 import com.netease.nim.uikit.business.team.helper.TeamHelper
@@ -23,24 +29,33 @@ import com.sogukj.pe.BuildConfig
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
+import com.sogukj.pe.baselibrary.Extended.execute
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.base.ActivityHelper
+import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.CustomSealBean
+import com.sogukj.pe.bean.ProjectBean
 import com.sogukj.pe.bean.TeamBean
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.module.main.ContactsActivity
 import com.sogukj.pe.module.other.CompanySelectActivity
 import com.sogukj.pe.peExtended.removeTeamSelectActivity
+import com.sogukj.pe.service.ImService
+import com.sogukj.service.SoguApi
+import io.reactivex.internal.util.HalfSerializer.onNext
 import kotlinx.android.synthetic.main.activity_team_create.*
+import org.jetbrains.anko.info
 import org.jetbrains.anko.toast
 import java.io.Serializable
 
-class TeamCreateActivity : AppCompatActivity() {
+class TeamCreateActivity : BaseActivity() {
     lateinit var teamMember: ArrayList<UserBean>
     lateinit var adapter: MemberAdapter
     private var path: String? = null
     var bean: CustomSealBean.ValueBean? = null
+    var project: ProjectBean? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +64,7 @@ class TeamCreateActivity : AppCompatActivity() {
         team_toolbar.setNavigationIcon(R.drawable.sogu_ic_back)
         team_toolbar.setNavigationOnClickListener { finish() }
         val data = intent.getSerializableExtra(Extras.DATA)
+        project = intent.getSerializableExtra(Extras.DATA2) as? ProjectBean
         teamMember = if (data != null) {
             data as ArrayList<UserBean>
         } else {
@@ -66,7 +82,7 @@ class TeamCreateActivity : AppCompatActivity() {
 
         team_number.text = "${teamMember.size}人"
         team_name.filters = Utils.getFilter(this)
-        related_items_layout.setOnClickListener {
+        related_items_layout.clickWithTrigger {
             CompanySelectActivity.start(this)
         }
         exit_team.clickWithTrigger {
@@ -101,23 +117,75 @@ class TeamCreateActivity : AppCompatActivity() {
                 teamIntroduction.setSelection(teamIntroduction.textStr.length)
             }
         }
+
+        if (project != null) {
+            team_project.text = project?.shortName ?: project?.name!!
+            team_name.setText(getDefaultName())
+            path = project?.logo
+            Glide.with(this)
+                    .load(project?.logo)
+                    .listener(object : RequestListener<Drawable> {
+                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                            getTeamHeader(teamMember)
+                            return false
+                        }
+
+                        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                            return false
+                        }
+
+                    }).into(team_logo)
+            related_items_layout.setVisible(true)
+            related_items.text = project?.name
+            related_items_layout.isClickable = false
+            team_name.isEnabled = false
+            team_logo.isEnabled = false
+        }
     }
 
     private fun getDefaultName(): String {
         //自动生成群名字
-        val nameList = ArrayList<UserBean>(teamMember)
-        if (teamMember.size > 4) {
-            nameList.clear()
-            (0 until 4).mapTo(nameList) { teamMember[it] }
-        }
         var nameStr = ""
-        for (item in nameList) {
-            nameStr = "${nameStr}、${item.name}"
-        }
-        if (nameList.size > 0) {
-            nameStr = nameStr.removePrefix("、")
+        if (project == null) {
+            val nameList = ArrayList<UserBean>(teamMember)
+            if (teamMember.size > 4) {
+                nameList.clear()
+                (0 until 4).mapTo(nameList) { teamMember[it] }
+            }
+
+            for (item in nameList) {
+                nameStr = "${nameStr}、${item.name}"
+            }
+            if (nameList.size > 0) {
+                nameStr = nameStr.removePrefix("、")
+            }
+        } else {
+            nameStr = project?.shortName ?: project?.name!!
         }
         return nameStr
+    }
+
+    private fun getTeamHeader(teamMember: ArrayList<UserBean>) {
+        if (path.isNullOrEmpty()) {
+            if (teamMember.isNotEmpty()) {
+                val uids = StringBuilder()
+                teamMember.forEach { user ->
+                    uids.append("${user.uid},")
+                }
+                SoguApi.getService(application,ImService::class.java).getTeamGroupHeader(uids.substring(0, uids.lastIndexOf(",")))
+                        .execute {
+                            onNext { payload ->
+                                payload.payload?.let {
+                                    path = it
+                                    Glide.with(this@TeamCreateActivity)
+                                            .load(it)
+                                            .apply(RequestOptions().error(R.drawable.invalid_name2))
+                                            .into(team_logo)
+                                }
+                            }
+                        }
+            }
+        }
     }
 
     /**
@@ -146,9 +214,9 @@ class TeamCreateActivity : AppCompatActivity() {
         map.put(TeamFieldEnum.BeInviteMode, TeamBeInviteModeEnum.NoAuth)
         map.put(TeamFieldEnum.VerifyType, VerifyTypeEnum.Free)
         map.put(TeamFieldEnum.TeamUpdateMode, TeamUpdateModeEnum.All)
-        bean?.let {
+        project?.let {
             val teamBean = TeamBean()
-            teamBean.project_id = it.id.toString()
+            teamBean.project_id = it.company_id.toString()
             teamBean.project_name = it.name.toString()
             map.put(TeamFieldEnum.Extension, teamBean.toString())
         }
@@ -171,6 +239,11 @@ class TeamCreateActivity : AppCompatActivity() {
                                 TeamHelper.onMemberTeamNumOverrun(failedAccounts, this@TeamCreateActivity)
                             } else {
                                 toast("创建成功")
+                                project?.let { project ->
+                                    SoguApi.getService(application,ImService::class.java)
+                                            .saveGroupId(project.company_id!!, it.team.id)
+                                            .execute { onNext { info { "项目群组创建成功" } } }
+                                }
                             }
                             NimUIKit.startTeamSession(this@TeamCreateActivity, it.team.id)
                             finish()
@@ -205,11 +278,13 @@ class TeamCreateActivity : AppCompatActivity() {
                         teamMember.addAll(it)
                         adapter.notifyDataSetChanged()
                         team_number.text = "${teamMember.size}人"
+                        getTeamHeader(teamMember)
                     }
                 }
             }
         } else if (requestCode == Extras.requestCode1 && data != null && resultCode == Activity.RESULT_OK) {
             val resultPaths = data.getStringArrayListExtra(EasyPhotos.RESULT_PATHS)
+            path = resultPaths[0]
             Glide.with(this@TeamCreateActivity)
                     .load(resultPaths[0])
                     .apply(RequestOptions().error(R.drawable.invalid_name2))
@@ -218,9 +293,10 @@ class TeamCreateActivity : AppCompatActivity() {
     }
 
     companion object {
-        fun start(ctx: Context, data: ArrayList<UserBean>?) {
+        fun start(ctx: Context, data: ArrayList<UserBean>?, project: ProjectBean? = null) {
             val intent = Intent(ctx, TeamCreateActivity::class.java)
             intent.putExtra(Extras.DATA, data)
+            intent.putExtra(Extras.DATA2, project)
             ctx.startActivity(intent)
         }
     }

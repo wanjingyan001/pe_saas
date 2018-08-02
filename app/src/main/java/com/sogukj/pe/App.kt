@@ -63,14 +63,14 @@ class App : MultiDexApplication() {
         super.onCreate()
         INSTANCE = this
 //        MobSDK.init(this, "137b5c5ce8f55", "b28db523803b31a66b590150cb96c4fd")
-        //ARouter阿里路由
         doAsync {
+            //ARouter阿里路由
             if (BuildConfig.DEBUG) {
                 ARouter.openLog()
                 ARouter.openDebug()
             }
             ARouter.init(INSTANCE)
-            CrashReport.initCrashReport(INSTANCE, "49fb9e37b7", true)
+            CrashReport.initCrashReport(INSTANCE, "49fb9e37b7", BuildConfig.DEBUG)
             SgDatabase.getInstance(INSTANCE)
             MobSDK.init(INSTANCE, "214eaf8217e6c", "c1ddfcaa333020a5a06812bc745d508c")
             val mPushAgent = PushAgent.getInstance(INSTANCE)

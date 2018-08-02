@@ -16,12 +16,12 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         multiDexEnabled true
-        versionCode 29
-        versionName "4.1.5"
+        versionCode 30
+        versionName "4.1.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             // 设置支持的SO库架构
-            abiFilters 'x86','x86_64','armeabi', 'armeabi-v7a', 'arm64-v8a'
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
             //'x86','x86_64',
         }
         javaCompileOptions {

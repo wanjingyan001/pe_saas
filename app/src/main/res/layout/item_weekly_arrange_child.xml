@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="125dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+    <TextView
+        android:id="@+id/arrangement_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="23dp"
+        android:ellipsize="end"
+        android:lineSpacingExtra="6dp"
+        android:maxLines="2"
+        android:textColor="@color/text_1"
+        android:textSize="14sp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/attend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:ellipsize="end"
+        android:maxWidth="100dp"
+        android:singleLine="true"
+        android:text="出席："
+        android:textColor="@color/text_3"
+        android:textSize="10sp"
+        app:layout_constraintLeft_toLeftOf="@+id/arrangement_content"
+        app:layout_constraintTop_toBottomOf="@+id/arrangement_content" />
+
+
+    <TextView
+        android:id="@+id/participate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="150dp"
+        android:ellipsize="end"
+        android:gravity="left"
+        android:maxWidth="100dp"
+        android:singleLine="true"
+        android:text="参加："
+        android:textColor="@color/text_3"
+        android:textSize="10sp"
+        app:layout_constraintLeft_toLeftOf="@+id/arrangement_content"
+        app:layout_constraintTop_toTopOf="@+id/attend" />
+
+
+    <ImageView
+        android:id="@+id/address_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp"
+        android:src="@drawable/bg_arrange_address"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/attend" />
+
+    <TextView
+        android:id="@+id/arrange_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@color/approve_blue1"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@+id/address_icon"
+        app:layout_constraintLeft_toRightOf="@+id/address_icon" />
+
+    <ImageView
+        android:id="@+id/icon_right"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/ic_right"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

@@ -56,6 +56,7 @@ import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.OtherService
 import com.sogukj.pe.widgets.MyProgressBar
 import com.sogukj.service.SoguApi
+import com.tencent.bugly.crashreport.CrashReport
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
@@ -99,8 +100,8 @@ class MainActivity : BaseActivity() {
         val company = sp.getString(Extras.SAAS_BASIC_DATA, "")
         val detail = Gson().fromJson<MechanismBasicInfo?>(company)
         detail?.let {
-            modules.clear()
             if (!it.homeBottomButton.isNullOrEmpty()) {
+                modules.clear()
                 modules.addAll(it.homeBottomButton!!)
             }
             val defaultLogo = when (getEnvironment()) {
@@ -124,6 +125,7 @@ class MainActivity : BaseActivity() {
         val factory = Injection.provideViewModelFactory(ctx)
         val model = ViewModelProviders.of(this, factory).get(FunctionViewModel::class.java)
         model.generateData(application)
+        setCrashReportData()
         ActivityHelper.finishAllWithoutTop()
     }
 
@@ -250,6 +252,12 @@ class MainActivity : BaseActivity() {
         }
     }
 
+
+    private fun setCrashReportData() {
+        CrashReport.putUserData(this, "userId", Store.store.getUser(this)?.uid.toString())
+        CrashReport.putUserData(this, "companyKey", sp.getString(Extras.CompanyKey, ""))
+        CrashReport.putUserData(this, "httpUrl", sp.getString(Extras.HTTPURL, ""))
+    }
 
     override fun onStart() {
         super.onStart()

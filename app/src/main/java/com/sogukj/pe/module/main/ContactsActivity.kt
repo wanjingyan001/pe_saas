@@ -70,6 +70,10 @@ class ContactsActivity : ToolbarActivity() {
      */
     private var isCreateTeam = false
     /**
+     * 项目对象
+     */
+    private var project: ProjectBean? = null
+    /**
      * 最近联系人adapter
      */
     private lateinit var contactsAdapter: RecyclerAdapter<UserBean>
@@ -170,7 +174,7 @@ class ContactsActivity : ToolbarActivity() {
             val list = ArrayList<UserBean>()
             list.addAll(alreadySelected)
             if (isCreateTeam) {
-                TeamCreateActivity.start(this@ContactsActivity, list)
+                TeamCreateActivity.start(this@ContactsActivity, list,project)
                 finish()
             } else {
                 val intent = Intent()
@@ -189,7 +193,7 @@ class ContactsActivity : ToolbarActivity() {
         selectedCanModify = intent.getBooleanExtra(Extras.FLAG, true)
         isCreateTeam = intent.getBooleanExtra(Extras.CREATE_TEAM, false)
         default = intent.getSerializableExtra(Extras.DEFAULT) as ArrayList<Int>?
-
+        project = intent.getSerializableExtra(Extras.DATA) as? ProjectBean
         if (alreadySelected.isNotEmpty()) {
             selectNumber.text = "已选择: ${alreadySelected.size} 人"
         }
