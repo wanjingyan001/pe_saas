@@ -213,7 +213,7 @@ android {
             manifestPlaceholders = [appId               : "com.sogukj.pe",
                                     app_icon            : "@mipmap/ic_launcher_zgh",
                                     AMAP_KEY            : "9204f7dcdd8c2beba10c94dbe96bd062",
-                                    IM_KEY              : "1b5749bc47e9f1eef0cd2cff240dc7da",
+                                    IM_KEY              : "91e18e33451e352ee77614c9cddeb5f0",
                                     Umeng_KEY           : "59b781c607fe652e44000165",
                                     Umeng_MESSAGE_SECRET: "a4bb361310d9aee916f2cc43c5dbda5c",
                                     NIMContentProvider  : "com.sogukj.pe.ipc.provider",

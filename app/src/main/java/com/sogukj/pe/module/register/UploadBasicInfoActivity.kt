@@ -116,9 +116,9 @@ class UploadBasicInfoActivity : ToolbarActivity() {
                             if (payload.isOk) {
                                 payload.payload?.let {
                                     cardPath = it.logo ?: ""
-                                    mechanismName =  it.mechanism_name ?: ""
-                                    val defaultLogo = when(getEnvironment()){
-                                        "zgh" ->R.mipmap.ic_launcher_zgh
+                                    mechanismName = it.mechanism_name ?: ""
+                                    val defaultLogo = when (getEnvironment()) {
+                                        "zgh" -> R.mipmap.ic_launcher_zgh
                                         else -> R.mipmap.ic_launcher_pe
 
                                     }

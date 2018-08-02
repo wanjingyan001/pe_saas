@@ -10,7 +10,7 @@ import retrofit2.http.POST
 /**
  * Created by admin on 2018/5/23.
  */
-interface CalendarService{
+interface CalendarService {
 
     /**
      * 获取日程/团队日程

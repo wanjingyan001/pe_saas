@@ -15,6 +15,7 @@ import com.sogukj.pe.baselibrary.Extended.isNullOrEmpty
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
+import com.sogukj.pe.bean.ChildBean
 import com.sogukj.pe.bean.NewArrangeBean
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.bean.WeeklyArrangeBean
@@ -30,19 +31,15 @@ class ArrangeDetailActivity : ToolbarActivity() {
     private lateinit var data: NewArrangeBean
     private val position: Int by extraDelegate(Extras.INDEX, -1)
 
-    companion object {
-        fun start(context: Context, data: WeeklyArrangeBean) {
-            val intent = Intent(context, ArrangeDetailActivity::class.java)
-            intent.putExtra(Extras.DATA, data)
-            context.startActivity(intent)
-        }
 
+    companion object {
         fun start(context: Context, data: NewArrangeBean, position: Int) {
             val intent = Intent(context, ArrangeDetailActivity::class.java)
             intent.putExtra(Extras.DATA, data)
             intent.putExtra(Extras.INDEX, position)
             context.startActivity(intent)
         }
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -96,22 +93,30 @@ class ArrangeDetailActivity : ToolbarActivity() {
         val childBean = data.child[position]
         causeContent.text = childBean.reasons
         childBean.attendee?.let {
-            attendAdapter.dataList.clear()
-            attendAdapter.dataList.addAll(it)
-            attendAdapter.notifyDataSetChanged()
-        }
-        childBean.participant?.let {
-            participateAdapter.dataList.clear()
-            participateAdapter.dataList.addAll(it)
-            participateAdapter.notifyDataSetChanged()
-        }
-        if (childBean.place.isNullOrEmpty()) {
-            address_icon.isEnabled = false
-            addressTv.text = ""
-            addressTv.hint = "暂无地址信息"
-        } else {
-            address_icon.isEnabled = true
-            addressTv.text = childBean.place
+            causeContent.text = data.child[position].reasons
+            data.child[position].attendee?.let {
+                attendAdapter.dataList.clear()
+                attendAdapter.dataList.addAll(it)
+                attendAdapter.notifyDataSetChanged()
+            }
+            childBean.participant?.let {
+                data.child[position].participant?.let {
+                    participateAdapter.dataList.clear()
+                    participateAdapter.dataList.addAll(it)
+                    participateAdapter.notifyDataSetChanged()
+                }
+                if (childBean.place.isNullOrEmpty()) {
+                    if (data.child[position].place.isNullOrEmpty()) {
+                        address_icon.isEnabled = false
+                        addressTv.text = ""
+                        addressTv.hint = "暂无地址信息"
+                    } else {
+                        address_icon.isEnabled = true
+                        addressTv.text = childBean.place
+                        addressTv.text = data.child[position].place
+                    }
+                }
+            }
         }
     }
 
@@ -126,7 +131,7 @@ class ArrangeDetailActivity : ToolbarActivity() {
                     return
                 }
             }
-            setContentData( this.data)
+            setContentData(this.data)
         }
     }
 
@@ -135,6 +140,7 @@ class ArrangeDetailActivity : ToolbarActivity() {
         when (item?.itemId) {
             R.id.modify -> {
 //                ArrangeEditActivity.start(this, arrayListOf(data), null)
+                ArrangeEditActivity.start(this, arrayListOf(data), null, position)
             }
         }
         return super.onOptionsItemSelected(item)

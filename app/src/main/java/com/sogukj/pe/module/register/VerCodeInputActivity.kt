@@ -29,6 +29,7 @@ import com.sogukj.pe.peUtils.LoginTimer
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.RegisterService
 import com.sogukj.service.SoguApi
+import com.tencent.bugly.crashreport.CrashReport
 import io.reactivex.Observable
 import io.reactivex.internal.util.HalfSerializer.onNext
 import kotlinx.android.synthetic.main.activity_register_vercode.*
@@ -64,7 +65,7 @@ class VerCodeInputActivity : BaseActivity() {
                     if (payload.isOk) {
                         showSuccessToast("验证码已经发送，请查收")
                         Timer().scheduleAtFixedRate(LoginTimer(60, Handler(), reSendCode), 0, 1000)
-                    }else{
+                    } else {
                         showErrorToast(payload.message)
                     }
                 }
@@ -86,6 +87,7 @@ class VerCodeInputActivity : BaseActivity() {
                                             it
                                         }
                                         sp.edit { putString(Extras.HTTPURL, newBaseUtl) }
+                                        CrashReport.putUserData(this@VerCodeInputActivity, Extras.HTTPURL, newBaseUtl)
                                         RetrofitUrlManager.getInstance().setGlobalDomain(newBaseUtl)
                                     }
                                 }
@@ -94,13 +96,15 @@ class VerCodeInputActivity : BaseActivity() {
                                 } else {
                                     sp.edit { putString(Extras.CompanyKey, it.key) }
                                     sp.edit { putInt(Extras.SaasUserId, it.user_id!!) }
+                                    CrashReport.putUserData(this@VerCodeInputActivity, Extras.SaasUserId, it.user_id.toString())
+                                    CrashReport.putUserData(this@VerCodeInputActivity, Extras.CompanyKey, it.key)
                                     when (it.is_finish) {
                                         0 -> {
                                             if (it.mechanism_name.isNullOrEmpty()) {
                                                 startActivity<InvCodeInputActivity>(Extras.DATA to phone)
                                             } else {
                                                 if (it.business_card.isNullOrEmpty()) {
-                                                    val isAdmin = it.is_admin != 1
+                                                    val isAdmin = it.is_admin != 2
                                                     val info = MechanismInfo(it.mechanism_name, it.scale, it.business_card, it.name, it.position, it.key)
                                                     startActivity<InfoSupplementActivity>(Extras.DATA to phone
                                                             , Extras.DATA2 to info

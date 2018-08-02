@@ -40,3 +40,4 @@ data class ChildBean(val id: Int = 0,
                      val attendee: List<UserBean>? = null,//出席人
                      val participant: List<UserBean>? = null//参加人
 ) :Serializable
+

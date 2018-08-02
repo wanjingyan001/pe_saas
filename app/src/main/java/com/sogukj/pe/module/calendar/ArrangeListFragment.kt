@@ -325,7 +325,7 @@ class ArrangeListFragment : BaseRefreshFragment() {
                                     address.text = data.place
                                 }
                                 view.setOnClickListener {
-                                 ArrangeDetailActivity.start(baseActivity!!, arrangeBean, position)
+                                    ArrangeDetailActivity.start(baseActivity!!, arrangeBean, position)
                                 }
                             }
                         }

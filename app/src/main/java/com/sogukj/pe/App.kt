@@ -51,7 +51,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import me.leolin.shortcutbadger.ShortcutBadger
+import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.info
 import org.json.JSONObject
 
 

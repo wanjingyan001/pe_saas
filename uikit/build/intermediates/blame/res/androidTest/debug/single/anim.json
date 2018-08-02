@@ -4,20 +4,20 @@
         "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/anim/abc_slide_in_top.xml"
     },
     {
-        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/anim/abc_tooltip_exit.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/anim/abc_tooltip_exit.xml"
-    },
-    {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/anim/abc_fade_out.xml",
         "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/anim/abc_fade_out.xml"
     },
     {
-        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/anim/design_bottom_sheet_slide_out.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/0000feb02ed9850fa63110d2c9bd4d26/res/anim/design_bottom_sheet_slide_out.xml"
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/anim/abc_tooltip_exit.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/anim/abc_tooltip_exit.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/anim/abc_fade_in.xml",
         "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/anim/abc_fade_in.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/anim/design_bottom_sheet_slide_out.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/0000feb02ed9850fa63110d2c9bd4d26/res/anim/design_bottom_sheet_slide_out.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/anim/top_in.xml",
