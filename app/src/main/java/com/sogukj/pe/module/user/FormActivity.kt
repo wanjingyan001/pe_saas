@@ -27,10 +27,10 @@ class FormActivity : ToolbarActivity() {
         }
 
         toolbar_menu.clickWithTrigger {
-            if (fill.text.toString().trim() == "") {
-                showCustomToast(R.drawable.icon_toast_common, "数据不能为空")
-                return@clickWithTrigger
-            }
+//            if (fill.text.toString().trim() == "") {
+//                showCustomToast(R.drawable.icon_toast_common, "数据不能为空")
+//                return@clickWithTrigger
+//            }
             val intent = Intent()
             intent.putExtra(Extras.DATA, fill.text.toString().trim())
             setResult(Activity.RESULT_OK, intent)

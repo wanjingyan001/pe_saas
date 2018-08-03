@@ -221,6 +221,11 @@ class ProjectAddActivity : ToolbarActivity() {
                 .subscribe({ payload ->
                     if (payload.isOk) {
                         mCompanyAdapter.dataList.clear()
+
+                        var bean = CompanySelectBean()
+                        bean.name = search_view.search
+                        mCompanyAdapter.dataList.add(bean)
+
                         payload?.payload?.apply {
                             mCompanyAdapter.dataList.addAll(this)
                         }

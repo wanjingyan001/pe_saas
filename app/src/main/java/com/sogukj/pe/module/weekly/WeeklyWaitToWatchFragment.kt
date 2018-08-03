@@ -72,7 +72,7 @@ class WeeklyWaitToWatchFragment : BaseFragment() {
         filter.setOnClickListener {
             val intent = Intent(context, WeeklySelectActivity::class.java)
             intent.putExtra(Extras.DATA, true)
-            intent.putExtra(Extras.TITLE, "我发出的")
+            intent.putExtra(Extras.TITLE, "我接收的")
             startActivityForResult(intent, 0x001)
         }
 

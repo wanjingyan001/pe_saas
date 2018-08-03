@@ -150,7 +150,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -352,6 +352,13 @@
                     android:background="@drawable/ic_arrow_r" />
 
             </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_loading"
+                android:layout_width="60dp"
+                android:layout_height="90dp"
+                android:layout_marginTop="80dp"
+                android:layout_gravity="center" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 

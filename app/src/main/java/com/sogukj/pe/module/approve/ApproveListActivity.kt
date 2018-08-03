@@ -579,7 +579,7 @@ class ApproveListActivity : BaseRefreshActivity(), TabLayout.OnTabSelectedListen
                 3 -> "我发起的"
                 4 -> "抄送我的"
                 5 -> "审批历史"
-                6 -> "审批消息助手"
+                6 -> "审批数据报表"
                 else -> ""
             }
             intent.putExtra(Extras.TYPE, type)

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -193,12 +194,17 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
             }
             im.setVisible(hasIM)
         }
+        Glide.with(this)
+                .load(Uri.parse("file:///android_asset/img_loading.gif"))
+                .into(iv_loading)
+        iv_loading?.visibility = View.VISIBLE
         SoguApi.getService(application, NewService::class.java)
                 .projectPage(company_id = project.company_id!!)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ payload ->
                     if (payload.isOk) {
+                        iv_loading?.visibility = View.GONE
                         payload.payload?.let {
                             projectDetail = it
                         }
@@ -235,9 +241,12 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
                             }
                         }
 
-                    } else
+                    } else {
+                        iv_loading?.visibility = View.GONE
                         showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                    }
                 }, { e ->
+                    iv_loading?.visibility = View.GONE
                     Trace.e(e)
                 })
 

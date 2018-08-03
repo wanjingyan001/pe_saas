@@ -376,7 +376,7 @@ class ProjectListFragment : BaseFragment(), SupportEmptyView {
                 label = data.name
             tvTitle.text = label
 
-            tvDSZ.text = "董事长：${data.chairman.checkEmpty()}"
+            tvDSZ.text = "法人：${data.chairman.checkEmpty()}"
             if (data.chairman.isNullOrEmpty()) {
                 tvDSZ.visibility = View.INVISIBLE
             }
@@ -390,7 +390,7 @@ class ProjectListFragment : BaseFragment(), SupportEmptyView {
                 try {
                     val strs = strTime!!.trim().split(" ") // 2018/07/08 18:23
                     var time = strs.get(0).split("/")
-                    tvTime.text = "${time[1]}-${time[2]} ${strs.get(1)}"
+                    tvTime.text = "${time[1]}-${time[2]}"
                 } catch (e: Exception) {
                     tvTime.visibility = View.INVISIBLE
                 }

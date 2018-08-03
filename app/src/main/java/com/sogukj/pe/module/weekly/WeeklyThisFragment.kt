@@ -475,6 +475,10 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
                                     db.set(Extras.SEND_USERS, "")
                                     db.set(Extras.COPY_FOR_USERS, "")
                                     baseActivity?.finish()
+
+                                    kotlin.run {
+                                        (activity as WeeklyActivity)
+                                    }
                                 } else
                                     showCustomToast(R.drawable.icon_toast_fail, payload.message)
                             }, { e ->
