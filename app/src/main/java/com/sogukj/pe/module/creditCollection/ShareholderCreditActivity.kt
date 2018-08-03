@@ -330,10 +330,12 @@ class ShareholderCreditActivity : BaseActivity(), View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 0x001) {
             data?.apply {
-                var bean = this.getSerializableExtra(Extras.DATA) as CreditInfo.Item
-                mAdapter.dataList.add(0, bean)
-                mAdapter.notifyDataSetChanged()
-                iv_empty.visibility = if (mAdapter.dataList.isEmpty()) View.VISIBLE else View.GONE
+//                var bean = this.getSerializableExtra(Extras.DATA) as CreditInfo.Item
+//                mAdapter.dataList.add(0, bean)
+//                mAdapter.notifyDataSetChanged()
+//                iv_empty.visibility = if (mAdapter.dataList.isEmpty()) View.VISIBLE else View.GONE
+                offset = 0
+                doRequest(bean.company_id)
             }
         } else if (requestCode == 0x002) {
             data?.apply {

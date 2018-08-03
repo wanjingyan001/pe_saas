@@ -7,7 +7,11 @@ import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.Theme
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.BaseActivity
@@ -188,23 +192,41 @@ class AddCreditActivity : BaseActivity(), View.OnClickListener {
                 popwin.showAtLocation(find(R.id.add_layout), Gravity.BOTTOM, 0, 0)
             }
             R.id.toolbar_menu -> {
-                SoguApi.getService(application,CreditService::class.java)
-                        .deleteCredit(data!!.id)
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeOn(Schedulers.io())
-                        .subscribe({ payload ->
-                            if (payload.isOk) {
-                                val intent = Intent()
-                                intent.putExtra(Extras.DATA, data)
-                                intent.putExtra(Extras.TYPE, "DELETE")
-                                setResult(Extras.RESULTCODE, intent)
-                                finish()
-                            } else {
-                                showCustomToast(R.drawable.icon_toast_fail, payload.message)
-                            }
-                        }, { e ->
-                            showCustomToast(R.drawable.icon_toast_fail, "删除失败")
-                        })
+                var mDialog = MaterialDialog.Builder(this@AddCreditActivity)
+                        .theme(Theme.LIGHT)
+                        .canceledOnTouchOutside(true)
+                        .customView(R.layout.dialog_yongyin, false).build()
+                mDialog.show()
+                val content = mDialog.find<TextView>(R.id.content)
+                val cancel = mDialog.find<Button>(R.id.cancel)
+                val yes = mDialog.find<Button>(R.id.yes)
+                content.text = "是否需要删除该征信记录"
+                cancel.text = "否"
+                yes.text = "是"
+                cancel.setOnClickListener {
+                    mDialog.dismiss()
+                }
+                yes.setOnClickListener {
+                    SoguApi.getService(application,CreditService::class.java)
+                            .deleteCredit(data!!.id)
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeOn(Schedulers.io())
+                            .subscribe({ payload ->
+                                if (payload.isOk) {
+                                    showCustomToast(R.drawable.icon_toast_success, "删除成功")
+                                    mDialog.dismiss()
+                                    val intent = Intent()
+                                    intent.putExtra(Extras.DATA, data)
+                                    intent.putExtra(Extras.TYPE, "DELETE")
+                                    setResult(Extras.RESULTCODE, intent)
+                                    finish()
+                                } else {
+                                    showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                                }
+                            }, { e ->
+                                showCustomToast(R.drawable.icon_toast_fail, "删除失败")
+                            })
+                }
             }
         }
     }
