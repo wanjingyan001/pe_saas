@@ -755,17 +755,25 @@ class MainHomeFragment : BaseFragment() {
             } else if (data is NewsBean) {
                 holder.tvTitle?.text = "情报"
                 holder.tvNum?.visibility = View.GONE
-                if (data.tag.isNullOrEmpty()) {
+
+                holder.tvSeq?.text = data.company
+                if (data.company.isNullOrEmpty()) {
                     holder.tvSeq?.visibility = View.GONE
+                } else {
+                    holder.tvSeq?.visibility = View.VISIBLE
+                }
+
+                if (data.tag.isNullOrEmpty()) {
                     holder.tvState!!.visibility = View.GONE
                 } else {
-                    holder.tvSeq?.text = data.tag?.split("#")?.get(0)
                     holder.tvState?.text = data.tag?.split("#")?.get(1)
                 }
                 holder.tvUrgent?.visibility = View.GONE
                 holder.tvFrom?.text = data.source
                 if (data.source.isNullOrEmpty()) {
                     holder.tvFrom?.visibility = View.GONE
+                } else {
+                    holder.tvFrom?.visibility = View.VISIBLE
                 }
                 holder.tvType?.text = data.time
                 holder.tvMsg?.text = Html.fromHtml(data.title)

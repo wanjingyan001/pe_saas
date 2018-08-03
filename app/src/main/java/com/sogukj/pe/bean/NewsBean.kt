@@ -21,6 +21,7 @@ class NewsBean : Serializable, NewsType {
     var source: String? = null
     var tag: String? = null
     var company_id: Int? = null
+    var company: String? = null
     var table_id: Int? = null
     var data_id: Int? = null
     var url: String? = null
