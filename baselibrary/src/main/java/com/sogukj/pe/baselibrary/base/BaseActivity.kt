@@ -29,6 +29,7 @@ import org.jetbrains.anko.imageResource
 import android.support.v4.view.accessibility.AccessibilityEventCompat.setAction
 import com.sogukj.pe.baselibrary.widgets.snackbar.TSnackbar
 import android.view.ViewGroup
+import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.snackbar.Prompt
 import com.umeng.message.PushAgent
 import org.jetbrains.anko.defaultSharedPreferences
@@ -45,7 +46,7 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger {
     lateinit var iconImg: ImageView
     lateinit var tv: TextView
     private var toastView: Toast? = null
-    val sp :SharedPreferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
+    val sp: SharedPreferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +56,7 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger {
         inflate = layoutInflater.inflate(R.layout.layout_custom_toast, null)
         iconImg = inflate.find(R.id.toast_icon)
         tv = inflate.find(R.id.toast_tv)
+        Utils.setCustomDensity(this, application)
     }
 
     override fun onStart() {

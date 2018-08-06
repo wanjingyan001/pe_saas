@@ -156,7 +156,7 @@ class CalendarMainActivity : ToolbarActivity(), MonthSelectListener, ViewPager.O
         when (item?.itemId) {
             R.id.calendar_menu -> {
                 when (currentPosition) {
-//                    0 -> ArrangeEditActivity.start(this, arrangeFragment.getWeeklyData(), arrangeFragment.offset.toString())
+                    0 -> ArrangeEditActivity.start(this, arrangeFragment.getWeeklyData(), arrangeFragment.offset.toString())
                     1 -> ModifyTaskActivity.startForCreate(this, ModifyTaskActivity.Schedule)
                     2 -> ModifyTaskActivity.startForCreate(this, ModifyTaskActivity.Task)
                 }

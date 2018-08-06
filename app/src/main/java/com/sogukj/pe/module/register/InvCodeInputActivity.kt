@@ -32,20 +32,17 @@ import kotlinx.android.synthetic.main.white_toolbar.*
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import org.jetbrains.anko.startActivity
 
-class InvCodeInputActivity : ToolbarActivity(), SingleEditLayout.InputFinish {
+class InvCodeInputActivity : BaseActivity(), SingleEditLayout.InputFinish {
     private lateinit var phone: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_invcode)
         Utils.setWindowStatusBarColor(this, R.color.white)
-        toolbar?.setBackgroundColor(resources.getColor(R.color.white))
-        title = ""
-        setBack(true)
         phone = intent.getStringExtra(Extras.DATA)
         initJumpLink()
         invCodeLayout.setFinishListener(this)
-        toolbar_back.clickWithTrigger { finish() }
+        back.clickWithTrigger { finish() }
         joinNow.clickWithTrigger {
             verificationInviteCode()
         }

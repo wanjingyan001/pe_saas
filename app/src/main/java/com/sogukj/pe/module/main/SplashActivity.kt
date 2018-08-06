@@ -89,8 +89,6 @@ class SplashActivity : BaseActivity() {
                                     sp.edit { putString(Extras.SAAS_BASIC_DATA, it.jsonStr) }
                                     sp.edit { putInt(Extras.main_flag, it.homeCardFlag ?: 1) }
                                 }
-                            } else {
-                                showErrorToast(payload.message)
                             }
                         }
                     }

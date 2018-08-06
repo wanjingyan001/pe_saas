@@ -5,17 +5,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/white_toolbar" />
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.53"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
+        app:layout_constraintHeight_percent="0.62"
+        app:layout_constraintStart_toStartOf="parent">
 
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:src="@drawable/icon_back_gray"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/infoSupplementTitle"
@@ -23,7 +30,7 @@
             android:text="@string/join_team"
             app:layout_constraintBottom_toTopOf="@+id/toCreateTeam"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/back"
             app:layout_constraintVertical_chainStyle="spread_inside" />
 
         <TextView
@@ -43,7 +50,7 @@
             android:layout_marginEnd="27dp"
             android:layout_marginStart="27dp"
             app:editCount="6"
-            app:layout_constraintBottom_toTopOf="@+id/joinNow"
+            app:layout_constraintBottom_toTopOf="@+id/point"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toCreateTeam"
@@ -51,16 +58,43 @@
 
         </com.sogukj.pe.baselibrary.widgets.SingleEditLayout>
 
+        <!--<TextView-->
+            <!--android:id="@+id/joinNow"-->
+            <!--style="@style/registerNextStep"-->
+            <!--android:layout_marginBottom="12dp"-->
+            <!--android:enabled="false"-->
+            <!--android:text="@string/join_now"-->
+            <!--app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--app:layout_constraintStart_toStartOf="parent"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/invCodeLayout" />-->
+
         <TextView
-            android:id="@+id/joinNow"
-            style="@style/registerNextStep"
+            android:id="@+id/point"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
             android:layout_marginBottom="12dp"
-            android:enabled="false"
-            android:text="@string/join_now"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/invCodeLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/invCodeLayout"/>
+
+
+
+        <TextView
+            android:id="@+id/joinNow"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="@string/join_now"
+            android:enabled="false"
+            android:textSize="@dimen/text_size_normal"
+            android:textColor="@color/color_checkable_login"
+            app:layout_constraintBottom_toBottomOf="@+id/back"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>

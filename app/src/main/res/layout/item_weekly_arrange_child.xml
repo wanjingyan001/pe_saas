@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="125dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/contentLayout">
+    android:id="@+id/contentLayout"
+    android:layout_width="match_parent"
+    android:layout_height="125dp">
 
 
     <TextView
@@ -52,11 +52,11 @@
     <ImageView
         android:id="@+id/address_icon"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
         android:layout_marginBottom="18dp"
         android:src="@drawable/bg_arrange_address"
-        app:layout_constraintBottom_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="@+id/attend" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/attend" />
 
     <TextView
         android:id="@+id/arrange_address"
@@ -68,7 +68,8 @@
         android:textColor="@color/approve_blue1"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="@+id/address_icon"
-        app:layout_constraintLeft_toRightOf="@+id/address_icon" />
+        app:layout_constraintStart_toEndOf="@+id/address_icon"
+        app:layout_constraintTop_toTopOf="@+id/address_icon" />
 
     <ImageView
         android:id="@+id/icon_right"
