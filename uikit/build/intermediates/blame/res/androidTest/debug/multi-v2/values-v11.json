@@ -17,42 +17,10 @@
             ]
         },
         {
-            "outputFile": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/values-v11/values-v11.xml",
-            "map": [
-                {
-                    "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/3bfb9c14fe40cb834a797c1193d05f3f/res/values-v11/values-v11.xml",
-                    "from": {
-                        "startLines": "2,19",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,1044",
-                        "endLines": "18,35",
-                        "endColumns": "10,10",
-                        "endOffsets": "1039,2010"
-                    }
-                }
-            ]
-        },
-        {
             "outputFile": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/values-v11/values-v11.xml",
             "map": [
                 {
                     "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/a99f0a6100010ac458852a7a11738977/res/values-v11/values-v11.xml",
-                    "from": {
-                        "startLines": "2,19",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,1044",
-                        "endLines": "18,35",
-                        "endColumns": "10,10",
-                        "endOffsets": "1039,2010"
-                    }
-                }
-            ]
-        },
-        {
-            "outputFile": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-v11/values-v11.xml",
-            "map": [
-                {
-                    "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/3bfb9c14fe40cb834a797c1193d05f3f/res/values-v11/values-v11.xml",
                     "from": {
                         "startLines": "2,19",
                         "startColumns": "4,4",

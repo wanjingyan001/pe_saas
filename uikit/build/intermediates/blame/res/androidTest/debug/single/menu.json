@@ -4,23 +4,11 @@
         "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/menu/nim_contacts_search_menu.xml"
     },
     {
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/menu/team_filter.xml",
-        "source": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/bundles/debug/res/menu/team_filter.xml"
-    },
-    {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/menu/menu.xml",
         "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/library-1.8.aar/051830ba79bf17e91877f4a87ac02cd1/res/menu/menu.xml"
     },
     {
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/menu/nim_contacts_search_menu.xml",
-        "source": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/bundles/debug/res/menu/nim_contacts_search_menu.xml"
-    },
-    {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/menu/team_filter.xml",
         "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/menu/team_filter.xml"
-    },
-    {
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/menu/menu.xml",
-        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/library-1.8.aar/45a2d77b5667bd78543d81454121be55/res/menu/menu.xml"
     }
 ]

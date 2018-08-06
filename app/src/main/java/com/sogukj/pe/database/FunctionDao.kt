@@ -20,10 +20,13 @@ interface FunctionDao {
     fun getModuleData(mid: Int, name: String = "调整"): LiveData<List<MainFunIcon>>
 
     @Query("SELECT * FROM Function")
-    fun getAllFunctions(): LiveData<List<MainFunIcon>>
+    fun getAllFunctions(): List<MainFunIcon>
 
     @Query("DELETE FROM Function WHERE 1=1")
     fun delete()
+
+    @Delete
+    fun delete(bean: MainFunIcon)
 
     @Update
     fun updateFunction(function: MainFunIcon)

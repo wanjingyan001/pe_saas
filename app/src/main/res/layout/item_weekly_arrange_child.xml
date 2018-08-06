@@ -66,6 +66,7 @@
         android:ellipsize="end"
         android:singleLine="true"
         android:textColor="@color/approve_blue1"
+        android:maxEms="20"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="@+id/address_icon"
         app:layout_constraintStart_toEndOf="@+id/address_icon"

@@ -189,7 +189,9 @@ class ArrangeEditActivity : ToolbarActivity() {
     }
 
     private fun submitWeeklyWork(isSave: Boolean) {
-        info { this.data.jsonStr }
+        this.data.forEach {
+            info { "${it.jsonStr} \n" }
+        }
         SoguApi.getService(application, CalendarService::class.java)
                 .getWeeklyWorkList(ArrangeReqBean(flag = 2, data = this.data))
                 .execute {

@@ -225,37 +225,6 @@
                 android:background="@color/white"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/documentManagement"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@mipmap/icon_file_manage"
-                    android:drawablePadding="10dp"
-                    android:drawableRight="@drawable/ic_right"
-                    android:gravity="start|center_vertical"
-                    android:padding="18dp"
-                    android:text="文件管理" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/divider2" />
-
-                <TextView
-                    android:id="@+id/setting"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_setting"
-                    android:drawablePadding="10dp"
-                    android:drawableRight="@drawable/ic_right"
-                    android:gravity="start|center_vertical"
-                    android:padding="18dp"
-                    android:text="设置中心" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/divider2" />
 
                 <TextView
                     android:id="@+id/share"
@@ -272,6 +241,36 @@
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:background="@color/divider2" />
+                <TextView
+                    android:id="@+id/documentManagement"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/icon_file_manage"
+                    android:drawablePadding="10dp"
+                    android:drawableRight="@drawable/ic_right"
+                    android:gravity="start|center_vertical"
+                    android:padding="18dp"
+                    android:text="文件管理器" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/divider2" />
+                <TextView
+                    android:id="@+id/setting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_setting"
+                    android:drawablePadding="10dp"
+                    android:drawableRight="@drawable/ic_right"
+                    android:gravity="start|center_vertical"
+                    android:padding="18dp"
+                    android:text="设置中心" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/divider2" />
+
 
                 <TextView
                     android:id="@+id/createDep"
@@ -298,6 +297,9 @@
                     android:gravity="start|center_vertical"
                     android:padding="18dp"
                     android:text="管理员权限" />
+
+
+
 
             </LinearLayout>
 

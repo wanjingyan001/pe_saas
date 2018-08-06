@@ -27,7 +27,6 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.ArrangeReqBean
 import com.sogukj.pe.bean.ChildBean
 import com.sogukj.pe.bean.NewArrangeBean
-import com.sogukj.pe.bean.WeeklyArrangeBean
 import com.sogukj.pe.service.CalendarService
 import com.sogukj.pe.widgets.ArrangeFooterView
 import com.sogukj.pe.widgets.ArrangeHeaderView
@@ -179,7 +178,6 @@ class ArrangeListFragment : BaseRefreshFragment() {
                     }
                     //arrangeAdapter.notifyDataSetChanged()无效
                     recycler_view.adapter = arrangeAdapter
-
                     if (isNextWeekly) {
                         backImg.visibility = View.VISIBLE
                         if (isUpwards) {
@@ -362,9 +360,9 @@ class ArrangeListFragment : BaseRefreshFragment() {
                     }
                     else -> {
                         itemView.background = resources.getDrawable(R.color.white)
-                        val bean = arrangeAdapter.dataList[1] as WeeklyArrangeBean
+                        val bean = arrangeAdapter.dataList[1] as NewArrangeBean
                         val firstTime = bean.date
-                        val bean1 = arrangeAdapter.dataList[7] as WeeklyArrangeBean
+                        val bean1 = arrangeAdapter.dataList[7] as NewArrangeBean
                         val lastTime = bean1.date
                         weeklyTv.text = "${firstTime?.substring(5, firstTime.length)}~${lastTime?.substring(5, lastTime.length)}"
                         itemView.backgroundColor = Color.parseColor("#f7f9fc")

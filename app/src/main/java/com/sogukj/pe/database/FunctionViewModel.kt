@@ -6,6 +6,7 @@ import android.util.Log
 import com.amap.api.mapcore.util.it
 import com.google.gson.Gson
 import com.sogukj.pe.R
+import com.sogukj.pe.R.id.list
 import com.sogukj.pe.R.id.main
 import com.sogukj.pe.baselibrary.Extended.arrayFromJson
 import com.sogukj.pe.baselibrary.Extended.execute
@@ -61,6 +62,13 @@ class FunctionViewModel(private val funDao: FunctionDao) : ViewModel() {
                             payload.payload?.let {
                                 AnkoLogger("WJY").info { it.jsonStr }
                                 doAsync {
+                                    val allFunctions = arrayListOf<MainFunIcon>()
+                                    allFunctions.addAll( funDao.getAllFunctions())
+                                    allFunctions.removeAll(it)
+                                    AnkoLogger("WJY").info { "差集${allFunctions.jsonStr}" }
+                                    allFunctions.forEach {
+                                        funDao.delete(it)
+                                    }
                                     it.forEach {
                                         funDao.saveFunction(it)
                                     }
@@ -68,7 +76,7 @@ class FunctionViewModel(private val funDao: FunctionDao) : ViewModel() {
                             }
                         }
                     }
-                    onError { e->
+                    onError { e ->
                         AnkoLogger("WJY").error { e.message }
                     }
                 }

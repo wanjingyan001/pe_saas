@@ -166,6 +166,7 @@
                     android:layout_marginRight="20dp"
                     android:hint="暂无定位信息"
                     android:singleLine="true"
+                    android:maxEms="22"
                     android:ellipsize="end"
                     android:textSize="14sp" />
 

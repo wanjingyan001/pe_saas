@@ -115,7 +115,7 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
+1
         if (haveNav) {
             var param1 = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
             param1.bottomMargin = Utils.dpToPx(ctx, 50)

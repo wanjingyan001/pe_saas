@@ -1,27 +1,11 @@
 [
     {
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/zxingLib/build/intermediates/res/merged/androidTest/debug/layout-v21/notification_template_icon_group.xml",
-        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/143b30e02e829f94e973581cfce37c6e/res/layout-v21/notification_template_icon_group.xml"
-    },
-    {
         "merged": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/res/merged/androidTest/debug/layout-v21/notification_template_custom_big.xml",
         "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/266594d5e4bf1ff18bcc89b38e8dbcf2/res/layout-v21/notification_template_custom_big.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/res/merged/androidTest/debug/layout-v21/notification_action.xml",
         "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/266594d5e4bf1ff18bcc89b38e8dbcf2/res/layout-v21/notification_action.xml"
-    },
-    {
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/zxingLib/build/intermediates/res/merged/androidTest/debug/layout-v21/notification_action.xml",
-        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/143b30e02e829f94e973581cfce37c6e/res/layout-v21/notification_action.xml"
-    },
-    {
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/zxingLib/build/intermediates/res/merged/androidTest/debug/layout-v21/notification_template_custom_big.xml",
-        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/143b30e02e829f94e973581cfce37c6e/res/layout-v21/notification_template_custom_big.xml"
-    },
-    {
-        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/zxingLib/build/intermediates/res/merged/androidTest/debug/layout-v21/notification_action_tombstone.xml",
-        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/143b30e02e829f94e973581cfce37c6e/res/layout-v21/notification_action_tombstone.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/res/merged/androidTest/debug/layout-v21/notification_action_tombstone.xml",
