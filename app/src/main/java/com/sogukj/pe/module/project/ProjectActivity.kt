@@ -90,6 +90,40 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
         }
     }
 
+    /**
+     * 判断设备是否存在NavigationBar
+     *
+     * @return true 存在, false 不存在
+     */
+    private fun deviceHasNavigationBar() {
+        var haveNav = false
+        try {
+            //1.通过WindowManagerGlobal获取windowManagerService
+            // 反射方法：IWindowManager windowManagerService = WindowManagerGlobal.getWindowManagerService();
+            val windowManagerGlobalClass = Class.forName("android.view.WindowManagerGlobal")
+            val getWmServiceMethod = windowManagerGlobalClass.getDeclaredMethod("getWindowManagerService")
+            getWmServiceMethod.isAccessible = true
+            //getWindowManagerService是静态方法，所以invoke null
+            val iWindowManager = getWmServiceMethod.invoke(null)
+
+            //2.获取windowMangerService的hasNavigationBar方法返回值
+            // 反射方法：haveNav = windowManagerService.hasNavigationBar();
+            val iWindowManagerClass = iWindowManager.javaClass
+            val hasNavBarMethod = iWindowManagerClass.getDeclaredMethod("hasNavigationBar")
+            hasNavBarMethod.isAccessible = true
+            haveNav = hasNavBarMethod.invoke(iWindowManager) as Boolean
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        if (haveNav) {
+            var param1 = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
+            param1.bottomMargin = Utils.dpToPx(ctx, 50)
+            //var params = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+            layoutRoot.layoutParams = param1
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         project = intent.getSerializableExtra(Extras.DATA) as ProjectBean
@@ -98,6 +132,7 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
         setContentView(R.layout.activity_project)
         StatusBarUtil.setTranslucentForCoordinatorLayout(this, 0)
         setBack(true)
+        deviceHasNavigationBar()
         toolbar?.apply {
             this.setBackgroundColor(resources.getColor(R.color.transparent))
         }
