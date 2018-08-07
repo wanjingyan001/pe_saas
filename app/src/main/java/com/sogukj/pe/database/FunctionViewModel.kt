@@ -52,6 +52,9 @@ class FunctionViewModel(private val funDao: FunctionDao) : ViewModel() {
         return funDao.getModuleData(module)
     }
 
+    fun findEditBtn() = funDao.findEditBtn()
+
+    fun getCurrentFunctions() = funDao.getCurrentFunctions(true)
 
     fun generateData(application: Application) {
 //        RetrofitUrlManager.getInstance().putDomain("homeFunction", "http://prehts.pewinner.com")
@@ -63,7 +66,7 @@ class FunctionViewModel(private val funDao: FunctionDao) : ViewModel() {
                                 AnkoLogger("WJY").info { it.jsonStr }
                                 doAsync {
                                     val allFunctions = arrayListOf<MainFunIcon>()
-                                    allFunctions.addAll( funDao.getAllFunctions())
+                                    allFunctions.addAll(funDao.getAllFunctions())
                                     allFunctions.removeAll(it)
                                     AnkoLogger("WJY").info { "差集${allFunctions.jsonStr}" }
                                     allFunctions.forEach {

@@ -13,6 +13,9 @@ interface FunctionDao {
     @Query("SELECT * FROM Function WHERE isCurrent = :status ORDER BY seq")
     fun getSelectFunctions(status: Boolean): LiveData<List<MainFunIcon>>
 
+    @Query("SELECT * FROM Function WHERE isCurrent = :status AND functionId != 4294967295 ORDER BY seq")
+    fun getCurrentFunctions(status: Boolean):List<MainFunIcon>
+
     @Query("SELECT * FROM Function WHERE module = :mid AND name != :name")
     fun getModuleFunction(mid: Int, name: String = "调整"): Flowable<List<MainFunIcon>>
 
@@ -21,6 +24,9 @@ interface FunctionDao {
 
     @Query("SELECT * FROM Function")
     fun getAllFunctions(): List<MainFunIcon>
+
+    @Query("SELECT * FROM Function WHERE functionId = 4294967295")
+    fun findEditBtn():MainFunIcon
 
     @Query("DELETE FROM Function WHERE 1=1")
     fun delete()

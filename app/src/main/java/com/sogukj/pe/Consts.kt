@@ -7,8 +7,8 @@ import com.sogukj.pe.peExtended.getEnvironment
  */
 class Consts {
     companion object {
-        val HTTP_HOST =  "https://sougu.pewinner.com"
-//        val  HTTP_HOST = "http://prehts.pewinner.com/"
+//        val HTTP_HOST =  "https://sougu.pewinner.com"
+        val  HTTP_HOST = "http://prehts.pewinner.com/"
 //        val HTTP_HOST = when (getEnvironment()) {
 //            "civc" -> when (BuildConfig.BUILD_TYPE) {
 //                "debug" -> "http://prezds.pewinner.com/"

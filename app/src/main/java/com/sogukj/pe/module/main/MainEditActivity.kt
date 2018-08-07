@@ -37,10 +37,7 @@ import kotlinx.android.synthetic.main.activity_main_edit.*
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.runBlocking
-import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.ctx
-import org.jetbrains.anko.imageResource
-import org.jetbrains.anko.info
+import org.jetbrains.anko.*
 
 @Route(path = ARouterPath.MainEditActivity)
 class MainEditActivity : ToolbarActivity() {
@@ -51,6 +48,8 @@ class MainEditActivity : ToolbarActivity() {
     private lateinit var allModuleAdapter: AllModuleAdapter
     private lateinit var mainModuleAdapter: MainModuleAdapter
     private lateinit var subscribe: Disposable
+
+    private lateinit var oldData: List<MainFunIcon>
 
     companion object {
         private var isEdit = true
@@ -153,6 +152,10 @@ class MainEditActivity : ToolbarActivity() {
             }
         })
 
+        doAsync {
+            oldData = model.getCurrentFunctions()
+        }
+
         val flowable0 = model.getModuleFunctions(MainFunIcon.Project)
         val flowable = model.getModuleFunctions(MainFunIcon.Fund)
         val flowable1 = model.getModuleFunctions(MainFunIcon.Default)
@@ -236,7 +239,9 @@ class MainEditActivity : ToolbarActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        submitModules()
+        if (oldData.jsonStr != mainModuleAdapter.data.jsonStr) {
+            submitModules()
+        }
     }
 
 
@@ -251,6 +256,12 @@ class MainEditActivity : ToolbarActivity() {
             mainFunIcon.seq = (index + 1).toLong()
             model.updateFunction(mainFunIcon)
             list.add(FuncReqBean(mainFunIcon.id, index + 1))
+        }
+        //修改调整的seq
+        doAsync {
+            val editBtn = model.findEditBtn()
+            editBtn.seq = list.size + 1L
+            model.updateFunction(editBtn)
         }
         info { list.jsonStr }
         SoguApi.getService(application, OtherService::class.java).homeModuleButton(HomeFunctionReq(2, list))
