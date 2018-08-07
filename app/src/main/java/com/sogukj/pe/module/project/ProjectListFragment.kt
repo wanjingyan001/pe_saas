@@ -15,6 +15,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.TextView
@@ -293,7 +294,7 @@ class ProjectListFragment : BaseFragment(), SupportEmptyView {
         : RecyclerHolder<ProjectBean>(convertView) {
 
         val ivIcon: ImageView
-        val ivSC: ImageView
+        val ivSC: FrameLayout
         val tvTitle: TextView
         val tvDSZ: TextView
         val tvDate: TextView
@@ -313,7 +314,7 @@ class ProjectListFragment : BaseFragment(), SupportEmptyView {
 
         init {
             ivIcon = convertView.findViewById<ImageView>(R.id.company_icon) as ImageView
-            ivSC = convertView.findViewById<ImageView>(R.id.shoucang) as ImageView
+            ivSC = convertView.findViewById<FrameLayout>(R.id.shoucang) as FrameLayout
             tvTitle = convertView.findViewById<TextView>(R.id.tv_title) as TextView
             tvDSZ = convertView.findViewById<TextView>(R.id.tv_dsz) as TextView
             tvDate = convertView.findViewById<TextView>(R.id.tv_date) as TextView
@@ -346,10 +347,11 @@ class ProjectListFragment : BaseFragment(), SupportEmptyView {
                 })
             }
 
+            var sc_icon = ivSC.getChildAt(0) as ImageView
             if (data.is_focus == 1) {
-                Glide.with(ctx).load(R.drawable.sc_yes).into(ivSC)
+                Glide.with(ctx).load(R.drawable.sc_yes).into(sc_icon)
             } else if (data.is_focus == 0) {
-                Glide.with(ctx).load(R.drawable.sc_no).into(ivSC)
+                Glide.with(ctx).load(R.drawable.sc_no).into(sc_icon)
             }
             ivSC.setOnClickListener {
                 val user = Store.store.getUser(ctx) ?: return@setOnClickListener
@@ -361,9 +363,9 @@ class ProjectListFragment : BaseFragment(), SupportEmptyView {
                             if (payload.isOk) {
                                 data.is_focus = 1 - data.is_focus
                                 if (data.is_focus == 1) {
-                                    Glide.with(ctx).load(R.drawable.sc_yes).into(ivSC)
+                                    Glide.with(ctx).load(R.drawable.sc_yes).into(sc_icon)
                                 } else if (data.is_focus == 0) {
-                                    Glide.with(ctx).load(R.drawable.sc_no).into(ivSC)
+                                    Glide.with(ctx).load(R.drawable.sc_no).into(sc_icon)
                                 }
                             }
                         }, { e ->

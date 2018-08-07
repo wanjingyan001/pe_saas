@@ -34,11 +34,18 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-        <ImageView
+        <FrameLayout
             android:id="@+id/shoucang"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:src="@drawable/sc_no" />
+            android:layout_width="40dp"
+            android:layout_height="40dp">
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_gravity="bottom|left"
+                android:src="@drawable/sc_no" />
+
+        </FrameLayout>
     </LinearLayout>
 
     <LinearLayout
