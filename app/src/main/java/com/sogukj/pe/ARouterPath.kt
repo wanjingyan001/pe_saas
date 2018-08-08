@@ -39,4 +39,6 @@ object ARouterPath {
     const val FundProjectActivity:String = "/fund/jjxm"
 
     const val WeeklyActivity:String = "/weekly/main"
+
+    const val LocationActivity:String = "/main/location"
 }

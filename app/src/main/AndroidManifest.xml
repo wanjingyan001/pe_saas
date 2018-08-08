@@ -1131,7 +1131,8 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-        <activity android:name=".module.project.IncomeCurveActivity"></activity>
+        <activity android:name=".module.project.IncomeCurveActivity" />
+        <activity android:name=".module.clockin.LocationActivity"></activity>
     </application>
 
 </manifest>

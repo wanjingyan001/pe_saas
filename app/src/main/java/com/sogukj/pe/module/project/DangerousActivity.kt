@@ -71,7 +71,7 @@ class DangerousActivity : ToolbarActivity() {
                         })
                     }
                     projName.text = if (data.name.isNullOrEmpty()) data.shortName else data.name
-                    fzrName.text = "负责人：${data.chairman}"
+                    fzrName.text = "法人：${data.chairman}"
                     if (position == 0) {
                         tvSeq.text = ""
                         tvSeq.setBackgroundResource(R.drawable.danger1)

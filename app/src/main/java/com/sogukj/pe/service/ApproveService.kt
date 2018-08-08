@@ -201,4 +201,9 @@ interface ApproveService{
     @FormUrlEncoded
     @POST("/api/Approve/discuss")
     fun discuss(@Field("approval_id") approval_id: Int, @Field("message") message: String): Observable<Payload<Any>>
+
+    // flag	int		标识	1外出打卡记录列表,2打卡显示页面,3添加打卡记录
+    @FormUrlEncoded
+    @POST("/api/Index/operateOutCard")
+    fun operateOutCard(@Field("flag") flag: Int): Observable<Payload<ArrayList<LocationRecordBean>>>
 }

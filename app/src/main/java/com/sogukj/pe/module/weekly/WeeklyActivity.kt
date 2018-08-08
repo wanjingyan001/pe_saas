@@ -31,7 +31,7 @@ class WeeklyActivity : ToolbarActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weekly)
-        StatusBarUtil.setTranslucentForImageView(this, 0, toolbar)
+        StatusBarUtil.setColor(this, resources.getColor(R.color.white), 0)
         StatusBarUtil.setLightMode(this)
         toolbar?.setBackgroundColor(Color.WHITE)
         toolbar_back.setImageResource(R.drawable.back_chevron)
