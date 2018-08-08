@@ -10,6 +10,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -182,9 +183,10 @@ public class MsgViewHolderFile extends MsgViewHolderBase implements View.OnClick
         }
         double width = 0.6 * ScreenUtil.screenMin;
         double height = 0.6 * 0.45 * ScreenUtil.screenMin;
+//        System.out.println("height:"+height+">>>>layout:"+fileLayout.getHeight());
         ViewGroup.LayoutParams layoutParams = fileLayout.getLayoutParams();
         layoutParams.width = (int) width;
-        layoutParams.height = (int) height;
+//        layoutParams.height = (int) height;
         fileLayout.setLayoutParams(layoutParams);
     }
 
@@ -196,8 +198,8 @@ public class MsgViewHolderFile extends MsgViewHolderBase implements View.OnClick
         String savePath = msgAttachment.getPathForSave() + "." + msgAttachment.getExtension();
         if (AttachmentStore.isFileExist(savePath)) {
             download.setCompoundDrawables(null, null, null, null);
+            download.setCompoundDrawablePadding(dpToPx(context,10));
             download.setText("打开");
-//            download.setEnabled(false);
         } else {
             download.setText("下载");
             download.setEnabled(true);
@@ -373,5 +375,9 @@ public class MsgViewHolderFile extends MsgViewHolderBase implements View.OnClick
             Toast.makeText(context, "没有可以打开该文件的软件", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
+    }
+
+    private int dpToPx(Context context, int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
     }
 }

@@ -30,6 +30,7 @@
             android:layout_marginLeft="12dp"
             android:layout_marginRight="13dp"
             android:maxLines="2"
+            android:minLines="2"
             android:textColor="#282828"
             app:layout_constraintLeft_toRightOf="@+id/message_item_file_icon_image"
             app:layout_constraintRight_toRightOf="parent"
@@ -53,9 +54,8 @@
         android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="20dp"
-        android:background="#f5f5f5"
-        app:layout_constraintTop_toBottomOf="@+id/message_item_file_icon_image" />
+        android:layout_marginTop="12dp"
+        android:background="#f5f5f5" />
 
 
     <TextView
@@ -65,11 +65,9 @@
         android:layout_weight="1"
         android:drawableLeft="@drawable/down_file"
         android:drawablePadding="10dp"
+        android:layout_marginTop="4dp"
         android:gravity="center"
         android:padding="6dp"
-        android:text="下载"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/line" />
+        android:text="下载" />
 
 </LinearLayout>

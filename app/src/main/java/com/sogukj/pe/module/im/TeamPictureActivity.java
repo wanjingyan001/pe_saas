@@ -81,7 +81,8 @@ public class TeamPictureActivity extends AppCompatActivity {
 
         iv_loading = findViewById(R.id.iv_loading);
         Glide.with(this)
-                .load(Uri.parse("file:///android_asset/img_loading.gif"))
+                .asGif()
+                .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
                 .into(iv_loading);
         iv_loading.setVisibility(View.VISIBLE);
 

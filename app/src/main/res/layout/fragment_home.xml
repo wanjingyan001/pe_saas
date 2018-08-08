@@ -76,63 +76,69 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <LinearLayout
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <FrameLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="170dp"
-                android:layout_marginTop="5dp"
-                android:clipChildren="false">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <com.sogukj.pe.baselibrary.widgets.NoLeftScrollViewPager
-                    android:id="@+id/noleftviewpager"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp" />
+                    android:layout_height="170dp"
+                    android:layout_marginTop="5dp"
+                    android:clipChildren="false">
+
+                    <com.sogukj.pe.baselibrary.widgets.NoLeftScrollViewPager
+                        android:id="@+id/noleftviewpager"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp" />
+
+                    <ImageView
+                        android:id="@+id/iv_empty"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/zw"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:id="@+id/pb"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:background="@color/transparent"
+                        android:src="@drawable/loading" />
+                </FrameLayout>
 
                 <ImageView
-                    android:id="@+id/iv_empty"
+                    android:id="@+id/party_build"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="70dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:background="@drawable/zw"
-                    android:visibility="invisible" />
-
-                <ImageView
-                    android:id="@+id/pb"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:background="@color/transparent"
-                    android:src="@drawable/loading" />
-            </FrameLayout>
-
-            <ImageView
-                android:id="@+id/party_build"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@mipmap/logo_main_middle" />
+                    android:background="@mipmap/logo_main_middle" />
 
 
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/mainModuleList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="5dp"
+                    android:nestedScrollingEnabled="true">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/mainModuleList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="5dp">
+                </android.support.v7.widget.RecyclerView>
 
-            </android.support.v7.widget.RecyclerView>
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
 
-        </LinearLayout>
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 

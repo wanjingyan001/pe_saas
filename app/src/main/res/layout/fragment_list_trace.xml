@@ -38,10 +38,11 @@
 
             <ImageView
                 android:id="@+id/iv_loading"
-                android:layout_width="80dp"
-                android:layout_height="120dp"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
                 android:layout_gravity="center"
-                android:visibility="gone" />
+                android:layout_marginBottom="55dp"
+                android:visibility="invisible"/>
 
         </FrameLayout>
 
