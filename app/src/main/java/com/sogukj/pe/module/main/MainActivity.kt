@@ -267,9 +267,6 @@ class MainActivity : BaseActivity() {
     }
 
     private fun updateVersion() {
-        if (BuildConfig.DEBUG) {
-            return
-        }
         val mDialog = MaterialDialog.Builder(this)
                 .customView(R.layout.dialog_updated, false)
                 .theme(Theme.LIGHT)
@@ -373,15 +370,6 @@ class MainActivity : BaseActivity() {
                     //enterNext()
                     mDialog.dismiss()
                 })
-    }
-
-    private fun isWifi(): Boolean {
-        var connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        var activeNetInfo = connectivityManager.getActiveNetworkInfo()
-        if (activeNetInfo != null && activeNetInfo.getType() == ConnectivityManager.TYPE_WIFI) {
-            return true
-        }
-        return false
     }
 
     override fun onNewIntent(intent: Intent?) {

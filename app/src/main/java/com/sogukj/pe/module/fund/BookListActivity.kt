@@ -24,6 +24,7 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.showInput
 import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
@@ -44,6 +45,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_book_list.*
 import kotlinx.android.synthetic.main.dialog_updated.view.*
+import org.jetbrains.anko.dip
 import org.jetbrains.anko.find
 import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.padding
@@ -235,7 +237,13 @@ class BookListActivity : BaseActivity() {
                             }
                         } else {
                             file_icon.imageResource = R.drawable.folder_zip
-                            tvSummary.text = data?.dirname
+                            if (data.dirname!!.contains("默认")) {
+                                tvSummary.text = data.dirname!!.replace("（默认）", "")
+                                tvSummary.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.icon_default_folder, 0)
+                                tvSummary.compoundDrawablePadding = dip(8)
+                            } else {
+                                tvSummary.text = data.dirname
+                            }
                             tvFileSize.visibility = View.GONE
                             var str = ""
                             if (!data.edit_time.isNullOrEmpty()) {
@@ -585,6 +593,12 @@ class BookListActivity : BaseActivity() {
             method()
         }
         dialog.show()
+        commentInput.postDelayed( {
+            commentInput.isFocusable = true
+            commentInput.isFocusableInTouchMode = true
+            commentInput.requestFocus()
+            Utils.toggleSoftInput(this, commentInput)
+        },50)
     }
 
     var newDirName = ""

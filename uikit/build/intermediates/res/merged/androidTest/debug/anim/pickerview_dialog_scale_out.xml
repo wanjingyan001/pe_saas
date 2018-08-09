@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="utf-8"?>
 <set xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -15,4 +16,23 @@
       android:toYScale="0.0"
       android:pivotX="50%"
       android:pivotY="50%"/>
+=======
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+  <alpha
+      android:duration="@integer/animation_default_duration"
+      android:fromAlpha="1.0"
+      android:toAlpha="0.3" />
+
+  <scale
+      android:duration="@integer/animation_default_duration"
+      android:fromXScale="1.0"
+      android:toXScale="0.0"
+      android:fromYScale="1.0"
+      android:toYScale="0.0"
+      android:pivotX="50%"
+      android:pivotY="50%"/>
+>>>>>>> 9d870b19137808e3fb98fbb8940bd49f0cf5a266
 </set>

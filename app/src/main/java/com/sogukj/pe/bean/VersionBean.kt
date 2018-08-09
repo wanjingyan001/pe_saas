@@ -4,7 +4,7 @@ package com.sogukj.pe.bean
  * Created by sogubaby on 2018/2/6.
  */
 class VersionBean {
-    var app_url: String? = null
+    var app_url: String = ""
     var info: String? = null
     var version: String? = null
     var force: Int? = null//1=>是，0=>否

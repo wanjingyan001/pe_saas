@@ -88,7 +88,8 @@ class NewsListFragment : BaseRefreshFragment(), SupportEmptyView {
         recycler_view.layoutManager = layoutManager
         recycler_view.adapter = adapter
         Glide.with(ctx)
-                .load(Uri.parse("file:///android_asset/img_loading.gif"))
+                .asGif()
+                .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
                 .into(iv_loading)
         iv_loading?.visibility = View.VISIBLE
         handler.postDelayed({

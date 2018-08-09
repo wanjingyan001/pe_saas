@@ -74,7 +74,8 @@ class TraceListFragment : BaseFragment(), SupportEmptyView {
         }
 
         Glide.with(this)
-                .load(Uri.parse("file:///android_asset/img_loading.gif"))
+                .asGif()
+                .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
                 .into(iv_loading)
         iv_loading?.visibility = View.VISIBLE
         handler.postDelayed({
