@@ -47,6 +47,7 @@ import com.sogukj.pe.widgets.WeeklyDotView
 import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_weekly.*
 import kotlinx.android.synthetic.main.buchong_full.*
 import kotlinx.android.synthetic.main.fragment_weekly_this.*
 import kotlinx.android.synthetic.main.send.*
@@ -88,8 +89,21 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
         }
     }
 
+    var isViewCreate = false
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        if (isVisibleToUser && isViewCreate) {
+            clearView()
+            doRequest()
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        isViewCreate = true
+
         inflate = LayoutInflater.from(context)
         db = XmlDb.open(ctx)
         var mItems = resources.getStringArray(R.array.spinner_this)
@@ -474,10 +488,9 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
                                     }
                                     db.set(Extras.SEND_USERS, "")
                                     db.set(Extras.COPY_FOR_USERS, "")
-                                    baseActivity?.finish()
-
+                                    //baseActivity?.finish()
                                     kotlin.run {
-                                        (activity as WeeklyActivity)
+                                        (activity as WeeklyActivity).view_pager.currentItem = 2
                                     }
                                 } else
                                     showCustomToast(R.drawable.icon_toast_fail, payload.message)
@@ -511,7 +524,10 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
                                                     }
                                                     db.set(Extras.SEND_USERS, "")
                                                     db.set(Extras.COPY_FOR_USERS, "")
-                                                    baseActivity?.finish()
+                                                    //baseActivity?.finish()
+                                                    kotlin.run {
+                                                        (activity as WeeklyActivity).view_pager.currentItem = 2
+                                                    }
                                                 } else
                                                     showCustomToast(R.drawable.icon_toast_fail, payload.message)
                                             }, { e ->

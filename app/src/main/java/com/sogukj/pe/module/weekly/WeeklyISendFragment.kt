@@ -106,8 +106,20 @@ class WeeklyISendFragment : BaseFragment() {
             refresh.finishLoadMore(1000)
         }
 
+        isViewCreate = true
+
         page = 1
         doRequest("", "")
+    }
+
+    var isViewCreate = false
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        if (isVisibleToUser && isViewCreate) {
+            page = 1
+            doRequest("", "")
+        }
     }
 
     var page = 1

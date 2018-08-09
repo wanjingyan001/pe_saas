@@ -30,9 +30,6 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_shareholder_credit.*
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.find
 
 class ShareholderCreditActivity : BaseActivity(), View.OnClickListener {
@@ -51,8 +48,8 @@ class ShareholderCreditActivity : BaseActivity(), View.OnClickListener {
 
     override fun onStart() {
         super.onStart()
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this)
+        if (RxBus.getIntanceBus().hasObservers()) {
+            return
         }
         var dispose = RxBus.getIntanceBus().doSubscribe(MessageEvent::class.java, { bean ->
             mAdapter.dataList.add(0, bean.message)
@@ -67,9 +64,6 @@ class ShareholderCreditActivity : BaseActivity(), View.OnClickListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().unregister(this)
-        }
         RxBus.getIntanceBus().unSubscribe(this)
     }
 
@@ -218,11 +212,6 @@ class ShareholderCreditActivity : BaseActivity(), View.OnClickListener {
                         payload.payload?.forEach {
                             mAdapter.dataList.add(it)
                         }
-                        if (offset != 0) {
-                            if (payload.payload == null || payload.payload!!.size == 0) {
-                                showCustomToast(R.drawable.icon_toast_common, "已加载全部")
-                            }
-                        }
                     } else {
                         showCustomToast(R.drawable.icon_toast_fail, payload.message)
                     }
@@ -232,10 +221,6 @@ class ShareholderCreditActivity : BaseActivity(), View.OnClickListener {
                 }, {
                     mAdapter.notifyDataSetChanged()
                     iv_empty.visibility = if (mAdapter.dataList.isEmpty()) View.VISIBLE else View.GONE
-                    if (offset == 0)
-                        refresh?.finishRefresh()
-                    else
-                        refresh?.finishLoadMore()
                 })
     }
 
@@ -330,7 +315,7 @@ class ShareholderCreditActivity : BaseActivity(), View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 0x001) {
             data?.apply {
-//                var bean = this.getSerializableExtra(Extras.DATA) as CreditInfo.Item
+                //                var bean = this.getSerializableExtra(Extras.DATA) as CreditInfo.Item
 //                mAdapter.dataList.add(0, bean)
 //                mAdapter.notifyDataSetChanged()
 //                iv_empty.visibility = if (mAdapter.dataList.isEmpty()) View.VISIBLE else View.GONE
@@ -351,7 +336,9 @@ class ShareholderCreditActivity : BaseActivity(), View.OnClickListener {
                         if (type.equals("DELETE")) {
                             list.removeAt(index)
                         } else {
-                            list[index] = bean
+                            //list[index] = bean
+                            list.removeAt(index)
+                            list.add(0, bean)
                         }
                         break
                     }
@@ -361,35 +348,5 @@ class ShareholderCreditActivity : BaseActivity(), View.OnClickListener {
                 mAdapter.notifyDataSetChanged()
             }
         }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    fun onMessageReceive(item: CreditInfo.Item) {
-        mAdapter.dataList.add(0, item)
-        mAdapter.notifyDataSetChanged()
-        iv_empty.visibility = if (mAdapter.dataList.isEmpty()) View.VISIBLE else View.GONE
-        EventBus.getDefault().removeAllStickyEvents()
-    }
-
-    @Subscribe(threadMode = ThreadMode.BACKGROUND, sticky = true)
-    fun onMessageReceive111(item: CreditInfo.Item) {
-        var a = 1
-    }
-
-    @Subscribe(threadMode = ThreadMode.POSTING, sticky = true)
-    fun onMessageReceive111111(item: CreditInfo.Item) {
-        var a = 1
-    }
-
-    @Subscribe(threadMode = ThreadMode.ASYNC, sticky = true)
-    fun onMessageReceive111222(item: CreditInfo.Item) {
-        var a = 1
-    }
-
-    //不知道为什么EventBus失效
-    fun insert(item: CreditInfo.Item) {
-        mAdapter.dataList.add(0, item)
-        mAdapter.notifyDataSetChanged()
-        iv_empty.visibility = if (mAdapter.dataList.isEmpty()) View.VISIBLE else View.GONE
     }
 }
