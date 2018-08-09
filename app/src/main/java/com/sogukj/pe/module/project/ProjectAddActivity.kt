@@ -26,6 +26,7 @@ import com.sogukj.pe.bean.ProjectBean
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.module.register.MemberSelectActivity
 import com.sogukj.pe.module.user.FormActivity
+import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.NewService
 import com.sogukj.pe.service.OtherService
 import com.sogukj.pe.service.ProjectService
@@ -55,6 +56,10 @@ class ProjectAddActivity : ToolbarActivity() {
             } else {
                 setTitle("添加${title}项目")
             }
+            val user = Store.store.getUser(this)
+            chargerStr = user!!.name
+            chargerId = user.uid!!
+            et_fuzeren.text = user!!.name
         } else if (type == "EDIT") {
             setTitle("编辑项目")
             var data = intent.getSerializableExtra(Extras.DATA) as ProjectBean
