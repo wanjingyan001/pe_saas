@@ -28,8 +28,9 @@ public class FileTypeUtils {
         VIDEO(R.drawable.icon_video, R.string.type_video, "avi", "mov", "wmv", "mkv", "3gp", "f4v", "flv", "mp4", "mpeg", "webm"),
         PDF(R.drawable.icon_pdf, R.string.type_pdf, "pdf"),
         POWER_POINT(R.drawable.icon_ppt, R.string.type_power_point, "pptx", "keynote", "ppt", "pps", "pot", "odp", "otp"),
-        WORD(R.drawable.icon_doc, R.string.type_word, "doc", "docm", "docx", "dot", "mcw", "rtf", "pages", "odt", "ott","txt"),
+        WORD(R.drawable.icon_doc, R.string.type_word, "doc", "docm", "docx", "dot", "mcw", "rtf", "pages", "odt", "ott"),
         ARCHIVE(R.drawable.icon_zip, R.string.type_archive, "cab", "7z", "alz", "arj", "bzip2", "bz2", "dmg", "gzip", "gz", "jar", "lz", "lzip", "lzma", "zip", "rar", "tar", "tgz"),
+        TXT(R.drawable.default_text, R.string.type_txt, "txt"),
         APK(R.drawable.file_default, R.string.type_apk, "apk");
 
         private int icon;

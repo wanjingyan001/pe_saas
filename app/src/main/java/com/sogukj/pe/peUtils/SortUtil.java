@@ -46,8 +46,14 @@ public class SortUtil {
             @Override
             public int compare(FundSmallBean o1, FundSmallBean o2) {
                 //中文的括号
-                String bean1Name = CharacterParser.getInstance().getAlpha(o1.getFundName().replaceAll("（", "").replaceAll("）", "")).toUpperCase();
-                String bean2Name = CharacterParser.getInstance().getAlpha(o2.getFundName().replaceAll("（", "").replaceAll("）", "")).toUpperCase();
+                String bean1Name = null;
+                String bean2Name = null;
+                try {
+                    bean1Name = CharacterParser.getInstance().getAlpha(o1.getFundName().replaceAll("（", "").replaceAll("）", "")).toUpperCase();
+                    bean2Name = CharacterParser.getInstance().getAlpha(o2.getFundName().replaceAll("（", "").replaceAll("）", "")).toUpperCase();
+                } catch (Exception e) {
+                    return 1;
+                }
                 int cmpLen = Math.min(bean1Name.length(), bean2Name.length());
                 Log.e("str", o1.getFundName() + bean1Name + "      " + o2.getFundName() + bean2Name);
                 for (int i = 0; i < cmpLen; i++) {
@@ -79,8 +85,14 @@ public class SortUtil {
                 //中文的括号
                 String name1 = (o1.getShortName() == null || o1.getShortName().isEmpty()) ? o1.getName() : o1.getShortName();
                 String name2 = (o2.getShortName() == null || o2.getShortName().isEmpty()) ? o2.getName() : o2.getShortName();
-                String bean1Name = CharacterParser.getInstance().getAlpha(name1.replaceAll("（", "").replaceAll("）", "")).toUpperCase();
-                String bean2Name = CharacterParser.getInstance().getAlpha(name2.replaceAll("（", "").replaceAll("）", "")).toUpperCase();
+                String bean1Name = null;
+                String bean2Name = null;
+                try {
+                    bean1Name = CharacterParser.getInstance().getAlpha(name1.replaceAll("（", "").replaceAll("）", "")).toUpperCase();
+                    bean2Name = CharacterParser.getInstance().getAlpha(name2.replaceAll("（", "").replaceAll("）", "")).toUpperCase();
+                } catch (Exception e) {
+                    return 1;
+                }
                 int cmpLen = Math.min(bean1Name.length(), bean2Name.length());
                 for (int i = 0; i < cmpLen; i++) {
                     char ch1 = bean1Name.charAt(i);

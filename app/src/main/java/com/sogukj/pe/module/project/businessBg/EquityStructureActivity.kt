@@ -3,6 +3,7 @@ package com.sogukj.pe.module.project.businessBg
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.view.Gravity
@@ -21,6 +22,7 @@ import cn.sharesdk.tencent.qzone.QQClientNotExistException
 import cn.sharesdk.wechat.friends.Wechat
 import cn.sharesdk.wechat.utils.WechatClientNotExistException
 import com.amap.api.mapcore.util.it
+import com.bumptech.glide.Glide
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.setOnClickFastListener
@@ -55,6 +57,12 @@ class EquityStructureActivity : ToolbarActivity(), PlatformActionListener {
         setContentView(R.layout.activity_equity_structure)
         setBack(true)
         isFromList = intent.getBooleanExtra(Extras.FLAG, false)
+
+        Glide.with(this)
+                .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
+                .into(iv_loading)
+        iv_loading?.visibility = View.VISIBLE
+
         if (isFromList) {
             var data = SimpleDateFormat("yyyy年MM月dd日").parse(bean.time)
             var tim = SimpleDateFormat("yyyy-MM-dd").format(data)
@@ -95,6 +103,7 @@ class EquityStructureActivity : ToolbarActivity(), PlatformActionListener {
                                 }
                                 nestedRoot.addView(ll_node)
                             }
+                            iv_loading?.visibility = View.GONE
                             loaded = true
                         } else
                             showCustomToast(R.drawable.icon_toast_fail, payload.message)
@@ -185,6 +194,7 @@ class EquityStructureActivity : ToolbarActivity(), PlatformActionListener {
                                 }
 
                             }
+                            iv_loading?.visibility = View.GONE
                             loaded = true
                         } else
                             showCustomToast(R.drawable.icon_toast_fail, payload.message)

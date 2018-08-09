@@ -51,8 +51,9 @@ public class FileUtil {
     public enum FileType {
         IMAGE("jpg", "jpeg", "gif", "png", "bmp", "Webp"),
         VIDEO("rm", "rmvb", "mp4", "mov", "mtv", "wmv", "avi", "3gp", "flv"),
-        DOC("pdf", "doc", "docx", "ppt", "pptx", "xls", "xlsx", "txt"),
+        DOC("pdf", "doc", "docx", "ppt", "pptx", "xls", "xlsx"),
         ZIP("rar", "zip", "7z", "iso", "gz"),
+        TXT("txt"),
         OTHER("pages", "keynote", "numbers");
         private String[] extensions;
 

@@ -35,6 +35,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_add_project.*
 import org.jetbrains.anko.startActivityForResult
+import java.util.*
 
 /**
  * Created by qinfei on 17/7/18.
@@ -166,7 +167,10 @@ class ProjectAddActivity : ToolbarActivity() {
             FormActivity.start(context, "其他信息", et_other.text.toString(), OTHER)
         }
         et_fuzeren.setOnClickListener {
-            startActivityForResult<MemberSelectActivity>(FUZEREN, Extras.FLAG to true, Extras.TITLE to "请选择负责人")
+            var bean = UserBean()
+            bean.user_id = chargerId
+            bean.uid = chargerId
+            startActivityForResult<MemberSelectActivity>(FUZEREN, Extras.FLAG to true, Extras.TITLE to "请选择负责人", Extras.LIST to Arrays.asList(bean))
         }
     }
 

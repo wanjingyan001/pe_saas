@@ -170,11 +170,16 @@ class ProjectListFragment : BaseFragment(), SupportEmptyView {
             if (name.isNullOrEmpty()) {
                 continue
             }
-            val sortString = characterParser.getAlpha(name).toUpperCase().substring(0, 1)
-            // 正则表达式，判断首字母是否是英文字母
-            if (sortString.matches("[A-Z]".toRegex())) {
-                bean.sortLetters = sortString.toUpperCase()
-            } else {
+            var sortString: String
+            try {
+                sortString = characterParser.getAlpha(name).toUpperCase().substring(0, 1)
+                // 正则表达式，判断首字母是否是英文字母
+                if (sortString.matches("[A-Z]".toRegex())) {
+                    bean.sortLetters = sortString.toUpperCase()
+                } else {
+                    bean.sortLetters = "#"
+                }
+            } catch (e: Exception) {
                 bean.sortLetters = "#"
             }
         }

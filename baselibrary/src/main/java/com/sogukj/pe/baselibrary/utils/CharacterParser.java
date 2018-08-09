@@ -147,7 +147,7 @@ public class CharacterParser {
      * @param chines 汉字
      * @return
      */
-    public String getAlpha(String chines) {
+    public String getAlpha(String chines) throws Exception {
         String pinyinName = "";
         char[] nameChar = chines.toCharArray();
         HanyuPinyinOutputFormat defaultFormat = new HanyuPinyinOutputFormat();
@@ -155,12 +155,14 @@ public class CharacterParser {
         defaultFormat.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
         for (int i = 0; i < nameChar.length; i++) {
             if (nameChar[i] > 128) {
-                try {
-                    pinyinName += PinyinHelper.toHanyuPinyinStringArray(
-                            nameChar[i], defaultFormat)[0].charAt(0);
-                } catch (BadHanyuPinyinOutputFormatCombination e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    pinyinName += PinyinHelper.toHanyuPinyinStringArray(
+//                            nameChar[i], defaultFormat)[0].charAt(0);
+//                } catch (BadHanyuPinyinOutputFormatCombination e) {
+//                    e.printStackTrace();
+//                }
+                pinyinName += PinyinHelper.toHanyuPinyinStringArray(
+                        nameChar[i], defaultFormat)[0].charAt(0);
             } else {
                 pinyinName += nameChar[i];
             }
