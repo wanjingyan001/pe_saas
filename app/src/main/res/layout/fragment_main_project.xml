@@ -84,49 +84,58 @@
                     android:layout_height="30dp"
                     android:background="@color/colorPrimary" />
 
-                <android.support.design.widget.TabLayout
-                    android:id="@+id/tabs"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="75dp"
                     android:background="@drawable/tab_bg_1"
-                    android:paddingBottom="5dp"
-                    android:paddingTop="5dp"
-                    app:tabGravity="fill"
-                    app:tabIndicatorHeight="0dp"
-                    app:tabMode="fixed"
-                    app:tabSelectedTextColor="@color/text_1"
-                    app:tabTextColor="@color/text_3">
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp">
 
-                    <android.support.design.widget.TabItem
+                    <android.support.design.widget.TabLayout
+                        android:id="@+id/tabs"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:icon="@drawable/dy_1_select"
-                        android:text="调研" />
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        app:tabGravity="fill"
+                        app:tabIndicatorHeight="0dp"
+                        app:tabMode="fixed"
+                        android:overScrollMode="never"
+                        app:tabSelectedTextColor="@color/text_1"
+                        app:tabTextColor="@color/text_3">
 
-                    <android.support.design.widget.TabItem
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:icon="@drawable/cb_1_unselect"
-                        android:text="储备" />
+                        <android.support.design.widget.TabItem
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:icon="@drawable/dy_1_select"
+                            android:text="调研" />
 
-                    <android.support.design.widget.TabItem
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:icon="@drawable/lx_1_unselect"
-                        android:text="立项" />
+                        <android.support.design.widget.TabItem
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:icon="@drawable/cb_1_unselect"
+                            android:text="储备" />
 
-                    <android.support.design.widget.TabItem
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:icon="@drawable/yt_1_unselect"
-                        android:text="已投" />
+                        <android.support.design.widget.TabItem
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:icon="@drawable/lx_1_unselect"
+                            android:text="立项" />
 
-                    <android.support.design.widget.TabItem
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:icon="@drawable/tc_1_unselect"
-                        android:text="退出" />
-                </android.support.design.widget.TabLayout>
+                        <android.support.design.widget.TabItem
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:icon="@drawable/yt_1_unselect"
+                            android:text="已投" />
+
+                        <android.support.design.widget.TabItem
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:icon="@drawable/tc_1_unselect"
+                            android:text="退出" />
+                    </android.support.design.widget.TabLayout>
+
+                </FrameLayout>
             </FrameLayout>
 
         </android.support.design.widget.AppBarLayout>

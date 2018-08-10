@@ -18,6 +18,7 @@ import android.text.InputType
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import com.afollestad.materialdialogs.MaterialDialog
@@ -322,7 +323,7 @@ class MainProjectFragment : BaseRefreshFragment() {
                 tabs?.getTabAt(position)?.select()
                 fb_add.visibility = if (position == 0) View.VISIBLE else View.GONE
                 if (previousState == "TOP") {
-                    tabs.setBackgroundResource(R.drawable.tab_bg_2)
+                    (tabs.parent as FrameLayout).setBackgroundResource(R.drawable.tab_bg_2)
                     tabs.setTabTextColors(Color.parseColor("#ff7bb4fc"), Color.parseColor("#ffffff"))
                     for (i in 0 until tabs.tabCount) {
                         if (i == tabs.selectedTabPosition) {
@@ -332,7 +333,7 @@ class MainProjectFragment : BaseRefreshFragment() {
                         }
                     }
                 } else {
-                    tabs.setBackgroundResource(R.drawable.tab_bg_1)
+                    (tabs.parent as FrameLayout).setBackgroundResource(R.drawable.tab_bg_1)
                     tabs.setTabTextColors(Color.parseColor("#a0a4aa"), Color.parseColor("#282828"))
                     for (i in 0 until tabs.tabCount) {
                         if (i == tabs.selectedTabPosition) {
@@ -428,7 +429,7 @@ class MainProjectFragment : BaseRefreshFragment() {
                         return@OnOffsetChangedListener
                     }
                     previousState = currentState
-                    tabs.setBackgroundResource(R.drawable.tab_bg_2)
+                    (tabs.parent as FrameLayout).setBackgroundResource(R.drawable.tab_bg_2)
                     tabs.setTabTextColors(Color.parseColor("#ff7bb4fc"), Color.parseColor("#ffffff"))
                     for (i in 0 until tabs.tabCount) {
                         if (i == tabs.selectedTabPosition) {
@@ -448,7 +449,7 @@ class MainProjectFragment : BaseRefreshFragment() {
                         return@OnOffsetChangedListener
                     }
                     previousState = currentState
-                    tabs.setBackgroundResource(R.drawable.tab_bg_1)
+                    (tabs.parent as FrameLayout).setBackgroundResource(R.drawable.tab_bg_1)
                     tabs.setTabTextColors(Color.parseColor("#a0a4aa"), Color.parseColor("#282828"))
                     for (i in 0 until tabs.tabCount) {
                         if (i == tabs.selectedTabPosition) {
