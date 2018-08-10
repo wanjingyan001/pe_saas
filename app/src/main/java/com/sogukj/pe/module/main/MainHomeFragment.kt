@@ -224,17 +224,30 @@ class MainHomeFragment : BaseFragment() {
         adapter = ViewPagerAdapter(ArrayList(), ctx)
         noleftviewpager.adapter = adapter
         noleftviewpager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            // 没划过去 1---2---0
+            // 划过去了 1---2---onPageSelected---0
+            // 划到底   1--—0
             override fun onPageScrollStateChanged(state: Int) {
+                squence.add("$state")
+                if (state == 0) {
+                    if (squence.size == 3) {
+                        Log.e("没划过去", "没划过去")
+                    } else if (squence.size == 4) {
+                        Log.e("划过去了", "划过去了")
+                    } else if (squence.size == 2) {
+                        Log.e("划到底", "划到底")
+                        page++
+                        doRequest()
+                    }
+                    squence.clear()
+                }
             }
 
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
             }
 
             override fun onPageSelected(position: Int) {
-                if (position == adapter.datas.size - 1) {
-                    page++
-                    doRequest()
-                }
+                squence.add("onPageSelected")
             }
         })
         noleftviewpager.isScrollble = false
@@ -251,6 +264,8 @@ class MainHomeFragment : BaseFragment() {
         }
         refresh.isEnableAutoLoadMore = false
     }
+
+    var squence = ArrayList<String>()
 
     lateinit var adapter: ViewPagerAdapter
     lateinit var cache: CacheUtils
@@ -763,11 +778,11 @@ class MainHomeFragment : BaseFragment() {
                     holder.tvSeq?.visibility = View.VISIBLE
                 }
 
-                if (data.tag.isNullOrEmpty()) {
-                    holder.tvState!!.visibility = View.GONE
-                } else {
-                    holder.tvState?.text = data.tag?.split("#")?.get(1)
-                }
+//                if (data.tag.isNullOrEmpty()) {
+//                    holder.tvState!!.visibility = View.GONE
+//                } else {
+//                    holder.tvState?.text = data.tag?.split("#")?.get(1)
+//                }
                 holder.tvUrgent?.visibility = View.GONE
                 holder.tvFrom?.text = data.source
                 if (data.source.isNullOrEmpty()) {
@@ -784,6 +799,49 @@ class MainHomeFragment : BaseFragment() {
                 }
                 holder.ll_content?.setOnClickListener {
                     NewsDetailActivity.start(baseActivity, data)
+                }
+
+                if (data.table_id == 1) {
+                    holder.tvState?.visibility = View.VISIBLE
+                    holder.tvState?.text = "法律诉讼"
+                } else if (data.table_id == 2) {
+                    holder.tvState?.visibility = View.VISIBLE
+                    holder.tvState?.text = "法院公告"
+                } else if (data.table_id == 3) {
+                    holder.tvState?.visibility = View.VISIBLE
+                    holder.tvState?.text = "失信人"
+                } else if (data.table_id == 4) {
+                    holder.tvState?.visibility = View.VISIBLE
+                    holder.tvState?.text = "被执行人"
+                } else if (data.table_id == 5) {
+                    holder.tvState?.visibility = View.VISIBLE
+                    holder.tvState?.text = "行政处罚"
+                } else if (data.table_id == 6) {
+                    holder.tvState?.visibility = View.VISIBLE
+                    holder.tvState?.text = "严重违法"
+                } else if (data.table_id == 7) {
+                    holder.tvState?.visibility = View.VISIBLE
+                    holder.tvState?.text = "股权出质"
+                } else if (data.table_id == 8) {
+                    holder.tvState?.visibility = View.VISIBLE
+                    holder.tvState?.text = "动产抵押"
+                } else if (data.table_id == 9) {
+                    holder.tvState?.visibility = View.VISIBLE
+                    holder.tvState?.text = "欠税公告"
+                } else if (data.table_id == 10) {
+                    holder.tvState?.visibility = View.VISIBLE
+                    holder.tvState?.text = "经营异常"
+                } else if (data.table_id == 11) {
+                    holder.tvState?.visibility = View.VISIBLE
+                    holder.tvState?.text = "开庭公告"
+                } else if (data.table_id == 12) {
+                    holder.tvState?.visibility = View.VISIBLE
+                    holder.tvState?.text = "司法拍卖"
+                } else if (data.table_id == 13) {
+                    holder.tvState?.visibility = View.VISIBLE
+                    holder.tvState?.text = "新闻舆情"
+                } else {
+                    holder.tvState?.visibility = View.GONE
                 }
 
                 container.addView(convertView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
