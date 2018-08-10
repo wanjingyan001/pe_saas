@@ -53,8 +53,54 @@
         android:background="@color/divider2" />
 
     <LinearLayout
+        android:id="@+id/waichudaka"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/oval_clock"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="外出打卡"
+            android:textColor="#ffffffff"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="10:48:44"
+            android:textColor="#ffb0d4ff"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="45dp"
+        android:drawableLeft="@drawable/locate_date"
+        android:drawablePadding="15dp"
+        android:text="2018/05/21"
+        android:textColor="#ff282828"
+        android:textSize="16sp" />
+
+    <View
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="1dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/divider2" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
         android:orientation="horizontal">
 
         <com.sogukj.pe.baselibrary.widgets.DotView
@@ -67,21 +113,12 @@
             android:paddingRight="70dp">
 
             <TextView
-                android:id="@+id/dutyOnTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="上班时间09:30"
-                android:textColor="#ffa0a4aa"
-                android:textSize="14sp" />
-
-            <TextView
                 android:id="@+id/clockTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/dutyOnTime"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="12dp"
                 android:text="打卡时间09:15"
                 android:textColor="#ff282828"
                 android:textSize="16sp" />
@@ -112,7 +149,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="100dp"
         android:orientation="horizontal">
 
         <com.sogukj.pe.baselibrary.widgets.DotView
@@ -125,21 +162,12 @@
             android:paddingRight="70dp">
 
             <TextView
-                android:id="@+id/dutyOffTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="上班时间09:30"
-                android:textColor="#ffa0a4aa"
-                android:textSize="14sp" />
-
-            <TextView
                 android:id="@+id/clockOffTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/dutyOffTime"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="12dp"
                 android:text="打卡时间09:15"
                 android:textColor="#ff282828"
                 android:textSize="16sp" />
@@ -165,33 +193,6 @@
                 android:textColor="#ffa0a4aa"
                 android:textSize="12sp" />
         </RelativeLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/waichudaka"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/oval_clock"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="外出打卡"
-            android:textColor="#ffffffff"
-            android:textSize="20sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="10:48:44"
-            android:textColor="#ffb0d4ff"
-            android:textSize="14sp" />
 
     </LinearLayout>
 

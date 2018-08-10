@@ -16,6 +16,7 @@ import android.widget.TextView
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.execute
+import com.sogukj.pe.baselibrary.Extended.isNullOrEmpty
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -207,9 +208,15 @@ class ProjectAddActivity : ToolbarActivity() {
                 }
                 FUZEREN -> {
                     var userList = data.getSerializableExtra(Extras.DATA) as ArrayList<UserBean>
-                    chargerId = userList.get(0).uid ?: 0
-                    chargerStr = userList.get(0).name ?: ""
-                    et_fuzeren.text = chargerStr
+                    if (userList.isNullOrEmpty()) {
+                        chargerId = 0
+                        chargerStr = ""
+                        et_fuzeren.text = ""
+                    } else {
+                        chargerId = userList.get(0).uid ?: 0
+                        chargerStr = userList.get(0).name ?: ""
+                        et_fuzeren.text = chargerStr
+                    }
                 }
             }
         }
