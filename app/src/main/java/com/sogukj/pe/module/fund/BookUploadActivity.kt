@@ -94,7 +94,7 @@ class BookUploadActivity : ToolbarActivity() {
         loadDir()
 
         if (type == 1) {
-            SoguApi.getService(application,FundService::class.java)
+            SoguApi.getService(application, FundService::class.java)
                     .projectFilter()
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
@@ -160,7 +160,7 @@ class BookUploadActivity : ToolbarActivity() {
         }
 
         showProgress("正在上传")
-        SoguApi.getService(application,FundService::class.java)
+        SoguApi.getService(application, FundService::class.java)
                 .uploadArchives(body)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -232,6 +232,7 @@ class BookUploadActivity : ToolbarActivity() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FileHolder {
             return FileHolder(LayoutInflater.from(context).inflate(R.layout.item_fund_upload_new, parent, false))
         }
+
         override fun onBindViewHolder(holder: UploadAdapter.FileHolder, position: Int) {
             holder.setData(uploadList[position], position)
         }
@@ -285,6 +286,10 @@ class BookUploadActivity : ToolbarActivity() {
                             tv_group.text = dir.dirname
                         }
                     }
+                }
+                if (items.size == 1) {
+                    tv_group.text = items[0]
+                    data.group = dirList[0].id
                 }
                 llgroup.setOnClickListener {
                     if (data.file.isNullOrEmpty()) {
