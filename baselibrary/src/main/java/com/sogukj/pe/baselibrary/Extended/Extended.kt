@@ -30,6 +30,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.windowManager
 import java.math.BigDecimal
+import kotlin.reflect.KClass
 
 /**
  * kotlin扩展方法
@@ -119,7 +120,7 @@ fun <T1, T2> ifNotNull(value1: T1?, value2: T2?, bothNotNull: (T1, T2) -> (Unit)
     }
 }
 
-fun Context.isWifi():Boolean{
+fun Context.isWifi(): Boolean {
     val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     val activeNetInfo = connectivityManager.activeNetworkInfo
     return activeNetInfo != null && activeNetInfo.type == ConnectivityManager.TYPE_WIFI
@@ -214,6 +215,13 @@ inline fun <reified T> Any.safeCast(action: T.() -> Unit) {
     if (this is T) {
         this.action()
     }
+}
+
+
+val map: LinkedHashMap<KClass<*>, Function1<*, Any>> = LinkedHashMap()
+
+inline fun <reified V : Any> register(noinline action: Function1<V, Any>) {
+    map[V::class] = action
 }
 
 /***

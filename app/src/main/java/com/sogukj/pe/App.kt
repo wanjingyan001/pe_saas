@@ -268,7 +268,7 @@ class App : MultiDexApplication() {
         val xmlDb = XmlDb.open(applicationContext)
         val account = xmlDb.get(Extras.NIMACCOUNT, "")
         val token = xmlDb.get(Extras.NIMTOKEN, "")
-        Log.d("WJY", "account:$account===>token:$token")
+        AnkoLogger("WJY").info { "account:$account===>token:$token"}
         return if (account.isNotEmpty() && token.isNotEmpty()) {
             NimUIKit.setAccount(account)//必须做这一步
             LoginInfo(account, token)

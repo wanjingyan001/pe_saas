@@ -129,4 +129,5 @@
     <color name="party_toolbar_red">#D93D35</color>
     <color name="party_tab_color">#FFB0A5</color>
     <color name="main_bottom_bar_color">#4390F0</color>
+    <color name="amount_color">#F85959</color>
 </resources>

@@ -138,7 +138,7 @@ public class MsgViewHolderFile extends MsgViewHolderBase implements View.OnClick
         fileSize = (TextView) view.findViewById(R.id.message_item_file_size);
         download = (TextView) view.findViewById(R.id.download_file);
         line = view.findViewById(R.id.line);
-        download.setOnClickListener(this);
+        fileLayout.setOnClickListener(this);
         registerObservers(true);
     }
 

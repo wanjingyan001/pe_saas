@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_expansion_package_item">
+
+
+    <TextView
+        android:id="@+id/addNumberTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="增加10个项目额度"
+        android:textColor="@color/text_1"
+        android:textSize="@dimen/text_size_medium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/payPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="￥50,000"
+        android:textColor="@color/amount_color"
+        android:textSize="@dimen/text_size_large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/originalPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:text="￥150,000"
+        android:textColor="@color/text_3"
+        android:textSize="@dimen/text_size_samll"
+        app:layout_constraintBottom_toBottomOf="@+id/payPrice"
+        app:layout_constraintEnd_toStartOf="@+id/payPrice"
+        app:layout_constraintTop_toTopOf="@+id/payPrice" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/offerLists"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        app:layout_constraintTop_toBottomOf="@+id/originalPrice">
+
+
+    </android.support.v7.widget.RecyclerView>
+
+    <!--<android.support.constraint.ConstraintLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="18dp"-->
+    <!--android:orientation="horizontal"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/originalPrice">-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/firstTv"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:drawableLeft="@drawable/pay_year_selector"-->
+    <!--android:drawablePadding="10dp"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:paddingEnd="16dp"-->
+    <!--android:text="1年"-->
+    <!--android:textColor="@color/text_1"-->
+    <!--android:textSize="@dimen/text_size_medium"-->
+    <!--app:layout_constraintEnd_toStartOf="@+id/secondTv"-->
+    <!--app:layout_constraintHorizontal_chainStyle="spread_inside"-->
+    <!--app:layout_constraintStart_toStartOf="parent" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/secondTv"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:drawablePadding="10dp"-->
+    <!--android:drawableLeft="@drawable/pay_year_selector"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:text="2年 (8折)"-->
+    <!--android:textColor="@color/text_1"-->
+    <!--android:textSize="@dimen/text_size_medium"-->
+    <!--app:layout_constraintEnd_toStartOf="@id/thirdTv"-->
+    <!--app:layout_constraintStart_toEndOf="@id/firstTv" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/thirdTv"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:drawableLeft="@drawable/pay_year_selector"-->
+    <!--android:drawableRight="@mipmap/icon_recommend_pay"-->
+    <!--android:gravity="center"-->
+    <!--android:text="3年(6折)"-->
+    <!--android:textColor="@color/text_1"-->
+    <!--android:textSize="@dimen/text_size_medium"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintStart_toEndOf="@id/secondTv" />-->
+
+    <!--</android.support.constraint.ConstraintLayout>-->
+
+
+</android.support.constraint.ConstraintLayout>

@@ -47,7 +47,7 @@
                             android:layout_height="match_parent"
                             android:paddingLeft="20dp"
                             android:paddingRight="20dp"
-                            android:src="@mipmap/icon_back_white" />
+                            android:src="@drawable/sogu_ic_back"/>
 
 
                         <TextView

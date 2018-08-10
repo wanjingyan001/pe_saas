@@ -76,12 +76,12 @@
         "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/library-1.8.aar/051830ba79bf17e91877f4a87ac02cd1/res/drawable-hdpi-v4/ic_word_box.png"
     },
     {
-        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/nim_team_create_btn_pressed.9.png",
-        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-hdpi-v4/nim_team_create_btn_pressed.9.png"
-    },
-    {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/nim_picker_preview_unselected.png",
         "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-hdpi-v4/nim_picker_preview_unselected.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/nim_team_create_btn_pressed.9.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-hdpi-v4/nim_team_create_btn_pressed.9.png"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/abc_list_focused_holo.9.png",
@@ -120,12 +120,12 @@
         "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-hdpi-v4/nim_message_right_bg.9.png"
     },
     {
-        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/nim_messages_list_empty_bg.png",
-        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-hdpi-v4/nim_messages_list_empty_bg.png"
-    },
-    {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/abc_ic_menu_selectall_mtrl_alpha.png",
         "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/drawable-hdpi-v4/abc_ic_menu_selectall_mtrl_alpha.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/nim_messages_list_empty_bg.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-hdpi-v4/nim_messages_list_empty_bg.png"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/ic_pdf_box.png",
@@ -148,12 +148,12 @@
         "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/drawable-hdpi-v4/abc_btn_radio_to_on_mtrl_015.png"
     },
     {
-        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/ic_zip_box.png",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/library-1.8.aar/051830ba79bf17e91877f4a87ac02cd1/res/drawable-hdpi-v4/ic_zip_box.png"
-    },
-    {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/nim_audio_animation_list_left_2.png",
         "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-hdpi-v4/nim_audio_animation_list_left_2.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/ic_zip_box.png",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/library-1.8.aar/051830ba79bf17e91877f4a87ac02cd1/res/drawable-hdpi-v4/ic_zip_box.png"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/nim_message_audio_playing_left_blue_bg.9.png",
@@ -244,12 +244,12 @@
         "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-hdpi-v4/nim_explosion_five.png"
     },
     {
-        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/nim_red_round_button_pressed.9.png",
-        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-hdpi-v4/nim_red_round_button_pressed.9.png"
-    },
-    {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/nim_contact_select_dot_avatar.png",
         "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-hdpi-v4/nim_contact_select_dot_avatar.png"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/nim_red_round_button_pressed.9.png",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/drawable-hdpi-v4/nim_red_round_button_pressed.9.png"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4/nim_contact_hit_letter_bg.png",

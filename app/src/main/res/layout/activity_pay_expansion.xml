@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_record"
+    tools:context="com.sogukj.pe.module.other.PayExpansionActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:background="@color/main_bottom_bar_color"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:theme="@style/AppTheme.AppBarOverlay">
+
+        <ImageView
+            android:id="@+id/toolbar_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:src="@drawable/sogu_ic_back"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@id/toolbar_title"
+            style="@style/SoguTextTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:singleLine="true"
+            tools:text="主    页" />
+
+        <ImageView
+            android:id="@+id/toolbar_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:src="@drawable/sogu_ic_menu_help"
+            android:visibility="gone" />
+    </android.support.v7.widget.Toolbar>
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/headerDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/main_bottom_bar_color"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <ImageView
+            android:id="@+id/line1"
+            android:layout_width="2dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="18dp"
+            android:layout_marginTop="18dp"
+            android:background="#4390F0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/line2"
+            android:layout_width="1dp"
+            android:layout_height="40dp"
+            android:background="#2F7DDD"
+            app:layout_constraintEnd_toEndOf="@+id/line1"
+            app:layout_constraintTop_toTopOf="@+id/line1" />
+
+        <TextView
+            android:id="@+id/projectTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:text="项目共15个"
+            android:textColor="#A9D0FF"
+            android:textSize="@dimen/text_size_samll"
+            app:layout_constraintBottom_toTopOf="@+id/projectOver"
+            app:layout_constraintEnd_toEndOf="@+id/line1"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/projectOver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="剩余10个"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_large"
+            app:layout_constraintBottom_toBottomOf="@+id/line1"
+            app:layout_constraintEnd_toEndOf="@+id/line1"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <TextView
+            android:id="@+id/creditOver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="剩余25次"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_large"
+            app:layout_constraintBottom_toBottomOf="@+id/line1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/line1" />
+
+        <TextView
+            android:id="@+id/creditTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:text="征信共50次"
+            android:textColor="#A9D0FF"
+            android:textSize="@dimen/text_size_samll"
+            app:layout_constraintBottom_toTopOf="@+id/creditOver"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/line1" />
+
+    </android.support.constraint.ConstraintLayout>
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/bottomLayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/payConfirm"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="确认支付"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_large"
+            app:layout_constraintDimensionRatio="2:1"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/totalTv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="14dp"
+            android:gravity="center_vertical"
+            android:text="总价"
+            android:textColor="@color/text_1"
+            android:textSize="@dimen/text_size_normal"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/paymentPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:gravity="center_vertical"
+            android:text="￥270,000"
+            android:textColor="@color/amount_color"
+            android:textSize="@dimen/text_size_normal"
+            app:layout_constraintStart_toEndOf="@+id/totalTv" />
+
+        <TextView
+            android:id="@+id/savingAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/bg_border_pay_amount"
+            android:gravity="center_vertical"
+            android:text="立省￥180,000"
+            android:textColor="@color/amount_color"
+            android:textSize="@dimen/text_size_medium"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/paymentPrice"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/packageList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomLayout"
+        app:layout_constraintTop_toBottomOf="@+id/headerDetail">
+
+    </android.support.v7.widget.RecyclerView>
+
+
+</android.support.constraint.ConstraintLayout>

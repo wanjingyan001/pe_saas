@@ -108,6 +108,7 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
             UserEditActivity.start(activity, departList)
         }
         documentManagement.clickWithTrigger {
+            baseActivity?.showProgress("正在读取内存文件")
             FileMainActivity.start(ctx)
         }
         payPackageLayout.clickWithTrigger {
@@ -526,6 +527,11 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
 //                ProjectFocusActivity.start(activity, ProjectListFragment.TYPE_TC)
 //            }
 //        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        baseActivity?.hideProgress()
     }
 
 

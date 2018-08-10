@@ -21,7 +21,7 @@
         android:gravity="center"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:src="@drawable/icon_back_gray" />
+        android:src="@drawable/back_chevron" />
 
     <TextView
         android:id="@id/toolbar_title"

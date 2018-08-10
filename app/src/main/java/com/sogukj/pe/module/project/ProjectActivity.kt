@@ -15,6 +15,8 @@ import android.view.ViewGroup
 import android.widget.*
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
 import com.netease.nim.uikit.api.NimUIKit
 import com.netease.nimlib.sdk.NIMClient
@@ -67,6 +69,7 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
     var position = 0
     var type = 0
     var projectDetail: ProjectDetailBean? = null
+    private val user by lazy { Store.store.getUser(this) }
 
     override fun onBackPressed() {
         var intent = Intent()
@@ -115,7 +118,7 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-1
+        1
         if (haveNav) {
             var param1 = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
             param1.bottomMargin = Utils.dpToPx(ctx, 50)
@@ -214,23 +217,9 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
 
         //shangshi_layout.visibility = if (project.is_volatility == 0) View.GONE else View.VISIBLE
 
-        val user = Store.store.getUser(this)
-        im.setVisible(!user?.accid.isNullOrEmpty() && needIm())
-        //如果没有消息，也就不需要im
-        val company = sp.getString(Extras.SAAS_BASIC_DATA, "")
-        val detail = Gson().fromJson<MechanismBasicInfo?>(company)
-        detail?.let {
-            var hasIM = false
-            var modules = it.homeBottomButton
-            modules?.forEach {
-                if (it.name == "消息") {
-                    hasIM = true
-                }
-            }
-            im.setVisible(hasIM)
-        }
         Glide.with(this)
                 .asGif()
+                .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
                 .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
                 .into(iv_loading)
         iv_loading?.visibility = View.VISIBLE
@@ -243,6 +232,8 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
                         iv_loading?.visibility = View.GONE
                         payload.payload?.let {
                             projectDetail = it
+                            //如果没有消息，也就不需要im
+                            im.setVisible(it.type != 2 && !user?.accid.isNullOrEmpty() && needIm())
                         }
                         payload.payload?.counts?.forEach {
                             refreshLayout(it)
@@ -822,21 +813,25 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
                     when (it.type) {
                         0 -> {
                             //群组存在就申请加群
+                            showProgress("已发送入群申请")
                             NIMClient.getService(TeamService::class.java).applyJoinTeam(it.group_id.toString(), "")
                                     .setCallback(object : RequestCallback<Team> {
                                         override fun onFailed(code: Int) {
+                                            hideProgress()
                                             if (code == 809) {
                                                 NimUIKit.startTeamSession(this@ProjectActivity, it.group_id.toString())
                                             } else {
-                                                showCustomToast(R.drawable.icon_toast_common, "申请已发出")
+                                                showCustomToast(R.drawable.icon_toast_common, "申请已发出,等待群主同意")
                                             }
                                         }
 
                                         override fun onSuccess(param: Team) {
+                                            hideProgress()
                                             NimUIKit.startTeamSession(this@ProjectActivity, param.id)
                                         }
 
                                         override fun onException(exception: Throwable) {
+                                            hideProgress()
                                             showCustomToast(R.drawable.icon_toast_fail, exception.message)
                                         }
                                     })
@@ -849,7 +844,6 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
                         }
                         2 -> {
                             //不可以建群就弹提示
-                            im.setVisible(false)
                             showCustomToast(R.drawable.icon_toast_fail, "项目群需要该项目负责人创建")
                         }
                     }

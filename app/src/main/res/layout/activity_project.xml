@@ -120,6 +120,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:padding="10dp"
+                        android:visibility="invisible"
                         android:src="@drawable/lt" />
 
                     <ImageView
@@ -358,7 +359,7 @@
                 android:layout_width="54dp"
                 android:layout_height="54dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="55dp"
+                android:layout_marginTop="36dp"
                 android:visibility="invisible"  />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

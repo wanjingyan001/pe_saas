@@ -137,6 +137,9 @@ class VerCodeInputActivity : BaseActivity() {
                             }
                         }
                     }
+                    onError {
+                        showTopSnackBar("验证码错误")
+                    }
                 }
     }
 
@@ -175,7 +178,7 @@ class VerCodeInputActivity : BaseActivity() {
         val loginInfo = LoginInfo(account, token)
         NimUIKit.login(loginInfo, object : RequestCallback<LoginInfo> {
             override fun onSuccess(p0: LoginInfo?) {
-                Log.d("WJY", "登录成功:${p0?.account}===>${p0?.token}")
+                AnkoLogger("WJY").info { "登录成功:${p0?.account}===>${p0?.token}" }
                 val xmlDb = XmlDb.open(ctx)
                 xmlDb.set(Extras.NIMACCOUNT, account)
                 xmlDb.set(Extras.NIMTOKEN, token)

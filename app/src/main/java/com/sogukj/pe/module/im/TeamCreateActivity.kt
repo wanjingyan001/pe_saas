@@ -85,7 +85,7 @@ class TeamCreateActivity : BaseActivity() {
         related_items_layout.clickWithTrigger {
             CompanySelectActivity.start(this)
         }
-        exit_team.clickWithTrigger {
+        createTeam.clickWithTrigger {
             createTeam()
         }
         team_logo.clickWithTrigger {

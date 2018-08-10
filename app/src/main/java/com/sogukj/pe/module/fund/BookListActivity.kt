@@ -239,7 +239,11 @@ class BookListActivity : BaseActivity() {
                             file_icon.imageResource = R.drawable.folder_zip
                             if (data.dirname!!.contains("默认")) {
                                 tvSummary.text = data.dirname!!.replace("（默认）", "")
-                                tvSummary.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.icon_default_folder, 0)
+                                val drawable = resources.getDrawable(R.drawable.icon_default_folder)
+                                drawable.setBounds(0,0,dip(20),dip(12))
+//                                tvSummary.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.icon_default_folder, 0)
+                                tvSummary.setCompoundDrawables(null,null,drawable,null)
+                                tvSummary.clipBounds
                                 tvSummary.compoundDrawablePadding = dip(8)
                             } else {
                                 tvSummary.text = data.dirname
