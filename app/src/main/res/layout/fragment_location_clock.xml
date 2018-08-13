@@ -100,7 +100,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="110dp"
         android:orientation="horizontal">
 
         <com.sogukj.pe.baselibrary.widgets.DotView
@@ -110,15 +110,15 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingRight="70dp">
+            android:paddingRight="50dp">
 
             <TextView
                 android:id="@+id/clockTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/dutyOnTime"
-                android:layout_marginTop="12dp"
+                android:layout_below="@+id/dutyOffTime"
+                android:layout_marginTop="10dp"
                 android:text="打卡时间09:15"
                 android:textColor="#ff282828"
                 android:textSize="16sp" />
@@ -129,7 +129,7 @@
                 android:layout_height="10dp"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/clockTime"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="13dp"
                 android:background="@drawable/location_clock_neg" />
 
             <TextView
@@ -138,10 +138,25 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/clockTime"
                 android:layout_marginLeft="4dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="10dp"
                 android:layout_toRightOf="@+id/imageView2"
                 android:text="上海静安区江场三路93号401-402搜股上海科技有限公司"
                 android:textColor="#ffa0a4aa"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/relate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/locate"
+                android:layout_marginTop="7dp"
+                android:background="#fff6fbff"
+                android:ellipsize="end"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:text="关联审批：2018/06/01 张栋梁的出差AFDA136张栋梁的出差AFDA136"
+                android:textColor="#ff4390f0"
                 android:textSize="12sp" />
         </RelativeLayout>
 
@@ -149,7 +164,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="110dp"
         android:orientation="horizontal">
 
         <com.sogukj.pe.baselibrary.widgets.DotView
@@ -159,7 +174,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingRight="70dp">
+            android:paddingRight="50dp">
 
             <TextView
                 android:id="@+id/clockOffTime"
@@ -167,7 +182,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/dutyOffTime"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="10dp"
                 android:text="打卡时间09:15"
                 android:textColor="#ff282828"
                 android:textSize="16sp" />
@@ -178,7 +193,7 @@
                 android:layout_height="10dp"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/clockOffTime"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="13dp"
                 android:background="@drawable/location_clock_neg" />
 
             <TextView
@@ -187,10 +202,25 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/clockOffTime"
                 android:layout_marginLeft="4dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="10dp"
                 android:layout_toRightOf="@+id/imageView3"
                 android:text="上海静安区江场三路93号401-402搜股上海科技有限公司"
                 android:textColor="#ffa0a4aa"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/relate2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/locate2"
+                android:layout_marginTop="7dp"
+                android:background="#fff6fbff"
+                android:ellipsize="end"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:text="关联审批：2018/06/01 张栋梁的出差AFDA136张栋梁的出差AFDA136"
+                android:textColor="#ff4390f0"
                 android:textSize="12sp" />
         </RelativeLayout>
 

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:nicespinner="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#66000000">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+            <com.amap.api.maps.MapView
+                android:id="@+id/imMap"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
+
+            <TextView
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="#99000000"
+                android:padding="10dp"
+                android:textColor="#ffffffff"
+                android:textSize="12sp" />
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="可关联审批"
+            android:textColor="#ff282828"
+            android:textSize="12sp" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_spinner">
+
+            <org.angmarch.views.NiceSpinner
+                android:id="@+id/nice_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="1dp"
+                nicespinner:textTint="#ff282828" />
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="6dp"
+            android:background="@color/divider2" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/cancel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="取消打卡"
+                android:textColor="#ffa9a9a9"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/divider2" />
+
+            <TextView
+                android:id="@+id/confirm"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="定位打卡"
+                android:textColor="#ff4390f0"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</FrameLayout>

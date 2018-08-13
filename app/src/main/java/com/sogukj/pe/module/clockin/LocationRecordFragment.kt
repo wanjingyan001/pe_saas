@@ -139,7 +139,7 @@ class LocationRecordFragment : BaseFragment() {
 
     fun doRequest() {
         SoguApi.getService(baseActivity!!.application, ApproveService::class.java)
-                .operateOutCard(1)
+                .outCardList()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ payload ->
@@ -156,6 +156,7 @@ class LocationRecordFragment : BaseFragment() {
                 }, { e ->
                     iv_empty.visibility = if (adapter.dataList.isEmpty()) View.VISIBLE else View.GONE
                     adapter.notifyDataSetChanged()
+                    iv_loading?.visibility = View.GONE
                     Trace.e(e)
                 })
     }

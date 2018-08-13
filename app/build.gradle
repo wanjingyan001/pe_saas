@@ -248,7 +248,7 @@ static def releaseTime() {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     implementation 'com.android.support:support-v4:27.1.1'
     compile project(':baselibrary')
@@ -258,7 +258,6 @@ dependencies {
     compile project(':stack-layout')
     compile project(':PushSDK')
     compile project(':shareSDK')
-
     //3D地图so及jar
     implementation "com.amap.api:3dmap:${map_version}"
     //定位功能
@@ -271,21 +270,18 @@ dependencies {
     implementation('com.github.huburt-Hu:NewbieGuide:v2.1.0') {
         exclude group: 'com.android.support'
     }
-//    ARouter阿里路由
+    //    ARouter阿里路由
     implementation "com.alibaba:arouter-api:${arouter_version}"
     kapt "com.alibaba:arouter-compiler:${arouter_annotation_version}"
-
     // Room
     implementation "android.arch.persistence.room:runtime:${android_architecture_components}"
     annotationProcessor "android.arch.persistence.room:compiler:${android_architecture_components}"
     kapt "android.arch.persistence.room:compiler:${android_architecture_components}"
     implementation "android.arch.persistence.room:rxjava2:${android_architecture_components}"
-
-
-
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation project(':nice-spinner-master')
 }
 kotlin {
     experimental {
