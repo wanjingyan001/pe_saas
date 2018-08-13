@@ -3,20 +3,17 @@ package com.sogukj.pe.widgets;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
@@ -42,11 +39,7 @@ import com.bigkoo.pickerview.utils.PickerViewAnimateUtil;
 import com.sogukj.pe.R;
 
 import org.angmarch.views.NiceSpinner;
-import org.angmarch.views.NiceSpinnerAdapter;
-import org.angmarch.views.NiceSpinnerBaseAdapter;
-import org.angmarch.views.SpinnerTextFormatter;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 
@@ -60,7 +53,6 @@ public class MyMapView extends View {
     private AMapLocationClientOption mLocationOption;
     //逆地理编码（坐标转地址）
     private GeocodeSearch geocoderSearch;
-    private Spinner mSpinner;
 
     private TextView tvAddr, tvCancel, tvConfirm;
 
@@ -85,6 +77,12 @@ public class MyMapView extends View {
         }
         rootView = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.layout_mapview, decorView, false);
         rootView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        rootView.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
 
         tvAddr = rootView.findViewById(R.id.address);
         tvCancel = rootView.findViewById(R.id.cancel);

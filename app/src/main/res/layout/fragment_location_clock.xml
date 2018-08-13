@@ -52,178 +52,215 @@
         android:layout_height="1dp"
         android:background="@color/divider2" />
 
-    <LinearLayout
-        android:id="@+id/waichudaka"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/oval_clock"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="外出打卡"
-            android:textColor="#ffffffff"
-            android:textSize="20sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="10:48:44"
-            android:textColor="#ffb0d4ff"
-            android:textSize="14sp" />
-
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="45dp"
-        android:drawableLeft="@drawable/locate_date"
-        android:drawablePadding="15dp"
-        android:text="2018/05/21"
-        android:textColor="#ff282828"
-        android:textSize="16sp" />
-
-    <View
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="12dp"
-        android:background="@color/divider2" />
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:scrollbars="none">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="110dp"
-        android:orientation="horizontal">
-
-        <com.sogukj.pe.baselibrary.widgets.DotView
-            android:layout_width="50dp"
-            android:layout_height="match_parent" />
-
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingRight="50dp">
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/waichudaka"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="35dp"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/oval_clock"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="外出打卡"
+                    android:textColor="#ffffffff"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/instantTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="10:48:44"
+                    android:textColor="#ffb0d4ff"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/clockTime"
+                android:id="@+id/today"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/dutyOffTime"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
-                android:text="打卡时间09:15"
+                android:drawableLeft="@drawable/locate_date"
+                android:drawablePadding="15dp"
+                android:text="2018/05/21"
                 android:textColor="#ff282828"
                 android:textSize="16sp" />
 
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/clockTime"
-                android:layout_marginTop="13dp"
-                android:background="@drawable/location_clock_neg" />
-
-            <TextView
-                android:id="@+id/locate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/clockTime"
-                android:layout_marginLeft="4dp"
-                android:layout_marginTop="10dp"
-                android:layout_toRightOf="@+id/imageView2"
-                android:text="上海静安区江场三路93号401-402搜股上海科技有限公司"
-                android:textColor="#ffa0a4aa"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/relate"
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/locate"
-                android:layout_marginTop="7dp"
-                android:background="#fff6fbff"
-                android:ellipsize="end"
-                android:padding="5dp"
-                android:singleLine="true"
-                android:text="关联审批：2018/06/01 张栋梁的出差AFDA136张栋梁的出差AFDA136"
-                android:textColor="#ff4390f0"
-                android:textSize="12sp" />
-        </RelativeLayout>
+                android:layout_height="1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="12dp"
+                android:background="@color/divider2" />
 
-    </LinearLayout>
+            <LinearLayout
+                android:id="@+id/dutyOn"
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="110dp"
-        android:orientation="horizontal">
+                <com.sogukj.pe.baselibrary.widgets.DotView
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent" />
 
-        <com.sogukj.pe.baselibrary.widgets.DotView
-            android:layout_width="50dp"
-            android:layout_height="match_parent" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingRight="50dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingRight="50dp">
+                    <TextView
+                        android:id="@+id/clockTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/dutyOffTime"
+                        android:layout_marginTop="10dp"
+                        android:text="打卡时间09:15"
+                        android:textColor="#ff282828"
+                        android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/clockOffTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/dutyOffTime"
-                android:layout_marginTop="10dp"
-                android:text="打卡时间09:15"
-                android:textColor="#ff282828"
-                android:textSize="16sp" />
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/clockTime"
+                        android:layout_marginTop="13dp"
+                        android:background="@drawable/location_clock_neg" />
+
+                    <TextView
+                        android:id="@+id/locate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/clockTime"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_toRightOf="@+id/imageView2"
+                        android:text="上海静安区江场三路93号401-402搜股上海科技有限公司"
+                        android:textColor="#ffa0a4aa"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/relate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/locate"
+                        android:layout_marginTop="7dp"
+                        android:background="#fff6fbff"
+                        android:ellipsize="end"
+                        android:padding="5dp"
+                        android:singleLine="true"
+                        android:text="关联审批：2018/06/01 张栋梁的出差AFDA136张栋梁的出差AFDA136"
+                        android:textColor="#ff4390f0"
+                        android:textSize="12sp" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/dutyOff"
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <com.sogukj.pe.baselibrary.widgets.DotView
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingRight="50dp">
+
+                    <TextView
+                        android:id="@+id/clockOffTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/dutyOffTime"
+                        android:layout_marginTop="10dp"
+                        android:text="打卡时间09:15"
+                        android:textColor="#ff282828"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:id="@+id/imageView3"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/clockOffTime"
+                        android:layout_marginTop="13dp"
+                        android:background="@drawable/location_clock_neg" />
+
+                    <TextView
+                        android:id="@+id/locate2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/clockOffTime"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_toRightOf="@+id/imageView3"
+                        android:text="上海静安区江场三路93号401-402搜股上海科技有限公司"
+                        android:textColor="#ffa0a4aa"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/relate2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/locate2"
+                        android:layout_marginTop="7dp"
+                        android:background="#fff6fbff"
+                        android:ellipsize="end"
+                        android:padding="5dp"
+                        android:singleLine="true"
+                        android:text="关联审批：2018/06/01 张栋梁的出差AFDA136张栋梁的出差AFDA136"
+                        android:textColor="#ff4390f0"
+                        android:textSize="12sp" />
+                </RelativeLayout>
+
+            </LinearLayout>
 
             <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/clockOffTime"
-                android:layout_marginTop="13dp"
-                android:background="@drawable/location_clock_neg" />
-
-            <TextView
-                android:id="@+id/locate2"
+                android:id="@+id/iv_empty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/clockOffTime"
-                android:layout_marginLeft="4dp"
-                android:layout_marginTop="10dp"
-                android:layout_toRightOf="@+id/imageView3"
-                android:text="上海静安区江场三路93号401-402搜股上海科技有限公司"
-                android:textColor="#ffa0a4aa"
-                android:textSize="12sp" />
+                android:layout_gravity="center"
+                android:src="@drawable/img_empty"
+                android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/relate2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/locate2"
-                android:layout_marginTop="7dp"
-                android:background="#fff6fbff"
-                android:ellipsize="end"
-                android:padding="5dp"
-                android:singleLine="true"
-                android:text="关联审批：2018/06/01 张栋梁的出差AFDA136张栋梁的出差AFDA136"
-                android:textColor="#ff4390f0"
-                android:textSize="12sp" />
-        </RelativeLayout>
-
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/iv_loading"
+                android:layout_width="80dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="50dp"
+                android:layout_marginTop="50dp"
+                android:visibility="gone" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
 </LinearLayout>

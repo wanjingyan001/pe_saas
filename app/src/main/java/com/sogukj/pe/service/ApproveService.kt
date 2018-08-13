@@ -209,4 +209,9 @@ interface ApproveService{
 
     @POST("/api/Index/outCardList")
     fun outCardList(): Observable<Payload<ArrayList<LocationRecordBean>>>
+
+    //外出打卡详情
+    @FormUrlEncoded
+    @POST("/api/Index/outCardInfo")
+    fun outCardInfo(@Field("stamp") stamp: Int): Observable<Payload<ArrayList<LocationRecordBean.LocationCellBean>>>
 }

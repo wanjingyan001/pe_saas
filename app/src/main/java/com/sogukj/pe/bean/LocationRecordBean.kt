@@ -13,6 +13,14 @@ class LocationRecordBean {
         var type: Int? = null
         var time: String? = null
         var place: String? = null
+
+        var date: String? = null
+        var longitude: String? = null
+        var latitude: String? = null
+
+        var sid: Int? = null
+        var title: String? = null
+        var add_time: String? = null
     }
 //    "date": "2018-08-08",    //日期
 //    "week": "星期三",    //周几
