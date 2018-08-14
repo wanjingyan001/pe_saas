@@ -146,8 +146,6 @@ class LocationClockFragment : BaseFragment() {
                                 relate2.visibility = View.VISIBLE
                                 relate2.text = "关联审批：${bean2.add_time}  ${bean2.title}"
                             }
-
-                            waichudaka.visibility = View.GONE
                         } else {
                             dutyOn.visibility = View.GONE
                             dutyOff.visibility = View.GONE

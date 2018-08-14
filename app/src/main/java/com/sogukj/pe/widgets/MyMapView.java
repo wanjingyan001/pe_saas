@@ -299,24 +299,27 @@ public class MyMapView extends View {
     }
 
     private AMapLocation mLocation;
+    private int dakaId = 0;
 
     private void locationDaKa() {
+        int a = 5;
         LocationRecordBean.LocationCellBean cell = mList.get(niceSpinner.getSelectedIndex());
         Log.e("onItemSelected", cell.getTitle());
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault());
         final String dateStr = format.format(new Date());
         int stamp = Integer.parseInt(DateUtils.getTimestamp(dateStr, "yyyy/MM/dd HH:mm:ss"));
         SoguApi.Companion.getService(((Activity) mContext).getApplication(), ApproveService.class)
-                .outCardSubmit(stamp, tvAddr.getText().toString(), mLocation.getLongitude() + "", mLocation.getLatitude() + "", cell.getId())
+                .outCardSubmit(stamp, tvAddr.getText().toString(), mLocation.getLongitude() + "", mLocation.getLatitude() + "", cell.getId(), dakaId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<Payload<Object>>() {
+                .subscribe(new Observer<Payload<Integer>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                     }
 
                     @Override
-                    public void onNext(Payload<Object> listPayload) {
+                    public void onNext(Payload<Integer> listPayload) {
+                        dakaId = listPayload.getPayload();
                         View inflate = LayoutInflater.from(mContext).inflate(R.layout.layout_locate_success, null);
                         final MaterialDialog dialog = new MaterialDialog.Builder(mContext)
                                 .customView(inflate, false)
