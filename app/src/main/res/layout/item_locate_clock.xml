@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <com.sogukj.pe.baselibrary.widgets.DotView
+        android:layout_width="50dp"
+        android:layout_height="match_parent" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:paddingRight="50dp">
+
+        <TextView
+            android:id="@+id/clockTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/dutyOffTime"
+            android:text="打卡时间09:15"
+            android:textColor="#ff282828"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/clockTime"
+            android:layout_marginTop="13dp"
+            android:background="@drawable/location_clock_neg" />
+
+        <TextView
+            android:id="@+id/locate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/clockTime"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/imageView3"
+            android:text="上海静安区江场三路93号401-402搜股上海科技有限公司"
+            android:textColor="#ffa0a4aa"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/relate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/locate"
+            android:layout_marginTop="7dp"
+            android:background="#fff6fbff"
+            android:ellipsize="end"
+            android:padding="5dp"
+            android:singleLine="true"
+            android:text="关联审批：2018/06/01 张栋梁的出差AFDA136张栋梁的出差AFDA136"
+            android:textColor="#ff4390f0"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+</LinearLayout>

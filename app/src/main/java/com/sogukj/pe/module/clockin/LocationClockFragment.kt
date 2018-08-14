@@ -5,7 +5,10 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -16,6 +19,8 @@ import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.BaseFragment
 import com.sogukj.pe.baselibrary.utils.DateUtils
 import com.sogukj.pe.baselibrary.utils.Trace
+import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
+import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.LocationRecordBean
 import com.sogukj.pe.peUtils.MyGlideUrl
 import com.sogukj.pe.peUtils.Store
@@ -25,6 +30,7 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_location_clock.*
+import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.ctx
 import java.text.SimpleDateFormat
 import java.util.*
@@ -59,6 +65,38 @@ class LocationClockFragment : BaseFragment() {
                     })
         }
 
+        kotlin.run {
+            adapter = RecyclerAdapter(ctx, { _adapter, parent, type ->
+                val convertView = _adapter.getView(R.layout.item_locate_clock, parent)
+                object : RecyclerHolder<LocationRecordBean.LocationCellBean>(convertView) {
+                    val tvClockTime = convertView.find<TextView>(R.id.clockTime)
+                    val tvLocate = convertView.find<TextView>(R.id.locate)
+                    val tvRelate = convertView.find<TextView>(R.id.relate)
+                    override fun setData(view: View, data: LocationRecordBean.LocationCellBean, position: Int) {
+                        tvClockTime.text = "打卡时间  ${data.time!!.substring(0, 5)}"
+                        tvLocate.text = data.place
+                        if (data.sid == null) {
+                            tvRelate.visibility = View.GONE
+                        } else {
+                            tvRelate.visibility = View.VISIBLE
+                            tvRelate.text = "关联审批：${data.add_time!!.split(" ")[0]}  ${data.title}"
+                        }
+                    }
+                }
+            })
+//            adapter.onItemClick = { _, position ->
+//                ProjectActivity.start(context, adapter.dataList.get(position))
+//            }
+            recycler_view.layoutManager = LinearLayoutManager(context)
+            recycler_view.addItemDecoration(DividerItemDecoration(ctx, DividerItemDecoration.VERTICAL))
+            recycler_view.adapter = adapter
+
+            refresh.setOnRefreshListener {
+                doRequest()
+                refresh.finishRefresh(1000)
+            }
+        }
+
         loadHeader()
 
         isViewCreate = true
@@ -70,6 +108,8 @@ class LocationClockFragment : BaseFragment() {
 
         doRequest()
     }
+
+    lateinit var adapter: RecyclerAdapter<LocationRecordBean.LocationCellBean>
 
     private val mHandler = object : Handler() {
         override fun handleMessage(msg: Message) {
@@ -97,8 +137,6 @@ class LocationClockFragment : BaseFragment() {
         instantTime.text = str.split(" ")[1]
         mHandler.sendMessageDelayed(mHandler.obtainMessage(0x001), 0)
 
-        dutyOn.visibility = View.GONE
-        dutyOff.visibility = View.GONE
         iv_loading?.visibility = View.VISIBLE
         iv_empty.visibility = View.GONE
         var stamp = DateUtils.getTimestamp(str, "yyyy/MM/dd HH:mm:ss").toInt()
@@ -107,58 +145,19 @@ class LocationClockFragment : BaseFragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ payload ->
-                    var mSize: Int? = null
                     if (payload.isOk) {
-                        mSize = payload?.payload?.size
-                        if (mSize == 1) {
-                            dutyOn.visibility = View.VISIBLE
-                            dutyOff.visibility = View.GONE
-
-                            var bean1 = payload!!.payload!!.get(0)
-                            clockTime.text = "打卡时间  ${bean1.time!!.substring(0, 5)}"
-                            locate.text = bean1.place
-                            if (bean1.sid == null) {
-                                relate.visibility = View.GONE
-                            } else {
-                                relate.visibility = View.VISIBLE
-                                relate.text = "关联审批：${bean1.add_time}  ${bean1.title}"
-                            }
-                        } else if (mSize == 2) {
-                            dutyOn.visibility = View.VISIBLE
-                            dutyOff.visibility = View.VISIBLE
-
-                            var bean1 = payload!!.payload!!.get(0)
-                            clockTime.text = "打卡时间  ${bean1.time!!.substring(0, 5)}"
-                            locate.text = bean1.place
-                            if (bean1.sid == null) {
-                                relate.visibility = View.GONE
-                            } else {
-                                relate.visibility = View.VISIBLE
-                                relate.text = "关联审批：${bean1.add_time}  ${bean1.title}"
-                            }
-
-                            var bean2 = payload!!.payload!!.get(1)
-                            clockOffTime.text = "打卡时间  ${bean2.time!!.substring(0, 5)}"
-                            locate2.text = bean2.place
-                            if (bean2.sid == null) {
-                                relate2.visibility = View.GONE
-                            } else {
-                                relate2.visibility = View.VISIBLE
-                                relate2.text = "关联审批：${bean2.add_time}  ${bean2.title}"
-                            }
-                        } else {
-                            dutyOn.visibility = View.GONE
-                            dutyOff.visibility = View.GONE
+                        adapter.dataList.clear()
+                        payload?.payload?.apply {
+                            adapter.dataList.addAll(this)
                         }
+                        adapter.notifyDataSetChanged()
                     } else {
                         showCustomToast(R.drawable.icon_toast_fail, payload.message)
                     }
-                    iv_empty.visibility = if (mSize == 1 || mSize == 2) View.GONE else View.VISIBLE
+                    iv_empty.visibility = if (adapter.dataList.size == 0) View.VISIBLE else View.GONE
                     iv_loading?.visibility = View.GONE
                 }, { e ->
-                    dutyOn.visibility = View.GONE
-                    dutyOff.visibility = View.GONE
-                    iv_empty.visibility = View.VISIBLE
+                    iv_empty.visibility = if (adapter.dataList.size == 0) View.VISIBLE else View.GONE
                     iv_loading?.visibility = View.GONE
                     Trace.e(e)
                 })
