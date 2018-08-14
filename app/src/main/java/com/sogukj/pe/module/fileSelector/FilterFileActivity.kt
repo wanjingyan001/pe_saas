@@ -213,6 +213,10 @@ class FilterFileActivity : BaseActivity() {
             FileUtil.FileType.ZIP -> {
                 directory2.text = "压缩包"
             }
+            FileUtil.FileType.OTHER->{
+                directory2.text = "其他"
+                filterImg.setVisible(false)
+            }
             else -> {
             }
         }

@@ -65,7 +65,8 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 
-public class Utils {
+public class
+Utils {
 
     public static final String TAG = Utils.class.getSimpleName();
 
@@ -308,6 +309,32 @@ public class Utils {
             return new SimpleDateFormat("MM月dd日 HH:mm").format(date);
         } else {
             return new SimpleDateFormat("yyyy年MM月dd日 HH:mm").format(date);
+        }
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    public static String formatDingDate(String time) throws ParseException {
+        Date date;
+        if (time.contains(" ")) {
+            date = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(time);
+        } else {
+            date = new SimpleDateFormat("yyyy-MM-dd").parse(time);
+        }
+        if (IsYesterday(time)) {
+            return "昨天";
+        } else if (IsToday(time)) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            int am = calendar.get(Calendar.AM_PM);
+            if (am == 0) {
+                return "上午 " + getTime(date, "hh:mm");
+            } else {
+                return "下午 " + getTime(date, "hh:mm");
+            }
+        } else if (isThisYear(time)) {
+            return new SimpleDateFormat("MM月dd日").format(date);
+        } else {
+            return new SimpleDateFormat("yyyy年MM月dd日").format(date);
         }
     }
 

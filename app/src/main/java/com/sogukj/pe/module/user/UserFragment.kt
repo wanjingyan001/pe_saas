@@ -56,6 +56,7 @@ import com.sogukj.pe.bean.MechanismBasicInfo
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.bean.WebConfigBean
 import com.sogukj.pe.module.fileSelector.FileMainActivity
+import com.sogukj.pe.module.other.PayExpansionActivity
 import com.sogukj.pe.module.other.PayPackageActivity
 import com.sogukj.pe.module.project.ProjectFocusActivity
 import com.sogukj.pe.module.project.ProjectListFragment
@@ -119,6 +120,7 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
                         Extras.REQUESTCODE)
             } else {
                 startActivity<PayPackageActivity>()
+//                startActivity<PayExpansionActivity>()
             }
         }
         setting.clickWithTrigger {
@@ -529,8 +531,9 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
 //        }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+
+    override fun onStop() {
+        super.onStop()
         baseActivity?.hideProgress()
     }
 

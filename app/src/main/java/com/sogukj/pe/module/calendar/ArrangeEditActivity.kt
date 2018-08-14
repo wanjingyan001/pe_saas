@@ -4,8 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
@@ -18,12 +16,10 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
-import com.amap.api.mapcore.util.it
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
-import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
@@ -33,12 +29,11 @@ import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.CalendarService
 import com.sogukj.pe.widgets.WorkArrangePerson
 import com.sogukj.service.SoguApi
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.plugins.RxJavaPlugins.onSubscribe
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_arrange_edit.*
 import org.jetbrains.anko.*
 
+//When writing this code, only God and I know what it is doing.
+//Now, only God knows
 class ArrangeEditActivity : ToolbarActivity() {
     override val menuId: Int
         get() = R.menu.arrange_edit_save
@@ -48,7 +43,7 @@ class ArrangeEditActivity : ToolbarActivity() {
     lateinit var data: ArrayList<NewArrangeBean>
     private var currentBean: NewArrangeBean? = null
     private var currentPosition = 0
-    private val position: Int by extraDelegate(Extras.INDEX, -1)
+    private var position: Int by extraDelegate(Extras.INDEX, -1)
     private val mine by lazy { Store.store.getUser(this) }
 
     companion object {
@@ -70,7 +65,11 @@ class ArrangeEditActivity : ToolbarActivity() {
         val offset = intent.getStringExtra(Extras.ID)
         supportInvalidateOptionsMenu()
         if (data.size == 1) {
-            saveLayout.setVisible(true)
+            if (data[0].child.size == 1 && data[0].child[0].id == 0) {
+                saveLayout.setVisible(false)
+            } else {
+                saveLayout.setVisible(true)
+            }
         } else {
             saveLayout.setVisible(false)
         }
@@ -113,7 +112,7 @@ class ArrangeEditActivity : ToolbarActivity() {
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         menu.clear()
-        if (data.size == 1) {
+        if (data.size == 1 && (data[0].child.size > 1 || data[0].child[0].id != 0)) {
             menuInflater.inflate(R.menu.arrange_edit_delete, menu)
         } else {
             menuInflater.inflate(R.menu.arrange_edit_save, menu)
@@ -156,12 +155,12 @@ class ArrangeEditActivity : ToolbarActivity() {
         if (data != null && resultCode == Extras.RESULTCODE && currentBean != null) {
             val list = data.getSerializableExtra(Extras.DATA) as ArrayList<UserBean>
             val bean = this.data.find { it.pid == currentBean!!.pid }
-            val changeBean = if (this.data.size == 1) currentBean!!.child[position] else currentBean!!.child[currentPosition]
+            val changeBean = if (this.data.size == 1&& !hasEmpty()) currentBean!!.child[position] else currentBean!!.child[currentPosition]
             when (requestCode) {
                 attendRequestCode -> {
                     runOnUiThread {
                         bean?.let {
-                            val childBean = if (this.data.size == 1) it.child[position] else it.child[currentPosition]
+                            val childBean = if (this.data.size == 1 && !hasEmpty()) it.child[position] else it.child[currentPosition]
                             childBean.attendee = list.map { Person(it.uid!!, it.url, it.name, it.position, it.depart_name) }
                             childBean.create_id = mine!!.uid!!
                             childBean.lv = mine!!.is_admin
@@ -174,7 +173,7 @@ class ArrangeEditActivity : ToolbarActivity() {
                 participateRequestCode -> {
                     runOnUiThread {
                         bean?.let {
-                            val childBean = if (this.data.size == 1) it.child[position] else it.child[currentPosition]
+                            val childBean = if (this.data.size == 1 && !hasEmpty()) it.child[position] else it.child[currentPosition]
                             childBean.participant = list.map { Person(it.uid!!, it.url, it.name, it.position, it.depart_name) }
                             childBean.create_id = mine!!.uid!!
                             childBean.lv = mine!!.is_admin
@@ -222,6 +221,8 @@ class ArrangeEditActivity : ToolbarActivity() {
                 }
     }
 
+    private fun hasEmpty() = data[0].child.find { it.id == 0 } != null
+
     inner class ArrangeHolder(item: View) : RecyclerHolder<NewArrangeBean>(item) {
         val list = item.find<RecyclerView>(R.id.arrangeContentList)
         val add = item.find<TextView>(R.id.addArrange)
@@ -239,11 +240,18 @@ class ArrangeEditActivity : ToolbarActivity() {
                 layoutManager = LinearLayoutManager(ctx)
                 adapter = recyclerAdapter
             }
-            addLayout.setVisible(this@ArrangeEditActivity.data.size > 1)
+            addLayout.setVisible(this@ArrangeEditActivity.data.size > 1 || hasEmpty())
             add.clickWithTrigger {
+                if (hasEmpty()) {
+                    if (this@ArrangeEditActivity.data[0].child.find { it.create_id == 0 } != null) {
+                        showErrorToast("请填写内容后再新增安排")
+                        return@clickWithTrigger
+                    }
+                }
                 mine?.let {
                     this@ArrangeEditActivity.data[position].child.add(ChildBean(0, create_id = it.uid!!, lv = it.is_admin))
                     recyclerAdapter.notifyItemInserted(data.child.size - 1)
+//                    this@ArrangeEditActivity.position = editAdapter.dataList[position].child.size - 1
                     arrangeEditList.adapter = editAdapter
                 }
             }
@@ -265,7 +273,7 @@ class ArrangeEditActivity : ToolbarActivity() {
         override fun setData(view: View, data: ChildBean, position: Int) {
             weeklyTv.text = arrangeBean.weekday
             dayOfMonth.text = arrangeBean.date.substring(5, arrangeBean.date.length)
-            val childBean = if (this@ArrangeEditActivity.data.size == 1)
+            val childBean = if (this@ArrangeEditActivity.data.size == 1 && !hasEmpty())
                 this@ArrangeEditActivity.data[0].child[this@ArrangeEditActivity.position]
             else
                 this@ArrangeEditActivity.data[parentPosition].child[position]
@@ -278,7 +286,7 @@ class ArrangeEditActivity : ToolbarActivity() {
             data.reasons?.let {
                 workContentEdit.setText(it.trim())
             }
-            val canEdit = (mine!!.is_admin > data.lv) or (mine!!.uid == data.create_id)
+            val canEdit = (mine!!.is_admin > data.lv) or (mine!!.uid == data.create_id) or (data.create_id == 0)
             workContentEdit.isEnabled = canEdit
             attendLayout.isEnabled = canEdit
             participateLayout.isEnabled = canEdit

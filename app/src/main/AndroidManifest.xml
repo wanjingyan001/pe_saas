@@ -380,7 +380,7 @@
             android:name=".module.im.PersonalInfoActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".module.im.TeamHistoryFileActivity"
             android:configChanges="orientation|screenSize"
@@ -990,6 +990,7 @@
         <activity android:name=".module.project.archives.ManagerActivity" />
         <activity android:name=".module.project.archives.ManagerDetailActivity" />
         <activity android:name=".module.project.DangerousActivity" />
+        <activity android:name=".module.project.IncomeCurveActivity" />
 
         <!-- Other -->
         <activity android:name=".module.other.PayResultActivity" />
@@ -1000,6 +1001,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name=".module.other.PayPackageActivity" />
+        <activity android:name=".module.other.PayExpansionActivity"/>
         <activity
             android:name=".module.other.MessageListActivity"
             android:configChanges="orientation|screenSize"
@@ -1131,9 +1133,9 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-        <activity android:name=".module.project.IncomeCurveActivity" />
+
         <activity android:name=".module.clockin.LocationActivity" />
-        <activity android:name=".module.other.PayExpansionActivity"></activity>
+
     </application>
 
 </manifest>

@@ -54,7 +54,9 @@ public class FileUtil {
         DOC("pdf", "doc", "docx", "ppt", "pptx", "xls", "xlsx"),
         ZIP("rar", "zip", "7z", "iso", "gz"),
         TXT("txt"),
-        OTHER("pages", "keynote", "numbers");
+        OTHER("pages", "keynote", "numbers", "cer", "der", "pfx", "p12", "arm", "pem",
+                "ai", "cdr", "dfx", "eps", "svg", "stl", "wmf", "emf", "art", "xar",
+                "wav", "flac", "m4a", "wma", "amr",  "mp3", "wma", "aac", "mid", "m3u");
         private String[] extensions;
 
         FileType(String... extensions) {

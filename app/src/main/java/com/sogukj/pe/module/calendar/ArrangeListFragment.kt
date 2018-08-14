@@ -18,6 +18,7 @@ import com.amap.api.mapcore.util.it
 import com.scwang.smartrefresh.layout.api.RefreshFooter
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.base.BaseRefreshFragment
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Trace
@@ -261,6 +262,9 @@ class ArrangeListFragment : BaseRefreshFragment() {
                 if (arrangeBean.child.size == 1 && arrangeBean.child[0].id == 0) {
                     emptyLayout.visibility = View.VISIBLE
                     contentLayout.visibility = View.GONE
+                    view.clickWithTrigger {
+                        ArrangeEditActivity.start(baseActivity!!, arrayListOf(arrangeBean),offset.toString(),0)
+                    }
                 } else {
                     emptyLayout.visibility = View.GONE
                     contentLayout.visibility = View.VISIBLE

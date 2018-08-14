@@ -1,19 +1,19 @@
 [
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-xxhdpi-v4/ic_mirror_easy_photos.png",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/128ad2bda6e0258a1d57904a15e7cfd4/res/mipmap-xxhdpi-v4/ic_mirror_easy_photos.png"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/bc1d0d9956220dfd2e1ec0554d632778/res/mipmap-xxhdpi-v4/ic_mirror_easy_photos.png"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-xxhdpi-v4/ic_rotate_easy_photos.png",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/128ad2bda6e0258a1d57904a15e7cfd4/res/mipmap-xxhdpi-v4/ic_rotate_easy_photos.png"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/bc1d0d9956220dfd2e1ec0554d632778/res/mipmap-xxhdpi-v4/ic_rotate_easy_photos.png"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-xxhdpi-v4/ic_delete_easy_photos.png",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/128ad2bda6e0258a1d57904a15e7cfd4/res/mipmap-xxhdpi-v4/ic_delete_easy_photos.png"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/bc1d0d9956220dfd2e1ec0554d632778/res/mipmap-xxhdpi-v4/ic_delete_easy_photos.png"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-xxhdpi-v4/ic_controller_easy_photos.png",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/128ad2bda6e0258a1d57904a15e7cfd4/res/mipmap-xxhdpi-v4/ic_controller_easy_photos.png"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/bc1d0d9956220dfd2e1ec0554d632778/res/mipmap-xxhdpi-v4/ic_controller_easy_photos.png"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-xxhdpi-v4/icon_search_gray.png",
@@ -25,7 +25,7 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-xxhdpi-v4/ic_editor_easy_photos.png",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/128ad2bda6e0258a1d57904a15e7cfd4/res/mipmap-xxhdpi-v4/ic_editor_easy_photos.png"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/bc1d0d9956220dfd2e1ec0554d632778/res/mipmap-xxhdpi-v4/ic_editor_easy_photos.png"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/mipmap-xxhdpi-v4/icon_edt_delete.png",

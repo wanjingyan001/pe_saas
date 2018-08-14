@@ -77,6 +77,7 @@ class DocumentsFragment : BaseRefreshFragment(), View.OnClickListener {
         header.find<LinearLayout>(R.id.mVideoManage).setOnClickListener(this)
         header.find<LinearLayout>(R.id.mDocManage).setOnClickListener(this)
         header.find<LinearLayout>(R.id.mZipManage).setOnClickListener(this)
+        header.find<LinearLayout>(R.id.mOtherManage).setOnClickListener(this)
         getDirectoryFiles()
         getFiles()
     }
@@ -179,6 +180,7 @@ class DocumentsFragment : BaseRefreshFragment(), View.OnClickListener {
         header.find<TextView>(R.id.mVideoNum).text = "(${files.filter { FileUtil.getFileType(it) == FileUtil.FileType.VIDEO }.size})"
         header.find<TextView>(R.id.mDocNum).text = "(${files.filter { FileUtil.getFileType(it) == FileUtil.FileType.DOC }.size})"
         header.find<TextView>(R.id.mZipNum).text = "(${files.filter { FileUtil.getFileType(it) == FileUtil.FileType.ZIP }.size})"
+        header.find<TextView>(R.id.mOtherNum).text = "(${files.filter { FileUtil.getFileType(it) == FileUtil.FileType.OTHER }.size})"
     }
 
 
@@ -237,6 +239,10 @@ class DocumentsFragment : BaseRefreshFragment(), View.OnClickListener {
             R.id.mZipManage -> {
                 FilterFileActivity.start(fileActivity, fileActivity.maxSize,
                         fileActivity.isReplace, fileActivity.isForResult, type!!, FileUtil.FileType.ZIP)
+            }
+            R.id.mOtherManage -> {
+                FilterFileActivity.start(fileActivity, fileActivity.maxSize,
+                        fileActivity.isReplace, fileActivity.isForResult, type!!, FileUtil.FileType.OTHER)
             }
             else -> {
 

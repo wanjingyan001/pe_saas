@@ -28,8 +28,7 @@
             android:gravity="center"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:src="@drawable/sogu_ic_back"
-            android:visibility="gone" />
+            android:src="@drawable/sogu_ic_back" />
 
         <TextView
             android:id="@id/toolbar_title"
@@ -190,14 +189,46 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/packageList"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomLayout"
         app:layout_constraintTop_toBottomOf="@+id/headerDetail">
 
-    </android.support.v7.widget.RecyclerView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/pjPackageList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:nestedScrollingEnabled="false">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/calenderPackageList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:nestedScrollingEnabled="false">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:gravity="center"
+                android:textColor="@color/text_3"
+                android:text="具体详情请联系我们进行咨询"
+                android:textSize="@dimen/text_size_samll" />
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
 
 
 </android.support.constraint.ConstraintLayout>
