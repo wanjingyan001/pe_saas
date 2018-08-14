@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffffff"
+    android:paddingBottom="12dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="12dp">
+
+    <TextView
+        android:id="@+id/dutyOnTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:text="10:29    定位打卡"
+        android:textColor="#ff282828"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/dutyOnLocate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/dutyOnTime"
+        android:layout_marginRight="60dp"
+        android:layout_marginTop="8dp"
+        android:drawablePadding="4dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="上海静安区江场三路93号401-402搜股上海科技有..."
+        android:textColor="#ffa0a4aa"
+        android:textSize="12sp" />
+
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:alpha="0.5"
+        android:padding="5dp"
+        android:src="@drawable/ic_arrow_r" />
+</RelativeLayout>
