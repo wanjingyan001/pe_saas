@@ -319,7 +319,11 @@ public class MyMapView extends View {
 
                     @Override
                     public void onNext(Payload<Integer> listPayload) {
-                        dakaId = listPayload.getPayload();
+                        if (listPayload.getPayload() == null) {
+                            dakaId = 0;
+                        } else {
+                            dakaId = listPayload.getPayload();
+                        }
                         View inflate = LayoutInflater.from(mContext).inflate(R.layout.layout_locate_success, null);
                         final MaterialDialog dialog = new MaterialDialog.Builder(mContext)
                                 .customView(inflate, false)
