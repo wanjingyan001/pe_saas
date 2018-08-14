@@ -3,9 +3,12 @@ package com.sogukj.pe.widgets;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -13,9 +16,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
@@ -37,11 +42,24 @@ import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.bigkoo.pickerview.utils.PickerViewAnimateUtil;
 import com.sogukj.pe.R;
+import com.sogukj.pe.baselibrary.utils.DateUtils;
+import com.sogukj.pe.bean.LocationRecordBean;
+import com.sogukj.pe.module.clockin.LocationActivity;
+import com.sogukj.pe.service.ApproveService;
+import com.sogukj.pe.service.Payload;
+import com.sogukj.service.SoguApi;
 
 import org.angmarch.views.NiceSpinner;
 
-import java.util.Arrays;
-import java.util.LinkedList;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class MyMapView extends View {
 
@@ -55,6 +73,8 @@ public class MyMapView extends View {
     private GeocodeSearch geocoderSearch;
 
     private TextView tvAddr, tvCancel, tvConfirm;
+
+    private NiceSpinner niceSpinner;
 
     public MyMapView(Context context) {
         super(context);
@@ -88,10 +108,36 @@ public class MyMapView extends View {
         tvCancel = rootView.findViewById(R.id.cancel);
         tvConfirm = rootView.findViewById(R.id.confirm);
 
-        NiceSpinner niceSpinner = rootView.findViewById(R.id.nice_spinner);
-        LinkedList<String> data = new LinkedList<>(Arrays.asList("空", "北京", "上海", "广州", "深圳"));
-        niceSpinner.attachDataSource(data);
+        niceSpinner = rootView.findViewById(R.id.nice_spinner);
+        LocationRecordBean.LocationCellBean bean = new LocationRecordBean.LocationCellBean();
+        bean.setId(0);
+        bean.setTitle("空");
+        bean.setTime("");
+        mList.add(0, bean);
+        ArrayList<String> dstList = new ArrayList<>();
+        for (int i = 0; i < mList.size(); i++) {
+            LocationRecordBean.LocationCellBean cell = mList.get(i);
+            try {
+                dstList.add(cell.getAdd_time().split(" ")[0] + "  " + cell.getTitle());
+            } catch (Exception e) {
+                // 第一个cell  addtime是null
+                dstList.add(cell.getTitle());
+            }
+        }
+        niceSpinner.attachDataSource(dstList);
         niceSpinner.setSelectedIndex(0);
+        niceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //LocationRecordBean.LocationCellBean cell = mList.get(position);
+                //Log.e("onItemSelected", cell.getTitle());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         tvCancel.setOnClickListener(new OnClickListener() {
             @Override
@@ -99,13 +145,13 @@ public class MyMapView extends View {
                 if (mLocationClient != null && mLocationClient.isStarted()) {
                     mLocationClient.stopLocation();
                 }
-                dismiss();
+                dismiss(false);
             }
         });
         tvConfirm.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                locationDaKa();
             }
         });
 
@@ -178,6 +224,8 @@ public class MyMapView extends View {
                         markerOptions.icon(bitmapDescriptor);
                         map.addMarker(markerOptions);
 
+                        mLocation = location;
+
                         tvAddr.setText(location.getAddress());
                     }
                 }
@@ -209,7 +257,9 @@ public class MyMapView extends View {
         return AnimationUtils.loadAnimation(mContext, res);
     }
 
-    public void show(Bundle mBundle) {
+    public void show(Bundle mBundle, ArrayList<LocationRecordBean.LocationCellBean> list, onFinishListener mListener) {
+        this.mListener = mListener;
+        mList = new ArrayList<>(list);
         init(mBundle);
         if (rootView.getParent() == null) {
             decorView.addView(rootView);
@@ -217,7 +267,10 @@ public class MyMapView extends View {
         }
     }
 
-    private void dismiss() {
+    private onFinishListener mListener;
+    private ArrayList<LocationRecordBean.LocationCellBean> mList;
+
+    private void dismiss(final boolean isRefresh) {
         if (rootView.getParent() != null) {
             Animation out = getOutAnimation();
             out.setAnimationListener(new Animation.AnimationListener() {
@@ -229,6 +282,11 @@ public class MyMapView extends View {
                 @Override
                 public void onAnimationEnd(Animation animation) {
                     decorView.removeView(rootView);
+                    if (isRefresh) {
+                        if (mListener != null) {
+                            mListener.onFinish();
+                        }
+                    }
                 }
 
                 @Override
@@ -238,5 +296,70 @@ public class MyMapView extends View {
             });
             rootView.startAnimation(out);
         }
+    }
+
+    private AMapLocation mLocation;
+
+    private void locationDaKa() {
+        LocationRecordBean.LocationCellBean cell = mList.get(niceSpinner.getSelectedIndex());
+        Log.e("onItemSelected", cell.getTitle());
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault());
+        final String dateStr = format.format(new Date());
+        int stamp = Integer.parseInt(DateUtils.getTimestamp(dateStr, "yyyy/MM/dd HH:mm:ss"));
+        SoguApi.Companion.getService(((Activity) mContext).getApplication(), ApproveService.class)
+                .outCardSubmit(stamp, tvAddr.getText().toString(), mLocation.getLongitude() + "", mLocation.getLatitude() + "", cell.getId())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<Payload<Object>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(Payload<Object> listPayload) {
+                        View inflate = LayoutInflater.from(mContext).inflate(R.layout.layout_locate_success, null);
+                        final MaterialDialog dialog = new MaterialDialog.Builder(mContext)
+                                .customView(inflate, false)
+                                .cancelable(true)
+                                .canceledOnTouchOutside(true)
+                                .build();
+                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        dialog.show();
+
+                        TextView mTvTime = (TextView) dialog.findViewById(R.id.time);
+                        TextView mTvLocate = (TextView) dialog.findViewById(R.id.locate);
+                        TextView tvCancel = (TextView) dialog.findViewById(R.id.cancel);
+                        TextView tvConfirm = (TextView) dialog.findViewById(R.id.confirm);
+
+                        mTvTime.setText(dateStr.split(" ")[1].substring(0, 5));
+                        mTvLocate.setText(mLocation.getAddress());
+                        tvCancel.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+                        tvConfirm.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                                dismiss(true);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ((LocationActivity) mContext).showCustomToast(R.drawable.icon_toast_fail, "网络请求出错，无法定位打卡");
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
+
+    public interface onFinishListener {
+        void onFinish();
     }
 }

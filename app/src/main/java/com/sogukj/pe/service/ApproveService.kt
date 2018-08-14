@@ -214,4 +214,20 @@ interface ApproveService{
     @FormUrlEncoded
     @POST("/api/Index/outCardInfo")
     fun outCardInfo(@Field("stamp") stamp: Int): Observable<Payload<ArrayList<LocationRecordBean.LocationCellBean>>>
+
+    @POST("/api/Index/outCardApproveList")
+    fun outCardApproveList(): Observable<Payload<ArrayList<LocationRecordBean.LocationCellBean>>>
+
+//    stamp	int		时间戳(年月日时分秒)	非空
+//    place	str		地点	非空
+//    longitude	str		经度	非空
+//    latitude	str		纬度	非空
+//    sid	int		关联的出差,请假或外出的审批id	可空
+    @FormUrlEncoded
+    @POST("/api/Index/outCardSubmit")
+    fun outCardSubmit(@Field("stamp") stamp: Int,
+                      @Field("place") place: String,
+                      @Field("longitude") longitude: String,
+                      @Field("latitude") latitude: String,
+                      @Field("sid") sid: Int ?= null): Observable<Payload<Any>>
 }

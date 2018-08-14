@@ -3,6 +3,8 @@ package com.sogukj.pe.module.clockin
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -14,6 +16,7 @@ import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.BaseFragment
 import com.sogukj.pe.baselibrary.utils.DateUtils
 import com.sogukj.pe.baselibrary.utils.Trace
+import com.sogukj.pe.bean.LocationRecordBean
 import com.sogukj.pe.peUtils.MyGlideUrl
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.ApproveService
@@ -25,6 +28,7 @@ import kotlinx.android.synthetic.main.fragment_location_clock.*
 import org.jetbrains.anko.support.v4.ctx
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class LocationClockFragment : BaseFragment() {
     override val containerViewId: Int
@@ -35,7 +39,24 @@ class LocationClockFragment : BaseFragment() {
 
         var map = MyMapView(ctx)
         waichudaka.setOnClickListener {
-            map.show(savedInstanceState)
+            SoguApi.getService(baseActivity!!.application, ApproveService::class.java)
+                    .outCardApproveList()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe({ payload ->
+                        var list = ArrayList<LocationRecordBean.LocationCellBean>()
+                        payload?.payload?.forEach {
+                            list.add(it)
+                        }
+                        map.show(savedInstanceState, list, object : MyMapView.onFinishListener {
+                            override fun onFinish() {
+                                doRequest()
+                            }
+                        })
+                    }, { e ->
+                        showCustomToast(R.drawable.icon_toast_fail, "网络请求出错，无法定位打卡")
+                        Trace.e(e)
+                    })
         }
 
         loadHeader()
@@ -50,12 +71,31 @@ class LocationClockFragment : BaseFragment() {
         doRequest()
     }
 
+    private val mHandler = object : Handler() {
+        override fun handleMessage(msg: Message) {
+            if (msg.what == 0x001) {
+                synchronized(this) {
+                    var str = format.format(Date())
+                    instantTime.text = str.split(" ")[1]
+                    sendMessageDelayed(obtainMessage(0x001), 1000)
+                }
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mHandler.removeMessages(0x001)
+    }
+
+    val format = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault())
+
     fun doRequest() {
-        val format = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault())
+        mHandler.removeMessages(0x001)
         var str = format.format(Date())
         today.text = str.split(" ")[0]
         instantTime.text = str.split(" ")[1]
-        //
+        mHandler.sendMessageDelayed(mHandler.obtainMessage(0x001), 0)
 
         dutyOn.visibility = View.GONE
         dutyOff.visibility = View.GONE
