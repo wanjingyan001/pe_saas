@@ -349,6 +349,7 @@ public class MyMapView extends View {
                         tvConfirm.setOnClickListener(new OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                dakaId = 0;
                                 dialog.dismiss();
                                 dismiss(true);
                             }
