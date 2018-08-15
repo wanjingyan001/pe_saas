@@ -25,6 +25,7 @@
     android:paddingBottom="15dp"
     android:singleLine="true"
     android:text="11111111"
+    android:drawablePadding="8dp"
     android:background="@drawable/bg"
     android:textColor="#ff282828"
     android:textSize="14sp" />

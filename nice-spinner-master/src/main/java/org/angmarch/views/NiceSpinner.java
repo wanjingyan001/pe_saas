@@ -130,6 +130,10 @@ public class NiceSpinner extends AppCompatTextView {
         super.onRestoreInstanceState(savedState);
     }
 
+    private int dpToPx(Context context, int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
+    }
+
     private void init(Context context, AttributeSet attrs) {
         Resources resources = getResources();
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.NiceSpinner);
@@ -140,6 +144,11 @@ public class NiceSpinner extends AppCompatTextView {
         setClickable(true);
         setTextSize(14);
         setSingleLine(true);
+
+        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.shape);
+        drawable.setBounds(0, 0, dpToPx(context, 15), dpToPx(context, 15));
+        setCompoundDrawables(drawable, null, null, null);
+        setCompoundDrawablePadding(dpToPx(context, 8));
 
         backgroundSelector = typedArray.getResourceId(R.styleable.NiceSpinner_backgroundSelector, R.drawable.selector);
         setBackgroundResource(backgroundSelector);

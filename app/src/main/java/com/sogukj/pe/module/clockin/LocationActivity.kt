@@ -92,4 +92,12 @@ class LocationActivity : ToolbarActivity() {
             }
         })
     }
+
+    override fun onBackPressed() {
+        if (view_pager.currentItem == 0 && (fragments[0] as LocationClockFragment).map.isShown) {
+            (fragments[0] as LocationClockFragment).map.dismiss(false)
+        } else {
+            super.onBackPressed()
+        }
+    }
 }

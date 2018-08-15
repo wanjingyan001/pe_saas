@@ -1,9 +1,11 @@
 package org.angmarch.views;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -41,6 +43,10 @@ public abstract class NiceSpinnerBaseAdapter<T> extends BaseAdapter {
         this.textColor = textColor;
     }
 
+    private int dpToPx(Context context, int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
+    }
+
     @Override public View getView(int position, @Nullable View convertView, ViewGroup parent) {
         Context context = parent.getContext();
         TextView textView;
@@ -52,6 +58,9 @@ public abstract class NiceSpinnerBaseAdapter<T> extends BaseAdapter {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 textView.setBackground(ContextCompat.getDrawable(context, backgroundSelector));
             }
+            Drawable drawable = ContextCompat.getDrawable(context, R.drawable.shape);
+            drawable.setBounds(0, 0, dpToPx(context, 15), dpToPx(context, 15));
+            textView.setCompoundDrawables(drawable, null, null, null);
             convertView.setTag(new ViewHolder(textView));
         } else {
             textView = ((ViewHolder) convertView.getTag()).textView;

@@ -277,10 +277,18 @@ public class MyMapView extends View {
         }
     }
 
+    public boolean isShown() {
+        if (rootView.getParent() != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private onFinishListener mListener;
     private ArrayList<LocationRecordBean.LocationCellBean> mList;
 
-    private void dismiss(final boolean isRefresh) {
+    public void dismiss(final boolean isRefresh) {
         if (rootView.getParent() != null) {
             Animation out = getOutAnimation();
             out.setAnimationListener(new Animation.AnimationListener() {
