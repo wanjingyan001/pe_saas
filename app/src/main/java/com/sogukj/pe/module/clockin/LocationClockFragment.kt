@@ -1,5 +1,6 @@
 package com.sogukj.pe.module.clockin
 
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
@@ -19,6 +20,7 @@ import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.BaseFragment
 import com.sogukj.pe.baselibrary.utils.DateUtils
 import com.sogukj.pe.baselibrary.utils.Trace
+import com.sogukj.pe.baselibrary.widgets.DotView
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.LocationRecordBean
@@ -73,6 +75,7 @@ class LocationClockFragment : BaseFragment() {
                     val tvClockTime = convertView.find<TextView>(R.id.clockTime)
                     val tvLocate = convertView.find<TextView>(R.id.locate)
                     val tvRelate = convertView.find<TextView>(R.id.relate)
+                    val dotView = convertView.find<DotView>(R.id.dotView)
                     override fun setData(view: View, data: LocationRecordBean.LocationCellBean, position: Int) {
                         tvClockTime.text = "打卡时间  ${data.time!!.substring(0, 5)}"
                         tvLocate.text = data.place
@@ -88,6 +91,22 @@ class LocationClockFragment : BaseFragment() {
                                 }
                             }
                         }
+                        dotView.importantColor = Color.parseColor("#ffd8d8d8")
+                        dotView.setImportant(true)
+                        if (position == 0) {
+                            dotView.setUp(false)
+                            dotView.setLow(true)
+                        } else if (position == adapter.dataList.size - 1) {
+                            dotView.setUp(true)
+                            dotView.setLow(false)
+                        } else {
+                            dotView.setUp(true)
+                            dotView.setLow(true)
+                        }
+                        if (adapter.dataList.size == 1) {
+                            dotView.setUp(false)
+                            dotView.setLow(false)
+                        }
                     }
                 }
             })
@@ -95,7 +114,7 @@ class LocationClockFragment : BaseFragment() {
 //                ProjectActivity.start(context, adapter.dataList.get(position))
 //            }
             recycler_view.layoutManager = LinearLayoutManager(context)
-            recycler_view.addItemDecoration(DividerItemDecoration(ctx, DividerItemDecoration.VERTICAL))
+            //recycler_view.addItemDecoration(DividerItemDecoration(ctx, DividerItemDecoration.VERTICAL))
             recycler_view.adapter = adapter
 
             refresh.setOnRefreshListener {

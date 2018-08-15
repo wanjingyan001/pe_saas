@@ -1,43 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relative"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#ffffffff"
-    android:paddingBottom="12dp"
     android:paddingLeft="15dp"
-    android:paddingRight="15dp"
-    android:paddingTop="12dp">
+    android:paddingRight="15dp">
 
     <TextView
-        android:id="@+id/dutyOnTime"
+        android:id="@+id/clockTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:text="10:29    定位打卡"
+        android:layout_marginTop="10dp"
+        android:text="打卡时间09:15"
         android:textColor="#ff282828"
-        android:textSize="14sp" />
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/clockTime"
+        android:layout_marginTop="13dp"
+        android:background="@drawable/location_clock_neg" />
 
     <TextView
-        android:id="@+id/dutyOnLocate"
-        android:layout_width="match_parent"
+        android:id="@+id/locate"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/dutyOnTime"
-        android:layout_marginRight="60dp"
-        android:layout_marginTop="8dp"
-        android:drawablePadding="4dp"
-        android:ellipsize="end"
-        android:singleLine="true"
-        android:text="上海静安区江场三路93号401-402搜股上海科技有..."
+        android:layout_below="@+id/clockTime"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/imageView3"
+        android:text="上海静安区江场三路93号401-402搜股上海科技有限公司"
         android:textColor="#ffa0a4aa"
         android:textSize="12sp" />
 
-    <ImageView
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:alpha="0.5"
+    <TextView
+        android:id="@+id/relate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/locate"
+        android:layout_marginBottom="10dp"
+        android:background="#fff6fbff"
+        android:ellipsize="end"
         android:padding="5dp"
-        android:src="@drawable/ic_arrow_r" />
+        android:singleLine="true"
+        android:text="关联审批：2018/06/01 张栋梁的出差AFDA136张栋梁的出差AFDA136"
+        android:textColor="#ff4390f0"
+        android:textSize="12sp" />
 </RelativeLayout>
