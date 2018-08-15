@@ -105,6 +105,7 @@ class LocationRecordFragment : BaseFragment() {
                         showCustomToast(R.drawable.icon_toast_fail, payload.message)
                     }
                     iv_loading?.visibility = View.GONE
+                    iv_empty.visibility = if (adapter.dataList.isEmpty()) View.VISIBLE else View.GONE
                 }, { e ->
                     iv_empty.visibility = if (adapter.dataList.isEmpty()) View.VISIBLE else View.GONE
                     adapter.notifyDataSetChanged()

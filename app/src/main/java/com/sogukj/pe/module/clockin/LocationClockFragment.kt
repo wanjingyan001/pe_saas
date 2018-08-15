@@ -77,7 +77,7 @@ class LocationClockFragment : BaseFragment() {
                     val tvRelate = convertView.find<TextView>(R.id.relate)
                     val dotView = convertView.find<DotView>(R.id.dotView)
                     override fun setData(view: View, data: LocationRecordBean.LocationCellBean, position: Int) {
-                        tvClockTime.text = "打卡时间  ${data.time!!.substring(0, 5)}"
+                        tvClockTime.text = "打卡时间  ${data.time}"
                         tvLocate.text = data.place
                         if (data.sid == null) {
                             tvRelate.visibility = View.GONE

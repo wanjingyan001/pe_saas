@@ -73,7 +73,7 @@ public class LocationAdapter extends BaseAdapter {
 
         final LocationRecordBean.LocationCellBean bean = getItem(position);
 
-        String str1 = bean.getTime().substring(0, 5);
+        String str1 = bean.getTime();
         String str2 = "定位打卡";
         SpannableString str = new SpannableString(str1 + "  " + str2);
         str.setSpan(new ForegroundColorSpan(Color.parseColor("#282828")), 0, str1.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
