@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
@@ -20,6 +21,7 @@ import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.BaseFragment
 import com.sogukj.pe.baselibrary.utils.DateUtils
 import com.sogukj.pe.baselibrary.utils.Trace
+import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.DotView
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
@@ -39,14 +41,29 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class LocationClockFragment : BaseFragment() {
+class LocationClockFragment : BaseFragment(), MyMapView.onFinishListener {
+
+    override fun onFinish() {
+        doRequest()
+    }
+
+    override fun onReDaKa() {
+        if (map != null) {
+            map.show(mBun, mList, this)
+        }
+    }
+
+    lateinit var map: MyMapView
+    var mBun: Bundle? = null
+    var mList: ArrayList<LocationRecordBean.LocationCellBean>? = null
+
     override val containerViewId: Int
         get() = R.layout.fragment_location_clock
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var map = MyMapView(ctx)
+        map = MyMapView(ctx)
         waichudaka.setOnClickListener {
             SoguApi.getService(baseActivity!!.application, ApproveService::class.java)
                     .outCardApproveList()
@@ -57,11 +74,9 @@ class LocationClockFragment : BaseFragment() {
                         payload?.payload?.forEach {
                             list.add(it)
                         }
-                        map.show(savedInstanceState, list, object : MyMapView.onFinishListener {
-                            override fun onFinish() {
-                                doRequest()
-                            }
-                        })
+                        mBun = savedInstanceState
+                        mList = list
+                        map.show(mBun, mList, this)
                     }, { e ->
                         showCustomToast(R.drawable.icon_toast_fail, "网络请求出错，无法定位打卡")
                         Trace.e(e)
@@ -133,6 +148,10 @@ class LocationClockFragment : BaseFragment() {
         iv_loading?.visibility = View.VISIBLE
 
         doRequest()
+
+        var drawable = ContextCompat.getDrawable(ctx, R.drawable.locate_date)
+        drawable?.setBounds(0, 0, Utils.dpToPx(ctx, 12), Utils.dpToPx(ctx, 12))
+        today.setCompoundDrawables(drawable, null, null, null)
     }
 
     lateinit var adapter: RecyclerAdapter<LocationRecordBean.LocationCellBean>
@@ -162,7 +181,6 @@ class LocationClockFragment : BaseFragment() {
         instantTime.text = str.split(" ")[1]
         mHandler.sendMessageDelayed(mHandler.obtainMessage(0x001), 0)
 
-        iv_loading?.visibility = View.VISIBLE
         iv_empty.visibility = View.GONE
         var stamp = DateUtils.getTimestamp(str, "yyyy/MM/dd HH:mm:ss").toInt()
         SoguApi.getService(baseActivity!!.application, ApproveService::class.java)
@@ -211,7 +229,7 @@ class LocationClockFragment : BaseFragment() {
                     .into(userHeadImg)
         }
         userName.text = user?.name
-        userPosition.text = "职位：${user?.position}"
+        userPosition.text = "${user?.position}"
     }
 
     var isViewCreate = false

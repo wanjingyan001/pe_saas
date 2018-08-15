@@ -111,7 +111,7 @@ public class MyMapView extends View {
         niceSpinner = rootView.findViewById(R.id.nice_spinner);
         LocationRecordBean.LocationCellBean bean = new LocationRecordBean.LocationCellBean();
         bean.setId(0);
-        bean.setTitle("空");
+        bean.setTitle("不关联");
         bean.setTime("");
         mList.add(0, bean);
         ArrayList<String> dstList = new ArrayList<>();
@@ -156,6 +156,7 @@ public class MyMapView extends View {
         tvConfirm.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                dismiss(false);
                 locationDaKa();
             }
         });
@@ -264,7 +265,11 @@ public class MyMapView extends View {
 
     public void show(Bundle mBundle, ArrayList<LocationRecordBean.LocationCellBean> list, onFinishListener mListener) {
         this.mListener = mListener;
-        mList = new ArrayList<>(list);
+        if (list == null) {
+            mList = new ArrayList<>();
+        } else {
+            mList = new ArrayList<>(list);
+        }
         init(mBundle);
         if (rootView.getParent() == null) {
             decorView.addView(rootView);
@@ -349,6 +354,9 @@ public class MyMapView extends View {
                             @Override
                             public void onClick(View v) {
                                 dialog.dismiss();
+                                if (mListener != null) {
+                                    mListener.onReDaKa();
+                                }
                             }
                         });
                         tvConfirm.setOnClickListener(new OnClickListener() {
@@ -374,5 +382,7 @@ public class MyMapView extends View {
 
     public interface onFinishListener {
         void onFinish();
+
+        void onReDaKa();
     }
 }

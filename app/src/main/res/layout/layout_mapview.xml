@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="6dp"
-            android:text="可关联审批"
+            android:text="请选择关联审批（选填）"
             android:textColor="#ff282828"
             android:textSize="14sp" />
 
