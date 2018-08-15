@@ -22,6 +22,7 @@ import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.LocationRecordBean
+import com.sogukj.pe.module.approve.LeaveBusinessApproveActivity
 import com.sogukj.pe.peUtils.MyGlideUrl
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.ApproveService
@@ -80,6 +81,12 @@ class LocationClockFragment : BaseFragment() {
                         } else {
                             tvRelate.visibility = View.VISIBLE
                             tvRelate.text = "关联审批：${data.add_time!!.split(" ")[0]}  ${data.title}"
+                            tvRelate.setOnClickListener {
+                                try {
+                                    LeaveBusinessApproveActivity.start(activity, data.sid!!, data.stype!!)
+                                } catch (e: Exception) {
+                                }
+                            }
                         }
                     }
                 }
@@ -133,7 +140,6 @@ class LocationClockFragment : BaseFragment() {
     fun doRequest() {
         mHandler.removeMessages(0x001)
         var str = format.format(Date())
-        today.text = str.split(" ")[0]
         instantTime.text = str.split(" ")[1]
         mHandler.sendMessageDelayed(mHandler.obtainMessage(0x001), 0)
 

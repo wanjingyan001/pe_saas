@@ -19,6 +19,7 @@ class LocationRecordBean {
         var latitude: String? = null
 
         var sid: Int? = null
+        var stype: String? = null
         var title: String? = null
         var add_time: String? = null
     }

@@ -129,8 +129,13 @@ public class MyMapView extends View {
         niceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //LocationRecordBean.LocationCellBean cell = mList.get(position);
-                //Log.e("onItemSelected", cell.getTitle());
+                LocationRecordBean.LocationCellBean cell = mList.get(position);
+                try {
+                    niceSpinner.setText(cell.getAdd_time().split(" ")[0] + "  " + cell.getTitle());
+                } catch (Exception e) {
+                    // 第一个cell  addtime是null
+                    niceSpinner.setText(cell.getTitle());
+                }
             }
 
             @Override

@@ -138,7 +138,7 @@ public class NiceSpinner extends AppCompatTextView {
         setGravity(Gravity.CENTER | Gravity.LEFT);
         setPadding(defaultPadding, defaultPadding, defaultPadding, defaultPadding);
         setClickable(true);
-        setTextSize(12);
+        setTextSize(14);
 
         backgroundSelector = typedArray.getResourceId(R.styleable.NiceSpinner_backgroundSelector, R.drawable.selector);
         setBackgroundResource(backgroundSelector);

@@ -94,14 +94,13 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/today"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:drawableLeft="@drawable/locate_date"
                 android:drawablePadding="15dp"
-                android:text="2018/05/21"
+                android:text="今日打卡"
                 android:textColor="#ff282828"
                 android:textSize="16sp" />
 

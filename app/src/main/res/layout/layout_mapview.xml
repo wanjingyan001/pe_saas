@@ -39,16 +39,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="6dp"
             android:text="可关联审批"
             android:textColor="#ff282828"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="37dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/bg_spinner">
 
             <org.angmarch.views.NiceSpinner
@@ -62,7 +63,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="16dp"
             android:background="@color/divider2" />
 
         <LinearLayout
