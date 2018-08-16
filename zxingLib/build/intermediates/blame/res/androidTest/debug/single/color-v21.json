@@ -1,5 +1,9 @@
 [
     {
+        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/zxingLib/build/intermediates/res/merged/androidTest/debug/color-v21/abc_btn_colored_borderless_text_material.xml",
+        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/19f95d7a348682a27e954f1475d7aeef/res/color-v21/abc_btn_colored_borderless_text_material.xml"
+    },
+    {
         "merged": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/res/merged/androidTest/debug/color-v21/abc_btn_colored_borderless_text_material.xml",
         "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/color-v21/abc_btn_colored_borderless_text_material.xml"
     }

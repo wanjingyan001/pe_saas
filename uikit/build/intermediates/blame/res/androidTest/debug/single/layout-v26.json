@@ -2,5 +2,9 @@
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout-v26/abc_screen_toolbar.xml",
         "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/layout-v26/abc_screen_toolbar.xml"
+    },
+    {
+        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/layout-v26/abc_screen_toolbar.xml",
+        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/19f95d7a348682a27e954f1475d7aeef/res/layout-v26/abc_screen_toolbar.xml"
     }
 ]

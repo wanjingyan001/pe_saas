@@ -1,5 +1,9 @@
 [
     {
+        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/drawable-ldpi-v4/md_nav_back.png",
+        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/95728d41a6fe585678ca3f33274466c8/res/drawable-ldpi-v4/md_nav_back.png"
+    },
+    {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-ldpi-v4/md_nav_back.png",
         "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/413f61b82aec3631fa64e0544b0122bb/res/drawable-ldpi-v4/md_nav_back.png"
     }

@@ -1,11 +1,51 @@
 [
     {
-        "merged": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/res/merged/androidTest/debug/anim/abc_shrink_fade_out_from_bottom.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/anim/abc_shrink_fade_out_from_bottom.xml"
-    },
-    {
         "merged": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/res/merged/androidTest/debug/anim/abc_tooltip_enter.xml",
         "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/anim/abc_tooltip_enter.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/res/merged/androidTest/debug/anim/abc_grow_fade_in_from_bottom.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/anim/abc_grow_fade_in_from_bottom.xml"
+    },
+    {
+        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/zxingLib/build/intermediates/res/merged/androidTest/debug/anim/abc_popup_enter.xml",
+        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/19f95d7a348682a27e954f1475d7aeef/res/anim/abc_popup_enter.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/res/merged/androidTest/debug/anim/abc_popup_enter.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/anim/abc_popup_enter.xml"
+    },
+    {
+        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/zxingLib/build/intermediates/res/merged/androidTest/debug/anim/abc_slide_out_top.xml",
+        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/19f95d7a348682a27e954f1475d7aeef/res/anim/abc_slide_out_top.xml"
+    },
+    {
+        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/zxingLib/build/intermediates/res/merged/androidTest/debug/anim/abc_popup_exit.xml",
+        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/19f95d7a348682a27e954f1475d7aeef/res/anim/abc_popup_exit.xml"
+    },
+    {
+        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/zxingLib/build/intermediates/res/merged/androidTest/debug/anim/abc_tooltip_exit.xml",
+        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/19f95d7a348682a27e954f1475d7aeef/res/anim/abc_tooltip_exit.xml"
+    },
+    {
+        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/zxingLib/build/intermediates/res/merged/androidTest/debug/anim/abc_slide_in_bottom.xml",
+        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/19f95d7a348682a27e954f1475d7aeef/res/anim/abc_slide_in_bottom.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/res/merged/androidTest/debug/anim/abc_fade_in.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/anim/abc_fade_in.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/res/merged/androidTest/debug/anim/abc_tooltip_exit.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/anim/abc_tooltip_exit.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/res/merged/androidTest/debug/anim/abc_slide_out_bottom.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/anim/abc_slide_out_bottom.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/res/merged/androidTest/debug/anim/abc_shrink_fade_out_from_bottom.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/anim/abc_shrink_fade_out_from_bottom.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/res/merged/androidTest/debug/anim/abc_slide_out_top.xml",
@@ -20,31 +60,39 @@
         "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/anim/abc_popup_exit.xml"
     },
     {
-        "merged": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/res/merged/androidTest/debug/anim/abc_grow_fade_in_from_bottom.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/anim/abc_grow_fade_in_from_bottom.xml"
+        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/zxingLib/build/intermediates/res/merged/androidTest/debug/anim/abc_slide_out_bottom.xml",
+        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/19f95d7a348682a27e954f1475d7aeef/res/anim/abc_slide_out_bottom.xml"
     },
     {
-        "merged": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/res/merged/androidTest/debug/anim/abc_popup_enter.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/anim/abc_popup_enter.xml"
+        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/zxingLib/build/intermediates/res/merged/androidTest/debug/anim/abc_grow_fade_in_from_bottom.xml",
+        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/19f95d7a348682a27e954f1475d7aeef/res/anim/abc_grow_fade_in_from_bottom.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/res/merged/androidTest/debug/anim/abc_slide_in_bottom.xml",
         "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/anim/abc_slide_in_bottom.xml"
     },
     {
-        "merged": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/res/merged/androidTest/debug/anim/abc_fade_in.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/anim/abc_fade_in.xml"
+        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/zxingLib/build/intermediates/res/merged/androidTest/debug/anim/abc_fade_out.xml",
+        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/19f95d7a348682a27e954f1475d7aeef/res/anim/abc_fade_out.xml"
     },
     {
-        "merged": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/res/merged/androidTest/debug/anim/abc_tooltip_exit.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/anim/abc_tooltip_exit.xml"
+        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/zxingLib/build/intermediates/res/merged/androidTest/debug/anim/abc_fade_in.xml",
+        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/19f95d7a348682a27e954f1475d7aeef/res/anim/abc_fade_in.xml"
+    },
+    {
+        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/zxingLib/build/intermediates/res/merged/androidTest/debug/anim/abc_slide_in_top.xml",
+        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/19f95d7a348682a27e954f1475d7aeef/res/anim/abc_slide_in_top.xml"
+    },
+    {
+        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/zxingLib/build/intermediates/res/merged/androidTest/debug/anim/abc_shrink_fade_out_from_bottom.xml",
+        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/19f95d7a348682a27e954f1475d7aeef/res/anim/abc_shrink_fade_out_from_bottom.xml"
+    },
+    {
+        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/zxingLib/build/intermediates/res/merged/androidTest/debug/anim/abc_tooltip_enter.xml",
+        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/19f95d7a348682a27e954f1475d7aeef/res/anim/abc_tooltip_enter.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/res/merged/androidTest/debug/anim/abc_slide_in_top.xml",
         "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/anim/abc_slide_in_top.xml"
-    },
-    {
-        "merged": "/Users/admin/dev/pe_saas/zxingLib/build/intermediates/res/merged/androidTest/debug/anim/abc_slide_out_bottom.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/anim/abc_slide_out_bottom.xml"
     }
 ]

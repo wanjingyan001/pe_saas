@@ -1,5 +1,9 @@
 [
     {
+        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/drawable-watch-v20/abc_dialog_material_background.xml",
+        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/19f95d7a348682a27e954f1475d7aeef/res/drawable-watch-v20/abc_dialog_material_background.xml"
+    },
+    {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-watch-v20/abc_dialog_material_background.xml",
         "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/drawable-watch-v20/abc_dialog_material_background.xml"
     }

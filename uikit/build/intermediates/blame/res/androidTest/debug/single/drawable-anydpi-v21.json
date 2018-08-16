@@ -10,5 +10,17 @@
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/drawable-anydpi-v21/design_ic_visibility_off.xml",
         "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/da0dceb41ba8d31850790a32dcb10796/res/drawable-anydpi-v21/design_ic_visibility_off.xml"
+    },
+    {
+        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/drawable-anydpi-v21/design_ic_visibility_off.xml",
+        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/e8c92774d510dc3ab4dd5f9cbdc3225c/res/drawable-anydpi-v21/design_ic_visibility_off.xml"
+    },
+    {
+        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/drawable-anydpi-v21/design_ic_visibility.xml",
+        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/e8c92774d510dc3ab4dd5f9cbdc3225c/res/drawable-anydpi-v21/design_ic_visibility.xml"
+    },
+    {
+        "merged": "/Users/sogubaby/Desktop/saas/pe-saas-android/uikit/build/intermediates/res/merged/androidTest/debug/drawable-anydpi-v21/md_nav_back.xml",
+        "source": "/Users/sogubaby/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/95728d41a6fe585678ca3f33274466c8/res/drawable-anydpi-v21/md_nav_back.xml"
     }
 ]
