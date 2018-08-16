@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -71,6 +72,7 @@ public class NiceSpinner extends AppCompatTextView {
     int arrowDrawableResId;
     private SpinnerTextFormatter spinnerTextFormatter = new SimpleSpinnerTextFormatter();
     private SpinnerTextFormatter selectedTextFormatter = new SimpleSpinnerTextFormatter();
+    private Context mContext;
 
     public NiceSpinner(Context context) {
         super(context);
@@ -134,7 +136,10 @@ public class NiceSpinner extends AppCompatTextView {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
     }
 
+    private Drawable drawableLeft;
+
     private void init(Context context, AttributeSet attrs) {
+        mContext = context;
         Resources resources = getResources();
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.NiceSpinner);
         int defaultPadding = resources.getDimensionPixelSize(R.dimen.one_and_a_half_grid_unit);
@@ -145,9 +150,8 @@ public class NiceSpinner extends AppCompatTextView {
         setTextSize(14);
         setSingleLine(true);
 
-        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.shape);
-        drawable.setBounds(0, 0, dpToPx(context, 15), dpToPx(context, 15));
-        setCompoundDrawables(drawable, null, null, null);
+        drawableLeft = ContextCompat.getDrawable(context, R.drawable.shape);
+        drawableLeft.setBounds(0, 0, dpToPx(context, 15), dpToPx(context, 15));
         setCompoundDrawablePadding(dpToPx(context, 8));
 
         backgroundSelector = typedArray.getResourceId(R.styleable.NiceSpinner_backgroundSelector, R.drawable.selector);
@@ -159,15 +163,22 @@ public class NiceSpinner extends AppCompatTextView {
         // Set the spinner's id into the listview to make it pretend to be the right parent in
         // onItemClick
         listView.setId(getId());
-        listView.setDivider(null);
+        //listView.setDivider(null);
         listView.setItemsCanFocus(true);
         //hide vertical and horizontal scrollbars
         listView.setVerticalScrollBarEnabled(false);
         listView.setHorizontalScrollBarEnabled(false);
+
+        listView.setDivider(new ColorDrawable(Color.parseColor("#f1f1f1")));
+        listView.setDividerHeight(1);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(position == adapter.getCount() - 1) {
+                    return;
+                }
                 if (position >= selectedIndex && position < adapter.getCount()) {
                     position++;
                 }
@@ -254,9 +265,10 @@ public class NiceSpinner extends AppCompatTextView {
 
     private void setArrowDrawableOrHide(Drawable drawable) {
         if (!isArrowHidden && drawable != null) {
-            setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
+            drawable.setBounds(0, 0, dpToPx(mContext, 25), dpToPx(mContext, 25));
+            setCompoundDrawables(drawableLeft, null, drawable, null);
         } else {
-            setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+            setCompoundDrawables(drawableLeft, null, null, null);
         }
     }
 
@@ -370,7 +382,7 @@ public class NiceSpinner extends AppCompatTextView {
             animateArrow(true);
         }
         measurePopUpDimension();
-        popupWindow.showAsDropDown(this);
+        popupWindow.showAsDropDown(this,0,1);
     }
 
     private void measurePopUpDimension() {

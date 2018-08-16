@@ -1,31 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<!--<TextView xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:tools="http://schemas.android.com/tools"-->
-    <!--android:id="@+id/text_view_spinner"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="center"-->
-    <!--android:ellipsize="marquee"-->
-    <!--android:gravity="center"-->
-    <!--android:paddingBottom="@dimen/one_and_a_half_grid_unit"-->
-    <!--android:paddingTop="@dimen/one_and_a_half_grid_unit"-->
-    <!--android:singleLine="true"-->
-    <!--android:textSize="15sp"-->
-    <!--tools:textColor="@android:color/black"-->
-    <!--tools:text="Item"/>-->
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/text_view_spinner"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:ellipsize="end"
-    android:gravity="center|left"
-    android:paddingLeft="7dp"
-    android:paddingTop="15dp"
-    android:paddingBottom="15dp"
-    android:singleLine="true"
-    android:text="11111111"
-    android:drawablePadding="8dp"
-    android:background="@drawable/bg"
-    android:textColor="#ff282828"
-    android:textSize="14sp" />
+    android:background="@drawable/bg_spinner_lib"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/text_view_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawablePadding="8dp"
+        android:ellipsize="end"
+        android:gravity="center|left"
+        android:paddingBottom="15dp"
+        android:paddingLeft="7dp"
+        android:paddingTop="15dp"
+        android:singleLine="true"
+        android:text="11111111"
+        android:textColor="#ff282828"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tvMark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff9f8f6"
+        android:gravity="center"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:text="搜股X-PE"
+        android:textColor="#ffa0a4aa"
+        android:textSize="10sp" />
+
+</LinearLayout>

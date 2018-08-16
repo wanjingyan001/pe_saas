@@ -343,15 +343,6 @@
                         android:textSize="10sp" />
                 </LinearLayout>
 
-                <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="12dp"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:alpha="0.3"
-                    android:background="@drawable/ic_arrow_r" />
-
             </LinearLayout>
 
             <ImageView

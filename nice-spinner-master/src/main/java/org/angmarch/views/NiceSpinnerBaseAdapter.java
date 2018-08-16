@@ -6,6 +6,7 @@ import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -50,23 +51,33 @@ public abstract class NiceSpinnerBaseAdapter<T> extends BaseAdapter {
     @Override public View getView(int position, @Nullable View convertView, ViewGroup parent) {
         Context context = parent.getContext();
         TextView textView;
+        ViewHolder holder = null;
 
         if (convertView == null) {
-            convertView = View.inflate(context, R.layout.spinner_list_item, null);
-            textView = (TextView) convertView.findViewById(R.id.text_view_spinner);
-
+            holder = new ViewHolder();
+            convertView = LayoutInflater.from(context).inflate(R.layout.spinner_list_item, parent, false);
+            holder.textView = (TextView) convertView.findViewById(R.id.text_view_spinner);
+            holder.tvMark = (TextView) convertView.findViewById(R.id.tvMark);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                textView.setBackground(ContextCompat.getDrawable(context, backgroundSelector));
+                holder.textView.setBackground(ContextCompat.getDrawable(context, backgroundSelector));
             }
             Drawable drawable = ContextCompat.getDrawable(context, R.drawable.shape);
             drawable.setBounds(0, 0, dpToPx(context, 15), dpToPx(context, 15));
-            textView.setCompoundDrawables(drawable, null, null, null);
-            convertView.setTag(new ViewHolder(textView));
+            holder.textView.setCompoundDrawables(drawable, null, null, null);
+            convertView.setTag(holder);
         } else {
-            textView = ((ViewHolder) convertView.getTag()).textView;
+            holder = (ViewHolder) convertView.getTag();
         }
 
-        textView.setText(spinnerTextFormatter.format(getItem(position).toString()));
+        if(getItem(position).toString().isEmpty()){
+            holder.textView.setVisibility(View.GONE);
+            holder.tvMark.setVisibility(View.VISIBLE);
+        } else {
+            holder.textView.setVisibility(View.VISIBLE);
+            holder.tvMark.setVisibility(View.GONE);
+            holder.textView.setText(spinnerTextFormatter.format(getItem(position).toString()));
+        }
+
         //textView.setTextColor(textColor);
         return convertView;
     }
@@ -90,10 +101,7 @@ public abstract class NiceSpinnerBaseAdapter<T> extends BaseAdapter {
     @Override public abstract int getCount();
 
     static class ViewHolder {
-        TextView textView;
+        TextView textView, tvMark;
 
-        ViewHolder(TextView textView) {
-            this.textView = textView;
-        }
     }
 }

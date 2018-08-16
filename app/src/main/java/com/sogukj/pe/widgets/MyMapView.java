@@ -114,6 +114,14 @@ public class MyMapView extends View {
         bean.setTitle("不关联");
         bean.setTime("");
         mList.add(0, bean);
+
+        //最后的标记
+        LocationRecordBean.LocationCellBean beanLast = new LocationRecordBean.LocationCellBean();
+        beanLast.setId(0);
+        beanLast.setTitle("");
+        beanLast.setTime("");
+        mList.add(beanLast);
+
         ArrayList<String> dstList = new ArrayList<>();
         for (int i = 0; i < mList.size(); i++) {
             LocationRecordBean.LocationCellBean cell = mList.get(i);
@@ -278,7 +286,7 @@ public class MyMapView extends View {
     }
 
     public boolean isShown() {
-        if (rootView.getParent() != null) {
+        if (rootView != null && rootView.getParent() != null) {
             return true;
         } else {
             return false;
@@ -320,7 +328,6 @@ public class MyMapView extends View {
     private int dakaId = 0;
 
     private void locationDaKa() {
-        int a = 5;
         LocationRecordBean.LocationCellBean cell = mList.get(niceSpinner.getSelectedIndex());
         Log.e("onItemSelected", cell.getTitle());
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault());
@@ -345,8 +352,7 @@ public class MyMapView extends View {
                         View inflate = LayoutInflater.from(mContext).inflate(R.layout.layout_locate_success, null);
                         final MaterialDialog dialog = new MaterialDialog.Builder(mContext)
                                 .customView(inflate, false)
-                                .cancelable(true)
-                                .canceledOnTouchOutside(true)
+                                .cancelable(false)
                                 .build();
                         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                         dialog.show();
@@ -372,7 +378,9 @@ public class MyMapView extends View {
                             public void onClick(View v) {
                                 dakaId = 0;
                                 dialog.dismiss();
-                                dismiss(true);
+                                if (mListener != null) {
+                                    mListener.onFinish();
+                                }
                             }
                         });
                     }
