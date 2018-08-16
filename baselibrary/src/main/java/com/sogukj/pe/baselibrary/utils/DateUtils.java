@@ -1,5 +1,8 @@
 package com.sogukj.pe.baselibrary.utils;
 
+import android.content.Context;
+import android.text.format.DateFormat;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -15,6 +18,25 @@ public class DateUtils {
     private static long day = 24 * hour;// 1天
     private static long month = 31 * day;// 月
     private static long year = 12 * month;// 年
+
+    public static String getTime24HDisplay(Context context, int timeStamp) {
+        boolean is24HMode = DateFormat.is24HourFormat(context);
+        Date date = new Date(timeStamp * 1000L);
+        if (is24HMode) {
+            return new SimpleDateFormat("yyyy-MM-dd HH:mm").format(date);
+        } else {
+            return new SimpleDateFormat("yyyy-MM-dd a hh:mm").format(date);
+        }
+    }
+
+    public static String getTime24HDisplay(Context context, Date date) {
+        boolean is24HMode = DateFormat.is24HourFormat(context);
+        if (is24HMode) {
+            return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+        } else {
+            return new SimpleDateFormat("yyyy-MM-dd a hh:mm:ss").format(date);
+        }
+    }
 
     public static String getTimeFormatText(String date) throws Exception {
         Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date);
@@ -37,7 +59,7 @@ public class DateUtils {
             r = diff / year;
             if (r > 1) {
                 String str = Utils.getTime(date, "yyyy-MM-dd HH:ss");
-                if(str.endsWith("00:00")) {
+                if (str.endsWith("00:00")) {
                     return str.split(" ")[0];
                 } else {
                     return str;
@@ -48,20 +70,20 @@ public class DateUtils {
         }
         if (diff > month) {
             String str = Utils.getTime(date, "MM-dd HH:ss");
-            if(str.endsWith("00:00")) {
+            if (str.endsWith("00:00")) {
                 return str.split(" ")[0];
             } else {
                 return str;
             }
         }
         if (diff > day) {
-            if(Utils.IsToday(Utils.getTime(date, "yyyy-MM-dd HH:ss"))){
+            if (Utils.IsToday(Utils.getTime(date, "yyyy-MM-dd HH:ss"))) {
                 return "今天";
-            } else if(Utils.IsYesterday(Utils.getTime(date, "yyyy-MM-dd HH:ss"))){
+            } else if (Utils.IsYesterday(Utils.getTime(date, "yyyy-MM-dd HH:ss"))) {
                 return "昨天";
             } else {
                 String str = Utils.getTime(date, "MM-dd HH:ss");
-                if(str.endsWith("00:00")) {
+                if (str.endsWith("00:00")) {
                     return str.split(" ")[0];
                 } else {
                     return str;

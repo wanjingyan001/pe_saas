@@ -112,14 +112,14 @@ public class MyMapView extends View {
         LocationRecordBean.LocationCellBean bean = new LocationRecordBean.LocationCellBean();
         bean.setId(0);
         bean.setTitle("不关联");
-        bean.setTime("");
+        bean.setTime(0);
         mList.add(0, bean);
 
         //最后的标记
         LocationRecordBean.LocationCellBean beanLast = new LocationRecordBean.LocationCellBean();
         beanLast.setId(0);
         beanLast.setTitle("");
-        beanLast.setTime("");
+        beanLast.setTime(0);
         mList.add(beanLast);
 
         ArrayList<String> dstList = new ArrayList<>();
@@ -158,7 +158,11 @@ public class MyMapView extends View {
                 if (mLocationClient != null && mLocationClient.isStarted()) {
                     mLocationClient.stopLocation();
                 }
-                dismiss(false);
+                if (dakaId == 0) {
+                    dismiss(false);
+                } else {
+                    dismiss(true);
+                }
             }
         });
         tvConfirm.setOnClickListener(new OnClickListener() {
@@ -332,9 +336,9 @@ public class MyMapView extends View {
         Log.e("onItemSelected", cell.getTitle());
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault());
         final String dateStr = format.format(new Date());
-        int stamp = Integer.parseInt(DateUtils.getTimestamp(dateStr, "yyyy/MM/dd HH:mm:ss"));
+        long stamp = System.currentTimeMillis() / 1000;
         SoguApi.Companion.getService(((Activity) mContext).getApplication(), ApproveService.class)
-                .outCardSubmit(stamp, tvAddr.getText().toString(), mLocation.getLongitude() + "", mLocation.getLatitude() + "", cell.getId(), dakaId)
+                .outCardSubmit((int) stamp, tvAddr.getText().toString(), mLocation.getLongitude() + "", mLocation.getLatitude() + "", cell.getId(), dakaId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<Payload<Integer>>() {

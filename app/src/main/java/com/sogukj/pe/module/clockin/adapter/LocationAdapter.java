@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sogukj.pe.R;
+import com.sogukj.pe.baselibrary.utils.DateUtils;
 import com.sogukj.pe.baselibrary.utils.Utils;
 import com.sogukj.pe.baselibrary.widgets.DotView;
 import com.sogukj.pe.bean.LocationRecordBean;
@@ -73,7 +74,10 @@ public class LocationAdapter extends BaseAdapter {
 
         final LocationRecordBean.LocationCellBean bean = getItem(position);
 
-        String str1 = bean.getTime();
+        int stamp = bean.getTime();
+        String dateStr = DateUtils.getTime24HDisplay(context, stamp);
+        String str1 = dateStr.substring(11);
+
         String str2 = "定位打卡";
         SpannableString str = new SpannableString(str1 + "  " + str2);
         str.setSpan(new ForegroundColorSpan(Color.parseColor("#282828")), 0, str1.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);

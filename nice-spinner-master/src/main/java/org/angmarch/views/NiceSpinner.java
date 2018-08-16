@@ -176,7 +176,7 @@ public class NiceSpinner extends AppCompatTextView {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position == adapter.getCount() - 1) {
+                if (position == adapter.getCount() - 1) {
                     return;
                 }
                 if (position >= selectedIndex && position < adapter.getCount()) {
@@ -382,7 +382,16 @@ public class NiceSpinner extends AppCompatTextView {
             animateArrow(true);
         }
         measurePopUpDimension();
-        popupWindow.showAsDropDown(this,0,1);
+        if (Build.VERSION.SDK_INT < 24) {
+            popupWindow.showAsDropDown(this, 0, 1);
+        } else {
+            int[] location = new int[2];
+            this.getLocationOnScreen(location);
+            int x = location[0];
+            int y = location[1];
+            popupWindow.showAtLocation(this, Gravity.NO_GRAVITY, x, y + this.getHeight() + 1);
+        }
+        //popupWindow.showAsDropDown(this,0,1);
     }
 
     private void measurePopUpDimension() {

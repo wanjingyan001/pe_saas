@@ -11,7 +11,7 @@ class LocationRecordBean {
     class LocationCellBean {
         var id: Int? = null
         var type: Int? = null
-        var time: String? = null
+        var time: Int? = null
         var place: String? = null
 
         var date: String? = null

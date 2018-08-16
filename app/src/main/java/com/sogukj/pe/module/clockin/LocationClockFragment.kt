@@ -92,7 +92,9 @@ class LocationClockFragment : BaseFragment(), MyMapView.onFinishListener {
                     val tvRelate = convertView.find<TextView>(R.id.relate)
                     val dotView = convertView.find<DotView>(R.id.dotView)
                     override fun setData(view: View, data: LocationRecordBean.LocationCellBean, position: Int) {
-                        tvClockTime.text = "打卡时间  ${data.time}"
+                        val stamp = data.time!!
+                        val dateStr = DateUtils.getTime24HDisplay(context, stamp!!)
+                        tvClockTime.text = dateStr.substring(11)
                         tvLocate.text = data.place
                         if (data.sid == null) {
                             tvRelate.visibility = View.GONE
@@ -160,8 +162,7 @@ class LocationClockFragment : BaseFragment(), MyMapView.onFinishListener {
         override fun handleMessage(msg: Message) {
             if (msg.what == 0x001) {
                 synchronized(this) {
-                    var str = format.format(Date())
-                    instantTime.text = str.split(" ")[1]
+                    instantTime.text = DateUtils.getTime24HDisplay(context, Date()).substring(11)
                     sendMessageDelayed(obtainMessage(0x001), 1000)
                 }
             }
@@ -173,18 +174,15 @@ class LocationClockFragment : BaseFragment(), MyMapView.onFinishListener {
         mHandler.removeMessages(0x001)
     }
 
-    val format = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault())
-
     fun doRequest() {
         mHandler.removeMessages(0x001)
-        var str = format.format(Date())
-        instantTime.text = str.split(" ")[1]
+        instantTime.text = DateUtils.getTime24HDisplay(context, Date()).substring(11)
         mHandler.sendMessageDelayed(mHandler.obtainMessage(0x001), 0)
 
         iv_empty.visibility = View.GONE
-        var stamp = DateUtils.getTimestamp(str, "yyyy/MM/dd HH:mm:ss").toInt()
+        //var stamp = DateUtils.getTimestamp(System.currentTimeMillis().toString(), "yyyy/MM/dd HH:mm:ss").toInt()
         SoguApi.getService(baseActivity!!.application, ApproveService::class.java)
-                .outCardInfo(stamp)
+                .outCardInfo(System.currentTimeMillis().toString().substring(0, 10).toInt())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ payload ->
