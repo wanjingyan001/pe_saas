@@ -244,7 +244,6 @@ static def releaseTime() {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
-    //noinspection GradleCompatible
     implementation 'com.android.support:support-v4:27.1.1'
     implementation project(':baselibrary')
     implementation project(':calendar')
