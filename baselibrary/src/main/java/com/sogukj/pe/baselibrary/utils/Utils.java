@@ -326,10 +326,11 @@ Utils {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(date);
             int am = calendar.get(Calendar.AM_PM);
+            String timeStr = getTime(date, "hh:mm");
             if (am == 0) {
-                return "上午 " + getTime(date, "hh:mm");
+                return "上午 " + (timeStr.startsWith("0") ? timeStr.substring(1, timeStr.length()) : timeStr);
             } else {
-                return "下午 " + getTime(date, "hh:mm");
+                return "下午 " +  (timeStr.startsWith("0") ? timeStr.substring(1, timeStr.length()) : timeStr);
             }
         } else if (isThisYear(time)) {
             return new SimpleDateFormat("MM月dd日").format(date);

@@ -27,11 +27,10 @@ import org.jetbrains.anko.support.v4.find
  * A simple [Fragment] subclass.
  */
 abstract class BaseRefreshFragment : BaseFragment(), SGRefreshListener {
-    lateinit var refresh: SmartRefreshLayout
-        private set
+    private var refresh: SmartRefreshLayout? = null
     lateinit var config: RefreshConfig
-    protected val defaultHeader by lazy { ClassicsHeader(ctx) }
-    protected val defaultFooter by lazy { ClassicsFooter(ctx) }
+    private val defaultHeader by lazy { ClassicsHeader(ctx) }
+    private val defaultFooter by lazy { ClassicsFooter(ctx) }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRefresh()
@@ -81,33 +80,33 @@ abstract class BaseRefreshFragment : BaseFragment(), SGRefreshListener {
     open fun initRefreshFooter(): RefreshFooter? = defaultFooter
 
     fun finishRefresh() {
-        if (this::refresh.isLateinit) {
-            refresh.finishRefresh()
+        if (refresh != null) {
+            refresh?.finishRefresh()
         }
     }
 
     fun finishLoadMore() {
-        if (this::refresh.isLateinit) {
-            refresh.finishLoadMore()
+        if (refresh != null) {
+            refresh?.finishLoadMore()
         }
     }
 
     var isLoadMoreEnable: Boolean = RefreshConfig.Default.loadMoreEnable
-        get() = if (this::refresh.isLateinit) refresh.isEnableLoadMore else field
+        get() = if (refresh != null) refresh!!.isEnableLoadMore else field
         set(value) {
-            if (this::refresh.isLateinit) {
+            if (refresh != null) {
                 field = value
-                refresh.isEnableLoadMore = value
+                refresh?.isEnableLoadMore = value
                 config.loadMoreEnable = value
             }
         }
 
     var isRefreshEnable: Boolean = RefreshConfig.Default.refreshEnable
-        get() = if (this::refresh.isLateinit) refresh.isEnableRefresh else field
+        get() = if (refresh != null) refresh!!.isEnableRefresh else field
         set(value) {
-            if (this::refresh.isLateinit) {
+            if (refresh != null) {
                 field = value
-                refresh.isEnableRefresh = value
+                refresh?.isEnableRefresh = value
                 config.refreshEnable = value
             }
         }

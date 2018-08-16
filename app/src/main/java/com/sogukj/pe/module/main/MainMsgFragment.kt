@@ -286,7 +286,7 @@ class MainMsgFragment : BaseFragment() {
                 val msgIcon = convertView.findViewById<CircleImageView>(R.id.msg_icon) as CircleImageView
                 val tvTitle = convertView.findViewById<TextView>(R.id.tv_title) as TextView
                 val tvDate = convertView.findViewById<TextView>(R.id.tv_date) as TextView
-                val tvTitleMsg = convertView.findViewById<TextView>(R.id.tv_title_msg) as TextView
+                val tvTitleMsg = convertView.findViewById<TextView> (R.id.tv_title_msg) as TextView
                 val tvNum = convertView.findViewById<TextView>(R.id.tv_num) as TextView
                 val topTag = convertView.findViewById<ImageView>(R.id.topTag)
                 @SuppressLint("SetTextI18n")
@@ -311,6 +311,7 @@ class MainMsgFragment : BaseFragment() {
                             tvTitle.text = "系统消息助手"
                             msgIcon.imageResource = R.drawable.ic_msg_alert
                         }
+                        topTag.setVisible(false)
                     } else if (data is RecentContact) {
                         val titleName = UserInfoHelper.getUserTitleName(data.contactId, data.sessionType)
                         tvTitle.text = titleName

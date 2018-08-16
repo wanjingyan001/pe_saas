@@ -86,7 +86,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="3dp"
-            android:text="项目共15个"
             android:textColor="#A9D0FF"
             android:textSize="@dimen/text_size_samll"
             app:layout_constraintBottom_toTopOf="@+id/projectOver"
@@ -97,7 +96,6 @@
             android:id="@+id/projectOver"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="剩余10个"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_large"
             app:layout_constraintBottom_toBottomOf="@+id/line1"
@@ -109,7 +107,6 @@
             android:id="@+id/creditOver"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="剩余25次"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_large"
             app:layout_constraintBottom_toBottomOf="@+id/line1"
@@ -121,7 +118,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="3dp"
-            android:text="征信共50次"
             android:textColor="#A9D0FF"
             android:textSize="@dimen/text_size_samll"
             app:layout_constraintBottom_toTopOf="@+id/creditOver"
@@ -167,7 +163,6 @@
             android:layout_height="match_parent"
             android:layout_marginStart="4dp"
             android:gravity="center_vertical"
-            android:text="￥270,000"
             android:textColor="@color/amount_color"
             android:textSize="@dimen/text_size_normal"
             app:layout_constraintStart_toEndOf="@+id/totalTv" />
@@ -179,8 +174,8 @@
             android:layout_marginStart="8dp"
             android:background="@drawable/bg_border_pay_amount"
             android:gravity="center_vertical"
-            android:text="立省￥180,000"
             android:textColor="@color/amount_color"
+            android:visibility="gone"
             android:textSize="@dimen/text_size_medium"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/paymentPrice"
@@ -200,20 +195,46 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:gravity="bottom"
+                android:paddingStart="20dp"
+                android:textSize="@dimen/text_size_20"
+                android:textColor="@color/text_1"
+                android:text="项目套餐"
+                android:paddingBottom="10dp"
+                android:background="@color/white" />
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/pjPackageList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
                 android:nestedScrollingEnabled="false">
 
             </android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:gravity="bottom"
+                android:paddingStart="20dp"
+                android:textSize="@dimen/text_size_20"
+                android:textColor="@color/text_1"
+                android:text="征信套餐"
+                android:paddingBottom="10dp"
+                android:background="@color/white" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/calenderPackageList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
                 android:nestedScrollingEnabled="false">
 
             </android.support.v7.widget.RecyclerView>
@@ -222,8 +243,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
                 android:gravity="center"
-                android:textColor="@color/text_3"
                 android:text="具体详情请联系我们进行咨询"
+                android:textColor="@color/text_3"
                 android:textSize="@dimen/text_size_samll" />
 
         </LinearLayout>

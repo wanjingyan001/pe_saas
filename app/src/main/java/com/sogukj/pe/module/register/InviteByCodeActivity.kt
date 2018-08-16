@@ -116,9 +116,9 @@ class InviteByCodeActivity : ToolbarActivity(), PlatformActionListener {
         QQLayout.clickWithTrigger {
             shareQQ()
         }
-//        dingLayout.clickWithTrigger {
-//            shareDD()
-//        }
+        dingLayout.clickWithTrigger {
+            shareDD()
+        }
     }
 
 
@@ -161,7 +161,7 @@ class InviteByCodeActivity : ToolbarActivity(), PlatformActionListener {
     private fun shareQQ() {
         val sp = Platform.ShareParams()
         sp.titleUrl = QRPath
-        sp.title ="${userName}邀请你加入${companyName}"
+        sp.title = "${userName}邀请你加入${companyName}"
         sp.text = "立即加入${companyName}，享受智能化投资体验"
         val logoUrl = File(Environment.getExternalStorageDirectory(), "ic_launcher_pe.png").toString()
         sp.imageUrl = logoUrl
@@ -204,32 +204,21 @@ class InviteByCodeActivity : ToolbarActivity(), PlatformActionListener {
     private lateinit var ddShareApi: IDDShareApi
 
     private fun shareDD() {
-        if (checkShareToDingDingValid()) {
-            ddShareApi = DDShareApiFactory.createDDShareApi(this, DDShareActivity.DDApp_Id, true)
-            val installed = ddShareApi.isDDAppInstalled//钉钉是否安装
-            val isSupport = ddShareApi.isDDSupportDingAPI//是否支持分享到钉钉
-//        if (installed) {
-//            showErrorToast("没有检测到钉钉")
-//            return
-//        }
-//        if (isSupport) {
-//            showErrorToast("不支持分享到钉钉")
-//            return
-//        }
-            //初始化一个DDWebpageMessage并填充网页链接地址
-            val webPageObject = DDWebpageMessage()
-            webPageObject.mUrl = QRPath
-            //构造一个DDMediaMessage对象
-            val webMessage = DDMediaMessage()
-            webMessage.mMediaObject = webPageObject
-            //填充网页分享必需参数，开发者需按照自己的数据进行填充
-            webMessage.mTitle = "邀请码"
-            webMessage.mContent = "邀请码"
-            //构造一个Req
-            val webReq = SendMessageToDD.Req()
-            webReq.mMediaMessage = webMessage
-            ddShareApi.sendReq(webReq)
-        }
+        ddShareApi = DDShareApiFactory.createDDShareApi(this, DDShareActivity.DDApp_Id, true)
+        //初始化一个DDWebpageMessage并填充网页链接地址
+        val webPageObject = DDWebpageMessage()
+        webPageObject.mUrl = QRPath
+        //构造一个DDMediaMessage对象
+        val webMessage = DDMediaMessage()
+        webMessage.mMediaObject = webPageObject
+        //填充网页分享必需参数，开发者需按照自己的数据进行填充
+        webMessage.mTitle = "${userName}邀请你加入${companyName}"
+        webMessage.mContent =  "立即加入${companyName}，享受智能化投资体验"
+        webMessage.mThumbUrl = File(Environment.getExternalStorageDirectory(), "ic_launcher_pe.png").toString()
+        //构造一个Req
+        val webReq = SendMessageToDD.Req()
+        webReq.mMediaMessage = webMessage
+        ddShareApi.sendReq(webReq)
 
     }
 
@@ -285,9 +274,9 @@ class InviteByCodeActivity : ToolbarActivity(), PlatformActionListener {
         const val SCHEMA: String = "5ZMZ-NENzzZcdoHzRR0b-L26XtqYxPcpTuD3c5Aqcqc"
 
         private val ONLINE_PACKAGE_NAME = "com.sogukj.pe"//将值替换为在钉钉开放平台上申请时的packageName
-        private val ONLINE_APP_ID = "dingoabwf5s1xqurajtbjw"//将值替换为在钉钉开放平台上申请时平台生成的appId
-        private val ONLINE_SIGNATURE = "FF:2C:A6:EB:80:52:E0:B3:2C:CD:18:53:73:57:8E:53:0F:17:91:6E"//将值替换为在钉钉开放平台上申请时的signature
-        private val CURRENT_USING_APP_ID = "dingoabwf5s1xqurajtbjw"//将值替换为你使用的APP_ID
+        private val ONLINE_APP_ID = "dingoarlewi4r20zyuurob"//将值替换为在钉钉开放平台上申请时平台生成的appId
+        private val ONLINE_SIGNATURE = "3580e48494541483c1a83b9c84d04c18"//将值替换为在钉钉开放平台上申请时的signature
+        private val CURRENT_USING_APP_ID = "dingoarlewi4r20zyuurob"//将值替换为你使用的APP_ID
 
         fun makeTempFile(saveDir: String, prefix: String, extension: String): File {
             val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())

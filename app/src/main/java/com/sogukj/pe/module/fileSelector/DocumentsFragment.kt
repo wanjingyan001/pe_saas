@@ -1,6 +1,7 @@
 package com.sogukj.pe.module.fileSelector
 
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.os.Environment
@@ -26,8 +27,13 @@ import com.sogukj.pe.peUtils.FileTypeUtils
 import com.sogukj.pe.peUtils.FileUtil
 import kotlinx.android.synthetic.main.fragment_documents.*
 import kotlinx.android.synthetic.main.layout_empty.*
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.find
 import org.jetbrains.anko.imageResource
+import org.jetbrains.anko.info
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.find
 import org.jetbrains.anko.toast
@@ -67,6 +73,7 @@ class DocumentsFragment : BaseRefreshFragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        info { "文件管理器时间3:${System.currentTimeMillis()}" }
         adapter = RecyclerAdapter(ctx, { _adpater, parent, type ->
             DocumentHolder(_adpater.getView(R.layout.item_document_list, parent))
         })
@@ -144,6 +151,7 @@ class DocumentsFragment : BaseRefreshFragment(), View.OnClickListener {
     }
 
 
+    @SuppressLint("SetTextI18n")
     private fun getDirectoryFiles() {
         when (type) {
             PE_LOCAL -> {

@@ -90,6 +90,11 @@ class ManagerDetailActivity : ToolbarActivity() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        hideProgress()
+    }
+
     lateinit var oriData: ArrayList<ManagerDetailBean>
 
     private fun doRequest() {
@@ -312,6 +317,7 @@ class ManagerDetailActivity : ToolbarActivity() {
         val tvFile = childView.findViewById<FrameLayout>(R.id.tvFile) as FrameLayout
         tvFile.setOnClickFastListener {
             selectId = bean.id!!
+            showProgress("正在读取内存文件")
             FileMainActivity.start(context, requestCode = REQ_SELECT_FILE, maxSize = 1)
         }
         checkList.add {

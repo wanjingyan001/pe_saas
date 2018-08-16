@@ -2,6 +2,7 @@ package com.sogukj.pe.module.im
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -26,6 +27,7 @@ import com.amap.api.services.geocoder.RegeocodeQuery
 import com.amap.api.services.geocoder.RegeocodeResult
 import com.amap.api.services.poisearch.PoiResult
 import com.amap.api.services.poisearch.PoiSearch
+import com.bumptech.glide.Glide
 import com.netease.nim.uikit.api.model.location.LocationProvider
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
 import com.sogukj.pe.Extras
@@ -138,6 +140,12 @@ class IMLocationActivity : BaseActivity(), AMap.OnCameraChangeListener, AMapLoca
     }
 
     private fun initPoiList() {
+        Glide.with(this)
+                .asGif()
+                .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
+                .into(iv_loading)
+        iv_loading?.visibility = View.VISIBLE
+
         poiAdapter = RecyclerAdapter(this) { _adapter, parent, _ ->
             val itemView = _adapter.getView(R.layout.item_poi_list, parent)
             object : RecyclerHolder<PoiItem>(itemView) {
@@ -182,6 +190,7 @@ class IMLocationActivity : BaseActivity(), AMap.OnCameraChangeListener, AMapLoca
             setDisableContentWhenLoading(true)
             setOnLoadMoreListener {
                 page += 1
+                iv_loading?.visibility = View.VISIBLE
                 searchPoi()
             }
         }
@@ -233,7 +242,7 @@ class IMLocationActivity : BaseActivity(), AMap.OnCameraChangeListener, AMapLoca
                     AddressSearchActivity.start(this, it)
                 }
             }
-            R.id.back->{
+            R.id.back -> {
                 finish()
             }
         }
@@ -372,6 +381,7 @@ class IMLocationActivity : BaseActivity(), AMap.OnCameraChangeListener, AMapLoca
                 }
                 poiAdapter.dataList.addAll(it.pois)
                 poiAdapter.notifyDataSetChanged()
+                iv_loading.visibility = View.INVISIBLE
             }
         }
     }

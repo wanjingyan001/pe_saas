@@ -13,6 +13,7 @@ import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.base.BaseFragment
 import com.sogukj.pe.baselibrary.utils.Utils
 import kotlinx.android.synthetic.main.fragment_common_documents.*
+import org.jetbrains.anko.info
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.onPageChangeListener
 
@@ -39,6 +40,7 @@ class CommonDocumentsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        info { "文件管理器时间2:${System.currentTimeMillis()}" }
         val fragments = listOf<Fragment>(peFragment, wxFragment, qqFragment, dtFragment, allFragment)
         pagerAdapter = DocPageAdapter(childFragmentManager, fragments)
         documentList.adapter = pagerAdapter

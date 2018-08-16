@@ -110,6 +110,11 @@ class BookUploadActivity : ToolbarActivity() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        hideProgress()
+    }
+
     class UploadBean {
         var file: String? = null
         var group: Int? = null//分类
@@ -261,6 +266,7 @@ class BookUploadActivity : ToolbarActivity() {
                     ll_upload_full.visibility = View.GONE
                     //选择文件
                     ll_upload_empty.setOnClickListener {
+                        showProgress("正在读取内存文件")
                         FileMainActivity.start(this@BookUploadActivity, maxSize = 1, requestCode = REQ_SELECT_FILE)
                     }
                 } else {
@@ -275,6 +281,7 @@ class BookUploadActivity : ToolbarActivity() {
                             return@setOnClickListener
                         }
                         currentPosition = position
+                        showProgress("正在读取内存文件")
                         FileMainActivity.start(this@BookUploadActivity, 1, true, REQ_CHANGE_FILE)
                     }
                 }

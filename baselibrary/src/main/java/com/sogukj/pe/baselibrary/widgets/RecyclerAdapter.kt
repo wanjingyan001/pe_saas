@@ -30,6 +30,9 @@ open class RecyclerAdapter<T>(val context: Context, val creator: (RecyclerAdapte
     var mode: Int = 0
     var selectChange: ((oldValue: Int, newValue: Int) -> Unit)? = null
     var selectedPosition: Int by Delegates.observable(-1, { _, oldValue, newValue ->
+        if (oldValue == -1 || newValue == -1){
+            return@observable
+        }
         notifyItemChanged(oldValue)
         notifyItemChanged(newValue)
         if (selectChange != null) {

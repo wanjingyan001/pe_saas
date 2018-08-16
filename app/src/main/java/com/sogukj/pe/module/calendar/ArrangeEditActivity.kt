@@ -43,10 +43,11 @@ class ArrangeEditActivity : ToolbarActivity() {
     lateinit var data: ArrayList<NewArrangeBean>
     private var currentBean: NewArrangeBean? = null
     private var currentPosition = 0
-    private var position: Int by extraDelegate(Extras.INDEX, -1)
+    private var position: Int by extraDelegate(Extras.INDEX, DEFAULTINT)
     private val mine by lazy { Store.store.getUser(this) }
 
     companion object {
+        private const val DEFAULTINT = -1
         fun start(context: Activity, weeklyData: ArrayList<NewArrangeBean>, offset: String?, position: Int? = null) {
             val intent = Intent(context, ArrangeEditActivity::class.java)
             intent.putExtra(Extras.LIST, weeklyData)
@@ -231,7 +232,7 @@ class ArrangeEditActivity : ToolbarActivity() {
             val recyclerAdapter = RecyclerAdapter<ChildBean>(ctx) { _adapter, parent, _ ->
                 EditHolder(_adapter.getView(R.layout.item_arrange_edit_child, parent), data, position)
             }
-            if (this@ArrangeEditActivity.position != -1) {
+            if (this@ArrangeEditActivity.position != DEFAULTINT && !hasEmpty()) {
                 recyclerAdapter.dataList.add(data.child[this@ArrangeEditActivity.position])
             } else {
                 recyclerAdapter.dataList.addAll(data.child)
