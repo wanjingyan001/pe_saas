@@ -14,7 +14,7 @@ import com.android.dingtalk.share.ddsharemodule.message.SendAuth
 
 class DDShareActivity : Activity(), IDDAPIEventHandler {
     companion object {
-        const val DDApp_Id = "dingoabwf5s1xqurajtbjw"
+        const val DDApp_Id = "dingoarlewi4r20zyuurob"
     }
 
     private lateinit var mIDDShareApi: IDDShareApi

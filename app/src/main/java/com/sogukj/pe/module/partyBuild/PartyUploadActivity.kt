@@ -55,6 +55,7 @@ class PartyUploadActivity : BaseActivity() {
         addTv.text = "上传"
         val dialog = initBottomDialog()
         uploadLayout.setOnClickListener {
+            showProgress("正在读取内存文件")
             FileMainActivity.start(this, 1, true, SELECTFILE)
         }
         fileNameEdtLayout.setOnClickListener {
@@ -74,6 +75,11 @@ class PartyUploadActivity : BaseActivity() {
         back.setOnClickListener {
             finish()
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        hideProgress()
     }
 
     private fun initBottomDialog() : BottomSheetDialog{

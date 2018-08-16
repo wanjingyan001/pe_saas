@@ -20,6 +20,7 @@ import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.module.partyBuild.PartyUploadActivity
 import com.sogukj.pe.peUtils.FileUtil
 import kotlinx.android.synthetic.main.activity_file_main.*
+import org.jetbrains.anko.info
 import java.io.File
 import kotlin.properties.Delegates
 
@@ -35,6 +36,7 @@ class FileMainActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_file_main)
         Utils.setWindowStatusBarColor(this, R.color.white)
+        info { "文件管理器时间1:${System.currentTimeMillis()}" }
         maxSize = intent.getIntExtra(Extras.DATA, 9)
         isReplace = intent.getBooleanExtra(Extras.FLAG, false)
         isForResult = intent.getBooleanExtra(Extras.TYPE, false)

@@ -1,11 +1,11 @@
 [
     {
-        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/layout_team_menu_winodow.xml",
-        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/layout/layout_team_menu_winodow.xml"
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/md_dialog_custom.xml",
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/413f61b82aec3631fa64e0544b0122bb/res/layout/md_dialog_custom.xml"
     },
     {
-        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/md_dialog_custom.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/a99f0a6100010ac458852a7a11738977/res/layout/md_dialog_custom.xml"
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/layout_team_menu_winodow.xml",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/layout/layout_team_menu_winodow.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_custom_dialog_list_item.xml",
@@ -25,23 +25,23 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/view_sinaheader.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/d342dcb4b46e71c1fea5b0a400020b03/res/layout/view_sinaheader.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/e9ae920d2222d8aa02e4daec77c799c0/res/layout/view_sinaheader.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/md_dialog_input_check.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/a99f0a6100010ac458852a7a11738977/res/layout/md_dialog_input_check.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/413f61b82aec3631fa64e0544b0122bb/res/layout/md_dialog_input_check.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/abc_list_menu_item_checkbox.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/layout/abc_list_menu_item_checkbox.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/layout/abc_list_menu_item_checkbox.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/notification_template_media.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.1.aar/16df0e2d33854433b8a1eb3b1fbffbed/res/layout/notification_template_media.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.1.aar/8fa1f1152e40025f68726e7cc8ffa9a1/res/layout/notification_template_media.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/md_dialog_colorchooser.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/commons-0.9.6.0.aar/7f1a88efec3f5f4991df3d28d5fa7b29/res/layout/md_dialog_colorchooser.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/commons-0.9.6.0.aar/72a65db749e3e0421b58c74518cb62d7/res/layout/md_dialog_colorchooser.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/layout_network_error.xml",
@@ -49,11 +49,11 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/md_listitem.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/a99f0a6100010ac458852a7a11738977/res/layout/md_listitem.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/413f61b82aec3631fa64e0544b0122bb/res/layout/md_listitem.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/md_listitem_multichoice.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/a99f0a6100010ac458852a7a11738977/res/layout/md_listitem_multichoice.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/413f61b82aec3631fa64e0544b0122bb/res/layout/md_listitem_multichoice.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_message_robot_image.xml",
@@ -65,7 +65,7 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/abc_action_bar_up_container.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/layout/abc_action_bar_up_container.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/layout/abc_action_bar_up_container.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_easy_alert_dialog_with_edit_text.xml",
@@ -73,11 +73,11 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/abc_alert_dialog_title_material.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/layout/abc_alert_dialog_title_material.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/layout/abc_alert_dialog_title_material.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/abc_action_mode_close_item_material.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/layout/abc_action_mode_close_item_material.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/layout/abc_action_mode_close_item_material.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_advanced_team_info_activity.xml",
@@ -97,11 +97,11 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/item_puzzle_selector_preview_easy_photos.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/128ad2bda6e0258a1d57904a15e7cfd4/res/layout/item_puzzle_selector_preview_easy_photos.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/bc1d0d9956220dfd2e1ec0554d632778/res/layout/item_puzzle_selector_preview_easy_photos.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/activity_puzzle_easy_photos.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/128ad2bda6e0258a1d57904a15e7cfd4/res/layout/activity_puzzle_easy_photos.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/bc1d0d9956220dfd2e1ec0554d632778/res/layout/activity_puzzle_easy_photos.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/upush_notification.xml",
@@ -109,27 +109,27 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/select_dialog_singlechoice_material.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/layout/select_dialog_singlechoice_material.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/layout/select_dialog_singlechoice_material.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/design_navigation_item_subheader.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/0000feb02ed9850fa63110d2c9bd4d26/res/layout/design_navigation_item_subheader.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/da0dceb41ba8d31850790a32dcb10796/res/layout/design_navigation_item_subheader.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/notification_template_big_media_narrow_custom.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.1.aar/16df0e2d33854433b8a1eb3b1fbffbed/res/layout/notification_template_big_media_narrow_custom.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.1.aar/8fa1f1152e40025f68726e7cc8ffa9a1/res/layout/notification_template_big_media_narrow_custom.xml"
     },
     {
-        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_sticker_picker_view.xml",
-        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/layout/nim_sticker_picker_view.xml"
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_voice_trans_layout.xml",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/layout/nim_voice_trans_layout.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/view_tsnackbar_layout.xml",
         "source": "/Users/admin/dev/pe_saas/baselibrary/build/intermediates/bundles/debug/res/layout/view_tsnackbar_layout.xml"
     },
     {
-        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_voice_trans_layout.xml",
-        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/layout/nim_voice_trans_layout.xml"
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_sticker_picker_view.xml",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/layout/nim_sticker_picker_view.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_watch_snapchat_activity.xml",
@@ -137,11 +137,11 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/notification_media_cancel_action.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.1.aar/16df0e2d33854433b8a1eb3b1fbffbed/res/layout/notification_media_cancel_action.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.1.aar/8fa1f1152e40025f68726e7cc8ffa9a1/res/layout/notification_media_cancel_action.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/abc_activity_chooser_view_list_item.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/layout/abc_activity_chooser_view_list_item.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/layout/abc_activity_chooser_view_list_item.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_easy_progress_dialog.xml",
@@ -169,7 +169,7 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/item_ad_easy_photos.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/128ad2bda6e0258a1d57904a15e7cfd4/res/layout/item_ad_easy_photos.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/bc1d0d9956220dfd2e1ec0554d632778/res/layout/item_ad_easy_photos.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/message_bottom_layout.xml",
@@ -181,7 +181,7 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/notification_template_big_media_narrow.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.1.aar/16df0e2d33854433b8a1eb3b1fbffbed/res/layout/notification_template_big_media_narrow.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.1.aar/8fa1f1152e40025f68726e7cc8ffa9a1/res/layout/notification_template_big_media_narrow.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_contacts_select.xml",
@@ -205,7 +205,7 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/notification_template_media_custom.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.1.aar/16df0e2d33854433b8a1eb3b1fbffbed/res/layout/notification_template_media_custom.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.1.aar/8fa1f1152e40025f68726e7cc8ffa9a1/res/layout/notification_template_media_custom.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_advanced_team_nickname_activity.xml",
@@ -221,7 +221,7 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/md_simplelist_item.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/commons-0.9.6.0.aar/7f1a88efec3f5f4991df3d28d5fa7b29/res/layout/md_simplelist_item.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/commons-0.9.6.0.aar/72a65db749e3e0421b58c74518cb62d7/res/layout/md_simplelist_item.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_team_message_activity.xml",
@@ -233,11 +233,11 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/md_dialog_basic_check.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/a99f0a6100010ac458852a7a11738977/res/layout/md_dialog_basic_check.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/413f61b82aec3631fa64e0544b0122bb/res/layout/md_dialog_basic_check.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/layout_basepickerview.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/Android-PickerView-3.2.7.aar/5b675e2b3ec7a53c55c63ee4975cfa06/res/layout/layout_basepickerview.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/Android-PickerView-3.2.7.aar/96cd86d2c960bf30a8771c1599f9fec7/res/layout/layout_basepickerview.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/shifting_bottom_navigation_item.xml",
@@ -245,19 +245,19 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/md_dialog_progress_indeterminate_horizontal.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/a99f0a6100010ac458852a7a11738977/res/layout/md_dialog_progress_indeterminate_horizontal.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/413f61b82aec3631fa64e0544b0122bb/res/layout/md_dialog_progress_indeterminate_horizontal.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_ait_contact_label_item.xml",
         "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/layout/nim_ait_contact_label_item.xml"
     },
     {
-        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_popup_menu_black_layout.xml",
-        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/layout/nim_popup_menu_black_layout.xml"
-    },
-    {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_picker_photofolder_item.xml",
         "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/layout/nim_picker_photofolder_item.xml"
+    },
+    {
+        "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_popup_menu_black_layout.xml",
+        "source": "/Users/admin/dev/pe_saas/uikit/build/intermediates/bundles/debug/res/layout/nim_popup_menu_black_layout.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/message_bottom_text_input.xml",
@@ -269,7 +269,7 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/design_layout_snackbar_include.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/0000feb02ed9850fa63110d2c9bd4d26/res/layout/design_layout_snackbar_include.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/da0dceb41ba8d31850790a32dcb10796/res/layout/design_layout_snackbar_include.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_easy_alert_dialog_title.xml",
@@ -281,11 +281,11 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/design_bottom_sheet_dialog.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/0000feb02ed9850fa63110d2c9bd4d26/res/layout/design_bottom_sheet_dialog.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/da0dceb41ba8d31850790a32dcb10796/res/layout/design_bottom_sheet_dialog.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/abc_screen_simple_overlay_action_mode.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/layout/abc_screen_simple_overlay_action_mode.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/layout/abc_screen_simple_overlay_action_mode.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_team_name_activity.xml",
@@ -297,7 +297,7 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/md_dialog_list.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/a99f0a6100010ac458852a7a11738977/res/layout/md_dialog_list.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/413f61b82aec3631fa64e0544b0122bb/res/layout/md_dialog_list.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_crop_image_activity.xml",
@@ -305,7 +305,7 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/fragment_directory.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/library-1.8.aar/051830ba79bf17e91877f4a87ac02cd1/res/layout/fragment_directory.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/library-1.8.aar/ccff70e323ed67af25085471eb526520/res/layout/fragment_directory.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/layout_custom_toast.xml",
@@ -317,11 +317,11 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/abc_action_menu_item_layout.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/layout/abc_action_menu_item_layout.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/layout/abc_action_menu_item_layout.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/select_dialog_multichoice_material.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/layout/select_dialog_multichoice_material.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/layout/select_dialog_multichoice_material.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_advanced_team_info_divider_item.xml",
@@ -329,15 +329,15 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/include_pickerview_topbar.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/Android-PickerView-3.2.7.aar/5b675e2b3ec7a53c55c63ee4975cfa06/res/layout/include_pickerview_topbar.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/Android-PickerView-3.2.7.aar/96cd86d2c960bf30a8771c1599f9fec7/res/layout/include_pickerview_topbar.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/md_dialog_progress.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/a99f0a6100010ac458852a7a11738977/res/layout/md_dialog_progress.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/413f61b82aec3631fa64e0544b0122bb/res/layout/md_dialog_progress.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/notification_action_tombstone.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/266594d5e4bf1ff18bcc89b38e8dbcf2/res/layout/notification_action_tombstone.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/fc9661db50d94ba1374981a586be8d2c/res/layout/notification_action_tombstone.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_team_member_grid_layout.xml",
@@ -345,11 +345,11 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/md_dialog_progress_indeterminate.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/a99f0a6100010ac458852a7a11738977/res/layout/md_dialog_progress_indeterminate.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/413f61b82aec3631fa64e0544b0122bb/res/layout/md_dialog_progress_indeterminate.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/view_bezier.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/d342dcb4b46e71c1fea5b0a400020b03/res/layout/view_bezier.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/tkrefreshlayout-1.0.7.aar/e9ae920d2222d8aa02e4daec77c799c0/res/layout/view_bezier.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_message_activity_text_layout.xml",
@@ -357,7 +357,7 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/item_puzzle_selector_easy_photos.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/128ad2bda6e0258a1d57904a15e7cfd4/res/layout/item_puzzle_selector_easy_photos.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/bc1d0d9956220dfd2e1ec0554d632778/res/layout/item_puzzle_selector_easy_photos.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_zbra_loading_progress_bar.xml",
@@ -365,7 +365,7 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/notification_template_big_media.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.1.aar/16df0e2d33854433b8a1eb3b1fbffbed/res/layout/notification_template_big_media.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.1.aar/8fa1f1152e40025f68726e7cc8ffa9a1/res/layout/notification_template_big_media.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_ait_contact_team_member_item.xml",
@@ -389,11 +389,11 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/notification_template_part_time.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/266594d5e4bf1ff18bcc89b38e8dbcf2/res/layout/notification_template_part_time.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/fc9661db50d94ba1374981a586be8d2c/res/layout/notification_template_part_time.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/design_layout_tab_icon.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/0000feb02ed9850fa63110d2c9bd4d26/res/layout/design_layout_tab_icon.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/da0dceb41ba8d31850790a32dcb10796/res/layout/design_layout_tab_icon.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_media_item_date.xml",
@@ -405,7 +405,7 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/pickerview_time.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/Android-PickerView-3.2.7.aar/5b675e2b3ec7a53c55c63ee4975cfa06/res/layout/pickerview_time.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/Android-PickerView-3.2.7.aar/96cd86d2c960bf30a8771c1599f9fec7/res/layout/pickerview_time.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_message_item.xml",
@@ -425,15 +425,15 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/abc_list_menu_item_radio.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/layout/abc_list_menu_item_radio.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/layout/abc_list_menu_item_radio.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/fragment_preview_easy_photos.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/128ad2bda6e0258a1d57904a15e7cfd4/res/layout/fragment_preview_easy_photos.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/bc1d0d9956220dfd2e1ec0554d632778/res/layout/fragment_preview_easy_photos.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/abc_tooltip.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/layout/abc_tooltip.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/layout/abc_tooltip.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_picker_photo_grid_item.xml",
@@ -449,7 +449,7 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/md_stub_actionbuttons.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/a99f0a6100010ac458852a7a11738977/res/layout/md_stub_actionbuttons.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/413f61b82aec3631fa64e0544b0122bb/res/layout/md_stub_actionbuttons.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_time_text_view_layout.xml",
@@ -457,7 +457,7 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/support_simple_spinner_dropdown_item.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/layout/support_simple_spinner_dropdown_item.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/layout/support_simple_spinner_dropdown_item.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_recent_contact_list_item.xml",
@@ -469,7 +469,7 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/quick_view_load_more.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/BaseRecyclerViewAdapterHelper-2.9.31.aar/43159f059a86ebbff4e913df45c93b8d/res/layout/quick_view_load_more.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/BaseRecyclerViewAdapterHelper-2.9.31.aar/4acb361b757ca1b837fa0226dc97790e/res/layout/quick_view_load_more.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/view_tsnackbar_layout_include.xml",
@@ -477,15 +477,15 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/pickerview_options.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/Android-PickerView-3.2.7.aar/5b675e2b3ec7a53c55c63ee4975cfa06/res/layout/pickerview_options.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/Android-PickerView-3.2.7.aar/96cd86d2c960bf30a8771c1599f9fec7/res/layout/pickerview_options.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/item_text_sticker_easy_photos.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/128ad2bda6e0258a1d57904a15e7cfd4/res/layout/item_text_sticker_easy_photos.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/bc1d0d9956220dfd2e1ec0554d632778/res/layout/item_text_sticker_easy_photos.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/abc_action_bar_title_item.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/layout/abc_action_bar_title_item.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/layout/abc_action_bar_title_item.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_capture_video_activity.xml",
@@ -497,31 +497,31 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/abc_activity_chooser_view.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/layout/abc_activity_chooser_view.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/layout/abc_activity_chooser_view.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/item_puzzle_easy_photos.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/128ad2bda6e0258a1d57904a15e7cfd4/res/layout/item_puzzle_easy_photos.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/bc1d0d9956220dfd2e1ec0554d632778/res/layout/item_puzzle_easy_photos.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/abc_action_menu_layout.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/layout/abc_action_menu_layout.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/layout/abc_action_menu_layout.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/item_preview_selected_photos_easy_photos.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/128ad2bda6e0258a1d57904a15e7cfd4/res/layout/item_preview_selected_photos_easy_photos.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/bc1d0d9956220dfd2e1ec0554d632778/res/layout/item_preview_selected_photos_easy_photos.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/abc_list_menu_item_layout.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/layout/abc_list_menu_item_layout.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/layout/abc_list_menu_item_layout.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/design_layout_snackbar.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/0000feb02ed9850fa63110d2c9bd4d26/res/layout/design_layout_snackbar.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/da0dceb41ba8d31850790a32dcb10796/res/layout/design_layout_snackbar.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/abc_dialog_title_material.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/layout/abc_dialog_title_material.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/layout/abc_dialog_title_material.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_menu_dialog_item.xml",
@@ -541,7 +541,7 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/notification_media_action.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.1.aar/16df0e2d33854433b8a1eb3b1fbffbed/res/layout/notification_media_action.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.1.aar/8fa1f1152e40025f68726e7cc8ffa9a1/res/layout/notification_media_action.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_message_robot_link.xml",
@@ -549,7 +549,7 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/abc_select_dialog_material.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/layout/abc_select_dialog_material.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/layout/abc_select_dialog_material.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_action_bar_right_picker_preview.xml",
@@ -557,7 +557,7 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/notification_template_icon_group.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/266594d5e4bf1ff18bcc89b38e8dbcf2/res/layout/notification_template_icon_group.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/fc9661db50d94ba1374981a586be8d2c/res/layout/notification_template_icon_group.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_chat_room_message_fragment.xml",
@@ -565,7 +565,7 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/abc_alert_dialog_button_bar_material.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/layout/abc_alert_dialog_button_bar_material.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/layout/abc_alert_dialog_button_bar_material.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/layout_top_window.xml",
@@ -577,11 +577,11 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/design_navigation_menu_item.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/0000feb02ed9850fa63110d2c9bd4d26/res/layout/design_navigation_menu_item.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/da0dceb41ba8d31850790a32dcb10796/res/layout/design_navigation_menu_item.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/item_rv_photos_easy_photos.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/128ad2bda6e0258a1d57904a15e7cfd4/res/layout/item_rv_photos_easy_photos.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/bc1d0d9956220dfd2e1ec0554d632778/res/layout/item_rv_photos_easy_photos.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_picker_image_preview_activity.xml",
@@ -589,7 +589,7 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/activity_easy_photos.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/128ad2bda6e0258a1d57904a15e7cfd4/res/layout/activity_easy_photos.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/bc1d0d9956220dfd2e1ec0554d632778/res/layout/activity_easy_photos.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/item_message_file.xml",
@@ -597,7 +597,7 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/design_text_input_password_icon.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/0000feb02ed9850fa63110d2c9bd4d26/res/layout/design_text_input_password_icon.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/da0dceb41ba8d31850790a32dcb10796/res/layout/design_text_input_password_icon.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_watch_video_activity.xml",
@@ -605,7 +605,7 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/abc_expanded_menu_layout.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/layout/abc_expanded_menu_layout.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/layout/abc_expanded_menu_layout.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_emoji_layout.xml",
@@ -613,7 +613,7 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/design_menu_item_action_area.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/0000feb02ed9850fa63110d2c9bd4d26/res/layout/design_menu_item_action_area.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/da0dceb41ba8d31850790a32dcb10796/res/layout/design_menu_item_action_area.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_preview_image_from_camera_activity.xml",
@@ -637,15 +637,15 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/fragment_text_sticker_easy_photos.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/128ad2bda6e0258a1d57904a15e7cfd4/res/layout/fragment_text_sticker_easy_photos.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/bc1d0d9956220dfd2e1ec0554d632778/res/layout/fragment_text_sticker_easy_photos.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/activity_file_picker.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/library-1.8.aar/051830ba79bf17e91877f4a87ac02cd1/res/layout/activity_file_picker.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/library-1.8.aar/ccff70e323ed67af25085471eb526520/res/layout/activity_file_picker.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/md_listitem_singlechoice.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/a99f0a6100010ac458852a7a11738977/res/layout/md_listitem_singlechoice.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/413f61b82aec3631fa64e0544b0122bb/res/layout/md_listitem_singlechoice.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_message_item_thumb_progress_bar_text.xml",
@@ -661,27 +661,27 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/design_navigation_item_separator.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/0000feb02ed9850fa63110d2c9bd4d26/res/layout/design_navigation_item_separator.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/da0dceb41ba8d31850790a32dcb10796/res/layout/design_navigation_item_separator.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/abc_popup_menu_header_item_layout.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/layout/abc_popup_menu_header_item_layout.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/layout/abc_popup_menu_header_item_layout.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/md_stub_inputpref.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/commons-0.9.6.0.aar/7f1a88efec3f5f4991df3d28d5fa7b29/res/layout/md_stub_inputpref.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/commons-0.9.6.0.aar/72a65db749e3e0421b58c74518cb62d7/res/layout/md_stub_inputpref.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/md_dialog_basic.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/a99f0a6100010ac458852a7a11738977/res/layout/md_dialog_basic.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/413f61b82aec3631fa64e0544b0122bb/res/layout/md_dialog_basic.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/md_stub_colorchooser_custom.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/commons-0.9.6.0.aar/7f1a88efec3f5f4991df3d28d5fa7b29/res/layout/md_stub_colorchooser_custom.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/commons-0.9.6.0.aar/72a65db749e3e0421b58c74518cb62d7/res/layout/md_stub_colorchooser_custom.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/abc_screen_content_include.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/layout/abc_screen_content_include.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/layout/abc_screen_content_include.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_popup_menu_list_item.xml",
@@ -693,7 +693,7 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/item_preview_photo_easy_photos.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/128ad2bda6e0258a1d57904a15e7cfd4/res/layout/item_preview_photo_easy_photos.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/bc1d0d9956220dfd2e1ec0554d632778/res/layout/item_preview_photo_easy_photos.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_new_message_tip_layout.xml",
@@ -701,7 +701,7 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/notification_action.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/266594d5e4bf1ff18bcc89b38e8dbcf2/res/layout/notification_action.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/fc9661db50d94ba1374981a586be8d2c/res/layout/notification_action.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_read_recipt_layout.xml",
@@ -713,15 +713,15 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/abc_action_mode_bar.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/layout/abc_action_mode_bar.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/layout/abc_action_mode_bar.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/md_stub_titleframe_lesspadding.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/a99f0a6100010ac458852a7a11738977/res/layout/md_stub_titleframe_lesspadding.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/413f61b82aec3631fa64e0544b0122bb/res/layout/md_stub_titleframe_lesspadding.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/design_bottom_navigation_item.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/0000feb02ed9850fa63110d2c9bd4d26/res/layout/design_bottom_navigation_item.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/da0dceb41ba8d31850790a32dcb10796/res/layout/design_bottom_navigation_item.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_picker_image_folder_activity.xml",
@@ -729,7 +729,7 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/notification_template_part_chronometer.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/266594d5e4bf1ff18bcc89b38e8dbcf2/res/layout/notification_template_part_chronometer.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/fc9661db50d94ba1374981a586be8d2c/res/layout/notification_template_part_chronometer.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_message_robot_text.xml",
@@ -737,7 +737,7 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/activity_preview_easy_photos.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/128ad2bda6e0258a1d57904a15e7cfd4/res/layout/activity_preview_easy_photos.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/bc1d0d9956220dfd2e1ec0554d632778/res/layout/activity_preview_easy_photos.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_team_member_list_layout.xml",
@@ -749,7 +749,7 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/md_dialog_list_check.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/a99f0a6100010ac458852a7a11738977/res/layout/md_dialog_list_check.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/413f61b82aec3631fa64e0544b0122bb/res/layout/md_dialog_list_check.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_contacts_count_item.xml",
@@ -761,15 +761,15 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/md_stub_titleframe.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/a99f0a6100010ac458852a7a11738977/res/layout/md_stub_titleframe.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/413f61b82aec3631fa64e0544b0122bb/res/layout/md_stub_titleframe.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/design_layout_tab_text.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/0000feb02ed9850fa63110d2c9bd4d26/res/layout/design_layout_tab_text.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/da0dceb41ba8d31850790a32dcb10796/res/layout/design_layout_tab_text.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/abc_popup_menu_item_layout.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/layout/abc_popup_menu_item_layout.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/layout/abc_popup_menu_item_layout.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_message_activity_actions_layout.xml",
@@ -785,7 +785,7 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/notification_template_lines_media.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.1.aar/16df0e2d33854433b8a1eb3b1fbffbed/res/layout/notification_template_lines_media.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.1.aar/8fa1f1152e40025f68726e7cc8ffa9a1/res/layout/notification_template_lines_media.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/layout_sg_search_view.xml",
@@ -805,7 +805,7 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/abc_list_menu_item_icon.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/layout/abc_list_menu_item_icon.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/layout/abc_list_menu_item_icon.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_message_activity_bottom_layout.xml",
@@ -817,11 +817,11 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/activity_puzzle_selector_easy_photos.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/128ad2bda6e0258a1d57904a15e7cfd4/res/layout/activity_puzzle_selector_easy_photos.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/bc1d0d9956220dfd2e1ec0554d632778/res/layout/activity_puzzle_selector_easy_photos.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/item_dialog_album_items_easy_photos.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/128ad2bda6e0258a1d57904a15e7cfd4/res/layout/item_dialog_album_items_easy_photos.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/EasyPhotos-2.3.2.aar/bc1d0d9956220dfd2e1ec0554d632778/res/layout/item_dialog_album_items_easy_photos.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_message_item_picture.xml",
@@ -829,7 +829,7 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/abc_screen_toolbar.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/layout/abc_screen_toolbar.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/layout/abc_screen_toolbar.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_action_bar_right_clickable_tv.xml",
@@ -845,7 +845,7 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/design_navigation_item.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/0000feb02ed9850fa63110d2c9bd4d26/res/layout/design_navigation_item.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/da0dceb41ba8d31850790a32dcb10796/res/layout/design_navigation_item.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_message_activity.xml",
@@ -853,7 +853,7 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/item_file.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/library-1.8.aar/051830ba79bf17e91877f4a87ac02cd1/res/layout/item_file.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/library-1.8.aar/ccff70e323ed67af25085471eb526520/res/layout/item_file.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_list_activity_layout.xml",
@@ -861,19 +861,19 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/abc_search_view.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/layout/abc_search_view.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/layout/abc_search_view.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/abc_screen_simple.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/layout/abc_screen_simple.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/layout/abc_screen_simple.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/design_navigation_item_header.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/0000feb02ed9850fa63110d2c9bd4d26/res/layout/design_navigation_item_header.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/da0dceb41ba8d31850790a32dcb10796/res/layout/design_navigation_item_header.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/select_dialog_item_material.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/layout/select_dialog_item_material.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/layout/select_dialog_item_material.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/message_operate_layout.xml",
@@ -885,15 +885,15 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/abc_alert_dialog_material.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/layout/abc_alert_dialog_material.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/layout/abc_alert_dialog_material.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/md_preference_custom.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/commons-0.9.6.0.aar/7f1a88efec3f5f4991df3d28d5fa7b29/res/layout/md_preference_custom.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/commons-0.9.6.0.aar/72a65db749e3e0421b58c74518cb62d7/res/layout/md_preference_custom.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/md_dialog_input.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/a99f0a6100010ac458852a7a11738977/res/layout/md_dialog_input.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/core-0.9.6.0.aar/413f61b82aec3631fa64e0544b0122bb/res/layout/md_dialog_input.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_message_item_text.xml",
@@ -901,19 +901,19 @@
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/notification_template_big_media_custom.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.1.aar/16df0e2d33854433b8a1eb3b1fbffbed/res/layout/notification_template_big_media_custom.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.1.aar/8fa1f1152e40025f68726e7cc8ffa9a1/res/layout/notification_template_big_media_custom.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/abc_search_dropdown_item_icons_2line.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/c8c0d766e623ceb6d00d34bf18f10c58/res/layout/abc_search_dropdown_item_icons_2line.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/95c80183d9a7808ad8e6ec11c5387075/res/layout/abc_search_dropdown_item_icons_2line.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/design_navigation_menu.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/0000feb02ed9850fa63110d2c9bd4d26/res/layout/design_navigation_menu.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/da0dceb41ba8d31850790a32dcb10796/res/layout/design_navigation_menu.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/md_stub_colorchooser_grid.xml",
-        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/commons-0.9.6.0.aar/7f1a88efec3f5f4991df3d28d5fa7b29/res/layout/md_stub_colorchooser_grid.xml"
+        "source": "/Users/admin/.gradle/caches/transforms-1/files-1.1/commons-0.9.6.0.aar/72a65db749e3e0421b58c74518cb62d7/res/layout/md_stub_colorchooser_grid.xml"
     },
     {
         "merged": "/Users/admin/dev/pe_saas/uikit/build/intermediates/res/merged/androidTest/debug/layout/nim_message_item_audio.xml",

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/itemLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_expansion_package_item">
@@ -10,7 +11,6 @@
         android:id="@+id/addNumberTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="增加10个项目额度"
         android:textColor="@color/text_1"
         android:textSize="@dimen/text_size_medium"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,7 +20,6 @@
         android:id="@+id/payPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="￥50,000"
         android:textColor="@color/amount_color"
         android:textSize="@dimen/text_size_large"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,9 +30,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="5dp"
-        android:text="￥150,000"
         android:textColor="@color/text_3"
         android:textSize="@dimen/text_size_samll"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/payPrice"
         app:layout_constraintEnd_toStartOf="@+id/payPrice"
         app:layout_constraintTop_toTopOf="@+id/payPrice" />
@@ -43,7 +42,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
-        app:layout_constraintTop_toBottomOf="@+id/originalPrice">
+        android:nestedScrollingEnabled="false"
+        app:layout_constraintTop_toBottomOf="@+id/payPrice">
 
 
     </android.support.v7.widget.RecyclerView>

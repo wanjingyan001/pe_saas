@@ -21,8 +21,8 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             // 设置支持的SO库架构
-            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
-            //'x86','x86_64',
+            abiFilters 'arm64-v8a'
+            //'x86','x86_64','armeabi', 'armeabi-v7a', 'arm64-v8a'
         }
         javaCompileOptions {
             annotationProcessorOptions {
@@ -53,8 +53,6 @@ android {
     }
     buildTypes {
         release {
-            // Zipalign优化
-//            zipAlignEnabled true
             // 移除无用的resource文件
 //            shrinkResources true
             //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

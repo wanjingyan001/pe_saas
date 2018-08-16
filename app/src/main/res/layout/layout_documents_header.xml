@@ -140,5 +140,38 @@
             android:textSize="@dimen/text_size_10" />
 
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/mOtherManage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="12dp"
+        android:paddingTop="10dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_other_manage" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="其他"
+            android:textColor="@color/text_4"
+            android:textSize="@dimen/text_size_medium" />
+
+        <TextView
+            android:id="@+id/mOtherNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="(0)"
+            android:textColor="@color/text_3"
+            android:textSize="@dimen/text_size_10" />
+
+    </LinearLayout>
 
 </LinearLayout>

@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="68dp"
     android:background="@drawable/bg_item_list"
-    android:orientation="horizontal"
-    android:paddingRight="15dp">
+    android:orientation="horizontal">
 
     <com.sogukj.pe.widgets.CircleImageView
         android:id="@+id/msg_icon"
@@ -22,6 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_gravity="center"
+        android:layout_marginEnd="15dp"
         android:layout_toRightOf="@+id/msg_icon"
         android:gravity="center"
         android:orientation="vertical">
@@ -35,9 +35,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:ellipsize="end"
                 android:gravity="left"
                 android:singleLine="true"
-                android:ellipsize="end"
                 android:text="系统消息助手"
                 android:textColor="@color/text_1"
                 android:textSize="18sp" />
@@ -47,9 +47,9 @@
                 android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:gravity="center"
                 android:textColor="@color/text_3"
-                android:layout_marginLeft="10dp"
                 android:textSize="12sp"
                 tools:text="07/07 12:00" />
         </LinearLayout>
@@ -94,4 +94,14 @@
         android:layout_alignLeft="@+id/content_layout"
         android:layout_alignParentBottom="true"
         android:background="@color/divider2" />
+
+    <ImageView
+        android:id="@+id/topTag"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/bg_triangle_tag"
+        android:visibility="gone"/>
+
 </RelativeLayout>

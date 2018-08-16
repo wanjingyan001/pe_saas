@@ -2,12 +2,13 @@ package com.sogukj.pe.baselibrary.Extended
 
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 /**
  * Created by admin on 2018/6/26.
  */
-class ExtrasDelegate<out T>(private val extraName: String, private val defaultValue: T) {
+class ExtrasDelegate<T>(private val extraName: String, private val defaultValue: T){
 
     private var extra: T? = null
 
@@ -21,6 +22,13 @@ class ExtrasDelegate<out T>(private val extraName: String, private val defaultVa
         return extra ?: defaultValue
     }
 
+    operator fun  setValue(thisRef: AppCompatActivity, property: KProperty<*>, value: T) {
+        extra = value
+    }
+
+    operator fun  setValue(thisRef: Fragment, property: KProperty<*>, value: T) {
+        extra = value
+    }
 }
 
 fun <T> extraDelegate(extra: String, default: T) = ExtrasDelegate(extra, default)

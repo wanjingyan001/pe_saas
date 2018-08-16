@@ -17,6 +17,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.ImageView
 import android.widget.TextView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
@@ -64,6 +65,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_msg_center.*
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import org.jetbrains.anko.backgroundResource
+import org.jetbrains.anko.find
 import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.info
 import org.jetbrains.anko.support.v4.ctx
@@ -284,9 +286,9 @@ class MainMsgFragment : BaseFragment() {
                 val msgIcon = convertView.findViewById<CircleImageView>(R.id.msg_icon) as CircleImageView
                 val tvTitle = convertView.findViewById<TextView>(R.id.tv_title) as TextView
                 val tvDate = convertView.findViewById<TextView>(R.id.tv_date) as TextView
-                val tvTitleMsg = convertView.findViewById<TextView>(R.id.tv_title_msg) as TextView
+                val tvTitleMsg = convertView.findViewById<TextView> (R.id.tv_title_msg) as TextView
                 val tvNum = convertView.findViewById<TextView>(R.id.tv_num) as TextView
-
+                val topTag = convertView.findViewById<ImageView>(R.id.topTag)
                 @SuppressLint("SetTextI18n")
                 override fun setData(view: View, data: Any, position: Int) {
                     if (data is MessageIndexBean) {
@@ -309,9 +311,11 @@ class MainMsgFragment : BaseFragment() {
                             tvTitle.text = "系统消息助手"
                             msgIcon.imageResource = R.drawable.ic_msg_alert
                         }
+                        topTag.setVisible(false)
                     } else if (data is RecentContact) {
                         val titleName = UserInfoHelper.getUserTitleName(data.contactId, data.sessionType)
                         tvTitle.text = titleName
+                        topTag.setVisible(data.tag == RECENT_TAG_STICKY)
                         if (data.sessionType == SessionTypeEnum.P2P) {
                             val value = data.msgStatus.value
                             when (value) {
@@ -355,7 +359,7 @@ class MainMsgFragment : BaseFragment() {
                         }
                         try {
                             val time = Utils.getTime(data.time, "yyyy-MM-dd HH:mm:ss")
-                            tvDate.text = Utils.formatDate(time)
+                            tvDate.text = Utils.formatDingDate(time)
                         } catch (e: Exception) {
                         }
                         val mutableMap = data.extension
@@ -804,7 +808,7 @@ class MainMsgFragment : BaseFragment() {
             }
             try {
                 val time = Utils.getTime(data.time, "yyyy-MM-dd HH:mm:ss")
-                tvDate.text = Utils.formatDate(time)
+                tvDate.text = Utils.formatDingDate(time)
             } catch (e: Exception) {
             }
         }

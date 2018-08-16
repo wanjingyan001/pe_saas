@@ -59,9 +59,9 @@ class PackageFragment : BaseFragment() {
         }
         payAdapter.selectChange = { old, new ->
             val activity = activity as PayPackageActivity
-            if (payAdapter.selectedPosition != -1){
-                activity.sId = payAdapter.dataList[payAdapter.selectedPosition].id
-            }else{
+            if (payAdapter.selectedPosition != -1) {
+                activity.sId = payAdapter.dataList[payAdapter.selectedPosition].id ?: 0
+            } else {
                 activity.sId = 0
             }
         }

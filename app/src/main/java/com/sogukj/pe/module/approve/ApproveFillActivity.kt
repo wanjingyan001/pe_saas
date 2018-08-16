@@ -212,6 +212,11 @@ class ApproveFillActivity : ToolbarActivity() {
                 })
     }
 
+    override fun onPause() {
+        super.onPause()
+        hideProgress()
+    }
+
     override fun onBackPressed() {
         if (flagEdit && !isOneKey) {
             super.onBackPressed()
@@ -1008,6 +1013,7 @@ class ApproveFillActivity : ToolbarActivity() {
         refreshFiles(filesBean!!, filesView!!)
 
         tvFile.setOnClickFastListener {
+            showProgress("正在读取内存文件")
             FileMainActivity.start(context, requestCode = REQ_SELECT_FILE)
         }
     }

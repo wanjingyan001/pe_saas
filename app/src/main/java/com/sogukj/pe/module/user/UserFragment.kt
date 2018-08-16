@@ -56,6 +56,7 @@ import com.sogukj.pe.bean.MechanismBasicInfo
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.bean.WebConfigBean
 import com.sogukj.pe.module.fileSelector.FileMainActivity
+import com.sogukj.pe.module.other.PayExpansionActivity
 import com.sogukj.pe.module.other.PayPackageActivity
 import com.sogukj.pe.module.project.ProjectFocusActivity
 import com.sogukj.pe.module.project.ProjectListFragment
@@ -67,6 +68,7 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_user.*
+import org.jetbrains.anko.info
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
@@ -109,6 +111,7 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
         }
         documentManagement.clickWithTrigger {
             baseActivity?.showProgress("正在读取内存文件")
+            info { "文件管理器启动时间:${System.currentTimeMillis()}" }
             FileMainActivity.start(ctx)
         }
         payPackageLayout.clickWithTrigger {
@@ -118,7 +121,8 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
                         arrayOf(Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_CONTACTS),
                         Extras.REQUESTCODE)
             } else {
-                startActivity<PayPackageActivity>()
+//                startActivity<PayPackageActivity>()
+                startActivity<PayExpansionActivity>()
             }
         }
         setting.clickWithTrigger {
@@ -529,8 +533,9 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
 //        }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+
+    override fun onStop() {
+        super.onStop()
         baseActivity?.hideProgress()
     }
 

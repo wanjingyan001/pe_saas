@@ -2472,7 +2472,7 @@ containing a value of this type.
 <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
 <tr><td><code>none</code></td><td>0</td><td></td></tr>
 <tr><td><code>standard</code></td><td>3</td><td></td></tr>
-<tr><td><code>direct</code></td><td>1</td><td></td></tr>
+<tr><td><code>direct</code></td><td>1</td><td> for now only direct & barriers </td></tr>
 <tr><td><code>barrier</code></td><td>2</td><td></td></tr>
 <tr><td><code>chains</code></td><td>4</td><td></td></tr>
 <tr><td><code>dimensions</code></td><td>8</td><td></td></tr>
@@ -2530,17 +2530,18 @@ theme attribute (in the form
 containing a value of this type.
          */
         public static final int layout_srlBackgroundColor=0x7f010211;
-        /** <p>Must be one of the following constant values.</p>
+        /** 填满布局
+         <p>Must be one of the following constant values.</p>
 <table>
 <colgroup align="left" />
 <colgroup align="left" />
 <colgroup align="left" />
 <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
 <tr><td><code>Translate</code></td><td>0</td><td></td></tr>
-<tr><td><code>Scale</code></td><td>1</td><td></td></tr>
-<tr><td><code>FixedBehind</code></td><td>2</td><td></td></tr>
-<tr><td><code>FixedFront</code></td><td>3</td><td></td></tr>
-<tr><td><code>MatchLayout</code></td><td>4</td><td></td></tr>
+<tr><td><code>Scale</code></td><td>1</td><td>平行移动</td></tr>
+<tr><td><code>FixedBehind</code></td><td>2</td><td>拉伸形变</td></tr>
+<tr><td><code>FixedFront</code></td><td>3</td><td>固定在背后</td></tr>
+<tr><td><code>MatchLayout</code></td><td>4</td><td>固定在前面</td></tr>
 </table>
          */
         public static final int layout_srlSpinnerStyle=0x7f01003e;
@@ -3819,15 +3820,16 @@ theme attribute (in the form
 containing a value of this type.
          */
         public static final int srlAnimatingColor=0x7f010117;
-        /** <p>Must be one of the following constant values.</p>
+        /** 固定在背后
+         <p>Must be one of the following constant values.</p>
 <table>
 <colgroup align="left" />
 <colgroup align="left" />
 <colgroup align="left" />
 <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
 <tr><td><code>Translate</code></td><td>0</td><td></td></tr>
-<tr><td><code>Scale</code></td><td>1</td><td></td></tr>
-<tr><td><code>FixedBehind</code></td><td>2</td><td></td></tr>
+<tr><td><code>Scale</code></td><td>1</td><td>平行移动</td></tr>
+<tr><td><code>FixedBehind</code></td><td>2</td><td>拉伸形变</td></tr>
 </table>
          */
         public static final int srlClassicsSpinnerStyle=0x7f01005d;
@@ -8024,6 +8026,8 @@ containing a value of this type.
         public static final int dialog_message_text_style=0x7f0b019e;
         public static final int dialog_title_text_style=0x7f0b019f;
         public static final int easy_dialog_edit_text_style=0x7f0b01a0;
+        /**  后面的activity变暗 
+         */
         public static final int easy_dialog_style=0x7f0b01a1;
         public static final int edit_text_style=0x7f0b01a2;
         public static final int grid_view=0x7f0b01a3;
@@ -10972,7 +10976,7 @@ containing a value of this type.
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
            <tr><td><code>{@link #BallPulseFooter_srlAnimatingColor com.netease.nim.uikit.test:srlAnimatingColor}</code></td><td></td></tr>
-           <tr><td><code>{@link #BallPulseFooter_srlClassicsSpinnerStyle com.netease.nim.uikit.test:srlClassicsSpinnerStyle}</code></td><td></td></tr>
+           <tr><td><code>{@link #BallPulseFooter_srlClassicsSpinnerStyle com.netease.nim.uikit.test:srlClassicsSpinnerStyle}</code></td><td>固定在背后</td></tr>
            <tr><td><code>{@link #BallPulseFooter_srlIndicatorColor com.netease.nim.uikit.test:srlIndicatorColor}</code></td><td></td></tr>
            <tr><td><code>{@link #BallPulseFooter_srlNormalColor com.netease.nim.uikit.test:srlNormalColor}</code></td><td></td></tr>
            </table>
@@ -11000,8 +11004,9 @@ containing a value of this type.
         */
         public static final int BallPulseFooter_srlAnimatingColor = 2;
         /**
-          <p>This symbol is the offset where the {@link com.netease.nim.uikit.test.R.attr#srlClassicsSpinnerStyle}
-          attribute's value can be found in the {@link #BallPulseFooter} array.
+          <p>
+          @attr description
+          固定在背后
 
 
           <p>Must be one of the following constant values.</p>
@@ -11011,9 +11016,10 @@ containing a value of this type.
 <colgroup align="left" />
 <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
 <tr><td><code>Translate</code></td><td>0</td><td></td></tr>
-<tr><td><code>Scale</code></td><td>1</td><td></td></tr>
-<tr><td><code>FixedBehind</code></td><td>2</td><td></td></tr>
+<tr><td><code>Scale</code></td><td>1</td><td>平行移动</td></tr>
+<tr><td><code>FixedBehind</code></td><td>2</td><td>拉伸形变</td></tr>
 </table>
+          <p>This is a private symbol.
           @attr name com.netease.nim.uikit.test:srlClassicsSpinnerStyle
         */
         public static final int BallPulseFooter_srlClassicsSpinnerStyle = 0;
@@ -11791,7 +11797,7 @@ containing a value of this type.
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
            <tr><td><code>{@link #ClassicsFooter_srlAccentColor com.netease.nim.uikit.test:srlAccentColor}</code></td><td></td></tr>
-           <tr><td><code>{@link #ClassicsFooter_srlClassicsSpinnerStyle com.netease.nim.uikit.test:srlClassicsSpinnerStyle}</code></td><td></td></tr>
+           <tr><td><code>{@link #ClassicsFooter_srlClassicsSpinnerStyle com.netease.nim.uikit.test:srlClassicsSpinnerStyle}</code></td><td>固定在背后</td></tr>
            <tr><td><code>{@link #ClassicsFooter_srlDrawableArrow com.netease.nim.uikit.test:srlDrawableArrow}</code></td><td></td></tr>
            <tr><td><code>{@link #ClassicsFooter_srlDrawableArrowSize com.netease.nim.uikit.test:srlDrawableArrowSize}</code></td><td></td></tr>
            <tr><td><code>{@link #ClassicsFooter_srlDrawableMarginRight com.netease.nim.uikit.test:srlDrawableMarginRight}</code></td><td></td></tr>
@@ -11835,8 +11841,9 @@ containing a value of this type.
         */
         public static final int ClassicsFooter_srlAccentColor = 0;
         /**
-          <p>This symbol is the offset where the {@link com.netease.nim.uikit.test.R.attr#srlClassicsSpinnerStyle}
-          attribute's value can be found in the {@link #ClassicsFooter} array.
+          <p>
+          @attr description
+          固定在背后
 
 
           <p>Must be one of the following constant values.</p>
@@ -11846,9 +11853,10 @@ containing a value of this type.
 <colgroup align="left" />
 <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
 <tr><td><code>Translate</code></td><td>0</td><td></td></tr>
-<tr><td><code>Scale</code></td><td>1</td><td></td></tr>
-<tr><td><code>FixedBehind</code></td><td>2</td><td></td></tr>
+<tr><td><code>Scale</code></td><td>1</td><td>平行移动</td></tr>
+<tr><td><code>FixedBehind</code></td><td>2</td><td>拉伸形变</td></tr>
 </table>
+          <p>This is a private symbol.
           @attr name com.netease.nim.uikit.test:srlClassicsSpinnerStyle
         */
         public static final int ClassicsFooter_srlClassicsSpinnerStyle = 1;
@@ -11988,7 +11996,7 @@ containing a value of this type.
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
            <tr><td><code>{@link #ClassicsHeader_srlAccentColor com.netease.nim.uikit.test:srlAccentColor}</code></td><td></td></tr>
-           <tr><td><code>{@link #ClassicsHeader_srlClassicsSpinnerStyle com.netease.nim.uikit.test:srlClassicsSpinnerStyle}</code></td><td></td></tr>
+           <tr><td><code>{@link #ClassicsHeader_srlClassicsSpinnerStyle com.netease.nim.uikit.test:srlClassicsSpinnerStyle}</code></td><td>固定在背后</td></tr>
            <tr><td><code>{@link #ClassicsHeader_srlDrawableArrow com.netease.nim.uikit.test:srlDrawableArrow}</code></td><td></td></tr>
            <tr><td><code>{@link #ClassicsHeader_srlDrawableArrowSize com.netease.nim.uikit.test:srlDrawableArrowSize}</code></td><td></td></tr>
            <tr><td><code>{@link #ClassicsHeader_srlDrawableMarginRight com.netease.nim.uikit.test:srlDrawableMarginRight}</code></td><td></td></tr>
@@ -12039,8 +12047,9 @@ containing a value of this type.
         */
         public static final int ClassicsHeader_srlAccentColor = 0;
         /**
-          <p>This symbol is the offset where the {@link com.netease.nim.uikit.test.R.attr#srlClassicsSpinnerStyle}
-          attribute's value can be found in the {@link #ClassicsHeader} array.
+          <p>
+          @attr description
+          固定在背后
 
 
           <p>Must be one of the following constant values.</p>
@@ -12050,9 +12059,10 @@ containing a value of this type.
 <colgroup align="left" />
 <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
 <tr><td><code>Translate</code></td><td>0</td><td></td></tr>
-<tr><td><code>Scale</code></td><td>1</td><td></td></tr>
-<tr><td><code>FixedBehind</code></td><td>2</td><td></td></tr>
+<tr><td><code>Scale</code></td><td>1</td><td>平行移动</td></tr>
+<tr><td><code>FixedBehind</code></td><td>2</td><td>拉伸形变</td></tr>
 </table>
+          <p>This is a private symbol.
           @attr name com.netease.nim.uikit.test:srlClassicsSpinnerStyle
         */
         public static final int ClassicsHeader_srlClassicsSpinnerStyle = 1;
@@ -13747,7 +13757,7 @@ containing a value of this type.
 <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
 <tr><td><code>none</code></td><td>0</td><td></td></tr>
 <tr><td><code>standard</code></td><td>3</td><td></td></tr>
-<tr><td><code>direct</code></td><td>1</td><td></td></tr>
+<tr><td><code>direct</code></td><td>1</td><td> for now only direct & barriers </td></tr>
 <tr><td><code>barrier</code></td><td>2</td><td></td></tr>
 <tr><td><code>chains</code></td><td>4</td><td></td></tr>
 <tr><td><code>dimensions</code></td><td>8</td><td></td></tr>
@@ -19278,7 +19288,7 @@ containing a value of this type.
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
            <tr><td><code>{@link #SmartRefreshLayout_Layout_layout_srlBackgroundColor com.netease.nim.uikit.test:layout_srlBackgroundColor}</code></td><td></td></tr>
-           <tr><td><code>{@link #SmartRefreshLayout_Layout_layout_srlSpinnerStyle com.netease.nim.uikit.test:layout_srlSpinnerStyle}</code></td><td></td></tr>
+           <tr><td><code>{@link #SmartRefreshLayout_Layout_layout_srlSpinnerStyle com.netease.nim.uikit.test:layout_srlSpinnerStyle}</code></td><td>填满布局</td></tr>
            </table>
            @see #SmartRefreshLayout_Layout_layout_srlBackgroundColor
            @see #SmartRefreshLayout_Layout_layout_srlSpinnerStyle
@@ -19302,8 +19312,9 @@ containing a value of this type.
         */
         public static final int SmartRefreshLayout_Layout_layout_srlBackgroundColor = 1;
         /**
-          <p>This symbol is the offset where the {@link com.netease.nim.uikit.test.R.attr#layout_srlSpinnerStyle}
-          attribute's value can be found in the {@link #SmartRefreshLayout_Layout} array.
+          <p>
+          @attr description
+          填满布局
 
 
           <p>Must be one of the following constant values.</p>
@@ -19313,11 +19324,12 @@ containing a value of this type.
 <colgroup align="left" />
 <tr><th>Constant</th><th>Value</th><th>Description</th></tr>
 <tr><td><code>Translate</code></td><td>0</td><td></td></tr>
-<tr><td><code>Scale</code></td><td>1</td><td></td></tr>
-<tr><td><code>FixedBehind</code></td><td>2</td><td></td></tr>
-<tr><td><code>FixedFront</code></td><td>3</td><td></td></tr>
-<tr><td><code>MatchLayout</code></td><td>4</td><td></td></tr>
+<tr><td><code>Scale</code></td><td>1</td><td>平行移动</td></tr>
+<tr><td><code>FixedBehind</code></td><td>2</td><td>拉伸形变</td></tr>
+<tr><td><code>FixedFront</code></td><td>3</td><td>固定在背后</td></tr>
+<tr><td><code>MatchLayout</code></td><td>4</td><td>固定在前面</td></tr>
 </table>
+          <p>This is a private symbol.
           @attr name com.netease.nim.uikit.test:layout_srlSpinnerStyle
         */
         public static final int SmartRefreshLayout_Layout_layout_srlSpinnerStyle = 0;
