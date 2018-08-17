@@ -52,7 +52,7 @@ import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.*
 import com.sogukj.pe.module.fileSelector.FileMainActivity
-import com.sogukj.pe.module.other.PayPackageActivity
+import com.sogukj.pe.module.other.PayExpansionActivity
 import com.sogukj.pe.module.project.ProjectFocusActivity
 import com.sogukj.pe.module.project.ProjectListFragment
 import com.sogukj.pe.module.register.CreateDepartmentActivity
