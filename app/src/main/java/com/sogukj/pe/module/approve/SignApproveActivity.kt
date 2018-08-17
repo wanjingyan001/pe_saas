@@ -388,7 +388,7 @@ class SignApproveActivity : ToolbarActivity() {
                     }
                 }
                 6 -> {
-                    btn.text = "导出pdf"
+                    btn.text = "导出审批单"
                     btn.setOnClickListener {
                         SoguApi.getService(application,ApproveService::class.java)
                                 .exportPdf(paramId!!)

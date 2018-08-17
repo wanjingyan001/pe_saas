@@ -97,9 +97,8 @@ class FileMainActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
     override fun onResume() {
         super.onResume()
-        val fragments = listOf(comDocFragment, allFileFragment)
+        val fragments = listOf(comDocFragment)
         file_pager.adapter = FilePageAdapter(supportFragmentManager, fragments)
-        file_pager.offscreenPageLimit = 0
         file_pager.addOnPageChangeListener(this)
     }
 

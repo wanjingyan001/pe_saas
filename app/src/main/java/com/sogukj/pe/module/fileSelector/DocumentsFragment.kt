@@ -78,7 +78,7 @@ class DocumentsFragment : Fragment(), View.OnClickListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         AnkoLogger("WJY").info { "文件管理器时间3.03:${System.currentTimeMillis() - UserFragment.startTime}" }
-        return inflater.inflate(R.layout.fragment_documents,container,false)
+        return inflater.inflate(R.layout.fragment_documents, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -107,18 +107,23 @@ class DocumentsFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    fun initRefreshConfig(){
+    fun initRefreshConfig() {
         refresh.apply {
+            setDragRate(1f)
             isEnableRefresh = false
             isEnableLoadMore = true
             isEnableAutoLoadMore = true
             isEnableOverScrollBounce = false
-            setRefreshHeader(ClassicsHeader(ctx), 0, 0)
+            isEnableScrollContentWhenLoaded = true
+            setDisableContentWhenLoading(false)
+            setEnableOverScrollDrag(true)
+            setEnableFooterFollowWhenLoadFinished(false)
+            setRefreshHeader(ClassicsHeader(ctx))
             setRefreshFooter(ClassicsFooter(ctx), 0, 0)
-           setOnLoadMoreListener {
-               page += 1
-               getFiles()
-           }
+            setOnLoadMoreListener {
+                page += 1
+                getFiles()
+            }
         }
     }
 

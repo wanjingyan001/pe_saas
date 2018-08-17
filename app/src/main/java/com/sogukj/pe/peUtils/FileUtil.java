@@ -761,7 +761,6 @@ public class FileUtil {
      * @return
      */
     public static List<File> getFiles(String fileAbsolutePath) {
-        long l = System.currentTimeMillis();
         List<File> vecFile = new ArrayList<>();
         File file = new File(fileAbsolutePath);
         if (file.exists()) {
@@ -775,7 +774,6 @@ public class FileUtil {
                 }
             }
         }
-        System.out.println("文件遍历结束:"+(System.currentTimeMillis() - l));
         return vecFile;
     }
 
