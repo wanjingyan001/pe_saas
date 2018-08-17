@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.preference.PreferenceManager
+import android.support.multidex.BuildConfig
 import android.support.multidex.MultiDexApplication
 import android.util.Log
 import android.widget.RemoteViews
@@ -32,7 +33,6 @@ import com.sogukj.pe.module.calendar.TaskDetailActivity
 import com.sogukj.pe.module.im.NimDemoLocationProvider
 import com.sogukj.pe.module.im.NimSDKOptionConfig
 import com.sogukj.pe.module.im.SessionHelper
-import com.sogukj.pe.module.main.LoginActivity
 import com.sogukj.pe.module.news.NewsDetailActivity
 import com.sogukj.pe.module.register.PhoneInputActivity
 import com.sogukj.pe.module.weekly.PersonalWeeklyActivity
@@ -40,7 +40,6 @@ import com.sogukj.pe.peExtended.defaultIc
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.UserService
 import com.sogukj.service.SoguApi
-
 import com.tencent.bugly.crashreport.CrashReport
 import com.umeng.message.IUmengRegisterCallback
 import com.umeng.message.MsgConstant

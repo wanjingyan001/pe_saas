@@ -1,13 +1,8 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
-
 apply plugin: 'kotlin-kapt'
-
 apply plugin: 'com.alibaba.arouter'
-
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -26,7 +21,7 @@ android {
         }
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [moduleName           : project.getName(),
+                arguments = [moduleName: project.getName(),
                              "room.schemaLocation": "$projectDir/schemas".toString()]
             }
         }
@@ -40,6 +35,9 @@ android {
         }
     }
     packagingOptions {
+        exclude 'lib/mips64/*.so'
+        exclude 'lib/mips/*.so'
+
         exclude 'META-INF/DEPENDENCIES'
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/LICENSE.txt'
@@ -68,7 +66,6 @@ android {
             debuggable true
             jniDebuggable true
             signingConfig signingConfigs.release
-
         }
         applicationVariants.all { variant ->
             def buildName
@@ -91,7 +88,6 @@ android {
         dexInProcess true
         preDexLibraries true
         javaMaxHeapSize "4g"//越大越好
-        incremental true
     }
     androidExtensions {
         experimental = true
@@ -236,7 +232,7 @@ kapt {
 
 repositories {
     maven {
-        url "http://dl.bintray.com/lukaville/maven"
+        url  "http://dl.bintray.com/lukaville/maven"
     }
     mavenCentral()
 }
@@ -248,14 +244,16 @@ static def releaseTime() {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    //noinspection GradleCompatible
     implementation 'com.android.support:support-v4:27.1.1'
-    compile project(':baselibrary')
-    compile project(':calendar')
-    compile project(':zxingLib')
-    compile project(':uikit')
-    compile project(':stack-layout')
-    compile project(':PushSDK')
-    compile project(':shareSDK')
+    implementation project(':baselibrary')
+    implementation project(':calendar')
+    implementation project(':zxingLib')
+    implementation project(':uikit')
+    implementation project(':stack-layout')
+    implementation project(':PushSDK')
+    implementation project(':shareSDK')
+    implementation project(':nice-spinner-master')
     //3D地图so及jar
     implementation "com.amap.api:3dmap:${map_version}"
     //定位功能
@@ -279,7 +277,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation project(':nice-spinner-master')
 }
 kotlin {
     experimental {

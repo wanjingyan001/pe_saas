@@ -48,14 +48,14 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_weekly.*
+import kotlinx.android.synthetic.main.buchong_empty.*
 import kotlinx.android.synthetic.main.buchong_full.*
 import kotlinx.android.synthetic.main.fragment_weekly_this.*
 import kotlinx.android.synthetic.main.send.*
-import java.text.SimpleDateFormat
-import kotlin.collections.ArrayList
-import kotlinx.android.synthetic.main.buchong_empty.*
 import org.jetbrains.anko.support.v4.ctx
+import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 //import kotlinx.android.synthetic.main.layout_network_error.*
 
@@ -375,7 +375,7 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
             //var time = buchong_full.findViewById(R.id.time) as TextView
             //var times = buchong_full.findViewById(R.id.times) as TextView
             var info = buchong_full.findViewById<TextView>(R.id.info)
-            var buchong_edit = buchong_full.findViewById<ImageView>(R.id.buchong_edit)
+            var fl_edit = buchong_full.findViewById<FrameLayout>(R.id.fl_edit)
 
             var S_TIME = week.start_time?.split("-")
             var E_TIME = week.end_time?.split("-")
@@ -390,7 +390,7 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
             //times.text = "${S_TIME?.get(1)}.${S_TIME?.get(2)}-${E_TIME?.get(1)}.${E_TIME?.get(2)}"
             info.text = week.info
 
-            buchong_edit.setOnClickListener {
+            fl_edit.setOnClickListener {
                 val intent = Intent(context, WeeklyRecordActivity::class.java)
                 intent.putExtra(Extras.FLAG, "EDIT")
                 intent.putExtra(Extras.DATA, week)
@@ -840,8 +840,8 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
             var HMS = week.date!!.split(" ")[1]
             buchong_full.findViewById<TextView>(R.id.time).text = "${YMD.split("-")[1]}月${YMD.split("-")[2]}日      ${HMS.substring(0, 5)}"
 
-            var buchong_edit = buchong_full.findViewById<ImageView>(R.id.buchong_edit)
-            buchong_edit.setOnClickListener {
+            var fl_edit = buchong_full.findViewById<FrameLayout>(R.id.fl_edit)
+            fl_edit.setOnClickListener {
                 val intent = Intent(context, WeeklyRecordActivity::class.java)
                 intent.putExtra(Extras.FLAG, "EDIT")
                 intent.putExtra(Extras.DATA, week)

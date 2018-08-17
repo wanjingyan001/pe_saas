@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="37dp"
         android:background="@color/white"
         android:gravity="bottom"
         android:orientation="horizontal">
@@ -46,7 +46,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginRight="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="15dp"
+            android:background="@drawable/selector_user_item"
             android:drawableLeft="@drawable/iv_search_filter_gray"
             android:drawablePadding="5dp"
             android:text="筛选"

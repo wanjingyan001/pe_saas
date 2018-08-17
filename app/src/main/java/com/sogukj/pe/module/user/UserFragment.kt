@@ -50,13 +50,8 @@ import com.sogukj.pe.baselibrary.base.ToolbarFragment
 import com.sogukj.pe.baselibrary.utils.HeaderImgKey
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
-import com.sogukj.pe.bean.DepartmentBean
-import com.sogukj.pe.bean.ProjectBelongBean
-import com.sogukj.pe.bean.MechanismBasicInfo
-import com.sogukj.pe.bean.UserBean
-import com.sogukj.pe.bean.WebConfigBean
+import com.sogukj.pe.bean.*
 import com.sogukj.pe.module.fileSelector.FileMainActivity
-import com.sogukj.pe.module.other.PayExpansionActivity
 import com.sogukj.pe.module.other.PayPackageActivity
 import com.sogukj.pe.module.project.ProjectFocusActivity
 import com.sogukj.pe.module.project.ProjectListFragment
@@ -74,6 +69,7 @@ import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
 import java.io.File
 import java.util.HashMap
+import kotlin.collections.ArrayList
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 /**
@@ -427,7 +423,7 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
             var textView = TextView(context)
             textView.layoutParams = params
             textView.gravity = Gravity.CENTER
-
+            textView.background = resources.getDrawable(R.drawable.selector_user_item)
             val str1 = stageList.get(i).count.toString()
             val str2 = stageList.get(i).name
             val sStr = SpannableString(str1 + "\n" + str2)

@@ -48,6 +48,7 @@
             android:layout_gravity="right"
             android:gravity="center"
             android:paddingTop="16dp"
+            android:background="@drawable/selector_user_item"
             android:paddingBottom="16dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
