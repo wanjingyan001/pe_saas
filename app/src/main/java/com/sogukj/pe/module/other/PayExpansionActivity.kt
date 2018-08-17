@@ -1,33 +1,36 @@
 package com.sogukj.pe.module.other
 
 import android.annotation.SuppressLint
+import android.annotation.TargetApi
 import android.graphics.Paint
+import android.os.Build
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import com.alipay.sdk.app.PayTask
+import com.amap.api.mapcore.util.it
+import com.google.gson.Gson
+import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
-import com.sogukj.pe.baselibrary.Extended.execute
-import com.sogukj.pe.baselibrary.Extended.setVisible
-import com.sogukj.pe.baselibrary.Extended.toMoney
+import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.RxBus
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.baselibrary.widgets.SpaceItemDecoration
-import com.sogukj.pe.bean.Discount
-import com.sogukj.pe.bean.PackageChild
-import com.sogukj.pe.bean.ProductInfo
+import com.sogukj.pe.bean.*
 import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
+import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_pay_expansion.*
 import kotlinx.android.synthetic.main.item_pay_expansion_list.view.*
 import kotlinx.android.synthetic.main.item_pay_discount.view.*
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.info
+import org.jetbrains.anko.startActivity
 import kotlin.properties.Delegates
 
 @SuppressLint("SetTextI18n")
@@ -36,9 +39,10 @@ class PayExpansionActivity : BaseActivity() {
     private lateinit var calenderAdapter: RecyclerAdapter<PackageChild>
     private var product: ProductInfo by Delegates.observable(ProductInfo(), { property, oldValue, newValue ->
         savingAmount.setVisible(newValue.discountPrice != newValue.OriginalPrice)
-        savingAmount.text = "￥${(newValue.OriginalPrice + newValue.calenderPrice).toMoney()}"
+        savingAmount.text = "立省￥${(newValue.OriginalPrice + newValue.calenderPrice).toMoney()}"
         paymentPrice.text = "￥${(newValue.discountPrice + newValue.calenderPrice).toMoney()}"
     })
+    private val payReqChild = PayReqChid()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,6 +61,7 @@ class PayExpansionActivity : BaseActivity() {
         }
         calenderAdapter.onItemClick = { v, position ->
             calenderAdapter.selectedPosition = position
+            payReqChild.id = calenderAdapter.dataList[position].id
             product = product.copy(discountPrice = product.discountPrice,
                     OriginalPrice = product.OriginalPrice,
                     calenderPrice = calenderAdapter.dataList[position].price)
@@ -72,6 +77,10 @@ class PayExpansionActivity : BaseActivity() {
             addItemDecoration(SpaceItemDecoration(dip(10)))
         }
         getPayPackageInfo()
+        payConfirm.clickWithTrigger {
+            getPayInfo()
+        }
+
     }
 
     override fun onDestroy() {
@@ -116,6 +125,51 @@ class PayExpansionActivity : BaseActivity() {
     }
 
 
+    private fun getPayInfo() {
+        SoguApi.getService(application, OtherService::class.java).getPayInfo(PayReq(Extras.PAY_PUBLIC_KEY, payReqChild))
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk) {
+                            payload.payload?.let {
+                                info { it }
+                                aliPay(it)
+                            }
+                        } else {
+                            showErrorToast(payload.message)
+                        }
+                    }
+                }
+    }
+
+    @TargetApi(Build.VERSION_CODES.N)
+    private fun aliPay(commodityInfo: String) {
+        Observable.create<Map<String, String>> { e ->
+            val payTask = PayTask(this)
+            val result = payTask.payV2(commodityInfo, true)
+            e.onNext(result)
+        }.execute {
+            onNext { result ->
+                result.forEach { t, u ->
+                    info { "key:$t ==> value:$u \n" }
+                }
+                val payResult = Gson().fromJson<PayResult?>(result.jsonStr)
+                if (payResult != null) {
+                    when (payResult.resultStatus) {
+                        "9000" -> {
+                            showSuccessToast("支付成功")
+                            getPayPackageInfo()
+                        }
+                        else -> {
+                            showErrorToast(payResult.memo)
+                        }
+                    }
+                } else {
+                    showErrorToast("请求出错")
+                }
+            }
+        }
+    }
+
     inner class ExpansionHolder(itemView: View, val adapter: RecyclerAdapter<PackageChild>) : RecyclerHolder<PackageChild>(itemView) {
         @SuppressLint("SetTextI18n")
         override fun setData(view: View, data: PackageChild, position: Int) {
@@ -148,6 +202,7 @@ class PayExpansionActivity : BaseActivity() {
                             view.originalPrice.setVisible(position != 0)
                             disInfo?.let {
                                 val dis = it[position]
+                                payReqChild.period = dis.period
                                 val pjPrice = data.price.times(dis.period)
                                 product = product.copy(discountPrice = product.discountPrice,
                                         OriginalPrice = pjPrice,
@@ -180,8 +235,10 @@ class PayExpansionActivity : BaseActivity() {
                     }
                     view.clickWithTrigger {
                         pjAdapter.selectedPosition = position
+                        payReqChild.quantity = data.quantity
                         disInfo?.let {
                             val dis = it[0]
+                            payReqChild.period = dis.period
                             val pjPrice = data.price.times(dis.period)
                             product = product.copy(discountPrice = product.discountPrice,
                                     OriginalPrice = pjPrice,

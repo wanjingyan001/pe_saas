@@ -92,6 +92,13 @@ interface OtherService {
     /**
      * 获取支付的订单信息
      */
+    @POST("/api/Saas/Alipay")
+    fun getPayInfo(@Body req:PayReq): Observable<Payload<String>>
+
+
+    /**
+     * 获取支付的订单信息
+     */
     @FormUrlEncoded
     @POST("/api/Saas/Alipay")
     fun getPayInfo(@Field("key") key: String,

@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
 import android.view.KeyEvent
 import android.widget.AdapterView
@@ -18,6 +19,7 @@ import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.module.partyBuild.PartyUploadActivity
+import com.sogukj.pe.module.user.UserFragment
 import com.sogukj.pe.peUtils.FileUtil
 import kotlinx.android.synthetic.main.activity_file_main.*
 import org.jetbrains.anko.info
@@ -31,12 +33,14 @@ class FileMainActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     var isForResult: Boolean = false////是否需要返回选择的文件
     private val comDocFragment by lazy { CommonDocumentsFragment.newInstance() }
     private val allFileFragment by lazy { AllFileFragment() }
+
     @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
+        info { "文件管理器时间1:${System.currentTimeMillis() - UserFragment.startTime}" }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_file_main)
         Utils.setWindowStatusBarColor(this, R.color.white)
-        info { "文件管理器时间1:${System.currentTimeMillis()}" }
+
         maxSize = intent.getIntExtra(Extras.DATA, 9)
         isReplace = intent.getBooleanExtra(Extras.FLAG, false)
         isForResult = intent.getBooleanExtra(Extras.TYPE, false)
@@ -59,9 +63,7 @@ class FileMainActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                 spinner.dismiss()
             }
         }
-        val fragments = listOf(comDocFragment, allFileFragment)
-        file_pager.adapter = FilePageAdapter(supportFragmentManager, fragments)
-        file_pager.addOnPageChangeListener(this)
+
 
         send_selected_files.setOnClickListener {
             if (isForResult) {
@@ -91,6 +93,14 @@ class FileMainActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                 deleteFiles()
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val fragments = listOf(comDocFragment, allFileFragment)
+        file_pager.adapter = FilePageAdapter(supportFragmentManager, fragments)
+        file_pager.offscreenPageLimit = 0
+        file_pager.addOnPageChangeListener(this)
     }
 
     fun showSelectedInfo() {
@@ -178,7 +188,6 @@ class FileMainActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         override fun getCount(): Int = fragments.size
 
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

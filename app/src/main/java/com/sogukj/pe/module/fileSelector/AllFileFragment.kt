@@ -11,6 +11,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.nbsp.materialfilepicker.utils.FileUtils
 import com.sogukj.pe.R
+import com.sogukj.pe.module.user.UserFragment
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
 
 import org.jetbrains.anko.support.v4.toast
 import java.io.File
@@ -80,6 +83,7 @@ class AllFileFragment : Fragment(), StorageFileFragment.FileClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        AnkoLogger("WJY").info { "文件管理器时间4:${System.currentTimeMillis() - UserFragment.startTime}" }
         val fragment = StorageFileFragment.newInstance(startPath)
         fragment.setListener(this)
         childFragmentManager.beginTransaction()

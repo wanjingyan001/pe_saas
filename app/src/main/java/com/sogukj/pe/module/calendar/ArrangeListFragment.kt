@@ -3,6 +3,7 @@ package com.sogukj.pe.module.calendar
 
 import android.animation.ObjectAnimator
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
@@ -15,10 +16,12 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.amap.api.mapcore.util.it
+import com.bumptech.glide.Glide
 import com.scwang.smartrefresh.layout.api.RefreshFooter
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.BaseRefreshFragment
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Trace
@@ -39,6 +42,7 @@ import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.backgroundResource
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.ctx
+import org.jetbrains.anko.support.v4.sp
 
 
 /**
@@ -144,6 +148,12 @@ class ArrangeListFragment : BaseRefreshFragment() {
     }
 
     private fun doRequest() {
+        Glide.with(this)
+                .asGif()
+                .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
+                .into(iv_loading)
+        iv_loading?.visibility = View.VISIBLE
+
         SoguApi.getService(baseActivity!!.application, CalendarService::class.java)
                 .getWeeklyWorkList(ArrangeReqBean(flag = 1, offset = offset))
                 .observeOn(AndroidSchedulers.mainThread())
@@ -157,8 +167,10 @@ class ArrangeListFragment : BaseRefreshFragment() {
                         }
                     }
                 }, { e ->
+                    iv_loading.setVisible(false)
                     Trace.e(e)
                 }, {
+                    iv_loading.setVisible(false)
                     if (isRefresh) {
                         refresh.finishRefresh()
                         isRefresh = false
@@ -197,6 +209,7 @@ class ArrangeListFragment : BaseRefreshFragment() {
                             isUpwards = true
                         }
                     }
+
                 })
     }
 
@@ -277,7 +290,14 @@ class ArrangeListFragment : BaseRefreshFragment() {
                             val address = itemView.find<TextView>(R.id.arrange_address)
                             val addressIcon = itemView.find<ImageView>(R.id.address_icon)
                             override fun setData(view: View, data: ChildBean, position: Int) {
-                                content.text = data.reasons
+                                if (data.reasons.isNullOrEmpty()){
+                                    content.hint = "暂无事由信息"
+                                    content.textSize = 10f
+                                }else{
+                                    content.text = data.reasons
+                                    content.textSize = 14f
+                                }
+
                                 data.attendee?.let {
                                     if (it.isNotEmpty()) {
                                         val builder = StringBuilder()

@@ -8,7 +8,9 @@ import android.os.Environment
 import android.support.v4.app.Fragment
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.LinearLayoutManager
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -16,27 +18,29 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.scwang.smartrefresh.layout.api.RefreshFooter
 import com.scwang.smartrefresh.layout.api.RefreshHeader
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter
+import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.setVisible
+import com.sogukj.pe.baselibrary.base.BaseFragment
 import com.sogukj.pe.baselibrary.base.BaseRefreshFragment
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
+import com.sogukj.pe.module.user.UserFragment
 import com.sogukj.pe.peUtils.FileTypeUtils
 import com.sogukj.pe.peUtils.FileUtil
 import kotlinx.android.synthetic.main.fragment_documents.*
+import kotlinx.android.synthetic.main.layout_documents_header.view.*
 import kotlinx.android.synthetic.main.layout_empty.*
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
-import org.jetbrains.anko.find
-import org.jetbrains.anko.imageResource
-import org.jetbrains.anko.info
+import org.jetbrains.anko.*
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.find
-import org.jetbrains.anko.toast
 import java.io.File
 import java.util.*
 
@@ -46,9 +50,8 @@ import java.util.*
  * Use the [DocumentsFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class DocumentsFragment : BaseRefreshFragment(), View.OnClickListener {
-    override val containerViewId: Int
-        get() = R.layout.fragment_documents
+class DocumentsFragment : Fragment(), View.OnClickListener {
+
     private var type: Int? = null
     private var mParam2: String? = null
 
@@ -60,63 +63,63 @@ class DocumentsFragment : BaseRefreshFragment(), View.OnClickListener {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
+        AnkoLogger("WJY").info { "文件管理器时间3.01:${System.currentTimeMillis() - UserFragment.startTime}" }
         fileActivity = activity as FileMainActivity
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AnkoLogger("WJY").info { "文件管理器时间3.02:${System.currentTimeMillis() - UserFragment.startTime}" }
         if (arguments != null) {
             type = arguments!!.getInt(TYPE, 0)
             mParam2 = arguments!!.getString(ARG_PARAM2)
         }
     }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        AnkoLogger("WJY").info { "文件管理器时间3.03:${System.currentTimeMillis() - UserFragment.startTime}" }
+        return inflater.inflate(R.layout.fragment_documents,container,false)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        info { "文件管理器时间3:${System.currentTimeMillis()}" }
+        AnkoLogger("WJY").info { "文件管理器时间3.04:${System.currentTimeMillis() - UserFragment.startTime}" }
+
+        header = find(R.id.documents_header)
+        view.mPicManage.setOnClickListener(this)
+        view.mVideoManage.setOnClickListener(this)
+        view.mDocManage.setOnClickListener(this)
+        view.mZipManage.setOnClickListener(this)
+        view.mOtherManage.setOnClickListener(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        AnkoLogger("WJY").info { "文件管理器时间3.05:${System.currentTimeMillis() - UserFragment.startTime}" }
         adapter = RecyclerAdapter(ctx, { _adpater, parent, type ->
             DocumentHolder(_adpater.getView(R.layout.item_document_list, parent))
         })
-        documentList.layoutManager = LinearLayoutManager(context)
+        documentList.layoutManager = LinearLayoutManager(ctx)
         documentList.adapter = adapter
-        header = find(R.id.documents_header)
-        header.find<LinearLayout>(R.id.mPicManage).setOnClickListener(this)
-        header.find<LinearLayout>(R.id.mVideoManage).setOnClickListener(this)
-        header.find<LinearLayout>(R.id.mDocManage).setOnClickListener(this)
-        header.find<LinearLayout>(R.id.mZipManage).setOnClickListener(this)
-        header.find<LinearLayout>(R.id.mOtherManage).setOnClickListener(this)
-        getDirectoryFiles()
-        getFiles()
+        getDirectoryFiles().doAsyncResult {
+            AnkoLogger("WJY").info { "文件管理器时间3.06:${System.currentTimeMillis() - UserFragment.startTime}" }
+            getFiles()
+        }
     }
 
-
-    override fun initRefreshConfig(): RefreshConfig? {
-        val config = RefreshConfig()
-        config.refreshEnable = false
-        config.loadMoreEnable = true
-        config.autoLoadMoreEnable = true
-        config.overScrollBounceEnable = false
-        config.scrollContentWhenLoaded = false
-        config.footerTranslationContent = false
-        config.disableContentWhenLoading = true
-        return config
-    }
-
-    override fun initRefreshHeader(): RefreshHeader? {
-        return null
-    }
-
-    override fun initRefreshFooter(): RefreshFooter? {
-        return null
-    }
-
-    override fun doRefresh() {
-
-    }
-
-    override fun doLoadMore() {
-        page += 1
-        getFiles()
+    fun initRefreshConfig(){
+        refresh.apply {
+            isEnableRefresh = false
+            isEnableLoadMore = true
+            isEnableAutoLoadMore = true
+            isEnableOverScrollBounce = false
+            setRefreshHeader(ClassicsHeader(ctx), 0, 0)
+            setRefreshFooter(ClassicsFooter(ctx), 0, 0)
+           setOnLoadMoreListener {
+               page += 1
+               getFiles()
+           }
+        }
     }
 
     private fun getFiles() {
@@ -136,6 +139,7 @@ class DocumentsFragment : BaseRefreshFragment(), View.OnClickListener {
             }
             adapter.dataList.addAll(dirFiles)
         }
+        adapter.notifyDataSetChanged()
         refresh.finishLoadMore()
     }
 

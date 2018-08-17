@@ -56,7 +56,7 @@
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
                     android:paddingTop="15dp"
-                    android:text="前往搜股参与股东会议，全体领导班子需出席"
+                    android:hint="暂无事由"
                     android:textColor="@color/text_1"
                     android:textSize="14sp" />
 

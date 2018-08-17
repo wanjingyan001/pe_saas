@@ -10,8 +10,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.sogukj.pe.R
+import com.sogukj.pe.module.user.UserFragment
 import com.sogukj.pe.peUtils.FileUtil
 import kotlinx.android.synthetic.main.fragment_storage_file.*
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
 import org.jetbrains.anko.support.v4.ctx
 import java.io.File
 
@@ -55,6 +58,7 @@ class StorageFileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        AnkoLogger("WJY").info { "文件管理器时间5:${System.currentTimeMillis() - UserFragment.startTime}" }
 //        files = FileUtil.getFileListByDirPath(mPath, null).toMutableList()
 //        mDirectoryAdapter = DirectoryAdapter(ctx, files as MutableList<File>, fileActivity)
 //        mDirectoryAdapter.setOnItemClickListener(object : DirectoryAdapter.OnItemClickListener {

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
@@ -12,14 +13,14 @@ import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.base.BaseFragment
 import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.module.user.UserFragment
 import kotlinx.android.synthetic.main.fragment_common_documents.*
+import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.onPageChangeListener
 
-class CommonDocumentsFragment : BaseFragment() {
-    override val containerViewId: Int
-        get() = R.layout.fragment_common_documents
+class CommonDocumentsFragment : Fragment() {
     private var mParam1: String? = null
     private var mParam2: String? = null
     lateinit var pagerAdapter: DocPageAdapter
@@ -29,6 +30,7 @@ class CommonDocumentsFragment : BaseFragment() {
     val qqFragment by lazy { DocumentsFragment.newInstance(DocumentsFragment.QQ_DOC) }
     val dtFragment by lazy { DocumentsFragment.newInstance(DocumentsFragment.DING_TALK) }
     val allFragment by lazy { DocumentsFragment.newInstance(DocumentsFragment.ALL_DOC) }
+    private lateinit var fragments: List<Fragment>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,10 +40,22 @@ class CommonDocumentsFragment : BaseFragment() {
         }
     }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        AnkoLogger("WJY").info { "文件管理器时间2.1:${System.currentTimeMillis() - UserFragment.startTime}" }
+        return inflater.inflate(R.layout.fragment_common_documents, container, false)
+    }
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        info { "文件管理器时间2:${System.currentTimeMillis()}" }
-        val fragments = listOf<Fragment>(peFragment, wxFragment, qqFragment, dtFragment, allFragment)
+        AnkoLogger("WJY").info { "文件管理器时间2.2:${System.currentTimeMillis() - UserFragment.startTime}" }
+        fragments = listOf<Fragment>(peFragment, wxFragment, qqFragment, dtFragment, allFragment)
+        doSearch()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        AnkoLogger("WJY").info { "文件管理器时间2.3:${System.currentTimeMillis() - UserFragment.startTime}" }
         pagerAdapter = DocPageAdapter(childFragmentManager, fragments)
         documentList.adapter = pagerAdapter
         tab.setupWithViewPager(documentList)
@@ -52,7 +66,6 @@ class CommonDocumentsFragment : BaseFragment() {
                 Utils.closeInput(ctx, search_edt)
             }
         }
-        doSearch()
     }
 
 

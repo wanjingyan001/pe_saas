@@ -225,14 +225,14 @@ class App : MultiDexApplication() {
      */
     private fun initNIM() {
         // 在初始化SDK的时候，传入 loginInfo()， 其中包含用户信息，用以自动登录
-        NIMClient.init(INSTANCE, getIMLoginInfo(), NimSDKOptionConfig.getSDKOptions(INSTANCE))
+        NIMClient.init(this, getIMLoginInfo(), NimSDKOptionConfig.getSDKOptions(this))
         // 设置地理位置提供者。如果需要发送地理位置消息，该参数必须提供。如果不需要，可以忽略。
         NimUIKit.setLocationProvider(NimDemoLocationProvider())
         // 以下逻辑只在主进程初始化时执行
-        if (NIMUtil.isMainProcess(INSTANCE)) {
+        if (NIMUtil.isMainProcess(this)) {
             SessionHelper.init()
             NIMClient.toggleNotification(true)
-            NimUIKit.init(INSTANCE)
+            NimUIKit.init(this)
             NIMClient.getService(AuthServiceObserver::class.java).observeOnlineStatus({ statusCode ->
                 when (statusCode) {
                     StatusCode.UNLOGIN -> Log.d("WJY", "未登录/登录失败")
@@ -244,12 +244,12 @@ class App : MultiDexApplication() {
                     StatusCode.KICKOUT, StatusCode.KICK_BY_OTHER_CLIENT, StatusCode.FORBIDDEN -> {
                         Log.d("WJY", "被其他端的登录踢掉")
                         RetrofitUrlManager.getInstance().removeGlobalDomain()
-                        PreferenceManager.getDefaultSharedPreferences(INSTANCE).edit { putString(Extras.HTTPURL, "") }
+                        PreferenceManager.getDefaultSharedPreferences(this).edit { putString(Extras.HTTPURL, "") }
                         resetPush(false)
                         IMLogout()
-                        Store.store.clearUser(INSTANCE)
-                        ActivityHelper.exit(INSTANCE)
-                        val intent = Intent(INSTANCE, PhoneInputActivity::class.java)
+                        Store.store.clearUser(this)
+                        ActivityHelper.exit(this)
+                        val intent = Intent(this, PhoneInputActivity::class.java)
                         intent.putExtra(Extras.FLAG, statusCode)
                         intent.addFlags(FLAG_ACTIVITY_NEW_TASK)
                         startActivity(intent)

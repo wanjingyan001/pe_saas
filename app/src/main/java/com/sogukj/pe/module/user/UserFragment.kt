@@ -107,8 +107,10 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
         }
         documentManagement.clickWithTrigger {
             baseActivity?.showProgress("正在读取内存文件")
-            info { "文件管理器启动时间:${System.currentTimeMillis()}" }
-            FileMainActivity.start(ctx)
+            startTime = System.currentTimeMillis()
+            info { "文件管理器启动时间:${startTime}" }
+            startActivity<FileMainActivity>(Extras.DATA to  9,
+                    Extras.FLAG to false,Extras.TYPE to false)
         }
         payPackageLayout.clickWithTrigger {
             val permission = ActivityCompat.checkSelfPermission(ctx, Manifest.permission.READ_PHONE_STATE)
@@ -537,6 +539,7 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
 
 
     companion object {
+        var startTime :Long = 0
         fun start(ctx: Activity?) {
             ctx?.startActivity(Intent(ctx, UserFragment::class.java))
         }

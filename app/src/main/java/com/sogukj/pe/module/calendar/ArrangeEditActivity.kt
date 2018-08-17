@@ -102,10 +102,13 @@ class ArrangeEditActivity : ToolbarActivity() {
                 }
                 else -> {
                     inflate.backgroundColor = Color.parseColor("#f7f9fc")
-                    val firstTime = data[0].date
-                    val lastTime = data[6].date
-                    inflate.find<TextView>(R.id.weeklyTv).text = "${firstTime?.substring(5, firstTime.length)}~${lastTime?.substring(5, lastTime.length)}"
-
+                    if(data.size == 1){
+                        inflate.find<TextView>(R.id.weeklyTv).text = "${data[0].date}"
+                    }else{
+                        val firstTime = data[0].date
+                        val lastTime = data[6].date
+                        inflate.find<TextView>(R.id.weeklyTv).text = "${firstTime?.substring(5, firstTime.length)}~${lastTime?.substring(5, lastTime.length)}"
+                    }
                 }
             }
         }
