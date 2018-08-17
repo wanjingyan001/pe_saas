@@ -1,5 +1,6 @@
 *.iml
 .gradle
+.idea
 /local.properties
 /.idea/workspace.xml
 /.idea/libraries
@@ -15,7 +16,7 @@ uikit/build/generated/source/rs/
 uikit/build/intermediates/bundles/debug/aidl/
 uikit/build/intermediates/check-manifest/
 uikit/build/intermediates/incremental/debug-mergeJniLibs/zip-cache/
-uikit/build/intermediates/incremental/packageDebugResources/stripped.dir/
+uikit/build/intermediates/incremental/packageDebugResources/
 uikit/build/intermediates/incremental/processDebugResources/
 uikit/build/intermediates/lint/
 uikit/build/intermediates/rs/
@@ -31,7 +32,7 @@ zxingLib/build/intermediates/bundles/debug/aidl/
 zxingLib/build/intermediates/bundles/debug/assets/
 zxingLib/build/intermediates/check-manifest/
 zxingLib/build/intermediates/incremental/debug-mergeJniLibs/zip-cache/
-zxingLib/build/intermediates/incremental/packageDebugResources/stripped.dir/
+zxingLib/build/intermediates/incremental/packageDebugResources/
 zxingLib/build/intermediates/incremental/processDebugResources/
 zxingLib/build/intermediates/intermediate-jars/debug/jni/
 zxingLib/build/intermediates/jniLibs/
