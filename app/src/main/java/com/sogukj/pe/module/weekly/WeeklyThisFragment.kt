@@ -396,6 +396,13 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
                 intent.putExtra(Extras.DATA, week)
                 startActivityForResult(intent, EDIT)
             }
+
+            buchong_full.setOnClickListener {
+                val intent = Intent(context, WeeklyRecordActivity::class.java)
+                intent.putExtra(Extras.FLAG, "EDIT")
+                intent.putExtra(Extras.DATA, week)
+                startActivityForResult(intent, EDIT)
+            }
         }
 
 

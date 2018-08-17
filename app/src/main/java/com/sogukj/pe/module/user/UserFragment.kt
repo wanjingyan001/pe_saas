@@ -318,7 +318,6 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
 
     }
 
-
     val departList = ArrayList<DepartmentBean>()
 
 

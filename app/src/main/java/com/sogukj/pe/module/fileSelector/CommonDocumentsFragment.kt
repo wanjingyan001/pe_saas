@@ -68,7 +68,6 @@ class CommonDocumentsFragment : Fragment() {
         }
     }
 
-
     private fun doSearch() {
         search_edt.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus || search_edt.textStr.isNotEmpty()) {

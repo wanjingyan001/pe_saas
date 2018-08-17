@@ -121,8 +121,8 @@ class EntryApproveActivity : ToolbarActivity(), View.OnClickListener {
                 setGridItem(items.getOrNull(2), gridRow.getChildAt(2)!!, spGroupBean)
                 setGridItem(items.getOrNull(1), gridRow.getChildAt(1)!!, spGroupBean)
                 setGridItem(items.getOrNull(0), gridRow.getChildAt(0)!!, spGroupBean)
-
             }
+
             if (null != items && items.size > 4) {
                 val gridRow = inflater.inflate(R.layout.cs_grid_row3, null, false) as LinearLayout
                 groupView.addView(gridRow)
