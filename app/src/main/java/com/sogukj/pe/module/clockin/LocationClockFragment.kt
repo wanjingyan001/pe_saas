@@ -94,7 +94,7 @@ class LocationClockFragment : BaseFragment(), MyMapView.onFinishListener {
                     override fun setData(view: View, data: LocationRecordBean.LocationCellBean, position: Int) {
                         val stamp = data.time!!
                         val dateStr = DateUtils.getTime24HDisplay(context, stamp!!)
-                        tvClockTime.text = dateStr.substring(11)
+                        tvClockTime.text = "打卡时间：${dateStr.substring(11)}"
                         tvLocate.text = data.place
                         if (data.sid == null) {
                             tvRelate.visibility = View.GONE

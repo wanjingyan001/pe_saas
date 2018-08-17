@@ -111,7 +111,7 @@ public class MyMapView extends View {
         niceSpinner = rootView.findViewById(R.id.nice_spinner);
         LocationRecordBean.LocationCellBean bean = new LocationRecordBean.LocationCellBean();
         bean.setId(0);
-        bean.setTitle("不关联");
+        bean.setTitle("不关联审批");
         bean.setTime(0);
         mList.add(0, bean);
 
