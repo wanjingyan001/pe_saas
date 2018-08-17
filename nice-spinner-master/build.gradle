@@ -25,5 +25,5 @@ dependencies {
         google()
         maven { url "http://dl.bintray.com/lukaville/maven" }
     }
-    implementation 'com.android.support:appcompat-v7:27.0.1'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
 }

@@ -18,9 +18,9 @@ android {
 
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile project(':baselibrary')
+    implementation project(':baselibrary')
     implementation 'com.yalantis:ucrop:2.2.0'
     implementation "com.android.support:exifinterface:${android_support_sdk_version}"
     implementation 'com.squareup.picasso:picasso:2.5.2'
