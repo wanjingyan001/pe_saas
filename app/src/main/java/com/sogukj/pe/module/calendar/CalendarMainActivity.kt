@@ -77,7 +77,7 @@ class CalendarMainActivity : ToolbarActivity(), MonthSelectListener, ViewPager.O
             scheduleFragment.load(intent!!.getStringExtra(Extras.DATA))
         }
     }
-
+                    
     private fun initPager() {
         val adapter = ContentAdapter(supportFragmentManager, fragments, titles)
         contentPager.adapter = adapter

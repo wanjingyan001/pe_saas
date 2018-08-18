@@ -130,4 +130,9 @@
     <color name="party_tab_color">#FFB0A5</color>
     <color name="main_bottom_bar_color">#4390F0</color>
     <color name="amount_color">#F85959</color>
+    <color name="gray_f7">#f7f9fc</color>
+    <color name="gray_80">#808080</color>
+    <color name="white_ff">#ffffff</color>
+    <color name="black_28">#282828</color>
+    <color name="gray_f1">#f1f1f1</color>
 </resources>

@@ -33,9 +33,11 @@ import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.bean.CusShareBean
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.BASE64Encoder
 import com.sogukj.pe.peUtils.FileUtil
+import com.sogukj.pe.peUtils.ShareUtils
 import com.sogukj.pe.service.FundService
 import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -147,10 +149,21 @@ class OnlinePreviewActivity : ToolbarActivity(), PlatformActionListener {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.action_mark -> {
-                share()
+//                share()
+                cusShare()
             }
         }
         return false
+    }
+
+    private fun cusShare() {
+        if (transUrl.isNullOrEmpty())
+            return
+        var shareBean = CusShareBean()
+        shareBean.shareTitle = intent.getStringExtra(Extras.TITLE)
+        shareBean.shareContent = ""
+        shareBean.shareUrl = transUrl
+        ShareUtils.share(shareBean,this)
     }
 
     var transUrl = ""

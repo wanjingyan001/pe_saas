@@ -1135,7 +1135,10 @@
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <activity android:name=".module.clockin.LocationActivity" />
-
+        <activity
+            android:name=".module.user.AboutXPeActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

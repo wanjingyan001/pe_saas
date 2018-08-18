@@ -43,8 +43,10 @@ import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.bean.CusShareBean
 import com.sogukj.pe.bean.NewsBean
 import com.sogukj.pe.peExtended.getEnvironment
+import com.sogukj.pe.peUtils.ShareUtils
 import com.sogukj.pe.service.NewService
 import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -248,10 +250,21 @@ class NewsDetailActivity : ToolbarActivity(), PlatformActionListener {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.action_share -> {
-                share()
+//                share()
+                cusShare()
             }
         }
         return false
+    }
+
+    private fun cusShare() {
+        if (news == null)
+            return
+        var shareBean = CusShareBean()
+        shareBean.shareTitle = news!!.shareTitle
+        shareBean.shareContent = news!!.title!!
+        shareBean.shareUrl = news!!.shareUrl
+        ShareUtils.share(shareBean,this)
     }
 
     var news: NewsBean? = null

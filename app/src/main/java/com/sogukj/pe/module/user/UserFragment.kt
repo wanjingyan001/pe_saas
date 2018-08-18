@@ -57,6 +57,7 @@ import com.sogukj.pe.module.project.ProjectFocusActivity
 import com.sogukj.pe.module.project.ProjectListFragment
 import com.sogukj.pe.module.register.CreateDepartmentActivity
 import com.sogukj.pe.peExtended.getEnvironment
+import com.sogukj.pe.peUtils.ShareUtils
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.UserService
 import com.sogukj.service.SoguApi
@@ -153,7 +154,12 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
                     .subscribe({ payload ->
                         if (payload.isOk) {
                             payload?.payload?.apply {
-                                share(this)
+//                                share(this)
+                                var shareBean = CusShareBean()
+                                shareBean.shareTitle = this.company!!
+                                shareBean.shareContent = ""
+                                shareBean.shareUrl = this.web_url!!
+                                ShareUtils.share(shareBean,activity!!)
                             }
                         } else {
                             showCustomToast(R.drawable.icon_toast_fail, payload.message)

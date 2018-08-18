@@ -21,7 +21,6 @@ import cn.sharesdk.tencent.qq.QQ
 import cn.sharesdk.tencent.qzone.QQClientNotExistException
 import cn.sharesdk.wechat.friends.Wechat
 import cn.sharesdk.wechat.utils.WechatClientNotExistException
-import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
@@ -204,7 +203,6 @@ class EquityStructureActivity : ToolbarActivity(), PlatformActionListener {
                     })
         }
     }
-
     var canShare = false
     var loaded = false
 

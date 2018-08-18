@@ -8,9 +8,7 @@ import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.module.other.PayExpansionActivity
-import com.sogukj.pe.module.other.PayPackageActivity
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.support.v4.startActivity
 
 class UserActivity : ToolbarActivity() {
 

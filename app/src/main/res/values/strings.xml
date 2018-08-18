@@ -137,4 +137,7 @@
     <string name="jump_link">还没团队? 立刻创建团队>></string>
     <string name="tips1">本产品只面向私募机构开放，因此我们需要对您提供的名片进行审核,感谢合作!</string>
     <string name="tips_under_review">审核预计需要2个工作日，我们会短信通知您结果，请耐心等待</string>
+    <string name="about_xpe">关于X-PE</string>
+    <string name="check_update">检查新版本</string>
+    <string name="declare">免责声明</string>
 </resources>

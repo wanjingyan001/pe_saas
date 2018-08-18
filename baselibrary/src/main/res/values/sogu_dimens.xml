@@ -37,4 +37,33 @@
     <dimen name="toolbar_height">56dp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="default_input_height">80dp</dimen>
+
+    <dimen name="text_0.5">0.5dp</dimen>
+    <dimen name="text_1">1dp</dimen>
+    <dimen name="text_2">2dp</dimen>
+    <dimen name="text_3">3dp</dimen>
+    <dimen name="text_4">4dp</dimen>
+    <dimen name="text_5">5dp</dimen>
+    <dimen name="text_6">6dp</dimen>
+    <dimen name="text_7">7dp</dimen>
+    <dimen name="text_8">8dp</dimen>
+    <dimen name="text_10">10dp</dimen>
+    <dimen name="text_12">12dp</dimen>
+    <dimen name="text_13">13dp</dimen>
+    <dimen name="text_15">15dp</dimen>
+    <dimen name="text_16">16dp</dimen>
+    <dimen name="text_18">18dp</dimen>
+    <dimen name="text_20">20dp</dimen>
+    <dimen name="text_23">23dp</dimen>
+    <dimen name="text_25">25dp</dimen>
+    <dimen name="text_26">26dp</dimen>
+    <dimen name="text_27">27dp</dimen>
+    <dimen name="text_30">30dp</dimen>
+    <dimen name="text_35">35dp</dimen>
+    <dimen name="text_40">40dp</dimen>
+    <dimen name="text_45">45dp</dimen>
+    <dimen name="text_60">60dp</dimen>
+    <dimen name="text_70">70dp</dimen>
+    <dimen name="text_50">50dp</dimen>
+    <dimen name="text_270">270dp</dimen>
 </resources>
