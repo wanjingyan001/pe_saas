@@ -9,7 +9,9 @@ android {
         versionName "4.7.8"
         versionCode 108
     }
-
+    lintOptions {
+        abortOnError false
+    }
     buildTypes {
         release {
             minifyEnabled false

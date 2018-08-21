@@ -1169,4 +1169,24 @@ Utils {
         return (int) (dpValue * scale + 0.5f);
     }
 
+    /**
+     * 获取手机品牌，型号
+     */
+    public static String getPhoneInfos(){
+        String infos = "";
+        Field[] fields = Build.class.getFields();
+        for (Field f : fields){
+            try {
+                String name = f.getName();
+                String value = f.get(name).toString();
+                String brand = f.get("BRAND").toString();
+                String model = f.get("MODEL").toString();
+                Log.e("TAG","getPhoneInfos --  value ==" + value + "  brand ==" + brand + "  model ==" + model);
+                return brand + "," + model;
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return infos;
+    }
 }

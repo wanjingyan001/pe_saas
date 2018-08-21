@@ -88,7 +88,6 @@ android {
         dexInProcess true
         preDexLibraries true
         javaMaxHeapSize "4g"//越大越好
-        incremental true
     }
     androidExtensions {
         experimental = true
@@ -221,11 +220,13 @@ android {
         abortOnError false
     }
 
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
-
 kapt {
-    generateStubs = true
     arguments {
         arg("moduleName", project.getName())
     }
@@ -277,6 +278,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation 'com.hyman:flowlayout-lib:1.1.2'
 }
 kotlin {
     experimental {

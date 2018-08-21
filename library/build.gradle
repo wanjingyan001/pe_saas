@@ -19,7 +19,6 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
     implementation project(':baselibrary')
     implementation 'com.yalantis:ucrop:2.2.0'
     implementation "com.android.support:exifinterface:${android_support_sdk_version}"

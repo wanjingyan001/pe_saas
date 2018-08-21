@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginTop="@dimen/text_5"
+    android:layout_height="@dimen/text_30">
+
+    <TextView
+        android:id="@+id/tv_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/blue_43"
+        android:layout_alignParentRight="true"
+        android:textSize="@dimen/text_size_16"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/text_10"
+        android:text="取消"/>
+    <LinearLayout
+        android:layout_toLeftOf="@id/tv_cancel"
+        android:layout_width="match_parent"
+        android:layout_marginRight="@dimen/text_15"
+        android:layout_marginLeft="@dimen/text_20"
+        android:gravity="center_vertical"
+        android:layout_centerVertical="true"
+        android:background="@drawable/selector_search_top"
+        android:layout_height="match_parent">
+        
+        <ImageView
+            android:id="@+id/iv_search"
+            android:layout_width="@dimen/text_20"
+            android:layout_height="@dimen/text_20"
+            android:scaleType="fitXY"
+            android:layout_marginLeft="@dimen/text_10"
+            android:src="@drawable/ss_small"/>
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:cursorVisible="true"
+            android:background="@null"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:hint="搜索"
+            android:maxLines="1"
+            android:textColor="@color/gray_80"
+            android:textColorHint="@color/gray_80"
+            android:textSize="@dimen/text_size_14"
+            android:paddingLeft="@dimen/text_10"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/iv_del"
+            android:layout_width="@dimen/text_20"
+            android:layout_height="@dimen/text_20"
+            android:scaleType="fitXY"
+            android:visibility="invisible"
+            android:layout_marginRight="@dimen/text_10"
+            android:src="@drawable/ic_refuse_disable"/>
+    </LinearLayout>
+</RelativeLayout>

@@ -40,6 +40,7 @@ import com.sogukj.pe.bean.DepartmentBean
 import com.sogukj.pe.bean.MechanismBasicInfo
 import com.sogukj.pe.bean.TeamBean
 import com.sogukj.pe.bean.UserBean
+import com.sogukj.pe.module.im.ImSearchResultActivity
 import com.sogukj.pe.module.im.PersonalInfoActivity
 import com.sogukj.pe.module.im.TeamCreateActivity
 import com.sogukj.pe.module.user.UserActivity
@@ -185,6 +186,10 @@ class TeamSelectFragment : BaseFragment() {
                     search_edt.clearFocus()
                 }
             }
+        }
+
+        et_layout.setOnClickListener {
+            ImSearchResultActivity.invoke(activity!!,1)
         }
     }
 

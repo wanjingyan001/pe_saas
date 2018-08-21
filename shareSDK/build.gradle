@@ -13,6 +13,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
@@ -26,14 +29,14 @@ dependencies {
     //    compile files('libs/ShareSDK-Wechat-2.7.2.jar')
     //    compile files('libs/ShareSDK-Wechat-Core-2.7.2.jar')
     //    compile files('libs/ShareSDK-Wechat-Moments-2.7.2.jar')
-    compile files('libs/MobCommons-2017.0608.1618.jar')
-    compile files('libs/MobTools-2017.0608.1618.jar')
-    compile files('libs/ShareSDK-Core-3.0.0.jar')
-    compile files('libs/ShareSDK-QQ-3.0.0.jar')
-    compile files('libs/ShareSDK-QZone-3.0.0.jar')
-    compile files('libs/ShareSDK-ShortMessage-3.0.0.jar')
-    compile files('libs/ShareSDK-SinaWeibo-3.0.0.jar')
-    compile files('libs/ShareSDK-Wechat-3.0.0.jar')
-    compile files('libs/ShareSDK-Wechat-Moments-3.0.0.jar')
-    compile files('libs/ShareSDK-Wechat-Core-3.0.0.jar')
+    api files('libs/MobCommons-2017.0608.1618.jar')
+    api files('libs/MobTools-2017.0608.1618.jar')
+    api files('libs/ShareSDK-Core-3.0.0.jar')
+    api files('libs/ShareSDK-QQ-3.0.0.jar')
+    api files('libs/ShareSDK-QZone-3.0.0.jar')
+    api files('libs/ShareSDK-ShortMessage-3.0.0.jar')
+    api files('libs/ShareSDK-SinaWeibo-3.0.0.jar')
+    api files('libs/ShareSDK-Wechat-3.0.0.jar')
+    api files('libs/ShareSDK-Wechat-Moments-3.0.0.jar')
+    api files('libs/ShareSDK-Wechat-Core-3.0.0.jar')
 }

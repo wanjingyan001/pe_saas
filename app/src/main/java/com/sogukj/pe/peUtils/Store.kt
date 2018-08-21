@@ -67,7 +67,50 @@ class Store private constructor() {
             XmlDb.open(ctx).set("his.news", GSON.toJson(this.resultNews.toArray()))
         }
     }
+    private val searchResult = ArrayList<String>()
+    fun saveSearchHis(ctx:Context,searchHis : ArrayList<String>){
+        XmlDb.open(ctx).set("search_his", GSON.toJson(searchHis.toArray()))
+    }
+    fun getSearchHis(ctx:Context):ArrayList<String>{
+        this.searchResult.clear()
+        try {
+            val strJson = XmlDb.open(ctx).get("search_his", "")
+            if (!TextUtils.isEmpty(strJson)) {
+                val hisProjects = GSON.fromJson<Array<String>>(strJson, Array<String>::class.java)
+                this.searchResult.addAll(Arrays.asList<String>(*hisProjects))
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
+        return searchResult
+    }
+
+    fun clearSearchHis(ctx : Context){
+        XmlDb.open(ctx).set("search_his", "")
+    }
+    private var contractResult = ArrayList<UserBean>()
+    fun saveContractHis(ctx:Context,searchHis : ArrayList<UserBean>){
+        XmlDb.open(ctx).set("contract_his", GSON.toJson(searchHis.toArray()))
+    }
+    fun getContractHis(ctx:Context):ArrayList<UserBean>{
+        this.contractResult.clear()
+        try {
+            val strJson = XmlDb.open(ctx).get("contract_his", "")
+            if (!TextUtils.isEmpty(strJson)) {
+                val hisProjects = GSON.fromJson<Array<UserBean>>(strJson, Array<UserBean>::class.java)
+                this.contractResult.addAll(Arrays.asList<UserBean>(*hisProjects))
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return contractResult
+    }
+
+    fun clearContractHis(ctx : Context){
+        XmlDb.open(ctx).set("contract_his", "")
+    }
     private val resultProject = LinkedList<String>()
     fun projectSearch(ctx: Context): Collection<String> {
         this.resultProject.clear()

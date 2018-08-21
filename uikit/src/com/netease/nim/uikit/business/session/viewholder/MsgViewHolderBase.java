@@ -1,7 +1,6 @@
 package com.netease.nim.uikit.business.session.viewholder;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -24,15 +23,12 @@ import com.netease.nim.uikit.impl.NimUIKitImpl;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.NIMSDK;
 import com.netease.nimlib.sdk.RequestCallback;
-import com.netease.nimlib.sdk.RequestCallbackWrapper;
-import com.netease.nimlib.sdk.StatusCode;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.attachment.FileAttachment;
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
-import com.netease.nimlib.sdk.team.TeamService;
 
 /**
  * 会话窗口消息列表项的ViewHolder基类，负责每个消息项的外层框架，包括头像，昵称，发送/接收进度条，重发按钮等。<br>
@@ -398,8 +394,10 @@ public abstract class MsgViewHolderBase extends RecyclerViewHolder<BaseMultiItem
             readReceiptTextView.setVisibility(View.VISIBLE);
             if (message.isRemoteRead()) {
                 readReceiptTextView.setText("已读");
+                readReceiptTextView.setTextColor(context.getResources().getColor(R.color.gray_66));
             } else {
                 readReceiptTextView.setText("未读");
+                readReceiptTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
             }
         } else {
             readReceiptTextView.setVisibility(View.GONE);

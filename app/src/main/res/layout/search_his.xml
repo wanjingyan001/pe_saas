@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/text_15">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="历史搜索"
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/black_28"/>
+        <TextView
+            android:id="@+id/tv_his"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="清空搜索历史"
+            android:layout_alignParentRight="true"
+            android:textSize="@dimen/text_size_14"
+            android:textColor="@color/gary_a0"/>
+    </RelativeLayout>
+    <com.zhy.view.flowlayout.TagFlowLayout
+        android:id="@+id/tfl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:max_select="-1"
+        android:paddingLeft="@dimen/text_20"
+        android:paddingRight="@dimen/text_20"
+        android:paddingTop="@dimen/text_5"
+        android:paddingBottom="@dimen/text_5">
+
+    </com.zhy.view.flowlayout.TagFlowLayout>
+</LinearLayout>

@@ -51,6 +51,7 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.MessageIndexBean
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.module.approve.ApproveListActivity
+import com.sogukj.pe.module.im.ImSearchResultActivity
 import com.sogukj.pe.module.other.GongGaoDetailActivity
 import com.sogukj.pe.module.other.MessageListActivity
 import com.sogukj.pe.module.user.UserActivity
@@ -65,7 +66,6 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_msg_center.*
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import org.jetbrains.anko.backgroundResource
-import org.jetbrains.anko.find
 import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.info
 import org.jetbrains.anko.support.v4.ctx
@@ -238,7 +238,7 @@ class MainMsgFragment : BaseFragment() {
         toolbar_title.text = "消息"
 
         loadHead()
-        initSearchView()
+//        initSearchView()
         toolbar_back.setOnClickListener {
             if (add_layout.visibility == View.VISIBLE) {
                 add_layout.visibility = View.GONE
@@ -279,7 +279,9 @@ class MainMsgFragment : BaseFragment() {
                 startActivityForResult(openCameraIntent, 0)
             }
         }
-
+        rl_search.setOnClickListener {
+            ImSearchResultActivity.invoke(activity!!,0)
+        }
         adapter = RecyclerAdapter(baseActivity!!, { _adapter, parent, type ->
             val convertView = _adapter.getView(R.layout.item_msg_index, parent)
             object : RecyclerHolder<Any>(convertView) {
@@ -343,7 +345,7 @@ class MainMsgFragment : BaseFragment() {
                             }
                         } else if (data.sessionType == SessionTypeEnum.Team) {
                             val value = data.msgStatus.value
-                            val fromNick = if (data.fromNick.isNullOrEmpty()) "" else "${data.fromNick}:"
+                            val fromNick = if (data.fromNick.isNullOrEmpty()) "" else "${data.fromNick}："
                             when (value) {
                                 3 -> tvTitleMsg.text = Html.fromHtml("<font color='#a0a4aa'>[已读]</font>$fromNick${data.content}")
                                 4 -> tvTitleMsg.text = Html.fromHtml("<font color='#1787fb'>[未读]</font>$fromNick${data.content}")

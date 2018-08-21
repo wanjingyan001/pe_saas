@@ -74,17 +74,17 @@
                 app:elevation="0dp">
 
                 <RelativeLayout
+                    android:id="@+id/rl_search"
                     android:layout_width="wrap_content"
                     android:layout_height="55dp"
                     android:background="@color/white"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
                     android:padding="10dp"
                     app:layout_scrollFlags="scroll|enterAlways">
 
                     <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:visibility="gone">
 
                         <EditText
                             android:id="@+id/search_edt"
@@ -111,7 +111,10 @@
                             android:src="@drawable/ic_refuse_disable"
                             android:visibility="gone"/>
                     </FrameLayout>
-
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/team_bg_search2"/>
                     <TextView
                         android:id="@+id/search_hint"
                         android:layout_width="wrap_content"
@@ -132,7 +135,6 @@
                         android:layout_marginLeft="10dp"
                         android:src="@drawable/ss_small"
                         android:visibility="gone" />
-
                 </RelativeLayout>
 
                 <View

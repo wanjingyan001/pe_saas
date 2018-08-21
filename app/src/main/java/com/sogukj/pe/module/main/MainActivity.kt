@@ -5,12 +5,10 @@ import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.app.Activity
 import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -18,7 +16,6 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.content.FileProvider
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
 import android.support.v4.view.ViewCompat
 import android.text.SpannableString
 import android.text.Spanned
@@ -36,7 +33,10 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
-import com.sogukj.pe.*
+import com.sogukj.pe.App
+import com.sogukj.pe.Consts
+import com.sogukj.pe.Extras
+import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.ActivityHelper
 import com.sogukj.pe.baselibrary.base.BaseActivity
@@ -55,13 +55,17 @@ import com.sogukj.pe.peUtils.FileUtil
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.OtherService
 import com.sogukj.pe.widgets.MyProgressBar
+import com.sogukj.pe.widgets.PhoneNotifDialog
 import com.sogukj.service.SoguApi
 import com.tencent.bugly.crashreport.CrashReport
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
-import org.jetbrains.anko.*
+import org.jetbrains.anko.ctx
+import org.jetbrains.anko.find
+import org.jetbrains.anko.imageResource
+import org.jetbrains.anko.startActivity
 import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
@@ -127,8 +131,14 @@ class MainActivity : BaseActivity() {
         model.generateData(application)
         setCrashReportData()
         ActivityHelper.finishAllWithoutTop()
+
+        showPhoneNotifiDialog()
     }
 
+    private fun showPhoneNotifiDialog() {
+        val phoneInfos = Utils.getPhoneInfos()
+        PhoneNotifDialog(this).showLoadding()
+    }
 
     private fun initBottomNavBar() {
         val mainItem0 = BottomNavigationItem(R.drawable.ic_qb_sel12, "首页").setInactiveIconResource(R.drawable.ic_qb_nor2).initNavTextColor()
