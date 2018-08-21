@@ -41,11 +41,6 @@ class CommonDocumentsFragment : BasePageFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         AnkoLogger("WJY").info { "文件管理器时间2.2:${System.currentTimeMillis() - UserFragment.startTime}" }
-        doSearch()
-    }
-
-    override fun onFragmentFirstVisible() {
-        AnkoLogger("WJY").info { "文件管理器时间2.3:${System.currentTimeMillis() - UserFragment.startTime}" }
         fragments = listOf<Fragment>(peFragment, wxFragment, qqFragment, dtFragment, allFragment)
         pagerAdapter = DocPageAdapter(childFragmentManager, fragments)
         documentList.adapter = pagerAdapter
@@ -57,6 +52,7 @@ class CommonDocumentsFragment : BasePageFragment() {
                 Utils.closeInput(ctx, search_edt)
             }
         }
+        doSearch()
     }
 
 

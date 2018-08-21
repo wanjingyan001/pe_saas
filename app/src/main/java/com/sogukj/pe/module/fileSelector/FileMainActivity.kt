@@ -204,6 +204,7 @@ class FileMainActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     }
 
     companion object {
+        @JvmStatic
         fun start(context: Activity, maxSize: Int? = 9, isReplace: Boolean? = false, requestCode: Int) {
             val intent = Intent(context, FileMainActivity::class.java)
             intent.putExtra(Extras.DATA, maxSize)
@@ -212,7 +213,7 @@ class FileMainActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             intent.putExtra(Extras.TYPE, true)
             context.startActivityForResult(intent, requestCode)
         }
-
+        @JvmStatic
         fun start(context: Context) {
             val intent = Intent(context, FileMainActivity::class.java)
             intent.putExtra(Extras.DATA, 9)

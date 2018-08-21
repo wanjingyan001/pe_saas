@@ -24,7 +24,7 @@ public class EasyProgressDialog extends Dialog {
 
     private int mLayoutId;
 
-    private TextView message;
+    public TextView message;
 
     public EasyProgressDialog(Context context, int style, int layout) {
         super(context, style);

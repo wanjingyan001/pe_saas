@@ -25,10 +25,7 @@ import com.netease.nim.uikit.api.NimUIKit
 import com.netease.nimlib.sdk.team.model.Team
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.execute
-import com.sogukj.pe.baselibrary.Extended.fromJson
-import com.sogukj.pe.baselibrary.Extended.setOnClickFastListener
-import com.sogukj.pe.baselibrary.Extended.setVisible
+import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -51,6 +48,7 @@ import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.find
 import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.info
+import kotlin.properties.Delegates
 
 /**
 通讯录Activity(所有选择人员的都跳转到这里)
@@ -69,6 +67,10 @@ class ContactsActivity : ToolbarActivity() {
      * 是否是创建群聊
      */
     private var isCreateTeam = false
+    /**
+     * 是否需要全选
+     */
+    private var needSelectAll = false
     /**
      * 项目对象
      */
@@ -105,6 +107,7 @@ class ContactsActivity : ToolbarActivity() {
     var default: ArrayList<Int>? = null
     var searchKey = ""
     private val mine = Store.store.getUser(this)
+    private var totalNumber = 0
 
 
     companion object {
@@ -112,12 +115,14 @@ class ContactsActivity : ToolbarActivity() {
                   canModify: Boolean? = false,
                   isCreateTeam: Boolean? = false,
                   requestCode: Int? = null,
-                  project: ProjectBean? = null) {
+                  project: ProjectBean? = null,
+                  needSelectAll: Boolean = false) {
             val intent = Intent(context, ContactsActivity::class.java)
             intent.putExtra(Extras.LIST, alreadyList)
             intent.putExtra(Extras.FLAG, canModify)
             intent.putExtra(Extras.CREATE_TEAM, isCreateTeam)
             intent.putExtra(Extras.DATA, project)
+            intent.putExtra(Extras.FLAG2, needSelectAll)
             val code = requestCode ?: Extras.REQUESTCODE
             if (context is Fragment) {
                 context.startActivityForResult(intent, code)
@@ -170,11 +175,11 @@ class ContactsActivity : ToolbarActivity() {
         initContactsAdapter()
         initTissueAdapter()
         getTissueData()
-        confirmTv.setOnClickFastListener {
+        confirmTv.clickWithTrigger {
             val list = ArrayList<UserBean>()
             list.addAll(alreadySelected)
             if (isCreateTeam) {
-                TeamCreateActivity.start(this@ContactsActivity, list,project)
+                TeamCreateActivity.start(this@ContactsActivity, list, project)
                 finish()
             } else {
                 val intent = Intent()
@@ -182,6 +187,23 @@ class ContactsActivity : ToolbarActivity() {
                 setResult(Extras.RESULTCODE, intent)
                 finish()
             }
+        }
+        selectAll.clickWithTrigger {
+            selectAll.isSelected = !selectAll.isSelected
+            if (selectAll.isSelected) {
+                departList.forEachIndexed { index, departmentBean ->
+                    departmentBean.data?.forEach { userBean ->
+                        //这里是防止传递过来的已选中用户对象不规范
+                        alreadySelected.add(userBean)
+                        organizationList.expandGroup(0)
+                    }
+                }
+                tissueAdapter.notifyDataSetChanged()
+            } else {
+                alreadySelected.clear()
+                tissueAdapter.notifyDataSetChanged()
+            }
+            selectNumber.text = "已选择: ${alreadySelected.size} 人"
         }
     }
 
@@ -194,10 +216,17 @@ class ContactsActivity : ToolbarActivity() {
         isCreateTeam = intent.getBooleanExtra(Extras.CREATE_TEAM, false)
         default = intent.getSerializableExtra(Extras.DEFAULT) as ArrayList<Int>?
         project = intent.getSerializableExtra(Extras.DATA) as? ProjectBean
+        needSelectAll = intent.getBooleanExtra(Extras.FLAG2, false)
         if (alreadySelected.isNotEmpty()) {
             selectNumber.text = "已选择: ${alreadySelected.size} 人"
         }
         title = if (isCreateTeam) "创建群聊" else "选择联系人"
+        selectAll.setVisible(needSelectAll)
+        if (needSelectAll) {
+            contactLayout1.setVisible(false)
+            contactList.setVisible(false)
+        }
+
         if (intent.action == Intent.ACTION_SEND && intent.extras.containsKey(Intent.EXTRA_STREAM)) {
             val uri = intent.extras.getParcelable<Uri>(Intent.EXTRA_STREAM)
             pathByUri = Utils.getFileAbsolutePathByUri(this, uri)
@@ -231,7 +260,7 @@ class ContactsActivity : ToolbarActivity() {
                 company_icon.imageResource = R.mipmap.ic_launcher_sr
                 companyName.text = "尚融资本"
             }
-            "zgh" ->{
+            "zgh" -> {
                 company_icon.imageResource = R.mipmap.ic_launcher_zgh
                 companyName.text = "中广核"
             }
@@ -251,9 +280,11 @@ class ContactsActivity : ToolbarActivity() {
         search_edt.filters = Utils.getFilter(this)
         search_edt.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus) {
+                selectAll.setVisible(false)
                 search_hint.visibility = View.GONE
                 search_icon.visibility = View.VISIBLE
             } else {
+                selectAll.setVisible(true)
                 search_hint.visibility = View.VISIBLE
                 search_icon.visibility = View.GONE
                 search_edt.clearFocus()
@@ -363,6 +394,7 @@ class ContactsActivity : ToolbarActivity() {
                                 departList.addAll(it)
                                 tissueAdapter.notifyDataSetChanged()
                                 departList.forEachIndexed { index, departmentBean ->
+                                    totalNumber += departmentBean.data?.size ?: 0
                                     departmentBean.data?.forEach { userBean ->
                                         val find = alreadySelected.find { it.uid == userBean.uid }
                                         if (find != null) {
@@ -383,6 +415,16 @@ class ContactsActivity : ToolbarActivity() {
                     onError { error ->
                         Trace.e(error)
                         showCustomToast(R.drawable.icon_toast_fail, "数据获取失败")
+                    }
+                    onComplete {
+                        if (needSelectAll){
+                            selectAll.isSelected = alreadySelected.size == totalNumber
+                            if (selectAll.isSelected) {
+                                (0 until tissueAdapter.groupCount)
+                                        .forEach { organizationList.collapseGroup(it) }
+                                organizationList.expandGroup(0)
+                            }
+                        }
                     }
                 }
     }
@@ -552,6 +594,9 @@ class ContactsActivity : ToolbarActivity() {
                             }
                         }
                         selectNumber.text = "已选择: ${alreadySelected.size} 人"
+                        if (needSelectAll){
+                            selectAll.isSelected = alreadySelected.size == totalNumber
+                        }
 
                         contactsAdapter.notifyDataSetChanged()
                     } else {

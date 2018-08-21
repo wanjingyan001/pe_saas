@@ -41,4 +41,13 @@ interface ImService {
     @FormUrlEncoded
     @POST("/api/Message/groupImage")
     fun getTeamGroupHeader(@Field("uids") uids: String): Observable<Payload<String>>
+
+
+    /**
+     * 解散项目群
+     */
+    @FormUrlEncoded
+    @POST("/api/Message/deleteGroup")
+    fun deleteTeam(@Field("company_id") company_id: String,
+                   @Field("group_id") group_id: String): Observable<Payload<Any>>
 }

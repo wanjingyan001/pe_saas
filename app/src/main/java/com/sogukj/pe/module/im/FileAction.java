@@ -4,6 +4,9 @@ import android.content.Intent;
 
 import com.netease.nim.uikit.business.session.actions.BaseAction;
 import com.netease.nim.uikit.business.session.constant.RequestCode;
+import com.netease.nim.uikit.common.ui.dialog.DialogMaker;
+import com.netease.nim.uikit.common.ui.dialog.EasyAlertDialog;
+import com.netease.nim.uikit.common.ui.dialog.EasyProgressDialog;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.sogukj.pe.Extras;
@@ -30,7 +33,14 @@ public class FileAction extends BaseAction {
 
     @Override
     public void onClick() {
-        FileMainActivity.Companion.start(getActivity(),9,false,makeRequestCode(RequestCode.GET_LOCAL_FILE));
+        EasyProgressDialog dialog = DialogMaker.showProgressDialog(getActivity(), "正在读取内存文件");
+        FileMainActivity.start(getActivity(),9,false,makeRequestCode(RequestCode.GET_LOCAL_FILE));
+        dialog.message.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                DialogMaker.dismissProgressDialog();
+            }
+        },2000);
     }
 
     @Override

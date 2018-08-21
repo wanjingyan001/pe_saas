@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.google.gson.Gson;
 import com.netease.nim.uikit.R;
 import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nim.uikit.api.model.user.UserInfoObserver;
@@ -578,6 +579,9 @@ public class MessageListPanelEx {
                 }
 
                 if (messages != null) {
+                    for (IMMessage message : messages) {
+                        System.out.println(message.getTeamMsgUnAckCount());
+                    }
                     onMessageLoaded(messages);
                 }
             }

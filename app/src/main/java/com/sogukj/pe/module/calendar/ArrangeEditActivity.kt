@@ -102,9 +102,9 @@ class ArrangeEditActivity : ToolbarActivity() {
                 }
                 else -> {
                     inflate.backgroundColor = Color.parseColor("#f7f9fc")
-                    if(data.size == 1){
+                    if (data.size == 1) {
                         inflate.find<TextView>(R.id.weeklyTv).text = "${data[0].date}"
-                    }else{
+                    } else {
                         val firstTime = data[0].date
                         val lastTime = data[6].date
                         inflate.find<TextView>(R.id.weeklyTv).text = "${firstTime?.substring(5, firstTime.length)}~${lastTime?.substring(5, lastTime.length)}"
@@ -159,7 +159,7 @@ class ArrangeEditActivity : ToolbarActivity() {
         if (data != null && resultCode == Extras.RESULTCODE && currentBean != null) {
             val list = data.getSerializableExtra(Extras.DATA) as ArrayList<UserBean>
             val bean = this.data.find { it.pid == currentBean!!.pid }
-            val changeBean = if (this.data.size == 1&& !hasEmpty()) currentBean!!.child[position] else currentBean!!.child[currentPosition]
+            val changeBean = if (this.data.size == 1 && !hasEmpty()) currentBean!!.child[position] else currentBean!!.child[currentPosition]
             when (requestCode) {
                 attendRequestCode -> {
                     runOnUiThread {
@@ -337,12 +337,12 @@ class ArrangeEditActivity : ToolbarActivity() {
             attendLayout.setOnClickListener {
                 currentBean = arrangeBean
                 currentPosition = position
-                ContactsActivity.start(this@ArrangeEditActivity, attList, true, false, attendRequestCode)
+                ContactsActivity.start(this@ArrangeEditActivity, attList, true, false, attendRequestCode, needSelectAll = true)
             }
             participateLayout.setOnClickListener {
                 currentBean = arrangeBean
                 currentPosition = position
-                ContactsActivity.start(this@ArrangeEditActivity, particList, true, false, participateRequestCode)
+                ContactsActivity.start(this@ArrangeEditActivity, particList, true, false, participateRequestCode, needSelectAll = true)
             }
             val contentWatcher: TextWatcher = object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) {

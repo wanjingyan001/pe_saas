@@ -56,10 +56,7 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_project.*
-import org.jetbrains.anko.backgroundResource
-import org.jetbrains.anko.ctx
-import org.jetbrains.anko.find
-import org.jetbrains.anko.textColor
+import org.jetbrains.anko.*
 
 /**
  * Created by qinfei on 17/7/18.
@@ -118,7 +115,6 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        1
         if (haveNav) {
             var param1 = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
             param1.bottomMargin = Utils.dpToPx(ctx, 50)
@@ -135,7 +131,7 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
         setContentView(R.layout.activity_project)
         StatusBarUtil.setTranslucentForCoordinatorLayout(this, 0)
         setBack(true)
-//        deviceHasNavigationBar()
+        deviceHasNavigationBar()
         toolbar?.apply {
             this.setBackgroundColor(resources.getColor(R.color.transparent))
         }
@@ -145,12 +141,6 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
             Glide.with(context).load(project.logo).into(imgIcon)
         }
         companyTitle.text = project.name
-        //const val TYPE_CB = 4
-        //const val TYPE_LX = 1
-        //const val TYPE_YT = 2
-        //const val TYPE_GZ = 3
-        //const val TYPE_DY = 6
-        //const val TYPE_TC = 7
         var baseurl = sp.getString(Extras.HTTPURL, "")
         if (baseurl.contains("sr")) {
             proj_stage.visibility = View.INVISIBLE
@@ -190,13 +180,13 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
             delete.visibility = View.GONE
         }
         proj_stage.setOnClickListener {
-            if (type == ProjectListFragment.TYPE_TC) {
-                //退出项目已经不需要退出了
-            } else if (type == ProjectListFragment.TYPE_YT) {
-                //进入新增的退出模块
-                ProjectTCActivity.start(context, false, project)
-            } else {
-                doAdd()
+            when (type) {
+                ProjectListFragment.TYPE_TC -> {
+                    //退出项目已经不需要退出了
+                }
+                ProjectListFragment.TYPE_YT -> //进入新增的退出模块
+                    ProjectTCActivity.start(context, false, project)
+                else -> doAdd()
             }
         }
         delete.setOnClickListener {
@@ -238,7 +228,6 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
                         payload.payload?.counts?.forEach {
                             refreshLayout(it)
                         }
-
                         var view = View(ctx)
                         var params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Utils.dpToPx(ctx, 80))
                         view.layoutParams = params
@@ -543,14 +532,13 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
         if (bean.value == null || bean.value!!.size == 0) {
             return
         }
-        var view = layoutInflater.inflate(R.layout.project_grid_item, null)
+        val view = layoutInflater.inflate(R.layout.project_grid_item, null)
         root.addView(view)
 
-        var tvTitle = view.findViewById<TextView>(R.id.title) as TextView
+        val tvTitle = view.findViewById<TextView>(R.id.title) as TextView
         tvTitle.text = bean.title
 
-
-        var grid = view.findViewById<GridView>(R.id.gl_changyonggongneng) as GridView
+        val grid = view.findViewById<GridView>(R.id.gl_changyonggongneng) as GridView
         refreshGrid(grid, bean.value!!)
     }
 
@@ -814,7 +802,7 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
                         0 -> {
                             //群组存在就申请加群
                             showProgress("已发送入群申请")
-                            NIMClient.getService(TeamService::class.java).applyJoinTeam(it.group_id.toString(), "")
+                            NIMClient.getService(TeamService::class.java).applyJoinTeam(it.group_id, "")
                                     .setCallback(object : RequestCallback<Team> {
                                         override fun onFailed(code: Int) {
                                             hideProgress()

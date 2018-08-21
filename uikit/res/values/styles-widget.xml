@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- view style -->
     <style name="list_view" parent="@android:style/Widget.ListView">
         <item name="android:scrollbarThumbVertical">@drawable/nim_scrollbar_handle_holo_dark</item>
@@ -97,7 +97,7 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
-    <style name="easy_dialog_style" parent="@android:style/Theme.Dialog">
+    <style name="easy_dialog_style" parent="@android:style/Theme.Material.Dialog" tools:targetApi="lollipop">
         <item name="android:windowFrame">@null</item>
         <!-- 边框 -->
         <item name="android:windowIsFloating">true</item>

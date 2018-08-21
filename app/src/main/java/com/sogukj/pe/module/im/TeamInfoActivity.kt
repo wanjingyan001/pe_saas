@@ -15,6 +15,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
+import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
@@ -36,6 +37,8 @@ import com.netease.nimlib.sdk.uinfo.model.NimUserInfo
 import com.sogukj.pe.BuildConfig
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.execute
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -43,6 +46,8 @@ import com.sogukj.pe.bean.TeamBean
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.module.main.ContactsActivity
 import com.sogukj.pe.peUtils.Store
+import com.sogukj.pe.service.ImService
+import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_team_info.*
 import org.jetbrains.anko.info
 import org.jetbrains.anko.toast
@@ -58,7 +63,7 @@ class TeamInfoActivity : BaseActivity(), View.OnClickListener, SwitchButton.OnCh
     var teamMembers = ArrayList<UserBean>()
     var adapter: MemberAdapter? = null
     lateinit var team: Team
-    private val mine by lazy { Store.store.getUser(this)?:UserBean() }
+    private val mine by lazy { Store.store.getUser(this) ?: UserBean() }
     private var isMyTeam = false
 
 
@@ -93,6 +98,7 @@ class TeamInfoActivity : BaseActivity(), View.OnClickListener, SwitchButton.OnCh
         team_logo.setOnClickListener(this)
         teamNameLayout.setOnClickListener(this)
         teamIntroductionLayout.setOnClickListener(this)
+        dismissTeam.setOnClickListener(this)
         profileToggle.setOnChangedListener(this)
         team_name.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus) {
@@ -149,8 +155,10 @@ class TeamInfoActivity : BaseActivity(), View.OnClickListener, SwitchButton.OnCh
         isMyTeam = it.creator == mine.accid
         if (isMyTeam) {
             exit_team.text = "转让群组"
+            dismissTeam.setVisible(true)
         } else {
             exit_team.text = "退出群组"
+            dismissTeam.setVisible(false)
         }
         getTeamMember(team.id)
     }
@@ -241,6 +249,9 @@ class TeamInfoActivity : BaseActivity(), View.OnClickListener, SwitchButton.OnCh
                 teamIntroduction.requestFocus()
                 Utils.toggleSoftInput(this, teamIntroduction)
             }
+            R.id.dismissTeam -> {
+                dismissTeam()
+            }
         }
     }
 
@@ -272,6 +283,50 @@ class TeamInfoActivity : BaseActivity(), View.OnClickListener, SwitchButton.OnCh
                     dialog.dismiss()
                 }
                 .show()
+    }
+
+    private fun dismissTeam() {
+        MaterialDialog.Builder(this)
+                .theme(Theme.LIGHT)
+                .title("确定解散群?")
+                .content("是否解散该群")
+                .positiveText("确认")
+                .negativeText("取消")
+                .onPositive { dialog, which ->
+                    NIMClient.getService(TeamService::class.java).dismissTeam(sessionId).setCallback(object : RequestCallback<Void> {
+                        override fun onFailed(p0: Int) {
+                            info { "错误码$p0" }
+                        }
+
+                        override fun onException(p0: Throwable?) {
+                            info { "错误码${p0?.printStackTrace()}" }
+                        }
+
+                        override fun onSuccess(p0: Void?) {
+                            toast("您已退出该群")
+                            val bean = Gson().fromJson(team.extension, TeamBean::class.java)
+                            if (bean != null) {
+                                SoguApi.getService(application, ImService::class.java).deleteTeam(bean.project_id!!, sessionId)
+                                        .execute {
+                                            onNext { payload ->
+                                                if (payload.isOk) {
+                                                    finish()
+                                                } else {
+                                                    showErrorToast(payload.message)
+                                                }
+                                            }
+                                        }
+                            }else{
+                                finish()
+                            }
+                        }
+                    })
+                }
+                .onNegative { dialog, which ->
+                    dialog.dismiss()
+                }
+                .show()
+
     }
 
 
@@ -326,7 +381,7 @@ class TeamInfoActivity : BaseActivity(), View.OnClickListener, SwitchButton.OnCh
         if (name.isNotEmpty() && team_title.text != name) {
             map.put(TeamFieldEnum.Name, name)
         }
-        if (team.introduce != teamIntroduction.textStr) {
+        if (team.introduce != teamIntroduction.textStr && teamIntroduction.text.isNotEmpty() && teamIntroduction.hint != "暂无介绍") {
             map.put(TeamFieldEnum.Introduce, teamIntroduction.textStr)
         }
         if (map.isNotEmpty()) {

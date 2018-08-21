@@ -2,10 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f7f9fc"
     android:focusable="true"
     android:id="@+id/ll_root"
     android:focusableInTouchMode="true"
-    android:background="#f7f9fc"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
@@ -238,7 +238,7 @@
                 android:id="@+id/teamIntroductionLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="120dp"
+                android:layout_marginBottom="20dp"
                 android:background="@color/white"
                 android:orientation="horizontal"
                 android:paddingBottom="15dp"
@@ -261,27 +261,45 @@
                     android:background="@null"
                     android:drawablePadding="10dp"
                     android:gravity="right"
-                    android:inputType="textMultiLine"
                     android:hint="暂无介绍"
+                    android:inputType="textMultiLine"
                     android:textColor="#a0a4aa"
                     android:textColorHint="#a0a4aa"
                     android:textSize="14sp" />
 
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/exit_team"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center"
+                android:padding="18dp"
+                android:text="退出群聊"
+                android:textColor="@color/color_prompt_red"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider2" />
+
+            <TextView
+                android:id="@+id/dismissTeam"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center"
+                android:padding="18dp"
+                android:visibility="gone"
+                android:text="解散群组"
+                android:textColor="@color/color_prompt_red"
+                android:textSize="14sp" />
         </LinearLayout>
     </ScrollView>
 
 
-    <TextView
-        android:id="@+id/exit_team"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:gravity="center"
-        android:padding="18dp"
-        android:text="退出群聊"
-        android:textColor="@color/color_prompt_red"
-        android:textSize="14sp" />
 
 </LinearLayout>

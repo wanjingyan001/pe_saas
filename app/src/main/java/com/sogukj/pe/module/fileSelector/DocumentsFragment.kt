@@ -161,10 +161,13 @@ class DocumentsFragment : BasePageFragment(), View.OnClickListener {
             }
         }
         adapter.notifyDataSetChanged()
-        getDirectoryFiles()
-        refreshHead()
+        doAsync {
+            getDirectoryFiles()
+            uiThread {
+                refreshHead()
+            }
+        }
     }
-
 
 
     private fun getDirectoryFiles() {
@@ -202,7 +205,7 @@ class DocumentsFragment : BasePageFragment(), View.OnClickListener {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun refreshHead(){
+    private fun refreshHead() {
         header.find<TextView>(R.id.mPicNum).text = "(${files.filter { FileUtil.getFileType(it) == FileUtil.FileType.IMAGE }.size})"
         header.find<TextView>(R.id.mVideoNum).text = "(${files.filter { FileUtil.getFileType(it) == FileUtil.FileType.VIDEO }.size})"
         header.find<TextView>(R.id.mDocNum).text = "(${files.filter { FileUtil.getFileType(it) == FileUtil.FileType.DOC }.size})"

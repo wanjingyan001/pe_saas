@@ -120,6 +120,7 @@ class TeamCreateActivity : BaseActivity() {
 
         if (project != null) {
             team_project.text = project?.shortName ?: project?.name!!
+            team_project.setVisible(team_project.text.isNotEmpty())
             team_name.setText(getDefaultName())
             path = project?.logo
             Glide.with(this)
@@ -140,6 +141,11 @@ class TeamCreateActivity : BaseActivity() {
             related_items_layout.isClickable = false
             team_name.isEnabled = false
             team_logo.isEnabled = false
+        }else{
+            team_project.setVisible(false)
+            getTeamHeader(teamMember)
+            team_name.setText(getDefaultName())
+            team_title.text = getDefaultName()
         }
     }
 
