@@ -135,7 +135,7 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
         setContentView(R.layout.activity_project)
         StatusBarUtil.setTranslucentForCoordinatorLayout(this, 0)
         setBack(true)
-        deviceHasNavigationBar()
+//        deviceHasNavigationBar()
         toolbar?.apply {
             this.setBackgroundColor(resources.getColor(R.color.transparent))
         }

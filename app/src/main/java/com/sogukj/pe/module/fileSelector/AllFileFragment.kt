@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.nbsp.materialfilepicker.utils.FileUtils
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.base.BasePageFragment
 import com.sogukj.pe.module.user.UserFragment
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
@@ -22,7 +23,7 @@ import java.io.File
 /**
  * A simple [Fragment] subclass.
  */
-class AllFileFragment : Fragment(), StorageFileFragment.FileClickListener {
+class AllFileFragment : BasePageFragment(), StorageFileFragment.FileClickListener {
     private val startPath = Environment.getExternalStorageDirectory().absolutePath
     private var mCurrentPath = startPath
     lateinit var fileActivity: FileMainActivity
@@ -81,8 +82,9 @@ class AllFileFragment : Fragment(), StorageFileFragment.FileClickListener {
         return false
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+
+    override fun onFragmentFirstVisible() {
+        super.onFragmentFirstVisible()
         AnkoLogger("WJY").info { "文件管理器时间4:${System.currentTimeMillis() - UserFragment.startTime}" }
         val fragment = StorageFileFragment.newInstance(startPath)
         fragment.setListener(this)

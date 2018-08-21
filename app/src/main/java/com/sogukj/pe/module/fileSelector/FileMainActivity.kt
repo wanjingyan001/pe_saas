@@ -31,7 +31,7 @@ class FileMainActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     var maxSize: Int by Delegates.notNull()//最大选择数量
     var isReplace: Boolean = false//文件选择替换功能(单选)
     var isForResult: Boolean = false////是否需要返回选择的文件
-    private val comDocFragment by lazy { CommonDocumentsFragment.newInstance() }
+    private val comDocFragment by lazy { CommonDocumentsFragment() }
     private val allFileFragment by lazy { AllFileFragment() }
 
     @SuppressLint("NewApi")
@@ -40,7 +40,6 @@ class FileMainActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_file_main)
         Utils.setWindowStatusBarColor(this, R.color.white)
-
         maxSize = intent.getIntExtra(Extras.DATA, 9)
         isReplace = intent.getBooleanExtra(Extras.FLAG, false)
         isForResult = intent.getBooleanExtra(Extras.TYPE, false)
@@ -97,7 +96,7 @@ class FileMainActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
     override fun onResume() {
         super.onResume()
-        val fragments = listOf(comDocFragment)
+        val fragments = listOf(comDocFragment,allFileFragment)
         file_pager.adapter = FilePageAdapter(supportFragmentManager, fragments)
         file_pager.addOnPageChangeListener(this)
     }

@@ -53,8 +53,6 @@ import org.jetbrains.anko.support.v4.sp
 class ArrangeListFragment : BaseRefreshFragment() {
     override val containerViewId: Int
         get() = R.layout.fragment_arrange_list
-    private var mParam1: String? = null
-    private var mParam2: String? = null
     private lateinit var arrangeAdapter: ArrangeAdapter
     var offset: Int = 0
     lateinit var inflate: View
@@ -64,13 +62,6 @@ class ArrangeListFragment : BaseRefreshFragment() {
     var isLastWeekly = false
     private var isUpwards = true
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (arguments != null) {
-            mParam1 = arguments!!.getString(ARG_PARAM1)
-            mParam2 = arguments!!.getString(ARG_PARAM2)
-        }
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -162,9 +153,10 @@ class ArrangeListFragment : BaseRefreshFragment() {
                     if (payload.isOk) {
                         arrangeAdapter.dataList.clear()
                         arrangeAdapter.dataList.add("")
-                        payload.payload?.forEach {
-                            arrangeAdapter.dataList.add(it)
+                        payload.payload?.let {
+                            arrangeAdapter.dataList.addAll(it)
                         }
+                        arrangeAdapter.notifyDataSetChanged()
                     }
                 }, { e ->
                     iv_loading.setVisible(false)
@@ -189,8 +181,8 @@ class ArrangeListFragment : BaseRefreshFragment() {
                             })
                         }
                     }
-                    //arrangeAdapter.notifyDataSetChanged()无效
-                    recycler_view.adapter = arrangeAdapter
+//                    recycler_view.adapter = arrangeAdapter
+
                     if (isNextWeekly) {
                         backImg.visibility = View.VISIBLE
                         if (isUpwards) {
@@ -215,8 +207,6 @@ class ArrangeListFragment : BaseRefreshFragment() {
 
 
     companion object {
-        private val ARG_PARAM1 = "param1"
-        private val ARG_PARAM2 = "param2"
 
         /**
          * Use this factory method to create a new instance of
@@ -226,13 +216,8 @@ class ArrangeListFragment : BaseRefreshFragment() {
          * @param param2 Parameter 2.
          * @return A new instance of fragment ArrangeListFragment.
          */
-        fun newInstance(param1: String, param2: String): ArrangeListFragment {
-            val fragment = ArrangeListFragment()
-            val args = Bundle()
-            args.putString(ARG_PARAM1, param1)
-            args.putString(ARG_PARAM2, param2)
-            fragment.arguments = args
-            return fragment
+        fun newInstance(): ArrangeListFragment {
+            return ArrangeListFragment()
         }
     }
 

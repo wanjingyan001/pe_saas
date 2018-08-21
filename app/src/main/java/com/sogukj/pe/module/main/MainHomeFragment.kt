@@ -190,24 +190,7 @@ class MainHomeFragment : BaseFragment() {
                 bundle.putInt(Extras.FLAG, Extras.ROUTH_FLAG)
                 ARouter.getInstance().build(path)
                         .with(bundle)
-                        .navigation(activity!!, Extras.REQUESTCODE, object : NavigationCallback {
-                            override fun onLost(postcard: Postcard?) {
-                                Log.d("ARouter", "找不到了")
-                            }
-
-                            override fun onFound(postcard: Postcard?) {
-                                Log.d("ARouter", "找到了")
-                            }
-
-                            override fun onInterrupt(postcard: Postcard?) {
-                                Log.d("ARouter", "被拦截了")
-                            }
-
-                            override fun onArrival(postcard: Postcard?) {
-                                Log.d("ARouter", "跳转完了")
-                            }
-
-                        })
+                        .navigation(activity!!, Extras.REQUESTCODE)
             }
         }
         party_build.setOnClickListener {

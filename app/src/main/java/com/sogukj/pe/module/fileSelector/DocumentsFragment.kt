@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.os.Environment
+import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.LinearLayoutManager
@@ -23,6 +24,7 @@ import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.BaseFragment
+import com.sogukj.pe.baselibrary.base.BasePageFragment
 import com.sogukj.pe.baselibrary.base.BaseRefreshFragment
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -50,11 +52,9 @@ import java.util.*
  * Use the [DocumentsFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class DocumentsFragment : Fragment(), View.OnClickListener {
+class DocumentsFragment : BasePageFragment(), View.OnClickListener {
 
     private var type: Int? = null
-    private var mParam2: String? = null
-
     lateinit var adapter: RecyclerAdapter<File>
     lateinit var files: MutableList<File>
     lateinit var fileActivity: FileMainActivity
@@ -72,7 +72,6 @@ class DocumentsFragment : Fragment(), View.OnClickListener {
         AnkoLogger("WJY").info { "文件管理器时间3.02:${System.currentTimeMillis() - UserFragment.startTime}" }
         if (arguments != null) {
             type = arguments!!.getInt(TYPE, 0)
-            mParam2 = arguments!!.getString(ARG_PARAM2)
         }
     }
 
@@ -83,33 +82,38 @@ class DocumentsFragment : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        AnkoLogger("WJY").info { "文件管理器时间3.04:${System.currentTimeMillis() - UserFragment.startTime}" }
-
+        adapter = RecyclerAdapter(ctx, { _adpater, parent, type ->
+            DocumentHolder(_adpater.getView(R.layout.item_document_list, parent))
+        })
+        initRefreshConfig()
+        documentList.layoutManager = LinearLayoutManager(ctx)
+        documentList.adapter = adapter
         header = find(R.id.documents_header)
         view.mPicManage.setOnClickListener(this)
         view.mVideoManage.setOnClickListener(this)
         view.mDocManage.setOnClickListener(this)
         view.mZipManage.setOnClickListener(this)
         view.mOtherManage.setOnClickListener(this)
+        AnkoLogger("WJY").info { "文件管理器时间3.04:${System.currentTimeMillis() - UserFragment.startTime}" }
     }
 
-    override fun onResume() {
-        super.onResume()
-        AnkoLogger("WJY").info { "文件管理器时间3.05:${System.currentTimeMillis() - UserFragment.startTime}" }
-        adapter = RecyclerAdapter(ctx, { _adpater, parent, type ->
-            DocumentHolder(_adpater.getView(R.layout.item_document_list, parent))
-        })
-        documentList.layoutManager = LinearLayoutManager(ctx)
-        documentList.adapter = adapter
-        getDirectoryFiles().doAsyncResult {
-            AnkoLogger("WJY").info { "文件管理器时间3.06:${System.currentTimeMillis() - UserFragment.startTime}" }
-            getFiles()
+    override fun onFragmentVisibleChange(isVisible: Boolean) {
+        super.onFragmentVisibleChange(isVisible)
+        if (isVisible) {
+            doAsync {
+                getDirectoryFiles()
+                uiThread {
+                    AnkoLogger("WJY").info { "文件管理器时间3.05:${System.currentTimeMillis() - UserFragment.startTime}" }
+                    getFiles()
+                    refreshHead()
+                }
+            }
         }
     }
 
-    fun initRefreshConfig() {
+    private fun initRefreshConfig() {
         refresh.apply {
-            setDragRate(1f)
+            setDragRate(0.1f)
             isEnableRefresh = false
             isEnableLoadMore = true
             isEnableAutoLoadMore = true
@@ -118,7 +122,6 @@ class DocumentsFragment : Fragment(), View.OnClickListener {
             setDisableContentWhenLoading(false)
             setEnableOverScrollDrag(true)
             setEnableFooterFollowWhenLoadFinished(false)
-            setRefreshHeader(ClassicsHeader(ctx))
             setRefreshFooter(ClassicsFooter(ctx), 0, 0)
             setOnLoadMoreListener {
                 page += 1
@@ -126,6 +129,7 @@ class DocumentsFragment : Fragment(), View.OnClickListener {
             }
         }
     }
+
 
     private fun getFiles() {
         val dirFiles = loadFiles(page)
@@ -146,6 +150,7 @@ class DocumentsFragment : Fragment(), View.OnClickListener {
         }
         adapter.notifyDataSetChanged()
         refresh.finishLoadMore()
+
     }
 
     fun deleteFile(selectedFile: List<File>) {
@@ -157,10 +162,11 @@ class DocumentsFragment : Fragment(), View.OnClickListener {
         }
         adapter.notifyDataSetChanged()
         getDirectoryFiles()
+        refreshHead()
     }
 
 
-    @SuppressLint("SetTextI18n")
+
     private fun getDirectoryFiles() {
         when (type) {
             PE_LOCAL -> {
@@ -193,13 +199,16 @@ class DocumentsFragment : Fragment(), View.OnClickListener {
         Collections.sort(files) { o1, o2 ->
             o2.lastModified().compareTo(o1.lastModified())
         }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun refreshHead(){
         header.find<TextView>(R.id.mPicNum).text = "(${files.filter { FileUtil.getFileType(it) == FileUtil.FileType.IMAGE }.size})"
         header.find<TextView>(R.id.mVideoNum).text = "(${files.filter { FileUtil.getFileType(it) == FileUtil.FileType.VIDEO }.size})"
         header.find<TextView>(R.id.mDocNum).text = "(${files.filter { FileUtil.getFileType(it) == FileUtil.FileType.DOC }.size})"
         header.find<TextView>(R.id.mZipNum).text = "(${files.filter { FileUtil.getFileType(it) == FileUtil.FileType.ZIP }.size})"
         header.find<TextView>(R.id.mOtherNum).text = "(${files.filter { FileUtil.getFileType(it) == FileUtil.FileType.OTHER }.size})"
     }
-
 
     private fun loadFiles(page: Int): MutableList<File> {
         val start = 0 + 20 * page
@@ -282,11 +291,10 @@ class DocumentsFragment : Fragment(), View.OnClickListener {
         val DING_TALK = 4
 
 
-        fun newInstance(type: Int, param2: String? = null): DocumentsFragment {
+        fun newInstance(type: Int): DocumentsFragment {
             val fragment = DocumentsFragment()
             val args = Bundle()
             args.putInt(TYPE, type)
-            args.putString(ARG_PARAM2, param2)
             fragment.arguments = args
             return fragment
         }

@@ -14,8 +14,10 @@ import com.sogukj.pe.module.user.UserFragment
 import com.sogukj.pe.peUtils.FileUtil
 import kotlinx.android.synthetic.main.fragment_storage_file.*
 import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.info
 import org.jetbrains.anko.support.v4.ctx
+import org.jetbrains.anko.uiThread
 import java.io.File
 
 
@@ -28,7 +30,7 @@ class StorageFileFragment : Fragment() {
     lateinit var mDirectoryAdapter: DirectoryAdapter
     private var mFileClickListener: FileClickListener? = null
     lateinit var fileActivity: FileMainActivity
-    private lateinit var files: List<File>
+    private var files: List<File> = mutableListOf()
 
     fun setListener(listener: FileClickListener) {
         mFileClickListener = listener
@@ -59,43 +61,30 @@ class StorageFileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         AnkoLogger("WJY").info { "文件管理器时间5:${System.currentTimeMillis() - UserFragment.startTime}" }
-//        files = FileUtil.getFileListByDirPath(mPath, null).toMutableList()
-//        mDirectoryAdapter = DirectoryAdapter(ctx, files as MutableList<File>, fileActivity)
-//        mDirectoryAdapter.setOnItemClickListener(object : DirectoryAdapter.OnItemClickListener {
-//            override fun onItemClick(view: View, position: Int) {
-//                if (mFileClickListener != null) {
-//                    mFileClickListener?.onFileClicked(mDirectoryAdapter.getModel(position))
-//                }
-//            }
-//        })
-//        directory_recycler_view.layoutManager = LinearLayoutManager(context)
-//        directory_recycler_view.adapter = mDirectoryAdapter
-//        directory_recycler_view.setEmptyView(directory_empty_view)
-        Thread(Runnable {
-            files = FileUtil.getFileListByDirPath(mPath, null).toMutableList()
-            activity!!.runOnUiThread {
-                mDirectoryAdapter = DirectoryAdapter(ctx, files as MutableList<File>, fileActivity)
-                mDirectoryAdapter.setOnItemClickListener(object : DirectoryAdapter.OnItemClickListener {
-                    override fun onItemClick(view: View, position: Int) {
-                        if (mFileClickListener != null) {
-                            mFileClickListener?.onFileClicked(mDirectoryAdapter.getModel(position))
-                        }
-                    }
-                })
-                directory_recycler_view.layoutManager = LinearLayoutManager(context)
-                directory_recycler_view.adapter = mDirectoryAdapter
-                directory_recycler_view.setEmptyView(directory_empty_view)
+        mDirectoryAdapter = DirectoryAdapter(ctx, files as MutableList<File>, fileActivity)
+        mDirectoryAdapter.setOnItemClickListener(object : DirectoryAdapter.OnItemClickListener {
+            override fun onItemClick(view: View, position: Int) {
+                if (mFileClickListener != null) {
+                    mFileClickListener?.onFileClicked(mDirectoryAdapter.getModel(position))
+                }
             }
-        }).start()
+        })
+        directory_recycler_view.layoutManager = LinearLayoutManager(context)
+        directory_recycler_view.adapter = mDirectoryAdapter
+        directory_recycler_view.setEmptyView(directory_empty_view)
+        changeData()
     }
 
 
     fun changeData() {
-        files = FileUtil.getFileListByDirPath(mPath, null).toMutableList()
-        val result = DiffUtil.calculateDiff(DiffCallBack(mDirectoryAdapter.files, files))
-        result.dispatchUpdatesTo(mDirectoryAdapter)
-        mDirectoryAdapter.changeData(files.toMutableList())
-//        mDirectoryAdapter.changeData(files as MutableList<File>)
+        doAsync {
+            files = FileUtil.getFileListByDirPath(mPath, null).toMutableList()
+            uiThread {
+                val result = DiffUtil.calculateDiff(DiffCallBack(mDirectoryAdapter.files, files))
+                result.dispatchUpdatesTo(mDirectoryAdapter)
+                mDirectoryAdapter.changeData(files.toMutableList())
+            }
+        }
     }
 
     companion object {

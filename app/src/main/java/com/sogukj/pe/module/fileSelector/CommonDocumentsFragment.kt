@@ -12,6 +12,7 @@ import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.base.BaseFragment
+import com.sogukj.pe.baselibrary.base.BasePageFragment
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.module.user.UserFragment
 import kotlinx.android.synthetic.main.fragment_common_documents.*
@@ -20,9 +21,7 @@ import org.jetbrains.anko.info
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.onPageChangeListener
 
-class CommonDocumentsFragment : Fragment() {
-    private var mParam1: String? = null
-    private var mParam2: String? = null
+class CommonDocumentsFragment : BasePageFragment() {
     lateinit var pagerAdapter: DocPageAdapter
     val titles = listOf("本应用", "微信", "QQ", "钉钉", "全部")
     val peFragment by lazy { DocumentsFragment.newInstance(DocumentsFragment.PE_LOCAL) }
@@ -32,13 +31,6 @@ class CommonDocumentsFragment : Fragment() {
     val allFragment by lazy { DocumentsFragment.newInstance(DocumentsFragment.ALL_DOC) }
     private lateinit var fragments: List<Fragment>
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (arguments != null) {
-            mParam1 = arguments!!.getString(ARG_PARAM1)
-            mParam2 = arguments!!.getString(ARG_PARAM2)
-        }
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         AnkoLogger("WJY").info { "文件管理器时间2.1:${System.currentTimeMillis() - UserFragment.startTime}" }
@@ -49,13 +41,12 @@ class CommonDocumentsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         AnkoLogger("WJY").info { "文件管理器时间2.2:${System.currentTimeMillis() - UserFragment.startTime}" }
-        fragments = listOf<Fragment>(peFragment, wxFragment, qqFragment, dtFragment, allFragment)
         doSearch()
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onFragmentFirstVisible() {
         AnkoLogger("WJY").info { "文件管理器时间2.3:${System.currentTimeMillis() - UserFragment.startTime}" }
+        fragments = listOf<Fragment>(peFragment, wxFragment, qqFragment, dtFragment, allFragment)
         pagerAdapter = DocPageAdapter(childFragmentManager, fragments)
         documentList.adapter = pagerAdapter
         tab.setupWithViewPager(documentList)
@@ -67,6 +58,7 @@ class CommonDocumentsFragment : Fragment() {
             }
         }
     }
+
 
     private fun doSearch() {
         search_edt.setOnFocusChangeListener { v, hasFocus ->
@@ -85,20 +77,6 @@ class CommonDocumentsFragment : Fragment() {
                 true
             }
             false
-        }
-    }
-
-    companion object {
-        private val ARG_PARAM1 = "param1"
-        private val ARG_PARAM2 = "param2"
-
-        fun newInstance(param1: String? = null, param2: String? = null): CommonDocumentsFragment {
-            val fragment = CommonDocumentsFragment()
-            val args = Bundle()
-            args.putString(ARG_PARAM1, param1)
-            args.putString(ARG_PARAM2, param2)
-            fragment.arguments = args
-            return fragment
         }
     }
 

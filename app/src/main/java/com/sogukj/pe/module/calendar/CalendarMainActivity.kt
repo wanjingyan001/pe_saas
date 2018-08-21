@@ -31,8 +31,9 @@ class CalendarMainActivity : ToolbarActivity(), MonthSelectListener, ViewPager.O
         fun start(ctx: Activity?) {
             ctx?.startActivity(Intent(ctx, CalendarMainActivity::class.java))
         }
+
         // time   日期
-        fun start(ctx: Context, time :String) {
+        fun start(ctx: Context, time: String) {
             ctx.startActivity(Intent(ctx, CalendarMainActivity::class.java).putExtra(Extras.DATA, time))
         }
     }
@@ -42,24 +43,23 @@ class CalendarMainActivity : ToolbarActivity(), MonthSelectListener, ViewPager.O
     private var currentPosition: Int by Delegates.notNull()
     val fragments = ArrayList<Fragment>()
     private val titles = arrayListOf("周工作安排", "日历", "任务", "项目事项", "团队日程")
-    private lateinit var arrangeFragment: ArrangeListFragment
-    private lateinit var scheduleFragment: ScheduleFragment
-    private lateinit var teamScheduleFragment: TeamScheduleFragment
+    private val arrangeFragment by lazy { ArrangeListFragment() }
+    private val scheduleFragment by lazy { ScheduleFragment() }
+    private val taskFragment by lazy { TaskFragment() }
+    private val pmFragment by lazy { ProjectMattersFragment() }
+    private val teamScheduleFragment by lazy { TeamScheduleFragment() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calendar_mian)
         setBack(true)
         currentPosition = 0
-        arrangeFragment = ArrangeListFragment.newInstance("", "")
-        scheduleFragment = ScheduleFragment.newInstance("", "")
-        teamScheduleFragment = TeamScheduleFragment.newInstance("", "")
         scheduleFragment.monthSelect = this
         teamScheduleFragment.monthSelect = this
         fragments.add(arrangeFragment)
         fragments.add(scheduleFragment)
-        fragments.add(TaskFragment.newInstance("", ""))
-        fragments.add(ProjectMattersFragment.newInstance("", ""))
+        fragments.add(taskFragment)
+        fragments.add(pmFragment)
         fragments.add(teamScheduleFragment)
         initPager()
         title = SimpleDateFormat("yyyy年MM月").format(Date(System.currentTimeMillis()))
@@ -72,12 +72,12 @@ class CalendarMainActivity : ToolbarActivity(), MonthSelectListener, ViewPager.O
     //从推送进入，该界面已存在
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        if(!intent?.getStringExtra(Extras.DATA).isNullOrEmpty()){
+        if (!intent?.getStringExtra(Extras.DATA).isNullOrEmpty()) {
             contentPager.currentItem = 1
             scheduleFragment.load(intent!!.getStringExtra(Extras.DATA))
         }
     }
-                    
+
     private fun initPager() {
         val adapter = ContentAdapter(supportFragmentManager, fragments, titles)
         contentPager.adapter = adapter
@@ -91,11 +91,10 @@ class CalendarMainActivity : ToolbarActivity(), MonthSelectListener, ViewPager.O
             }
         }
         contentPager.addOnPageChangeListener(this)
-        contentPager.offscreenPageLimit = 3
         //推送
         contentPager.post {
-            Thread.sleep(1000)
-            if(!intent.getStringExtra(Extras.DATA).isNullOrEmpty()){
+            if (!intent.getStringExtra(Extras.DATA).isNullOrEmpty()) {
+                Thread.sleep(1000)
                 contentPager.currentItem = 1
                 scheduleFragment.load(intent.getStringExtra(Extras.DATA))
             }

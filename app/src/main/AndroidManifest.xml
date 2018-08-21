@@ -17,6 +17,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
     <uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE" />
     <uses-permission android:name="com.huawei.android.launcher.permission.READ_SETTINGS" />
     <uses-permission android:name="com.huawei.android.launcher.permission.WRITE_SETTINGS" />
@@ -68,6 +69,7 @@
         android:icon="${app_icon}"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:hardwareAccelerated="true"
         android:theme="@style/AppTheme"
         tools:replace="android:theme">
 
@@ -169,7 +171,7 @@
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="${FileProvider}"
+            android:authorities="com.sogukj.pe.fileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -411,6 +413,7 @@
             android:name=".module.fileSelector.FileMainActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
+            android:hardwareAccelerated="true"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".module.fileSelector.FilterFileActivity"
@@ -449,6 +452,7 @@
             android:name=".module.calendar.CalendarMainActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
+            android:hardwareAccelerated="true"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".module.calendar.MatterDetailActivity"

@@ -387,7 +387,7 @@ class MainActivity : BaseActivity() {
     fun update(url: String, bar: MyProgressBar, update: Button, dialog: MaterialDialog, prompt: TextView, force: Int) {
         bar.visibility = View.VISIBLE
         //title.text = "开始下载"
-        val fileName = url.substring(url.lastIndexOf("/") + 1)
+        val fileName = "Saas_${Utils.getVersionName(context)}_${Utils.getYMD(Date(System.currentTimeMillis()))}.apk"
         DownloadUtil.getInstance().download(url, externalCacheDir.toString(), fileName, object : DownloadUtil.OnDownloadListener {
             override fun onDownloadSuccess(path: String?) {
                 //title.text = "下载完成"
@@ -412,9 +412,11 @@ class MainActivity : BaseActivity() {
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     intent.action = Intent.ACTION_VIEW
                     //val uri = Uri.fromFile(File(path))
-                    val uri = transform(path!!, intent)
-                    intent.setDataAndType(uri, "application/vnd.android.package-archive")
-                    startActivity(intent)
+                    path?.let {
+                        val uri = transform(path, intent)
+                        intent.setDataAndType(uri, "application/vnd.android.package-archive")
+                        startActivity(intent)
+                    }
                 }
             }
 

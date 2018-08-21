@@ -549,7 +549,7 @@ public class ImageUtil {
     }
 
     private static boolean isMeetsCondition(long picSeconds, Context context) {
-        return (System.currentTimeMillis() / 1000 - picSeconds) < 300 && getLatestPicId(context) != picSeconds;
+        return (System.currentTimeMillis() / 1000 - picSeconds) < 180 && getLatestPicId(context) != picSeconds;
     }
 
     /**

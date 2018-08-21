@@ -53,8 +53,6 @@ class ScheduleFragment : BaseFragment() {
 
     val data = ArrayList<ScheduleBean>()
     lateinit var adapter: ScheduleAdapter
-    private var mParam1: String? = null
-    private var mParam2: String? = null
     var page = 1
     lateinit var monthSelect: MonthSelectListener
     lateinit var date: String
@@ -64,10 +62,6 @@ class ScheduleFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (arguments != null) {
-            mParam1 = arguments!!.getString(ARG_PARAM1)
-            mParam2 = arguments!!.getString(ARG_PARAM2)
-        }
         val format = SimpleDateFormat("yyyy年MM月").format(Date(System.currentTimeMillis()))
         date = format
     }
@@ -376,21 +370,8 @@ class ScheduleFragment : BaseFragment() {
         private val ARG_PARAM1 = "param1"
         private val ARG_PARAM2 = "param2"
 
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ScheduleFragment.
-         */
-        fun newInstance(param1: String, param2: String): ScheduleFragment {
-            val fragment = ScheduleFragment()
-            val args = Bundle()
-            args.putString(ARG_PARAM1, param1)
-            args.putString(ARG_PARAM2, param2)
-            fragment.arguments = args
-            return fragment
+        fun newInstance(): ScheduleFragment {
+            return ScheduleFragment()
         }
     }
 

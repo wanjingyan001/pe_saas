@@ -1,6 +1,7 @@
 package com.sogukj.pe.baselibrary.base
 
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -36,6 +37,7 @@ abstract class BaseRefreshFragment : BaseFragment(), SGRefreshListener {
         initRefresh()
     }
 
+    @SuppressLint("RestrictedApi")
     private fun initRefresh() {
         refresh = find(R.id.refresh)
         refresh?.let {
@@ -57,6 +59,8 @@ abstract class BaseRefreshFragment : BaseFragment(), SGRefreshListener {
             } else {
                 it.setRefreshHeader(header)
             }
+
+
             val footer = initRefreshFooter()
             if (footer == null) {
                 it.setRefreshFooter(ClassicsFooter(ctx), 0, 0)
@@ -68,6 +72,19 @@ abstract class BaseRefreshFragment : BaseFragment(), SGRefreshListener {
             }
             it.setOnLoadMoreListener {
                 doLoadMore()
+            }
+        }
+    }
+
+    @SuppressLint("RestrictedApi")
+    override fun onDestroyView() {
+        super.onDestroyView()
+        refresh?.let {
+            if (it.refreshHeader != null){
+                it.removeView(it.refreshHeader!!.view)
+            }
+            if (it.refreshFooter != null){
+                it.removeView(it.refreshFooter!!.view)
             }
         }
     }
