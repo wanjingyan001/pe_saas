@@ -42,6 +42,8 @@ class NimSDKOptionConfig {
             options.reducedIM = false
             // 是否检查manifest 配置，调试阶段打开，调试通过之后请关掉
             options.checkManifestConfig = true
+            // 是否启用群消息已读功能，默认关闭
+            options.enableTeamMsgAck = true
             return options
         }
 

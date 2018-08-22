@@ -269,17 +269,14 @@ public class MessageFragment extends TFragment implements ModuleProxy {
         final IMMessage msg = message;
         appendPushConfig(message);
         // send message to server and save to db
-        if (message.getSessionType() == SessionTypeEnum.Team){
-            message.setMsgAck();
-        }
         Map<String,Object> ext = new HashMap<>();
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
         ext.put("domain",sp.getString( "saas.httpUrl",""));
         message.setRemoteExtension(ext);
+        message.setMsgAck();
         NIMClient.getService(MsgService.class).sendMessage(message, false).setCallback(new RequestCallback<Void>() {
             @Override
             public void onSuccess(Void param) {
-
             }
 
             @Override

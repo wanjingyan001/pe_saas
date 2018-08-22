@@ -87,7 +87,7 @@
             android:value="${AMAP_KEY}" />
         <meta-data
             android:name="com.netease.nim.appKey"
-            android:value="${IM_KEY}" />
+            android:value="a0af02d86ecfb1ee160dde8369a5035e" />
         <!-- android:value="1b5749bc47e9f1eef0cd2cff240dc7da" /> -->
         <!-- 测试版 -->
         <!-- a0af02d86ecfb1ee160dde8369a5035e -->

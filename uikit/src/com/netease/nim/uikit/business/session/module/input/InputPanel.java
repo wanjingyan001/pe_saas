@@ -801,9 +801,6 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
     @Override
     public void onRecordSuccess(File audioFile, long audioLength, RecordType recordType) {
         IMMessage audioMessage = MessageBuilder.createAudioMessage(container.account, container.sessionType, audioFile, audioLength);
-        if (!audioMessage.needMsgAck()){
-            audioMessage.setMsgAck();
-        }
         container.proxy.sendMessage(audioMessage);
     }
 

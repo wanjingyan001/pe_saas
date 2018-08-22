@@ -185,6 +185,9 @@ public abstract class RecentViewHolder extends RecyclerViewHolder<BaseQuickAdapt
         }
 
         String timeString = TimeUtil.getTimeShowString(recent.getTime(), true);
+        if (timeString.startsWith(" ")){
+            timeString = timeString.replace(" ","");
+        }
         tvDatetime.setText(timeString);
     }
 

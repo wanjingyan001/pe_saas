@@ -29,6 +29,7 @@ import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.netease.nimlib.sdk.team.TeamService;
 
 /**
  * 会话窗口消息列表项的ViewHolder基类，负责每个消息项的外层框架，包括头像，昵称，发送/接收进度条，重发按钮等。<br>
@@ -227,6 +228,9 @@ public abstract class MsgViewHolderBase extends RecyclerViewHolder<BaseMultiItem
         }
 
         String text = TimeUtil.getTimeShowString(message.getTime(), false);
+        if (text.startsWith(" ")){
+            text = text.replace(" ","");
+        }
         timeTextView.setText(text);
     }
 
@@ -405,11 +409,13 @@ public abstract class MsgViewHolderBase extends RecyclerViewHolder<BaseMultiItem
     }
 
     private void setAckMsg() {
-        if (message.getSessionType() == SessionTypeEnum.Team && message.needMsgAck()) {
+//        && message.needMsgAck()
+        System.out.println("内容:"+message.getContent()+",ACK:"+message.needMsgAck());
+        if (message.getSessionType() == SessionTypeEnum.Team  && message.needMsgAck()) {
             if (isReceivedMessage()) {
                 // 收到的需要已读回执的消息，需要给个反馈
                 ackMsgTextView.setVisibility(View.GONE);
-                NIMSDK.getTeamService().sendTeamMessageReceipt(message).setCallback(new RequestCallback<Void>() {
+                NIMClient.getService(TeamService.class).sendTeamMessageReceipt(message).setCallback(new RequestCallback<Void>() {
                     @Override
                     public void onSuccess(Void param) {
                         Log.d("WJY", "已读回执发送成功");

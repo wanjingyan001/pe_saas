@@ -15,8 +15,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
-import com.google.gson.Gson;
 import com.netease.nim.uikit.R;
 import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nim.uikit.api.model.user.UserInfoObserver;
@@ -109,6 +107,11 @@ public class MessageListPanelEx {
 
     // 背景图片缓存
     private static Pair<String, Bitmap> background;
+
+    //如果在发需要拍照 的消息时，拍照回来时页面可能会销毁重建，重建时会在MessageLoader 的构造方法中调一次 loadFromLocal
+    //而在发送消息后，list 需要滚动到底部，又会通过RequestFetchMoreListener 调用一次 loadFromLocal
+    //所以消息会重复
+    private boolean mIsInitFetchingLocal;
 
     public MessageListPanelEx(Container container, View rootView, boolean recordOnly, boolean remote) {
         this(container, rootView, null, recordOnly, remote);
@@ -252,9 +255,6 @@ public class MessageListPanelEx {
         } else {
             // 只下来加载old数据
             adapter.setOnFetchMoreListener(loader);
-            if (anchor != null) {
-                adapter.setOnLoadMoreListener(loader);
-            }
         }
     }
 
@@ -319,6 +319,7 @@ public class MessageListPanelEx {
 
     // 发送消息后，更新本地消息列表
     public void onMsgSend(IMMessage message) {
+        //todo
         List<IMMessage> addedListItems = new ArrayList<>(1);
         addedListItems.add(message);
         adapter.updateShowTimeItem(addedListItems, false, true);
@@ -362,6 +363,7 @@ public class MessageListPanelEx {
             unregisterUserInfoObserver();
         }
         service.observeTeamMessageReceipt(teamMessageReceiptObserver, register);
+
         MessageListPanelHelper.getInstance().registerObserver(incomingLocalMessageObserver, register);
     }
 
@@ -568,6 +570,7 @@ public class MessageListPanelEx {
         private RequestCallback<List<IMMessage>> callback = new RequestCallbackWrapper<List<IMMessage>>() {
             @Override
             public void onResult(int code, List<IMMessage> messages, Throwable exception) {
+                mIsInitFetchingLocal = false;
                 if (code != ResponseCode.RES_SUCCESS || exception != null) {
                     if (direction == QueryDirectionEnum.QUERY_OLD) {
                         adapter.fetchMoreFailed();
@@ -579,9 +582,6 @@ public class MessageListPanelEx {
                 }
 
                 if (messages != null) {
-                    for (IMMessage message : messages) {
-                        System.out.println(message.getTeamMsgUnAckCount());
-                    }
                     onMessageLoaded(messages);
                 }
             }
@@ -604,6 +604,9 @@ public class MessageListPanelEx {
         }
 
         private void loadFromLocal(QueryDirectionEnum direction) {
+            if (mIsInitFetchingLocal) {
+                return;
+            }
             this.direction = direction;
             NIMClient.getService(MsgService.class).queryMessageListEx(anchor(), direction, loadMsgCount, true)
                     .setCallback(callback);
@@ -617,8 +620,7 @@ public class MessageListPanelEx {
 
         private IMMessage anchor() {
             if (items.size() == 0) {
-                return anchor == null ? MessageBuilder.createEmptyMessage(container.account,
-                        container.sessionType, 0) : anchor;
+                return anchor == null ? MessageBuilder.createEmptyMessage(container.account, container.sessionType, 0) : anchor;
             } else {
                 int index = (direction == QueryDirectionEnum.QUERY_NEW ? items.size() - 1 : 0);
                 return items.get(index);
@@ -626,13 +628,14 @@ public class MessageListPanelEx {
         }
 
         private void onMessageLoaded(final List<IMMessage> messages) {
+
             if (messages == null) {
                 return;
             }
 
             boolean noMoreMessage = messages.size() < loadMsgCount;
 
-            if (remote && anchor == null) {
+            if (remote) {
                 Collections.reverse(messages);
             }
 
@@ -703,7 +706,7 @@ public class MessageListPanelEx {
                 return;
             }
 
-            if (remote && anchor == null) {
+            if (remote) {
                 Collections.reverse(messages);
             }
 
@@ -739,7 +742,7 @@ public class MessageListPanelEx {
         @Override
         public void onLoadMoreRequested() {
             // 底部加载新数据
-            if (!remote || anchor != null) {
+            if (!remote) {
                 loadFromLocal(QueryDirectionEnum.QUERY_NEW);
             }
         }
@@ -814,10 +817,7 @@ public class MessageListPanelEx {
                 deleteItem(item, true);
                 onMsgSend(item);
             }
-            if (!message.needMsgAck()){
-                message.setMsgAck();
-            }
-            Log.d("WJY","发送信息时2ack:"+message.needMsgAck());
+
             NIMClient.getService(MsgService.class).sendMessage(message, true);
         }
 
@@ -1254,9 +1254,7 @@ public class MessageListPanelEx {
             Toast.makeText(container.activity, "该类型不支持转发", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (!message.needMsgAck()){
-            message.setMsgAck();
-        }
+
         NIMClient.getService(MsgService.class).sendMessage(message, false);
         if (container.account.equals(sessionId)) {
             onMsgSend(message);

@@ -139,33 +139,59 @@ public class TimeUtil {
         Date todaybegin = todayStart.getTime();
         Date yesterdaybegin = new Date(todaybegin.getTime() - 3600 * 24 * 1000);
         Date preyesterday = new Date(yesterdaybegin.getTime() - 3600 * 24 * 1000);
-
-        if (!currentTime.before(todaybegin)) {
-            dataString = "今天";
-        } else if (!currentTime.before(yesterdaybegin)) {
-            dataString = "昨天";
-        } else if (!currentTime.before(preyesterday)) {
-            dataString = "前天";
-        } else if (isSameWeekDates(currentTime, today)) {
-            dataString = getWeekOfDate(currentTime);
-        } else {
-            SimpleDateFormat dateformatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-            dataString = dateformatter.format(currentTime);
-        }
-
-        SimpleDateFormat timeformatter24 = new SimpleDateFormat("HH:mm", Locale.getDefault());
-        timeStringBy24 = timeformatter24.format(currentTime);
-
-        if (abbreviate) {
+        try{
             if (!currentTime.before(todaybegin)) {
-                return getTodayTimeBucket(currentTime);
-            } else {
-                return dataString;
+                dataString = "";
+            } else if (!currentTime.before(yesterdaybegin)) {
+                dataString = "昨天";
+            } else if (!currentTime.before(preyesterday)) {
+                dataString = "前天";
+            } else if (isSameWeekDates(currentTime, today)) {
+                dataString = getWeekOfDate(currentTime);
+            } else if (isThisYear(new SimpleDateFormat("yyyy-MM-dd").format(new Date(milliseconds)))){
+                SimpleDateFormat dateformatter = new SimpleDateFormat("MM月dd日", Locale.getDefault());
+                dataString = dateformatter.format(currentTime);
+            }else {
+                SimpleDateFormat dateformatter = new SimpleDateFormat("yyyy年MM月dd日", Locale.getDefault());
+                dataString = dateformatter.format(currentTime);
             }
-        } else {
-            return dataString + " " + timeStringBy24;
+            SimpleDateFormat timeformatter24 = new SimpleDateFormat("HH:mm", Locale.getDefault());
+            timeStringBy24 = timeformatter24.format(currentTime);
+
+            if (abbreviate) {
+                if (!currentTime.before(todaybegin)) {
+                    return getTodayTimeBucket(currentTime);
+                } else {
+                    return dataString;
+                }
+            } else {
+                return dataString + " " + timeStringBy24;
+            }
+        } catch (Exception e){
+            return "";
         }
     }
+
+    public static boolean isThisYear(String day) throws ParseException {
+        Calendar pre = Calendar.getInstance();
+        Date predate = new Date(System.currentTimeMillis());
+        pre.setTime(predate);
+
+        Calendar cal = Calendar.getInstance();
+        Date date = getDateFormat().parse(day);
+        cal.setTime(date);
+        return cal.get(Calendar.YEAR) == (pre.get(Calendar.YEAR));
+    }
+
+    public static SimpleDateFormat getDateFormat() {
+        if (null == DateLocal.get()) {
+            DateLocal.set(new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA));
+        }
+        return DateLocal.get();
+    }
+
+
+    private static ThreadLocal<SimpleDateFormat> DateLocal = new ThreadLocal<>();
 
     /**
      * 根据不同时间段，显示不同时间
