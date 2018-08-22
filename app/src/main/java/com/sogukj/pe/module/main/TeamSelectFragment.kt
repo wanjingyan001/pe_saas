@@ -79,7 +79,7 @@ class TeamSelectFragment : BaseFragment() {
 
         } else {  // 在最前端显示 相当于调用了onResume();
             loadHead()
-            doRequest()
+//            doRequest()
         }
     }
 

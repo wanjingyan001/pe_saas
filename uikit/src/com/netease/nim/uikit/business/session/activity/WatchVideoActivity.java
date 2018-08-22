@@ -120,6 +120,7 @@ public class WatchVideoActivity extends UI implements Callback {
         context.startActivity(intent);
     }
 
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -139,6 +140,7 @@ public class WatchVideoActivity extends UI implements Callback {
         download();
     }
 
+    @Override
     public void onResume() {
         super.onResume();
         mediaPlayer = new MediaPlayer();

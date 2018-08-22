@@ -8,7 +8,6 @@ import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ActivityHelper
 import com.sogukj.pe.baselibrary.utils.CharacterParser
 import com.sogukj.pe.baselibrary.utils.Utils
-import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.module.creditCollection.ShareHolderStepActivity
 import com.sogukj.pe.module.creditCollection.ShareholderCreditActivity
 import com.sogukj.pe.module.main.ContactsActivity
@@ -56,6 +55,10 @@ fun Context.needIm():Boolean{
 
 fun getEnvironment(): String {
     return BuildConfig.ENVIRONMENT
+}
+
+fun getIntEnvironment():Int{
+    return BuildConfig.environment
 }
 
 fun defaultHeadImg(): Int {

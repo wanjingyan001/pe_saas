@@ -30,6 +30,7 @@ public abstract class TFragment extends Fragment {
         this.containerId = containerId;
     }
 
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
@@ -38,6 +39,7 @@ public abstract class TFragment extends Fragment {
         destroyed = false;
     }
 
+    @Override
     public void onDestroy() {
         super.onDestroy();
 

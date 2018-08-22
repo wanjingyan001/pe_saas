@@ -75,7 +75,8 @@ android {
                     variant.productFlavors.each { product ->
                         buildName = product.name
                     }
-                    def fileName = "Saas_${variant.buildType.name}_${defaultConfig.versionName}-${releaseTime()}.apk"
+                    def fileName = "Saas_${variant.buildType.name}_${defaultConfig.versionName}" +
+                            "-${variant.productFlavors[1].name}-${variant.productFlavors[0].name}-${releaseTime()}.apk"
                     outputFileName = fileName
                 }
             }
@@ -87,16 +88,16 @@ android {
     dexOptions {
         dexInProcess true
         preDexLibraries true
-        javaMaxHeapSize "4g"//越大越好
+        javaMaxHeapSize "6g"//越大越好
     }
     androidExtensions {
         experimental = true
     }
 
-    flavorDimensions "default"
+    flavorDimensions 'environment', 'channel'
     productFlavors {
         pe {
-            dimension "default"
+            dimension "channel"
             applicationId "com.sogukj.pe"
             resValue "string", "app_name", "搜股X-PE"
             resValue "bool", "isrRank", 'true'
@@ -113,7 +114,7 @@ android {
                                     UMENG_CHANNEL_VALUE : "pe"]
         }
         civc {
-            dimension "default"
+            dimension "channel"
             applicationId "com.sougukj.civc"
             resValue "string", "app_name", "中缔资本"
             resValue "bool", "isrRank", 'true'
@@ -130,7 +131,7 @@ android {
                                     UMENG_CHANNEL_VALUE : "civc"]
         }
         ht {
-            dimension "default"
+            dimension "channel"
             applicationId "com.sogukj.pe.ht"
             resValue "string", "app_name", "海通创新"
             resValue "bool", "isrRank", 'true'
@@ -147,7 +148,7 @@ android {
                                     UMENG_CHANNEL_VALUE : "ht"]
         }
         kuake {
-            dimension "default"
+            dimension "channel"
             applicationId "com.sogukj.pe"
             resValue "string", "app_name", "夸克"
             resValue "bool", "isrRank", 'true'
@@ -164,7 +165,7 @@ android {
                                     UMENG_CHANNEL_VALUE : "kk"]
         }
         yageer {
-            dimension "default"
+            dimension "channel"
             applicationId "com.sogukj.pe"
             resValue "string", "app_name", "雅戈尔"
             resValue "bool", "isrRank", 'true'
@@ -181,7 +182,7 @@ android {
                                     UMENG_CHANNEL_VALUE : "yge"]
         }
         shangrong {
-            dimension "default"
+            dimension "channel"
             applicationId "com.sogukj.pe"
             resValue "string", "app_name", "尚融资本"
             resValue "bool", "isrRank", 'true'
@@ -198,7 +199,7 @@ android {
                                     UMENG_CHANNEL_VALUE : "sr"]
         }
         zhonghe {
-            dimension "default"
+            dimension "channel"
             applicationId "com.sogukj.pe"
             resValue "string", "app_name", "中广核"
             resValue "bool", "isrRank", 'true'
@@ -213,6 +214,17 @@ android {
                                     NIMContentProvider  : "com.sogukj.pe.ipc.provider",
                                     FileProvider        : "com.sogukj.pe.fileProvider",
                                     UMENG_CHANNEL_VALUE : "zgh"]
+        }
+
+        //上线/正式环境
+        online {
+            dimension 'environment'
+            buildConfigField "int", "environment", "1"
+        }
+        //测试环境
+        dev {
+            dimension 'environment'
+            buildConfigField "int", "environment", "0"
         }
     }
     lintOptions {

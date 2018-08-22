@@ -21,12 +21,10 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import android.view.animation.DecelerateInterpolator
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.ScrollView
-import android.widget.TextView
+import android.widget.*
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.ashokvarma.bottomnavigation.BottomNavigationBar
@@ -461,5 +459,21 @@ class MainActivity : BaseActivity() {
             uri = Uri.fromFile(File(param))
         }
         return uri
+    }
+
+    private var mExitTime: Long = 0
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+        when (keyCode) {
+            KeyEvent.KEYCODE_BACK -> {
+                if (System.currentTimeMillis() - mExitTime > 2000) {
+                    Toast.makeText(this,"再按一次退出程序", Toast.LENGTH_SHORT).show()
+                    mExitTime = System.currentTimeMillis()
+                } else {
+                    finish()
+                }
+                return true
+            }
+        }
+        return super.onKeyDown(keyCode, event)
     }
 }

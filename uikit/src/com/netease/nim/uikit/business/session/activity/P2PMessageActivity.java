@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,9 +23,6 @@ import com.netease.nim.uikit.common.activity.ToolBarOptions;
 import com.netease.nim.uikit.impl.NimUIKitImpl;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
-import com.netease.nimlib.sdk.RequestCallback;
-import com.netease.nimlib.sdk.msg.MessageBuilder;
-import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.CustomNotification;
@@ -45,6 +41,7 @@ public class P2PMessageActivity extends BaseMessageActivity {
 
     private boolean isResume = false;
     private TextView bigTitle;
+    private TextView subTitle;
     private String shareFilePath;
 
     public static void start(Context context, String contactId, SessionCustomization customization, IMMessage anchor) {
@@ -107,6 +104,7 @@ public class P2PMessageActivity extends BaseMessageActivity {
 
     private void requestBuddyInfo() {
         bigTitle.setText(UserInfoHelper.getUserTitleName(sessionId, SessionTypeEnum.P2P));
+        subTitle.setText("机构名称-职位");
         setTitle("");
     }
 
@@ -123,26 +121,22 @@ public class P2PMessageActivity extends BaseMessageActivity {
     ContactChangedObserver friendDataChangedObserver = new ContactChangedObserver() {
         @Override
         public void onAddedOrUpdatedFriends(List<String> accounts) {
-            bigTitle.setText(UserInfoHelper.getUserTitleName(sessionId, SessionTypeEnum.P2P));
-            setTitle("");
+            requestBuddyInfo();
         }
 
         @Override
         public void onDeletedFriends(List<String> accounts) {
-            bigTitle.setText(UserInfoHelper.getUserTitleName(sessionId, SessionTypeEnum.P2P));
-            setTitle("");
+            requestBuddyInfo();
         }
 
         @Override
         public void onAddUserToBlackList(List<String> account) {
-            bigTitle.setText(UserInfoHelper.getUserTitleName(sessionId, SessionTypeEnum.P2P));
-            setTitle("");
+            requestBuddyInfo();
         }
 
         @Override
         public void onRemoveUserFromBlackList(List<String> account) {
-            bigTitle.setText(UserInfoHelper.getUserTitleName(sessionId, SessionTypeEnum.P2P));
-            setTitle("");
+            requestBuddyInfo();
         }
     };
 
@@ -251,5 +245,6 @@ public class P2PMessageActivity extends BaseMessageActivity {
         ToolBarOptions options = new NimToolBarOptions();
         setToolBar(R.id.toolbar, options);
         bigTitle = (TextView) findViewById(R.id.bigTitle);
+        subTitle = findViewById(R.id.subTitle);
     }
 }

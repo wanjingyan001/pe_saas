@@ -9,6 +9,7 @@ import com.sogukj.pe.Consts
 import com.sogukj.pe.Extras
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.peExtended.getEnvironment
+import com.sogukj.pe.peExtended.getIntEnvironment
 import com.sogukj.pe.peUtils.Store
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import okhttp3.Interceptor
@@ -25,7 +26,7 @@ import java.util.concurrent.TimeUnit
 class SoguApi {
     private val context: Application
     private var retrofit: Retrofit
-
+    private val environment = getIntEnvironment()
     private constructor(context: Application) {
         this.context = context
 //        val client = OkHttpClient.Builder()
@@ -57,7 +58,7 @@ class SoguApi {
         }
 
         retrofit = Retrofit.Builder()
-                .baseUrl(Consts.HTTP_HOST)
+                .baseUrl(getHost())
 //                .baseUrl(url)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -69,6 +70,20 @@ class SoguApi {
         }
     }
 
+    private fun getHost():String{
+        var host = Consts.HTTP_HOST
+        when(environment){
+            0 -> {
+                //dev
+                host = Consts.DEV_HTTP_HOST
+            }
+            1 -> {
+                //online
+                host = Consts.HTTP_HOST
+            }
+        }
+        return host
+    }
     private fun <T> getService(service: Class<T>): T {
         return retrofit.create(service)
     }
