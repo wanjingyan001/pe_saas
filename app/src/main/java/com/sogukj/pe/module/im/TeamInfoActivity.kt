@@ -3,19 +3,15 @@ package com.sogukj.pe.module.im
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Rect
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.view.View
-import android.view.ViewTreeObserver
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
-import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
@@ -357,21 +353,6 @@ class TeamInfoActivity : BaseActivity(), View.OnClickListener, SwitchButton.OnCh
     override fun onResume() {
         super.onResume()
         doRequest()
-        ll_root.viewTreeObserver.addOnGlobalLayoutListener(object:ViewTreeObserver.OnGlobalLayoutListener{
-            override fun onGlobalLayout() {
-                ll_root.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                val rect = Rect()
-                ll_root.getWindowVisibleDisplayFrame(rect)
-                val detailHeight = screenHeight - Utils.dip2px(this@TeamInfoActivity, 48f) - rect.bottom
-                Log.e("TAG","detailHeight ==" + detailHeight + "   bottom ===" + rect.bottom)
-                if (detailHeight > 150){
-                    exit_team.visibility = View.GONE
-                }else{
-                    exit_team.visibility = View.VISIBLE
-                }
-            }
-
-        })
     }
 
     override fun onPause() {

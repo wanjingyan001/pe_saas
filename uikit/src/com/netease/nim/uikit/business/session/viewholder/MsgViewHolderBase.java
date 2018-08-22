@@ -368,12 +368,12 @@ public abstract class MsgViewHolderBase extends RecyclerViewHolder<BaseMultiItem
         }
 
         LinearLayout bodyContainer = (LinearLayout) view.findViewById(R.id.message_item_body);
-
+        LinearLayout messageBody = view.findViewById(R.id.ll_message_body);
         // 调整container的位置
-        int index = isReceivedMessage() ? 0 : 3;
-        if (bodyContainer.getChildAt(index) != contentContainer) {
-            bodyContainer.removeView(contentContainer);
-            bodyContainer.addView(contentContainer, index);
+        int index = isReceivedMessage() ? 0 : 2;
+        if (messageBody.getChildAt(index) != contentContainer) {
+            messageBody.removeView(contentContainer);
+            messageBody.addView(contentContainer, index);
         }
 
         if (isMiddleItem()) {
