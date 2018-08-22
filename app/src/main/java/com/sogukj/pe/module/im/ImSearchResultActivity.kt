@@ -221,16 +221,17 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
                     SessionTypeEnum.Team->{
                         NimUIKit.startTeamSession(this,record.sessionId,record.message)
                     }
-
                 }
 
                 val his = Store.store.getSearchHis(this)
                 if (null != his && his.size > 0){
-                    var keys = ""
+                    var index = 0
                     for (i in his.iterator()){
-                        keys += (i + ",")
+                        if (searchKey.equals(i)){
+                            index ++
+                        }
                     }
-                    if (!keys.contains(searchKey)){
+                    if (index == 0){
                         his.add(searchKey)
                         Store.store.saveSearchHis(this,his)
                     }
@@ -352,11 +353,13 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
                 PersonalInfoActivity.start(this@ImSearchResultActivity, userBean, null)
                 val contractHis = Store.store.getContractHis(this@ImSearchResultActivity)
                 if (null != contractHis && contractHis.size > 0){
-                    var names = ""
+                    var index = 0
                     for (i in contractHis){
-                        names += i.name + ","
+                        if (userBean.name.equals(i.name)){
+                            index ++
+                        }
                     }
-                    if (!names.contains(userBean.name)){
+                    if (index == 0){
                         contractHis.add(userBean)
                         Store.store.saveContractHis(this@ImSearchResultActivity,contractHis)
                     }

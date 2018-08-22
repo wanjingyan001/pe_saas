@@ -20,6 +20,7 @@ import android.support.v4.view.ViewCompat
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.Button
@@ -136,8 +137,12 @@ class MainActivity : BaseActivity() {
     }
 
     private fun showPhoneNotifiDialog() {
-        val phoneInfos = Utils.getPhoneInfos()
-        PhoneNotifDialog(this).showLoadding()
+        val brand = Utils.getDeviceBrand()
+        Log.e("TAG","brand ===" + brand)
+        if ("Honor".equals(brand) && !XmlDb.open(this).get("Honor")){
+            PhoneNotifDialog(this).showLoadding()
+            XmlDb.open(this).set("Honor",true)
+        }
     }
 
     private fun initBottomNavBar() {
