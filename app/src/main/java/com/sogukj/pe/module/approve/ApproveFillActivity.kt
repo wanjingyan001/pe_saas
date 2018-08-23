@@ -69,7 +69,7 @@ class ApproveFillActivity : ToolbarActivity() {
     var flagEdit = false
     var isOneKey = false
     var gson = Gson()
-
+    var name = ""
     companion object {
         fun start(ctx: Activity?, itemBean: SpGroupItemBean) {
             val intent = Intent(ctx, ApproveFillActivity::class.java)
@@ -378,6 +378,9 @@ class ApproveFillActivity : ToolbarActivity() {
             if (paramId == 10 || paramId == 11 || paramId == 14) {
                 isLeaveBusiness = true
             }
+        }
+        if("用印事由".equals(name)){
+            isLeaveBusiness = true
         }
         return isLeaveBusiness
     }
@@ -803,6 +806,7 @@ class ApproveFillActivity : ToolbarActivity() {
     }
 
     private fun add4(bean: CustomSealBean) {
+        name = bean.name!!
         var convertView: View
         if (judgeIsLeaveBusiness()) {
             convertView = inflater.inflate(R.layout.cs_row_reason, null)

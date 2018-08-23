@@ -2,6 +2,7 @@ package com.sogukj.pe.module.im
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
@@ -233,6 +234,7 @@ class IMLocationActivity : BaseActivity(), AMap.OnCameraChangeListener, AMapLoca
                 map.animateCamera(camera)
             }
             R.id.confirm -> {
+//                saveLocationImage()
                 currentAddress = if (currentAddress.isEmpty()) "该位置信息暂无" else currentAddress
                 callback.onSuccess(currentLongitude, currentLatitude, currentAddress)
                 finish()
@@ -245,6 +247,21 @@ class IMLocationActivity : BaseActivity(), AMap.OnCameraChangeListener, AMapLoca
             R.id.back -> {
                 finish()
             }
+        }
+    }
+
+    private fun saveLocationImage() {
+        if (null != imMap){
+            imMap.map.getMapScreenShot(object : AMap.OnMapScreenShotListener{
+                override fun onMapScreenShot(p0: Bitmap?) {
+
+                }
+
+                override fun onMapScreenShot(p0: Bitmap?, p1: Int) {
+                    Utils.saveImageFromMap(p0,"pe_img_location.jpg",this@IMLocationActivity,p1)
+                }
+
+            })
         }
     }
 

@@ -1,6 +1,7 @@
 package com.netease.nim.uikit.business.session.viewholder;
 
 import android.view.Gravity;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.netease.nim.uikit.R;
@@ -40,14 +41,14 @@ public class MsgViewHolderLocation extends MsgViewHolderBase {
         final LocationAttachment location = (LocationAttachment) message.getAttachment();
         addressText.setText(location.getAddress());
 
-        int[] bound = ImageUtil.getBoundWithLength(getLocationDefEdge(), R.drawable.nim_location_bk, true);
+        int[] bound = ImageUtil.getBoundWithLength(getLocationDefEdge(), R.drawable.nim_cus_location, true);
         int width = bound[0];
         int height = bound[1];
 
         setLayoutParams(width, height, mapView);
-        setLayoutParams(width, (int) (0.38 * height), addressText);
+        setCusLayoutParams(width, (int) (0.38 * height), addressText,height);
 
-        mapView.loadAsResource(R.drawable.nim_location_bk, R.drawable.nim_message_item_round_bg);
+        mapView.loadAsResource(R.drawable.nim_cus_location, R.drawable.nim_message_item_round_bg);
         if (isReceivedMessage()) {
             setGravity(mapView, Gravity.LEFT);
             contentContainer.setBackground(null);
@@ -55,6 +56,14 @@ public class MsgViewHolderLocation extends MsgViewHolderBase {
             setGravity(mapView, Gravity.RIGHT);
             contentContainer.setBackground(null);
         }
+    }
+
+    private void setCusLayoutParams(int width, int height, TextView addressText, int margin) {
+        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) addressText.getLayoutParams();
+        params.width = width;
+        params.height = height;
+        params.topMargin = margin;
+        addressText.setLayoutParams(params);
     }
 
     @Override

@@ -11,6 +11,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.netease.nim.uikit.R;
 import com.netease.nim.uikit.api.NimUIKit;
+import com.netease.nim.uikit.api.model.SimpleCallback;
 import com.netease.nim.uikit.api.model.contact.ContactChangedObserver;
 import com.netease.nim.uikit.api.model.main.OnlineStateChangeObserver;
 import com.netease.nim.uikit.api.model.session.SessionCustomization;
@@ -27,6 +28,7 @@ import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.CustomNotification;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 
 import java.util.List;
 import java.util.Set;
@@ -104,8 +106,22 @@ public class P2PMessageActivity extends BaseMessageActivity {
 
     private void requestBuddyInfo() {
         bigTitle.setText(UserInfoHelper.getUserTitleName(sessionId, SessionTypeEnum.P2P));
-        subTitle.setText("机构名称-职位");
+        setCusSubTitle();
         setTitle("");
+    }
+
+    private void setCusSubTitle() {
+        NimUIKit.getUserInfoProvider().getUserInfoAsync(sessionId, new SimpleCallback() {
+            @Override
+            public void onResult(boolean success, Object result, int code) {
+                NimUserInfo info = (NimUserInfo) result;
+                Object departName = info.getExtensionMap().get("departName");
+                Object position = info.getExtensionMap().get("position");
+                if(null != departName && null != position) {
+                    subTitle.setText(departName.toString() + "-" + position.toString());
+                }
+            }
+        });
     }
 
     private void registerObservers(boolean register) {

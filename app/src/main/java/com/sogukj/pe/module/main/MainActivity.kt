@@ -132,6 +132,14 @@ class MainActivity : BaseActivity() {
         ActivityHelper.finishAllWithoutTop()
 
         showPhoneNotifiDialog()
+
+        saveCityAreaJson()
+    }
+
+    private fun saveCityAreaJson() {
+        val cityJson = Utils.getJson(this, "city.json")
+        Log.e("TAG","cityJson ==" + cityJson)
+        XmlDb.open(this).set(Extras.CITY_JSON,cityJson)
     }
 
     private fun showPhoneNotifiDialog() {

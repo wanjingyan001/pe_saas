@@ -13,9 +13,12 @@ import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.CharacterParser
 import com.sogukj.pe.baselibrary.utils.Trace
+import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.baselibrary.utils.XmlDb
 import com.sogukj.pe.baselibrary.widgets.MyListView
 import com.sogukj.pe.baselibrary.widgets.SideBar
 import com.sogukj.pe.bean.CityArea
+import com.sogukj.pe.bean.CityAreaBean
 import com.sogukj.pe.module.approve.adapter.ChosenAdapter
 import com.sogukj.pe.module.approve.adapter.CityAdapter
 import com.sogukj.pe.module.approve.adapter.HistoryAdapter
@@ -164,8 +167,58 @@ class DstCityActivity : ToolbarActivity() {
             reCalculate()
         }
 
-        doRequest()
+//        doRequest()
+        getCityAreaData()
     }
+
+    private fun getCityAreaData() {
+        var datas = XmlDb.open(this).get(Extras.CITY_JSON, "")
+        if (null == datas || "".equals(datas)){
+            datas = Utils.getJson(this,"city.json")
+        }
+        val CityAreaBean = Utils.JsonToObject(datas, CityAreaBean::class.java)
+        setCityAreaData(CityAreaBean)
+    }
+
+    private fun setCityAreaData(datas: CityAreaBean) {
+        val payload = datas.payload
+        filledData(payload!!)
+
+        side_bar.setB(groups)
+
+        initAdapter()
+
+        var list = intent.getSerializableExtra(Extras.DATA) as ArrayList<CityArea.City>
+        for (city in list) {
+            updateList(city, true)
+        }
+
+        calculateScroolDis()
+
+
+        var id = intent.getIntExtra(Extras.ID, 0)
+        SoguApi.getService(application,ApproveService::class.java)
+                .getHistoryCity(id)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({ payload ->
+                    if (payload.isOk) {
+                        var list = payload.payload
+                        if (list == null || list.isEmpty()) {
+                            empty_history.visibility = View.GONE
+                        } else {
+                            empty_history.visibility = View.VISIBLE
+                            historyAdapter.data.addAll(list)
+                            historyAdapter.notifyDataSetChanged()
+                        }
+                    } else {
+                        showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                    }
+                }, { e ->
+                    Trace.e(e)
+                })
+    }
+
 
     private var groups = ArrayList<String>()
     private var childs = ArrayList<ArrayList<CityArea.City>>()

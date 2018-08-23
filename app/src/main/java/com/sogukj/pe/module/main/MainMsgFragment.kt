@@ -339,13 +339,12 @@ class MainMsgFragment : BaseFragment() {
                                             override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
                                                 return false
                                             }
-
                                         })
                                         .into(msgIcon)
                             }
                         } else if (data.sessionType == SessionTypeEnum.Team) {
                             val value = data.msgStatus.value
-                            val fromNick = if (data.fromNick.isNullOrEmpty()) "" else "${data.fromNick}："
+                            val fromNick = if (data.fromNick.isNullOrEmpty()) "" else "${data.fromNick}: "
                             when (value) {
                                 3 -> tvTitleMsg.text = Html.fromHtml("<font color='#a0a4aa'>[已读]</font>$fromNick${data.content}")
                                 4 -> tvTitleMsg.text = Html.fromHtml("<font color='#1787fb'>[未读]</font>$fromNick${data.content}")

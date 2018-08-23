@@ -1145,7 +1145,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.im.ImSearchResultActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="adjustPan|stateVisible"
             android:screenOrientation="portrait" />
     </application>
 

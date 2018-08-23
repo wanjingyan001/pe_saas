@@ -168,7 +168,6 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
             tv_item.text = userBean!!.name
             return itemView
         }
-
     }
     private fun initContractResult() {
         resultAdapter = ContactAdapter(resultData)
@@ -180,6 +179,14 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
         super.onResume()
     }
 
+    override fun onPause() {
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        Utils.closeInput(this,et_search)
+        super.onDestroy()
+    }
     private fun initSearchHisData() {
         searchHis!!.reverse()
         searchAdapter = SearchAdapter()
@@ -281,6 +288,7 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
         val tvNum = convertView.findViewById<TextView>(R.id.tv_num) as TextView
         @SuppressLint("SetTextI18n")
         override fun setData(view: View, data: MsgIndexRecord, position: Int) {
+            if (null == data || null == data.message) return
             tvNum.setVisible(false)
             val titleName = UserInfoHelper.getUserTitleName(data.sessionId, data.sessionType)
             tvTitle.text = titleName

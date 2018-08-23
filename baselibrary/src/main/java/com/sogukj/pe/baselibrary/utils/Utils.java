@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -44,13 +45,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
+import com.google.gson.Gson;
 import com.sogukj.pe.baselibrary.R;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -1187,4 +1190,163 @@ Utils {
         return android.os.Build.BRAND;
     }
 
+    public static void saveBitmapFromShareView(View v, String name, Context context) {
+        if (v.getWidth() <= 0 || v.getHeight() <= 0) {
+            return;
+        }
+        Bitmap bitmap = Bitmap.createBitmap(v.getWidth(), v.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        v.draw(canvas);
+        if ((Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())    //外部存储是否挂载
+                || !Environment.isExternalStorageRemovable())   //外部存储是否移除
+                ) {
+
+            File file = new File(Environment.getExternalStorageDirectory(),
+                    name);
+            if (file.exists()) {
+                file.delete();
+            }
+            FileOutputStream out = null;
+            try {
+                // 打开指定文件输出流
+                out = new FileOutputStream(file);
+                // 将位图输出到指定文件
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100,
+                        out);
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+    }
+
+    /**
+     *
+     * @param view 需要截取图片的view
+     * @return 截图
+     */
+    public static void saveLocationImage(View view,String name,Activity context) throws Exception {
+
+        View screenView = context.getWindow().getDecorView();
+        screenView.setDrawingCacheEnabled(true);
+        screenView.buildDrawingCache();
+
+        //获取屏幕整张图片
+        Bitmap bitmap = screenView.getDrawingCache();
+
+        if (bitmap != null) {
+
+            //需要截取的长和宽
+            int outWidth = view.getWidth();
+            int outHeight = view.getHeight();
+
+            //获取需要截图部分的在屏幕上的坐标(view的左上角坐标）
+            int[] viewLocationArray = new int[2];
+            view.getLocationOnScreen(viewLocationArray);
+
+            //从屏幕整张图片中截取指定区域
+//            bitmap = Bitmap.createBitmap(bitmap, viewLocationArray[0], viewLocationArray[1], outWidth, outHeight);
+            Canvas canvas = new Canvas(bitmap);
+            view.draw(canvas);
+            if ((Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())    //外部存储是否挂载
+                    || !Environment.isExternalStorageRemovable())   //外部存储是否移除
+                    ) {
+
+                File file = new File(Environment.getExternalStorageDirectory(),
+                        name);
+                if (file.exists()) {
+                    file.delete();
+                }
+                FileOutputStream out = null;
+                try {
+                    // 打开指定文件输出流
+                    out = new FileOutputStream(file);
+                    // 将位图输出到指定文件
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100,
+                            out);
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        }
+
+    }
+
+    public static void saveImageFromMap(Bitmap bitmap, String name, Context context,int status) {
+
+        if ((Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())    //外部存储是否挂载
+                || !Environment.isExternalStorageRemovable())   //外部存储是否移除
+                ) {
+
+            File file = new File(Environment.getExternalStorageDirectory(),
+                    name);
+            if (file.exists()) {
+                file.delete();
+            }
+            FileOutputStream out = null;
+            try {
+                // 打开指定文件输出流
+                out = new FileOutputStream(file);
+                // 将位图输出到指定文件
+                boolean b = bitmap.compress(Bitmap.CompressFormat.JPEG, 100,
+                        out);
+                out.close();
+                if(b) {
+                    Toast.makeText(context, "截屏成功", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(context, "截屏失败", Toast.LENGTH_SHORT).show();
+                }
+                if(status != 0) {
+                    Toast.makeText(context, "地图渲染完成，截屏无网格", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(context, "地图未渲染完成，截屏有网格", Toast.LENGTH_SHORT).show();
+                }
+            } catch (IOException e) {
+                Toast.makeText(context, "截屏失败", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+
+        }
+
+    }
+
+    /**
+     * 得到json文件中的内容
+     * @param context
+     * @param fileName
+     * @return
+     */
+    public static String getJson(Context context,String fileName){
+        StringBuilder stringBuilder = new StringBuilder();
+        //获得assets资源管理器
+        AssetManager assetManager = context.getAssets();
+        //使用IO流读取json文件内容
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
+                    assetManager.open(fileName),"utf-8"));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return stringBuilder.toString();
+    }
+
+    /**
+     * 将字符串转换为 对象
+     * @param json
+     * @param type
+     * @return
+     */
+    public  static <T> T JsonToObject(String json, Class<T> type) {
+        Gson gson =new Gson();
+        return gson.fromJson(json, type);
+    }
 }

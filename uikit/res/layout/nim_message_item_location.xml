@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              android:layout_width="wrap_content"
-             android:layout_height="wrap_content">
+             android:layout_height="wrap_content"
+    android:background="@color/white">
 
     <com.netease.nim.uikit.common.ui.imageview.MsgThumbImageView
         android:id="@+id/message_item_location_image"
@@ -24,6 +25,6 @@
         android:paddingRight="7dip"
         android:paddingTop="2dip"
         android:singleLine="true"
-        android:textColor="#ffffff"
+        android:textColor="@color/gray_80"
         android:textSize="12sp"/>
 </FrameLayout>
