@@ -18,6 +18,7 @@ import com.sogukj.pe.module.approve.SealApproveActivity
 import com.sogukj.pe.module.approve.SignApproveActivity
 import com.sogukj.pe.module.calendar.adapter.TodoAdapter
 import com.sogukj.pe.module.project.ProjectActivity
+import com.sogukj.pe.module.project.ProjectDetailActivity
 import com.sogukj.pe.module.project.archives.RecordTraceActivity
 import com.sogukj.pe.service.CalendarService
 import com.sogukj.pe.service.NewService
@@ -161,7 +162,7 @@ class TodoFragment : BaseFragment(), ScheduleItemClickListener {
                                     RecordTraceActivity.start(activity, it)
                                 }
                                 6 -> {
-                                    ProjectActivity.start(activity, it)
+                                    ProjectDetailActivity.start(activity, it)
                                 }
                                 else->{
 

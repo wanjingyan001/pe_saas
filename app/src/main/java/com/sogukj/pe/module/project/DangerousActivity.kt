@@ -89,7 +89,7 @@ class DangerousActivity : ToolbarActivity() {
             }
         })
         adapter.onItemClick = { _, position ->
-            ProjectActivity.start(context, adapter.dataList.get(position))
+            ProjectDetailActivity.start(context, adapter.dataList.get(position))
         }
         recycler_view.layoutManager = LinearLayoutManager(context)
         recycler_view.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))

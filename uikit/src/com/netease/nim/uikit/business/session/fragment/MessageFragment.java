@@ -96,11 +96,11 @@ public class MessageFragment extends TFragment implements ModuleProxy {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.nim_message_fragment, container, false);
 
-        mMsgList = (RecyclerView)rootView.findViewById(R.id.messageListView);
+        mMsgList = (RecyclerView) rootView.findViewById(R.id.messageListView);
         mMsgList.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(inputPanel != null){
+                if (inputPanel != null) {
                     inputPanel.collapse(false);
                 }
                 return false;
@@ -126,13 +126,13 @@ public class MessageFragment extends TFragment implements ModuleProxy {
     @Override
     public void onStart() {
         super.onStart();
-        if (!TextUtils.isEmpty(shareFilePath)){
+        if (!TextUtils.isEmpty(shareFilePath)) {
             IMMessage message;
             File file = new File(shareFilePath);
-            if (FileUtil.getFileType(shareFilePath)!=null){
+            if (FileUtil.getFileType(shareFilePath) != null) {
                 //图片类型
                 message = MessageBuilder.createImageMessage(sessionId, sessionType, file, file.getName());
-            }else {
+            } else {
                 //文件类型
                 message = MessageBuilder.createFileMessage(sessionId,
                         sessionType, file, file.getName());
@@ -263,33 +263,37 @@ public class MessageFragment extends TFragment implements ModuleProxy {
     @Override
     public boolean sendMessage(IMMessage message) {
         if (!isAllowSendMessage(message)) {
-            return false;
+            // 替换成tip
+            message = MessageBuilder.createTipMessage(message.getSessionId(), message.getSessionType());
+            message.setContent("该消息无法发送");
+            message.setStatus(MsgStatusEnum.success);
+            NIMClient.getService(MsgService.class).saveMessageToLocal(message, false);
+        }else {
+            appendTeamMemberPush(message);
+            final IMMessage msg = message;
+            appendPushConfig(message);
+            // send message to server and save to db
+            Map<String, Object> ext = new HashMap<>();
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
+            ext.put("domain", sp.getString("saas.httpUrl", ""));
+            message.setRemoteExtension(ext);
+            message.setMsgAck();
+            System.out.println("发送的消息:" + message.getFromAccount() + "==>内容:" + message.getContent() + "==>ack:"+message.needMsgAck());
+            NIMClient.getService(MsgService.class).sendMessage(message, false).setCallback(new RequestCallback<Void>() {
+                @Override
+                public void onSuccess(Void param) {
+                }
+
+                @Override
+                public void onFailed(int code) {
+                    sendFailWithBlackList(code, msg);
+                }
+
+                @Override
+                public void onException(Throwable exception) {
+                }
+            });
         }
-
-        appendTeamMemberPush(message);
-        message = changeToRobotMsg(message);
-        final IMMessage msg = message;
-        appendPushConfig(message);
-        // send message to server and save to db
-        Map<String,Object> ext = new HashMap<>();
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
-        ext.put("domain",sp.getString( "saas.httpUrl",""));
-        message.setRemoteExtension(ext);
-        message.setMsgAck();
-        NIMClient.getService(MsgService.class).sendMessage(message, false).setCallback(new RequestCallback<Void>() {
-            @Override
-            public void onSuccess(Void param) {
-            }
-
-            @Override
-            public void onFailed(int code) {
-                sendFailWithBlackList(code, msg);
-            }
-
-            @Override
-            public void onException(Throwable exception) {
-            }
-        });
 
         messageListPanel.onMsgSend(message);
 
@@ -416,13 +420,11 @@ public class MessageFragment extends TFragment implements ModuleProxy {
     }
 
 
-
-
     // 操作面板集合
     protected List<BaseAction> getActionList() {
         List<BaseAction> actions = new ArrayList<>();
         actions.add(new ImageAction());
-        actions.add(new ShootAction(R.drawable.im_shoot,R.string.input_panel_take));
+        actions.add(new ShootAction(R.drawable.im_shoot, R.string.input_panel_take));
         actions.add(new LocationAction());
 
         if (customization != null && customization.actions != null) {

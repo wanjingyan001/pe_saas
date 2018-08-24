@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="10dp">
+
+    <FrameLayout
+        android:id="@+id/divide2"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/bg_manager_pingjia">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|left"
+            android:layout_marginLeft="33dp"
+            android:layout_marginTop="50dp"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/SoguTextSamll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:text="是否具有商业价值" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="11dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_yes"
+                    android:layout_width="50dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/bg_rectangle_blue"
+                    android:gravity="center"
+                    android:text="是"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/btn_no"
+                    android:layout_width="50dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="15dp"
+                    android:background="@drawable/bg_rectangle_white"
+                    android:gravity="center"
+                    android:text="否"
+                    android:textColor="@color/text_1"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|right"
+            android:layout_marginRight="33dp"
+            android:layout_marginTop="50dp"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/SoguTextSamll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:text="创始人是否靠谱" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="11dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_you"
+                    android:layout_width="50dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/bg_rectangle_blue"
+                    android:gravity="center"
+                    android:text="是"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/btn_wu"
+                    android:layout_width="50dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="15dp"
+                    android:background="@drawable/bg_rectangle_white"
+                    android:gravity="center"
+                    android:text="否"
+                    android:textColor="@color/text_1"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/qingbao_bg"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/divide2">
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            android:background="@drawable/qingbaojiankong" />
+
+        <LinearLayout
+            android:id="@+id/neg"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="负面讯息"
+                android:textColor="#ff282828"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/neg_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="6dp"
+                android:background="@drawable/neg_yq_bg"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:textColor="#ffff5858"
+                android:textSize="10sp"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/yuqing"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="企业舆情"
+                android:textColor="#ff282828"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/yq_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="6dp"
+                android:background="@drawable/neg_yq_bg"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:textColor="#ffff5858"
+                android:textSize="10sp"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

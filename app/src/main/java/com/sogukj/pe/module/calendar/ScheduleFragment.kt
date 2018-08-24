@@ -27,6 +27,7 @@ import com.sogukj.pe.module.calendar.adapter.ScheduleAdapter
 import com.sogukj.pe.module.creditCollection.ShareholderCreditActivity
 import com.sogukj.pe.module.fund.FundDetailActivity
 import com.sogukj.pe.module.project.ProjectActivity
+import com.sogukj.pe.module.project.ProjectDetailActivity
 import com.sogukj.pe.module.project.archives.RecordTraceActivity
 import com.sogukj.pe.service.CalendarService
 import com.sogukj.pe.service.NewService
@@ -349,7 +350,7 @@ class ScheduleFragment : BaseFragment() {
                                     RecordTraceActivity.start(activity, it)
                                 }
                                 6 -> {
-                                    ProjectActivity.start(activity, it)
+                                    ProjectDetailActivity.start(activity, it)
                                 }
                                 else->{
 

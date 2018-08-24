@@ -61,6 +61,7 @@ import org.jetbrains.anko.*
 /**
  * Created by qinfei on 17/7/18.
  */
+@Deprecated("ProjectDetailActivity")
 class ProjectActivity : ToolbarActivity(), View.OnClickListener {
     lateinit var project: ProjectBean
     var position = 0
@@ -679,15 +680,15 @@ class ProjectActivity : ToolbarActivity(), View.OnClickListener {
             51 -> R.drawable.ic_proj_gdzx//股东征信
             52 -> R.drawable.ic_proj_xmws//项目文书
             53 -> R.drawable.ic_proj_xmgy//项目概要
-            54 -> R.drawable.ic_proj_xmcb//储备信息
+            54 -> R.drawable.ic_proj_cbxx//储备信息
             55 -> R.drawable.ic_proj_gzjl//跟踪记录
             56 -> R.drawable.ic_proj_jdsj//尽调数据
             57 -> R.drawable.ic_proj_tjsj//投决数据
             58 -> R.drawable.ic_proj_thglsj//投后管理数据
             59 -> R.drawable.ic_proj_spls//审批历史
-            60 -> R.drawable.qqxx//股权信息
-            61 -> R.drawable.cwbb
-            62 -> R.drawable.syqx
+            60 -> R.drawable.ic_proj_gqxx//股权信息
+            61 -> R.drawable.ic_proj_cwbb//财务报表
+            62 -> R.drawable.ic_proj_pgqk//配股信息
             else -> 0
         }
     }

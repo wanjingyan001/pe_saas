@@ -287,6 +287,7 @@ public class MessageListPanelEx {
         boolean needRefresh = false;
         List<IMMessage> addedListItems = new ArrayList<>(messages.size());
         for (IMMessage message : messages) {
+            System.out.println("收到消息的回调:" + message.getUuid() + "==>内容:" + message.getContent() + "==>ack:"+message.needMsgAck());
             if (isMyMessage(message)) {
                 items.add(message);
                 addedListItems.add(message);
@@ -582,6 +583,9 @@ public class MessageListPanelEx {
                 }
 
                 if (messages != null) {
+                    for (IMMessage message : messages) {
+                        System.out.println("接收的消息:" + message.getUuid() + "==>内容:" + message.getContent() + "==>ack:"+message.needMsgAck());
+                    }
                     onMessageLoaded(messages);
                 }
             }
@@ -692,7 +696,6 @@ public class MessageListPanelEx {
                 doScrollToBottom();
                 sendReceipt(); // 发送已读回执
             }
-
             // 通过历史记录加载的群聊消息，需要刷新一下已读未读最新数据
             if (container.sessionType == SessionTypeEnum.Team) {
                 NIMSDK.getTeamService().refreshTeamMessageReceipt(messages);

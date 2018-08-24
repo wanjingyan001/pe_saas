@@ -126,6 +126,9 @@ public class TimeUtil {
     }
 
     public static String getTimeShowString(long milliseconds, boolean abbreviate) {
+//        else if (isSameWeekDates(currentTime, today)) {
+//            dataString = getWeekOfDate(currentTime);
+//        }
         String dataString;
         String timeStringBy24;
 
@@ -139,19 +142,17 @@ public class TimeUtil {
         Date todaybegin = todayStart.getTime();
         Date yesterdaybegin = new Date(todaybegin.getTime() - 3600 * 24 * 1000);
         Date preyesterday = new Date(yesterdaybegin.getTime() - 3600 * 24 * 1000);
-        try{
+        try {
             if (!currentTime.before(todaybegin)) {
                 dataString = "";
             } else if (!currentTime.before(yesterdaybegin)) {
                 dataString = "昨天";
             } else if (!currentTime.before(preyesterday)) {
                 dataString = "前天";
-            } else if (isSameWeekDates(currentTime, today)) {
-                dataString = getWeekOfDate(currentTime);
-            } else if (isThisYear(new SimpleDateFormat("yyyy-MM-dd").format(new Date(milliseconds)))){
+            } else if (isThisYear(new SimpleDateFormat("yyyy-MM-dd").format(new Date(milliseconds)))) {
                 SimpleDateFormat dateformatter = new SimpleDateFormat("MM月dd日", Locale.getDefault());
                 dataString = dateformatter.format(currentTime);
-            }else {
+            } else {
                 SimpleDateFormat dateformatter = new SimpleDateFormat("yyyy年MM月dd日", Locale.getDefault());
                 dataString = dateformatter.format(currentTime);
             }
@@ -167,7 +168,7 @@ public class TimeUtil {
             } else {
                 return dataString + " " + timeStringBy24;
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             return "";
         }
     }
@@ -307,7 +308,7 @@ public class TimeUtil {
             }
         }
         if (s < 10) {
-            return  d + ":0" + s;
+            return d + ":0" + s;
         } else {
 
             return d + ":" + s;

@@ -225,7 +225,7 @@ class MainProjectFragment : BaseRefreshFragment() {
 
             adapter.onItemClick = { v, p ->
                 val project = adapter.getItem(p)
-                val intent = Intent(context, ProjectActivity::class.java)
+                val intent = Intent(context, ProjectDetailActivity::class.java)
                 intent.putExtra(Extras.DATA, project)
                 intent.putExtra(Extras.TYPE, mTypeList.get(view_pager.currentItem))
                 startActivity(intent)

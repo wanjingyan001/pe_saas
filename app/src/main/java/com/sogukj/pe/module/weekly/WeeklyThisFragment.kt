@@ -37,6 +37,7 @@ import com.sogukj.pe.module.creditCollection.ShareholderCreditActivity
 import com.sogukj.pe.module.fund.FundDetailActivity
 import com.sogukj.pe.module.main.ContactsActivity
 import com.sogukj.pe.module.project.ProjectActivity
+import com.sogukj.pe.module.project.ProjectDetailActivity
 import com.sogukj.pe.module.project.archives.RecordTraceActivity
 import com.sogukj.pe.peUtils.MyGlideUrl
 import com.sogukj.pe.peUtils.Store
@@ -752,7 +753,7 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
                                     RecordTraceActivity.start(activity, it)
                                 }
                                 6 -> {
-                                    ProjectActivity.start(activity, it)
+                                    ProjectDetailActivity.start(activity, it)
                                 }
                             }
                         }

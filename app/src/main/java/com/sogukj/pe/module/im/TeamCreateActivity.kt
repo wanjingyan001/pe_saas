@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import com.amap.api.mapcore.util.it
@@ -70,14 +71,19 @@ class TeamCreateActivity : BaseActivity() {
         } else {
             ArrayList()
         }
-        adapter = MemberAdapter(this, teamMember)
+        adapter = MemberAdapter(this)
+        adapter.isMyTeam = true
+        adapter.refreshData(teamMember)
         adapter.onItemClick = { v, position ->
-            ContactsActivity.start(this, teamMember, true, true, Extras.REQUESTCODE)
-            finish()
+            if (v.getTag(R.id.member_headImg)== "ADD") {
+                ContactsActivity.start(this, teamMember, true, true, Extras.REQUESTCODE)
+                finish()
+            }else{
+                RemoveMemberActivity.start(this, teamMember)
+            }
         }
-        val layoutManager = LinearLayoutManager(this)
-        layoutManager.orientation = LinearLayoutManager.HORIZONTAL
-        team_member.layoutManager = layoutManager
+        val manager = GridLayoutManager(this,7)
+        team_member.layoutManager = manager
         team_member.adapter = adapter
 
         team_number.text = "${teamMember.size}人"
@@ -282,7 +288,17 @@ class TeamCreateActivity : BaseActivity() {
                     list?.let {
                         teamMember.clear()
                         teamMember.addAll(it)
-                        adapter.notifyDataSetChanged()
+                        adapter.refreshData(teamMember)
+                        team_number.text = "${teamMember.size}人"
+                        getTeamHeader(teamMember)
+                    }
+                }
+                Extras.RESULTCODE2 ->{
+                    val list = data.getSerializableExtra(Extras.LIST2) as? ArrayList<UserBean>
+                    list?.let {
+                        teamMember.clear()
+                        teamMember.addAll(it)
+                        adapter.refreshData(teamMember)
                         team_number.text = "${teamMember.size}人"
                         getTeamHeader(teamMember)
                     }

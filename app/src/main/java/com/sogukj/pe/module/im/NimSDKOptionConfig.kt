@@ -44,6 +44,8 @@ class NimSDKOptionConfig {
             options.checkManifestConfig = true
             // 是否启用群消息已读功能，默认关闭
             options.enableTeamMsgAck = true
+            // 在线多端同步未读数
+            options.sessionReadAck = true
             return options
         }
 

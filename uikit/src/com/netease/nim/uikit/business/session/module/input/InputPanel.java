@@ -377,6 +377,12 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
         }
     }
 
+    private IMMessage newTextMessage(String text){
+        IMMessage message = MessageBuilder.createTextMessage("aa84b2745798fb1f", SessionTypeEnum.Team, text);
+        message.setMsgAck();
+        return message;
+    }
+
     protected IMMessage createTextMessage(String text) {
         return MessageBuilder.createTextMessage(container.account, container.sessionType, text);
     }

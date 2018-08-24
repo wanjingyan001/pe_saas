@@ -430,27 +430,6 @@ class MainMsgFragment : BaseFragment() {
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         recycler_view.layoutManager = layoutManager
         recycler_view.adapter = adapter
-
-//        val header = ProgressLayout(baseActivity)
-//        header.setColorSchemeColors(ContextCompat.getColor(baseActivity, R.color.color_main))
-//        refresh.setHeaderView(header)
-//        val footer = BallPulseView(baseActivity)
-//        footer.setAnimatingColor(ContextCompat.getColor(baseActivity, R.color.color_main))
-//        refresh.setBottomView(footer)
-//        refresh.setOverScrollRefreshShow(false)
-//        refresh.setOnRefreshListener(object : RefreshListenerAdapter() {
-//            override fun onRefresh(refreshLayout: TwinklingRefreshLayout?) {
-//                doRequest()
-//                refresh.finishRefreshing()
-//            }
-//
-//            override fun onLoadMore(refreshLayout: TwinklingRefreshLayout?) {
-//                doRequest()
-//                refresh.finishLoadmore()
-//            }
-//
-//        })
-//        refresh.setAutoLoadMore(true)
         searchResult = RecyclerAdapter(ctx) { _adapter, parent, _ ->
             SearchResultHolder(_adapter.getView(R.layout.item_msg_index, parent))
         }
@@ -466,7 +445,6 @@ class MainMsgFragment : BaseFragment() {
                     NimUIKit.startTeamSession(ctx,record.sessionId,record.message)
                 }
             }
-//            DisplayMessageActivity.start(ctx, record.message)
         }
 
         refresh.setOnRefreshListener {
@@ -497,7 +475,7 @@ class MainMsgFragment : BaseFragment() {
         iv_loading?.visibility = View.VISIBLE
         loadPop()
     }
-    fun loadPop() {
+    private fun loadPop() {
         pop_layout.setOnClickListener { null }
         pop_layout.visibility = View.GONE
         SoguApi.getService(baseActivity!!.application,OtherService::class.java)
@@ -583,17 +561,15 @@ class MainMsgFragment : BaseFragment() {
                             zhushou.flag = 1
                             adapter.dataList.add(zhushou)
                         }
-                        //getIMRecentContact()
                         getAnnouncement()
                     } else {
                         showCustomToast(R.drawable.icon_toast_fail, payload.message)
-                        //getIMRecentContact()
                         getAnnouncement()
                     }
                 }, { e ->
                     Trace.e(e)
-                    //getIMRecentContact()
-                    getAnnouncement()
+                    recycler_view.visibility = View.GONE
+                    iv_empty.visibility = View.VISIBLE
                 })
     }
 
@@ -601,8 +577,6 @@ class MainMsgFragment : BaseFragment() {
     var sys_zhushou = MessageIndexBean()
 
     private fun getAnnouncement() {
-//        when (Utils.getEnvironment()) {
-//            "sr" -> {
         SoguApi.getService(baseActivity!!.application,OtherService::class.java)
                 .sysMsgIndex()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -623,11 +597,6 @@ class MainMsgFragment : BaseFragment() {
                     Trace.e(e)
                     getIMRecentContact()
                 })
-//            }
-//            else -> {
-//                getIMRecentContact()
-//            }
-//        }
     }
 
     private fun getIMRecentContact() {

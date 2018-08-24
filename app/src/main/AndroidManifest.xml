@@ -17,7 +17,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE" />
     <uses-permission android:name="com.huawei.android.launcher.permission.READ_SETTINGS" />
     <uses-permission android:name="com.huawei.android.launcher.permission.WRITE_SETTINGS" />
@@ -66,10 +66,10 @@
     <application xmlns:tools="http://schemas.android.com/tools"
         android:name=".App"
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="${app_icon}"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:hardwareAccelerated="true"
         android:theme="@style/AppTheme"
         tools:replace="android:theme">
 
@@ -412,8 +412,8 @@
         <activity
             android:name=".module.fileSelector.FileMainActivity"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"
             android:hardwareAccelerated="true"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".module.fileSelector.FilterFileActivity"
@@ -451,8 +451,8 @@
         <activity
             android:name=".module.calendar.CalendarMainActivity"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"
             android:hardwareAccelerated="true"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".module.calendar.MatterDetailActivity"
@@ -675,6 +675,10 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity android:name=".module.project.ProjectDetailActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
         <activity
             android:name=".module.project.ProjectAddActivity"
             android:configChanges="orientation|screenSize"
@@ -1005,7 +1009,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name=".module.other.PayPackageActivity" />
-        <activity android:name=".module.other.PayExpansionActivity"/>
+        <activity android:name=".module.other.PayExpansionActivity" />
         <activity
             android:name=".module.other.MessageListActivity"
             android:configChanges="orientation|screenSize"
@@ -1137,7 +1141,6 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-
         <activity android:name=".module.clockin.LocationActivity" />
         <activity
             android:name=".module.user.AboutXPeActivity"
@@ -1148,6 +1151,8 @@
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustPan|stateVisible"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".module.im.RemoveMemberActivity"></activity>
     </application>
 
 </manifest>

@@ -11,8 +11,8 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         multiDexEnabled true
-        versionCode 32
-        versionName "4.2.0"
+        versionCode 33
+        versionName "4.2.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             // 设置支持的SO库架构
@@ -21,7 +21,7 @@ android {
         }
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [moduleName: project.getName(),
+                arguments = [moduleName           : project.getName(),
                              "room.schemaLocation": "$projectDir/schemas".toString()]
             }
         }
@@ -246,7 +246,7 @@ kapt {
 
 repositories {
     maven {
-        url  "http://dl.bintray.com/lukaville/maven"
+        url "http://dl.bintray.com/lukaville/maven"
     }
     mavenCentral()
 }

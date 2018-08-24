@@ -72,16 +72,21 @@ class ProjectListFragment : BaseFragment(), SupportEmptyView {
         })
         adapter.onItemClick = { v, p ->
             val project = adapter.getItem(p);
-            val intent = Intent(context, ProjectActivity::class.java)
-            intent.putExtra(Extras.DATA, project)
-            if (type == ProjectListFragment.TYPE_GZ) {
-                intent.putExtra(Extras.TYPE, project.type)
+//            val intent = Intent(context, ProjectActivity::class.java)
+//            intent.putExtra(Extras.DATA, project)
+//            if (type == ProjectListFragment.TYPE_GZ) {
+//                intent.putExtra(Extras.TYPE, project.type)
+//            } else {
+//                intent.putExtra(Extras.TYPE, type)
+//            }
+//            intent.putExtra(Extras.CODE, p)
+//            startActivityForResult(intent, 0x001)
+            val t = if (type == ProjectListFragment.TYPE_GZ) {
+                project.type
             } else {
-                intent.putExtra(Extras.TYPE, type)
+                type
             }
-            intent.putExtra(Extras.CODE, p)
-            startActivityForResult(intent, 0x001)
-
+            ProjectDetailActivity.start(ctx, project, t ?: 0, p)
             XmlDb.open(ctx).set(Extras.TYPE, type.toString())
         }
         val layoutManager = LinearLayoutManager(baseActivity)

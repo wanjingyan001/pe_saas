@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
@@ -48,6 +49,7 @@ import kotlinx.android.synthetic.main.activity_team_info.*
 import org.jetbrains.anko.info
 import org.jetbrains.anko.toast
 import java.io.Serializable
+import kotlin.properties.Delegates
 
 
 class TeamInfoActivity : BaseActivity(), View.OnClickListener, SwitchButton.OnChangedListener {
@@ -57,10 +59,12 @@ class TeamInfoActivity : BaseActivity(), View.OnClickListener, SwitchButton.OnCh
     lateinit var teamLayout: RelativeLayout
     lateinit var profileToggle: SwitchButton
     var teamMembers = ArrayList<UserBean>()
-    var adapter: MemberAdapter? = null
+    lateinit var adapter: MemberAdapter
     lateinit var team: Team
     private val mine by lazy { Store.store.getUser(this) ?: UserBean() }
-    private var isMyTeam = false
+    private var isMyTeam by Delegates.observable(false, { property, oldValue, newValue ->
+        adapter.isMyTeam = newValue
+    })
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,10 +78,9 @@ class TeamInfoActivity : BaseActivity(), View.OnClickListener, SwitchButton.OnCh
         teamMember = findViewById<RecyclerView>(R.id.team_member) as RecyclerView
         teamLayout = findViewById<RelativeLayout>(R.id.team_layout) as RelativeLayout
         profileToggle = findViewById<SwitchButton>(R.id.user_profile_toggle) as SwitchButton
-        val manager = LinearLayoutManager(this)
-        manager.orientation = LinearLayoutManager.HORIZONTAL
+        val manager = GridLayoutManager(this, 7)
         teamMember.layoutManager = manager
-        adapter = MemberAdapter(this, teamMembers)
+        adapter = MemberAdapter(this)
         teamMember.adapter = adapter
 
         val teamPic = findViewById<TextView>(R.id.team_pic) as TextView
@@ -106,9 +109,11 @@ class TeamInfoActivity : BaseActivity(), View.OnClickListener, SwitchButton.OnCh
                 teamIntroduction.setSelection(teamIntroduction.textStr.length)
             }
         }
-        adapter!!.onItemClick = { v, p ->
-            if (p == teamMembers.size) {
+        adapter.onItemClick = { v, p ->
+            if (v.getTag(R.id.member_headImg) == "ADD") {
                 ContactsActivity.start(this, teamMembers, false, false)
+            } else if (v.getTag(R.id.member_headImg) == "REMOVE") {
+                RemoveMemberActivity.start(this, teamMembers, team)
             }
         }
     }
@@ -198,7 +203,7 @@ class TeamInfoActivity : BaseActivity(), View.OnClickListener, SwitchButton.OnCh
                 user.accid = info.account
                 teamMembers.add(user)
             }
-            adapter?.notifyDataSetChanged()
+            adapter.refreshData(teamMembers)
             team_number.text = "${teamMembers.size}人"
         }
     }
@@ -312,7 +317,7 @@ class TeamInfoActivity : BaseActivity(), View.OnClickListener, SwitchButton.OnCh
                                                 }
                                             }
                                         }
-                            }else{
+                            } else {
                                 finish()
                             }
                         }
@@ -369,8 +374,8 @@ class TeamInfoActivity : BaseActivity(), View.OnClickListener, SwitchButton.OnCh
             NIMClient.getService(TeamService::class.java).updateTeamFields(sessionId, map)
         }
 
-        Utils.closeInput(this,team_name)
-        Utils.closeInput(this,teamIntroduction)
+        Utils.closeInput(this, team_name)
+        Utils.closeInput(this, teamIntroduction)
     }
 
     override fun onStart() {
@@ -422,6 +427,19 @@ class TeamInfoActivity : BaseActivity(), View.OnClickListener, SwitchButton.OnCh
                                 override fun onException(p0: Throwable?) {
                                 }
                             })
+                }
+                Extras.RESULTCODE2 -> {
+                    val newMembers = data.getSerializableExtra(Extras.LIST2) as ArrayList<UserBean>
+                    adapter.refreshData(newMembers)
+                    val removes = mutableListOf<UserBean>()
+                    teamMembers.forEach { user->
+                        if (newMembers.find { it.uid == user.uid } == null) {
+                            removes.add(user)
+                        }
+                    }
+                    removes.forEach {
+                        NIMClient.getService(TeamService::class.java).removeMember(team.id, it.accid)
+                    }
                 }
             }
         } else if (requestCode == Extras.requestCode1 && resultCode == Activity.RESULT_OK && data != null) {
