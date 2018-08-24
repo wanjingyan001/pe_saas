@@ -52,6 +52,7 @@ import org.jetbrains.anko.find
  */
 class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
     override fun setContractData(param: List<DepartmentBean>) {
+        setResultVisibility(true)
         searchWithName(param)
     }
 
@@ -89,6 +90,29 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
         }else{
             ll_search_result.visibility = View.INVISIBLE
             search_his.visibility = View.VISIBLE
+            if (0 == type){
+                searchHis = Store.store.getSearchHis(this)
+                searchHis!!.reverse()
+                if (null != searchAdapter){
+                    searchAdapter!!.notifyDataChanged()
+                }
+                if (null != searchHis && searchHis!!.size > 0){
+                    ll_empty_his.visibility = View.INVISIBLE
+                }else{
+                    ll_empty_his.visibility = View.VISIBLE
+                }
+            }else if (1 == type){
+                contractHis = Store.store.getContractHis(this)
+                contractHis!!.reverse()
+                if (null != contractAdapter){
+                    contractAdapter!!.notifyDataChanged()
+                }
+                if (null != contractHis && contractHis!!.size > 0){
+                    ll_empty_his.visibility = View.INVISIBLE
+                }else{
+                    ll_empty_his.visibility = View.VISIBLE
+                }
+            }
         }
     }
 
@@ -135,8 +159,11 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
         if (type == 0){
             if (null != searchHis && searchHis!!.size > 0){
                 setResultVisibility(false)
-                initSearchHisData()
+                ll_empty_his.visibility = View.INVISIBLE
+            }else{
+                ll_empty_his.visibility = View.VISIBLE
             }
+            initSearchHisData()
         }else if (type == 1){
             initContractHisData()
         }
@@ -152,8 +179,12 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
     private fun initContractHisData() {
         if (null != contractHis && contractHis!!.size > 0){
             setResultVisibility(false)
-            initContractHis()
+            ll_empty_his.visibility = View.INVISIBLE
+        }else{
+            contractAdapter = ContractAdapter()
+            ll_empty_his.visibility = View.VISIBLE
         }
+        initContractHis()
     }
 
     private fun initContractHis() {
@@ -187,6 +218,7 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
         Utils.closeInput(this,et_search)
         super.onDestroy()
     }
+
     private fun initSearchHisData() {
         searchHis!!.reverse()
         searchAdapter = SearchAdapter()
@@ -204,7 +236,7 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
 
     private fun bindListener() {
         iv_search.setOnClickListener {
-            et_search.isFocusable = true
+            Utils.showSoftInputFromWindow(this,et_search)
         }
         et_search.addTextChangedListener(this)
         iv_del.setOnClickListener {
@@ -212,6 +244,7 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
             setDelectIcon(false)
             et_search.setHint(R.string.search)
             et_search.setText("")
+            setResultVisibility(false)
         }
 
         tv_cancel.setOnClickListener {
@@ -257,6 +290,8 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
                     if (null != presenter){
                         presenter!!.doRequest(key)
                     }
+                    et_search.setText(key)
+                    et_search.setSelection(key.length)
                 }
             }else if (type == 1){
                 if (null != contractHis && contractHis!!.size > 0){
@@ -268,14 +303,23 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
 
         tv_his.setOnClickListener {
             if (type == 0){
-                Store.store.clearSearchHis(this)
-                searchHis = Store.store.getSearchHis(this)
-                searchAdapter!!.notifyDataChanged()
-
+                if (null != searchHis && searchHis!!.size > 0){
+                    Store.store.clearSearchHis(this)
+                    searchHis = Store.store.getSearchHis(this)
+                    if (null != searchAdapter){
+                        searchAdapter!!.notifyDataChanged()
+                    }
+                }
+                ll_empty_his.visibility = View.VISIBLE
             }else if (type == 1){
-                Store.store.clearContractHis(this)
-                contractHis = Store.store.getContractHis(this)
-                contractAdapter!!.notifyDataChanged()
+                if (null != contractHis && contractHis!!.size > 0){
+                    Store.store.clearContractHis(this)
+                    contractHis = Store.store.getContractHis(this)
+                    if (null != contractAdapter){
+                        contractAdapter!!.notifyDataChanged()
+                    }
+                }
+                ll_empty_his.visibility = View.VISIBLE
             }
         }
     }
@@ -399,9 +443,11 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
     override fun afterTextChanged(s: Editable?) {
         if (et_search.text.length > 0){
             setDelectIcon(true)
+            setResultVisibility(true)
         }else{
             setDelectIcon(false)
             et_search.setHint(R.string.search)
+            setResultVisibility(false)
         }
     }
 

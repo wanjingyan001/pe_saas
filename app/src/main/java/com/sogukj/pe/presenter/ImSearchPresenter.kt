@@ -39,16 +39,18 @@ class ImSearchPresenter : BasePresenter {
                         if (null != imSearchCallBack){
                             imSearchCallBack!!.clearData()
                         }
-                        if (param!!.isEmpty()) {
-                            if (null != imSearchCallBack){
-                                imSearchCallBack!!.setEmpty(true)
-                            }
-                        } else {
-                            if (null != imSearchCallBack){
-                                imSearchCallBack!!.setFullData(param!!)
-                            }
-                            if (null != imSearchCallBack){
-                                imSearchCallBack!!.setEmpty(false)
+                        param?.let {
+                            if (it.isEmpty()) {
+                                if (null != imSearchCallBack){
+                                    imSearchCallBack!!.setEmpty(true)
+                                }
+                            } else {
+                                if (null != imSearchCallBack){
+                                    imSearchCallBack!!.setFullData(it)
+                                }
+                                if (null != imSearchCallBack){
+                                    imSearchCallBack!!.setEmpty(false)
+                                }
                             }
                         }
                     }

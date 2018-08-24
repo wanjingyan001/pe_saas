@@ -2,7 +2,6 @@ package com.sogukj.pe.module.fund
 
 import android.app.Activity
 import android.content.Intent
-import android.databinding.DataBindingUtil.setContentView
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
@@ -37,7 +36,7 @@ class FundAssociationDetailActivity : ToolbarActivity() {
     var projId = 0
     var baseDateId = 0
     var moduleId = 0
-
+    private var editInfos = HashMap<String,EditText>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manager_detail)
@@ -60,26 +59,25 @@ class FundAssociationDetailActivity : ToolbarActivity() {
             if (!flag) {
                 finish()
             } else {
-//                var map = HashMap<String, Any>()
-//                map.put("projId", bean.company_id!!)
-//                map.put("moduleId", moduleId!!)
-//                map.put("data", oriData)
-//
-//                SoguApi.getService(application)
-//                        .subInvestMan(map)
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribeOn(Schedulers.io())
-//                        .subscribe({ payload ->
-//                            if (payload.isOk) {
-//                                showCustomToast(R.drawable.icon_toast_success, "提交成功")
-//                                finish()
-//                            } else {
-//                                showCustomToast(R.drawable.icon_toast_fail, payload.message)
-//                            }
-//                        }, { e ->
-//                            Trace.e(e)
-//                            showCustomToast(R.drawable.icon_toast_fail, "提交失败")
-//                        })
+                var map = HashMap<String, Any>()
+                map.put("projId", projId)
+                map.put("data", moduleId!!)
+
+                SoguApi.getService(application,FundService::class.java)
+                        .modifiModuleInfo(map)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe({ payload ->
+                            if (payload.isOk) {
+                                showCustomToast(R.drawable.icon_toast_success, "提交成功")
+                                finish()
+                            } else {
+                                showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                            }
+                        }, { e ->
+                            Trace.e(e)
+                            showCustomToast(R.drawable.icon_toast_fail, "提交失败")
+                        })
             }
         }
     }
@@ -192,5 +190,7 @@ class FundAssociationDetailActivity : ToolbarActivity() {
                 true
             }
         }
+
+//        editInfos.put(et_content)
     }
 }

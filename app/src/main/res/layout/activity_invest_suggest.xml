@@ -52,6 +52,7 @@
                     android:paddingTop="15dp">
 
                     <TextView
+                        android:id="@+id/tv_valuation"
                         style="@style/ItemTextLabel"
                         android:text="估值" />
 
@@ -66,6 +67,7 @@
                     android:paddingTop="15dp">
 
                     <TextView
+                        android:id="@+id/tv_amount"
                         style="@style/ItemTextLabel"
                         android:text="金额" />
 
@@ -81,6 +83,7 @@
                     android:paddingTop="15dp">
 
                     <TextView
+                        android:id="@+id/tv_equityRatio"
                         style="@style/ItemTextLabel"
                         android:text="股权比例" />
 
@@ -95,6 +98,7 @@
                     android:paddingTop="15dp">
 
                     <TextView
+                        android:id="@+id/tv_mainCast"
                         style="@style/ItemTextLabel"
                         android:text="主投/跟投" />
 
@@ -109,6 +113,7 @@
                     android:paddingTop="15dp">
 
                     <TextView
+                        android:id="@+id/tv_position"
                         style="@style/ItemTextLabel"
                         android:text="董事/监事职位" />
 
@@ -123,6 +128,7 @@
                     android:paddingTop="15dp">
 
                     <TextView
+                        android:id="@+id/tv_estimateTime"
                         style="@style/ItemTextLabel"
                         android:text="预计时间" />
 
@@ -169,6 +175,7 @@
                     android:paddingTop="15dp">
 
                     <TextView
+                        android:id="@+id/tv_motivation"
                         style="@style/ItemTextLabel"
                         android:text="投资动因" />
 
@@ -183,6 +190,7 @@
                     android:paddingTop="15dp">
 
                     <TextView
+                        android:id="@+id/tv_riskTreat"
                         style="@style/ItemTextLabel"
                         android:text="风险对策" />
 
@@ -197,6 +205,7 @@
                     android:paddingTop="15dp">
 
                     <TextView
+                        android:id="@+id/tv_managePlan"
                         style="@style/ItemTextLabel"
                         android:text="投后管理计划" />
 
@@ -211,6 +220,7 @@
                     android:paddingTop="15dp">
 
                     <TextView
+                        android:id="@+id/tv_quitPlan"
                         style="@style/ItemTextLabel"
                         android:text="退出计划" />
 
@@ -225,6 +235,7 @@
                     android:paddingTop="15dp">
 
                     <TextView
+                        android:id="@+id/tv_sensibilyAnalysis"
                         style="@style/ItemTextLabel"
                         android:text="回报敏感性分析" />
 
@@ -239,6 +250,7 @@
                     android:paddingTop="15dp">
 
                     <TextView
+                        android:id="@+id/tv_otherIssue"
                         style="@style/ItemTextLabel"
                         android:text="其他投决会关注的问题" />
 
@@ -253,6 +265,7 @@
                     android:paddingTop="15dp">
 
                     <TextView
+                        android:id="@+id/tv_contract"
                         style="@style/ItemTextLabel"
                         android:text="合同文本" />
 
@@ -279,7 +292,8 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_margin="10dp"
-            android:background="@drawable/bg_btn_blue"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_btn_gray"
             android:text="提交" />
     </LinearLayout>
 </LinearLayout>

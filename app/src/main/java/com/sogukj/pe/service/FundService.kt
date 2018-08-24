@@ -57,6 +57,8 @@ interface FundService {
                         @Field("baseDateId") baseDateId: Int,
                         @Field("moduleId") moduleId: Int): Observable<Payload<ArrayList<ManagerDetailBean>>>
 
+    @POST("/api/Fundexcel/modifyModuleDetail")
+    fun modifiModuleInfo(@Body map: HashMap<String, Any>): Observable<Payload<Any>>
 
     @POST("/api/Listinformation/delDir")
     fun delDir(@Body map: HashMap<String, Any>): Observable<Payload<Any>>
