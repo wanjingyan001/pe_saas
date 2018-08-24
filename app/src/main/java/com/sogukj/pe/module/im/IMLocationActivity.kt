@@ -159,7 +159,11 @@ class IMLocationActivity : BaseActivity(), AMap.OnCameraChangeListener, AMapLoca
                     } else {
                         currentFlag.visibility = View.INVISIBLE
                     }
-                    poiName.text = data.title
+                    if (0 == position){
+                        poiName.text = "当前位置"
+                    }else{
+                        poiName.text = data.title
+                    }
                     poiAddress.text = "${data.cityName}${data.adName}${data.snippet}"
                 }
             }

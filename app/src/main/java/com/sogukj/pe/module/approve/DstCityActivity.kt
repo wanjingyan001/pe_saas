@@ -61,6 +61,7 @@ class DstCityActivity : ToolbarActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dst_city)
+        Log.e("TAG","end ---" + System.currentTimeMillis())
         setBack(true)
         title = "目的城市"
 

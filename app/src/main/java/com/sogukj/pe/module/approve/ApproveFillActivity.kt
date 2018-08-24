@@ -10,6 +10,7 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -1077,6 +1078,7 @@ class ApproveFillActivity : ToolbarActivity() {
                 input_id = paramId!!
             }
             DstCityActivity.start(context, input_id, dstCity)
+            Log.e("TAG","start ---" + System.currentTimeMillis())
         }
 
         checkList.add {

@@ -45,7 +45,7 @@
                     android:singleLine="true"
                     tools:text="机构名称-职位"
                     android:layout_gravity="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/gray_ce"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
