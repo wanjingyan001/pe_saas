@@ -217,9 +217,9 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
             textAudioSwitchLayout.setVisibility(View.GONE);
         }
         ll_guide = view.findViewById(R.id.ll_guide);
-        if(!XmlDb.Companion.open(container.activity).get("im_guide")) {
+        if (!XmlDb.Companion.open(container.activity).get("im_guide")) {
             ll_guide.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             ll_guide.setVisibility(View.GONE);
         }
     }
@@ -377,7 +377,7 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
         }
     }
 
-    private IMMessage newTextMessage(String text){
+    private IMMessage newTextMessage(String text) {
         IMMessage message = MessageBuilder.createTextMessage("aa84b2745798fb1f", SessionTypeEnum.Team, text);
         message.setMsgAck();
         return message;
@@ -401,15 +401,15 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
 
     // 点击“+”号按钮，切换更多布局和键盘
     private void toggleActionPanelLayout() {
-        if(ll_guide.getVisibility() == View.VISIBLE) {
+        if (ll_guide.getVisibility() == View.VISIBLE) {
             ll_guide.setVisibility(View.GONE);
-            XmlDb.Companion.open(container.activity).set("im_guide",true);
+            XmlDb.Companion.open(container.activity).set("im_guide", true);
         }
         if (actionPanelBottomLayout == null || actionPanelBottomLayout.getVisibility() == View.GONE) {
             showActionPanelLayout();
         } else {
             hideActionPanelLayout();
-            Utils.toggleSoftInput(container.activity,messageEditText);
+            Utils.toggleSoftInput(container.activity, messageEditText);
         }
     }
 
@@ -541,7 +541,7 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
                         if (!pic.isShowing()) {
                             pic.showAsDropDown(moreFuntionButtonInInputBar, -dpToPx(45), -(actionPanelBottomLayout.getHeight() + dpToPx(25)));
                             pic.showImg(file.getAbsolutePath());
-                            ImageUtil.saveLatestPicId(container.activity,pair.first);
+                            ImageUtil.saveLatestPicId(container.activity, pair.first);
                         }
                         actionPanelBottomLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     }
@@ -817,8 +817,12 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
 
     @Override
     public void onRecordSuccess(File audioFile, long audioLength, RecordType recordType) {
-        IMMessage audioMessage = MessageBuilder.createAudioMessage(container.account, container.sessionType, audioFile, audioLength);
-        container.proxy.sendMessage(audioMessage);
+        if (audioLength < 1000) {
+            Toast.makeText(container.activity, "录音时间小于1秒,请重新录制", Toast.LENGTH_SHORT).show();
+        } else {
+            IMMessage audioMessage = MessageBuilder.createAudioMessage(container.account, container.sessionType, audioFile, audioLength);
+            container.proxy.sendMessage(audioMessage);
+        }
     }
 
     @Override

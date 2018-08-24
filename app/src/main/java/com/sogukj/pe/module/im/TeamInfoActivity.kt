@@ -35,6 +35,7 @@ import com.sogukj.pe.BuildConfig
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.execute
+import com.sogukj.pe.baselibrary.Extended.jsonStr
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.base.BaseActivity
@@ -194,6 +195,7 @@ class TeamInfoActivity : BaseActivity(), View.OnClickListener, SwitchButton.OnCh
             teamMembers.clear()
             result.forEach {
                 val info = it as NimUserInfo
+                println(info.extensionMap.jsonStr)
                 val uid = info.extensionMap["uid"].toString().toInt()
                 val user = UserBean()
                 user.uid = uid

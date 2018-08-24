@@ -590,12 +590,12 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
     }
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
-        if (view.id in 1..62) {
+        if (view.tag in 1..62) {
             SoguApi.getService(application, NewService::class.java)
                     .saveClick(view.id)
                     .execute {}
         }
-        when (view.id) {
+        when (view.tag) {
             38 -> StockInfoActivity.start(this@ProjectDetailActivity, project)//股票行情
             39 -> CompanyInfoActivity.start(this@ProjectDetailActivity, project)//企业简介
             40 -> GaoGuanActivity.start(this@ProjectDetailActivity, project)//高管信息

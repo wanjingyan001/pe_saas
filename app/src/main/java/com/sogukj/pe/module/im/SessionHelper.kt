@@ -1,7 +1,11 @@
 package com.sogukj.pe.module.im
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.view.View
+import android.widget.Toast
 import com.netease.nim.uikit.api.NimUIKit
 import com.netease.nim.uikit.api.model.session.SessionCustomization
 import com.netease.nim.uikit.api.model.session.SessionEventListener
@@ -89,6 +93,22 @@ object SessionHelper {
                 }
             }
             infoBtn.iconId = R.drawable.im_personal_info
+            val phoneBut = object : SessionCustomization.OptionsButton() {
+                @SuppressLint("MissingPermission")
+                override fun onClick(context: Context, view: View, sessionId: String) {
+                    NimUIKit.getUserInfoProvider().getUserInfoAsync(sessionId) { success, result, code ->
+                        val info = result as NimUserInfo
+                        if (info.mobile.isNotEmpty()) {
+                            val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:${info.mobile}"))
+                            context.startActivity(intent)
+                        } else {
+                            Toast.makeText(context, "找不到正确的手机号", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
+            phoneBut.iconId = R.mipmap.im_call_phone
+            buttons.add(phoneBut)
             buttons.add(infoBtn)
             p2pCustomization?.buttons = buttons
             p2pCustomization?.withSticker = true

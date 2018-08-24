@@ -2,6 +2,7 @@ package com.sogukj.pe.module.project
 
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.support.constraint.ConstraintLayout
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -9,6 +10,7 @@ import com.chad.library.adapter.base.BaseSectionQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.sogukj.pe.R
 import com.sogukj.pe.R.id.view
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.bean.ProjectModules
 import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.textColor
@@ -19,12 +21,29 @@ import org.jetbrains.anko.textColor
 class ProjectDetailAdapter(data: List<ProjectModules>)
     : BaseSectionQuickAdapter<ProjectModules, BaseViewHolder>(R.layout.item_pro_detail_module, R.layout.item_pro_detail_header, data) {
     override fun convertHead(helper: BaseViewHolder, item: ProjectModules) {
-        helper.getView<TextView>(R.id.titleTv).text = item.header
 
+        val tagImg = helper.getView<ImageView>(R.id.titleTag)
+        when {
+            item.header.contains("公开") -> {
+                tagImg.setVisible(true)
+                tagImg.imageResource = R.mipmap.icon_pro_title_tag1
+                helper.getView<TextView>(R.id.titleTv).text = item.header.substring(0, item.header.indexOf("（"))
+            }
+            item.header.contains("内部") -> {
+                tagImg.setVisible(true)
+                tagImg.imageResource = R.mipmap.icon_pro_title_tag2
+                helper.getView<TextView>(R.id.titleTv).text = item.header.substring(0, item.header.indexOf("（"))
+            }
+            else -> {
+                tagImg.setVisible(false)
+                helper.getView<TextView>(R.id.titleTv).text = item.header
+            }
+        }
     }
 
     override fun convert(helper: BaseViewHolder, item: ProjectModules) {
         helper.setTag(R.id.moduleItem, item.t.id)
+        val layout = helper.getView<ConstraintLayout>(R.id.moduleItem)
         helper.getView<TextView>(R.id.moduleName).text = item.t.name
         val icon = helper.getView<ImageView>(R.id.moduleIcon)
         icon.imageResource = IdToDrawable(item.t.id!!)
@@ -34,16 +53,20 @@ class ProjectDetailAdapter(data: List<ProjectModules>)
             num.visibility = View.GONE
             if (item.t.status == 1) {
                 icon.clearColorFilter()
+                layout.isClickable = true
             } else {
                 icon.setColorFilter(Color.parseColor("#D9D9D9"), PorterDuff.Mode.SRC_ATOP)
+                layout.isClickable = false
             }
         } else {
             if (count != null && count.toInt() > 0) {
                 num.text = count
                 icon.setColorFilter(Color.parseColor("#608cf8"), PorterDuff.Mode.SRC_ATOP)
+                layout.isClickable = true
             } else {
                 num.visibility = View.GONE
                 icon.setColorFilter(Color.parseColor("#D9D9D9"), PorterDuff.Mode.SRC_ATOP)
+                layout.isClickable = false
             }
         }
     }

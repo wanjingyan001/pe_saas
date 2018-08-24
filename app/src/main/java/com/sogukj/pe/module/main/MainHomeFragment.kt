@@ -746,7 +746,7 @@ class MainHomeFragment : BaseFragment() {
 
                 container.addView(convertView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
             } else if (data is NewsBean) {
-                holder.tvTitle?.text = "情报"
+                holder.tvTitle?.text = "舆情"
                 holder.tvNum?.visibility = View.GONE
 
                 holder.tvSeq?.text = data.company

@@ -19,6 +19,7 @@
         android:layout_marginTop="10dp"
         android:text="项目档案库"
         android:textColor="@color/text_1"
+        android:textStyle="bold"
         android:textSize="@dimen/text_size_normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

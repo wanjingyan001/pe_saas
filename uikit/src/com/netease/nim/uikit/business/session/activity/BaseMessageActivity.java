@@ -97,7 +97,8 @@ public abstract class BaseMessageActivity extends UI {
             Manifest.permission.RECORD_AUDIO,
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.WRITE_SETTINGS
+            Manifest.permission.WRITE_SETTINGS,
+            Manifest.permission.CALL_PHONE
     };
 
     protected void requestBasicPermission() {
