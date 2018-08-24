@@ -279,7 +279,6 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
             adapter = detailAdapter
 
         }
-        detailAdapter.setEmptyView(R.layout.layout_empty)
         detailAdapter.onItemClickListener = this
     }
 
@@ -446,21 +445,21 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                             payload.message
                         }
                     }
-                    onSubscribe {
-                        Glide.with(this@ProjectDetailActivity)
-                                .asGif()
-                                .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
-                                .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
-                                .into(iv_loading)
-                        iv_loading?.visibility = View.VISIBLE
-                    }
-                    onComplete {
-                        iv_loading?.visibility = View.GONE
-                    }
-                    onError { e ->
-                        iv_loading?.visibility = View.GONE
-                        Trace.e(e)
-                    }
+//                    onSubscribe {
+//                        Glide.with(this@ProjectDetailActivity)
+//                                .asGif()
+//                                .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
+//                                .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
+//                                .into(iv_loading)
+//                        iv_loading?.visibility = View.VISIBLE
+//                    }
+//                    onComplete {
+//                        iv_loading?.visibility = View.GONE
+//                    }
+//                    onError { e ->
+//                        iv_loading?.visibility = View.GONE
+//                        Trace.e(e)
+//                    }
                 }
     }
 
