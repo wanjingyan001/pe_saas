@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
@@ -16,6 +17,7 @@ import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.*
+import com.sogukj.pe.peUtils.Store
 import kotlinx.android.synthetic.main.activity_arrange_detail.*
 import org.jetbrains.anko.find
 import org.jetbrains.anko.imageResource
@@ -27,7 +29,7 @@ class ArrangeDetailActivity : ToolbarActivity() {
         get() = R.menu.menu_arrange_modify
     private lateinit var data: NewArrangeBean
     private val position: Int by extraDelegate(Extras.INDEX, -1)
-
+    private val mine by lazy { Store.store.getUser(this) }
 
     companion object {
         fun start(context: Context, data: NewArrangeBean, position: Int) {
@@ -68,7 +70,7 @@ class ArrangeDetailActivity : ToolbarActivity() {
                 detailIcon.imageResource = R.drawable.icon_sunday
             }
         }
-
+        supportInvalidateOptionsMenu()
 
         attendAdapter = RecyclerAdapter(this, { _adapter, parent, type ->
             AttendHolder(_adapter.getView(R.layout.item_arrange_detail_person, parent))
@@ -127,6 +129,16 @@ class ArrangeDetailActivity : ToolbarActivity() {
             }
             setContentData(this.data)
         }
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        val bean = data.child[position]
+        if ((mine!!.is_admin > bean.lv) or (mine!!.uid == bean.create_id) or (bean.create_id == 0)) {
+
+        }else{
+            menu.clear()
+        }
+        return super.onPrepareOptionsMenu(menu)
     }
 
 

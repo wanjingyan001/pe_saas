@@ -56,7 +56,7 @@ class RemoveMemberActivity : ToolbarActivity() {
         title = "移除群成员"
         teamMembers = intent.getSerializableExtra(Extras.LIST) as ArrayList<UserBean>
         alreadySelected = intent.getSerializableExtra(Extras.LIST) as ArrayList<UserBean>
-        team = intent.getSerializableExtra(Extras.DATA) as Team
+        team = intent.getSerializableExtra(Extras.DATA) as? Team
         memberAdapter = RecyclerAdapter(this) { _adapter, parent, _ ->
             val itemView = _adapter.getView(R.layout.item_team_organization_chlid, parent)
             object : RecyclerHolder<UserBean>(itemView) {

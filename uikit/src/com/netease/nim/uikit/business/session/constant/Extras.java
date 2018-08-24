@@ -6,6 +6,7 @@ package com.netease.nim.uikit.business.session.constant;
 public interface Extras {
 
     String EXTRA_FILE_PATH = "file_path";
+    String EXTRA_TIP = "tip";
 
     String EXTRA_DATA = "data";
 

@@ -619,7 +619,7 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
             drawable = resources.getDrawable(R.drawable.gzjl)
             drawable.setBounds(0, 0, cellW, cellW)
             tv.setCompoundDrawables(drawable, null, null, null)
-            tv.setText("跟踪记录")
+            tv.setText("拜访记录")
         } else if (item.type == 6) {
             drawable = resources.getDrawable(R.drawable.ai)
             drawable.setBounds(0, 0, cellW, cellW)

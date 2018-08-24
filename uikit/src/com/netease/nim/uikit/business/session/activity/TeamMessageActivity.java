@@ -74,6 +74,22 @@ public class TeamMessageActivity extends BaseMessageActivity {
         context.startActivity(intent);
     }
 
+    public static void start(Context context, String tid, SessionCustomization customization,
+                             Class<? extends Activity> backToClass, IMMessage anchor, String tip) {
+        Intent intent = new Intent();
+        intent.putExtra(Extras.EXTRA_ACCOUNT, tid);
+        intent.putExtra(Extras.EXTRA_CUSTOMIZATION, customization);
+        intent.putExtra(Extras.EXTRA_BACK_TO_CLASS, backToClass);
+        intent.putExtra(Extras.EXTRA_TIP, tip);
+        if (anchor != null) {
+            intent.putExtra(Extras.EXTRA_ANCHOR, anchor);
+        }
+        intent.setClass(context, TeamMessageActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        context.startActivity(intent);
+    }
+
     protected void findViews() {
         invalidTeamTipView = findView(R.id.invalid_team_tip);
         invalidTeamTipText = findView(R.id.invalid_team_text);
@@ -243,6 +259,7 @@ public class TeamMessageActivity extends BaseMessageActivity {
         // 添加fragment
         Bundle arguments = getIntent().getExtras();
         arguments.putSerializable(Extras.EXTRA_TYPE, SessionTypeEnum.Team);
+        arguments.putString(Extras.EXTRA_TIP, getIntent().getStringExtra(Extras.EXTRA_TIP));
         IMMessage value = (IMMessage) getIntent().getSerializableExtra(Extras.EXTRA_ANCHOR);
         if (value != null) {
             arguments.putSerializable(Extras.EXTRA_ANCHOR, value);

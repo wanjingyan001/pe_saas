@@ -403,6 +403,16 @@ class MainActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         App.INSTANCE.resetPush(true)
+        val company = sp.getString(Extras.SAAS_BASIC_DATA, "")
+        val detail = Gson().fromJson<MechanismBasicInfo?>(company)
+        detail?.let {
+            Glide.with(this@MainActivity)
+                    .load(it.logo)
+                    .apply(RequestOptions()
+                            .centerInside()
+                            .error(R.mipmap.ic_launcher_mian_circle))
+                    .into(mainLogo)
+        }
     }
 
     fun update(url: String, bar: MyProgressBar, update: Button, dialog: MaterialDialog, prompt: TextView, force: Int) {

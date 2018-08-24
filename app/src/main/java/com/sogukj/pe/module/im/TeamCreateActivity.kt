@@ -23,6 +23,10 @@ import com.netease.nim.uikit.common.ui.dialog.DialogMaker
 import com.netease.nim.uikit.support.glide.GlideEngine
 import com.netease.nimlib.sdk.NIMClient
 import com.netease.nimlib.sdk.RequestCallback
+import com.netease.nimlib.sdk.msg.MessageBuilder
+import com.netease.nimlib.sdk.msg.MsgService
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum
+import com.netease.nimlib.sdk.msg.model.CustomMessageConfig
 import com.netease.nimlib.sdk.team.TeamService
 import com.netease.nimlib.sdk.team.constant.*
 import com.netease.nimlib.sdk.team.model.CreateTeamResult
@@ -43,6 +47,7 @@ import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.module.main.ContactsActivity
 import com.sogukj.pe.module.other.CompanySelectActivity
 import com.sogukj.pe.peExtended.removeTeamSelectActivity
+import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.ImService
 import com.sogukj.service.SoguApi
 import io.reactivex.internal.util.HalfSerializer.onNext
@@ -57,6 +62,7 @@ class TeamCreateActivity : BaseActivity() {
     private var path: String? = null
     var bean: CustomSealBean.ValueBean? = null
     var project: ProjectBean? = null
+    private val mine by lazy { Store.store.getUser(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,14 +81,13 @@ class TeamCreateActivity : BaseActivity() {
         adapter.isMyTeam = true
         adapter.refreshData(teamMember)
         adapter.onItemClick = { v, position ->
-            if (v.getTag(R.id.member_headImg)== "ADD") {
+            if (v.getTag(R.id.member_headImg) == "ADD") {
                 ContactsActivity.start(this, teamMember, true, true, Extras.REQUESTCODE)
-                finish()
-            }else{
+            } else {
                 RemoveMemberActivity.start(this, teamMember)
             }
         }
-        val manager = GridLayoutManager(this,7)
+        val manager = GridLayoutManager(this, 7)
         team_member.layoutManager = manager
         team_member.adapter = adapter
 
@@ -92,7 +97,11 @@ class TeamCreateActivity : BaseActivity() {
             CompanySelectActivity.start(this)
         }
         createTeam.clickWithTrigger {
-            createTeam()
+            if (teamMember.size <= 2) {
+                showCommonToast("建群人数不能少于3人")
+            } else {
+                createTeam()
+            }
         }
         team_logo.clickWithTrigger {
             EasyPhotos.createAlbum(this, true, GlideEngine.getInstance())
@@ -147,7 +156,7 @@ class TeamCreateActivity : BaseActivity() {
             related_items_layout.isClickable = false
             team_name.isEnabled = false
             team_logo.isEnabled = false
-        }else{
+        } else {
             team_project.setVisible(false)
             getTeamHeader(teamMember)
             team_name.setText(getDefaultName())
@@ -184,7 +193,7 @@ class TeamCreateActivity : BaseActivity() {
                 teamMember.forEach { user ->
                     uids.append("${user.uid},")
                 }
-                SoguApi.getService(application,ImService::class.java).getTeamGroupHeader(uids.substring(0, uids.lastIndexOf(",")))
+                SoguApi.getService(application, ImService::class.java).getTeamGroupHeader(uids.substring(0, uids.lastIndexOf(",")))
                         .execute {
                             onNext { payload ->
                                 payload.payload?.let {
@@ -252,12 +261,12 @@ class TeamCreateActivity : BaseActivity() {
                             } else {
                                 toast("创建成功")
                                 project?.let { project ->
-                                    SoguApi.getService(application,ImService::class.java)
+                                    SoguApi.getService(application, ImService::class.java)
                                             .saveGroupId(project.company_id!!, it.team.id)
                                             .execute { onNext { info { "项目群组创建成功" } } }
                                 }
                             }
-                            NimUIKit.startTeamSession(this@TeamCreateActivity, it.team.id)
+                            NimUIKit.startTeamSession(this@TeamCreateActivity, it.team.id, "${mine?.name}发起了群聊,本群所有资料永久保存")
                             finish()
                             //去掉中间的activity(TeamSelectActivity)
                             ActivityHelper.removeTeamSelectActivity()
@@ -293,7 +302,7 @@ class TeamCreateActivity : BaseActivity() {
                         getTeamHeader(teamMember)
                     }
                 }
-                Extras.RESULTCODE2 ->{
+                Extras.RESULTCODE2 -> {
                     val list = data.getSerializableExtra(Extras.LIST2) as? ArrayList<UserBean>
                     list?.let {
                         teamMember.clear()

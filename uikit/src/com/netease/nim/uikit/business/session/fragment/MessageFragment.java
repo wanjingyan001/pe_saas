@@ -78,6 +78,7 @@ public class MessageFragment extends TFragment implements ModuleProxy {
     protected AitManager aitManager;
     private IMMessage anchor;
     private String shareFilePath;
+    private String tipStr;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -180,6 +181,7 @@ public class MessageFragment extends TFragment implements ModuleProxy {
 
         customization = (SessionCustomization) getArguments().getSerializable(Extras.EXTRA_CUSTOMIZATION);
         shareFilePath = getArguments().getString(Extras.EXTRA_SHARE_FILE);
+        tipStr = getArguments().getString(Extras.EXTRA_TIP);
         Container container = new Container(getActivity(), sessionId, sessionType, this);
 
         if (messageListPanel == null) {
@@ -201,7 +203,7 @@ public class MessageFragment extends TFragment implements ModuleProxy {
         if (customization != null) {
             messageListPanel.setChattingBackground(customization.backgroundUri, customization.backgroundColor);
         }
-
+        sendTipMsg();
     }
 
     private void initAitManager() {
@@ -301,6 +303,17 @@ public class MessageFragment extends TFragment implements ModuleProxy {
             aitManager.reset();
         }
         return true;
+    }
+
+    private void sendTipMsg(){
+        if (!TextUtils.isEmpty(tipStr)){
+            IMMessage msg = MessageBuilder.createTipMessage(sessionId, SessionTypeEnum.Team);
+            msg.setContent(tipStr);
+            CustomMessageConfig config = new CustomMessageConfig();
+            config.enablePush = false; // 不推送
+            msg.setConfig(config);
+            NIMClient.getService(MsgService.class).sendMessage(msg, false);
+        }
     }
 
     // 被对方拉入黑名单后，发消息失败的交互处理

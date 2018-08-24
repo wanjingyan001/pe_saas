@@ -11,7 +11,7 @@ import com.amap.api.mapcore.util.it
 /**
  * Created by admin on 2018/6/22.
  */
-@Database(entities = arrayOf(MainFunIcon::class), version = 2, exportSchema = false)
+@Database(entities = arrayOf(MainFunIcon::class), version = 3)
 abstract class SgDatabase : RoomDatabase() {
     abstract fun functionDao(): FunctionDao
 
@@ -25,14 +25,22 @@ abstract class SgDatabase : RoomDatabase() {
         private fun buildDatabase(context: Context) =
                 Room.databaseBuilder(context.applicationContext,
                         SgDatabase::class.java, "SGFunction.db")
-                        .addMigrations(MIGRATION_1_2)
+                        .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
                         .build()
 
-        private val MIGRATION_1_2: Migration = object : Migration(1, 2) {
+        @JvmStatic
+        val MIGRATION_1_2: Migration = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE Function ADD COLUMN seq LONG  ")
                 database.execSQL("ALTER TABLE Function ADD COLUMN module INTEGER")
                 database.execSQL("ALTER TABLE Function ADD COLUMN floor INTEGER")
+            }
+        }
+
+        @JvmStatic
+        val MIGRATION_2_3: Migration = object : Migration(2, 3) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE Function ADD COLUMN isAdmin INTEGER DEFAULT 0")
             }
         }
     }

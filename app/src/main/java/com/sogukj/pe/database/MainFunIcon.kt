@@ -36,7 +36,9 @@ data class MainFunIcon(
         var floor: Long,//按钮在所属模块中的排序
         @PrimaryKey
         @ColumnInfo(name = "functionId")
-        val id: Long = 0
+        val id: Long = 0,
+        @ColumnInfo(name = "isAdmin")
+        var isAdmin: Int? = null//1是全部 0是其他
 ) {
     companion object {
         const val Default = 1

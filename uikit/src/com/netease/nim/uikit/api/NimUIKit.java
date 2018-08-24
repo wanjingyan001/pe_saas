@@ -353,6 +353,16 @@ public class NimUIKit {
     }
 
     /**
+     *  进入群聊界面时发送一条tip消息
+     * @param context
+     * @param tid
+     * @param tip
+     */
+    public static void startTeamSession(Context context,String tid , String tip){
+        NimUIKitImpl.startTeamSession(context, tid, null, tip);
+    }
+
+    /**
      * 打开一个聊天窗口，开始聊天
      *
      * @param context       上下文

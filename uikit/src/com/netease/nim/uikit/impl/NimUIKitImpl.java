@@ -346,6 +346,10 @@ public final class NimUIKitImpl {
         NimUIKitImpl.startChatting(context, tid, SessionTypeEnum.Team, commonTeamSessionCustomization, anchor);
     }
 
+    public static void startTeamSession(Context context, String tid, IMMessage anchor, String tip) {
+        TeamMessageActivity.start(context, tid, commonTeamSessionCustomization, null, anchor,tip);
+    }
+
     public static void startChatting(Context context, String id, SessionTypeEnum sessionType, SessionCustomization
             customization, IMMessage anchor) {
         if (sessionType == SessionTypeEnum.P2P) {

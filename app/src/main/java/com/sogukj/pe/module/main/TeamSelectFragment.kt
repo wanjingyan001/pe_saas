@@ -412,7 +412,7 @@ class TeamSelectFragment : BaseFragment() {
                         //showCustomToast(R.drawable.icon_toast_fail, payload.message)
                     }, { e ->
                         Trace.e(e)
-                        showCustomToast(R.drawable.icon_toast_fail, "最近联系人数据获取失败")
+//                        showCustomToast(R.drawable.icon_toast_fail, "最近联系人数据获取失败")
                     })
         }
 

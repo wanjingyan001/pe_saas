@@ -43,7 +43,7 @@ class RecordTraceActivity : ToolbarActivity() {
 
         project = intent.getSerializableExtra(Extras.DATA) as ProjectBean
         setBack(true)
-        title = "跟踪记录"
+        title = "拜访记录"
         company_name.text = project.name
 
 //        project.company_id = 1

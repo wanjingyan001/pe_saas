@@ -1,6 +1,8 @@
 package com.sogukj.pe.module.im;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Handler;
 
 import com.netease.nim.uikit.business.session.actions.BaseAction;
 import com.netease.nim.uikit.business.session.constant.RequestCode;
@@ -33,14 +35,11 @@ public class FileAction extends BaseAction {
 
     @Override
     public void onClick() {
-        EasyProgressDialog dialog = DialogMaker.showProgressDialog(getActivity(), "正在读取内存文件");
+        ProgressDialog dialog = new ProgressDialog(getActivity());
+        dialog.setMessage("正在读取内存文件");
+        dialog.show();
         FileMainActivity.start(getActivity(),9,false,makeRequestCode(RequestCode.GET_LOCAL_FILE));
-        dialog.message.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                DialogMaker.dismissProgressDialog();
-            }
-        },2000);
+        new Handler().postDelayed(dialog::dismiss,1500);
     }
 
     @Override
