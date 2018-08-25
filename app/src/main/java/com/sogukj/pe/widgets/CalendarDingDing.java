@@ -221,7 +221,7 @@ public class CalendarDingDing extends View {
                     decorView.removeView(rootView);
                     //Date mDate = new Date(data[0], data[1] - 1, data[2], data[3], data[4], 0);
                     java.util.Calendar calendar = java.util.Calendar.getInstance();
-                    if (mType == 2) {
+                    if (mType == 2 || mType == 6) {
                         calendar.set(data[0], data[1] - 1, data[2], data[3], data[4], 0);
                     } else if (mType == 1) {
                         calendar.set(data[0], data[1] - 1, data[2], 0, 0, 0);
@@ -268,7 +268,7 @@ public class CalendarDingDing extends View {
             if (tabs.getTabAt(1) != null) {
                 tabs.removeTabAt(1);
             }
-        } else if (type == 2) {
+        } else if (type == 2 || type == 6) {
             tabs.getTabAt(1).setText(getDisPlayNumber(data[3]) + ":" + getDisPlayNumber(data[4]));
         }
     }
@@ -295,7 +295,7 @@ public class CalendarDingDing extends View {
             if (tabs.getTabAt(1) != null) {
                 tabs.removeTabAt(1);
             }
-        } else if (type == 2) {
+        } else if (type == 2 || type == 6) {
             tabs.getTabAt(1).setText(getDisPlayNumber(data[3]) + ":" + getDisPlayNumber(data[4]));
         }
     }

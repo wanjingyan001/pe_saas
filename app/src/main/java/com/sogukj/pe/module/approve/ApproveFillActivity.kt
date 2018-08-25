@@ -1097,6 +1097,10 @@ class ApproveFillActivity : ToolbarActivity() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
     private fun add11(bean: CustomSealBean) {
         //time_range
         var nameList = bean.name?.split(",") as ArrayList<String>
@@ -1135,7 +1139,7 @@ class ApproveFillActivity : ToolbarActivity() {
                         etValue.text = format.format(dates[index].toLong() * 1000)
                         startDate = format.parse(format.format(dates[0].toLong() * 1000))
                         endDate = format.parse(format.format(dates[1].toLong() * 1000))
-                    } else if (date_type == 2) {
+                    } else if (date_type == 2 || date_type == 6) {
                         val format = SimpleDateFormat("yyyy-MM-dd HH:mm")
                         etValue.text = format.format(dates[index].toLong() * 1000)
                         startDate = format.parse(format.format(dates[0].toLong() * 1000))
@@ -1155,6 +1159,7 @@ class ApproveFillActivity : ToolbarActivity() {
                         startDate = Date()
                     }
                     ding_start.show(date_type!!, startDate, CalendarDingDing.onTimeClick { date ->
+                        Log.e("TAG","start_date ===" + date.time)
                         if (date == null) {
                             var etValue = ll_up.findViewWithTag<TextView>("index0") as TextView
                             if (etValue.text.trim().equals("")) {
@@ -1174,7 +1179,7 @@ class ApproveFillActivity : ToolbarActivity() {
                                 showCustomToast(R.drawable.icon_toast_common, "开始时间不能大于结束时间")
                                 return@onTimeClick
                             }
-                        } else if (date_type == 2) {
+                        } else if (date_type == 2 || date_type == 6) {
                             if (startDate!!.time / 1000 >= endDate!!.time / 1000) {
                                 showCustomToast(R.drawable.icon_toast_common, "开始时间不能大于等于结束时间")
                                 return@onTimeClick
@@ -1192,6 +1197,7 @@ class ApproveFillActivity : ToolbarActivity() {
                         endDate = Date()
                     }
                     ding_end.show(date_type!!, endDate, CalendarDingDing.onTimeClick { date ->
+                        Log.e("TAG","end_date ===" + date.time)
                         if (date == null) {
                             var etValue = ll_up.findViewWithTag<TextView>("index1") as TextView
                             if (etValue.text.trim().equals("")) {
@@ -1207,7 +1213,7 @@ class ApproveFillActivity : ToolbarActivity() {
                                 showCustomToast(R.drawable.icon_toast_common, "开始时间不能大于结束时间")
                                 return@onTimeClick
                             }
-                        } else if (date_type == 2) {
+                        } else if (date_type == 2 || date_type == 6) {
                             if (startDate!!.time / 1000 >= endDate!!.time / 1000) {
                                 showCustomToast(R.drawable.icon_toast_common, "开始时间不能大于等于结束时间")
                                 return@onTimeClick
@@ -1436,7 +1442,7 @@ class ApproveFillActivity : ToolbarActivity() {
     private fun setTime(etValue: TextView, date: Date, type: Int) {
         if (type == 1) {
             etValue.text = Utils.getTime(date, "yyyy-MM-dd")
-        } else if (type == 2) {
+        } else if (type == 2 || type == 6) {
             etValue.text = Utils.getTime(date, "yyyy-MM-dd HH:mm")
         }
     }
@@ -1451,7 +1457,7 @@ class ApproveFillActivity : ToolbarActivity() {
                     if (payload.isOk) {
                         if (type == 1) {
                             total.text = payload.payload + "天"
-                        } else if (type == 2) {
+                        } else if (type == 2 || type == 6) {
                             total.text = payload.payload + "小时"
                         }
                         paramMap.put("total_hours", payload.payload)//total_hours

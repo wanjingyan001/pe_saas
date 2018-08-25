@@ -60,8 +60,8 @@ class DstCityActivity : ToolbarActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.e("TAG","  DstCityActivity -- onCreate")
         setContentView(R.layout.activity_dst_city)
-        Log.e("TAG","end ---" + System.currentTimeMillis())
         setBack(true)
         title = "目的城市"
 
@@ -74,6 +74,12 @@ class DstCityActivity : ToolbarActivity() {
         toolbar_menu.setOnClickListener {
             mRootScrollView.smoothScrollTo(0, 0)
         }
+        Log.e("TAG","end ---" + System.currentTimeMillis())
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.e("TAG","  DstCityActivity -- onResume")
     }
 
     override fun onDestroy() {
