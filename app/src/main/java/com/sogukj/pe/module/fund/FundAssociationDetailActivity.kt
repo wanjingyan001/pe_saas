@@ -11,6 +11,7 @@ import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
+import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.ManagerDetailBean
 import com.sogukj.pe.service.FundService
 import com.sogukj.service.SoguApi
@@ -36,6 +37,7 @@ class FundAssociationDetailActivity : ToolbarActivity() {
     var projId = 0
     var baseDateId = 0
     var moduleId = 0
+    private var editText:EditText? = null
     private var editInfos = HashMap<String,EditText>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,9 +73,9 @@ class FundAssociationDetailActivity : ToolbarActivity() {
                         val child = ori.child
                         if (null != child && child.size > 0){
                             for (childOri in child){
-                                if (null != childOri.zhName){
+                                if (null != childOri && null != childOri.zhName){
                                     val editText = editInfos[childOri.zhName!!]
-                                    if (!(editText!!.text.toString().equals(childOri.contents))){
+                                    if (null != editText && !(editText!!.text.toString().equals(childOri.contents))){
                                         childOri.contents = editText!!.text.toString()
                                     }
                                 }
@@ -81,7 +83,8 @@ class FundAssociationDetailActivity : ToolbarActivity() {
                         }
                         if (null != ori.zhName){
                             val editText = editInfos[ori.zhName!!]
-                            if (!(editText!!.text.toString().equals(ori.contents))){
+
+                            if (null != editText && !(editText!!.text.toString().equals(ori.contents))){
                                 ori.contents = editText!!.text.toString()
                             }
                         }
@@ -240,6 +243,20 @@ class FundAssociationDetailActivity : ToolbarActivity() {
             }
         }
 //        Log.e("TAG","zhName ==" + bean.zhName+",")
+        if (null == editText){
+            editText = et_content
+        }
         editInfos.put(bean.zhName!!,et_content)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (null != editText){
+            Utils.closeInput(this,editText)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }

@@ -5,7 +5,6 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Environment
 import android.os.Handler
@@ -30,6 +29,7 @@ import com.android.dingtalk.share.ddsharemodule.message.*
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.CusShareBean
+import com.sogukj.pe.ddshare.DDShareActivity
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.ToastUtil.Companion.showCustomToast
 import java.io.File
@@ -43,7 +43,7 @@ class ShareUtils {
         var context: Context? = null
         var iddShareApi: IDDShareApi? = null
         fun share(bean: CusShareBean, context: Context) {
-            iddShareApi = DDShareApiFactory.createDDShareApi(context, "dingoarlewi4r20zyuurob", true)
+            iddShareApi = DDShareApiFactory.createDDShareApi(context, DDShareActivity.Companion.DDApp_Id, true)
             this.context = context
             val dialog = Dialog(context, R.style.AppTheme_Dialog)
             dialog.setContentView(R.layout.dialog_share_custom)
@@ -121,6 +121,7 @@ class ShareUtils {
             }
 
             tv_dd.setOnClickListener {
+                showSendMessage(shareTitle, shareSummry, shareImgUrl, shareUrl)
                 if (iddShareApi!!.isDDAppInstalled()) {
                     if (iddShareApi!!.isDDSupportAPI) {
                         showSendMessage(shareTitle, shareSummry, shareImgUrl, shareUrl)
@@ -165,11 +166,11 @@ class ShareUtils {
         //填充网页分享必需参数，开发者需按照自己的数据进行填充
         webMessage.mTitle = shareTitle
         webMessage.mContent = shareSummry
-
+        webMessage.mThumbUrl = File(Environment.getExternalStorageDirectory(), "ic_launcher_pe.png").toString()
 //        webMessage.mThumbUrl = "http://img.qdaily.com/uploads/20160606152752iqaH5t4KMvn18BZo.gif"
 //        webMessage.mThumbUrl = "http://static.dingtalk.com/media/lAHPBY0V4shLSVDMlszw_240_150.gif"
         // 网页分享的缩略图也可以使用bitmap形式传输
-         webMessage.setThumbImage(BitmapFactory.decodeResource(context!!.getResources(), R.mipmap.ic_launcher_pe))
+//         webMessage.setThumbImage(BitmapFactory.decodeResource(context!!.getResources(), R.mipmap.ic_launcher_pe))
 
         //构造一个Req
         val webReq = SendMessageToDD.Req()
