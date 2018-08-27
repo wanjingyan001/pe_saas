@@ -40,6 +40,8 @@ import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum
 import com.netease.nimlib.sdk.msg.model.IMMessage
 import com.netease.nimlib.sdk.msg.model.RecentContact
 import com.netease.nimlib.sdk.search.model.MsgIndexRecord
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.textStr
@@ -136,7 +138,7 @@ class MainMsgFragment : BaseFragment() {
         }
         search_edt.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                if (search_edt.textStr.isNotEmpty()){
+                if (search_edt.textStr.isNotEmpty()) {
                     searchKey = search_edt.text.toString()
                     searchWithName()
                 }
@@ -280,7 +282,7 @@ class MainMsgFragment : BaseFragment() {
             }
         }
         rl_search.setOnClickListener {
-            ImSearchResultActivity.invoke(activity!!,0)
+            ImSearchResultActivity.invoke(activity!!, 0)
         }
         adapter = RecyclerAdapter(baseActivity!!, { _adapter, parent, type ->
             val convertView = _adapter.getView(R.layout.item_msg_index, parent)
@@ -288,7 +290,7 @@ class MainMsgFragment : BaseFragment() {
                 val msgIcon = convertView.findViewById<CircleImageView>(R.id.msg_icon) as CircleImageView
                 val tvTitle = convertView.findViewById<TextView>(R.id.tv_title) as TextView
                 val tvDate = convertView.findViewById<TextView>(R.id.tv_date) as TextView
-                val tvTitleMsg = convertView.findViewById<TextView> (R.id.tv_title_msg) as TextView
+                val tvTitleMsg = convertView.findViewById<TextView>(R.id.tv_title_msg) as TextView
                 val tvNum = convertView.findViewById<TextView>(R.id.tv_num) as TextView
                 val topTag = convertView.findViewById<ImageView>(R.id.topTag)
                 @SuppressLint("SetTextI18n")
@@ -388,7 +390,7 @@ class MainMsgFragment : BaseFragment() {
             }
             val data = adapter.dataList[p]
             if (data is MessageIndexBean) {
-                MessageListActivity.start(baseActivity,data)
+                MessageListActivity.start(baseActivity, data)
             } else if (data is RecentContact) {
                 if (NimUIKit.getAccount().isNotEmpty()) {
                     if (data.sessionType == SessionTypeEnum.P2P) {
@@ -433,40 +435,42 @@ class MainMsgFragment : BaseFragment() {
         searchResult = RecyclerAdapter(ctx) { _adapter, parent, _ ->
             SearchResultHolder(_adapter.getView(R.layout.item_msg_index, parent))
         }
-        searchResult.onItemClick = {v, position ->
+        searchResult.onItemClick = { v, position ->
             search_edt.setText("")
             search_edt.clearFocus()
             val record = searchResult.dataList[position]
-            when(record.sessionType){
-                SessionTypeEnum.P2P->{
-                    NimUIKit.startP2PSession(ctx,record.sessionId,record.message)
+            when (record.sessionType) {
+                SessionTypeEnum.P2P -> {
+                    NimUIKit.startP2PSession(ctx, record.sessionId, record.message)
                 }
-                SessionTypeEnum.Team->{
-                    NimUIKit.startTeamSession(ctx,record.sessionId,record.message)
+                SessionTypeEnum.Team -> {
+                    NimUIKit.startTeamSession(ctx, record.sessionId, record.message)
                 }
             }
         }
-
+        refresh.setEnableLoadMoreWhenContentNotFull(true)
+        refresh.setRefreshFooter(BallPulseFooter(ctx))
+        refresh.isEnableLoadMore = false
         refresh.setOnRefreshListener {
             doRequest()
             refresh.finishRefresh(1000)
         }
-        refresh.setOnLoadMoreListener {
-            doRequest()
-            refresh.finishLoadMore(1000)
+        if (refresh.isEnableLoadMore) {
+            refresh.setOnLoadMoreListener {
+                doRequest()
+                refresh.finishLoadMore(1000)
+            }
         }
 
         registerObservers(true)
 
-        mAppBarLayout.addOnOffsetChangedListener(object : AppBarLayout.OnOffsetChangedListener {
-            override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
-                if (mAppBarLayout.height > 0) {
-                    if (Math.abs(verticalOffset) > mAppBarLayout.height - 10) {
-                        Utils.closeInput(context, search_edt)
-                    }
+        mAppBarLayout.addOnOffsetChangedListener { _, verticalOffset ->
+            if (mAppBarLayout.height > 0) {
+                if (Math.abs(verticalOffset) > mAppBarLayout.height - 10) {
+                    Utils.closeInput(context, search_edt)
                 }
             }
-        })
+        }
 
         Glide.with(ctx)
                 .asGif()
@@ -475,10 +479,11 @@ class MainMsgFragment : BaseFragment() {
         iv_loading?.visibility = View.VISIBLE
         loadPop()
     }
+
     private fun loadPop() {
         pop_layout.setOnClickListener { null }
         pop_layout.visibility = View.GONE
-        SoguApi.getService(baseActivity!!.application,OtherService::class.java)
+        SoguApi.getService(baseActivity!!.application, OtherService::class.java)
                 .getNewPop()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -520,10 +525,10 @@ class MainMsgFragment : BaseFragment() {
             val scanResult = bundle!!.getString("result")//       /api/qrlogin/notify
             if (scanResult.contains("/api/qrlogin/notify")) {
                 var index = scanResult.indexOf("/api/")
-                info { scanResult.substring(0,index) }
-                RetrofitUrlManager.getInstance().putDomain("QRCode", scanResult.substring(0,index))
-                SoguApi.getService(baseActivity!!.application,OtherService::class.java)
-                        .qrNotify_saas(scanResult.substring(index), 1,Store.store.getUser(ctx)?.phone!!)
+                info { scanResult.substring(0, index) }
+                RetrofitUrlManager.getInstance().putDomain("QRCode", scanResult.substring(0, index))
+                SoguApi.getService(baseActivity!!.application, OtherService::class.java)
+                        .qrNotify_saas(scanResult.substring(index), 1, Store.store.getUser(ctx)?.phone!!)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
                         .subscribe({ payload ->
@@ -549,7 +554,7 @@ class MainMsgFragment : BaseFragment() {
     }
 
     fun doRequest() {
-        SoguApi.getService(baseActivity!!.application,OtherService::class.java)
+        SoguApi.getService(baseActivity!!.application, OtherService::class.java)
                 .msgIndex()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -577,7 +582,7 @@ class MainMsgFragment : BaseFragment() {
     var sys_zhushou = MessageIndexBean()
 
     private fun getAnnouncement() {
-        SoguApi.getService(baseActivity!!.application,OtherService::class.java)
+        SoguApi.getService(baseActivity!!.application, OtherService::class.java)
                 .sysMsgIndex()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -629,6 +634,7 @@ class MainMsgFragment : BaseFragment() {
                         return@sort if (time == 0L) 0 else if (time > 0) -1 else 1
                     }
                 }
+                refresh.isEnableLoadMore = recentList.size >= 10
                 adapter.dataList.addAll(recentList)
                 adapter.dataList.distinct()
                 adapter.notifyDataSetChanged()

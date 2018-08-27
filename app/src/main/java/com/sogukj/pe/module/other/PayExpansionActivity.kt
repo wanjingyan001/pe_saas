@@ -39,7 +39,7 @@ class PayExpansionActivity : BaseActivity() {
     private lateinit var calenderAdapter: RecyclerAdapter<PackageChild>
     private var product: ProductInfo by Delegates.observable(ProductInfo(), { property, oldValue, newValue ->
         savingAmount.setVisible(newValue.discountPrice != newValue.OriginalPrice)
-        savingAmount.text = "立省￥${(newValue.OriginalPrice + newValue.calenderPrice).toMoney()}"
+        savingAmount.text = "立省￥${(oldValue.OriginalPrice - newValue.discountPrice).toMoney()}"
         paymentPrice.text = "￥${(newValue.discountPrice + newValue.calenderPrice).toMoney()}"
     })
     private val payReqChild = PayReqChid()
