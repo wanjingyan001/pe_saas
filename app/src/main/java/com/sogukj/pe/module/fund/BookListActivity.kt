@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -13,21 +12,16 @@ import android.text.Html
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import com.afollestad.materialdialogs.MaterialDialog
-import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.alibaba.android.arouter.launcher.ARouter
 import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.showInput
 import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.base.BaseActivity
-import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.DateUtils
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -35,8 +29,6 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.FileListBean
 import com.sogukj.pe.bean.FundSmallBean
-import com.sogukj.pe.module.fund.BookUploadActivity
-import com.sogukj.pe.module.fund.MoveActivity
 import com.sogukj.pe.module.other.OnlinePreviewActivity
 import com.sogukj.pe.peUtils.FileTypeUtils
 import com.sogukj.pe.service.FundService
@@ -44,12 +36,10 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_book_list.*
-import kotlinx.android.synthetic.main.dialog_updated.view.*
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.find
 import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.padding
-import kotlin.collections.HashMap
 
 @Route(path = ARouterPath.BookListActivity)
 class BookListActivity : BaseActivity() {
@@ -796,5 +786,16 @@ class BookListActivity : BaseActivity() {
                     tv_result_title.text = Html.fromHtml(getString(R.string.tv_title_result_search1, adapter.dataList.size))
                     adapter.notifyDataSetChanged()
                 })
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (null != search_edt){
+            Utils.closeInput(this,search_edt)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }

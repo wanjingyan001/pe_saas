@@ -102,6 +102,7 @@
         android:layout_height="150dp"
         android:layout_marginTop="10dp"
         android:background="@color/white"
+        android:orientation="vertical"
         android:paddingLeft="20dp"
         android:paddingRight="20dp">
 
@@ -116,8 +117,10 @@
 
             <EditText
                 android:id="@+id/et_des"
-                style="@style/ItemTextValue" />
+                style="@style/ItemTextValue"/>
         </TableRow>
+        <View
+            android:id="@+id/view_des"/>
     </TableLayout>
 
     <TableLayout

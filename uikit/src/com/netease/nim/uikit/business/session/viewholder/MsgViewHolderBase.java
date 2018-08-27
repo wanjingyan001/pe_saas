@@ -21,7 +21,6 @@ import com.netease.nim.uikit.common.ui.recyclerview.holder.RecyclerViewHolder;
 import com.netease.nim.uikit.common.util.sys.TimeUtil;
 import com.netease.nim.uikit.impl.NimUIKitImpl;
 import com.netease.nimlib.sdk.NIMClient;
-import com.netease.nimlib.sdk.NIMSDK;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.attachment.FileAttachment;
@@ -434,7 +433,8 @@ public abstract class MsgViewHolderBase extends RecyclerViewHolder<BaseMultiItem
                 });
             } else {
                 // 自己发的需要已读回执的消息，显示未读人数
-                ackMsgTextView.setVisibility(View.VISIBLE);
+//                ackMsgTextView.setVisibility(View.VISIBLE);
+                ackMsgTextView.setVisibility(View.GONE);
                 if (message.getTeamMsgAckCount() == 0 && message.getTeamMsgUnAckCount() == 0) {
                     ackMsgTextView.setText("还未查看");
                 } else {

@@ -13,6 +13,7 @@ import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.DateUtils
 import com.sogukj.pe.baselibrary.utils.Trace
+import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.CustomSealBean
 import com.sogukj.pe.bean.ProjectBean
 import com.sogukj.pe.bean.RecordInfoBean
@@ -124,6 +125,12 @@ class RecordDetailActivity : ToolbarActivity() {
         }
 
         setBack(true)
+
+        view_des.setOnClickListener {
+            if (null != et_des){
+                Utils.showSoftInputFromWindow(this,et_des)
+            }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
