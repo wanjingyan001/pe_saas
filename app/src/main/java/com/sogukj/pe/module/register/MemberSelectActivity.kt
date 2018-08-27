@@ -85,6 +85,11 @@ class MemberSelectActivity : ToolbarActivity() {
         if (alreadySelected.any { it.user_id != null }) {
             selectNumber.text = "已选择: ${alreadySelected.size} 人"
         }
+        title = if (isSingle){
+            "选择部门负责人"
+        }else{
+            "选择部门成员"
+        }
         var titleStr = intent.getStringExtra(Extras.TITLE)
         if (!titleStr.isNullOrEmpty()) {
             title = titleStr
