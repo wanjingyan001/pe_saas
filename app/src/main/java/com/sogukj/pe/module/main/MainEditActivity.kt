@@ -145,7 +145,7 @@ class MainEditActivity : ToolbarActivity() {
         val factory = Injection.provideViewModelFactory(this@MainEditActivity)
         model = ViewModelProviders.of(this@MainEditActivity, factory).get(FunctionViewModel::class.java)
         model.getMainModules().observe(this@MainEditActivity, Observer<List<MainFunIcon>> { select ->
-            select?.filter { it.name != "调整" }?.let {
+            select?.filter { it.isAdmin != 1 }?.let {
                 mainModuleAdapter.data.clear()
                 mainModuleAdapter.data.addAll(it)
                 mainModuleAdapter.notifyDataSetChanged()

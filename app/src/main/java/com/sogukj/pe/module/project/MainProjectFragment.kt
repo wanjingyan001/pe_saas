@@ -354,7 +354,7 @@ class MainProjectFragment : BaseRefreshFragment() {
         tabs.removeAllTabs()
         mTypeList.clear()
         mTypeMap.clear()
-        SoguApi.getService(baseActivity!!.application,ProjectService::class.java)
+        SoguApi.getService(baseActivity!!.application, ProjectService::class.java)
                 .showStage()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -413,9 +413,9 @@ class MainProjectFragment : BaseRefreshFragment() {
                 var appBarHeight = mAppBarLayout.height
                 var toolbarHeight = toolbar.height
 
-                Log.e("appBarHeight", "${appBarHeight}")//256
-                Log.e("toolbarHeight", "${toolbarHeight}")//112
-                Log.e("verticalOffset", "${verticalOffset}")//112
+//                Log.e("appBarHeight", "${appBarHeight}")//256
+//                Log.e("toolbarHeight", "${toolbarHeight}")//112
+//                Log.e("verticalOffset", "${verticalOffset}")//112
 
                 var currentState = ""
 
@@ -462,6 +462,7 @@ class MainProjectFragment : BaseRefreshFragment() {
             }
         })
     }
+
     override fun doRefresh() {
         offset = 0
         handler.post(searchTask)
@@ -484,7 +485,9 @@ class MainProjectFragment : BaseRefreshFragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 0x543) {
-            (fragments[view_pager.currentItem] as ProjectListFragment).request()
+            if (this::fragments.isLateinit) {
+                (fragments[view_pager.currentItem] as ProjectListFragment).request()
+            }
         } else if (requestCode == 0x789) {
             loadHead()
         }
@@ -526,7 +529,7 @@ class MainProjectFragment : BaseRefreshFragment() {
         val tmplist = LinkedList<String>()
         tmplist.add(text)
         Store.store.projectSearch(baseActivity!!, tmplist)
-        SoguApi.getService(baseActivity!!.application,NewService::class.java)
+        SoguApi.getService(baseActivity!!.application, NewService::class.java)
                 .listProject(offset = offset, pageSize = 20, uid = user?.uid, type = type, fuzzyQuery = text)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -550,7 +553,7 @@ class MainProjectFragment : BaseRefreshFragment() {
                     if (offset == 0)
                         finishRefresh()
                     else
-                      finishLoadMore()
+                        finishLoadMore()
 
                     hisAdapter.dataList.clear()
                     hisAdapter.dataList.addAll(Store.store.projectSearch(baseActivity!!))

@@ -592,7 +592,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
         if (view.tag in 1..62) {
             SoguApi.getService(application, NewService::class.java)
-                    .saveClick(view.id)
+                    .saveClick(view.tag as Int)
                     .execute {}
         }
         when (view.tag) {

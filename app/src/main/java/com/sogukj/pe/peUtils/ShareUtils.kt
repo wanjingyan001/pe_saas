@@ -59,8 +59,8 @@ class ShareUtils {
             val tvWexin = dialog.findViewById<TextView>(R.id.tv_wexin) as TextView
             val tvQq = dialog.findViewById<TextView>(R.id.tv_qq) as TextView
             val tvCopy = dialog.findViewById<TextView>(R.id.tv_copy) as TextView
-            val tv_dd = dialog.findViewById(R.id.tv_dd) as TextView
-            val tv_sms = dialog.findViewById(R.id.tv_sms) as TextView
+            val tv_dd = dialog.findViewById<TextView>(R.id.tv_dd) as TextView
+            val tv_sms = dialog.findViewById<TextView>(R.id.tv_sms) as TextView
             val shareUrl = bean.shareUrl//news!!.shareUrl
             val shareTitle = bean.shareTitle//news!!.shareTitle
             val shareSummry = bean.shareContent//news!!.title

@@ -101,20 +101,14 @@ class ProjectListFragment : BaseFragment(), SupportEmptyView {
             doRequest()
             refresh.finishRefresh(1000)
         }
-//        refresh.setOnLoadMoreListener {
-//            offset = adapter.dataList.size
-//            doRequest()
-//            refresh.finishLoadMore(1000)
-//        }
 
         Glide.with(this)
                 .asGif()
                 .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
                 .into(iv_loading)
         iv_loading?.visibility = View.VISIBLE
-//        handler.postDelayed({
-//            doRequest()
-//        }, 100)
+
+
         Log.e("onViewCreated", "${type}")
         isViewCreated = true
 
