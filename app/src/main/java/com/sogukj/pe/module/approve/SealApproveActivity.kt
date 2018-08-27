@@ -416,15 +416,15 @@ class SealApproveActivity : ToolbarActivity() {
                         veto.text = "取消"
                         confirm.text = "确认"
                         veto.setOnClickListener {
+                            Utils.closeInput(this,commentInput)
                             if (dialog.isShowing) {
                                 dialog.dismiss()
-                                Utils.closeInput(this,commentInput)
                             }
                         }
                         confirm.setOnClickListener {
+                            Utils.closeInput(this,commentInput)
                             if (dialog.isShowing) {
                                 dialog.dismiss()
-                                Utils.closeInput(this,commentInput)
                             }
                          SoguApi.getService(application,ApproveService::class.java)
                                     .discuss(paramId!!, commentInput.text.toString())
