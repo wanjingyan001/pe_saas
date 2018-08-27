@@ -11,6 +11,7 @@ import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
+import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.ManagerDetailBean
 import com.sogukj.pe.service.FundService
 import com.sogukj.service.SoguApi
@@ -36,6 +37,7 @@ class FundAssociationDetailActivity : ToolbarActivity() {
     var projId = 0
     var baseDateId = 0
     var moduleId = 0
+    private var editText:EditText? = null
     private var editInfos = HashMap<String,EditText>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,35 +52,85 @@ class FundAssociationDetailActivity : ToolbarActivity() {
         doRequest()
 
         btn_commit.setOnClickListener {
-
-            //只要有一个为true就可以提交
-            var flag = false
-            for (check in checkList) {
-                flag = flag.or(check())
+            var isCheckEmpty = false
+            if (!isCheckEmpty){
+                for ((k, v) in editInfos) {
+//                    Log.e("TAG","  editInfos ---  key ==" + k + "   value ==" + v.text.toString())
+                    if (k.contains("*")){
+                        if (v.text.toString().isNullOrEmpty()){
+                            isCheckEmpty = true
+                        }
+                    }
+                }
             }
-            if (!flag) {
-                finish()
-            } else {
-                var map = HashMap<String, Any>()
-                map.put("projId", projId)
-                map.put("data", moduleId!!)
-
-                SoguApi.getService(application,FundService::class.java)
-                        .modifiModuleInfo(map)
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeOn(Schedulers.io())
-                        .subscribe({ payload ->
-                            if (payload.isOk) {
-                                showCustomToast(R.drawable.icon_toast_success, "提交成功")
-                                finish()
-                            } else {
-                                showCustomToast(R.drawable.icon_toast_fail, payload.message)
+            if (isCheckEmpty){
+                showCustomToast(R.drawable.icon_toast_fail, "带*号的必填")
+            }else{
+                if (null != oriData && oriData.size > 0){
+                    var submitOriData = ArrayList<ManagerDetailBean>()
+                    submitOriData.clear()
+                    for (ori in oriData){
+                        val child = ori.child
+                        if (null != child && child.size > 0){
+                            for (childOri in child){
+                                if (null != childOri && null != childOri.zhName){
+                                    val editText = editInfos[childOri.zhName!!]
+                                    if (null != editText && !(editText!!.text.toString().equals(childOri.contents))){
+                                        childOri.contents = editText!!.text.toString()
+                                    }
+                                }
                             }
-                        }, { e ->
-                            Trace.e(e)
-                            showCustomToast(R.drawable.icon_toast_fail, "提交失败")
-                        })
+                        }
+                        if (null != ori.zhName){
+                            val editText = editInfos[ori.zhName!!]
+
+                            if (null != editText && !(editText!!.text.toString().equals(ori.contents))){
+                                ori.contents = editText!!.text.toString()
+                            }
+                        }
+
+                    }
+                    submitOriData.addAll(oriData)
+                    var map = HashMap<String, Any>()
+                    map.put("projId", projId)
+                    map.put("data", submitOriData)
+                    for (i in submitOriData){
+//                        Log.e("TAG","submitOriData -- name ==" + i.zhName)
+                        if (null != i.child && i.child!!.size > 0){
+                            for (j in i.child!!){
+//                                Log.e("TAG","submitOriDataChild -- name ==" + j.zhName)
+                            }
+                        }
+                    }
+                    SoguApi.getService(application,FundService::class.java)
+                            .modifiModuleInfo(map)
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeOn(Schedulers.io())
+                            .subscribe({ payload ->
+                                if (payload.isOk) {
+                                    showCustomToast(R.drawable.icon_toast_success, "提交成功")
+                                    finish()
+                                } else {
+                                    showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                                }
+                            }, { e ->
+                                Trace.e(e)
+                                showCustomToast(R.drawable.icon_toast_fail, "提交失败")
+                            })
+                }else{
+                    showCustomToast(R.drawable.icon_toast_fail, "数据异常，提交失败")
+                }
             }
+            //只要有一个为true就可以提交
+//            var flag = false
+//            for (check in checkList) {
+//                flag = flag.or(check())
+//            }
+//            if (!flag) {
+//                finish()
+//            } else {
+//
+//            }
         }
     }
 
@@ -190,7 +242,21 @@ class FundAssociationDetailActivity : ToolbarActivity() {
                 true
             }
         }
+//        Log.e("TAG","zhName ==" + bean.zhName+",")
+        if (null == editText){
+            editText = et_content
+        }
+        editInfos.put(bean.zhName!!,et_content)
+    }
 
-//        editInfos.put(et_content)
+    override fun onPause() {
+        super.onPause()
+        if (null != editText){
+            Utils.closeInput(this,editText)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }

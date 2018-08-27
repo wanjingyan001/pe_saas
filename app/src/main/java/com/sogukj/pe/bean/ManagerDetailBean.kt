@@ -9,6 +9,9 @@ class ManagerDetailBean {
     var control: Int? = null//控件类型:0=无控件,1=中型输入框,2=大型输入框,4=单选框,10=文件输入框
     var grade: Int? = null//是否需要打星,1=需要,0=不需要
     var mid: Int? = null
+    var fmid : Int = 0
+    var sid : Int = 0
+    var pid : Int = 0
     var elsed: String? = null//当control=4时,代表的选项
     var ppid: Int? = null
     var must: Int? = null//是否必填,1=必填,0=非必填

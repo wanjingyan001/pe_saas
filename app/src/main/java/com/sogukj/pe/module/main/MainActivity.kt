@@ -137,9 +137,12 @@ class MainActivity : BaseActivity() {
     }
 
     private fun saveCityAreaJson() {
-        val cityJson = Utils.getJson(this, "city.json")
-        Log.e("TAG","cityJson ==" + cityJson)
-        XmlDb.open(this).set(Extras.CITY_JSON,cityJson)
+        var datas = XmlDb.open(this).get(Extras.CITY_JSON, "")
+        if (null == datas || datas.equals("")){
+            val cityJson = Utils.getJson(this, "city.json")
+            Log.e("TAG","cityJson ==" + cityJson)
+            XmlDb.open(this).set(Extras.CITY_JSON,cityJson)
+        }
     }
 
     private fun showPhoneNotifiDialog() {
