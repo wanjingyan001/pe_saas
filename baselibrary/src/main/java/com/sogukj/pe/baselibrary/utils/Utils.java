@@ -198,6 +198,26 @@ Utils {
     }
 
 
+    public static void hideNavigationBar(Activity activity) {
+        int uiOptions = activity.getWindow().getDecorView().getSystemUiVisibility();
+        int newUiOptions = uiOptions;
+        boolean isImmersiveModeEnabled =
+                ((uiOptions | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY) == uiOptions);
+        if (!isImmersiveModeEnabled) {
+            if (Build.VERSION.SDK_INT >= 14) {
+                newUiOptions |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+            }
+            if (Build.VERSION.SDK_INT >= 16) {
+                newUiOptions |= View.SYSTEM_UI_FLAG_FULLSCREEN;
+            }
+            if (Build.VERSION.SDK_INT >= 18) {
+                newUiOptions |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+            }
+            activity.getWindow().getDecorView().setSystemUiVisibility(newUiOptions);
+        }
+    }
+
+
     /**
      * 正则：手机号（精确）
      * <p>移动：134(0-8)、135、136、137、138、139、147、150、151、152、157、158、159、178、182、183、184、187、188</p>

@@ -146,7 +146,7 @@
                 </TableRow>
 
                 <TableRow
-                    android:background="@color/white"
+                    android:background="@drawable/divider_bottom"
                     android:paddingBottom="15dp"
                     android:paddingTop="15dp">
 
@@ -237,7 +237,7 @@
                 </TableRow>
 
                 <TableRow
-                    android:background="@color/white"
+                    android:background="@drawable/divider_bottom"
                     android:paddingBottom="15dp"
                     android:paddingTop="15dp">
 
@@ -341,7 +341,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:background="@color/white"
+                    android:background="@drawable/divider_bottom"
                     android:paddingBottom="15dp"
                     android:paddingTop="15dp">
 

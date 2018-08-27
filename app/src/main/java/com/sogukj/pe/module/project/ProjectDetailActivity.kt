@@ -6,8 +6,9 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.util.Log
@@ -16,9 +17,7 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.afollestad.materialdialogs.MaterialDialog
-import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.netease.nim.uikit.api.NimUIKit
@@ -33,10 +32,7 @@ import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.ifNotNull
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
-import com.sogukj.pe.baselibrary.utils.StatusBarUtil
-import com.sogukj.pe.baselibrary.utils.Trace
-import com.sogukj.pe.baselibrary.utils.Utils
-import com.sogukj.pe.baselibrary.utils.XmlDb
+import com.sogukj.pe.baselibrary.utils.*
 import com.sogukj.pe.bean.*
 import com.sogukj.pe.module.approve.ApproveListActivity
 import com.sogukj.pe.module.creditCollection.ShareHolderDescActivity
@@ -64,10 +60,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_project_detail.*
 import kotlinx.android.synthetic.main.layout_project_header.view.*
-import org.jetbrains.anko.backgroundResource
-import org.jetbrains.anko.ctx
-import org.jetbrains.anko.find
-import org.jetbrains.anko.textColor
+import org.jetbrains.anko.*
 
 class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickListener {
     lateinit var project: ProjectBean
@@ -81,6 +74,11 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
 
     private var is_business: Int? = null//非空(1=>有价值 ,2=>无价值)
     private var is_ability: Int? = null//非空(1=>有能力,2=>无能力)
+    private var NAVIGATION_GESTURE: String = when {
+        Rom.isEmui() -> "navigationbar_is_min"
+        Rom.isMiui() -> "force_fsg_nav_bar"
+        else -> "navigation_gesture_on"
+    }
 
     companion object {
         fun start(ctx: Activity?, project: ProjectBean) {
@@ -147,13 +145,18 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        if (haveNav) {
+        if (haveNav && !navigationGestureEnabled()) {
             val param1 = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
             param1.bottomMargin = Utils.dpToPx(ctx, 50)
             //var params = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
             layoutRoot.layoutParams = param1
         }
     }
+
+    private fun navigationGestureEnabled(): Boolean {
+        return Settings.Global.getInt(contentResolver, NAVIGATION_GESTURE, 0) != 0
+    }
+
 
     private fun initView() {
         Glide.with(context)

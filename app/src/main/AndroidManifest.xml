@@ -257,7 +257,7 @@
             android:name=".module.user.SettingActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".module.user.UserActivity"
             android:configChanges="orientation|screenSize"
@@ -442,7 +442,7 @@
             android:name=".module.calendar.ArrangeDetailActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".module.calendar.ArrangeEditActivity"
             android:configChanges="orientation|screenSize"
@@ -453,7 +453,7 @@
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".module.calendar.MatterDetailActivity"
             android:configChanges="orientation|screenSize"
