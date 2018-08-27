@@ -243,6 +243,11 @@ class WeeklyRecordActivity : BaseActivity() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        hideInput(et_des)
+    }
+
     fun clearScript() {
         var key = "${Store.store.getUser(context)!!.uid}+$tag+${week.start_time}+${week.end_time}"
         cache.saveScript(key, "")

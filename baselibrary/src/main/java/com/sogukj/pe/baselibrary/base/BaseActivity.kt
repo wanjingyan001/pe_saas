@@ -7,7 +7,6 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Bundle
 import android.os.Handler
-import android.os.Trace
 import android.preference.PreferenceManager
 import android.support.annotation.DrawableRes
 import android.support.constraint.ConstraintLayout
@@ -16,23 +15,21 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.google.gson.JsonSyntaxException
-import java.net.SocketTimeoutException
-import java.net.UnknownHostException
 import com.sogukj.pe.baselibrary.R
+import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.baselibrary.widgets.snackbar.Prompt
+import com.sogukj.pe.baselibrary.widgets.snackbar.TSnackbar
+import com.umeng.message.PushAgent
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.find
 import org.jetbrains.anko.imageResource
-import android.support.v4.view.accessibility.AccessibilityEventCompat.setAction
-import com.sogukj.pe.baselibrary.widgets.snackbar.TSnackbar
-import android.view.ViewGroup
-import com.sogukj.pe.baselibrary.utils.Utils
-import com.sogukj.pe.baselibrary.widgets.snackbar.Prompt
-import com.umeng.message.PushAgent
-import org.jetbrains.anko.defaultSharedPreferences
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
 
 
 /**
@@ -146,6 +143,12 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger {
 
     override fun onPause() {
         super.onPause()
+    }
+
+    fun hideInput(view:View){
+        if (null != view){
+            Utils.closeInput(this,view)
+        }
     }
 
     override fun onDestroy() {

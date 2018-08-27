@@ -67,26 +67,32 @@
         android:layout_marginTop="10dp"
         android:background="@color/white"
         android:paddingLeft="20dp"
+        android:orientation="vertical"
         android:paddingRight="20dp">
 
-        <TableRow
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
             android:paddingBottom="18dp"
+            android:orientation="vertical"
             android:paddingTop="18dp">
 
             <TextView
                 style="@style/ItemTextLabel"
-                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="top"
                 android:text="工作内容" />
 
             <EditText
                 android:id="@+id/et_des"
-                style="@style/ItemTextValue"
+                android:layout_width="match_parent"
+                style="@style/ItemTextValueCus"
                 android:lineSpacingMultiplier="1.1"
                 android:lineSpacingExtra="5dp"
                 android:layout_height="120dp"
                 android:gravity="top"/>
-        </TableRow>
+        </LinearLayout>
     </TableLayout>
 
     <View
