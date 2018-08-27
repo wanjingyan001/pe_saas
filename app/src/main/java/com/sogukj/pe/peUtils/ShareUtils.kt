@@ -27,13 +27,12 @@ import com.android.dingtalk.share.ddsharemodule.DDShareApiFactory
 import com.android.dingtalk.share.ddsharemodule.IDDShareApi
 import com.android.dingtalk.share.ddsharemodule.message.*
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.CusShareBean
 import com.sogukj.pe.ddshare.DDShareActivity
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.ToastUtil.Companion.showCustomToast
-import java.io.*
+import java.io.File
 import java.util.*
 
 /**
@@ -44,7 +43,6 @@ class ShareUtils {
         var context: Context? = null
         var iddShareApi: IDDShareApi? = null
         fun share(bean: CusShareBean, context: Context) {
-            copyAssets("ic_launcher_pe.png")
             iddShareApi = DDShareApiFactory.createDDShareApi(context, DDShareActivity.Companion.DDApp_Id, true)
             this.context = context
             val dialog = Dialog(context, R.style.AppTheme_Dialog)
@@ -148,35 +146,6 @@ class ShareUtils {
             context.startActivity(sendIntent)
             }
 
-        }
-        private fun copyAssets(filename: String) {
-            val assetManager = context!!.assets
-            var `in`: InputStream? = null
-            var out: OutputStream? = null
-            try {
-                `in` = assetManager.open(filename)
-
-                val outFile = File(Environment.getExternalStorageDirectory(), filename)
-                out = FileOutputStream(outFile)
-                copyFile(`in`, out)
-                `in`!!.close()
-                out.flush()
-                out.close()
-            } catch (e: IOException) {
-                Trace.e("tag", "Failed to copy asset file: " + filename, e)
-            }
-
-        }
-
-        @Throws(IOException::class)
-        private fun copyFile(`in`: InputStream, out: OutputStream) {
-            val buffer = ByteArray(1024)
-            var read: Int
-            while (true) {
-                read = `in`.read(buffer)
-                if (read == -1) break
-                out.write(buffer, 0, read)
-            }
         }
 
         private fun showSendMessage(shareTitle: String?, shareSummry: String, shareImgUrl: String, shareUrl: String?) {

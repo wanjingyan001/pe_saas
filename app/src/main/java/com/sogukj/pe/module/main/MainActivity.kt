@@ -12,6 +12,7 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -65,7 +66,7 @@ import org.jetbrains.anko.ctx
 import org.jetbrains.anko.find
 import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.startActivity
-import java.io.File
+import java.io.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -134,6 +135,37 @@ class MainActivity : BaseActivity() {
         showPhoneNotifiDialog()
 
         saveCityAreaJson()
+        copyAssets("ic_launcher_pe.png")
+    }
+
+    private fun copyAssets(filename: String) {
+        val assetManager = assets
+        var `in`: InputStream? = null
+        var out: OutputStream? = null
+        try {
+            `in` = assetManager.open(filename)
+
+            val outFile = File(Environment.getExternalStorageDirectory(), filename)
+            out = FileOutputStream(outFile)
+            copyFile(`in`, out)
+            `in`!!.close()
+            out.flush()
+            out.close()
+        } catch (e: IOException) {
+            Trace.e("tag", "Failed to copy asset file: " + filename, e)
+        }
+
+    }
+
+    @Throws(IOException::class)
+    private fun copyFile(`in`: InputStream, out: OutputStream) {
+        val buffer = ByteArray(1024)
+        var read: Int
+        while (true) {
+            read = `in`.read(buffer)
+            if (read == -1) break
+            out.write(buffer, 0, read)
+        }
     }
 
     private fun saveCityAreaJson() {
