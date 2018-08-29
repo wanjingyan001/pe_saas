@@ -47,7 +47,7 @@ public class CaptureVideoActivity extends UI implements SurfaceHolder.Callback {
 
     private static final String TAG = "video";
 
-    private static final String EXTRA_DATA_FILE_NAME = "EXTRA_DATA_FILE_NAME";
+    public static final String EXTRA_DATA_FILE_NAME = "EXTRA_DATA_FILE_NAME";
 
     private static final int VIDEO_TIMES = 180;
 

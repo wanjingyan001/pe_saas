@@ -3,6 +3,7 @@ package com.sogukj.pe.module.im
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -11,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.view.get
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -27,6 +29,7 @@ import com.sogukj.pe.baselibrary.base.BaseFragment
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.widgets.CircleImageView
+import kotlinx.android.synthetic.main.activity_ack_msg_info.*
 import kotlinx.android.synthetic.main.fragment_unread_ack_msg_tab.*
 import kotlinx.android.synthetic.main.item_immsg_read.*
 import org.jetbrains.anko.find
@@ -43,6 +46,14 @@ class UnreadAckMsgTabFragment : BaseFragment() {
     private lateinit var mAdapter: RecyclerAdapter<NimUserInfo>
     private lateinit var imMessage: IMMessage
     private lateinit var model: AckMsgViewModel
+    private lateinit var pAct: AckMsgInfoActivity
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is AckMsgInfoActivity) {
+            pAct = context
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,17 +67,21 @@ class UnreadAckMsgTabFragment : BaseFragment() {
         model = ViewModelProviders.of(this).get(AckMsgViewModel::class.java)
         model.init(imMessage)
         val data = model.getTeamMsgAckInfo()
-        info { "未读:${data.jsonStr}" }
         data?.observe(baseActivity!!, Observer<TeamMsgAckInfo> { t ->
-            NimUIKit.getUserInfoProvider().getUserInfoAsync(t?.ackAccountList) { success, result, code ->
+            pAct.tabLayout.getTab(1).find<TextView>(R.id.indicatorTv).text = "未读(${t?.unAckAccountList?.size ?: 0})"
+            NimUIKit.getUserInfoProvider().getUserInfoAsync(t?.unAckAccountList) { success, result, code ->
                 val newData = result as List<NimUserInfo>
                 mAdapter.refreshData(newData)
                 mAdapter.dataList.clear()
                 mAdapter.dataList.addAll(newData)
             }
         })
-        mAdapter = RecyclerAdapter(ctx){_adapter,parent,_->
-            UnAckMsgHolder(_adapter.getView(R.layout.item_immsg_read,parent))
+        mAdapter = RecyclerAdapter(ctx) { _adapter, parent, _ ->
+            UnAckMsgHolder(_adapter.getView(R.layout.item_immsg_read, parent))
+        }
+        mAdapter.onItemClick = {v, position ->
+            val uid = mAdapter.dataList[position].extensionMap["uid"].toString().toInt()
+            PersonalInfoActivity.start(context, uid)
         }
         unReadAckList.apply {
             layoutManager = LinearLayoutManager(ctx)
@@ -86,7 +101,7 @@ class UnreadAckMsgTabFragment : BaseFragment() {
         }
     }
 
-    inner class UnAckMsgHolder(itemView:View):RecyclerHolder<NimUserInfo>(itemView){
+    inner class UnAckMsgHolder(itemView: View) : RecyclerHolder<NimUserInfo>(itemView) {
         val avatarImg = itemView.find<CircleImageView>(R.id.avatarImg)
         val userName = itemView.find<TextView>(R.id.userName)
         override fun setData(view: View, data: NimUserInfo, position: Int) {

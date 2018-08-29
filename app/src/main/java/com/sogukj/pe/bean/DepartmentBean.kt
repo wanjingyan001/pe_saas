@@ -8,6 +8,7 @@ import java.io.Serializable
 class DepartmentBean : Serializable {
     var de_name: String = ""
     var depart_id: Int? = null
+    var tid: Int? = null
     var data: ArrayList<UserBean>? = null
 
     fun clone(): DepartmentBean {

@@ -44,7 +44,7 @@ class SensitiveInfoActivity : BaseActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sensitive_info)
-        Utils.setWindowStatusBarColor(this, R.color.white)
+//        Utils.setWindowStatusBarColor(this, R.color.white)
         data = intent.getSerializableExtra(Extras.DATA) as CreditInfo.Item
         toolbar_menu.visibility = View.VISIBLE
         toolbar_menu.setOnClickListener(this)

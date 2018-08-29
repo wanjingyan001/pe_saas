@@ -24,6 +24,10 @@ import com.netease.nim.uikit.support.glide.GlideEngine
 import com.netease.nimlib.sdk.NIMClient
 import com.netease.nimlib.sdk.Observer
 import com.netease.nimlib.sdk.RequestCallback
+import com.netease.nimlib.sdk.msg.MessageBuilder
+import com.netease.nimlib.sdk.msg.MsgService
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum
+import com.netease.nimlib.sdk.msg.model.CustomMessageConfig
 import com.netease.nimlib.sdk.team.TeamService
 import com.netease.nimlib.sdk.team.TeamServiceObserver
 import com.netease.nimlib.sdk.team.constant.TeamFieldEnum
@@ -414,6 +418,12 @@ class TeamInfoActivity : BaseActivity(), View.OnClickListener, SwitchButton.OnCh
                                         TeamHelper.onMemberTeamNumOverrun(p0, this@TeamInfoActivity)
                                     } else {
                                         toast("邀请成功")
+                                        val msg = MessageBuilder.createTipMessage(sessionId, SessionTypeEnum.Team)
+                                        msg.content = "欢迎${newMembers.joinToString { it.name }}加入"
+                                        val config = CustomMessageConfig()
+                                        config.enableUnreadCount = false
+                                        msg.config = config
+                                        NIMClient.getService(MsgService::class.java).sendMessage(msg, false)
                                     }
                                     getTeamMember(team.id)
                                 }

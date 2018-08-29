@@ -86,7 +86,7 @@ public class MsgAdapter extends BaseMultiItemFetchLoadAdapter<IMMessage, BaseVie
             if (isRelocateTime) {
                 relocateShowTimeItemAfterDelete(message, index);
             }
-            notifyDataSetChanged(); // 可以不要！！！
+//            notifyDataSetChanged(); // 可以不要！！！
         }
     }
 

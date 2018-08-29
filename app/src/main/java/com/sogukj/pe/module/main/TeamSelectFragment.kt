@@ -31,7 +31,9 @@ import com.netease.nimlib.sdk.team.TeamService
 import com.netease.nimlib.sdk.team.model.Team
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.fromJson
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.base.BaseFragment
 import com.sogukj.pe.baselibrary.utils.Trace
@@ -189,7 +191,7 @@ class TeamSelectFragment : BaseFragment() {
         }
 
         et_layout.setOnClickListener {
-            ImSearchResultActivity.invoke(activity!!,1)
+            ImSearchResultActivity.invoke(activity!!, 1)
         }
     }
 
@@ -286,12 +288,12 @@ class TeamSelectFragment : BaseFragment() {
         })
     }
 
-   private fun initHeader() {
+    private fun initHeader() {
         val company = sp.getString(Extras.SAAS_BASIC_DATA, "")
         val detail = Gson().fromJson<MechanismBasicInfo?>(company)
         detail?.let {
-            val defaultLogo = when(getEnvironment()){
-                "zgh" ->R.mipmap.ic_launcher_zgh
+            val defaultLogo = when (getEnvironment()) {
+                "zgh" -> R.mipmap.ic_launcher_zgh
                 else -> R.mipmap.ic_launcher_pe
 
             }
@@ -300,6 +302,10 @@ class TeamSelectFragment : BaseFragment() {
                     .apply(RequestOptions().placeholder(defaultLogo).error(defaultLogo))
                     .into(company_icon)
             companyName.text = it.mechanism_name
+            allEmployees.setVisible(it.tid != null && it.tid != 0)
+            allEmployees.clickWithTrigger {
+                NimUIKit.startTeamSession(activity, detail.tid.toString())
+            }
         }
     }
 
@@ -346,21 +352,6 @@ class TeamSelectFragment : BaseFragment() {
         contactLayout.layoutManager = LinearLayoutManager(context)
         contactAdapter = ContactAdapter(contactList)
         contactLayout.adapter = contactAdapter
-//        SoguApi.getService(baseActivity!!.application)
-//                .recentContacts()
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribeOn(Schedulers.io())
-//                .subscribe({ payload ->
-//                    if (payload.isOk) {
-//                        contactList.clear()
-//                        contactList.addAll(payload.payload!!)
-//                        contactAdapter.notifyDataSetChanged()
-//                    } else
-//                        showCustomToast(R.drawable.icon_toast_fail, payload.message)
-//                }, { e ->
-//                    Trace.e(e)
-//                    showCustomToast(R.drawable.icon_toast_fail, "数据获取失败")
-//                })
     }
 
     private fun initResultList() {
@@ -371,7 +362,7 @@ class TeamSelectFragment : BaseFragment() {
 
     @SuppressLint("SetTextI18n")
     fun doRequest() {
-        SoguApi.getService(baseActivity!!.application,UserService::class.java)
+        SoguApi.getService(baseActivity!!.application, UserService::class.java)
                 .userDepart()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -381,10 +372,12 @@ class TeamSelectFragment : BaseFragment() {
                         departList.clear()
                         payload.payload?.forEach { depart ->
                             departList.add(depart)
-                            i += depart.data!!.size
-                            depart.data!!.forEach {
-                                it.uid?.let {
-                                    selectMap.put(it.toString(), false)
+                            depart.data?.let { userData ->
+                                i += userData.size
+                                userData.forEach {
+                                    it.uid?.let {
+                                        selectMap.put(it.toString(), false)
+                                    }
                                 }
                             }
                         }
@@ -399,7 +392,7 @@ class TeamSelectFragment : BaseFragment() {
 
         var user = Store.store.getUser(ctx)
         user?.accid?.let {
-            SoguApi.getService(baseActivity!!.application,UserService::class.java)
+            SoguApi.getService(baseActivity!!.application, UserService::class.java)
                     .recentContacts(it)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
@@ -475,6 +468,7 @@ class TeamSelectFragment : BaseFragment() {
             }
             val title = parents[groupPosition]
             holder.departmentName.text = "$title (${childs[groupPosition].size})"
+            holder.departTeam.setVisible(false)
             holder.indicator.isSelected = isExpanded
             return convertView
         }
@@ -504,13 +498,9 @@ class TeamSelectFragment : BaseFragment() {
         override fun isChildSelectable(groupPosition: Int, childPosition: Int): Boolean = true
 
         internal inner class ParentHolder(view: View) {
-            val indicator: ImageView
-            val departmentName: TextView
-
-            init {
-                departmentName = view.find(R.id.departmentName)
-                indicator = view.find(R.id.indicator)
-            }
+            val indicator: ImageView = view.find(R.id.indicator)
+            val departmentName: TextView = view.find(R.id.departmentName)
+            val departTeam: TextView = view.find(R.id.departTeam)
         }
 
         internal inner class ChildHolder(view: View) {
@@ -570,7 +560,13 @@ class TeamSelectFragment : BaseFragment() {
                 holder = convertView.tag as ParentHolder
             }
             val departmentBean = parents[groupPosition]
-            holder.departmentName.text = "${departmentBean.de_name} (${parents[groupPosition].data?.size})"
+            val size = parents[groupPosition].data?.size ?: 0
+            holder.departmentName.text = "${departmentBean.de_name} ($size)"
+
+            holder.departTeam.setVisible(departmentBean.tid != null && departmentBean.tid != 0 && size > 2)
+            holder.departTeam.clickWithTrigger {
+                NimUIKit.startTeamSession(activity, departmentBean.tid.toString())
+            }
             holder.indicator.isSelected = isExpanded
             return convertView
         }
@@ -637,13 +633,9 @@ class TeamSelectFragment : BaseFragment() {
         override fun isChildSelectable(groupPosition: Int, childPosition: Int): Boolean = true
 
         internal inner class ParentHolder(view: View) {
-            val indicator: ImageView
-            val departmentName: TextView
-
-            init {
-                departmentName = view.find(R.id.departmentName)
-                indicator = view.find(R.id.indicator)
-            }
+            val indicator: ImageView = view.find(R.id.indicator)
+            val departmentName: TextView = view.find(R.id.departmentName)
+            val departTeam: TextView = view.find(R.id.departTeam)
         }
 
         internal inner class ChildHolder(view: View) {

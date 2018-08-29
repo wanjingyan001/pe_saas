@@ -24,7 +24,7 @@ public class Badger {
     private static boolean support = false;
 
     static {
-        support = Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1;
+        support = Build.VERSION.SDK_INT < Build.VERSION_CODES.O;
     }
 
     public static void updateBadgerCount(final int unreadCount) {

@@ -47,7 +47,7 @@ class AckMsgInfoActivity : ToolbarActivity() {
         tabLayout.setTabViewFactory { parent, _ ->
             parent.removeAllViews()
             for (i in 0 until titles.size) {
-                val view = LayoutInflater.from(this).inflate(R.layout.item_party_indicator, parent, false)
+                val view = LayoutInflater.from(this).inflate(R.layout.item_msg_read_indicator, parent, false)
                 view.find<TextView>(R.id.indicatorTv).text = titles[i]
                 parent.addView(view)
             }

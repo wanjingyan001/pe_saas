@@ -5,6 +5,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -30,6 +31,7 @@ import com.sogukj.pe.baselibrary.base.BaseFragment
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.widgets.CircleImageView
+import kotlinx.android.synthetic.main.activity_ack_msg_info.*
 import kotlinx.android.synthetic.main.fragment_read_ack_msg_tab.*
 import org.jetbrains.anko.find
 import org.jetbrains.anko.info
@@ -45,6 +47,14 @@ class ReadAckMsgTabFragment : BaseFragment() {
     private lateinit var mAdapter: RecyclerAdapter<NimUserInfo>
     private lateinit var model: AckMsgViewModel
     private lateinit var message: IMMessage
+    private lateinit var pAct: AckMsgInfoActivity
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is AckMsgInfoActivity) {
+            pAct = context
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,8 +68,8 @@ class ReadAckMsgTabFragment : BaseFragment() {
         model = ViewModelProviders.of(this).get(AckMsgViewModel::class.java)
         model.init(message)
         val liveData = model.getTeamMsgAckInfo()
-        info { "已读:${liveData.jsonStr}" }
         liveData?.observe(baseActivity!!, Observer<TeamMsgAckInfo> { t ->
+            pAct.tabLayout.getTab(0).find<TextView>(R.id.indicatorTv).text = "已读(${t?.ackAccountList?.size ?: 0})"
             NimUIKit.getUserInfoProvider().getUserInfoAsync(t?.ackAccountList) { success, result, code ->
                 val newData = result as List<NimUserInfo>
                 mAdapter.refreshData(newData)
@@ -69,6 +79,10 @@ class ReadAckMsgTabFragment : BaseFragment() {
         })
         mAdapter = RecyclerAdapter(ctx) { _adapter, parent, _ ->
             AckMsgHolder(_adapter.getView(R.layout.item_immsg_read, parent))
+        }
+        mAdapter.onItemClick = {v, position ->
+            val uid = mAdapter.dataList[position].extensionMap["uid"].toString().toInt()
+            PersonalInfoActivity.start(context, uid)
         }
         readAckList.apply {
             layoutManager = LinearLayoutManager(ctx)

@@ -33,7 +33,6 @@ public class SendImageHelper {
         final ArrayList<String> origSelectedImageFileList = data.getStringArrayListExtra(Extras.EXTRA_ORIG_IMAGE_LIST);
 
         boolean isOrig = data.getBooleanExtra(Extras.EXTRA_IS_ORIGINAL, false);
-        Log.d("WJY","拍照是否发送原图"+isOrig);
         for (int i = 0; i < selectedImageFileList.size(); i++) {
             String imageFilepath = selectedImageFileList.get(i);
             File imageFile = new File(imageFilepath);

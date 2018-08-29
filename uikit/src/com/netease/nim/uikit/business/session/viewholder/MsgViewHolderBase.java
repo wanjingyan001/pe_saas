@@ -433,8 +433,7 @@ public abstract class MsgViewHolderBase extends RecyclerViewHolder<BaseMultiItem
                 });
             } else {
                 // 自己发的需要已读回执的消息，显示未读人数
-//                ackMsgTextView.setVisibility(View.VISIBLE);
-                ackMsgTextView.setVisibility(View.GONE);
+                ackMsgTextView.setVisibility(View.VISIBLE);
                 if (message.getTeamMsgAckCount() == 0 && message.getTeamMsgUnAckCount() == 0) {
                     ackMsgTextView.setText("还未查看");
                 } else {

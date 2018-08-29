@@ -562,6 +562,7 @@ public class MessageListPanelEx {
                     loadFromRemote();
                 } else {
                     loadFromLocal(QueryDirectionEnum.QUERY_OLD);
+					 mIsInitFetchingLocal = true;
                 }
             } else {
                 loadAnchorContext(); // 加载指定anchor的上下文

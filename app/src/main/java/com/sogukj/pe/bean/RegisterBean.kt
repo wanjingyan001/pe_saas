@@ -86,13 +86,13 @@ data class MechanismBasicInfo(val mechanism_name: String?,
                               var address: String?,
                               var website: String?,
                               var telephone: String?,
+                              var tid: Int?,
                               var homeCardFlag: Int?,
-                              var web_url:String?,
-                              var homeBottomButton:List<MainBottomBar>?) : Parcelable
-
+                              var web_url: String?,
+                              var homeBottomButton: List<MainBottomBar>?) : Parcelable
 
 
 @SuppressLint("ParcelCreator")
 @Parcelize
-data class MainBottomBar(val id:Int,
-                         val name:String): Parcelable
+data class MainBottomBar(val id: Int,
+                         val name: String) : Parcelable

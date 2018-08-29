@@ -68,11 +68,12 @@ class PersonalInfoActivity : BaseActivity(), View.OnClickListener, TextWatcher, 
         pathByUri = intent.getStringExtra(Extras.DATA2)
         if (user != null) {
             queryUserInfo(user!!.uid!!)
+            sendMsg.setVisible(!user?.accid.isNullOrEmpty() && needIm())
         } else {
             val uid = intent.getIntExtra(Extras.ID, -1)
             queryUserInfo(uid)
         }
-        sendMsg.setVisible(!user?.accid.isNullOrEmpty() && needIm())
+
         sendMsg.setOnClickListener(this)
         call_phone.setOnClickListener(this)
 
@@ -102,6 +103,7 @@ class PersonalInfoActivity : BaseActivity(), View.OnClickListener, TextWatcher, 
                             email_tv.text = it.email
                             department_tv.text = it.depart_name
                             position_tv.text = it.position
+                            sendMsg.setVisible(!user?.accid.isNullOrEmpty() && needIm())
                             Glide.with(this)
                                     .load(it.headImage())
                                     .listener(object : RequestListener<Drawable> {

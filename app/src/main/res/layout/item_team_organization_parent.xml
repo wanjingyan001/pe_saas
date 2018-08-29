@@ -8,19 +8,34 @@
 
     <ImageView
         android:id="@+id/indicator"
-        android:layout_marginLeft="10dp"
-        android:src="@drawable/organization_indicator"
         android:layout_width="25dp"
-        android:layout_height="25dp" />
+        android:layout_height="25dp"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/organization_indicator" />
 
     <TextView
         android:id="@+id/departmentName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="18dp"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="18dp"
+        android:layout_weight="1"
         android:text="风险部（8）"
         android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/departTeam"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:drawableLeft="@mipmap/icon_depart_team"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:paddingEnd="16dp"
+        android:paddingLeft="16dp"
+        android:text="部门群"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/text_size_normal" />
+
 
 </LinearLayout>

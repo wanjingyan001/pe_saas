@@ -220,7 +220,7 @@ public class MessageFragment extends TFragment implements ModuleProxy {
      */
     // 是否允许发送消息
     protected boolean isAllowSendMessage(final IMMessage message) {
-        return true;
+        return customization.isAllowSendMessage(message);
     }
 
     /**
@@ -310,7 +310,7 @@ public class MessageFragment extends TFragment implements ModuleProxy {
             IMMessage msg = MessageBuilder.createTipMessage(sessionId, SessionTypeEnum.Team);
             msg.setContent(tipStr);
             CustomMessageConfig config = new CustomMessageConfig();
-            config.enablePush = false; // 不推送
+            config.enableUnreadCount = false;
             msg.setConfig(config);
             NIMClient.getService(MsgService.class).sendMessage(msg, false);
         }

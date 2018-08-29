@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.netease.nim.uikit.R;
@@ -158,6 +160,15 @@ public class VideoMessageHelper {
      * 拍摄视频后回调操作
      */
     public void onCaptureVideoResult(Intent data) {
+
+        if (videoFile == null || !videoFile.exists()) {
+            //activity 可能会销毁重建，所以从这取一下
+            String dataFilePath = data.getStringExtra(CaptureVideoActivity.EXTRA_DATA_FILE_NAME);
+            if (!TextUtils.isEmpty(dataFilePath)) {
+                videoFile = new File(dataFilePath);
+            }
+        }
+
         if (videoFile == null || !videoFile.exists()) {
             return;
         }

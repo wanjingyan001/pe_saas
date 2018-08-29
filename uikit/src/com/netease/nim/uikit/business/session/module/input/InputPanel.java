@@ -12,7 +12,9 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Pair;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -45,6 +47,7 @@ import com.netease.nim.uikit.common.util.media.ImageUtil;
 import com.netease.nim.uikit.common.util.string.StringUtil;
 import com.netease.nim.uikit.impl.NimUIKitImpl;
 import com.netease.nim.uikit.impl.customization.LatestPic;
+import com.netease.nimlib.NimNosSceneKeyConstant;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.media.record.AudioRecorder;
 import com.netease.nimlib.sdk.media.record.IAudioRecordCallback;
@@ -375,12 +378,6 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
         if (container.proxy.sendMessage(textMessage)) {
             restoreText(true);
         }
-    }
-
-    private IMMessage newTextMessage(String text) {
-        IMMessage message = MessageBuilder.createTextMessage("aa84b2745798fb1f", SessionTypeEnum.Team, text);
-        message.setMsgAck();
-        return message;
     }
 
     protected IMMessage createTextMessage(String text) {
@@ -808,7 +805,6 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
         }
 
         audioRecordBtn.setText(R.string.record_audio_end);
-//        audioRecordBtn.setBackgroundResource(R.drawable.nim_message_input_edittext_box_pressed);
         audioRecordBtn.setBackgroundResource(R.drawable.bg_im_audio);
 
         updateTimerTip(false); // 初始化语音动画状态
@@ -818,9 +814,14 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
     @Override
     public void onRecordSuccess(File audioFile, long audioLength, RecordType recordType) {
         if (audioLength < 1000) {
-            Toast.makeText(container.activity, "录音时间小于1秒,请重新录制", Toast.LENGTH_SHORT).show();
+            Toast toast = new Toast(container.activity);
+            toast.setGravity(Gravity.CENTER_VERTICAL, 0, -50);
+            toast.setDuration(Toast.LENGTH_SHORT);
+            toast.setView(LayoutInflater.from(container.activity).inflate(R.layout.layout_audio_toast,null));
+            toast.show();
+//            Toast.makeText(container.activity, "录音时间小于1秒,请重新录制", Toast.LENGTH_SHORT).show();
         } else {
-            IMMessage audioMessage = MessageBuilder.createAudioMessage(container.account, container.sessionType, audioFile, audioLength);
+            IMMessage audioMessage = MessageBuilder.createAudioMessage(container.account, container.sessionType, audioFile, audioLength, NimNosSceneKeyConstant.NIM_DEFAULT_IM);
             container.proxy.sendMessage(audioMessage);
         }
     }
