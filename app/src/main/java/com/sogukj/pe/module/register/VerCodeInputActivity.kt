@@ -131,6 +131,7 @@ class VerCodeInputActivity : BaseActivity() {
                                 }
                             }
                         } else {
+                            RetrofitUrlManager.getInstance().clearAllDomain()
                             payload.message?.contains("验证码错误").takeIf {
                                 showTopSnackBar("验证码错误")
                                 return@takeIf true
@@ -138,6 +139,7 @@ class VerCodeInputActivity : BaseActivity() {
                         }
                     }
                     onError {
+                        RetrofitUrlManager.getInstance().clearAllDomain()
                         showTopSnackBar("验证码错误")
                     }
                 }

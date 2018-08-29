@@ -280,7 +280,6 @@ public class MessageFragment extends TFragment implements ModuleProxy {
             ext.put("domain", sp.getString("saas.httpUrl", ""));
             message.setRemoteExtension(ext);
             message.setMsgAck();
-            System.out.println("发送的消息:" + message.getFromAccount() + "==>内容:" + message.getContent() + "==>ack:"+message.needMsgAck());
             NIMClient.getService(MsgService.class).sendMessage(message, false).setCallback(new RequestCallback<Void>() {
                 @Override
                 public void onSuccess(Void param) {
@@ -313,6 +312,7 @@ public class MessageFragment extends TFragment implements ModuleProxy {
             config.enableUnreadCount = false;
             msg.setConfig(config);
             NIMClient.getService(MsgService.class).sendMessage(msg, false);
+            messageListPanel.onMsgSend(msg);
         }
     }
 

@@ -36,7 +36,6 @@ class FileMainActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
     @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
-        info { "文件管理器时间1:${System.currentTimeMillis() - UserFragment.startTime}" }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_file_main)
         Utils.setWindowStatusBarColor(this, R.color.white)

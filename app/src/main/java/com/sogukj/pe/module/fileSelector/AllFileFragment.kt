@@ -85,7 +85,6 @@ class AllFileFragment : BasePageFragment(), StorageFileFragment.FileClickListene
 
     override fun onFragmentFirstVisible() {
         super.onFragmentFirstVisible()
-        AnkoLogger("WJY").info { "文件管理器时间4:${System.currentTimeMillis() - UserFragment.startTime}" }
         val fragment = StorageFileFragment.newInstance(startPath)
         fragment.setListener(this)
         childFragmentManager.beginTransaction()

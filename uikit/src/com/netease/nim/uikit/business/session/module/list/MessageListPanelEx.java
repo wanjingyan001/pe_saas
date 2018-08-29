@@ -287,7 +287,6 @@ public class MessageListPanelEx {
         boolean needRefresh = false;
         List<IMMessage> addedListItems = new ArrayList<>(messages.size());
         for (IMMessage message : messages) {
-            System.out.println("收到消息的回调:" + message.getUuid() + "==>内容:" + message.getContent() + "==>ack:"+message.needMsgAck());
             if (isMyMessage(message)) {
                 items.add(message);
                 addedListItems.add(message);
@@ -584,9 +583,6 @@ public class MessageListPanelEx {
                 }
 
                 if (messages != null) {
-                    for (IMMessage message : messages) {
-                        System.out.println("接收的消息:" + message.getUuid() + "==>内容:" + message.getContent() + "==>ack:"+message.needMsgAck());
-                    }
                     onMessageLoaded(messages);
                 }
             }

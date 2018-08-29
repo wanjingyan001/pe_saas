@@ -49,6 +49,7 @@ import com.netease.nim.uikit.impl.NimUIKitImpl;
 import com.netease.nim.uikit.impl.customization.LatestPic;
 import com.netease.nimlib.NimNosSceneKeyConstant;
 import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.media.record.AudioRecorder;
 import com.netease.nimlib.sdk.media.record.IAudioRecordCallback;
 import com.netease.nimlib.sdk.media.record.RecordType;
@@ -817,11 +818,30 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
             Toast toast = new Toast(container.activity);
             toast.setGravity(Gravity.CENTER_VERTICAL, 0, -50);
             toast.setDuration(Toast.LENGTH_SHORT);
-            toast.setView(LayoutInflater.from(container.activity).inflate(R.layout.layout_audio_toast,null));
+            toast.setView(LayoutInflater.from(container.activity).inflate(R.layout.layout_audio_toast, null));
             toast.show();
 //            Toast.makeText(container.activity, "录音时间小于1秒,请重新录制", Toast.LENGTH_SHORT).show();
         } else {
-            IMMessage audioMessage = MessageBuilder.createAudioMessage(container.account, container.sessionType, audioFile, audioLength, NimNosSceneKeyConstant.NIM_DEFAULT_IM);
+            IMMessage audioMessage = MessageBuilder.createAudioMessage(container.account, container.sessionType, audioFile, audioLength);
+            NIMClient.getService(MsgService.class)
+                    .transVoiceToText(null, audioFile.getPath(), audioLength)
+                    .setCallback(new RequestCallback<String>() {
+
+                        @Override
+                        public void onSuccess(String param) {
+                            System.out.println(param);
+                        }
+
+                        @Override
+                        public void onFailed(int code) {
+                            Log.e("WJY", code + "");
+                        }
+
+                        @Override
+                        public void onException(Throwable exception) {
+
+                        }
+                    });
             container.proxy.sendMessage(audioMessage);
         }
     }

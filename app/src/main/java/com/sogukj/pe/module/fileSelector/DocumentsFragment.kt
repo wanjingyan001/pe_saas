@@ -63,20 +63,17 @@ class DocumentsFragment : BasePageFragment(), View.OnClickListener {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        AnkoLogger("WJY").info { "文件管理器时间3.01:${System.currentTimeMillis() - UserFragment.startTime}" }
         fileActivity = activity as FileMainActivity
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AnkoLogger("WJY").info { "文件管理器时间3.02:${System.currentTimeMillis() - UserFragment.startTime}" }
         if (arguments != null) {
             type = arguments!!.getInt(TYPE, 0)
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        AnkoLogger("WJY").info { "文件管理器时间3.03:${System.currentTimeMillis() - UserFragment.startTime}" }
         return inflater.inflate(R.layout.fragment_documents, container, false)
     }
 
@@ -94,7 +91,6 @@ class DocumentsFragment : BasePageFragment(), View.OnClickListener {
         view.mDocManage.setOnClickListener(this)
         view.mZipManage.setOnClickListener(this)
         view.mOtherManage.setOnClickListener(this)
-        AnkoLogger("WJY").info { "文件管理器时间3.04:${System.currentTimeMillis() - UserFragment.startTime}" }
     }
 
     override fun onFragmentVisibleChange(isVisible: Boolean) {
@@ -103,7 +99,6 @@ class DocumentsFragment : BasePageFragment(), View.OnClickListener {
             doAsync {
                 getDirectoryFiles()
                 uiThread {
-                    AnkoLogger("WJY").info { "文件管理器时间3.05:${System.currentTimeMillis() - UserFragment.startTime}" }
                     getFiles()
                     refreshHead()
                 }

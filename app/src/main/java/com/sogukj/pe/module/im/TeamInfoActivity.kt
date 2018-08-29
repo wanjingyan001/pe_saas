@@ -38,10 +38,7 @@ import com.netease.nimlib.sdk.uinfo.model.NimUserInfo
 import com.sogukj.pe.BuildConfig
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.execute
-import com.sogukj.pe.baselibrary.Extended.jsonStr
-import com.sogukj.pe.baselibrary.Extended.setVisible
-import com.sogukj.pe.baselibrary.Extended.textStr
+import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.TeamBean
@@ -376,7 +373,7 @@ class TeamInfoActivity : BaseActivity(), View.OnClickListener, SwitchButton.OnCh
         if (team.introduce != teamIntroduction.textStr && teamIntroduction.text.isNotEmpty() && teamIntroduction.hint != "暂无介绍") {
             map.put(TeamFieldEnum.Introduce, teamIntroduction.textStr)
         }
-        if (map.isNotEmpty()) {
+        map.isNotEmpty().yes {
             NIMClient.getService(TeamService::class.java).updateTeamFields(sessionId, map)
         }
 

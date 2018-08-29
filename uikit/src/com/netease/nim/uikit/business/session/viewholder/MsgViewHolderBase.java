@@ -408,29 +408,11 @@ public abstract class MsgViewHolderBase extends RecyclerViewHolder<BaseMultiItem
     }
 
     private void setAckMsg() {
-//        && message.needMsgAck()
-        System.out.println("内容:"+message.getContent()+",ACK:"+message.needMsgAck());
         if (message.getSessionType() == SessionTypeEnum.Team  && message.needMsgAck()) {
             if (isReceivedMessage()) {
                 // 收到的需要已读回执的消息，需要给个反馈
                 ackMsgTextView.setVisibility(View.GONE);
-                NIMClient.getService(TeamService.class).sendTeamMessageReceipt(message).setCallback(new RequestCallback<Void>() {
-                    @Override
-                    public void onSuccess(Void param) {
-                        Log.d("WJY", "已读回执发送成功");
-                    }
-
-                    @Override
-                    public void onFailed(int code) {
-                        Log.d("WJY", "code:" + code);
-                    }
-
-                    @Override
-                    public void onException(Throwable exception) {
-                        exception.printStackTrace();
-                        Log.d("WJY", exception.getMessage());
-                    }
-                });
+                NIMClient.getService(TeamService.class).sendTeamMessageReceipt(message);
             } else {
                 // 自己发的需要已读回执的消息，显示未读人数
                 ackMsgTextView.setVisibility(View.VISIBLE);

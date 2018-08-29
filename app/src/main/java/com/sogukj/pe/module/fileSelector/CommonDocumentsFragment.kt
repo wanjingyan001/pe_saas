@@ -33,14 +33,12 @@ class CommonDocumentsFragment : BasePageFragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        AnkoLogger("WJY").info { "文件管理器时间2.1:${System.currentTimeMillis() - UserFragment.startTime}" }
         return inflater.inflate(R.layout.fragment_common_documents, container, false)
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        AnkoLogger("WJY").info { "文件管理器时间2.2:${System.currentTimeMillis() - UserFragment.startTime}" }
         fragments = listOf<Fragment>(peFragment, wxFragment, qqFragment, dtFragment, allFragment)
         pagerAdapter = DocPageAdapter(childFragmentManager, fragments)
         documentList.adapter = pagerAdapter

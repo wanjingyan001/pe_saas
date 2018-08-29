@@ -36,6 +36,7 @@ import cn.sharesdk.wechat.utils.WechatClientNotExistException
 import com.bumptech.glide.GenericTransitionOptions
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
@@ -57,6 +58,7 @@ import com.sogukj.pe.module.project.ProjectFocusActivity
 import com.sogukj.pe.module.project.ProjectListFragment
 import com.sogukj.pe.module.register.CreateDepartmentActivity
 import com.sogukj.pe.peExtended.getEnvironment
+import com.sogukj.pe.peUtils.MyGlideUrl
 import com.sogukj.pe.peUtils.ShareUtils
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.UserService
@@ -76,7 +78,7 @@ import kotlin.collections.ArrayList
 /**
  * Created by qinfei on 17/7/18.
  */
-class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionListener {
+class UserFragment : ToolbarFragment(), PlatformActionListener {
     override val containerViewId: Int
         get() = R.layout.activity_user
 
@@ -108,8 +110,6 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
         }
         documentManagement.clickWithTrigger {
             baseActivity?.showProgress("正在读取内存文件")
-            startTime = System.currentTimeMillis()
-            info { "文件管理器启动时间:${startTime}" }
             startActivity<FileMainActivity>(Extras.DATA to  9,
                     Extras.FLAG to false,Extras.TYPE to false)
         }
@@ -120,7 +120,6 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
                         arrayOf(Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_CONTACTS),
                         Extras.REQUESTCODE)
             } else {
-//                startActivity<PayPackageActivity>()
                 startActivity<PayExpansionActivity>()
             }
         }
@@ -130,16 +129,6 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
         focus_layout.clickWithTrigger {
             ProjectFocusActivity.start(activity, ProjectListFragment.TYPE_GZ, "关注")
         }
-//        tv_1.setOnClickListener(this)
-//        tv_11.setOnClickListener(this)
-//        tv_2.setOnClickListener(this)
-//        tv_22.setOnClickListener(this)
-//        tv_3.setOnClickListener(this)
-//        tv_33.setOnClickListener(this)
-//        tv_4.setOnClickListener(this)
-//        tv_44.setOnClickListener(this)
-//        tv_5.setOnClickListener(this)
-//        tv_55.setOnClickListener(this)
         toolbar_menu.clickWithTrigger {
             //切换用户没有正确显示
             Store.store.getUser(ctx)?.let {
@@ -328,46 +317,6 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
 
 
     private fun getBelongBean(userId: Int) {
-//        SoguApi.getService(baseActivity!!.application, UserService::class.java)
-//                .getBelongProject(userId)
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribeOn(Schedulers.io())
-//                .subscribe({ payload ->
-//                    if (payload.isOk) {
-//                        payload.payload?.let {
-//                            it.dy?.let {
-//                                tv_1.text = it.count.toString()
-//                                point1.visibility = if (it.red == null || it.red == 0) View.GONE else View.VISIBLE
-//                            }
-//                            it.cb?.let {
-//                                tv_2.text = it.count.toString()
-//                                point2.visibility = if (it.red == null || it.red == 0) View.GONE else View.VISIBLE
-//                            }
-//                            it.lx?.let {
-//                                tv_3.text = it.count.toString()
-//                                point3.visibility = if (it.red == null || it.red == 0) View.GONE else View.VISIBLE
-//                            }
-//                            it.yt?.let {
-//                                tv_4.text = it.count.toString()
-//                                point4.visibility = if (it.red == null || it.red == 0) View.GONE else View.VISIBLE
-//                            }
-//                            it.tc?.let {
-//                                tv_5.text = it.count.toString()
-//                                point5.visibility = if (it.red == null || it.red == 0) View.GONE else View.VISIBLE
-//                            }
-//                            it.gz?.let {
-//                                tv_6.text = it.count.toString()
-//                                point.visibility = if (it.red == null || it.red == 0) View.GONE else View.VISIBLE
-//                            }
-//                        }
-//                    } else {
-//                        showCustomToast(R.drawable.icon_toast_fail, payload.message)
-//                    }
-//                }, { e ->
-//                    Trace.e(e)
-//                    ToastError(e)
-//                })
-
         SoguApi.getService(baseActivity!!.application, UserService::class.java)
                 .getProject(userId)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -375,26 +324,6 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
                 .subscribe({ payload ->
                     if (payload.isOk) {
                         payload.payload?.let {
-                            //                            it.dy?.let {
-//                                tv_1.text = it.count.toString()
-//                                point1.visibility = if (it.red == null || it.red == 0) View.GONE else View.VISIBLE
-//                            }
-//                            it.cb?.let {
-//                                tv_2.text = it.count.toString()
-//                                point2.visibility = if (it.red == null || it.red == 0) View.GONE else View.VISIBLE
-//                            }
-//                            it.lx?.let {
-//                                tv_3.text = it.count.toString()
-//                                point3.visibility = if (it.red == null || it.red == 0) View.GONE else View.VISIBLE
-//                            }
-//                            it.yt?.let {
-//                                tv_4.text = it.count.toString()
-//                                point4.visibility = if (it.red == null || it.red == 0) View.GONE else View.VISIBLE
-//                            }
-//                            it.tc?.let {
-//                                tv_5.text = it.count.toString()
-//                                point5.visibility = if (it.red == null || it.red == 0) View.GONE else View.VISIBLE
-//                            }
                             loadStage(it.xm!!)
                             it.gz?.let {
                                 tv_6.text = it.count.toString()
@@ -494,8 +423,8 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
             tv_mail?.text = user.email
         if (user.url != null && !TextUtils.isEmpty(user.url)) {
             Glide.with(this@UserFragment)
-                    .load(user.headImage())
-                    .apply(RequestOptions().signature(HeaderImgKey(user.url)))
+                    .load(MyGlideUrl(user.headImage()))
+                    .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))
                     .transition(GenericTransitionOptions())
                     .listener(object : RequestListener<Drawable> {
                         override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
@@ -516,25 +445,6 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
         }
     }
 
-    override fun onClick(view: View) {
-//        when (view.id) {
-//            R.id.tv_1, R.id.tv_11 -> {
-//                ProjectFocusActivity.start(activity, ProjectListFragment.TYPE_DY)
-//            }
-//            R.id.tv_2, R.id.tv_22 -> {
-//                ProjectFocusActivity.start(activity, ProjectListFragment.TYPE_CB)
-//            }
-//            R.id.tv_3, R.id.tv_33 -> {
-//                ProjectFocusActivity.start(activity, ProjectListFragment.TYPE_LX)
-//            }
-//            R.id.tv_4, R.id.tv_44 -> {
-//                ProjectFocusActivity.start(activity, ProjectListFragment.TYPE_YT)
-//            }
-//            R.id.tv_5, R.id.tv_55 -> {
-//                ProjectFocusActivity.start(activity, ProjectListFragment.TYPE_TC)
-//            }
-//        }
-    }
 
 
     override fun onStop() {
@@ -544,7 +454,6 @@ class UserFragment : ToolbarFragment(), View.OnClickListener, PlatformActionList
 
 
     companion object {
-        var startTime :Long = 0
         fun start(ctx: Activity?) {
             ctx?.startActivity(Intent(ctx, UserFragment::class.java))
         }

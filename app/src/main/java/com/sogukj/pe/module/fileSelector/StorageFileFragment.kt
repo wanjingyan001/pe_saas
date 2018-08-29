@@ -60,7 +60,6 @@ class StorageFileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        AnkoLogger("WJY").info { "文件管理器时间5:${System.currentTimeMillis() - UserFragment.startTime}" }
         mDirectoryAdapter = DirectoryAdapter(ctx, files as MutableList<File>, fileActivity)
         mDirectoryAdapter.setOnItemClickListener(object : DirectoryAdapter.OnItemClickListener {
             override fun onItemClick(view: View, position: Int) {
