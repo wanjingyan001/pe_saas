@@ -1378,4 +1378,9 @@ Utils {
         Gson gson =new Gson();
         return gson.fromJson(json, type);
     }
+
+    public static String objToJson(Object obj){
+        Gson gson =new Gson();
+        return gson.toJson(obj);
+    }
 }

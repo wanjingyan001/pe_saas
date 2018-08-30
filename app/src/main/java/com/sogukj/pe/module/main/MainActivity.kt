@@ -21,7 +21,6 @@ import android.support.v4.view.ViewCompat
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.animation.DecelerateInterpolator
@@ -172,14 +171,12 @@ class MainActivity : BaseActivity() {
         var datas = XmlDb.open(this).get(Extras.CITY_JSON, "")
         if (null == datas || datas.equals("")){
             val cityJson = Utils.getJson(this, "city.json")
-            Log.e("TAG","cityJson ==" + cityJson)
             XmlDb.open(this).set(Extras.CITY_JSON,cityJson)
         }
     }
 
     private fun showPhoneNotifiDialog() {
         val brand = Utils.getDeviceBrand()
-        Log.e("TAG","brand ===" + brand)
         if ("Honor".equals(brand) && !XmlDb.open(this).get("Honor")){
             PhoneNotifDialog(this).showLoadding()
             XmlDb.open(this).set("Honor",true)

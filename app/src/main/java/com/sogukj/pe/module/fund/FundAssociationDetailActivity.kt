@@ -75,15 +75,53 @@ class FundAssociationDetailActivity : ToolbarActivity() {
                             for (childOri in child){
                                 if (null != childOri && null != childOri.zhName){
                                     val editText = editInfos[childOri.zhName!!]
+                                    if (null == childOri.contents){
+                                        childOri.contents = ""
+                                    }
                                     if (null != editText && !(editText!!.text.toString().equals(childOri.contents))){
                                         childOri.contents = editText!!.text.toString()
+                                    }
+
+                                    val child1 = childOri.child
+                                    if (null != child1 && child1.size > 0){
+                                        for (child1Ori in child1){
+                                            if (null != child1Ori && null != child1Ori.zhName){
+                                                val editText = editInfos[child1Ori.zhName!!]
+                                                if (null == child1Ori.contents){
+                                                    child1Ori.contents = ""
+                                                }
+                                                if (null != editText && !(editText!!.text.toString().equals(child1Ori.contents))){
+                                                    child1Ori.contents = editText!!.text.toString()
+                                                }
+
+                                                val child2 = child1Ori.child
+                                                if (null != child2 && child2.size > 0){
+                                                    for (child2Ori in child2){
+                                                        if (null != child2Ori && null != child2Ori.zhName){
+                                                            val editText = editInfos[child2Ori.zhName!!]
+                                                            if (null == child2Ori.contents){
+                                                                child2Ori.contents = ""
+                                                            }
+                                                            if (null != editText && !(editText!!.text.toString().equals(child2Ori.contents))){
+                                                                child2Ori.contents = editText!!.text.toString()
+                                                            }
+                                                        }
+                                                    }
+
+                                                }
+                                            }
+                                        }
+
+
                                     }
                                 }
                             }
                         }
                         if (null != ori.zhName){
                             val editText = editInfos[ori.zhName!!]
-
+                            if (null == ori.contents){
+                                ori.contents = ""
+                            }
                             if (null != editText && !(editText!!.text.toString().equals(ori.contents))){
                                 ori.contents = editText!!.text.toString()
                             }
@@ -102,6 +140,7 @@ class FundAssociationDetailActivity : ToolbarActivity() {
                             }
                         }
                     }
+//                    Log.e("TAG","  projId ==" + projId + "  data ==" + Utils.objToJson(submitOriData))
                     SoguApi.getService(application,FundService::class.java)
                             .modifiModuleInfo(map)
                             .observeOn(AndroidSchedulers.mainThread())
