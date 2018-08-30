@@ -34,13 +34,13 @@ class AckMsgInfoActivity : ToolbarActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ack_msg_info)
-        title = "已读详情"
+        title = "消息人接收列表"
         setBack(true)
         imMessage = intent.getSerializableExtra(Extras.DATA) as IMMessage
         initPages()
     }
 
-    fun initPages() {
+    private fun initPages() {
         adapter = AckPageAdapter(supportFragmentManager, titles)
         ackMsgContent.adapter = adapter
         tabLayout.setViewPager(ackMsgContent)

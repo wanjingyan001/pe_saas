@@ -7,7 +7,7 @@
 
     <com.sogukj.pe.widgets.CircleImageView
         android:id="@+id/member_headImg"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_gravity="center" />
 </LinearLayout>

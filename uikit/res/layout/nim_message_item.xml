@@ -133,7 +133,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/contentPanel"
         android:layout_alignEnd="@+id/contentPanel"
-        android:layout_marginEnd="6dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="2dp"
         android:background="@color/transparent"
         android:textColor="#666666"
         android:textSize="12sp" />

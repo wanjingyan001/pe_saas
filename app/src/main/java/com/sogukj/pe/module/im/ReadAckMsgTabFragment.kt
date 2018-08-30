@@ -26,7 +26,9 @@ import com.netease.nimlib.sdk.msg.model.TeamMsgAckInfo
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo
 
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.isNullOrEmpty
 import com.sogukj.pe.baselibrary.Extended.jsonStr
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.BaseFragment
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
@@ -70,6 +72,7 @@ class ReadAckMsgTabFragment : BaseFragment() {
         val liveData = model.getTeamMsgAckInfo()
         liveData?.observe(baseActivity!!, Observer<TeamMsgAckInfo> { t ->
             pAct.tabLayout.getTab(0).find<TextView>(R.id.indicatorTv).text = "已读(${t?.ackAccountList?.size ?: 0})"
+            emptyLayout.setVisible(t?.ackAccountList.isNullOrEmpty())
             NimUIKit.getUserInfoProvider().getUserInfoAsync(t?.ackAccountList) { success, result, code ->
                 val newData = result as List<NimUserInfo>
                 mAdapter.refreshData(newData)

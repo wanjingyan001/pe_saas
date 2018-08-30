@@ -227,8 +227,8 @@ public abstract class MsgViewHolderBase extends RecyclerViewHolder<BaseMultiItem
         }
 
         String text = TimeUtil.getTimeShowString(message.getTime(), false);
-        if (text.startsWith(" ")){
-            text = text.replace(" ","");
+        if (text.startsWith(" ")) {
+            text = text.replace(" ", "");
         }
         timeTextView.setText(text);
     }
@@ -408,7 +408,7 @@ public abstract class MsgViewHolderBase extends RecyclerViewHolder<BaseMultiItem
     }
 
     private void setAckMsg() {
-        if (message.getSessionType() == SessionTypeEnum.Team  && message.needMsgAck()) {
+        if (message.getSessionType() == SessionTypeEnum.Team && message.needMsgAck()) {
             if (isReceivedMessage()) {
                 // 收到的需要已读回执的消息，需要给个反馈
                 ackMsgTextView.setVisibility(View.GONE);
@@ -417,9 +417,18 @@ public abstract class MsgViewHolderBase extends RecyclerViewHolder<BaseMultiItem
                 // 自己发的需要已读回执的消息，显示未读人数
                 ackMsgTextView.setVisibility(View.VISIBLE);
                 if (message.getTeamMsgAckCount() == 0 && message.getTeamMsgUnAckCount() == 0) {
-                    ackMsgTextView.setText("还未查看");
+                    if (message.getTeamMsgUnAckCount() == 0) {
+                        ackMsgTextView.setText("全部已读");
+                        ackMsgTextView.setEnabled(false);
+                        ackMsgTextView.setTextColor(context.getResources().getColor(R.color.gray_66));
+                    } else {
+                        ackMsgTextView.setText("还未查看");
+                        ackMsgTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                    }
                 } else {
+                    ackMsgTextView.setEnabled(true);
                     ackMsgTextView.setText(message.getTeamMsgUnAckCount() + "人未读");
+                    ackMsgTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
                 }
             }
         } else {

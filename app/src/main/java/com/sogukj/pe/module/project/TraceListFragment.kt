@@ -78,19 +78,15 @@ class TraceListFragment : BaseFragment(), SupportEmptyView {
                 .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
                 .into(iv_loading)
         iv_loading?.visibility = View.VISIBLE
-        handler.postDelayed({
-            doRequest()
-        }, 100)
+//        handler.postDelayed({
+//            doRequest()
+//        }, 100)
         Log.e("onViewCreated", "${type}")
         isViewCreated = true
     }
 
     var isViewCreated = false
 
-    override fun onResume() {
-        super.onResume()
-        doRequest()
-    }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)

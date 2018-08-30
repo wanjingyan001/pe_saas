@@ -24,7 +24,9 @@ import com.netease.nimlib.sdk.msg.model.TeamMsgAckInfo
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo
 
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.isNullOrEmpty
 import com.sogukj.pe.baselibrary.Extended.jsonStr
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.BaseFragment
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
@@ -68,6 +70,7 @@ class UnreadAckMsgTabFragment : BaseFragment() {
         model.init(imMessage)
         val data = model.getTeamMsgAckInfo()
         data?.observe(baseActivity!!, Observer<TeamMsgAckInfo> { t ->
+            emptyLayout.setVisible(t?.unAckAccountList.isNullOrEmpty())
             pAct.tabLayout.getTab(1).find<TextView>(R.id.indicatorTv).text = "未读(${t?.unAckAccountList?.size ?: 0})"
             NimUIKit.getUserInfoProvider().getUserInfoAsync(t?.unAckAccountList) { success, result, code ->
                 val newData = result as List<NimUserInfo>

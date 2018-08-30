@@ -27,7 +27,7 @@ public abstract class LoadMoreView {
     public void convert(BaseViewHolder holder) {
         switch (mLoadMoreStatus) {
             case STATUS_LOADING:
-                visibleLoading(holder, true);
+                visibleLoading(holder, false);
                 visibleLoadFail(holder, false);
                 visibleLoadEnd(holder, false);
                 break;
