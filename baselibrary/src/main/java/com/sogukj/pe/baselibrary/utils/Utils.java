@@ -1383,4 +1383,15 @@ Utils {
         Gson gson =new Gson();
         return gson.toJson(obj);
     }
+
+    public static String getStockCode(String code){
+        String resultCode = "";
+        if(code.startsWith("6")) {
+            resultCode = "SH" + code;
+        }else{
+            resultCode = "SZ" + code;
+        }
+        return resultCode;
+    }
+
 }
