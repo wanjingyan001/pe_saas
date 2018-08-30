@@ -28,6 +28,9 @@ public class HistoryAdapter extends BaseAdapter {
     public ArrayList<City> getData() {
         return city;
     }
+    public void setData(ArrayList<City> city){
+        this.city = city;
+    }
 
     @Override
     public int getCount() {

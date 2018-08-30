@@ -501,6 +501,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
+            android:name=".module.approve.NewDstCityActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
             android:name=".module.approve.EntryApproveActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"

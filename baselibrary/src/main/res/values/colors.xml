@@ -142,4 +142,5 @@
     <color name="gray_ce">#CEDCFF</color>
     <color name="gray_d8">#d8d8d8</color>
     <color name="gray_a0">#a0a4aa</color>
+    <color name="partTranslucent">#39000000</color>
 </resources>

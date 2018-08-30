@@ -30,6 +30,9 @@ public class ChosenAdapter extends BaseAdapter {
         return city;
     }
 
+    public void setData(ArrayList<City> city){
+        this.city = city;
+    }
     @Override
     public int getCount() {
         return city.size();

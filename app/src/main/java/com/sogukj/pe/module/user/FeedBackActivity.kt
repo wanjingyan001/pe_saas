@@ -38,6 +38,11 @@ class FeedBackActivity : BaseActivity() {
     }
 
 
+    override fun onPause() {
+        super.onPause()
+        hideInput(feedEdt)
+    }
+
     private fun submit() {
         val user = Store.store.getUser(context)
         user?.let {

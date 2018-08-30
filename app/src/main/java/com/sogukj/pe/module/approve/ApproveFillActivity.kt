@@ -10,7 +10,6 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -1077,8 +1076,8 @@ class ApproveFillActivity : ToolbarActivity() {
             } else {
                 input_id = paramId!!
             }
-            DstCityActivity.start(context, input_id, dstCity)
-            Log.e("TAG","start ---" + System.currentTimeMillis())
+//            DstCityActivity.start(context, input_id, dstCity)
+            NewDstCityActivity.invoke(context, input_id, dstCity)
         }
 
         checkList.add {
@@ -1159,7 +1158,6 @@ class ApproveFillActivity : ToolbarActivity() {
                         startDate = Date()
                     }
                     ding_start.show(date_type!!, startDate, CalendarDingDing.onTimeClick { date ->
-                        Log.e("TAG","start_date ===" + date.time)
                         if (date == null) {
                             var etValue = ll_up.findViewWithTag<TextView>("index0") as TextView
                             if (etValue.text.trim().equals("")) {
@@ -1197,7 +1195,6 @@ class ApproveFillActivity : ToolbarActivity() {
                         endDate = Date()
                     }
                     ding_end.show(date_type!!, endDate, CalendarDingDing.onTimeClick { date ->
-                        Log.e("TAG","end_date ===" + date.time)
                         if (date == null) {
                             var etValue = ll_up.findViewWithTag<TextView>("index1") as TextView
                             if (etValue.text.trim().equals("")) {
