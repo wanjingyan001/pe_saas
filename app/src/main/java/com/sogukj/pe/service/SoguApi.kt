@@ -11,6 +11,8 @@ import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peExtended.getIntEnvironment
 import com.sogukj.pe.peUtils.Store
+import com.sogukj.pe.service.DzhHttpUtils
+import com.sogukj.pe.service.socket.DzhInterceptor
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -27,6 +29,7 @@ class SoguApi {
     private val context: Application
     private var retrofit: Retrofit
     private val environment = getIntEnvironment()
+    private val dzhHttp : DzhHttpUtils
     private constructor(context: Application) {
         this.context = context
 //        val client = OkHttpClient.Builder()
@@ -58,7 +61,7 @@ class SoguApi {
         }
 
         retrofit = Retrofit.Builder()
-                .baseUrl( Consts.HTTP_HOST)
+                .baseUrl(getHost())
 //                .baseUrl(url)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -68,6 +71,23 @@ class SoguApi {
         if (newBaseUrl.isNotEmpty()){
             RetrofitUrlManager.getInstance().setGlobalDomain(newBaseUrl)
         }
+
+        val dzhRetrofit = Retrofit.Builder()
+                .baseUrl(Consts.DZH_HOST)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .client(getDzhClient())
+                .build()
+
+        dzhHttp = dzhRetrofit.create(DzhHttpUtils::class.java)
+    }
+
+    private fun getDzhClient(): OkHttpClient? {
+        return OkHttpClient.Builder()
+                .addInterceptor(DzhInterceptor.newInstance(context))
+                .readTimeout(100, TimeUnit.SECONDS)
+                .connectTimeout(100,TimeUnit.SECONDS)
+                .build()
     }
 
     private fun getHost():String{
@@ -140,6 +160,12 @@ class SoguApi {
 
         fun <T> getService(ctx: Application, service: Class<T>): T {
             return getApi(ctx).getService(service)
+        }
+        fun getDzhHttp(ctx: Application?):DzhHttpUtils{
+            if (null == ctx){
+                throw NullPointerException("context can't be null")
+            }
+            return getApi(ctx).dzhHttp
         }
     }
 }

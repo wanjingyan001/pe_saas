@@ -53,6 +53,7 @@ import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.FileUtil
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.OtherService
+import com.sogukj.pe.service.socket.DzhClientService
 import com.sogukj.pe.widgets.MyProgressBar
 import com.sogukj.pe.widgets.PhoneNotifDialog
 import com.sogukj.service.SoguApi
@@ -94,6 +95,7 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        DzhClientService.startService(this)
         val clazz = intent.getSerializableExtra("uPush.target") as Class<Activity>?
         clazz?.apply {
             val news = intent.getSerializableExtra(Extras.DATA) as NewsBean?
@@ -115,7 +117,6 @@ class MainActivity : BaseActivity() {
             Glide.with(this@MainActivity)
                     .load(it.logo)
                     .apply(RequestOptions()
-                            .centerInside()
                             .placeholder(defaultLogo)
                             .error(defaultLogo))
                     .into(mainLogo)
@@ -135,6 +136,22 @@ class MainActivity : BaseActivity() {
 
         saveCityAreaJson()
         copyAssets("ic_launcher_pe.png")
+
+        saveDzhToken()
+    }
+
+    private fun saveDzhToken() {
+        SoguApi.getDzhHttp(application).getDzhToken(Extras.DZH_APP_ID,Extras.DZH_SECRET_KEY)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    t ->
+                    if (null != t && null != t.token){
+                        Store.store.setDzhToken(this,t.token)
+                    }
+                },{
+                    it.printStackTrace()
+                })
     }
 
     private fun copyAssets(filename: String) {
@@ -441,7 +458,6 @@ class MainActivity : BaseActivity() {
             Glide.with(this@MainActivity)
                     .load(it.logo)
                     .apply(RequestOptions()
-                            .centerInside()
                             .error(R.mipmap.ic_launcher_mian_circle))
                     .into(mainLogo)
         }
@@ -525,5 +541,10 @@ class MainActivity : BaseActivity() {
             }
         }
         return super.onKeyDown(keyCode, event)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        DzhClientService.stopService(this)
     }
 }

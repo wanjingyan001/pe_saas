@@ -7,6 +7,8 @@ class Consts {
     companion object {
         val HTTP_HOST =  "https://sougu.pewinner.com"
         val  DEV_HTTP_HOST = "http://prehts.pewinner.com/"
+
+        val DZH_HOST = "http://gw.yundzh.com/"
 //        val HTTP_HOST = when (getEnvironment()) {
 //        val HTTP_HOST =  "https://sougu.pewinner.com"
 //        val HTTP_HOST = when (getEnvironment()) {、

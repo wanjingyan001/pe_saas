@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/ic_arrow_r" />
+                android:src="@drawable/ic_right" />
         </LinearLayout>
 
         <TableRow
@@ -185,7 +185,7 @@
 
             <ImageView
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_arrow_r" />
+                android:src="@drawable/ic_right" />
         </TableRow>
 
         <TableRow
@@ -205,7 +205,7 @@
 
             <ImageView
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_arrow_r" />
+                android:src="@drawable/ic_right" />
         </TableRow>
     </TableLayout>
 </LinearLayout>

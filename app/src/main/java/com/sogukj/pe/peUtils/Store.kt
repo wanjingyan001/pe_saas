@@ -241,6 +241,14 @@ class Store private constructor() {
         }
     }
 
+    fun getDzhToken(ctx: Context): String {
+        return XmlDb.open(ctx).get(com.sogukj.pe.Extras.DZH_TOKEN,"")
+    }
+
+    fun setDzhToken(ctx: Context, token: String):Boolean{
+        return XmlDb.open(ctx).set(com.sogukj.pe.Extras.DZH_TOKEN,token)
+    }
+
     class SizeList<E> : LinkedList<E>() {
 
         fun distinct() {
