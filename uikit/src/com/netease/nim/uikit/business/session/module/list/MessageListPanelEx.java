@@ -2,7 +2,9 @@ package com.netease.nim.uikit.business.session.module.list;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Handler;
@@ -112,6 +114,7 @@ public class MessageListPanelEx {
     //而在发送消息后，list 需要滚动到底部，又会通过RequestFetchMoreListener 调用一次 loadFromLocal
     //所以消息会重复
     private boolean mIsInitFetchingLocal;
+    private SharedPreferences sp;
 
     public MessageListPanelEx(Container container, View rootView, boolean recordOnly, boolean remote) {
         this(container, rootView, null, recordOnly, remote);
@@ -158,6 +161,7 @@ public class MessageListPanelEx {
     }
 
     private void init(IMMessage anchor) {
+        sp = container.activity.getSharedPreferences("Saas_IM", Context.MODE_PRIVATE);
         initListView(anchor);
 
         this.uiHandler = new Handler();
@@ -543,11 +547,12 @@ public class MessageListPanelEx {
         private boolean remote;
 
         private boolean firstLoad = true;
+        private boolean isFirstChat = true;
 
         public MessageLoader(IMMessage anchor, boolean remote) {
             this.anchor = anchor;
             this.remote = remote;
-//            if (remote) {
+			//            if (remote) {
 //                loadFromRemote();
 //            } else {
 //                if (anchor == null) {
@@ -556,15 +561,20 @@ public class MessageListPanelEx {
 //                    loadAnchorContext(); // 加载指定anchor的上下文
 //                }
 //            }
-            if (anchor == null) {
-                if (remote) {
-                    loadFromRemote();
+            isFirstChat = sp.getBoolean(container.account+"SAAS_IM",true);
+            if (isFirstChat) {
+                loadFromRemote();
+            }else {
+                if (anchor == null) {
+                    if (remote) {
+                        loadFromLocal(QueryDirectionEnum.QUERY_OLD);
+                        mIsInitFetchingLocal = true;
+                    } else {
+                        loadFromRemote();
+                    }
                 } else {
-                    loadFromLocal(QueryDirectionEnum.QUERY_OLD);
-					 mIsInitFetchingLocal = true;
+                    loadAnchorContext(); // 加载指定anchor的上下文
                 }
-            } else {
-                loadAnchorContext(); // 加载指定anchor的上下文
             }
         }
 

@@ -61,7 +61,7 @@ class SoguApi {
         }
 
         retrofit = Retrofit.Builder()
-                .baseUrl(getHost())
+                .baseUrl( Consts.HTTP_HOST)
 //                .baseUrl(url)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
