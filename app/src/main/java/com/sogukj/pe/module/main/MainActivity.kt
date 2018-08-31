@@ -137,21 +137,6 @@ class MainActivity : BaseActivity() {
         saveCityAreaJson()
         copyAssets("ic_launcher_pe.png")
 
-        saveDzhToken()
-    }
-
-    private fun saveDzhToken() {
-        SoguApi.getDzhHttp(application).getDzhToken(Extras.DZH_APP_ID,Extras.DZH_SECRET_KEY)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    t ->
-                    if (null != t && null != t.token){
-                        Store.store.setDzhToken(this,t.token)
-                    }
-                },{
-                    it.printStackTrace()
-                })
     }
 
     private fun copyAssets(filename: String) {

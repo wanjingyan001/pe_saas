@@ -6,7 +6,7 @@ import java.io.Serializable
  * Created by qinfei on 17/8/7.
  */
 class StockBean : Serializable {
-    var stockcode: Int? = null// 1,
+    var stockcode: String? = null// 1,
     var stockname: String? = null// "平安银行",
     var stockType: Int? = null// 1,
     var timeshow: String = ""//"2017-08-02 15:50:04",

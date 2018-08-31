@@ -1158,6 +1158,14 @@
             android:screenOrientation="portrait" />
 
         <activity android:name=".module.im.RemoveMemberActivity"></activity>
+
+        <service android:name=".service.socket.DzhClientService">
+            <intent-filter>
+                <action android:name="com.sogukj.pe.service.socket.DzhClientService" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

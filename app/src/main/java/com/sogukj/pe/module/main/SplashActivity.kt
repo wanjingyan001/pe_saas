@@ -2,11 +2,9 @@ package com.sogukj.pe.module.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.FrameLayout
 import androidx.core.content.edit
-import com.amap.api.mapcore.util.it
-import com.netease.nim.uikit.api.NimUIKit
-import com.netease.nimlib.sdk.NIMClient
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.execute
@@ -19,7 +17,8 @@ import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.RegisterService
 import com.sogukj.service.SoguApi
-import io.reactivex.internal.util.HalfSerializer.onNext
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_splash.*
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import me.leolin.shortcutbadger.ShortcutBadger
@@ -47,7 +46,7 @@ class SplashActivity : BaseActivity() {
         val params = splash_bg.layoutParams as FrameLayout.LayoutParams
         params.setMargins(0, 0, 0, Utils.dpToPx(this, 40))
         splash_bg.layoutParams = params
-
+        saveDzhToken()
         getCompanyInfo()
     }
 
@@ -75,7 +74,20 @@ class SplashActivity : BaseActivity() {
         }, 500)
     }
 
-
+    private fun saveDzhToken() {
+        SoguApi.getDzhHttp(application).getDzhToken(Extras.DZH_APP_ID,Extras.DZH_SECRET_KEY)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    t ->
+                    if (null != t && null != t.token){
+                        Log.e("TAG","token ==" + t.token)
+                        Store.store.setDzhToken(this,t.token)
+                    }
+                },{
+                    it.printStackTrace()
+                })
+    }
 
     private fun getCompanyInfo() {
         val key = sp.getString(Extras.CompanyKey, "")

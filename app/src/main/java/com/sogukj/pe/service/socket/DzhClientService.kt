@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Handler
 import android.os.IBinder
 import android.os.Message
+import android.util.Log
 import com.sogukj.pe.Consts
 import com.sogukj.pe.Extras.CONNECT
 import com.sogukj.pe.Extras.CONNECTED
@@ -82,6 +83,7 @@ class DzhClientService : Service(){
     }
 
     private fun send(message: String) {
+        Log.e("TAG","message ==" + message)
         TaskExecutor.getExecutor().async(object : Runnable{
             override fun run() {
                 if (isConnected) {
@@ -126,6 +128,7 @@ class DzhClientService : Service(){
         if (null == realWebSocket){
             realWebSocket = client.newWebSocket(request,object : WebSocketListener() {
                 override fun onOpen(socket: WebSocket?, response: Response?) {
+                    Log.e("TAG","onOpen --")
                     isConnected = true
                     isConnecting = false
                     webSocket = socket
@@ -133,6 +136,7 @@ class DzhClientService : Service(){
                 }
 
                 override fun onFailure(webSocket: WebSocket?, t: Throwable?, response: Response?) {
+                    Log.e("TAG","onFailure --")
                     isConnected = false
                     isConnecting = false
                     handle.sendEmptyMessageDelayed(CONNECT, 3000)
@@ -143,11 +147,14 @@ class DzhClientService : Service(){
                 }
 
                 override fun onMessage(webSocket: WebSocket?, bytes: ByteString?) {
+                    Log.e("TAG","onMessage --")
                     isConnecting = false
                     handle.sendMessage(handle.obtainMessage(MESSAGE, bytes!!.utf8()))
                     handle.removeCallbacks(timeoutRunnable)
                 }
+
                 override fun onClosed(webSocket: WebSocket?, code: Int, reason: String?) {
+                    Log.e("TAG","onClosed --")
                     isConnected = false
                 }
 
