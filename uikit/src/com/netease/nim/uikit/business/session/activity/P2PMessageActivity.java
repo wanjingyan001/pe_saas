@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -118,7 +119,10 @@ public class P2PMessageActivity extends BaseMessageActivity {
                 Object departName = info.getExtensionMap().get("departName");
                 Object position = info.getExtensionMap().get("position");
                 if(null != departName && null != position) {
+                    subTitle.setVisibility(View.VISIBLE);
                     subTitle.setText(departName.toString() + "-" + position.toString());
+                }else{
+                    subTitle.setVisibility(View.GONE);
                 }
             }
         });

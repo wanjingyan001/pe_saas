@@ -84,7 +84,7 @@ class StockInfoActivity : ToolbarActivity() {
             Extras.MESSAGE -> {
                 try {
                     Log.e("TAG","event.data ===" + event.data)
-                    val dzh = JsonBinder.fromJson(event.data, DzhResp::class.java);
+                    val dzh = JsonBinder.fromJson(event.data, DzhResp::class.java)
                     if (dzh.Err == 0){
                         if (dzh.Qid.equals(qidHelper.getQid("detail_quote"))) {
                             val data = JsonBinder.fromJson(event.data, StkDataDetail::class.java)

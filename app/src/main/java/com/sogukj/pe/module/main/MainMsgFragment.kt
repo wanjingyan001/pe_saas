@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.AppBarLayout
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
@@ -41,7 +40,6 @@ import com.netease.nimlib.sdk.msg.model.IMMessage
 import com.netease.nimlib.sdk.msg.model.RecentContact
 import com.netease.nimlib.sdk.search.model.MsgIndexRecord
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter
-import com.scwang.smartrefresh.layout.footer.ClassicsFooter
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.textStr
@@ -71,6 +69,7 @@ import org.jetbrains.anko.backgroundResource
 import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.info
 import org.jetbrains.anko.support.v4.ctx
+import org.json.JSONObject
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -293,9 +292,11 @@ class MainMsgFragment : BaseFragment() {
                 val tvTitleMsg = convertView.findViewById<TextView>(R.id.tv_title_msg) as TextView
                 val tvNum = convertView.findViewById<TextView>(R.id.tv_num) as TextView
                 val topTag = convertView.findViewById<ImageView>(R.id.topTag)
+                val tv_flag = convertView.findViewById<TextView>(R.id.tv_flag)
                 @SuppressLint("SetTextI18n")
                 override fun setData(view: View, data: Any, position: Int) {
                     if (data is MessageIndexBean) {
+                        tv_flag.visibility = View.GONE
                         if (!TextUtils.isEmpty(data.title))
                             tvTitleMsg.text = data.title
                         else
@@ -321,6 +322,7 @@ class MainMsgFragment : BaseFragment() {
                         tvTitle.text = titleName
                         topTag.setVisible(data.tag == RECENT_TAG_STICKY)
                         if (data.sessionType == SessionTypeEnum.P2P) {
+                            tv_flag.visibility = View.GONE
                             val value = data.msgStatus.value
                             when (value) {
                                 3 -> tvTitleMsg.text = Html.fromHtml("<font color='#a0a4aa'>[已读]</font>${data.content}")
@@ -345,6 +347,7 @@ class MainMsgFragment : BaseFragment() {
                                         .into(msgIcon)
                             }
                         } else if (data.sessionType == SessionTypeEnum.Team) {
+                            tv_flag.visibility = View.VISIBLE
                             val value = data.msgStatus.value
                             val fromNick = if (data.fromNick.isNullOrEmpty()) "" else "${data.fromNick}: "
                             when (value) {
@@ -358,6 +361,33 @@ class MainMsgFragment : BaseFragment() {
                                         .load(it.icon)
                                         .apply(RequestOptions().error(R.drawable.im_team_default))
                                         .into(msgIcon)
+
+                                val extServer = it.extServer
+                                if (null != extServer && !"".equals(extServer)){
+                                    val jsonObject = JSONObject(extServer)
+                                    val flag = jsonObject.getString("grouptype")
+                                    if ("0".equals(flag)){
+                                        //全员
+                                        tv_flag.setBackgroundResource(R.drawable.shape_flag_bg)
+                                        tv_flag.setTextColor(activity!!.resources.getColor(R.color.orange_f5))
+                                        tv_flag.setText("全员")
+                                    }else if ("1".equals(flag)){
+                                        //部门
+                                        tv_flag.setBackgroundResource(R.drawable.shape_flag_bg)
+                                        tv_flag.setTextColor(activity!!.resources.getColor(R.color.orange_f5))
+                                        tv_flag.setText("部门")
+                                    }else{
+                                        //内部群
+                                        tv_flag.setBackgroundResource(R.drawable.shape_flag_bg_other)
+                                        tv_flag.setTextColor(activity!!.resources.getColor(R.color.blue_43))
+                                        tv_flag.setText("内部群")
+                                    }
+                                }else{
+                                    //内部群
+                                    tv_flag.setBackgroundResource(R.drawable.shape_flag_bg_other)
+                                    tv_flag.setTextColor(activity!!.resources.getColor(R.color.blue_43))
+                                    tv_flag.setText("内部群")
+                                }
                             }
                         }
                         try {
