@@ -115,7 +115,13 @@ public class P2PMessageActivity extends BaseMessageActivity {
         NimUIKit.getUserInfoProvider().getUserInfoAsync(sessionId, new SimpleCallback() {
             @Override
             public void onResult(boolean success, Object result, int code) {
+                if(null == result) {
+                    return;
+                }
                 NimUserInfo info = (NimUserInfo) result;
+                if(null == info.getExtensionMap()) {
+                    return;
+                }
                 Object departName = info.getExtensionMap().get("departName");
                 Object position = info.getExtensionMap().get("position");
                 if(null != departName && null != position) {

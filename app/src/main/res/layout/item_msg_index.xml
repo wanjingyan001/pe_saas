@@ -42,6 +42,7 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:gravity="left"
+                    android:maxEms="9"
                     android:layout_gravity="center_vertical"
                     android:singleLine="true"
                     android:text="系统消息助手"

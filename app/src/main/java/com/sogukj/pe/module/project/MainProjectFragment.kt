@@ -9,31 +9,23 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.TabLayout
-import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
 import android.text.InputType
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
-import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.google.gson.Gson
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-import com.lcodecore.tkrefreshlayout.footer.BallPulseView
-import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.BaseFragment
@@ -117,7 +109,7 @@ class MainProjectFragment : BaseRefreshFragment() {
             val intent = Intent(context, UserActivity::class.java)
             startActivityForResult(intent, 0x789)
         }
-
+        loadDangerous()
         dangerous.setOnClickListener {
             DangerousActivity.start(baseActivity)
         }
@@ -461,6 +453,10 @@ class MainProjectFragment : BaseRefreshFragment() {
                 }
             }
         })
+    }
+
+    private fun loadDangerous() {
+        Glide.with(activity!!).asGif().load(R.drawable.danger).into(dangerous)
     }
 
     override fun doRefresh() {

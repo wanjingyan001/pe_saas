@@ -39,7 +39,7 @@
                         android:layout_alignParentTop="true"
                         android:textColor="@color/white"
                         android:layout_gravity="center_vertical"
-                        tools:text="11111"
+                        tools:text="111"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 

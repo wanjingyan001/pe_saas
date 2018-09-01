@@ -34,13 +34,14 @@
         <!--android:visibility="gone"-->
         <!--android:scaleType="centerInside"-->
         <!--android:src="@mipmap/ic_launcher_mian_circle"  />-->
-    <com.sogukj.pe.widgets.CircleImageView
+    <ImageView
         android:id="@+id/mainLogo"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignBottom="@+id/bottomBar"
         android:layout_alignTop="@+id/bottomBar"
         android:layout_centerHorizontal="true"
+        android:scaleType="fitCenter"
         android:visibility="gone"
         android:src="@mipmap/ic_launcher_mian_circle" />
     <!--<RadioGroup-->

@@ -118,7 +118,7 @@ class MainActivity : BaseActivity() {
             }
             Glide.with(this@MainActivity)
                     .load(it.logo)
-                    .apply(RequestOptions()
+                    .apply(RequestOptions.circleCropTransform()
                             .placeholder(defaultLogo)
                             .error(defaultLogo))
                     .into(mainLogo)
@@ -458,7 +458,7 @@ class MainActivity : BaseActivity() {
         detail?.let {
             Glide.with(this@MainActivity)
                     .load(it.logo)
-                    .apply(RequestOptions()
+                    .apply(RequestOptions.circleCropTransform()
                             .error(R.mipmap.ic_launcher_mian_circle))
                     .into(mainLogo)
         }

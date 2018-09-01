@@ -17,7 +17,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_marginLeft="12dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:gravity="center|left"
         android:orientation="vertical">
 
@@ -47,39 +47,41 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="60dp"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_marginRight="20dp"
+        android:layout_weight="1"
         android:gravity="center"
+        android:layout_marginRight="@dimen/text_5"
         android:orientation="vertical">
 
         <ImageView
             android:layout_width="55dp"
             android:layout_height="25dp"
+            android:layout_gravity="center_horizontal"
             android:background="@drawable/ytc" />
 
         <TextView
             android:id="@+id/ytc"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:letterSpacing="0.04"
+            android:layout_gravity="center_horizontal"
             android:lineSpacingExtra="0sp"
-            android:maxLines="1"
-            android:ellipsize="end"
             android:text="7000万"
+            android:gravity="center"
             android:textColor="#ff5d5d"
             android:textSize="@dimen/text_size_15" />
 
         <TextView
             android:id="@+id/total"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:letterSpacing="0.04"
             android:lineSpacingExtra="0sp"
-            android:ellipsize="end"
-            android:maxLines="1"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
             android:text="总额：1000万"
             android:textColor="#a0a4aa"
             android:textSize="8sp" />
