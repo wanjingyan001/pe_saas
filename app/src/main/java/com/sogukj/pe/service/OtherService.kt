@@ -111,20 +111,5 @@ interface OtherService {
     @POST("/api/index/bannerstatus")
     fun getFourModules(): Observable<Payload<List<MainModule>>>
 
-    /**
-     * 投资事件
-     */
-    @FormUrlEncoded
-    @POST("/api/Datasource/investList")
-    fun getInvestList(@Field("industry_id") industryId: Int? = null,
-                      @Field("year") year: Int? = null,
-                      @Field("search") search: String? = null,
-                      @Field("page") page: Int = 1,
-                      @Field("pageSize") pageSize: Int = 20): Observable<Payload<List<InvestmentEvent>>>
 
-    /**
-     * 获取投资分类(投资事件的筛选条件1)
-     */
-    @POST("/api/Datasource/invest_category")
-    fun getInvestCategory():Observable<Payload<List<InvestCategory>>>
 }

@@ -27,6 +27,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.netease.nim.uikit.api.NimUIKit
+import com.netease.nim.uikit.business.recent.RecentContactsFragment.RECENT_TAG_STICKY
 import com.netease.nim.uikit.business.recent.TeamMemberAitHelper
 import com.netease.nim.uikit.business.uinfo.UserInfoHelper
 import com.netease.nimlib.sdk.NIMClient
@@ -363,30 +364,34 @@ class MainMsgFragment : BaseFragment() {
                                         .into(msgIcon)
 
                                 val extServer = it.extServer
-                                if (null != extServer && !"".equals(extServer)){
+                                if (null != extServer && "" != extServer && """"{}"""" != extServer){
                                     val jsonObject = JSONObject(extServer)
                                     val flag = jsonObject.getString("grouptype")
-                                    if ("0".equals(flag)){
-                                        //全员
-                                        tv_flag.setBackgroundResource(R.drawable.shape_flag_bg)
-                                        tv_flag.setTextColor(activity!!.resources.getColor(R.color.orange_f5))
-                                        tv_flag.setText("全员")
-                                    }else if ("1".equals(flag)){
-                                        //部门
-                                        tv_flag.setBackgroundResource(R.drawable.shape_flag_bg)
-                                        tv_flag.setTextColor(activity!!.resources.getColor(R.color.orange_f5))
-                                        tv_flag.setText("部门")
-                                    }else{
-                                        //内部群
-                                        tv_flag.setBackgroundResource(R.drawable.shape_flag_bg_other)
-                                        tv_flag.setTextColor(activity!!.resources.getColor(R.color.blue_43))
-                                        tv_flag.setText("内部")
+                                    when (flag) {
+                                        "0" -> {
+                                            //全员
+                                            tv_flag.setBackgroundResource(R.drawable.shape_flag_bg)
+                                            tv_flag.setTextColor(activity!!.resources.getColor(R.color.orange_f5))
+                                            tv_flag.text = "全员"
+                                        }
+                                        "1" -> {
+                                            //部门
+                                            tv_flag.setBackgroundResource(R.drawable.shape_flag_bg)
+                                            tv_flag.setTextColor(activity!!.resources.getColor(R.color.orange_f5))
+                                            tv_flag.text = "部门"
+                                        }
+                                        else -> {
+                                            //内部群
+                                            tv_flag.setBackgroundResource(R.drawable.shape_flag_bg_other)
+                                            tv_flag.setTextColor(activity!!.resources.getColor(R.color.blue_43))
+                                            tv_flag.text = "内部群"
+                                        }
                                     }
                                 }else{
                                     //内部群
                                     tv_flag.setBackgroundResource(R.drawable.shape_flag_bg_other)
                                     tv_flag.setTextColor(activity!!.resources.getColor(R.color.blue_43))
-                                    tv_flag.setText("内部")
+                                    tv_flag.text = "内部群"
                                 }
                             }
                         }

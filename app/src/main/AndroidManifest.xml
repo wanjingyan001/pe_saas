@@ -1173,7 +1173,22 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".module.other.InvestmentActivity"></activity>
+        <activity
+            android:name=".module.dataSource.InvestmentActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".module.dataSource.InvestSearchActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateVisible" />
+        <activity
+            android:name=".module.dataSource.DocumentsListActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity android:name=".module.dataSource.PdfSearchActivity"></activity>
     </application>
 
 </manifest>

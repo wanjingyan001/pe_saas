@@ -1,11 +1,15 @@
-package com.sogukj.pe.module.other
+package com.sogukj.pe.module.dataSource
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.text.Html
 import android.view.Gravity
 import android.view.View
+import androidx.core.view.get
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.amap.api.mapcore.util.it
+import com.google.android.flexbox.AlignItems
+import com.google.android.flexbox.FlexboxLayoutManager
 import com.scwang.smartrefresh.layout.api.RefreshFooter
 import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.R
@@ -14,7 +18,6 @@ import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.otherWise
 import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
-import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
@@ -23,14 +26,17 @@ import com.sogukj.pe.baselibrary.widgets.SpaceItemDecoration
 import com.sogukj.pe.bean.CategoryChild1
 import com.sogukj.pe.bean.InvestCategory
 import com.sogukj.pe.bean.InvestmentEvent
+import com.sogukj.pe.service.DataSourceService
 import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
+import io.reactivex.internal.util.HalfSerializer.onNext
 import kotlinx.android.synthetic.main.activity_investment_event.*
 import kotlinx.android.synthetic.main.item_investment_event_list.view.*
 import kotlinx.android.synthetic.main.item_invest_primary.view.*
 import kotlinx.android.synthetic.main.item_invest_secondary.view.*
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.dip
+import org.jetbrains.anko.startActivity
 
 @Route(path = ARouterPath.InvestmentActivity)
 class InvestmentActivity : BaseRefreshActivity() {
@@ -47,7 +53,7 @@ class InvestmentActivity : BaseRefreshActivity() {
         setContentView(R.layout.activity_investment_event)
         Utils.setWindowStatusBarColor(this, R.color.white)
         toolbar?.setBackgroundColor(resources.getColor(R.color.white))
-        title = "投资事件"
+        title = "行业近期投融资历史"
         setBack(true)
         resultAdapter = RecyclerAdapter(this) { _adapter, parent, _ ->
             ResultHolder(_adapter.getView(R.layout.item_investment_event_list, parent))
@@ -76,16 +82,44 @@ class InvestmentActivity : BaseRefreshActivity() {
             addItemDecoration(SpaceItemDecoration(dip(10)))
             adapter = resultAdapter
         }
-        filterCondition.clickWithTrigger {
-            drawer.openDrawer(Gravity.START)
-        }
         primaryOption.apply {
             layoutManager = LinearLayoutManager(ctx)
             adapter = primaryAdapter
         }
-
+        secondaryOption.apply {
+            val manager = FlexboxLayoutManager(ctx)
+            manager.alignItems = AlignItems.FLEX_START
+            layoutManager = manager
+            adapter = secondaryAdapter
+        }
         getInvestList()
         getInvestCategory()
+        initListener()
+    }
+
+    private fun initListener(){
+        filterCondition.clickWithTrigger {
+            drawer.openDrawer(Gravity.START)
+            primaryOption[0].performClick()
+        }
+        resetCondition.clickWithTrigger {
+            primaryAdapter.selectedPosition = 0
+            primaryAdapter.dataList[0].child?.let {
+                secondaryAdapter.refreshData(it)
+            }
+            secondaryAdapter.selectedPosition = -1
+            fIndustryId = null
+            fYear = null
+        }
+        confirm.clickWithTrigger {
+            page = 1
+            getInvestList()
+            drawer.closeDrawers()
+        }
+        searchLayout.clickWithTrigger {
+//            startActivity<InvestSearchActivity>()
+            DocumentsListActivity.start(this,DocumentType.EQUITY)
+        }
     }
 
 
@@ -112,7 +146,7 @@ class InvestmentActivity : BaseRefreshActivity() {
 
 
     private fun getInvestList() {
-        SoguApi.getService(application, OtherService::class.java)
+        SoguApi.getService(application, DataSourceService::class.java)
                 .getInvestList(fIndustryId, fYear, page = page)
                 .execute {
                     onNext { payload ->
@@ -125,7 +159,7 @@ class InvestmentActivity : BaseRefreshActivity() {
                                     resultAdapter.notifyDataSetChanged()
                                 }
                             }
-                            filterResultTv.text = "${payload.total.toString()}条结果"
+                            filterResultTv.text = Html.fromHtml(getString(R.string.tv_title_result_search2, (payload.total as Double).toInt()))
                         }.otherWise {
                             showErrorToast(payload.message)
                         }
@@ -141,7 +175,7 @@ class InvestmentActivity : BaseRefreshActivity() {
     }
 
     private fun getInvestCategory() {
-        SoguApi.getService(application, OtherService::class.java)
+        SoguApi.getService(application, DataSourceService::class.java)
                 .getInvestCategory()
                 .execute {
                     onNext { payload ->
@@ -177,7 +211,7 @@ class InvestmentActivity : BaseRefreshActivity() {
 
     inner class SecondaryHolder(itemView: View) : RecyclerHolder<CategoryChild1>(itemView) {
         override fun setData(view: View, data: CategoryChild1, position: Int) {
-            view.secondaryOptionTv.isSelected = primaryAdapter.selectedPosition == position
+            view.secondaryOptionTv.isSelected = secondaryAdapter.selectedPosition == position
             view.secondaryOptionTv.text = data.category_name
         }
     }
