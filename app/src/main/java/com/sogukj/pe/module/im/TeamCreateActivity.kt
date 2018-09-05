@@ -5,11 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
-import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -23,10 +20,6 @@ import com.netease.nim.uikit.common.ui.dialog.DialogMaker
 import com.netease.nim.uikit.support.glide.GlideEngine
 import com.netease.nimlib.sdk.NIMClient
 import com.netease.nimlib.sdk.RequestCallback
-import com.netease.nimlib.sdk.msg.MessageBuilder
-import com.netease.nimlib.sdk.msg.MsgService
-import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum
-import com.netease.nimlib.sdk.msg.model.CustomMessageConfig
 import com.netease.nimlib.sdk.team.TeamService
 import com.netease.nimlib.sdk.team.constant.*
 import com.netease.nimlib.sdk.team.model.CreateTeamResult
@@ -50,7 +43,6 @@ import com.sogukj.pe.peExtended.removeTeamSelectActivity
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.ImService
 import com.sogukj.service.SoguApi
-import io.reactivex.internal.util.HalfSerializer.onNext
 import kotlinx.android.synthetic.main.activity_team_create.*
 import org.jetbrains.anko.info
 import org.jetbrains.anko.toast

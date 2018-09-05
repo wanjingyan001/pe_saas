@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -114,11 +115,20 @@ public class P2PMessageActivity extends BaseMessageActivity {
         NimUIKit.getUserInfoProvider().getUserInfoAsync(sessionId, new SimpleCallback() {
             @Override
             public void onResult(boolean success, Object result, int code) {
+                if(null == result) {
+                    return;
+                }
                 NimUserInfo info = (NimUserInfo) result;
+                if(null == info.getExtensionMap()) {
+                    return;
+                }
                 Object departName = info.getExtensionMap().get("departName");
                 Object position = info.getExtensionMap().get("position");
                 if(null != departName && null != position) {
+                    subTitle.setVisibility(View.VISIBLE);
                     subTitle.setText(departName.toString() + "-" + position.toString());
+                }else{
+                    subTitle.setVisibility(View.GONE);
                 }
             }
         });

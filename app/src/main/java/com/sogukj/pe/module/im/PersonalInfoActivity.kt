@@ -27,6 +27,7 @@ import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.utils.XmlDb
 import com.sogukj.pe.bean.UserBean
+import com.sogukj.pe.module.main.MainActivity
 import com.sogukj.pe.peExtended.needIm
 import com.sogukj.pe.service.ImService
 import com.sogukj.service.SoguApi
@@ -137,11 +138,19 @@ class PersonalInfoActivity : BaseActivity(), View.OnClickListener, TextWatcher, 
         when (v?.id) {
             R.id.sendMsg -> {
                 if (!NimUIKit.getAccount().isNullOrEmpty() && user?.accid != null) {
+//                    if (!pathByUri.isNullOrEmpty()) {
+//                        NimUIKit.startP2PSession(this, user?.accid, pathByUri)
+//                    } else {
+//                        NimUIKit.startP2PSession(this, user?.accid)
+//                    }
+                    val bundle = Bundle()
+                    bundle.putBoolean("formPersonalInfo", true)
                     if (!pathByUri.isNullOrEmpty()) {
-                        NimUIKit.startP2PSession(this, user?.accid, pathByUri)
+                        MainActivity.invoke(this,bundle,pathByUri!!,user?.accid!!)
                     } else {
-                        NimUIKit.startP2PSession(this, user?.accid)
+                        MainActivity.invoke(this, bundle,"", user?.accid!!)
                     }
+
                 } else {
                     toast("信息有误")
                 }

@@ -4,12 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
 import com.netease.nim.uikit.R;
 import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nim.uikit.api.model.SimpleCallback;
@@ -23,13 +21,8 @@ import com.netease.nim.uikit.business.session.fragment.MessageFragment;
 import com.netease.nim.uikit.business.session.fragment.TeamMessageFragment;
 import com.netease.nim.uikit.common.activity.ToolBarOptions;
 import com.netease.nim.uikit.common.util.log.sdk.util.FileUtils;
-import com.netease.nimlib.sdk.NIMClient;
-import com.netease.nimlib.sdk.RequestCallback;
-import com.netease.nimlib.sdk.msg.MessageBuilder;
-import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
-import com.netease.nimlib.sdk.msg.model.QueryDirectionEnum;
 import com.netease.nimlib.sdk.team.constant.TeamTypeEnum;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.nimlib.sdk.team.model.TeamMember;
@@ -58,7 +51,7 @@ public class TeamMessageActivity extends BaseMessageActivity {
     private Class<? extends Activity> backToClass;
     private TextView bigTitle;
     private TextView smallTitle;
-
+    private TextView tv_flag;
     public static void start(Context context, String tid, SessionCustomization customization,
                              Class<? extends Activity> backToClass, IMMessage anchor) {
         Intent intent = new Intent();
@@ -172,6 +165,38 @@ public class TeamMessageActivity extends BaseMessageActivity {
             }
         }
 
+        if(null != team.getExtServer() && !team.getExtServer().isEmpty()) {
+            try {
+                tv_flag.setVisibility(View.VISIBLE);
+                JSONObject object = new JSONObject(team.getExtServer());
+                String flag = object.getString("grouptype");
+                if ("0".equals(flag)){
+                    //全员
+                    tv_flag.setBackgroundResource(R.drawable.shape_team_all);
+                    tv_flag.setTextColor(getResources().getColor(R.color.orange_f5));
+                    tv_flag.setText("全员");
+                }else if ("1".equals(flag)){
+                    //部门
+                    tv_flag.setBackgroundResource(R.drawable.shape_team_all);
+                    tv_flag.setTextColor(getResources().getColor(R.color.orange_f5));
+                    tv_flag.setText("部门");
+                }else{
+                    //内部群
+                    tv_flag.setBackgroundResource(R.drawable.shape_team_inside);
+                    tv_flag.setTextColor(getResources().getColor(R.color.white));
+                    tv_flag.setText("内部群");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }else{
+            tv_flag.setVisibility(View.VISIBLE);
+            //内部群
+            tv_flag.setBackgroundResource(R.drawable.shape_team_inside);
+            tv_flag.setTextColor(getResources().getColor(R.color.white));
+            tv_flag.setText("内部群");
+        }
+
 //        setTitle(team == null ? sessionId : team.getName() + "(" + team.getMemberCount() + "人)");
 
         invalidTeamTipText.setText(team.getType() == TeamTypeEnum.Normal ? R.string.normal_team_invalid_tip : R.string.team_invalid_tip);
@@ -281,6 +306,7 @@ public class TeamMessageActivity extends BaseMessageActivity {
         setToolBar(R.id.toolbar, options);
         bigTitle = ((TextView) findViewById(R.id.bigTitle));
         smallTitle = (TextView) findViewById(R.id.smallTitle);
+        tv_flag = findViewById(R.id.tv_flag);
     }
 
     @Override

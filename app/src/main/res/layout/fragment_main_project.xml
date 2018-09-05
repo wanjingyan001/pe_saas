@@ -153,11 +153,9 @@
         android:layout_height="50dp"
         android:layout_gravity="left|bottom"
         android:layout_marginBottom="100dp"
-        android:scaleType="centerInside"
-        android:src="@drawable/dan2"
+        android:scaleType="fitCenter"
         app:backgroundTint="#FF4C4C"
-        app:rippleColor="#FF4C4C" />
-
+        app:rippleColor="#FF4C4C"/>
     <RelativeLayout
         android:id="@+id/ll_search"
         android:layout_width="match_parent"

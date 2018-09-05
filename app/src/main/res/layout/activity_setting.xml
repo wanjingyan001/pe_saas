@@ -54,7 +54,7 @@
         android:gravity="left|center_vertical"
         android:padding="20dp"
         android:text="基础资料"
-        android:textColor="@color/shareholder_text_gray" />
+        android:textColor="@color/black_28" />
 
     <TextView
         android:id="@+id/feedBack"
@@ -66,7 +66,7 @@
         android:gravity="left|center_vertical"
         android:padding="20dp"
         android:text="意见反馈"
-        android:textColor="@color/shareholder_text_gray" />
+        android:textColor="@color/black_28" />
 
     <TextView
         android:id="@+id/checkUpdate"
@@ -78,7 +78,7 @@
         android:gravity="left|center_vertical"
         android:padding="20dp"
         android:text="关于X-PE"
-        android:textColor="@color/shareholder_text_gray" />
+        android:textColor="@color/black_28" />
 
     <TextView
         android:id="@+id/loginOut"
@@ -89,5 +89,5 @@
         android:gravity="center"
         android:padding="20dp"
         android:text="退出账号"
-        android:textColor="@color/shareholder_text_gray" />
+        android:textColor="@color/black_28" />
 </LinearLayout>

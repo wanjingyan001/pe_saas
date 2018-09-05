@@ -306,7 +306,6 @@ public class NimUIKit {
     public static void startP2PSession(Context context, String account) {
         NimUIKitImpl.startP2PSession(context, account);
     }
-
     /**
      * 打开单聊界面,并传递分享的文件
      * @param context 上下文

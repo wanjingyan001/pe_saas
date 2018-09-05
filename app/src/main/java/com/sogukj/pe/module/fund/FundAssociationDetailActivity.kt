@@ -213,6 +213,9 @@ class FundAssociationDetailActivity : ToolbarActivity() {
                 1 -> add1(it)
             }
         }
+        if (null != editText){
+            Utils.showSoftInputFromWindow(this,editText)
+        }
     }
 
     private fun add0(bean: ManagerDetailBean) {
@@ -293,6 +296,10 @@ class FundAssociationDetailActivity : ToolbarActivity() {
         if (null != editText){
             Utils.closeInput(this,editText)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 
     override fun onDestroy() {

@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.app.Activity
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -32,6 +33,7 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
+import com.netease.nim.uikit.api.NimUIKit
 import com.sogukj.pe.App
 import com.sogukj.pe.Consts
 import com.sogukj.pe.Extras
@@ -119,7 +121,7 @@ class MainActivity : BaseActivity() {
             }
             Glide.with(this@MainActivity)
                     .load(it.logo)
-                    .apply(RequestOptions()
+                    .apply(RequestOptions.circleCropTransform()
                             .placeholder(defaultLogo)
                             .error(defaultLogo))
                     .into(mainLogo)
@@ -429,11 +431,25 @@ class MainActivity : BaseActivity() {
                     mDialog.dismiss()
                 })
     }
-
+    private var bundle:Bundle? = null
+    private var pathByUri: String ? = null
+    private var accid: String ? = null
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         if (manager != null) {
             bottomBar.selectTab(0)
+        }
+        pathByUri = intent!!.getStringExtra("pathByUri")
+        accid = intent!!.getStringExtra("accid")
+        bundle = intent!!.getBundleExtra("bundle")
+        if (null != bundle){
+            if (bundle!!.getBoolean("formPersonalInfo")){
+                if (!pathByUri.isNullOrEmpty()) {
+                    NimUIKit.startP2PSession(this, accid, pathByUri)
+                } else {
+                    NimUIKit.startP2PSession(this, accid)
+                }
+            }
         }
     }
 
@@ -445,7 +461,7 @@ class MainActivity : BaseActivity() {
         detail?.let {
             Glide.with(this@MainActivity)
                     .load(it.logo)
-                    .apply(RequestOptions()
+                    .apply(RequestOptions.circleCropTransform()
                             .error(R.mipmap.ic_launcher_mian_circle))
                     .into(mainLogo)
         }
@@ -534,5 +550,18 @@ class MainActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         DzhClientService.stopService(this)
+    }
+
+    companion object {
+        fun invoke(context: Context,bundle: Bundle,pathByUri: String,accid: String){
+            val intent = Intent(context,MainActivity::class.java)
+            intent.putExtra("bundle",bundle)
+            intent.putExtra("pathByUri",pathByUri)
+            intent.putExtra("accid",accid)
+            if (context !is Activity){
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            context.startActivity(intent)
+        }
     }
 }
