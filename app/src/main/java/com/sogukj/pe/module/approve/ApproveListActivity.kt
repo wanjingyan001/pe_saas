@@ -18,8 +18,10 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
+import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.textStr
@@ -45,6 +47,7 @@ import org.jetbrains.anko.textColor
 /**
  * Created by qinfei on 17/10/18.
  */
+@Route(path = ARouterPath.ApproveListActivity)
 class ApproveListActivity : BaseRefreshActivity(), TabLayout.OnTabSelectedListener {
     override fun onTabReselected(tab: TabLayout.Tab?) {
 
@@ -73,7 +76,11 @@ class ApproveListActivity : BaseRefreshActivity(), TabLayout.OnTabSelectedListen
         setContentView(R.layout.activity_approve_list)
         inflater = LayoutInflater.from(this)
         mType = intent.getIntExtra(Extras.TYPE, 1)
-        title = intent.getStringExtra(Extras.TITLE)
+        title = if (intent.getIntExtra(Extras.FLAG,-1) == Extras.ROUTH_FLAG) {
+            "待我审批"
+        }else{
+            intent.getStringExtra(Extras.TITLE)
+        }
         setBack(true)
         if (mType == 6) {
             tab_title.visibility = View.VISIBLE
@@ -90,7 +97,7 @@ class ApproveListActivity : BaseRefreshActivity(), TabLayout.OnTabSelectedListen
             linearLayout.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE)
             linearLayout.setDividerDrawable(ContextCompat.getDrawable(this,
                     R.drawable.tab_divider))
-            linearLayout.setDividerPadding(Utils.dpToPx(context,15))
+            linearLayout.setDividerPadding(Utils.dpToPx(context, 15))
         } else {
             tab_title.visibility = View.GONE
         }
@@ -433,7 +440,8 @@ class ApproveListActivity : BaseRefreshActivity(), TabLayout.OnTabSelectedListen
 
         var pro_id: Int? = null
         var status_tyoe: Int? = null
-        if (intent.getStringExtra(Extras.TITLE).equals("审批历史")) {
+        val title = intent.getStringExtra(Extras.TITLE)
+        if (title != null && title == "审批历史") {
             pro_id = intent.getIntExtra(Extras.ID, 1)
             status_tyoe = null
         } else {
@@ -441,7 +449,7 @@ class ApproveListActivity : BaseRefreshActivity(), TabLayout.OnTabSelectedListen
             status_tyoe = mType
         }
         when (mType) {
-            4 -> SoguApi.getService(application,ApproveService::class.java)
+            4 -> SoguApi.getService(application, ApproveService::class.java)
                     .showCopy(page = page, template_id = templates)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
@@ -477,7 +485,7 @@ class ApproveListActivity : BaseRefreshActivity(), TabLayout.OnTabSelectedListen
                         }
                         adapter.notifyDataSetChanged()
                     })
-            6 -> SoguApi.getService(application,ApproveService::class.java)
+            6 -> SoguApi.getService(application, ApproveService::class.java)
                     .specApprove(news_id = bean.news_id!!, add_time = bean.add_time, flag = flag, search = searchStr)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
@@ -515,7 +523,7 @@ class ApproveListActivity : BaseRefreshActivity(), TabLayout.OnTabSelectedListen
                         }
                         adapter.notifyDataSetChanged()
                     })
-            else -> SoguApi.getService(application,ApproveService::class.java)
+            else -> SoguApi.getService(application, ApproveService::class.java)
                     .listApproval(status = status_tyoe, page = page,
                             fuzzyQuery = searchStr,
                             type = filterType, template_id = templates, filter = status, project_id = pro_id)
@@ -554,7 +562,7 @@ class ApproveListActivity : BaseRefreshActivity(), TabLayout.OnTabSelectedListen
         }
 
 
-        SoguApi.getService(application,ApproveService::class.java)
+        SoguApi.getService(application, ApproveService::class.java)
                 .approveFilter()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -571,7 +579,7 @@ class ApproveListActivity : BaseRefreshActivity(), TabLayout.OnTabSelectedListen
 
 
     companion object {
-        fun start(ctx: Activity?, type: Int? = null, id: Int? = null, bean: MessageBean? = null) {
+        fun start(ctx: Activity?, type: Int? = 1, id: Int? = null, bean: MessageBean? = null) {
             val intent = Intent(ctx, ApproveListActivity::class.java)
             val title = when (type) {
                 1 -> "待我审批"

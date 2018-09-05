@@ -366,10 +366,15 @@ class MainMsgFragment : BaseFragment() {
                         } catch (e: Exception) {
                         }
                         val mutableMap = data.extension
-                        if (mutableMap != null && mutableMap.isNotEmpty() && mutableMap[data.contactId] == "Mute") {
+                        if (mutableMap != null && mutableMap.isNotEmpty() &&  mutableMap[data.contactId] == "Mute") {
                             tvNum.visibility = View.VISIBLE
                             tvNum.text = ""
                             tvNum.backgroundResource = R.drawable.im_team_shield
+                            if (data.unreadCount > 0) {
+                                tvNum.setCompoundDrawables(null, null, resources.getDrawable(R.drawable.icon_im_mute_unread), null)
+                            } else {
+                                tvNum.setCompoundDrawables(null, null, null, null)
+                            }
                         } else {
                             tvNum.backgroundResource = R.drawable.bg_tag_num
                             if (data.unreadCount > 0) {

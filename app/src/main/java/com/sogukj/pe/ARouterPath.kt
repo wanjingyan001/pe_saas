@@ -27,18 +27,24 @@ object ARouterPath {
     const val EntryApproveActivity: String = "/approve/main"
     //首页功能编辑
     const val MainEditActivity: String = "/main/edit"
-    //情报
+    //舆情(项目舆情:跳转舆情的关注)
     const val MainNewsActivity: String = "/news/main"
     //项目跟踪
-    const val ProjectTraceActivity:String = "/main/projectTrace"
+    const val ProjectTraceActivity: String = "/main/projectTrace"
     //基金总台账
-    const val FundAccountActivity:String = "/fund/jjztz"
+    const val FundAccountActivity: String = "/fund/jjztz"
     //基金文书
-    const val BookListActivity:String = "/main/bookList/fund"
+    const val BookListActivity: String = "/main/bookList/fund"
     //基金项目
-    const val FundProjectActivity:String = "/fund/jjxm"
-
-    const val WeeklyActivity:String = "/weekly/main"
-
-    const val LocationActivity:String = "/main/location"
+    const val FundProjectActivity: String = "/fund/jjxm"
+    //本周周报
+    const val WeeklyActivity: String = "/weekly/main"
+    //外出打卡
+    const val LocationActivity: String = "/main/location"
+    //关注项目
+    const val ProjectFocusActivity: String = "/main/projectFocus"
+    //待我审批( ApproveListActivity.start(this, 1))
+    const val ApproveListActivity: String = "/main/myApprove"
+    //融资舆情(投资事件)
+    const val InvestmentActivity:String = "/main/Investment"
 }

@@ -3,6 +3,8 @@ package com.netease.nim.uikit.business.session.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -25,6 +27,7 @@ import com.netease.nim.uikit.support.permission.annotation.OnMPermissionDenied;
 import com.netease.nim.uikit.support.permission.annotation.OnMPermissionGranted;
 import com.netease.nim.uikit.support.permission.annotation.OnMPermissionNeverAskAgain;
 
+
 import java.util.List;
 
 /**
@@ -38,6 +41,7 @@ public abstract class BaseMessageActivity extends UI {
 
     private MessageFragment messageFragment;
     private static final int BASIC_PERMISSION_REQUEST_CODE = 100;
+
 
     protected abstract MessageFragment fragment();
 
@@ -53,7 +57,6 @@ public abstract class BaseMessageActivity extends UI {
         requestBasicPermission();
         initToolBar();
         parseIntent();
-
         messageFragment = (MessageFragment) switchContent(fragment());
     }
 
@@ -98,7 +101,9 @@ public abstract class BaseMessageActivity extends UI {
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.WRITE_SETTINGS,
-            Manifest.permission.CALL_PHONE
+            Manifest.permission.CALL_PHONE,
+            Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.INTERNET,
     };
 
     protected void requestBasicPermission() {

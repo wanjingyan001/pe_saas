@@ -20,8 +20,11 @@ import com.afollestad.materialdialogs.Theme
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
+import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.setVisible
+import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.base.BaseRefreshFragment
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Trace
@@ -34,6 +37,7 @@ import com.sogukj.pe.bean.NewsBean
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.NewService
 import com.sogukj.service.SoguApi
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_main_news.*
@@ -43,6 +47,7 @@ import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.textColor
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 /**
@@ -59,6 +64,15 @@ class MainNewsFragment : BaseRefreshFragment() {
     )
     lateinit var adapter: RecyclerAdapter<NewsBean>
     lateinit var hisAdapter: RecyclerAdapter<String>
+
+    private var routhFlag: Int = -1
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        routhFlag = arguments!!.getInt(Extras.FLAG, -1)
+    }
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //toolbar_back.visibility = View.GONE
@@ -267,6 +281,17 @@ class MainNewsFragment : BaseRefreshFragment() {
         loadTags()
     }
 
+    override fun onStart() {
+        super.onStart()
+        (routhFlag == Extras.ROUTH_FLAG).yes {
+//            Observable.just(1)
+//                    .delay(2, TimeUnit.SECONDS)
+//                    .execute {
+//                       tabs.getTabAt(1)?.select()
+//                    }
+        }
+    }
+
 
     override fun doRefresh() {
         page = 1
@@ -423,9 +448,10 @@ class MainNewsFragment : BaseRefreshFragment() {
     companion object {
         val TAG = MainNewsFragment::class.java.simpleName
 
-        fun newInstance(): MainNewsFragment {
+        fun newInstance(routhFlag: Int): MainNewsFragment {
             val fragment = MainNewsFragment()
             val intent = Bundle()
+            intent.putInt(Extras.FLAG, routhFlag)
             fragment.arguments = intent
             return fragment
         }

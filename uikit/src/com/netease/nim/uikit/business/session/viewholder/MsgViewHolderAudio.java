@@ -7,7 +7,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.netease.nim.uikit.R;
@@ -53,7 +52,7 @@ public class MsgViewHolderAudio extends MsgViewHolderBase {
     @Override
     protected void inflateContentView() {
         content = findViewById(R.id.audio_content_layout);
-        durationLabel = findViewById(R.id.message_item_audio_duration);
+        durationLabel = findViewById(R.id.audio_duration_left);
         durationLabel1 = findViewById(R.id.message_item_audio_duration1);
         containerView = findViewById(R.id.message_item_audio_container);
         unreadIndicator = findViewById(R.id.message_item_audio_unread_indicator);

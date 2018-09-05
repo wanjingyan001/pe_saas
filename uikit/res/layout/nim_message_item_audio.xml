@@ -6,17 +6,17 @@
     android:layout_marginTop="@dimen/bubble_margin_top"
     android:orientation="horizontal">
 
-
+<!--发出的语音的时间-->
     <TextView
-        android:id="@+id/message_item_audio_duration"
+        android:id="@+id/audio_duration_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|center_vertical"
         android:paddingLeft="2dip"
-        android:text="20"
+        android:text="0:03"
         android:textColor="@color/color_black_333333"
         android:textSize="12sp" />
-
+<!--喇叭动画-->
     <FrameLayout
         android:id="@+id/message_item_audio_container"
         android:layout_width="wrap_content"
@@ -27,13 +27,12 @@
             android:id="@+id/message_item_audio_playing_animation"
             android:layout_width="15dp"
             android:layout_height="20dp"
-
             android:layout_gravity="center_vertical|left"
             android:background="@drawable/nim_audio_animation_list_left"
             android:contentDescription="@string/empty" />
 
     </FrameLayout>
-
+<!--接收的语音的时间-->
     <TextView
         android:id="@+id/message_item_audio_duration1"
         android:layout_width="wrap_content"
@@ -42,7 +41,7 @@
         android:paddingLeft="2dip"
         android:textColor="@color/color_black_333333"
         android:textSize="12sp" />
-
+<!--未读语音图标-->
     <ImageView
         android:id="@+id/message_item_audio_unread_indicator"
         android:layout_width="wrap_content"

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/audio_content_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/bubble_margin_top">
+
+    <TextView
+        android:id="@+id/audio_duration_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="0:02"
+        android:textColor="#808080"
+        android:textSize="@dimen/text_size_medium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/message_item_audio_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toEndOf="@+id/audio_duration_left"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/audio_animation_left"
+            android:layout_width="15dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/nim_audio_animation_list_left" />
+
+
+        <TextView
+            android:id="@+id/audio_tran_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="10dp"
+            android:maxEms="12"
+            android:text="语音转成文字显示多行测试测试这里是如果多行的样子啊啊啊啊啊 啊啊啊啊啊啊啊"
+            android:textColor="@color/text_1"
+            android:textSize="@dimen/text_size_normal" />
+
+
+        <ImageView
+            android:id="@+id/audio_animation_right"
+            android:layout_width="15dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/nim_audio_animation_list_right" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/audio_duration_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="5dp"
+        android:text="0:02"
+        android:textColor="#808080"
+        android:textSize="@dimen/text_size_medium"
+        app:layout_constraintStart_toEndOf="@+id/message_item_audio_container"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/audio_unread_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/nim_new_message_notify"
+        android:contentDescription="@string/empty"
+        android:focusable="false"
+        android:layout_marginStart="4dp"
+        android:longClickable="true"
+        app:layout_constraintBottom_toBottomOf="@+id/audio_duration_right"
+        app:layout_constraintStart_toEndOf="@+id/audio_duration_right"
+        app:layout_constraintTop_toTopOf="@+id/audio_duration_right" />
+
+</android.support.constraint.ConstraintLayout>

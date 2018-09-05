@@ -4,10 +4,13 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.IntRange
+import com.alibaba.android.arouter.facade.annotation.Route
+import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 
+@Route(path = ARouterPath.ProjectFocusActivity)
 class ProjectFocusActivity : ToolbarActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,7 +18,11 @@ class ProjectFocusActivity : ToolbarActivity() {
         setContentView(R.layout.activity_project_focus)
         setBack(true)
         val type = intent.getIntExtra(Extras.TYPE, -1)
-        title = intent.getStringExtra(Extras.TITLE)
+        title = if (type == -1) {
+            "关注"
+        } else {
+            intent.getStringExtra(Extras.TITLE)
+        }
 //        when (type) {
 //            ProjectListFragment.TYPE_GZ -> title = "关注"
 //            ProjectListFragment.TYPE_DY -> title = "调研"

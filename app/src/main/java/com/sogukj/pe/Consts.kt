@@ -1,12 +1,14 @@
 package com.sogukj.pe
 
+import com.sogukj.pe.peExtended.getEnvironment
+
 /**
  * Created by qinfei on 17/7/18.
  */
 class Consts {
     companion object {
-        val HTTP_HOST =  "https://sougu.pewinner.com"
-        val  DEV_HTTP_HOST = "http://prehts.pewinner.com/"
+        val HTTP_HOST = "https://sougu.pewinner.com"
+        val DEV_HTTP_HOST = "http://prehts.pewinner.com/"
 
         val DZH_HOST = "http://gw.yundzh.com/"
 //        val HTTP_HOST = when (getEnvironment()) {

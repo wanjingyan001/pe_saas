@@ -2,9 +2,10 @@ package com.sogukj.pe.baselibrary.base
 
 import android.app.Activity
 import android.app.ProgressDialog
-import android.content.SharedPreferences
+import android.content.*
 import android.content.res.Configuration
 import android.content.res.Resources
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.os.Handler
 import android.preference.PreferenceManager
@@ -20,6 +21,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.google.gson.JsonSyntaxException
+import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.R
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.snackbar.Prompt
@@ -30,6 +32,7 @@ import org.jetbrains.anko.find
 import org.jetbrains.anko.imageResource
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
+import kotlin.properties.Delegates
 
 
 /**
@@ -44,6 +47,8 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger {
     lateinit var tv: TextView
     private var toastView: Toast? = null
     val sp: SharedPreferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
+    private lateinit var filter: IntentFilter
+    private lateinit var receiver: NetworkChangeReceiver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +59,9 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger {
         iconImg = inflate.find(R.id.toast_icon)
         tv = inflate.find(R.id.toast_tv)
         Utils.setCustomDensity(this, application)
+        filter = IntentFilter()
+        filter.addAction("android.net.conn.CONNECTIVITY_CHANGE")
+        receiver = NetworkChangeReceiver()
     }
 
     override fun onStart() {
@@ -66,7 +74,6 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger {
         activeCount--
         if (activeCount == 0) {
         }
-
     }
 
     val statusBarSize: Int
@@ -139,15 +146,17 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger {
 
     override fun onResume() {
         super.onResume()
+        registerReceiver(receiver, filter)
     }
 
     override fun onPause() {
         super.onPause()
+        unregisterReceiver(receiver)
     }
 
-    fun hideInput(view:View){
-        if (null != view){
-            Utils.closeInput(this,view)
+    fun hideInput(view: View) {
+        if (null != view) {
+            Utils.closeInput(this, view)
         }
     }
 
@@ -254,5 +263,15 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger {
     companion object {
         val TAG = BaseActivity::class.java.simpleName
         var activeCount = 0
+    }
+
+    inner class NetworkChangeReceiver : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val manager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val networkInfo = manager.activeNetworkInfo
+            (networkInfo == null || !networkInfo.isAvailable).yes {
+                showCommonToast("当前无网络连接")
+            }
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.netease.nim.uikit.api.model.session;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.View;
 
 import com.netease.nim.uikit.business.session.actions.BaseAction;
@@ -27,7 +28,7 @@ public class SessionCustomization implements Serializable {
      * file: file:///文件绝对路径
      */
     public String backgroundUri;
-    public int backgroundColor;
+    public int backgroundColor = Color.parseColor("#EBEBEB");
 
     // UIKit
     public boolean withSticker;

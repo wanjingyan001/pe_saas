@@ -81,7 +81,10 @@ class MainActivity : BaseActivity() {
     private val mainHome: MainHomeFragment by lazy { MainHomeFragment.newInstance() }
     private val project: MainProjectFragment by lazy { MainProjectFragment.newInstance() }
     private val mainFund: FundMainFragment by lazy { FundMainFragment.newInstance() }
-    private val defaultIndex = 0
+    private val defaultIndex = when (getEnvironment()) {
+        "ht" -> 2
+        else -> 0
+    }
 
     //    "消息", "通讯录", "基金"
     private val modules = arrayListOf(MainBottomBar(1, "消息"),
@@ -171,17 +174,17 @@ class MainActivity : BaseActivity() {
 
     private fun saveCityAreaJson() {
         var datas = XmlDb.open(this).get(Extras.CITY_JSON, "")
-        if (null == datas || datas.equals("")){
+        if (null == datas || datas.equals("")) {
             val cityJson = Utils.getJson(this, "city.json")
-            XmlDb.open(this).set(Extras.CITY_JSON,cityJson)
+            XmlDb.open(this).set(Extras.CITY_JSON, cityJson)
         }
     }
 
     private fun showPhoneNotifiDialog() {
         val brand = Utils.getDeviceBrand()
-        if ("Honor".equals(brand) && !XmlDb.open(this).get("Honor")){
+        if ("Honor".equals(brand) && !XmlDb.open(this).get("Honor")) {
             PhoneNotifDialog(this).showLoadding()
-            XmlDb.open(this).set("Honor",true)
+            XmlDb.open(this).set("Honor", true)
         }
     }
 
@@ -517,7 +520,7 @@ class MainActivity : BaseActivity() {
         when (keyCode) {
             KeyEvent.KEYCODE_BACK -> {
                 if (System.currentTimeMillis() - mExitTime > 1000) {
-                    Toast.makeText(this,"再按一次退出程序", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show()
                     mExitTime = System.currentTimeMillis()
                 } else {
                     finish()

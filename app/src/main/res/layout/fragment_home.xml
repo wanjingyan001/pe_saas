@@ -4,6 +4,8 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    android:focusable="true"
     android:background="@color/white"
     android:orientation="vertical">
 
@@ -116,13 +118,36 @@
                         android:src="@drawable/loading" />
                 </FrameLayout>
 
-                <ImageView
-                    android:id="@+id/party_build"
+
+                <ViewStub
+                    android:id="@+id/partyLayout"
+                    android:layout="@layout/layout_main_home_party_build"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:background="@mipmap/logo_main_middle" />
+                    android:layout_height="wrap_content" />
+
+                <ViewStub
+                    android:id="@+id/modulesLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout="@layout/layout_main_home_module" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/divider2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="20dp"
+                    android:text="常用应用"
+                    android:textColor="@color/text_1"
+                    android:textSize="@dimen/text_size_normal"
+                    android:textStyle="bold" />
 
 
                 <android.support.v7.widget.RecyclerView

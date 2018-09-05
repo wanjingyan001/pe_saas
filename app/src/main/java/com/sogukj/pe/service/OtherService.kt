@@ -93,7 +93,7 @@ interface OtherService {
      * 获取支付的订单信息
      */
     @POST("/api/Saas/Alipay")
-    fun getPayInfo(@Body req:PayReq): Observable<Payload<String>>
+    fun getPayInfo(@Body req: PayReq): Observable<Payload<String>>
 
 
     /**
@@ -103,4 +103,28 @@ interface OtherService {
     @POST("/api/Saas/Alipay")
     fun getPayInfo(@Field("key") key: String,
                    @Field("sid") sid: Int): Observable<Payload<String>>
+
+    /**
+     * 获取首页常用功能上方的4个功能按钮
+     *
+     */
+    @POST("/api/index/bannerstatus")
+    fun getFourModules(): Observable<Payload<List<MainModule>>>
+
+    /**
+     * 投资事件
+     */
+    @FormUrlEncoded
+    @POST("/api/Datasource/investList")
+    fun getInvestList(@Field("industry_id") industryId: Int? = null,
+                      @Field("year") year: Int? = null,
+                      @Field("search") search: String? = null,
+                      @Field("page") page: Int = 1,
+                      @Field("pageSize") pageSize: Int = 20): Observable<Payload<List<InvestmentEvent>>>
+
+    /**
+     * 获取投资分类(投资事件的筛选条件1)
+     */
+    @POST("/api/Datasource/invest_category")
+    fun getInvestCategory():Observable<Payload<List<InvestCategory>>>
 }

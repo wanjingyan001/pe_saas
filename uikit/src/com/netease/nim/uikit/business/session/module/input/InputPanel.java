@@ -823,25 +823,6 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
 //            Toast.makeText(container.activity, "录音时间小于1秒,请重新录制", Toast.LENGTH_SHORT).show();
         } else {
             IMMessage audioMessage = MessageBuilder.createAudioMessage(container.account, container.sessionType, audioFile, audioLength);
-            NIMClient.getService(MsgService.class)
-                    .transVoiceToText(null, audioFile.getPath(), audioLength)
-                    .setCallback(new RequestCallback<String>() {
-
-                        @Override
-                        public void onSuccess(String param) {
-                            System.out.println(param);
-                        }
-
-                        @Override
-                        public void onFailed(int code) {
-                            Log.e("WJY", code + "");
-                        }
-
-                        @Override
-                        public void onException(Throwable exception) {
-
-                        }
-                    });
             container.proxy.sendMessage(audioMessage);
         }
     }

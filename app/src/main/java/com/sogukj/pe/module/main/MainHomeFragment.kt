@@ -29,6 +29,8 @@ import com.fashare.stack_layout.StackLayout
 import com.google.gson.Gson
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
+import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.fromJson
 import com.sogukj.pe.baselibrary.Extended.jsonStr
 import com.sogukj.pe.baselibrary.base.BaseFragment
@@ -65,11 +67,14 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.layout_main_home_party_build.view.*
+import kotlinx.android.synthetic.main.layout_main_home_module.view.*
 import me.leolin.shortcutbadger.ShortcutBadger
 import org.jetbrains.anko.backgroundResource
 import org.jetbrains.anko.find
 import org.jetbrains.anko.info
 import org.jetbrains.anko.support.v4.ctx
+import org.jetbrains.anko.support.v4.find
 import java.net.UnknownHostException
 import java.util.*
 import kotlin.collections.ArrayList
@@ -98,14 +103,39 @@ class MainHomeFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         when (getEnvironment()) {
             "ht" -> {
-                party_build.backgroundResource = R.drawable.bg_party_build
-                party_build.setOnClickListener {
+                partyLayout.inflate()
+                find<ImageView>(R.id.party_build).clickWithTrigger {
                     PartyMainActivity.start(ctx)
                 }
             }
             else -> {
-                party_build.backgroundResource = R.drawable.bg_party_build_default
-                party_build.isEnabled = false
+                modulesLayout.inflate()
+                SoguApi.getService(baseActivity!!.application, OtherService::class.java)
+                        .getFourModules()
+                        .execute {
+                            onNext { payload ->
+                                if (payload.isOk) {
+                                    val layout = find<LinearLayout>(R.id.fourModules)
+                                    payload.payload?.forEachIndexed { index, mainModule ->
+                                        val childView = layout.getChildAt(index) as LinearLayout
+                                        val numTv = childView.getChildAt(0) as TextView
+                                        val nameTv = childView.getChildAt(1) as TextView
+                                        numTv.text = mainModule.num
+                                        nameTv.text = mainModule.name
+                                        childView.clickWithTrigger {
+                                            val path = mainModule.address + mainModule.port
+                                            val bundle = Bundle()
+                                            bundle.putInt(Extras.FLAG, Extras.ROUTH_FLAG)
+                                            //fragment中使用路由调用startActivityForResult回调将在Activity中
+                                            ARouter.getInstance()
+                                                    .build(path)
+                                                    .with(bundle)
+                                                    .navigation(activity!!)
+                                        }
+                                    }
+                                }
+                            }
+                        }
             }
         }
         val company = sp.getString(Extras.SAAS_BASIC_DATA, "")
@@ -187,9 +217,6 @@ class MainHomeFragment : BaseFragment() {
                         .with(bundle)
                         .navigation(activity!!, Extras.REQUESTCODE)
             }
-        }
-        party_build.setOnClickListener {
-            PartyMainActivity.start(ctx)
         }
 
         loadHead()
@@ -522,103 +549,6 @@ class MainHomeFragment : BaseFragment() {
 
     var local_sp: Int? = null
 
-//    inner class HomeAdapter : StackLayout.Adapter<HomeAdapter.MyViewHolder>() {
-//
-//        var dataList = ArrayList<MessageBean>()
-//
-//        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-//            return MyViewHolder(LayoutInflater.from(
-//                    context).inflate(R.layout.item_msg_content_main, parent, false))
-//        }
-//
-//        override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-//            var data = dataList[position]
-//            val strType = when (data.type) {
-//                1 -> "出勤休假"
-//                2 -> "用印审批"
-//                3 -> "签字审批"
-//                else -> ""
-//            }
-//            ColorUtil.setColorStatus(holder.tvState!!, data)
-//            try {
-//                holder.tvTitle?.text = strType
-//                holder.tvSeq?.text = data.title
-//            } catch (e: Exception) {
-//            }
-//            holder.tvFrom?.text = "发起人:" + data.username
-//            holder.tvType?.text = "类型:" + data.type_name
-//            holder.tvMsg?.text = "审批事由:" + data.reasons
-//            val cnt = data.message_count
-//            holder.tvNum?.text = "${cnt}"
-//            if (cnt != null && cnt > 0)
-//                holder.tvNum?.visibility = View.VISIBLE
-//            else
-//                holder.tvNum?.visibility = View.GONE
-//            val urgnet = data.urgent_count
-//            holder.tvUrgent?.text = "加急x${urgnet}"
-//            if (urgnet != null && urgnet > 0)
-//                holder.tvUrgent?.visibility = View.VISIBLE
-//            else
-//                holder.tvUrgent?.visibility = View.GONE
-//
-//            holder.tvMore?.setOnClickListener {
-//                val intent = Intent(context, MessageListActivity::class.java)
-//                startActivity(intent)
-//            }
-//            holder.ll_content?.setOnClickListener {
-//                val is_mine = if (data.status == -1 || data.status == 4) 1 else 2
-//                if (data.type == 2) {
-//                    //SealApproveActivity.start(context, data, is_mine)
-//                    val intent = Intent(context, SealApproveActivity::class.java)
-//                    intent.putExtra("is_mine", is_mine)
-//                    intent.putExtra(Extras.DATA, data)
-//                    startActivity(intent)
-//                } else if (data.type == 3) {
-//                    //SignApproveActivity.start(context, data, is_mine)
-//                    val intent = Intent(context, SignApproveActivity::class.java)
-//                    intent.putExtra(Extras.DATA, data)
-//                    intent.putExtra("is_mine", is_mine)
-//                    startActivity(intent)
-//                } else if (data.type == 1) {
-//                    val intent = Intent(context, LeaveBusinessApproveActivity::class.java)
-//                    intent.putExtra(Extras.DATA, data)
-//                    intent.putExtra("is_mine", is_mine)
-//                    startActivity(intent)
-//                }
-//            }
-//        }
-//
-//        override fun getItemCount(): Int {
-//            return dataList.size
-//        }
-//
-//        inner class MyViewHolder(view: View) : StackLayout.ViewHolder(view) {
-//
-//            var tvTitle: TextView? = null
-//            var tvSeq: TextView? = null
-//            var tvNum: TextView? = null
-//            var tvState: TextView? = null
-//            var tvFrom: TextView? = null
-//            var tvType: TextView? = null
-//            var tvMsg: TextView? = null
-//            var tvUrgent: TextView? = null
-//            var ll_content: LinearLayout? = null
-//            var tvMore: TextView? = null
-//
-//            init {
-//                tvTitle = view.findViewById<TextView>(R.id.tv_title) as TextView
-//                tvSeq = view.findViewById<TextView>(R.id.sequense) as TextView
-//                tvNum = view.findViewById<TextView>(R.id.tv_num) as TextView
-//                tvState = view.findViewById<TextView>(R.id.tv_state) as TextView
-//                tvFrom = view.findViewById<TextView>(R.id.tv_from) as TextView
-//                tvType = view.findViewById<TextView>(R.id.tv_type) as TextView
-//                tvMsg = view.findViewById<TextView>(R.id.tv_msg) as TextView
-//                tvUrgent = view.findViewById<TextView>(R.id.tv_urgent) as TextView
-//                ll_content = view.findViewById<LinearLayout>(R.id.ll_content) as LinearLayout
-//                tvMore = view.findViewById<TextView>(R.id.more) as TextView
-//            }
-//        }
-//    }
 
     val colorGray = Color.parseColor("#D9D9D9")
     fun disable(view: TextView) {

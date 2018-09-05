@@ -40,6 +40,8 @@ import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.otherWise
+import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -148,7 +150,7 @@ class NewsDetailActivity : ToolbarActivity(), PlatformActionListener {
         val shareTitle = news!!.shareTitle
         val shareSummry = news!!.title
         //val shareImgUrl = File(Environment.getExternalStorageDirectory(), "img_logo.png").toString()
-        val shareImgUrl:String
+        val shareImgUrl: String
         when (getEnvironment()) {
             "civc" -> {
                 shareImgUrl = File(Environment.getExternalStorageDirectory(), "ic_launcher_zd.png").toString()
@@ -264,7 +266,7 @@ class NewsDetailActivity : ToolbarActivity(), PlatformActionListener {
         shareBean.shareTitle = news!!.shareTitle
         shareBean.shareContent = news!!.title!!
         shareBean.shareUrl = news!!.shareUrl
-        ShareUtils.share(shareBean,this)
+        ShareUtils.share(shareBean, this)
     }
 
     var news: NewsBean? = null
@@ -333,7 +335,7 @@ class NewsDetailActivity : ToolbarActivity(), PlatformActionListener {
 
     fun doRequest(table_id: Int, data_id: Int, data: NewsBean) {
         Trace.i(TAG, "tableId:dataId=$table_id:$data_id")
-        SoguApi.getService(application,NewService::class.java)
+        SoguApi.getService(application, NewService::class.java)
                 .newsInfo(table_id, data_id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -457,12 +459,16 @@ class NewsDetailActivity : ToolbarActivity(), PlatformActionListener {
                 "<style>img{max-width: 100%; height:auto;} .reduce-font p{font-size:" + fontSize + "px!important;}</style>" +
                 "</head>"
         val content = map["format_content"] as String?
-        val html = "<html>${head}<body style='margin:0px;'>" +
-                "<div style='padding:10px;'>${title}" +
-                "<h5 style='color:#999;font-size:12px;'>${data.time}    ${data.source}</h5>" +
-                "<span style='color:#333;font-size:16px;line-height:30px;'>$content</span></div>" +
-                "</body></html>"
-        webview.loadDataWithBaseURL("about:blank", html, "text/html", "utf-8", null)
+        (null == content).yes {
+            webview.loadUrl(map["shareUrl"].toString())
+        }.otherWise {
+            val html = "<html>${head}<body style='margin:0px;'>" +
+                    "<div style='padding:10px;'>${title}" +
+                    "<h5 style='color:#999;font-size:12px;'>${data.time}    ${data.source}</h5>" +
+                    "<span style='color:#333;font-size:16px;line-height:30px;'>$content</span></div>" +
+                    "</body></html>"
+            webview.loadDataWithBaseURL("about:blank", html, "text/html", "utf-8", null)
+        }
     }
 
     fun set12(map: Map<String, Any?>, data: NewsBean) {
