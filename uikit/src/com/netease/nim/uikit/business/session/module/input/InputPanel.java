@@ -47,7 +47,6 @@ import com.netease.nim.uikit.common.util.media.ImageUtil;
 import com.netease.nim.uikit.common.util.string.StringUtil;
 import com.netease.nim.uikit.impl.NimUIKitImpl;
 import com.netease.nim.uikit.impl.customization.LatestPic;
-import com.netease.nimlib.NimNosSceneKeyConstant;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.media.record.AudioRecorder;
@@ -61,7 +60,6 @@ import com.netease.nimlib.sdk.msg.model.CustomNotification;
 import com.netease.nimlib.sdk.msg.model.CustomNotificationConfig;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.sogukj.pe.baselibrary.utils.Utils;
-import com.sogukj.pe.baselibrary.utils.XmlDb;
 
 import java.io.File;
 import java.util.List;
@@ -92,7 +90,6 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
     protected View sendMessageButtonInInputBar;// 发送消息按钮
     protected View emojiButtonInInputBar;// 发送消息按钮
     protected View messageInputBar;
-    protected LinearLayout ll_guide;
     private SessionCustomization customization;
 
     // 表情
@@ -219,12 +216,6 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
             textAudioSwitchLayout.setVisibility(View.VISIBLE);
         } else {
             textAudioSwitchLayout.setVisibility(View.GONE);
-        }
-        ll_guide = view.findViewById(R.id.ll_guide);
-        if (!XmlDb.Companion.open(container.activity).get("im_guide")) {
-            ll_guide.setVisibility(View.VISIBLE);
-        } else {
-            ll_guide.setVisibility(View.GONE);
         }
     }
 
@@ -399,10 +390,6 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
 
     // 点击“+”号按钮，切换更多布局和键盘
     private void toggleActionPanelLayout() {
-        if (ll_guide.getVisibility() == View.VISIBLE) {
-            ll_guide.setVisibility(View.GONE);
-            XmlDb.Companion.open(container.activity).set("im_guide", true);
-        }
         if (actionPanelBottomLayout == null || actionPanelBottomLayout.getVisibility() == View.GONE) {
             showActionPanelLayout();
         } else {

@@ -74,7 +74,8 @@ public class P2PMessageActivity extends BaseMessageActivity {
 
         context.startActivity(intent);
     }
-
+    
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -247,7 +248,6 @@ public class P2PMessageActivity extends BaseMessageActivity {
 
         }
     }
-
     @Override
     protected MessageFragment fragment() {
         Bundle arguments = getIntent().getExtras();

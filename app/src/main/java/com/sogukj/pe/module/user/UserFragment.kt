@@ -48,7 +48,6 @@ import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.fromJson
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.ToolbarFragment
-import com.sogukj.pe.baselibrary.utils.HeaderImgKey
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.*
@@ -66,7 +65,6 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_user.*
-import org.jetbrains.anko.info
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult

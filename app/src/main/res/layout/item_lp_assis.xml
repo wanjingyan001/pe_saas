@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/text_15">
+        <ImageView
+            android:id="@+id/iv_invoke"
+            android:layout_width="@dimen/text_25"
+            android:layout_height="@dimen/text_25"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_right"/>
+        <ImageView
+            android:id="@+id/iv_assis"
+            android:layout_width="@dimen/text_30"
+            android:layout_height="@dimen/text_30"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_patent_query"/>
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/iv_assis"
+            android:layout_centerVertical="true"
+            android:textColor="@color/black_28"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginLeft="@dimen/text_10"
+            android:textSize="@dimen/text_size_15"
+            android:layout_toLeftOf="@id/iv_invoke"
+            tools:text="专利查询"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/text_0.5"
+        android:layout_marginLeft="@dimen/text_15"
+        android:layout_marginRight="@dimen/text_15"
+        android:background="@color/gray_f1"/>
+</LinearLayout>

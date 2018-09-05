@@ -2,17 +2,23 @@ package com.netease.nim.uikit.business.session.fragment;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
 
 import com.netease.nim.uikit.R;
 import com.netease.nim.uikit.api.UIKitOptions;
@@ -48,6 +54,8 @@ import com.netease.nimlib.sdk.msg.model.MessageReceipt;
 import com.netease.nimlib.sdk.robot.model.NimRobotInfo;
 import com.netease.nimlib.sdk.robot.model.RobotAttachment;
 import com.netease.nimlib.sdk.robot.model.RobotMsgType;
+import com.sogukj.pe.baselibrary.utils.Utils;
+import com.sogukj.pe.baselibrary.utils.XmlDb;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -81,16 +89,49 @@ public class MessageFragment extends TFragment implements ModuleProxy {
     private IMMessage anchor;
     private String shareFilePath;
     private String tipStr;
+    private ImageView buttonMoreFuntionInText;
+    private PopupWindow popupWindow;
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1001:
+                    int showPos[] = new int[2];
+                    buttonMoreFuntionInText.getLocationOnScreen(showPos);
+                    try {
+                        popupWindow.showAtLocation(buttonMoreFuntionInText, Gravity.TOP|Gravity.RIGHT,Utils.dip2px(getActivity(),10)
+                                ,showPos[1]- Utils.dip2px(getActivity(),50));
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         parseIntent();
-        showMoreGuidePop();
+        if(!XmlDb.Companion.open(getActivity()).get("more_guide_flag")) {
+            showMoreGuidePop();
+        }
     }
 
-    private void showMoreGuidePop() {
-
+    public void showMoreGuidePop() {
+        View contentView = View.inflate(getActivity(),R.layout.layout_im_guide,null);
+        popupWindow = new PopupWindow(contentView,
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        popupWindow.setTouchable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                XmlDb.Companion.open(getActivity()).set("more_guide_flag",true);
+            }
+        });
+        handler.sendEmptyMessageDelayed(1001,500);
     }
 
     private RecyclerView mMsgList;
@@ -109,8 +150,13 @@ public class MessageFragment extends TFragment implements ModuleProxy {
                 return false;
             }
         });
-
+        buttonMoreFuntionInText = rootView.findViewById(R.id.buttonMoreFuntionInText);
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
     /**
      * ***************************** life cycle *******************************

@@ -380,13 +380,13 @@ class MainMsgFragment : BaseFragment() {
                                         //内部群
                                         tv_flag.setBackgroundResource(R.drawable.shape_flag_bg_other)
                                         tv_flag.setTextColor(activity!!.resources.getColor(R.color.blue_43))
-                                        tv_flag.setText("内部群")
+                                        tv_flag.setText("内部")
                                     }
                                 }else{
                                     //内部群
                                     tv_flag.setBackgroundResource(R.drawable.shape_flag_bg_other)
                                     tv_flag.setTextColor(activity!!.resources.getColor(R.color.blue_43))
-                                    tv_flag.setText("内部群")
+                                    tv_flag.setText("内部")
                                 }
                             }
                         }

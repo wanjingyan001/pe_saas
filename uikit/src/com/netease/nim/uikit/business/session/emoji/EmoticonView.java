@@ -289,6 +289,7 @@ public class EmoticonView {
     }
 
     private OnItemClickListener stickerListener = new OnItemClickListener() {
+        @Override
         public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
             int position = emotPager.getCurrentItem();
             getPagerInfo(position);
@@ -382,6 +383,7 @@ public class EmoticonView {
             container.removeView(layout);
         }
 
+        @Override
         public int getItemPosition(Object object) {
             return POSITION_NONE;
         }

@@ -21,6 +21,7 @@ public class EmojiAdapter extends BaseAdapter {
         this.startIndex = startIndex;
     }
 
+    @Override
     public int getCount() {
         int count = EmojiManager.getDisplayCount() - startIndex + 1;
         count = Math.min(count, EmoticonView.EMOJI_PER_PAGE + 1);
@@ -37,6 +38,7 @@ public class EmojiAdapter extends BaseAdapter {
         return startIndex + position;
     }
 
+    @Override
     @SuppressLint({"ViewHolder", "InflateParams"})
     public View getView(int position, View convertView, ViewGroup parent) {
         convertView = LayoutInflater.from(context).inflate(R.layout.nim_emoji_item, null);

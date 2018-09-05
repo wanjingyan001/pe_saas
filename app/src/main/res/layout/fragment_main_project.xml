@@ -154,8 +154,8 @@
         android:layout_gravity="left|bottom"
         android:layout_marginBottom="100dp"
         android:scaleType="fitCenter"
-        app:backgroundTint="#FF4C4C"
-        app:rippleColor="#FF4C4C"/>
+        app:backgroundTint="#FF9F52"
+        app:rippleColor="#FF9F52"/>
     <RelativeLayout
         android:id="@+id/ll_search"
         android:layout_width="match_parent"

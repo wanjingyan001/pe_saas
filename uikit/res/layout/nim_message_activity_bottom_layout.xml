@@ -5,8 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-    <include layout="@layout/layout_im_guide"
-        android:id="@+id/ll_guide"/>
     <include layout="@layout/nim_message_activity_text_layout"/>
 
     <com.netease.nim.uikit.business.session.emoji.EmoticonPickerView

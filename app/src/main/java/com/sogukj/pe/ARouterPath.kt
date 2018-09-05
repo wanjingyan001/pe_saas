@@ -47,4 +47,6 @@ object ARouterPath {
     const val ApproveListActivity: String = "/main/myApprove"
     //融资舆情(投资事件)
     const val InvestmentActivity:String = "/main/Investment"
+
+    const val LpAssistantActivity:String = "/lp/assistant"
 }

@@ -9,7 +9,6 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.alipay.sdk.app.PayTask
-import com.amap.api.mapcore.util.it
 import com.google.gson.Gson
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
@@ -25,12 +24,12 @@ import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_pay_expansion.*
-import kotlinx.android.synthetic.main.item_pay_expansion_list.view.*
 import kotlinx.android.synthetic.main.item_pay_discount.view.*
+import kotlinx.android.synthetic.main.item_pay_expansion_list.view.*
+import kotlinx.android.synthetic.main.layout_pay_slient.*
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.info
-import org.jetbrains.anko.startActivity
 import kotlin.properties.Delegates
 
 @SuppressLint("SetTextI18n")
@@ -106,6 +105,7 @@ class PayExpansionActivity : BaseActivity() {
                                             pjAdapter.mode = it.type
                                             disInfo = it.discountInfo
                                             pjAdapter.notifyDataSetChanged()
+                                            setScribeInfos(it)
                                         }
                                         2 -> {
                                             calenderAdapter.dataList.addAll(it.list)
@@ -122,6 +122,17 @@ class PayExpansionActivity : BaseActivity() {
                         }
                     }
                 }
+    }
+
+    private fun setScribeInfos(it: PackageBean) {
+        tv_phone.text = it.tel
+        if (null != it.wechat){
+            tv_wx.text = it.wechat
+        }
+
+        if (null != it.email){
+            tv_email.text = it.email
+        }
     }
 
 

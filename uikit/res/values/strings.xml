@@ -226,4 +226,5 @@
     <string name="msg_search_limit">全文检索显示条数</string>
 
     <string name="select_file">文件传输</string>
+    <string name="invest_event">投资事件</string>
 </resources>

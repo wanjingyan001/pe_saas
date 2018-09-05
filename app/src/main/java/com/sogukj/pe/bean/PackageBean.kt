@@ -13,6 +13,8 @@ import kotlinx.android.parcel.Parcelize
 data class PackageBean(val mealName: String,
                        val type: Int,//type=1代表项目套餐,type=2代表征信套餐
                        val tel: String,
+                       val wechat: String,
+                       val email:String,
                        val used: Int,
                        val max: Int,
                        val list: List<PackageChild>,

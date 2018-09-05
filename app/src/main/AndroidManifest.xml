@@ -1157,7 +1157,13 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateVisible" />
-        <activity android:name=".module.im.RemoveMemberActivity" />
+
+        <activity
+            android:name=".module.lpassistant.LpAssistantActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".module.im.RemoveMemberActivity"></activity>
 
         <service android:name=".service.socket.DzhClientService">
             <intent-filter>

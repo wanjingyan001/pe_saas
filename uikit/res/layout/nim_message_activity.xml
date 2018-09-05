@@ -32,7 +32,7 @@
                     android:textStyle="bold"
                     android:layout_marginTop="2dp"
                     android:singleLine="true"
-                    tools:text="呀呀呀"
+                    tools:text="呀呀呀呀呀呀呀"
                     android:layout_gravity="center"
                     android:textColor="@color/white"
                     android:layout_width="wrap_content"

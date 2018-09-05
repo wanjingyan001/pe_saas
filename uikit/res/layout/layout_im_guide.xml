@@ -4,10 +4,8 @@
     android:layout_width="wrap_content"
     android:background="@drawable/ic_more_guide"
     android:orientation="horizontal"
-    android:layout_gravity="right"
     android:paddingLeft="@dimen/text_8"
     android:paddingRight="@dimen/text_8"
-    android:layout_marginRight="@dimen/text_10"
     android:layout_height="40dp">
     <TextView
         android:layout_width="wrap_content"

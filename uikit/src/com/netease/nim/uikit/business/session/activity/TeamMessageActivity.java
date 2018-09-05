@@ -184,7 +184,7 @@ public class TeamMessageActivity extends BaseMessageActivity {
                     //内部群
                     tv_flag.setBackgroundResource(R.drawable.shape_team_inside);
                     tv_flag.setTextColor(getResources().getColor(R.color.white));
-                    tv_flag.setText("内部群");
+                    tv_flag.setText("内部");
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -194,7 +194,7 @@ public class TeamMessageActivity extends BaseMessageActivity {
             //内部群
             tv_flag.setBackgroundResource(R.drawable.shape_team_inside);
             tv_flag.setTextColor(getResources().getColor(R.color.white));
-            tv_flag.setText("内部群");
+            tv_flag.setText("内部");
         }
 
 //        setTitle(team == null ? sessionId : team.getName() + "(" + team.getMemberCount() + "人)");
