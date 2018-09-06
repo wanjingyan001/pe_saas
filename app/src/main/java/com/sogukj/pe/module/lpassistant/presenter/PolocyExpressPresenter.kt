@@ -74,9 +74,13 @@ class PolocyExpressPresenter : BasePresenter {
                         payload.isOk.yes {
                             payload.payload?.let {
                                 if (isRefresh) {
-
+                                    if (null != callBack){
+                                         callBack!!.refreshPlList(it)
+                                    }
                                 } else {
-
+                                    if (null != callBack){
+                                        callBack!!.loadMoreData(it)
+                                    }
                                 }
                             }
 
@@ -86,9 +90,14 @@ class PolocyExpressPresenter : BasePresenter {
                     }
                     onComplete {
                         (isRefresh).yes {
-//                            finishRefresh()
+                            if (null != callBack){
+                                callBack!!.dofinishRefresh()
+                            }
+
                         }.otherWise {
-//                            finishLoadMore()
+                            if (null != callBack){
+                                callBack!!.dofinishLoadMore()
+                            }
                         }
                     }
 

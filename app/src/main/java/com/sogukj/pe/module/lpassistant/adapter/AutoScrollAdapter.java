@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.sogukj.pe.R;
@@ -70,7 +71,7 @@ public class AutoScrollAdapter extends PagerAdapter {
 
         View bannerItem = LayoutInflater.from(mContext).inflate(R.layout.auto_viewpager_item, null);
         ImageView ivImage = (ImageView) bannerItem.findViewById(R.id.banner_image);
-
+        TextView tv_title = bannerItem.findViewById(R.id.tv_title);
         position %= mList.size();
         if (position < 0) {
             position = mList.size() + position;
@@ -86,7 +87,7 @@ public class AutoScrollAdapter extends PagerAdapter {
             ivImage.setLayoutParams(params);
             container.setLayoutParams(params);
             Glide.with(mContext).load(currentItem.getImage()).into(ivImage);
-
+            tv_title.setText(currentItem.getTitle());
             ivImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

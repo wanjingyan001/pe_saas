@@ -1,5 +1,6 @@
 package com.sogukj.pe.module.lpassistant
 
+import com.sogukj.pe.bean.PlListInfos
 import com.sogukj.pe.bean.PolicyBannerInfo
 
 /**
@@ -7,4 +8,8 @@ import com.sogukj.pe.bean.PolicyBannerInfo
  */
 interface PolicyExpressCallBack {
     fun setBannerInfo(bannerInfo: PolicyBannerInfo)
+    fun refreshPlList(infos : List<PlListInfos>)
+    fun loadMoreData(infos : List<PlListInfos>)
+    fun dofinishRefresh()
+    fun dofinishLoadMore()
 }

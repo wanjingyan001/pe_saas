@@ -1,8 +1,6 @@
 package com.sogukj.pe.module.main
 
-import android.app.Activity
 import android.graphics.Color
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -13,7 +11,6 @@ import android.widget.TextView
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.amap.api.mapcore.util.it
 import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
@@ -26,11 +23,9 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.CustomSealBean
 import com.sogukj.pe.bean.FundSmallBean
-import com.sogukj.pe.bean.ProjectBean
 import com.sogukj.pe.module.fund.BookListActivity
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.peUtils.SupportEmptyView
-import com.sogukj.pe.service.ApproveService
 import com.sogukj.pe.service.FundService
 import com.sogukj.pe.service.NewService
 import com.sogukj.pe.service.OtherService
@@ -40,7 +35,6 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_company_select2.*
 import kotlinx.android.synthetic.main.layout_empty.*
 import kotlinx.android.synthetic.main.toolbar_search.*
-import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import org.jetbrains.anko.backgroundColor
 
 @Route(path = ARouterPath.CompanySelectActivity)

@@ -111,6 +111,30 @@ class Store private constructor() {
     fun clearContractHis(ctx : Context){
         XmlDb.open(ctx).set("contract_his", "")
     }
+
+    private var plResult = ArrayList<String>()
+    fun savePltHis(ctx:Context,searchHis : ArrayList<String>){
+        XmlDb.open(ctx).set("pl_his", GSON.toJson(searchHis.toArray()))
+    }
+    fun getPlHis(ctx:Context):ArrayList<String>{
+        this.plResult.clear()
+        try {
+            val strJson = XmlDb.open(ctx).get("pl_his", "")
+            if (!TextUtils.isEmpty(strJson)) {
+                val hisProjects = GSON.fromJson<Array<String>>(strJson, Array<String>::class.java)
+                this.plResult.addAll(Arrays.asList<String>(*hisProjects))
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return plResult
+    }
+
+    fun clearPlHis(ctx : Context){
+        XmlDb.open(ctx).set("pl_his", "")
+    }
+
     private val resultProject = LinkedList<String>()
     fun projectSearch(ctx: Context): Collection<String> {
         this.resultProject.clear()

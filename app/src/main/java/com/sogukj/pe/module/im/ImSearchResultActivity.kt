@@ -27,6 +27,7 @@ import com.netease.nim.uikit.api.NimUIKit
 import com.netease.nim.uikit.business.uinfo.UserInfoHelper
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum
 import com.netease.nimlib.sdk.search.model.MsgIndexRecord
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.BaseActivity
@@ -34,7 +35,9 @@ import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.DepartmentBean
+import com.sogukj.pe.bean.PlListInfos
 import com.sogukj.pe.bean.UserBean
+import com.sogukj.pe.module.lpassistant.PolicyExpressDetailActivity
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.presenter.ImSearchCallBack
 import com.sogukj.pe.presenter.ImSearchPresenter
@@ -45,12 +48,25 @@ import kotlinx.android.synthetic.main.activity_im_search.*
 import kotlinx.android.synthetic.main.search_header.*
 import kotlinx.android.synthetic.main.search_his.*
 import kotlinx.android.synthetic.main.search_result.*
-import org.jetbrains.anko.find
 
 /**
  * Created by CH-ZH on 2018/8/20.
  */
 class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
+    override fun refreshPlList(infos: List<PlListInfos>) {
+        setResultVisibility(true)
+        plResultAdapter.dataList.clear()
+        plResultAdapter.dataList.addAll(infos)
+        search_recycler_view.adapter = plResultAdapter
+        plResultAdapter.notifyDataSetChanged()
+    }
+
+    override fun loadMoreData(moreData: List<PlListInfos>) {
+        setResultVisibility(true)
+        plResultAdapter.dataList.addAll(moreData)
+        plResultAdapter.notifyDataSetChanged()
+    }
+
     override fun setContractData(param: List<DepartmentBean>) {
         setResultVisibility(true)
         searchWithName(param)
@@ -112,6 +128,17 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
                 }else{
                     ll_empty_his.visibility = View.VISIBLE
                 }
+            }else if (2 == type){
+                plHis = Store.store.getPlHis(this)
+                plHis!!.reverse()
+                if (null != plAdapter){
+                    plAdapter!!.notifyDataChanged()
+                }
+                if (null != plHis && plHis!!.size > 0){
+                    ll_empty_his.visibility = View.INVISIBLE
+                }else{
+                    ll_empty_his.visibility = View.VISIBLE
+                }
             }
         }
     }
@@ -122,26 +149,29 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
 
     override fun setEmpty(isEmty:Boolean) {
         setResultVisibility(true)
-       if (isEmty){
-           search_recycler_view.visibility = View.GONE
-           search_iv_empty.visibility = View.VISIBLE
-       }else{
-           search_recycler_view.visibility = View.VISIBLE
-           search_iv_empty.visibility = View.GONE
-       }
+        if (isEmty){
+            search_recycler_view.visibility = View.GONE
+            search_iv_empty.visibility = View.VISIBLE
+        }else{
+            search_recycler_view.visibility = View.VISIBLE
+            search_iv_empty.visibility = View.GONE
+        }
     }
 
     lateinit var searchResult: RecyclerAdapter<MsgIndexRecord>
     private lateinit var resultAdapter: ContactAdapter
+    private lateinit var plResultAdapter:RecyclerAdapter<PlListInfos>
     private val resultData = ArrayList<UserBean>()//搜索结果
     private var searchKey = ""
     private val INTERVAL = 300 //输入间隔时间
     private var presenter : ImSearchPresenter ? = null
     private var searchHis : ArrayList<String> ? = null
     private var contractHis : ArrayList<UserBean> ? = null
-    private var type = 0  //0:消息 1：联系人
+    private var plHis : ArrayList<String>? = null
+    private var type = 0  //0:消息 1：联系人 2:政策速递
     private var searchAdapter:SearchAdapter? = null
     private var contractAdapter : ContractAdapter ? = null
+    private var plAdapter : PlAdapter ? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_im_search)
@@ -156,7 +186,10 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
         et_search.filters = Utils.getFilter(context)
         searchHis = Store.store.getSearchHis(this)
         contractHis = Store.store.getContractHis(this)
+        plHis = Store.store.getPlHis(this)
         if (type == 0){
+            refresh.isEnableRefresh = false
+            refresh.isEnableLoadMore = false
             if (null != searchHis && searchHis!!.size > 0){
                 setResultVisibility(false)
                 ll_empty_his.visibility = View.INVISIBLE
@@ -165,7 +198,21 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
             }
             initSearchHisData()
         }else if (type == 1){
+            refresh.isEnableRefresh = false
+            refresh.isEnableLoadMore = false
             initContractHisData()
+        }else if (type == 2){
+            refresh.isEnableRefresh = false
+            refresh.isEnableLoadMore = true
+            refresh.isEnableAutoLoadMore = true
+            refresh.setRefreshFooter(ClassicsFooter(this))
+            if (null != plHis && plHis!!.size > 0){
+                setResultVisibility(false)
+                ll_empty_his.visibility = View.INVISIBLE
+            }else{
+                ll_empty_his.visibility = View.VISIBLE
+            }
+            initPlHisData()
         }
         if (type == 0){
             searchResult = RecyclerAdapter(this) { _adapter, parent, _ ->
@@ -173,7 +220,15 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
             }
         }else if (type == 1){
             initContractResult()
+        }else if (type == 2){
+            initLpResult()
         }
+    }
+
+    private fun initPlHisData() {
+        plHis!!.reverse()
+        plAdapter = PlAdapter()
+        tfl.adapter = plAdapter
     }
 
     private fun initContractHisData() {
@@ -192,6 +247,16 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
         contractAdapter = ContractAdapter()
         tfl.adapter = contractAdapter
     }
+
+    inner class SearchAdapter : TagAdapter<String>(searchHis){
+        override fun getView(parent: FlowLayout?, position: Int, key: String?): View {
+            val itemView = View.inflate(this@ImSearchResultActivity,R.layout.search_his_item,null)
+            val tv_item = itemView.findViewById<TextView>(R.id.tv_item)
+            tv_item.text = key
+            return itemView
+        }
+    }
+
     inner class ContractAdapter : TagAdapter<UserBean>(contractHis){
         override fun getView(parent: FlowLayout?, position: Int, userBean: UserBean?): View {
             val itemView = View.inflate(this@ImSearchResultActivity,R.layout.search_his_item,null)
@@ -200,12 +265,28 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
             return itemView
         }
     }
+
+    inner class PlAdapter : TagAdapter<String>(plHis){
+        override fun getView(parent: FlowLayout?, position: Int, key: String?): View {
+            val itemView = View.inflate(this@ImSearchResultActivity,R.layout.search_his_item,null)
+            val tv_item = itemView.findViewById<TextView>(R.id.tv_item)
+            tv_item.text = key
+            return itemView
+        }
+    }
+
     private fun initContractResult() {
         resultAdapter = ContactAdapter(resultData)
         search_recycler_view.layoutManager = LinearLayoutManager(context)
         search_recycler_view.adapter = resultAdapter
     }
 
+    private fun initLpResult() {
+        plResultAdapter = RecyclerAdapter(this){ _adapter, parent, _ ->
+            LpResultHolder(_adapter.getView(R.layout.pl_search_item, parent))
+        }
+
+    }
     override fun onResume() {
         super.onResume()
     }
@@ -219,21 +300,17 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
         super.onDestroy()
     }
 
+    override fun finishLoadMore() {
+        if (refresh.isLoading) {
+            refresh.finishLoadMore()
+        }
+    }
+
     private fun initSearchHisData() {
         searchHis!!.reverse()
         searchAdapter = SearchAdapter()
         tfl.adapter = searchAdapter
     }
-
-    inner class SearchAdapter : TagAdapter<String>(searchHis){
-        override fun getView(parent: FlowLayout?, position: Int, key: String?): View {
-            val itemView = View.inflate(this@ImSearchResultActivity,R.layout.search_his_item,null)
-            val tv_item = itemView.findViewById<TextView>(R.id.tv_item)
-            tv_item.text = key
-            return itemView
-        }
-    }
-
     private fun bindListener() {
         iv_search.setOnClickListener {
             Utils.showSoftInputFromWindow(this,et_search)
@@ -283,6 +360,29 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
             }
         }
 
+        plResultAdapter.onItemClick = {v,position ->
+            val info = plResultAdapter.dataList[position]
+            if (null != info){
+                PolicyExpressDetailActivity.invoke(this,info.id)
+            }
+            val his = Store.store.getPlHis(this)
+            if (null != his && his.size > 0){
+                var index = 0
+                for (i in his){
+                    if (searchKey.equals(i)){
+                        index ++
+                    }
+                }
+                if (index == 0){
+                    his.add(searchKey)
+                    Store.store.savePltHis(this,his)
+                }
+            }else{
+                val keys = ArrayList<String>()
+                keys.add(searchKey)
+                Store.store.savePltHis(this,keys)
+            }
+        }
         tfl.setOnTagClickListener { view, position, parent ->
             if (type == 0){
                 if (null != searchHis && searchHis!!.size > 0){
@@ -296,6 +396,15 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
             }else if (type == 1){
                 if (null != contractHis && contractHis!!.size > 0){
                     PersonalInfoActivity.start(this@ImSearchResultActivity, contractHis!![position], null)
+                }
+            }else if (type == 2){
+                if (null != plHis && plHis!!.size > 0){
+                    val key = plHis!![position]
+                    if (null != presenter){
+                        presenter!!.getPlExpressResultData(true,key)
+                    }
+                    et_search.setText(key)
+                    et_search.setSelection(key.length)
                 }
             }
             true
@@ -320,7 +429,28 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
                     }
                 }
                 ll_empty_his.visibility = View.VISIBLE
+            }else if (type == 2){
+                if (null != plHis && plHis!!.size > 0){
+                    Store.store.clearPlHis(this)
+                    plHis = Store.store.getPlHis(this)
+                    if (null != plAdapter){
+                        plAdapter!!.notifyDataChanged()
+                    }
+                }
+                ll_empty_his.visibility = View.VISIBLE
             }
+        }
+
+
+        refresh.setOnLoadMoreListener {
+            doLoadMore()
+            refresh.finishLoadMore(1000)
+        }
+    }
+
+    private fun doLoadMore() {
+        if (null != presenter){
+            presenter!!.getPlExpressResultData(false,searchKey)
         }
     }
 
@@ -375,7 +505,57 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
             }
         }
     }
-    var isSelectUser = false
+
+    inner class LpResultHolder(itemView: View) : RecyclerHolder<PlListInfos>(itemView) {
+        val title1 = convertView.findViewById<TextView>(R.id.tv_title1)
+        val title2 = convertView.findViewById<TextView>(R.id.tv_title2)
+        val tag1 = convertView.findViewById<TextView>(R.id.tv_tag1)
+        val tag2 = convertView.findViewById<TextView>(R.id.tv_tag2)
+        val time = convertView.findViewById<TextView>(R.id.tv_time)
+        val image = convertView.findViewById<ImageView>(R.id.iv_image)
+        override fun setData(view: View, plListInfos: PlListInfos, position: Int) {
+            if (null != plListInfos.image) {
+                title1.setVisibility(View.INVISIBLE)
+                title2.setVisibility(View.VISIBLE)
+                tag1.setVisibility(View.INVISIBLE)
+                tag2.setVisibility(View.VISIBLE)
+                image.setVisibility(View.VISIBLE)
+                if (null != plListInfos.title) {
+                    title2.setText(plListInfos.title)
+                }
+                if (null != plListInfos.image) {
+                    Glide.with(context).load(plListInfos.image).into(image)
+                }
+                if (null != plListInfos.source) {
+                    tag2.setText(plListInfos.source)
+                } else {
+                    tag2.setVisibility(View.INVISIBLE)
+                }
+            } else {
+                title1.setVisibility(View.VISIBLE)
+                title2.setVisibility(View.INVISIBLE)
+                tag1.setVisibility(View.VISIBLE)
+                tag2.setVisibility(View.INVISIBLE)
+                image.setVisibility(View.INVISIBLE)
+
+                if (null != plListInfos.title) {
+                    title1.setText(plListInfos.title)
+                }
+
+                if (null != plListInfos.source) {
+                    tag1.setText(plListInfos.source)
+                } else {
+                    tag1.setVisibility(View.INVISIBLE)
+                }
+            }
+
+            if (null != plListInfos.time) {
+                time.setText(plListInfos.time)
+            }
+        }
+
+    }
+
     internal inner class ContactAdapter(private val datas: List<UserBean>) : RecyclerView.Adapter<ContactAdapter.ContactHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactHolder =
@@ -432,13 +612,14 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
             val userPosition: TextView
 
             init {
-                selectIcon = itemView.find(R.id.selectIcon)
-                userImg = itemView.find(R.id.userHeadImg)
-                userName = itemView.find(R.id.userName)
-                userPosition = itemView.find(R.id.userPosition)
+                selectIcon = itemView.findViewById(R.id.selectIcon)
+                userImg = itemView.findViewById(R.id.userHeadImg)
+                userName = itemView.findViewById(R.id.userName)
+                userPosition = itemView.findViewById(R.id.userPosition)
             }
         }
     }
+
 
     override fun afterTextChanged(s: Editable?) {
         if (et_search.text.length > 0){
@@ -464,10 +645,10 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
     }
     var inputTime = 0L
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-       if (!et_search.text.toString().isEmpty()){
-           inputTime = System.currentTimeMillis()
-           et_search.post(inputRunnable)
-       }
+        if (!et_search.text.toString().isEmpty()){
+            inputTime = System.currentTimeMillis()
+            et_search.post(inputRunnable)
+        }
     }
 
     private var inputRunnable:Runnable = object : Runnable{
@@ -489,8 +670,9 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
                 presenter!!.doRequest(query)
             }else if (type == 1){
                 presenter!!.getDepartData()
+            }else if (type == 2){
+                presenter!!.getPlExpressResultData(true,query)
             }
-
         }
     }
 

@@ -4,7 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.Gravity
+import android.support.v4.view.ViewPager
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -13,7 +14,9 @@ import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.bean.PlListInfos
 import com.sogukj.pe.bean.PolicyBannerInfo
+import com.sogukj.pe.module.im.ImSearchResultActivity
 import com.sogukj.pe.module.lpassistant.adapter.AutoScrollAdapter
 import com.sogukj.pe.module.lpassistant.adapter.PolicyExpressListAdapter
 import com.sogukj.pe.module.lpassistant.autoscroll.AutoScrollViewPager
@@ -21,8 +24,11 @@ import com.sogukj.pe.module.lpassistant.presenter.PolocyExpressPresenter
 import kotlinx.android.synthetic.main.activity_policy_express.*
 import kotlinx.android.synthetic.main.pex_toolbar.*
 
+
+
 /**
  * Created by CH-ZH on 2018/9/5.
+ * 政策速递
  */
 class PolicyExpressActivity : BaseRefreshActivity(),PolicyExpressCallBack {
     private var headView : View? = null
@@ -101,6 +107,7 @@ class PolicyExpressActivity : BaseRefreshActivity(),PolicyExpressCallBack {
 
     override fun setBannerInfo(bannerInfo: PolicyBannerInfo) {
         if (null != bannerInfo && null != bannerInfo.data && bannerInfo.data!!.size > 0){
+            headView!!.visibility = View.VISIBLE
             this.bannerInfos = bannerInfo.data!!
             initBannerFooter()
             setBannerAdapter()
@@ -163,12 +170,42 @@ class PolicyExpressActivity : BaseRefreshActivity(),PolicyExpressCallBack {
     private fun bindListener() {
         iv_search.setOnClickListener {
                 //搜索
+            ImSearchResultActivity.invoke(this,2)
         }
 
         iv_fillter.setOnClickListener {
                 //过滤
-            drawer.openDrawer(Gravity.START)
         }
+
+        lv_express.setOnItemClickListener { parent, view, position, id ->
+            //新闻详情
+            if (null != plAdapter){
+                val infos = plAdapter!!.infos
+                if (null != infos && infos.size > 0){
+                    Log.e("TAG","position ==" + position)
+                    PolicyExpressDetailActivity.invoke(this,infos[position].id)
+                }
+            }
+        }
+
+        scroll_viewpager!!.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
+            override fun onPageScrollStateChanged(state: Int) {
+
+            }
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+
+            }
+
+            override fun onPageSelected(position: Int) {
+                if (null == bannerInfos || bannerInfos.size == 0){
+                    return
+                }
+                val realPosition = position % bannerInfos.size
+                setBannerIndicator(realPosition)
+            }
+
+        })
     }
 
     override fun initRefreshConfig(): RefreshConfig? {
@@ -189,6 +226,32 @@ class PolicyExpressActivity : BaseRefreshActivity(),PolicyExpressCallBack {
     override fun doLoadMore() {
         if (null != presenter){
             presenter!!.doListInfoRequest(false)
+        }
+    }
+
+    override fun refreshPlList(infos: List<PlListInfos>) {
+        if (null != infos && infos.size > 0){
+            plAdapter!!.infos = infos
+        }
+        plAdapter!!.notifyDataSetChanged()
+    }
+
+    override fun loadMoreData(infos: List<PlListInfos>) {
+       if (null != infos && infos.size > 0){
+           plAdapter!!.loadMoreInfos(infos)
+       }
+        plAdapter!!.notifyDataSetChanged()
+    }
+
+    override fun dofinishRefresh() {
+        if (this::refresh.isLateinit && refresh.isRefreshing) {
+            refresh.finishRefresh()
+        }
+    }
+
+    override fun dofinishLoadMore() {
+        if (this::refresh.isLateinit && refresh.isLoading) {
+            refresh.finishLoadMore()
         }
     }
 

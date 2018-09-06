@@ -1,16 +1,15 @@
 package com.sogukj.pe.bean
 
-import android.annotation.SuppressLint
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import java.io.Serializable
 
 /**
  * Created by CH-ZH on 2018/9/5.
  */
 
-@SuppressLint("ParcelCreator")
-@Parcelize
-data class PlListInfos(val id: Int,
-                       val title : String,
-                       val time : String
-) : Parcelable
+class PlListInfos :Serializable{
+    var id: Int = -1
+    var title : String = ""
+    var time : String = ""
+    var source : String = ""
+    var image : String ? = null
+}

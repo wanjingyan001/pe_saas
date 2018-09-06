@@ -2,9 +2,9 @@ apply plugin: 'com.android.library'
 
 buildscript {
     repositories {
+        maven { url "http://dl.bintray.com/lukaville/maven" }
         jcenter()
         google()
-        maven { url "http://dl.bintray.com/lukaville/maven" }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
@@ -24,9 +24,9 @@ android {
 
 dependencies {
     repositories {
+        maven { url "http://dl.bintray.com/lukaville/maven" }
         jcenter()
         google()
-        maven { url "http://dl.bintray.com/lukaville/maven" }
     }
     implementation 'com.android.support:appcompat-v7:27.1.1'
 }

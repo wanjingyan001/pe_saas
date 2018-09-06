@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:padding="@dimen/text_15">
+    android:paddingTop="@dimen/text_10"
+    android:paddingBottom="@dimen/text_10">
     <TextView
         android:id="@+id/tv_title1"
         android:layout_width="match_parent"
@@ -39,7 +40,7 @@
         android:textSize="@dimen/text_size_12"
         android:layout_below="@id/tv_title1"
         android:layout_marginTop="@dimen/text_15"/>
-    
+
     <ImageView
         android:id="@+id/iv_image"
         android:visibility="invisible"

@@ -122,9 +122,16 @@ interface OtherService {
      * 政策速递新闻列表
      */
     @FormUrlEncoded
-    @POST("api/Datasource/zjhNewsList")
+    @POST("api/Datasource/policyNews")
     fun getPolicyExpressList(@Field("page") page: Int = 1,
                              @Field("pageSize") pageSize: Int = 20,
-                             @Field("keywords") keywords : String? = null): Observable<Payload<List<PlListInfos>>>
+                             @Field("keywords") keywords : String? = null,
+                             @Field("type") type : Int? = null): Observable<Payload<List<PlListInfos>>>
 
+    /**
+    * 政策速递新闻详情
+    */
+    @FormUrlEncoded
+    @POST("api/Datasource/newsInfo")
+    fun getPolicyExpressDetail(@Field("news_id") news_id: Int): Observable<Payload<PlDetailInfo>>
 }

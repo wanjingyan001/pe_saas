@@ -6,7 +6,7 @@
               android:layout_height="match_parent"
               android:background="@color/gray_f7"
               android:orientation="vertical"
-              tools:context="com.sogukj.pe.module.other.InvestmentActivity">
+              tools:context="com.sogukj.pe.module.lpassistant.PolicyExpressActivity">
 
     <include layout="@layout/pex_toolbar" />
 
@@ -14,11 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/divider2"/>
-
-    <android.support.v4.widget.DrawerLayout
-        android:id="@+id/drawer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -28,8 +23,7 @@
             <com.scwang.smartrefresh.layout.SmartRefreshLayout
                 android:id="@+id/refresh"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp">
+                android:layout_height="match_parent">
 
                 <ListView
                     android:id="@+id/lv_express"
@@ -39,8 +33,6 @@
                     android:divider="@color/gray_f1"
                     android:dividerHeight="@dimen/text_1"
                     android:background="@color/white"
-                    android:paddingLeft="@dimen/text_15"
-                    android:paddingRight="@dimen/text_15"
                     android:fadingEdge="none"
                     tools:listitem="@layout/pl_item"
                     android:listSelector="@android:color/transparent"
@@ -51,90 +43,5 @@
 
         </android.support.constraint.ConstraintLayout>
 
-        <!--抽屉组件-->
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:background="@color/white">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/primaryOption"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:paddingBottom="20dp"
-                android:paddingTop="20dp"
-                app:layout_constraintBottom_toTopOf="@+id/resetCondition"
-                app:layout_constraintEnd_toEndOf="@+id/Gline"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-            </android.support.v7.widget.RecyclerView>
-
-            <android.support.constraint.Guideline
-                android:id="@+id/Gline"
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.22" />
-
-            <View
-                android:id="@+id/line"
-                android:layout_width="1dp"
-                android:layout_height="0dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="20dp"
-                android:background="@color/divider2"
-                app:layout_constraintBottom_toBottomOf="@+id/primaryOption"
-                app:layout_constraintStart_toEndOf="@+id/primaryOption"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/secondaryOption"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:paddingBottom="20dp"
-                android:paddingTop="20dp"
-                app:layout_constraintBottom_toTopOf="@+id/confirm"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/line"
-                app:layout_constraintTop_toTopOf="parent">
-
-            </android.support.v7.widget.RecyclerView>
-
-
-            <TextView
-                android:id="@+id/resetCondition"
-                android:layout_width="0dp"
-                android:layout_height="36dp"
-                android:background="@drawable/bg_filter_reset"
-                android:gravity="center"
-                android:text="重置"
-                android:textColor="@color/text_1"
-                android:textSize="16sp"
-                android:layout_margin="12dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/confirm"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/confirm"
-                android:layout_width="0dp"
-                android:layout_height="36dp"
-                android:background="@drawable/bg_filter_confirm"
-                android:gravity="center"
-                android:text="确定"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:layout_margin="12dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/resetCondition" />
-
-        </android.support.constraint.ConstraintLayout>
-
-
-    </android.support.v4.widget.DrawerLayout>
 
 </LinearLayout>

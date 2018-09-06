@@ -8,7 +8,7 @@ import java.io.Serializable
 class PolicyBannerInfo : Serializable {
     var data : ArrayList<BannerInfo> ? = null
 
-    public class BannerInfo : Serializable{
+    class BannerInfo : Serializable{
         var image:String = ""
         var title : String = ""
     }

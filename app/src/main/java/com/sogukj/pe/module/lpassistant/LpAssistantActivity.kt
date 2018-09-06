@@ -107,7 +107,36 @@ class LpAssistantActivity : BaseActivity(){
 
     private fun bindListener() {
         lpaAdapter.onItemClick = {v: View, position: Int ->
+            when(position){
+                0 -> {
 
+                }
+
+                1 -> {
+
+                }
+
+                2 -> {
+
+                }
+
+                3 -> {
+
+                }
+
+                4 -> {
+
+                }
+
+                5 -> {
+                    //政策速递
+                    PolicyExpressActivity.invoke(this)
+                }
+
+                6 -> {
+
+                }
+            }
         }
 
         toolbar_back.clickWithTrigger {
