@@ -1,7 +1,6 @@
 package com.sogukj.pe.service
 
 import com.sogukj.pe.bean.*
-import com.sogukj.pe.database.FuncReqBean
 import com.sogukj.pe.database.HomeFunctionReq
 import com.sogukj.pe.database.MainFunIcon
 import io.reactivex.Observable
@@ -111,5 +110,21 @@ interface OtherService {
     @POST("/api/index/bannerstatus")
     fun getFourModules(): Observable<Payload<List<MainModule>>>
 
+
+    /**
+     * 获取投资分类(投资事件的筛选条件1)
+     */
+    @POST("/api/Datasource/invest_category")
+    fun getInvestCategory():Observable<Payload<List<InvestCategory>>>
+
+
+    /**
+     * 政策速递新闻列表
+     */
+    @FormUrlEncoded
+    @POST("api/Datasource/zjhNewsList")
+    fun getPolicyExpressList(@Field("page") page: Int = 1,
+                             @Field("pageSize") pageSize: Int = 20,
+                             @Field("keywords") keywords : String? = null): Observable<Payload<List<PlListInfos>>>
 
 }

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    android:paddingTop="@dimen/text_15"
+    android:paddingBottom="@dimen/text_15">
+    <TextView
+        android:id="@+id/tv_title1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:textColor="@color/black_28"
+        android:textSize="@dimen/text_size_16"
+        android:lineSpacingExtra="@dimen/text_3"
+        tools:text="基金业协会依法向公安机关移送华泽钴镍及相关人员涉嫌证券犯罪案件"
+        android:ellipsize="end"/>
+
+    <TextView
+        android:id="@+id/tv_tag1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/blue_17"
+        android:textSize="@dimen/text_size_12"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/tv_title1"
+        android:layout_marginTop="@dimen/text_15"
+        android:paddingLeft="@dimen/text_3"
+        android:paddingRight="@dimen/text_3"
+        android:paddingTop="@dimen/text_1"
+        android:paddingBottom="@dimen/text_1"
+        tools:text="基金业协会"
+        android:background="@drawable/shape_pl_item"/>
+
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/gray_a0"
+        android:textSize="@dimen/text_size_12"
+        android:layout_below="@id/tv_title1"
+        android:layout_marginTop="@dimen/text_15"
+        tools:text="6分钟前"/>
+    
+    <ImageView
+        android:id="@+id/iv_image"
+        android:visibility="invisible"
+        android:layout_width="@dimen/text_70"
+        android:layout_height="@dimen/text_70"
+        android:layout_alignParentRight="true"
+        android:src="@mipmap/ic_launcher_pe"/>
+
+    <TextView
+        android:id="@+id/tv_title2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:maxLines="3"
+        android:layout_toLeftOf="@id/iv_image"
+        android:layout_marginRight="@dimen/text_15"
+        tools:text="关于修改<中国证券监督管理委员会上市公司并购重组审核委员会工作规程>的决定》"
+        android:textSize="@dimen/text_size_16"
+        android:ellipsize="end"/>
+
+    <TextView
+        android:id="@+id/tv_tag2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/blue_17"
+        android:textSize="@dimen/text_size_12"
+        android:visibility="invisible"
+        android:layout_below="@id/tv_title2"
+        android:paddingLeft="@dimen/text_3"
+        android:paddingRight="@dimen/text_3"
+        android:paddingTop="@dimen/text_1"
+        android:paddingBottom="@dimen/text_1"
+        android:layout_alignRight="@id/tv_title2"
+        android:layout_marginTop="@dimen/text_15"
+        tools:text="基金业协会"
+        android:background="@drawable/shape_pl_item"/>
+</RelativeLayout>

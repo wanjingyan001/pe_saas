@@ -1,8 +1,5 @@
 package com.sogukj.pe
 
-import com.sogukj.pe.module.project.StoreProjectAddActivity
-import com.sogukj.pe.module.project.archives.InvestSuggestActivity
-
 /**
  * Created by admin on 2018/6/29.
  */
@@ -47,6 +44,6 @@ object ARouterPath {
     const val ApproveListActivity: String = "/main/myApprove"
     //融资舆情(投资事件)
     const val InvestmentActivity:String = "/main/Investment"
-
+    //尽调助手
     const val LpAssistantActivity:String = "/lp/assistant"
 }

@@ -27,7 +27,7 @@
                 android:background="@color/white"
                 android:orientation="vertical"
                 app:layoutManager="LinearLayoutManager"
-                tools:listitem="@layout/item_lp_assis" />
+                tools:listitem="@layout/item_lp_assis"/>
 
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
