@@ -4,13 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
-import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
-import android.text.TextUtils
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -27,7 +24,6 @@ import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.baselibrary.widgets.SpaceItemDecoration
-import com.sogukj.pe.bean.FileListBean
 import com.sogukj.pe.bean.FundCompany
 import com.sogukj.pe.bean.FundSmallBean
 import com.sogukj.pe.service.FundService
@@ -36,7 +32,7 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_fund_project.*
-import org.jetbrains.anko.imageResource
+
 @Route(path = ARouterPath.FundProjectActivity)
 class FundProjectActivity : ToolbarActivity() {
 
@@ -66,7 +62,7 @@ class FundProjectActivity : ToolbarActivity() {
                     val icon = convertView.findViewById<ImageView>(R.id.icon) as ImageView
                     val status = convertView.findViewById<TextView>(R.id.status) as TextView
                     val title = convertView.findViewById<TextView>(R.id.title) as TextView
-                    val time = convertView.findViewById<TextView>(R.id.time) as TextView
+                    val time = convertView.findViewById<TextView>(R.id.timeTv) as TextView
                     val manange = convertView.findViewById<TextView>(R.id.manange) as TextView
                     val money = convertView.findViewById<TextView>(R.id.money) as TextView
                     override fun setData(view: View, data: FundCompany, position: Int) {

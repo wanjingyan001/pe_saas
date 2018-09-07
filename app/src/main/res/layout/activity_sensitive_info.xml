@@ -248,7 +248,7 @@
                         android:textColor="@color/shareholder_text_gray" />
 
                     <TextView
-                        android:id="@+id/time"
+                        android:id="@+id/timeTv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@+id/zuijinanfashijain"

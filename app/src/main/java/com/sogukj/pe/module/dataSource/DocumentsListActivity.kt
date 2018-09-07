@@ -12,10 +12,12 @@ import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
 import android.view.View
 import androidx.core.content.edit
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.scwang.smartrefresh.layout.api.RefreshFooter
+import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
@@ -30,7 +32,7 @@ import com.sogukj.pe.service.DataSourceService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_prospectus_list.*
 import org.jetbrains.anko.ctx
-
+@Route(path = ARouterPath.DocumentsListActivity)
 class DocumentsListActivity : BaseRefreshActivity() {
     companion object {
         fun start(context: Context, @DocumentType type: Int) {
@@ -73,7 +75,7 @@ class DocumentsListActivity : BaseRefreshActivity() {
                 throw Exception("类型错误")
             }
         }
-        Gson().fromJson<Array<String>>(sp.getString(Extras.DOWNLOADED_PDF, ""),Array<String>::class.java)?.let {
+        Gson().fromJson<Array<String>>(sp.getString(Extras.DOWNLOADED_PDF, ""), Array<String>::class.java)?.let {
             it.isNotEmpty().yes {
                 downloaded.addAll(it)
             }
@@ -118,9 +120,10 @@ class DocumentsListActivity : BaseRefreshActivity() {
         }
     }
 
+    @SuppressLint("WrongConstant")
     private fun getPdfList(searchKey: String? = null) {
         SoguApi.getService(application, DataSourceService::class.java)
-                .getSourceBookList(page = page, keywords = searchKey)
+                .getSourceBookList(page = page, keywords = searchKey, type = type)
                 .execute {
                     onNext { payload ->
                         payload.isOk.yes {

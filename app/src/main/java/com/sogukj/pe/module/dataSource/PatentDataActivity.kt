@@ -92,7 +92,6 @@ class PatentDataActivity : ToolbarActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patent_data)
         StatusBarUtil.setTranslucentForCoordinatorLayout(this, 0)
-        setBack(true)
         toolbar?.setBackgroundColor(resources.getColor(R.color.transparent))
         deviceHasNavigationBar()
         searchkey = intent.getStringExtra(Extras.DATA)
@@ -102,9 +101,10 @@ class PatentDataActivity : ToolbarActivity() {
             adapter = listAdapter
         }
         listAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { adapter, view, position ->
-            getPatentDetail(data[position])
+            PatentDetailActivity.start(this, data[position])
         }
         initRefreshConfig()
+        initSearch()
         if (searchkey.isNullOrEmpty()) {
             val list = model.getPatentHistory().reversed()
             (list.size > 5).yes {
@@ -116,7 +116,6 @@ class PatentDataActivity : ToolbarActivity() {
         } else {
             searchEdt.setText(searchkey)
         }
-        initSearch()
     }
 
     private fun initSearch() {
@@ -134,6 +133,9 @@ class PatentDataActivity : ToolbarActivity() {
         clear.clickWithTrigger {
             searchEdt.setText("")
         }
+        back.clickWithTrigger {
+            finish()
+        }
     }
 
 
@@ -143,12 +145,20 @@ class PatentDataActivity : ToolbarActivity() {
             isEnableRefresh = true
             isEnableAutoLoadMore = true
             setRefreshHeader(ClassicsHeader(ctx))
+            setOnRefreshListener {
+                page = 1
+                getPatentList(searchkey)
+            }
+            setOnLoadMoreListener {
+                page += 1
+                getPatentList(searchkey)
+            }
         }
     }
 
     private fun getPatentList(searchKey: String? = null) {
         SoguApi.getService(application, DataSourceService::class.java)
-                .getPatentList(searchWords = searchKey)
+                .getPatentList(page, searchKey)
                 .execute {
                     onSubscribe {
                         showProgress("正在请求数据")
@@ -156,6 +166,10 @@ class PatentDataActivity : ToolbarActivity() {
                     onNext { payload ->
                         payload.isOk.yes {
                             payload.payload?.let {
+                                listAdapter.searchKey = searchKey
+                                if (page == 1) {
+                                    data.clear()
+                                }
                                 data.addAll(it)
                                 listAdapter.notifyDataSetChanged()
                             }
@@ -165,6 +179,11 @@ class PatentDataActivity : ToolbarActivity() {
                     }
                     onComplete {
                         hideProgress()
+                        if (page == 1) {
+                            refresh.finishRefresh()
+                        }else{
+                            refresh.finishLoadMore()
+                        }
                         data.isNotEmpty().yes {
                             refresh.setVisible(true)
                             empty_img.setVisible(false)
@@ -184,18 +203,5 @@ class PatentDataActivity : ToolbarActivity() {
                 }
     }
 
-    private fun getPatentDetail(bean:PatentItem) {
-        SoguApi.getService(application, DataSourceService::class.java)
-                .getPatentDetail(bean.url)
-                .execute {
-                    onNext { payload ->
-                        payload.isOk.yes {
-                            info { payload.payload.jsonStr }
-                            model.getPatentHistory().plus(bean)
-                            model.saveLocalData()
-                        }
-                    }
-                }
-    }
 
 }

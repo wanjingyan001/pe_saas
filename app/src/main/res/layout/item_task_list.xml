@@ -6,7 +6,7 @@
     android:background="@color/white">
 
     <TextView
-        android:id="@+id/time"
+        android:id="@+id/timeTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
@@ -18,9 +18,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/time"
-        android:layout_alignRight="@+id/time"
-        android:layout_below="@+id/time"
+        android:layout_alignLeft="@+id/timeTv"
+        android:layout_alignRight="@+id/timeTv"
+        android:layout_below="@+id/timeTv"
         android:layout_marginTop="2dp"
         android:gravity="center"
         android:text="截止"
@@ -65,7 +65,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/content"
-        android:layout_below="@+id/time"
+        android:layout_below="@+id/timeTv"
         android:layout_marginTop="10dp"
         android:background="@drawable/blue_gradient"
         android:text="会议"

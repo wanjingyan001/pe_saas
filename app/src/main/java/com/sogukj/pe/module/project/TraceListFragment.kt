@@ -154,7 +154,7 @@ class TraceListFragment : BaseFragment(), SupportEmptyView {
         init {
             tvTitle = convertView.findViewById<TextView>(R.id.title) as TextView
             tvName = convertView.findViewById<TextView>(R.id.name) as TextView
-            tvTime = convertView.findViewById<TextView>(R.id.time) as TextView
+            tvTime = convertView.findViewById<TextView>(R.id.timeTv) as TextView
             tvCondition = convertView.findViewById<TextView>(R.id.condition) as TextView
         }
 

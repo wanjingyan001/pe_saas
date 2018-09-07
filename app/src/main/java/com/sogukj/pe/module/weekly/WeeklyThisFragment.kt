@@ -36,7 +36,6 @@ import com.sogukj.pe.module.calendar.TaskDetailActivity
 import com.sogukj.pe.module.creditCollection.ShareholderCreditActivity
 import com.sogukj.pe.module.fund.FundDetailActivity
 import com.sogukj.pe.module.main.ContactsActivity
-import com.sogukj.pe.module.project.ProjectActivity
 import com.sogukj.pe.module.project.ProjectDetailActivity
 import com.sogukj.pe.module.project.archives.RecordTraceActivity
 import com.sogukj.pe.peUtils.MyGlideUrl
@@ -375,7 +374,7 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
             week = loaded.week as WeeklyThisBean.Week
             //var time = buchong_full.findViewById(R.id.time) as TextView
             //var times = buchong_full.findViewById(R.id.times) as TextView
-            var info = buchong_full.findViewById<TextView>(R.id.info)
+            var info = buchong_full.findViewById<TextView>(R.id.infoTv)
             var fl_edit = buchong_full.findViewById<FrameLayout>(R.id.fl_edit)
 
             var S_TIME = week.start_time?.split("-")
@@ -385,7 +384,7 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
             buchong_full.findViewById<TextView>(R.id.name).setText("${user!!.name}的周报补充记录")
             var YMD = week.date!!.split(" ")[0]
             var HMS = week.date!!.split(" ")[1]
-            buchong_full.findViewById<TextView>(R.id.time).text = "${YMD.split("-")[1]}月${YMD.split("-")[2]}日      ${HMS.substring(0, 5)}"
+            buchong_full.findViewById<TextView>(R.id.timeTv).text = "${YMD.split("-")[1]}月${YMD.split("-")[2]}日      ${HMS.substring(0, 5)}"
 
             //time.text = week.time
             //times.text = "${S_TIME?.get(1)}.${S_TIME?.get(2)}-${E_TIME?.get(1)}.${E_TIME?.get(2)}"
@@ -689,7 +688,7 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
 
                 loadHead(conView.findViewById<CircleImageView>(R.id.circleImageView))
                 conView.findViewById<TextView>(R.id.name).setText("${user!!.name}的周报")
-                loadTime(item.add_time!!, conView.findViewById<TextView>(R.id.time))
+                loadTime(item.add_time!!, conView.findViewById<TextView>(R.id.timeTv))
             } else {
                 // 请假，出差
                 conView = LayoutInflater.from(context).inflate(R.layout.weekly_leave, null) as LinearLayout
@@ -710,7 +709,7 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
 
                 loadHead(conView.findViewById<CircleImageView>(R.id.circleImageView))
                 conView.findViewById<TextView>(R.id.name).setText("${user!!.name}的周报")
-                loadTime(item.add_time!!, conView.findViewById<TextView>(R.id.time))
+                loadTime(item.add_time!!, conView.findViewById<TextView>(R.id.timeTv))
             }
             return conView
         }
@@ -837,7 +836,7 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
             week = data?.getSerializableExtra(Extras.DATA) as WeeklyThisBean.Week
             //var time = buchong_full.findViewById(R.id.time) as TextView
             //var times = buchong_full.findViewById(R.id.times) as TextView
-            var info = buchong_full.findViewById<TextView>(R.id.info)
+            var info = buchong_full.findViewById<TextView>(R.id.infoTv)
 
             var S_TIME = week.start_time?.split("-")
             var E_TIME = week.end_time?.split("-")
@@ -846,7 +845,7 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
             buchong_full.findViewById<TextView>(R.id.name).setText("${user!!.name}的周报补充记录")
             var YMD = week.date!!.split(" ")[0]
             var HMS = week.date!!.split(" ")[1]
-            buchong_full.findViewById<TextView>(R.id.time).text = "${YMD.split("-")[1]}月${YMD.split("-")[2]}日      ${HMS.substring(0, 5)}"
+            buchong_full.findViewById<TextView>(R.id.timeTv).text = "${YMD.split("-")[1]}月${YMD.split("-")[2]}日      ${HMS.substring(0, 5)}"
 
             var fl_edit = buchong_full.findViewById<FrameLayout>(R.id.fl_edit)
             fl_edit.setOnClickListener {
@@ -864,7 +863,7 @@ class WeeklyThisFragment : BaseFragment(), View.OnClickListener {
             buchong_full.visibility = View.VISIBLE
 
             week = data?.getSerializableExtra(Extras.DATA) as WeeklyThisBean.Week
-            var info = buchong_full.findViewById<TextView>(R.id.info)
+            var info = buchong_full.findViewById<TextView>(R.id.infoTv)
             info.text = week.info
         } else if (requestCode == SEND && resultCode == Extras.RESULTCODE) {//SEND
             var beanObj = data?.getSerializableExtra(Extras.DATA) as ArrayList<UserBean>

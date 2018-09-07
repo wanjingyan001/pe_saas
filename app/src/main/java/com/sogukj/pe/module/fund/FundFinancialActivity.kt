@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.TextView
-import com.amap.api.mapcore.util.it
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
@@ -20,7 +19,6 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.baselibrary.widgets.SpaceItemDecoration
 import com.sogukj.pe.bean.FundCompany
 import com.sogukj.pe.bean.JCKJLBean
-import com.sogukj.pe.service.FundService
 import com.sogukj.pe.service.ProjectService
 import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -57,7 +55,7 @@ class FundFinancialActivity : ToolbarActivity() {
                 val convertView = _adapter.getView(R.layout.item_jckjl1, parent)
                 val dot = convertView.findViewById<DotView>(R.id.dot) as DotView
                 val tvSeq = convertView.findViewById<TextView>(R.id.tvSeq) as TextView
-                val tvTime = convertView.findViewById<TextView>(R.id.time) as TextView
+                val tvTime = convertView.findViewById<TextView>(R.id.timeTv) as TextView
                 val tvFundName = convertView.findViewById<TextView>(R.id.fundName) as TextView
                 val tvFundMoney = convertView.findViewById<TextView>(R.id.fundMoney) as TextView
 

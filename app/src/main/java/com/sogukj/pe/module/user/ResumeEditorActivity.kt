@@ -74,7 +74,7 @@ class ResumeEditorActivity : BaseActivity(), View.OnClickListener {
                     val convertView = _adapter.getView(R.layout.item_resume_editlist, parent)
                     object : RecyclerHolder<EducationBean>(convertView) {
                         val name = convertView.find<TextView>(R.id.name)
-                        val time = convertView.find<TextView>(R.id.time)
+                        val time = convertView.find<TextView>(R.id.timeTv)
                         val right = convertView.find<ImageView>(R.id.ic_right)
                         val delete = convertView.find<TextView>(R.id.delete)
                         val deleteImg = convertView.find<ImageView>(R.id.deleteImg)
@@ -117,7 +117,7 @@ class ResumeEditorActivity : BaseActivity(), View.OnClickListener {
                     val convertView = _adapter.getView(R.layout.item_resume_editlist, parent)
                     object : RecyclerHolder<WorkEducationBean>(convertView) {
                         val name = convertView.find<TextView>(R.id.name)
-                        val time = convertView.find<TextView>(R.id.time)
+                        val time = convertView.find<TextView>(R.id.timeTv)
                         val right = convertView.find<ImageView>(R.id.ic_right)
                         val delete = convertView.find<TextView>(R.id.delete)
                         val deleteImg = convertView.find<ImageView>(R.id.deleteImg)

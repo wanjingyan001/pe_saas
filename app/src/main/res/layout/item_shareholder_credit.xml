@@ -119,7 +119,7 @@
                 android:src="@drawable/zhengxin_fail" />
 
             <TextView
-                android:id="@+id/number"
+                android:id="@+id/numberTv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center|right"

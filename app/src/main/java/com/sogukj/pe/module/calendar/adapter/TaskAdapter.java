@@ -198,7 +198,7 @@ public class TaskAdapter extends RecyclerView.Adapter {
         public InfoHolder(View itemView) {
             super(itemView);
             view = itemView;
-            time = itemView.findViewById(R.id.time);
+            time = itemView.findViewById(R.id.timeTv);
             finishBox = itemView.findViewById(R.id.finishBox);
             content = itemView.findViewById(R.id.content);
             typeTv = itemView.findViewById(R.id.typeTv);

@@ -1,28 +1,20 @@
 package com.sogukj.pe.module.clockin
 
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import android.widget.RelativeLayout
 import android.widget.TextView
 
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.BaseFragment
-import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.LocationRecordBean
 import kotlinx.android.synthetic.main.fragment_location_record.*
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.ctx
-import android.graphics.Color
 import android.net.Uri
-import android.text.Spannable
-import android.text.style.ForegroundColorSpan
-import android.text.SpannableString
 import com.bumptech.glide.Glide
-import com.sogukj.pe.baselibrary.Extended.isNullOrEmpty
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.widgets.MyListView
 import com.sogukj.pe.module.clockin.adapter.LocationAdapter
@@ -46,7 +38,7 @@ class LocationRecordFragment : BaseFragment() {
             adapter = RecyclerAdapter(ctx, { _adapter, parent, type ->
                 val convertView = _adapter.getView(R.layout.item_location_record, parent)
                 object : RecyclerHolder<LocationRecordBean>(convertView) {
-                    val tvTime = convertView.find<TextView>(R.id.time)
+                    val tvTime = convertView.find<TextView>(R.id.timeTv)
                     val mListView = convertView.find<MyListView>(R.id.list)
                     override fun setData(view: View, data: LocationRecordBean, position: Int) {
 

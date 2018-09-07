@@ -4,23 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:layout_marginTop="7dp"
-    android:background="@drawable/bg_border_gray_4"
-    android:elevation="8dp"
     tools:targetApi="lollipop">
 
     <TextView
-        android:id="@+id/num"
+        android:id="@+id/typeTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="15dp"
-        android:text="1."
-        android:textColor="@color/text_1"
-        android:textSize="@dimen/text_size_medium"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_blue_radius_9"
+        android:text="发明"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_samll"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,26 +29,24 @@
         android:singleLine="true"
         android:text="发动机-20161036547848，2:38746795962B"
         android:textColor="@color/text_1"
-        android:textSize="@dimen/text_size_medium"
+        android:textSize="@dimen/text_size_normal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/num"
-        app:layout_constraintTop_toTopOf="@+id/num" />
+        app:layout_constraintStart_toEndOf="@+id/typeTv"
+        app:layout_constraintTop_toTopOf="@+id/typeTv" />
 
     <TextView
         android:id="@+id/applicantName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="12dp"
         android:ellipsize="end"
         android:gravity="start"
         android:singleLine="true"
         android:text="申请人：张全龄"
         android:textColor="@color/gray_80"
         android:textSize="@dimen/text_size_samll"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/guideline"
-        app:layout_constraintStart_toStartOf="@+id/patentName"
+        app:layout_constraintStart_toStartOf="@+id/typeTv"
         app:layout_constraintTop_toBottomOf="@+id/patentName" />
 
 
@@ -73,5 +66,31 @@
         android:textSize="@dimen/text_size_samll"
         app:layout_constraintEnd_toEndOf="@+id/patentName"
         app:layout_constraintTop_toTopOf="@+id/applicantName" />
+
+    <TextView
+        android:id="@+id/summaryTv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/bg_f6_noradius"
+        android:text="【摘要】：本发明提供了一种"
+        android:textColor="@color/text_3"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:textSize="@dimen/text_size_samll"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/applicantName" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/divider2"
+        app:layout_constraintTop_toBottomOf="@+id/summaryTv" />
 
 </android.support.constraint.ConstraintLayout>

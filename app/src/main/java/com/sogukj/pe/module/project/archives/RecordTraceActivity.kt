@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -54,7 +53,7 @@ class RecordTraceActivity : ToolbarActivity() {
                 val dot = convertView.findViewById<DotView>(R.id.dot) as DotView
                 val tvImportant = convertView.findViewById<TextView>(R.id.important) as TextView
                 val tvEvent = convertView.findViewById<TextView>(R.id.event) as TextView
-                val tvTime = convertView.findViewById<TextView>(R.id.time) as TextView
+                val tvTime = convertView.findViewById<TextView>(R.id.timeTv) as TextView
                 override fun setData(view: View, data: RecordInfoBean.ListBean, position: Int) {
                     if (position == 0) {
                         dot.setUp(false)

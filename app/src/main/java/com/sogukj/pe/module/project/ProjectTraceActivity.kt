@@ -2,20 +2,14 @@ package com.sogukj.pe.module.project
 
 import android.app.Activity
 import android.content.Intent
-import android.databinding.DataBindingUtil.setContentView
 import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
-import android.support.design.widget.AppBarLayout
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.view.View
-import anet.channel.util.Utils.context
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.amap.api.mapcore.util.it
 import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.R
-import com.sogukj.pe.R.id.*
 import com.sogukj.pe.baselibrary.base.BaseFragment
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.StatusBarUtil
@@ -28,7 +22,6 @@ import com.sogukj.pe.service.ProjectService
 import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_contacts.*
 import kotlinx.android.synthetic.main.activity_project_trace.*
 @Route(path = ARouterPath.ProjectTraceActivity)
 class ProjectTraceActivity : ToolbarActivity() {
@@ -84,7 +77,7 @@ class ProjectTraceActivity : ToolbarActivity() {
                 .subscribe({ payload ->
                     if (payload.isOk) {
                         payload?.payload?.apply {
-                            number.text = this.num.toString()
+                            numberTv.text = this.num.toString()
                         }
                     } else {
                         record.visibility = View.INVISIBLE

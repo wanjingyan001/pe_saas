@@ -43,14 +43,14 @@ class RecordBuChongFragment : BaseFragment() {
 
         //time.text = week.time
         //times.text = "${S_TIME?.get(1)}.${S_TIME?.get(2)}-${E_TIME?.get(1)}.${E_TIME?.get(2)}"
-        info.text = week.info
+        infoTv.text = week.info
 
         var user = Store.store.getUser(baseActivity!!)
         loadHead(buchong_full.findViewById<CircleImageView>(R.id.circleImageView))
         buchong_full.findViewById<TextView>(R.id.name).setText("${user!!.name}的周报补充记录")
         var YMD = week.date!!.split(" ")[0]
         var HMS = week.date!!.split(" ")[1]
-        buchong_full.findViewById<TextView>(R.id.time).text = "${YMD.split("-")[1]}月${YMD.split("-")[2]}日      ${HMS.substring(0, 5)}"
+        buchong_full.findViewById<TextView>(R.id.timeTv).text = "${YMD.split("-")[1]}月${YMD.split("-")[2]}日      ${HMS.substring(0, 5)}"
     }
 
     fun loadHead(header: CircleImageView) {

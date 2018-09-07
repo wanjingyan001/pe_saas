@@ -42,7 +42,6 @@ import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.bigkoo.pickerview.utils.PickerViewAnimateUtil;
 import com.sogukj.pe.R;
-import com.sogukj.pe.baselibrary.utils.DateUtils;
 import com.sogukj.pe.bean.LocationRecordBean;
 import com.sogukj.pe.module.clockin.LocationActivity;
 import com.sogukj.pe.service.ApproveService;
@@ -361,7 +360,7 @@ public class MyMapView extends View {
                         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                         dialog.show();
 
-                        TextView mTvTime = (TextView) dialog.findViewById(R.id.time);
+                        TextView mTvTime = (TextView) dialog.findViewById(R.id.timeTv);
                         TextView mTvLocate = (TextView) dialog.findViewById(R.id.locate);
                         TextView tvCancel = (TextView) dialog.findViewById(R.id.cancel);
                         TextView tvConfirm = (TextView) dialog.findViewById(R.id.confirm);

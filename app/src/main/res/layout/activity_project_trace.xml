@@ -92,7 +92,7 @@
                     android:textSize="11sp" />
 
                 <TextView
-                    android:id="@+id/number"
+                    android:id="@+id/numberTv"
                     android:layout_width="45dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/project_trace_bg"

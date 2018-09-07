@@ -234,7 +234,7 @@ class ShareholderCreditActivity : BaseActivity(), View.OnClickListener {
         private val companyTv = convertView.find<TextView>(R.id.companyTv)
         private val quireTimeTv = convertView.find<TextView>(R.id.quireTime)
         private val edit = convertView.find<ImageView>(R.id.edit)
-        private val number = convertView.find<TextView>(R.id.number)//失败
+        private val number = convertView.find<TextView>(R.id.numberTv)//失败
         private val fail = convertView.find<FrameLayout>(R.id.fail)//失败
         private val success = convertView.find<ImageView>(R.id.success)//成功
 

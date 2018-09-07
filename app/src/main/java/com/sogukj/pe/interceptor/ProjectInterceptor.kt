@@ -12,6 +12,7 @@ import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.baselibrary.Extended.jsonStr
 import com.sogukj.pe.bean.CustomSealBean
+import com.sogukj.pe.module.dataSource.DocumentType
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 
@@ -30,13 +31,19 @@ class ProjectInterceptor : IInterceptor, AnkoLogger {
             ARouter.getInstance()
                     .build(ARouterPath.CompanySelectActivity)
                     .withString(Extras.ROUTE_PATH, postcard.path)
-                    .withString(Extras.NAME,name)
+                    .withString(Extras.NAME, name)
                     .navigation()
             callback.onInterrupt(null)
         } else if ((postcard.path.startsWith("/project") || postcard.path.startsWith("/fund")) && bundle.getInt(Extras.FLAG) == Extras.ROUTH_FLAG) {
             ARouter.getInstance()
                     .build(ARouterPath.CompanySelectActivity)
                     .withString(Extras.ROUTE_PATH, postcard.path)
+                    .navigation()
+            callback.onInterrupt(null)
+        } else if (postcard.path.contains("source") && bundle.getInt(Extras.FLAG) == Extras.ROUTH_FLAG) {
+            ARouter.getInstance()
+                    .build(postcard.path)
+                    .withInt(Extras.TYPE, DocumentType.INTELLIGENT)
                     .navigation()
             callback.onInterrupt(null)
         } else {

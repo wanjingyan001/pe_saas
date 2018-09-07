@@ -50,7 +50,7 @@ class VacationRecordActivity : BaseRefreshActivity() {
                 val type1 = convertView.findViewById<TextView>(R.id.type) as TextView
                 val start_time = convertView.findViewById<TextView>(R.id.start_time) as TextView
                 val end_time = convertView.findViewById<TextView>(R.id.end_time) as TextView
-                val time = convertView.findViewById<TextView>(R.id.time) as TextView
+                val time = convertView.findViewById<TextView>(R.id.timeTv) as TextView
                 val status = convertView.findViewById<TextView>(R.id.status) as TextView
 
                 override fun setData(view: View, data: LeaveRecordBean, position: Int) {

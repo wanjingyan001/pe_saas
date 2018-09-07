@@ -6,9 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,11 +16,6 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.google.gson.JsonSyntaxException
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-import com.lcodecore.tkrefreshlayout.footer.BallPulseView
-import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.BaseFragment
@@ -31,7 +24,6 @@ import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.baselibrary.widgets.SpaceItemDecoration
-import com.sogukj.pe.bean.ReceiveSpinnerBean
 import com.sogukj.pe.bean.WeeklyWatchBean
 import com.sogukj.pe.peUtils.MyGlideUrl
 import com.sogukj.pe.service.WeeklyService
@@ -40,10 +32,8 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_weekly_wait_to_watch.*
-import kotlinx.android.synthetic.main.layout_network_error.*
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.textColor
-import java.net.UnknownHostException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -81,7 +71,7 @@ class WeeklyWaitToWatchFragment : BaseFragment() {
             object : RecyclerHolder<WeeklyWatchBean.BeanObj>(convertView) {
                 val icon = convertView.findViewById<CircleImageView>(R.id.circleImageView)
                 val name = convertView.findViewById<TextView>(R.id.name)
-                val time = convertView.findViewById<TextView>(R.id.time)
+                val time = convertView.findViewById<TextView>(R.id.timeTv)
                 val tvState = convertView.findViewById<TextView>(R.id.state)
                 override fun setData(view: View, data: WeeklyWatchBean.BeanObj, position: Int) {
                     if (data.url.isNullOrEmpty()) {

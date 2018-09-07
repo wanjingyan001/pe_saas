@@ -1,6 +1,7 @@
 package com.sogukj.pe.service
 
 import com.sogukj.pe.bean.*
+import com.sogukj.pe.module.dataSource.DocumentType
 import io.reactivex.Observable
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -35,6 +36,8 @@ interface DataSourceService {
     @POST("/api/Datasource/zgsList")
     fun getSourceBookList(@Field("page") page: Int = 1,
                           @Field("pageSize") pageSize: Int = 20,
+                          @Field("type") @DocumentType type: Int,
+                          @Field("condition") condition: String? = null,
                           @Field("keywords") keywords: String? = null): Observable<Payload<List<PdfBook>>>
 
 
@@ -43,7 +46,7 @@ interface DataSourceService {
      */
     @FormUrlEncoded
     @POST("/api/Datasource/getSoopatcontent")
-    fun getPatentList(@Field("page")page:Int = 1,
+    fun getPatentList(@Field("page") page: Int = 1,
                       @Field("searchWords") searchWords: String? = null): Observable<Payload<List<PatentItem>>>
 
     /**
@@ -51,5 +54,5 @@ interface DataSourceService {
      */
     @FormUrlEncoded
     @POST("api/Datasource/getSoopatInfo")
-    fun getPatentDetail(@Field("url")url:String):Observable<Payload<PatentDetail>>
+    fun getPatentDetail(@Field("url") url: String): Observable<Payload<PatentDetail>>
 }

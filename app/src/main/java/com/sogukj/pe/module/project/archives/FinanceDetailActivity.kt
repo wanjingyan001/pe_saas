@@ -46,7 +46,7 @@ class FinanceDetailActivity : ToolbarActivity() {
         setTitle("财务报表")
 
         subtitle.text = bean.title
-        time.text = bean.issueTime
+        timeTv.text = bean.issueTime
 
         adapter = RecyclerAdapter(context, { _adapter, parent, t ->
             Holder(_adapter.getView(R.layout.finance_item, parent))

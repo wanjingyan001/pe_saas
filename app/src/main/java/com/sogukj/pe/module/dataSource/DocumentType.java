@@ -12,15 +12,16 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.SOURCE)
 public @interface DocumentType {
     /**
-     * 智能文书
-     */
-    int INTELLIGENT = 1;
-    /**
      * 招股书
      */
-    int EQUITY = 2;
+    int EQUITY = 1;
     /**
      * 热门行业研报
      */
-    int INDUSTRY_REPORTS = 3;
+    int INDUSTRY_REPORTS = 2;
+    /**
+     * 智能文书
+     */
+    int INTELLIGENT = 3;
+
 }

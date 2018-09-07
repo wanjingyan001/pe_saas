@@ -25,7 +25,7 @@
         android:textSize="14sp" />
 
     <TextView
-        android:id="@+id/time"
+        android:id="@+id/timeTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/name"

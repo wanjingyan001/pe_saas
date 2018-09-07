@@ -136,7 +136,7 @@ public class TodoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public InfoHolder(View itemView) {
             super(itemView);
             view = itemView;
-            time = itemView.findViewById(R.id.time);
+            time = itemView.findViewById(R.id.timeTv);
 //            finishBox = ((ImageView) itemView.findViewById(R.id.finishBox));
             content = itemView.findViewById(R.id.content);
             todoPerson = itemView.findViewById(R.id.todoPerson);

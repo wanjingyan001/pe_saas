@@ -38,7 +38,7 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/info"
+            android:id="@+id/infoTv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -48,7 +48,7 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/time"
+            android:id="@+id/timeTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"

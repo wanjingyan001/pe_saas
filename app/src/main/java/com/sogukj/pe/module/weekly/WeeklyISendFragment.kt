@@ -3,17 +3,14 @@ package com.sogukj.pe.module.weekly
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
@@ -21,11 +18,6 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.google.gson.JsonSyntaxException
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-import com.lcodecore.tkrefreshlayout.footer.BallPulseView
-import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.BaseFragment
@@ -34,7 +26,6 @@ import com.sogukj.pe.baselibrary.widgets.MyListView
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.WeeklySendBean
-import com.sogukj.pe.module.weekly.PersonalWeeklyActivity
 import com.sogukj.pe.peUtils.MyGlideUrl
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.WeeklyService
@@ -43,9 +34,7 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_weekly_isend.*
-import kotlinx.android.synthetic.main.layout_network_error.*
 import org.jetbrains.anko.support.v4.ctx
-import java.net.UnknownHostException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -211,7 +200,7 @@ class WeeklyISendFragment : BaseFragment() {
                 conView = LayoutInflater.from(context).inflate(R.layout.senditem, null)
                 viewHolder.icon = conView.findViewById<CircleImageView>(R.id.circleImageView)
                 viewHolder.name = conView.findViewById<TextView>(R.id.name)
-                viewHolder.time = conView.findViewById<TextView>(R.id.time)
+                viewHolder.time = conView.findViewById<TextView>(R.id.timeTv)
                 conView.setTag(viewHolder)
             } else {
                 viewHolder = conView.tag as ViewHolder

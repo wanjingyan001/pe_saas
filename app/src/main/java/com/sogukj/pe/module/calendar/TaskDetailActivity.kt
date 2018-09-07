@@ -97,8 +97,8 @@ class TaskDetailActivity : ToolbarActivity(), CommentListener, View.OnClickListe
                     object : RecyclerHolder<TaskDetailBean.Record>(convertView) {
                         val headerImage = convertView.find<CircleImageView>(R.id.headerImage)
                         val commentName = convertView.find<TextView>(R.id.commentName)
-                        val info = convertView.find<TextView>(R.id.info)
-                        val time = convertView.find<TextView>(R.id.time)
+                        val info = convertView.find<TextView>(R.id.infoTv)
+                        val time = convertView.find<TextView>(R.id.timeTv)
                         val type = convertView.find<TextView>(R.id.type)
                         override fun setData(view: View, data: TaskDetailBean.Record, position: Int) {
 

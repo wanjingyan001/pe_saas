@@ -1,5 +1,6 @@
 package com.sogukj.pe.module.dataSource
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -174,9 +175,10 @@ class PdfSearchActivity : BaseActivity() {
         }
     }
 
+    @SuppressLint("WrongConstant")
     private fun getPdfList(searchKey: String? = null) {
         SoguApi.getService(application, DataSourceService::class.java)
-                .getSourceBookList(page = page, keywords = searchKey)
+                .getSourceBookList(page = page, keywords = searchKey,type = type)
                 .execute {
                     onNext { payload ->
                         payload.isOk.yes {
