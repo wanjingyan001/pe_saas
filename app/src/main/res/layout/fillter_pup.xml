@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="140dp"
+    android:layout_height="110dp"
+    android:background="@drawable/add_bg"
+    android:orientation="vertical"
+    android:paddingBottom="4dp"
+    android:paddingTop="4dp">
+
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="证监会"
+        android:textColor="#282828"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="125dp"
+        android:layout_height="1dp"
+        android:background="#f1f1f1" />
+
+    <TextView
+        android:id="@+id/tv2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="基金协会"
+        android:textColor="#ff282828"
+        android:textSize="16sp" />
+</LinearLayout>

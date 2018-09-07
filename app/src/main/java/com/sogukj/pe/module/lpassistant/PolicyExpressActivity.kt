@@ -3,12 +3,15 @@ package com.sogukj.pe.module.lpassistant
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.PopupWindow
 import android.widget.TextView
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
@@ -40,6 +43,7 @@ class PolicyExpressActivity : BaseRefreshActivity(),PolicyExpressCallBack {
     private var bannerInfos = ArrayList<PolicyBannerInfo.BannerInfo>()
     private var indicators = arrayOfNulls<ImageView>(1)     //轮播图指示器
     private var mScrollAdapter : AutoScrollAdapter ? = null
+    private var type : Int ? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_policy_express)
@@ -95,7 +99,7 @@ class PolicyExpressActivity : BaseRefreshActivity(),PolicyExpressCallBack {
 
     private fun getListInfoData() {
         if (null != presenter){
-            presenter!!.doListInfoRequest(true)
+            presenter!!.doListInfoRequest(true,null,null)
         }
     }
 
@@ -175,6 +179,7 @@ class PolicyExpressActivity : BaseRefreshActivity(),PolicyExpressCallBack {
 
         iv_fillter.setOnClickListener {
                 //过滤
+            showFillterPup()
         }
 
         lv_express.setOnItemClickListener { parent, view, position, id ->
@@ -208,6 +213,55 @@ class PolicyExpressActivity : BaseRefreshActivity(),PolicyExpressCallBack {
         })
     }
 
+    private fun showFillterPup() {
+        val contentView = View.inflate(this,R.layout.fillter_pup,null)
+        val tv1 = contentView.findViewById<TextView>(R.id.tv1)
+        val tv2 = contentView.findViewById<TextView>(R.id.tv2)
+        val popupWindow = PopupWindow(contentView, Utils.dip2px(this,140f), Utils.dip2px(this,110f), true)
+        popupWindow.isTouchable = true
+        popupWindow.setBackgroundDrawable(ColorDrawable(0x00000000))
+        popupWindow.isOutsideTouchable = true
+        setBackgroundAlpha(0.4f)
+        popupWindow.setOnDismissListener {
+            setBackgroundAlpha(1f)
+        }
+        val showPos = IntArray(2)
+        iv_fillter.getLocationOnScreen(showPos)
+//        popupWindow.showAtLocation(iv_fillter, Gravity.RIGHT,
+//                Utils.dip2px(this, 10f), showPos[1] + Utils.dip2px(this, 20f))
+
+        popupWindow.showAsDropDown(iv_fillter)
+
+        tv1.setOnClickListener {
+            //证监会
+            type = 1
+            if (popupWindow.isShowing){
+                popupWindow.dismiss()
+            }
+            if (null != presenter){
+                presenter!!.doListInfoRequest(true,null,type)
+            }
+        }
+
+        tv2.setOnClickListener {
+            //基金协会
+            type = 2
+            if (popupWindow.isShowing){
+                popupWindow.dismiss()
+            }
+            if (null != presenter){
+                presenter!!.doListInfoRequest(true,null,type)
+            }
+        }
+    }
+
+    private fun setBackgroundAlpha(alpha: Float) {
+        val attributes = window.attributes
+        attributes.alpha = alpha
+        window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+        window.attributes = attributes
+    }
+
     override fun initRefreshConfig(): RefreshConfig? {
         val config = RefreshConfig()
         config.loadMoreEnable = true
@@ -219,13 +273,13 @@ class PolicyExpressActivity : BaseRefreshActivity(),PolicyExpressCallBack {
 
     override fun doRefresh() {
         if (null != presenter){
-            presenter!!.doRequest()
+            presenter!!.doRefresh(type!!)
         }
     }
 
     override fun doLoadMore() {
         if (null != presenter){
-            presenter!!.doListInfoRequest(false)
+            presenter!!.doListInfoRequest(false,null,type)
         }
     }
 
