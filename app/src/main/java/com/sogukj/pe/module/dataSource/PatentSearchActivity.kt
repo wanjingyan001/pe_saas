@@ -15,14 +15,25 @@ import org.jetbrains.anko.sdk25.coroutines.textChangedListener
 import org.jetbrains.anko.startActivity
 
 class PatentSearchActivity : ToolbarActivity() {
-
+    private var type = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patent_search)
         toolbar?.setBackgroundColor(resources.getColor(R.color.white))
         Utils.setWindowStatusBarColor(this,R.color.white)
         setBack(true)
-        title = "专利数据大全"
+        type = intent.getIntExtra(Extras.DATA,0)
+        when(type){
+            0 -> {
+                title = "专利数据大全"
+                searchBanner.setImageResource(R.mipmap.bg_patent_search)
+            }
+            1 -> {
+                title = "法律案例大全"
+                searchBanner.setImageResource(R.mipmap.bg_law_search)
+            }
+        }
+
         searchEdt.textChangedListener {
             onTextChanged { charSequence, start, before, count ->
                 clear.setVisible( searchEdt.textStr.isNotEmpty())
@@ -34,8 +45,15 @@ class PatentSearchActivity : ToolbarActivity() {
         search.clickWithTrigger {
             Utils.toggleSoftInput(this,searchEdt)
             startActivity<PatentDataActivity>(Extras.DATA to searchEdt.textStr)
+            when(type){
+                0 -> {
+                    startActivity<PatentDataActivity>(Extras.DATA to searchEdt.textStr)
+                }
+                1 -> {
+
+                }
+            }
             finish()
         }
     }
-
 }
