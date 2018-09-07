@@ -5,8 +5,7 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
-    android:paddingTop="@dimen/text_15"
-    android:paddingBottom="@dimen/text_15">
+    android:padding="@dimen/text_15">
     <TextView
         android:id="@+id/tv_title1"
         android:layout_width="match_parent"

@@ -13,7 +13,6 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
-import com.sogukj.pe.baselibrary.Extended.isNullOrEmpty
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
@@ -117,6 +116,7 @@ class LpAssistantActivity : BaseActivity() {
         lpaAdapter.onItemClick = { v: View, position: Int ->
             when (position) {
                 0 -> {
+                    //专利查询
                     if (model.getPatentHistory().value?.isEmpty() != false) {
                         startActivity<PatentSearchActivity>()
                     }else{
@@ -125,6 +125,7 @@ class LpAssistantActivity : BaseActivity() {
                 }
                 1 -> {
                     //法律助手
+
                 }
 
                 2 -> {
@@ -132,6 +133,7 @@ class LpAssistantActivity : BaseActivity() {
                     HotPostActivity.invoke(this)
                 }
                 3 -> {
+                    //招股书
                     DocumentsListActivity.start(this, DocumentType.EQUITY)
                 }
                 4 -> {
@@ -141,9 +143,6 @@ class LpAssistantActivity : BaseActivity() {
                 5 -> {
                     //政策速递
                     PolicyExpressActivity.invoke(this)
-                }
-                6 -> {
-
                 }
             }
         }
