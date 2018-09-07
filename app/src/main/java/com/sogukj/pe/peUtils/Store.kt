@@ -4,6 +4,7 @@ import android.text.TextUtils
 import android.util.Log
 import com.google.gson.Gson
 import com.sogukj.pe.baselibrary.utils.XmlDb
+import com.sogukj.pe.bean.LawCaseHisInfo
 import com.sogukj.pe.bean.UserBean
 import java.util.*
 import kotlin.collections.HashSet
@@ -133,6 +134,29 @@ class Store private constructor() {
 
     fun clearPlHis(ctx : Context){
         XmlDb.open(ctx).set("pl_his", "")
+    }
+
+    private var lawcaseHis = ArrayList<LawCaseHisInfo>()
+    fun saveLawtHis(ctx:Context,searchHis : ArrayList<LawCaseHisInfo>){
+        XmlDb.open(ctx).set("law_his", GSON.toJson(searchHis.toArray()))
+    }
+    fun getLawHis(ctx:Context):ArrayList<LawCaseHisInfo>{
+        this.lawcaseHis.clear()
+        try {
+            val strJson = XmlDb.open(ctx).get("law_his", "")
+            if (!TextUtils.isEmpty(strJson)) {
+                val hisProjects = GSON.fromJson<Array<LawCaseHisInfo>>(strJson, Array<LawCaseHisInfo>::class.java)
+                this.lawcaseHis.addAll(Arrays.asList<LawCaseHisInfo>(*hisProjects))
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return lawcaseHis
+    }
+
+    fun clearLawHis(ctx : Context){
+        XmlDb.open(ctx).set("law_his", "")
     }
 
     private val resultProject = LinkedList<String>()

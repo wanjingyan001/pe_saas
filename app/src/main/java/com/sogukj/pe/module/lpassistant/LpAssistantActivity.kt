@@ -20,7 +20,9 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.LpAssisBean
 import com.sogukj.pe.module.dataSource.*
+import com.sogukj.pe.module.dataSource.lawcase.LowCaseHisActivity
 import com.sogukj.pe.module.hotpost.HotPostActivity
+import com.sogukj.pe.peUtils.Store
 import kotlinx.android.synthetic.main.activity_la_assistant.*
 import kotlinx.android.synthetic.main.commom_title.*
 import org.jetbrains.anko.find
@@ -118,14 +120,19 @@ class LpAssistantActivity : BaseActivity() {
             when (position) {
                 0 -> {
                     if (model.getPatentHistory().isEmpty()) {
-                        startActivity<PatentSearchActivity>()
+                        startActivity<PatentSearchActivity>(Extras.DATA to 0)
                     }else{
                         startActivity<PatentDataActivity>()
                     }
                 }
                 1 -> {
                     //法律助手
-                    startActivity<PatentSearchActivity>(Extras.DATA to 1)
+                    val lawHis = Store.store.getLawHis(this)
+                    if (null != lawHis && lawHis.size > 0){
+                        startActivity<LowCaseHisActivity>()
+                    }else{
+                        startActivity<PatentSearchActivity>(Extras.DATA to 1)
+                    }
                 }
 
                 2 -> {

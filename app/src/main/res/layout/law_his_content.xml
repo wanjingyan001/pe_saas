@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/headerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp">
+
+            <TextView
+                android:id="@+id/lastHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="最近查询历史"
+                android:textColor="@color/text_1"
+                android:textSize="@dimen/text_size_normal"/>
+
+            <TextView
+                android:id="@+id/historyTip"
+                app:layout_constraintTop_toBottomOf="@+id/lastHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="只保存最近5条查询历史"
+                android:textColor="@color/text_3"
+                android:textSize="@dimen/text_size_medium"/>
+
+            <ImageView
+                android:id="@+id/clearHistory"
+                app:layout_constraintBottom_toBottomOf="@+id/historyTip"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/lastHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:src="@mipmap/icon_clear_history"/>
+
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"/>
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/empty_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/img_empty"
+        android:visibility="gone"/>
+</FrameLayout>

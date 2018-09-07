@@ -1,13 +1,11 @@
 package com.sogukj.pe.module.dataSource
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.textStr
-import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import kotlinx.android.synthetic.main.activity_patent_search.*
@@ -26,10 +24,12 @@ class PatentSearchActivity : ToolbarActivity() {
         when(type){
             0 -> {
                 title = "专利数据大全"
+                searchEdt.hint = "请输入专利关键词/专利号"
                 searchBanner.setImageResource(R.mipmap.bg_patent_search)
             }
             1 -> {
                 title = "法律案例大全"
+                searchEdt.hint = "请输入关键词"
                 searchBanner.setImageResource(R.mipmap.bg_law_search)
             }
         }

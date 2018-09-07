@@ -19,8 +19,9 @@
         android:textSize="16sp" />
 
     <View
-        android:layout_width="125dp"
+        android:layout_width="120dp"
         android:layout_height="1dp"
+        android:layout_gravity="center_horizontal"
         android:background="#f1f1f1" />
 
     <TextView

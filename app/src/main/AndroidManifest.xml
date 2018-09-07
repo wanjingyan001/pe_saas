@@ -1173,6 +1173,10 @@
             android:name=".module.hotpost.HotPostActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.dataSource.lawcase.LowCaseHisActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait" />
         <activity android:name=".module.im.RemoveMemberActivity" />
 
         <service android:name=".service.socket.DzhClientService">

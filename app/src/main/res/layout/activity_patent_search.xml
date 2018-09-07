@@ -11,9 +11,9 @@
     <View
         android:id="@+id/line"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="12dp"
         android:background="@color/divider2"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar"/>
 
     <ImageView
         android:id="@+id/searchBanner"
@@ -71,7 +71,6 @@
             android:layout_height="match_parent"
             android:layout_marginStart="10dp"
             android:background="@null"
-            android:hint="请输入专利关键词/专利号"
             android:textColor="@color/text_1"
             android:textColorHint="@color/text_3"
             android:textSize="@dimen/text_size_medium"
