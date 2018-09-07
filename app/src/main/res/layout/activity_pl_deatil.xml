@@ -6,7 +6,7 @@
               android:layout_height="match_parent"
               android:background="@color/gray_f7"
               android:orientation="vertical"
-              tools:context="com.sogukj.pe.module.user.SettingActivity">
+              tools:context="com.sogukj.pe.module.lpassistant.PolicyExpressDetailActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -108,7 +108,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/text_15"
-                android:background="@color/gray_f7"
+                android:background="@android:color/transparent"
                 android:scrollbars="none"/>
         </LinearLayout>
 

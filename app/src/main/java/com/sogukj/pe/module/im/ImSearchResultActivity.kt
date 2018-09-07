@@ -359,30 +359,32 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
                 }
             }
         }
-
-        plResultAdapter.onItemClick = {v,position ->
-            val info = plResultAdapter.dataList[position]
-            if (null != info){
-                PolicyExpressDetailActivity.invoke(this,info.id)
-            }
-            val his = Store.store.getPlHis(this)
-            if (null != his && his.size > 0){
-                var index = 0
-                for (i in his){
-                    if (searchKey.equals(i)){
-                        index ++
+        if (type == 2){
+            plResultAdapter.onItemClick = {v,position ->
+                val info = plResultAdapter.dataList[position]
+                if (null != info){
+                    PolicyExpressDetailActivity.invoke(this,info.id)
+                }
+                val his = Store.store.getPlHis(this)
+                if (null != his && his.size > 0){
+                    var index = 0
+                    for (i in his){
+                        if (searchKey.equals(i)){
+                            index ++
+                        }
                     }
+                    if (index == 0){
+                        his.add(searchKey)
+                        Store.store.savePltHis(this,his)
+                    }
+                }else{
+                    val keys = ArrayList<String>()
+                    keys.add(searchKey)
+                    Store.store.savePltHis(this,keys)
                 }
-                if (index == 0){
-                    his.add(searchKey)
-                    Store.store.savePltHis(this,his)
-                }
-            }else{
-                val keys = ArrayList<String>()
-                keys.add(searchKey)
-                Store.store.savePltHis(this,keys)
             }
         }
+
         tfl.setOnTagClickListener { view, position, parent ->
             if (type == 0){
                 if (null != searchHis && searchHis!!.size > 0){

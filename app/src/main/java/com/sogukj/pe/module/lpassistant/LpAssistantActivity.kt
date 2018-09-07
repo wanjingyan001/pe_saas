@@ -17,6 +17,7 @@ import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.LpAssisBean
+import com.sogukj.pe.module.hotpost.HotPostActivity
 import kotlinx.android.synthetic.main.activity_la_assistant.*
 import kotlinx.android.synthetic.main.commom_title.*
 import org.jetbrains.anko.find
@@ -62,7 +63,7 @@ class LpAssistantActivity : BaseActivity(){
         lp1.name = "专利查询"
         val lp2 = LpAssisBean()
         lp2.resId = R.drawable.ic_law_nrule
-        lp2.name = "法律新规"
+        lp2.name = "法律助手"
         val lp3 = LpAssisBean()
         lp3.resId = R.drawable.ic_hot_post
         lp3.name = "热门行业研报"
@@ -84,7 +85,7 @@ class LpAssistantActivity : BaseActivity(){
         infos.add(lp4)
         infos.add(lp5)
         infos.add(lp6)
-        infos.add(lp7)
+//        infos.add(lp7)
         lpaAdapter.dataList.addAll(infos)
         lpaAdapter.notifyDataSetChanged()
     }
@@ -109,23 +110,24 @@ class LpAssistantActivity : BaseActivity(){
         lpaAdapter.onItemClick = {v: View, position: Int ->
             when(position){
                 0 -> {
-
+                    //专利查询
                 }
 
                 1 -> {
-
+                    //法律助手
                 }
 
                 2 -> {
-
+                    //热门行业研报
+                    HotPostActivity.invoke(this)
                 }
 
                 3 -> {
-
+                    //招股书
                 }
 
                 4 -> {
-
+                    //行业近期投融资历史
                 }
 
                 5 -> {
@@ -133,9 +135,6 @@ class LpAssistantActivity : BaseActivity(){
                     PolicyExpressActivity.invoke(this)
                 }
 
-                6 -> {
-
-                }
             }
         }
 

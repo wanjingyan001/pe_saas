@@ -24,8 +24,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:gravity="center"
-            android:padding="20dp"
-            android:src="@drawable/back_chevron" />
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:src="@drawable/back_chevron"  />
 
         <TextView
             android:id="@+id/toolbar_title"

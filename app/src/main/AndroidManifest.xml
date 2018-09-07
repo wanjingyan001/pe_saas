@@ -1172,6 +1172,12 @@
             android:name=".module.lpassistant.PolicyExpressDetailActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".module.hotpost.HotPostActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"/>
+
         <activity android:name=".module.im.RemoveMemberActivity"></activity>
 
         <service android:name=".service.socket.DzhClientService">

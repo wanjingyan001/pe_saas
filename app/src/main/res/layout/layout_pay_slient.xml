@@ -26,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_3"
-                android:textSize="@dimen/text_size_samll"
+                android:textSize="@dimen/text_size_14"
                 android:layout_marginLeft="@dimen/text_5"
                 tools:text="021-8888888"/>
         </LinearLayout>
@@ -47,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_3"
-                android:textSize="@dimen/text_size_samll"
+                android:textSize="@dimen/text_size_14"
                 android:layout_marginLeft="@dimen/text_5"
                 tools:text="021-8888888"/>
         </LinearLayout>
@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/text_3"
             android:layout_gravity="center_vertical"
-            android:textSize="@dimen/text_size_samll"
+            android:textSize="@dimen/text_size_14"
             android:layout_marginLeft="@dimen/text_5"
             tools:text="www.sogukj.163.com"/>
     </LinearLayout>
