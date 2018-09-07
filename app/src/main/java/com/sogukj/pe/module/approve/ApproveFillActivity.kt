@@ -215,6 +215,7 @@ class ApproveFillActivity : ToolbarActivity() {
     override fun onPause() {
         super.onPause()
         hideProgress()
+        Utils.closeInput(this,editText)
     }
 
     override fun onBackPressed() {
@@ -802,9 +803,8 @@ class ApproveFillActivity : ToolbarActivity() {
             paramMap.put(bean.fields, str)
             !(bean.is_must == 1 && str.isNullOrEmpty())
         }
-
     }
-
+    private var editText : EditText? = null
     private fun add4(bean: CustomSealBean) {
         name = bean.name!!
         var convertView: View
@@ -818,6 +818,9 @@ class ApproveFillActivity : ToolbarActivity() {
 
         val tvLabel = convertView.findViewById<TextView>(R.id.tv_label) as TextView
         val etValue = convertView.findViewById<EditText>(R.id.et_value) as EditText
+        if (null == editText){
+            editText = etValue
+        }
         tvLabel.text = bean.name
         val iv_star = convertView.findViewById<ImageView>(R.id.star)
         if (bean.is_must == 1) {
@@ -1748,7 +1751,6 @@ class ApproveFillActivity : ToolbarActivity() {
     }
 
     class MyCSAdapter(var context: Context, val list: ArrayList<UserBean>, val default: ArrayList<Int>) : BaseAdapter() {
-
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             var viewHolder: ViewHolder
             var conView = convertView

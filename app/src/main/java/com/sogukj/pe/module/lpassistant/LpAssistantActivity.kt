@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.sogukj.pe.ARouterPath
+import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.base.BaseActivity
@@ -118,14 +119,14 @@ class LpAssistantActivity : BaseActivity() {
                 0 -> {
                     //专利查询
                     if (model.getPatentHistory().value?.isEmpty() != false) {
-                        startActivity<PatentSearchActivity>()
+                        startActivity<PatentSearchActivity>(Extras.DATA to 0)
                     }else{
                         startActivity<PatentDataActivity>()
                     }
                 }
                 1 -> {
                     //法律助手
-
+                    startActivity<PatentSearchActivity>(Extras.DATA to 1)
                 }
 
                 2 -> {
