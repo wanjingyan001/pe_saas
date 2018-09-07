@@ -33,8 +33,12 @@ class PolocyExpressPresenter : BasePresenter {
     }
 
     override fun doRequest() {
+
+    }
+
+    open fun doRefresh(type:Int){
         doBannerRequest()
-        doListInfoRequest(false)
+        doListInfoRequest(false,null,type)
     }
 
     open fun doBannerRequest(){
@@ -60,7 +64,7 @@ class PolocyExpressPresenter : BasePresenter {
         }
     }
 
-    open fun doListInfoRequest(isRefresh : Boolean){
+    open fun doListInfoRequest(isRefresh: Boolean, keywords: String?, type: Int?){
         if (isRefresh){
             page = 1
         }else{
@@ -68,7 +72,7 @@ class PolocyExpressPresenter : BasePresenter {
         }
         Log.e("TAG","page ==" + page)
         SoguApi.getService(App.INSTANCE, OtherService::class.java)
-                .getPolicyExpressList(page, pageSize)
+                .getPolicyExpressList(page, pageSize,keywords,type)
                 .execute {
                     onNext { payload ->
                         payload.isOk.yes {
