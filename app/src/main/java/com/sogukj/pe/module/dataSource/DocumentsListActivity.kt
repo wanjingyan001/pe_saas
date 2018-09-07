@@ -82,14 +82,14 @@ class DocumentsListActivity : BaseRefreshActivity() {
         listAdapter = BookListAdapter(documents, downloaded.toList())
         listAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { adapter, view, position ->
             val book = documents[position]
-            PdfPreviewActivity.start(this, book.url, book.title, downloaded.contains(book.name))
+            PdfPreviewActivity.start(this, book.pdf_path, book.pdf_name, downloaded.contains(book.pdf_name))
         }
         listAdapter.onItemChildClickListener = BaseQuickAdapter.OnItemChildClickListener { adapter, view, position ->
             val book = documents[position]
             showProgress("正在下载")
-            DownloadUtil.getInstance().download(book.url, externalCacheDir.toString(), book.name, object : DownloadUtil.OnDownloadListener {
+            DownloadUtil.getInstance().download(book.pdf_path, externalCacheDir.toString(), book.pdf_name, object : DownloadUtil.OnDownloadListener {
                 override fun onDownloadSuccess(path: String?) {
-                    downloaded.add(book.name)
+                    downloaded.add(book.pdf_name)
                     hideProgress()
                     listAdapter.downloaded = downloaded.toList()
                     listAdapter.notifyItemChanged(position)

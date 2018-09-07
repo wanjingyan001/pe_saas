@@ -1156,29 +1156,24 @@
             android:name=".module.im.ImSearchResultActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateVisible"/>
-
+            android:windowSoftInputMode="adjustPan|stateVisible" />
         <activity
             android:name=".module.lpassistant.LpAssistantActivity"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.lpassistant.PolicyExpressActivity"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.lpassistant.PolicyExpressDetailActivity"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.hotpost.HotPostActivity"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".module.im.RemoveMemberActivity"></activity>
+            android:screenOrientation="portrait" />
+        <activity android:name=".module.im.RemoveMemberActivity" />
 
         <service android:name=".service.socket.DzhClientService">
             <intent-filter>
@@ -1203,10 +1198,27 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".module.dataSource.PdfSearchActivity" />
-        <activity android:name=".module.dataSource.PdfPreviewActivity" />
-        <activity android:name=".module.dataSource.PatentDataActivity" />
-        <activity android:name=".module.dataSource.PatentSearchActivity"></activity>
+        <activity
+            android:name=".module.dataSource.PdfSearchActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".module.dataSource.PdfPreviewActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".module.dataSource.PatentDataActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".module.dataSource.PatentSearchActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysVisible" />
+        <activity android:name=".module.dataSource.PatentDetailActivity"></activity>
     </application>
 
 </manifest>

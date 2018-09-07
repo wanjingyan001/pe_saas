@@ -117,7 +117,7 @@ class LpAssistantActivity : BaseActivity() {
         lpaAdapter.onItemClick = { v: View, position: Int ->
             when (position) {
                 0 -> {
-                    if (model.getPatentHistory().value?.isEmpty() != false) {
+                    if (model.getPatentHistory().isEmpty()) {
                         startActivity<PatentSearchActivity>()
                     }else{
                         startActivity<PatentDataActivity>()

@@ -43,7 +43,8 @@ interface DataSourceService {
      */
     @FormUrlEncoded
     @POST("/api/Datasource/getSoopatcontent")
-    fun getPatentList(@Field("SearchWord") SearchWord: String? = null): Observable<Payload<List<PatentItem>>>
+    fun getPatentList(@Field("page")page:Int = 1,
+                      @Field("searchWords") searchWords: String? = null): Observable<Payload<List<PatentItem>>>
 
     /**
      * 专利详情

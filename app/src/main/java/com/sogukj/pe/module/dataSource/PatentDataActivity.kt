@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
+import com.amap.api.mapcore.util.it
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.scwang.smartrefresh.layout.api.RefreshFooter
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
@@ -105,18 +106,15 @@ class PatentDataActivity : ToolbarActivity() {
         }
         initRefreshConfig()
         if (searchkey.isNullOrEmpty()) {
-            model.getPatentHistory().observe(this, Observer { list ->
-                list?.let {
-                    (it.size > 5).yes {
-                        data.addAll(it.toList().subList(0, 5))
-                    }.otherWise {
-                        data.addAll(it)
-                    }
-                    listAdapter.notifyDataSetChanged()
-                }
-            })
+            val list = model.getPatentHistory().reversed()
+            (list.size > 5).yes {
+                data.addAll(list.toList().subList(0, 5))
+            }.otherWise {
+                data.addAll(list)
+            }
+            listAdapter.notifyDataSetChanged()
         } else {
-            getPatentList(searchkey)
+            searchEdt.setText(searchkey)
         }
         initSearch()
     }
@@ -145,14 +143,16 @@ class PatentDataActivity : ToolbarActivity() {
             isEnableRefresh = true
             isEnableAutoLoadMore = true
             setRefreshHeader(ClassicsHeader(ctx))
-            setRefreshFooter(ClassicsFooter(ctx), 0, 0)
         }
     }
 
     private fun getPatentList(searchKey: String? = null) {
         SoguApi.getService(application, DataSourceService::class.java)
-                .getPatentList(searchKey)
+                .getPatentList(searchWords = searchKey)
                 .execute {
+                    onSubscribe {
+                        showProgress("正在请求数据")
+                    }
                     onNext { payload ->
                         payload.isOk.yes {
                             payload.payload?.let {
@@ -164,6 +164,7 @@ class PatentDataActivity : ToolbarActivity() {
                         }
                     }
                     onComplete {
+                        hideProgress()
                         data.isNotEmpty().yes {
                             refresh.setVisible(true)
                             empty_img.setVisible(false)
@@ -173,6 +174,12 @@ class PatentDataActivity : ToolbarActivity() {
                             empty_img.setVisible(true)
                             headerLayout.setVisible(true)
                         }
+                    }
+                    onError {
+                        hideProgress()
+                        refresh.setVisible(false)
+                        empty_img.setVisible(true)
+                        headerLayout.setVisible(true)
                     }
                 }
     }
@@ -184,7 +191,7 @@ class PatentDataActivity : ToolbarActivity() {
                     onNext { payload ->
                         payload.isOk.yes {
                             info { payload.payload.jsonStr }
-                            model.getPatentHistory().value?.plus(bean)
+                            model.getPatentHistory().plus(bean)
                             model.saveLocalData()
                         }
                     }

@@ -459,7 +459,7 @@ class NewsDetailActivity : ToolbarActivity(), PlatformActionListener {
                 "<style>img{max-width: 100%; height:auto;} .reduce-font p{font-size:" + fontSize + "px!important;}</style>" +
                 "</head>"
         val content = map["format_content"] as String?
-        (null == content).yes {
+        (null == content || content.isEmpty()).yes {
             webview.loadUrl(map["shareUrl"].toString())
         }.otherWise {
             val html = "<html>${head}<body style='margin:0px;'>" +

@@ -16,19 +16,19 @@ import com.sogukj.pe.bean.PatentItem
  * Created by admin on 2018/9/7.
  */
 class PatentViewModel(context: Context) : ViewModel() {
-    private val searchHistory = MutableLiveData<Set<PatentItem>>()
+    private val searchHistory = mutableSetOf<PatentItem>()
     private val sp: SharedPreferences by lazy { PreferenceManager.getDefaultSharedPreferences(context) }
 
 
-    fun getPatentHistory(): LiveData<Set<PatentItem>> {
+    fun getPatentHistory(): Set<PatentItem> {
         val localData = Gson().fromJson<Array<PatentItem>>(sp.getString(Extras.PATENT_HISTORY, ""), Array<PatentItem>::class.java)
         localData?.let {
-            searchHistory.value = localData.toMutableSet()
+            searchHistory.addAll(localData)
         }
         return searchHistory
     }
 
     fun saveLocalData() {
-        sp.edit { putString(Extras.PATENT_HISTORY, searchHistory.value.jsonStr) }
+        sp.edit { putString(Extras.PATENT_HISTORY, searchHistory.jsonStr) }
     }
 }

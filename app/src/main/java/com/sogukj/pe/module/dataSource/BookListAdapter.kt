@@ -22,10 +22,10 @@ class BookListAdapter(data: List<PdfBook>, var downloaded: List<String>) : BaseQ
         val timeTv = helper.getView<TextView>(R.id.docTime)
         val download = helper.getView<ImageView>(R.id.download)
         helper.addOnClickListener(R.id.download)
-        name.text = item.name
-        timeTv.text = item.time
+        name.text = item.pdf_name
+        timeTv.text = item.date
         downloaded.forEach {
-            if (it == item.name) {
+            if (it == item.pdf_name) {
                 download.visibility = View.INVISIBLE
             }
         }

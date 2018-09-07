@@ -32,8 +32,10 @@ class PatentSearchActivity : ToolbarActivity() {
             searchEdt.setText("")
         }
         search.clickWithTrigger {
+            Utils.toggleSoftInput(this,searchEdt)
             startActivity<PatentDataActivity>(Extras.DATA to searchEdt.textStr)
             finish()
         }
     }
+
 }

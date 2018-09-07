@@ -8,8 +8,8 @@
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
     android:layout_marginTop="7dp"
-    android:elevation="8dp"
     android:background="@drawable/bg_border_gray_4"
+    android:elevation="8dp"
     tools:targetApi="lollipop">
 
     <TextView
@@ -29,11 +29,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
+        android:layout_marginStart="10dp"
         android:ellipsize="end"
         android:singleLine="true"
-        android:textColor="@color/text_1"
-        android:layout_marginStart="10dp"
         android:text="发动机-20161036547848，2:38746795962B"
+        android:textColor="@color/text_1"
         android:textSize="@dimen/text_size_medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/num"
@@ -41,23 +41,35 @@
 
     <TextView
         android:id="@+id/applicantName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
         android:layout_marginTop="10dp"
-        android:textColor="@color/gray_80"
+        android:ellipsize="end"
+        android:gravity="start"
+        android:singleLine="true"
         android:text="申请人：张全龄"
+        android:textColor="@color/gray_80"
         android:textSize="@dimen/text_size_samll"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="@+id/patentName"
         app:layout_constraintTop_toBottomOf="@+id/patentName" />
+
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
 
     <TextView
         android:id="@+id/timeTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/gray_80"
         android:text="申请日期：2016年2月10日"
+        android:textColor="@color/gray_80"
         android:textSize="@dimen/text_size_samll"
         app:layout_constraintEnd_toEndOf="@+id/patentName"
         app:layout_constraintTop_toTopOf="@+id/applicantName" />
