@@ -1,8 +1,6 @@
 package com.sogukj.pe.service
 
-import com.sogukj.pe.bean.InvestCategory
-import com.sogukj.pe.bean.InvestmentEvent
-import com.sogukj.pe.bean.PdfBook
+import com.sogukj.pe.bean.*
 import io.reactivex.Observable
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -37,5 +35,20 @@ interface DataSourceService {
     @POST("/api/Datasource/zgsList")
     fun getSourceBookList(@Field("page") page: Int = 1,
                           @Field("pageSize") pageSize: Int = 20,
-                          @Field("keywords") keywords: String? = null):Observable<Payload<List<PdfBook>>>
+                          @Field("keywords") keywords: String? = null): Observable<Payload<List<PdfBook>>>
+
+
+    /**
+     * 专利搜索列表
+     */
+    @FormUrlEncoded
+    @POST("/api/Datasource/getSoopatcontent")
+    fun getPatentList(@Field("SearchWord") SearchWord: String? = null): Observable<Payload<List<PatentItem>>>
+
+    /**
+     * 专利详情
+     */
+    @FormUrlEncoded
+    @POST("api/Datasource/getSoopatInfo")
+    fun getPatentDetail(@Field("url")url:String):Observable<Payload<PatentDetail>>
 }

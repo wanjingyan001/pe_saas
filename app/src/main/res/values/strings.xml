@@ -145,4 +145,5 @@
     <string name="notif_warn">注：当PE在后台运行时，部分华为手机（例如：荣耀）存在不能接收新消息通知的问题</string>
     <string name="notif_content">1、进入"系统设置"，点击"全部设置"；\n2、点击"受保护的后台应用"；\n3、将"PE"设置为受保护。</string>
     <string name="pl_assis">尽调助手</string>
+    <string name="pl_title2"><![CDATA[关于修改<中国证券监督管理委员会上市公司并购重组审核委员会工作规程>的决定》]]></string>
 </resources>

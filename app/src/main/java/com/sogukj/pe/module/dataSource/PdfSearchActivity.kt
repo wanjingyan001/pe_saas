@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.content.edit
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.google.gson.Gson
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.sogukj.pe.Extras
@@ -53,17 +54,26 @@ class PdfSearchActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pdf_search)
         type = intent.getIntExtra(Extras.TYPE, -1)
-        listAdapter = BookListAdapter(documents)
+
+        Gson().fromJson<Array<String>>(sp.getString(Extras.DOWNLOADED_PDF, ""), Array<String>::class.java)?.let {
+            it.isNotEmpty().yes {
+                downloaded.addAll(it)
+            }
+        }
+        listAdapter = BookListAdapter(documents, downloaded.toList())
         listAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { adapter, view, position ->
             val book = documents[position]
-            OnlinePreviewActivity.start(this, book.url, book.title)
+            PdfPreviewActivity.start(this, book.url, book.title, downloaded.contains(book.name))
         }
         listAdapter.onItemChildClickListener = BaseQuickAdapter.OnItemChildClickListener { adapter, view, position ->
             val book = documents[position]
             showProgress("正在下载")
             DownloadUtil.getInstance().download(book.url, externalCacheDir.toString(), book.name, object : DownloadUtil.OnDownloadListener {
                 override fun onDownloadSuccess(path: String?) {
+                    downloaded.add(book.name)
                     hideProgress()
+                    listAdapter.downloaded = downloaded.toList()
+                    listAdapter.notifyItemChanged(position)
                 }
 
                 override fun onDownloading(progress: Int) {
@@ -83,17 +93,6 @@ class PdfSearchActivity : BaseActivity() {
             addItemDecoration(SpaceItemDecoration(dip(10)))
             adapter = listAdapter
         }
-
-
-        historyAdapter = object : TagAdapter<String>(historyList.toMutableList()) {
-            override fun getView(parent: FlowLayout?, position: Int, t: String?): View {
-                val itemView = View.inflate(this@PdfSearchActivity, R.layout.search_his_item, null)
-                val history = itemView.findViewById<TextView>(R.id.tv_item)
-                history.text = t
-                return itemView
-            }
-        }
-        tfl.adapter = historyAdapter
         initData()
         initListener()
     }
@@ -103,11 +102,13 @@ class PdfSearchActivity : BaseActivity() {
         val localHistory = historyStr.split(",").filter { it.isNotEmpty() }.toMutableList()
         localHistory.isNotEmpty().yes {
             historyList.addAll(localHistory)
-            historyAdapter.notifyDataChanged()
             ll_empty_his.setVisible(false)
         }.otherWise {
             ll_empty_his.setVisible(true)
         }
+        historyAdapter = PdfHistoryAdapter()
+        tfl.adapter = historyAdapter
+
         refresh.isEnableRefresh = true
         refresh.isEnableLoadMore = true
         refresh.isEnableAutoLoadMore = true
@@ -141,7 +142,8 @@ class PdfSearchActivity : BaseActivity() {
         tv_his.clickWithTrigger {
             sp.edit { putString(Extras.INVEST_SEARCH_HISTORY, "") }
             historyList.clear()
-            historyAdapter.notifyDataChanged()
+            historyAdapter = PdfHistoryAdapter()
+            tfl.adapter = historyAdapter
             ll_empty_his.setVisible(true)
         }
         tfl.setOnTagClickListener { view, position, parent ->
@@ -166,7 +168,6 @@ class PdfSearchActivity : BaseActivity() {
                 } else {
                     iv_del.setVisible(false)
                     et_search.setHint(R.string.search)
-                    historyLayout.setVisible(true)
                     refresh.setVisible(false)
                 }
             }
@@ -185,8 +186,10 @@ class PdfSearchActivity : BaseActivity() {
                                 }
                                 documents.addAll(it)
                                 listAdapter.notifyDataSetChanged()
-                                ifNotNull(searchKey, it, { str, _ ->
-                                    historyList.add(str)
+                                ifNotNull(searchKey, it, { str, list ->
+                                    list.isNotEmpty().yes {
+                                        historyList.add(str)
+                                    }
                                 })
                             }
                         }.otherWise {
@@ -214,10 +217,26 @@ class PdfSearchActivity : BaseActivity() {
                 }
     }
 
+    override fun onPause() {
+        super.onPause()
+        downloaded.isNotEmpty().yes {
+            sp.edit { putString(Extras.DOWNLOADED_PDF, downloaded.jsonStr) }
+        }
+    }
+
     override fun onStop() {
         super.onStop()
         historyList.isNotEmpty().yes {
             sp.edit { putString(Extras.SOURCE_PDF_HISTORY + type, historyList.joinToString(",")) }
+        }
+    }
+
+    inner class PdfHistoryAdapter : TagAdapter<String>(historyList.toMutableList()) {
+        override fun getView(parent: FlowLayout?, position: Int, t: String?): View {
+            val itemView = View.inflate(this@PdfSearchActivity, R.layout.search_his_item, null)
+            val history = itemView.findViewById<TextView>(R.id.tv_item)
+            history.text = t
+            return itemView
         }
     }
 }

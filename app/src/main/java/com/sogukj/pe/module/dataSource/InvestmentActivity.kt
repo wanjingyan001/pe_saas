@@ -117,8 +117,7 @@ class InvestmentActivity : BaseRefreshActivity() {
             drawer.closeDrawers()
         }
         searchLayout.clickWithTrigger {
-//            startActivity<InvestSearchActivity>()
-            DocumentsListActivity.start(this,DocumentType.EQUITY)
+            startActivity<InvestSearchActivity>()
         }
     }
 

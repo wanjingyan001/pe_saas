@@ -44,13 +44,11 @@ class InvestSearchActivity : BaseActivity() {
         searchAdapter = RecyclerAdapter(this) { _adapter, parent, _ ->
             ResultHolder(_adapter.getView(R.layout.item_investment_event_list, parent))
         }
-        historyAdapter = HistoryAdapter()
         searchResultList.apply {
             layoutManager = LinearLayoutManager(ctx)
             addItemDecoration(SpaceItemDecoration(dip(10)))
             adapter = searchAdapter
         }
-        tfl.adapter = historyAdapter
         initData()
         initListener()
     }
@@ -61,11 +59,13 @@ class InvestSearchActivity : BaseActivity() {
         val localHistory = historyStr.split(",").filter { it.isNotEmpty() }.toMutableList()
         localHistory.isNotEmpty().yes {
             historyList.addAll(localHistory)
-            historyAdapter.notifyDataChanged()
             ll_empty_his.setVisible(false)
         }.otherWise {
             ll_empty_his.setVisible(true)
         }
+        historyAdapter = HistoryAdapter(historyList.toMutableList())
+        tfl.adapter = historyAdapter
+
         refresh.isEnableRefresh = true
         refresh.isEnableLoadMore = true
         refresh.isEnableAutoLoadMore = true
@@ -99,7 +99,8 @@ class InvestSearchActivity : BaseActivity() {
         tv_his.clickWithTrigger {
             sp.edit { putString(Extras.INVEST_SEARCH_HISTORY, "") }
             historyList.clear()
-            historyAdapter.notifyDataChanged()
+            historyAdapter = HistoryAdapter(historyList.toMutableList())
+            tfl.adapter = historyAdapter
             ll_empty_his.setVisible(true)
         }
         tfl.setOnTagClickListener { view, position, parent ->
@@ -145,8 +146,10 @@ class InvestSearchActivity : BaseActivity() {
                                     searchAdapter.dataList.addAll(it)
                                     searchAdapter.notifyDataSetChanged()
                                 }
-                                ifNotNull(searchStr, it, { str, _ ->
-                                    historyList.add(str)
+                                ifNotNull(searchStr, it, { str, list ->
+                                    list.isNotEmpty().yes {
+                                        historyList.add(str)
+                                    }
                                 })
                             }
                         }.otherWise {
@@ -179,7 +182,7 @@ class InvestSearchActivity : BaseActivity() {
         }
     }
 
-    inner class HistoryAdapter : TagAdapter<String>(historyList.toMutableList()) {
+    inner class HistoryAdapter(data:MutableList<String>) : TagAdapter<String>(data) {
         override fun getView(parent: FlowLayout, position: Int, t: String): View {
             val itemView = View.inflate(this@InvestSearchActivity, R.layout.search_his_item, null)
             val history = itemView.findViewById<TextView>(R.id.tv_item)

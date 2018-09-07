@@ -1,6 +1,7 @@
 package com.sogukj.pe.module.lpassistant
 
 import android.app.Activity
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -12,22 +13,28 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
+import com.sogukj.pe.baselibrary.Extended.isNullOrEmpty
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.LpAssisBean
+import com.sogukj.pe.module.dataSource.*
 import com.sogukj.pe.module.hotpost.HotPostActivity
 import kotlinx.android.synthetic.main.activity_la_assistant.*
 import kotlinx.android.synthetic.main.commom_title.*
 import org.jetbrains.anko.find
+import org.jetbrains.anko.startActivity
 
 /**
  * Created by CH-ZH on 2018/9/5.
  * 尽调助手
  */
 @Route(path = ARouterPath.LpAssistantActivity)
-class LpAssistantActivity : BaseActivity(){
+class LpAssistantActivity : BaseActivity() {
+    private val model: PatentViewModel by lazy {
+        ViewModelProviders.of(this, PatentModelFactory(this)).get(PatentViewModel::class.java)
+    }
 
     lateinit var lpaAdapter: RecyclerAdapter<LpAssisBean>
     private var infos = ArrayList<LpAssisBean>()
@@ -107,12 +114,15 @@ class LpAssistantActivity : BaseActivity(){
     }
 
     private fun bindListener() {
-        lpaAdapter.onItemClick = {v: View, position: Int ->
-            when(position){
+        lpaAdapter.onItemClick = { v: View, position: Int ->
+            when (position) {
                 0 -> {
-                    //专利查询
+                    if (model.getPatentHistory().value?.isEmpty() != false) {
+                        startActivity<PatentSearchActivity>()
+                    }else{
+                        startActivity<PatentDataActivity>()
+                    }
                 }
-
                 1 -> {
                     //法律助手
                 }
@@ -121,20 +131,20 @@ class LpAssistantActivity : BaseActivity(){
                     //热门行业研报
                     HotPostActivity.invoke(this)
                 }
-
                 3 -> {
-                    //招股书
+                    DocumentsListActivity.start(this, DocumentType.EQUITY)
                 }
-
                 4 -> {
                     //行业近期投融资历史
+                    startActivity<InvestmentActivity>()
                 }
-
                 5 -> {
                     //政策速递
                     PolicyExpressActivity.invoke(this)
                 }
+                6 -> {
 
+                }
             }
         }
 

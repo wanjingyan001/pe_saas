@@ -11,7 +11,10 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
 import android.view.View
+import androidx.core.content.edit
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.scwang.smartrefresh.layout.api.RefreshFooter
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
@@ -70,17 +73,26 @@ class DocumentsListActivity : BaseRefreshActivity() {
                 throw Exception("类型错误")
             }
         }
-        listAdapter = BookListAdapter(documents)
+        Gson().fromJson<Array<String>>(sp.getString(Extras.DOWNLOADED_PDF, ""),Array<String>::class.java)?.let {
+            it.isNotEmpty().yes {
+                downloaded.addAll(it)
+            }
+        }
+
+        listAdapter = BookListAdapter(documents, downloaded.toList())
         listAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { adapter, view, position ->
             val book = documents[position]
-            OnlinePreviewActivity.start(this, book.url, book.title)
+            PdfPreviewActivity.start(this, book.url, book.title, downloaded.contains(book.name))
         }
         listAdapter.onItemChildClickListener = BaseQuickAdapter.OnItemChildClickListener { adapter, view, position ->
             val book = documents[position]
             showProgress("正在下载")
             DownloadUtil.getInstance().download(book.url, externalCacheDir.toString(), book.name, object : DownloadUtil.OnDownloadListener {
                 override fun onDownloadSuccess(path: String?) {
+                    downloaded.add(book.name)
                     hideProgress()
+                    listAdapter.downloaded = downloaded.toList()
+                    listAdapter.notifyItemChanged(position)
                 }
 
                 override fun onDownloading(progress: Int) {
@@ -147,4 +159,11 @@ class DocumentsListActivity : BaseRefreshActivity() {
     }
 
     override fun initRefreshFooter(): RefreshFooter? = null
+
+    override fun onPause() {
+        super.onPause()
+        downloaded.isNotEmpty().yes {
+            sp.edit { putString(Extras.DOWNLOADED_PDF, downloaded.jsonStr) }
+        }
+    }
 }
