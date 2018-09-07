@@ -47,6 +47,7 @@ class PolicyExpressDetailActivity : BaseActivity() {
     }
 
     private fun initView() {
+        webview.setBackgroundColor(0)
         val webSettings = webview.settings
         webSettings.savePassword = false
         webSettings.javaScriptEnabled = true
