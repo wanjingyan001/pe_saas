@@ -54,7 +54,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -69,8 +71,7 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 
-public class
-Utils {
+public class Utils {
 
     public static final String TAG = Utils.class.getSimpleName();
 
@@ -127,7 +128,7 @@ Utils {
         editText.setFocusableInTouchMode(true);
         editText.requestFocus();
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(editText,InputMethodManager.SHOW_FORCED);
+        imm.showSoftInput(editText, InputMethodManager.SHOW_FORCED);
     }
 
     /**
@@ -362,7 +363,7 @@ Utils {
             if (am == 0) {
                 return "上午 " + (timeStr.startsWith("0") ? timeStr.substring(1, timeStr.length()) : timeStr);
             } else {
-                return "下午 " +  (timeStr.startsWith("0") ? timeStr.substring(1, timeStr.length()) : timeStr);
+                return "下午 " + (timeStr.startsWith("0") ? timeStr.substring(1, timeStr.length()) : timeStr);
             }
         } else if (isThisYear(time)) {
             return new SimpleDateFormat("MM月dd日").format(date);
@@ -1204,7 +1205,7 @@ Utils {
     /**
      * 获取手机型号
      *
-     * @return  手机型号
+     * @return 手机型号
      */
     public static String getSystemModel() {
         return android.os.Build.MODEL;
@@ -1213,7 +1214,7 @@ Utils {
     /**
      * 获取手机厂商
      *
-     * @return  手机厂商
+     * @return 手机厂商
      */
     public static String getDeviceBrand() {
         return android.os.Build.BRAND;
@@ -1252,11 +1253,10 @@ Utils {
     }
 
     /**
-     *
      * @param view 需要截取图片的view
      * @return 截图
      */
-    public static void saveLocationImage(View view,String name,Activity context) throws Exception {
+    public static void saveLocationImage(View view, String name, Activity context) throws Exception {
 
         View screenView = context.getWindow().getDecorView();
         screenView.setDrawingCacheEnabled(true);
@@ -1306,7 +1306,7 @@ Utils {
 
     }
 
-    public static void saveImageFromMap(Bitmap bitmap, String name, Context context,int status) {
+    public static void saveImageFromMap(Bitmap bitmap, String name, Context context, int status) {
 
         if ((Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())    //外部存储是否挂载
                 || !Environment.isExternalStorageRemovable())   //外部存储是否移除
@@ -1325,14 +1325,14 @@ Utils {
                 boolean b = bitmap.compress(Bitmap.CompressFormat.JPEG, 100,
                         out);
                 out.close();
-                if(b) {
+                if (b) {
                     Toast.makeText(context, "截屏成功", Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     Toast.makeText(context, "截屏失败", Toast.LENGTH_SHORT).show();
                 }
-                if(status != 0) {
+                if (status != 0) {
                     Toast.makeText(context, "地图渲染完成，截屏无网格", Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     Toast.makeText(context, "地图未渲染完成，截屏有网格", Toast.LENGTH_SHORT).show();
                 }
             } catch (IOException e) {
@@ -1346,18 +1346,19 @@ Utils {
 
     /**
      * 得到json文件中的内容
+     *
      * @param context
      * @param fileName
      * @return
      */
-    public static String getJson(Context context,String fileName){
+    public static String getJson(Context context, String fileName) {
         StringBuilder stringBuilder = new StringBuilder();
         //获得assets资源管理器
         AssetManager assetManager = context.getAssets();
         //使用IO流读取json文件内容
         try {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
-                    assetManager.open(fileName),"utf-8"));
+                    assetManager.open(fileName), "utf-8"));
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 stringBuilder.append(line);
@@ -1370,28 +1371,96 @@ Utils {
 
     /**
      * 将字符串转换为 对象
+     *
      * @param json
      * @param type
      * @return
      */
-    public  static <T> T JsonToObject(String json, Class<T> type) {
-        Gson gson =new Gson();
+    public static <T> T JsonToObject(String json, Class<T> type) {
+        Gson gson = new Gson();
         return gson.fromJson(json, type);
     }
 
-    public static String objToJson(Object obj){
-        Gson gson =new Gson();
+    public static String objToJson(Object obj) {
+        Gson gson = new Gson();
         return gson.toJson(obj);
     }
 
-    public static String getStockCode(String code){
+    public static String getStockCode(String code) {
         String resultCode = "";
-        if(code.startsWith("6")) {
+        if (code.startsWith("6")) {
             resultCode = "SH" + code;
-        }else{
+        } else {
             resultCode = "SZ" + code;
         }
         return resultCode;
+    }
+
+    public static void copyShareFile(String environment,Context context) {
+        switch (environment) {
+            case "civc":
+                File civcFile = new File(Environment.getExternalStorageDirectory(), "ic_launcher_zd.png");
+                if(!civcFile.exists()) {
+                    copyAssets("ic_launcher_zd.png",context);
+                }
+                break;
+            case "ht":
+                File htFile = new File(Environment.getExternalStorageDirectory(), "ic_launcher_ht.png");
+                if(!htFile.exists()) {
+                    copyAssets("ic_launcher_ht.png",context);
+                }
+                break;
+            case "kk":
+                File kkFile = new File(Environment.getExternalStorageDirectory(), "ic_launcher_kk.png");
+                if(!kkFile.exists()) {
+                    copyAssets("ic_launcher_kk.png",context);
+                }
+                break;
+            case "yge":
+                File ygeFile = new File(Environment.getExternalStorageDirectory(), "ic_launcher_yge.png");
+                if(!ygeFile.exists()) {
+                    copyAssets("ic_launcher_yge.png",context);
+                }
+                break;
+            case "sr":
+                File srFile = new File(Environment.getExternalStorageDirectory(), "ic_launcher_sr.png");
+                if(!srFile.exists()) {
+                    copyAssets("ic_launcher_sr.png",context);
+                }
+                break;
+            default:
+                File file = new File(Environment.getExternalStorageDirectory(), "ic_launcher_pe.png");
+                if(!file.exists()) {
+                    copyAssets("ic_launcher_pe.png",context);
+                }
+                break;
+        }
+    }
+
+    private static void copyAssets(String filename,Context context) {
+        AssetManager assetManager = context.getAssets();
+        InputStream in = null;
+        OutputStream out = null;
+        try {
+            in = assetManager.open(filename);
+            File outFile = new File(Environment.getExternalStorageDirectory(), filename);
+            out = new FileOutputStream(outFile);
+            copyFile(in, out);
+            in.close();
+            out.flush();
+            out.close();
+            Log.i("copyasset", "success " + outFile.getAbsolutePath());
+        } catch (IOException e) {
+            Log.e("tag", "Failed to copy asset file: " + filename, e);
+        }
+    }
+
+    private static void copyFile(InputStream in, OutputStream out) throws IOException {
+        byte[] buffer = new byte[1024];
+        int read;
+        while ((read = in.read(buffer)) != -1) {
+            out.write(buffer, 0, read);
+        }
     }
 
 }

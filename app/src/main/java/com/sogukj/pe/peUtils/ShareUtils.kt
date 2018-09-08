@@ -43,6 +43,7 @@ class ShareUtils {
         var context: Context? = null
         var iddShareApi: IDDShareApi? = null
         fun share(bean: CusShareBean, context: Context) {
+            Utils.copyShareFile(getEnvironment(),context)
             iddShareApi = DDShareApiFactory.createDDShareApi(context, DDShareActivity.Companion.DDApp_Id, true)
             this.context = context
             val dialog = Dialog(context, R.style.AppTheme_Dialog)
@@ -82,7 +83,7 @@ class ShareUtils {
                     shareImgUrl = File(Environment.getExternalStorageDirectory(), "ic_launcher_sr.png").toString()
                 }
                 else -> {
-                    shareImgUrl = File(Environment.getExternalStorageDirectory(), "img_logo.png").toString()
+                    shareImgUrl = File(Environment.getExternalStorageDirectory(), "ic_launcher_pe.png").toString()
                 }
             }
             tvCopy.setOnClickListener {
@@ -121,7 +122,6 @@ class ShareUtils {
             }
 
             tv_dd.setOnClickListener {
-                showSendMessage(shareTitle, shareSummry, shareImgUrl, shareUrl)
                 if (iddShareApi!!.isDDAppInstalled()) {
                     if (iddShareApi!!.isDDSupportAPI) {
                         showSendMessage(shareTitle, shareSummry, shareImgUrl, shareUrl)
@@ -166,7 +166,7 @@ class ShareUtils {
         //填充网页分享必需参数，开发者需按照自己的数据进行填充
         webMessage.mTitle = shareTitle
         webMessage.mContent = shareSummry
-        webMessage.mThumbUrl = File(Environment.getExternalStorageDirectory(), "ic_launcher_pe.png").toString()
+        webMessage.mThumbUrl = shareImgUrl
 //        webMessage.mThumbUrl = "http://img.qdaily.com/uploads/20160606152752iqaH5t4KMvn18BZo.gif"
 //        webMessage.mThumbUrl = "http://static.dingtalk.com/media/lAHPBY0V4shLSVDMlszw_240_150.gif"
         // 网页分享的缩略图也可以使用bitmap形式传输

@@ -244,6 +244,11 @@ public class MyMapView extends View {
                         mLocation = location;
 
                         tvAddr.setText(location.getAddress());
+                    }else{
+                        //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
+                        Log.e("TAG","location Error, ErrCode:"
+                                + location.getErrorCode() + ", errInfo:"
+                                + location.getErrorInfo());
                     }
                 }
             }
@@ -336,6 +341,10 @@ public class MyMapView extends View {
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault());
         final String dateStr = format.format(new Date());
         long stamp = System.currentTimeMillis() / 1000;
+        if(null == mLocation) {
+            ((LocationActivity) mContext).showCustomToast(R.drawable.icon_toast_fail, "定位失败，无法定位打卡");
+            return;
+        }
         SoguApi.Companion.getService(((Activity) mContext).getApplication(), ApproveService.class)
                 .outCardSubmit((int) stamp, tvAddr.getText().toString(), mLocation.getLongitude() + "", mLocation.getLatitude() + "", cell.getId(), dakaId)
                 .observeOn(AndroidSchedulers.mainThread())
