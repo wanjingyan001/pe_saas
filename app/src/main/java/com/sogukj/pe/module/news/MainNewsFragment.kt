@@ -15,6 +15,7 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.doOnLayout
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.bumptech.glide.Glide
@@ -43,6 +44,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_main_news.*
 import kotlinx.android.synthetic.main.layout_empty.*
 import kotlinx.android.synthetic.main.search_view.*
+import org.jetbrains.anko.info
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.textColor
 import java.text.SimpleDateFormat
@@ -284,11 +286,14 @@ class MainNewsFragment : BaseRefreshFragment() {
     override fun onStart() {
         super.onStart()
         (routhFlag == Extras.ROUTH_FLAG).yes {
-//            Observable.just(1)
-//                    .delay(2, TimeUnit.SECONDS)
-//                    .execute {
-//                       tabs.getTabAt(1)?.select()
-//                    }
+            Observable.just(1)
+                    .execute {
+                        onNext {
+                            view_pager.doOnLayout {
+                                tabs.getTabAt(1)?.select()
+                            }
+                        }
+                    }
         }
     }
 

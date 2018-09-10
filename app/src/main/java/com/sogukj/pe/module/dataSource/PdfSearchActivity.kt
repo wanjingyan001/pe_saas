@@ -10,6 +10,7 @@ import android.text.Html
 import android.view.View
 import android.widget.TextView
 import androidx.core.content.edit
+import com.amap.api.mapcore.util.it
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.google.gson.Gson
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
@@ -35,14 +36,16 @@ import org.jetbrains.anko.sdk25.coroutines.textChangedListener
 class PdfSearchActivity : BaseActivity() {
 
     companion object {
-        fun start(context: Context, @DocumentType type: Int) {
+        fun start(context: Context, @DocumentType type: Int, category: Int? = null) {
             val intent = Intent(context, PdfSearchActivity::class.java)
             intent.putExtra(Extras.TYPE, type)
+            intent.putExtra(Extras.TYPE1, category)
             context.startActivity(intent)
         }
     }
 
-    private var type: Int = -1
+    private val type: Int by extraDelegate(Extras.TYPE, -1)
+    private val category: Int? by extraDelegate(Extras.TYPE1, null)
     private var page = 1
     private lateinit var listAdapter: BookListAdapter
     private val documents = ArrayList<PdfBook>()
@@ -54,14 +57,12 @@ class PdfSearchActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pdf_search)
-        type = intent.getIntExtra(Extras.TYPE, -1)
-
         Gson().fromJson<Array<String>>(sp.getString(Extras.DOWNLOADED_PDF, ""), Array<String>::class.java)?.let {
             it.isNotEmpty().yes {
                 downloaded.addAll(it)
             }
         }
-        listAdapter = BookListAdapter(documents, downloaded.toList())
+        listAdapter = BookListAdapter(documents, downloaded.toList(), type)
         listAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { adapter, view, position ->
             val book = documents[position]
             PdfPreviewActivity.start(this, book.pdf_path, book.pdf_name, downloaded.contains(book.pdf_name))
@@ -178,7 +179,7 @@ class PdfSearchActivity : BaseActivity() {
     @SuppressLint("WrongConstant")
     private fun getPdfList(searchKey: String? = null) {
         SoguApi.getService(application, DataSourceService::class.java)
-                .getSourceBookList(page = page, keywords = searchKey,type = type)
+                .getSourceBookList(page = page, keywords = searchKey, type = type, category = category)
                 .execute {
                     onNext { payload ->
                         payload.isOk.yes {

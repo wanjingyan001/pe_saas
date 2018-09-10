@@ -33,12 +33,13 @@ interface DataSourceService {
      * 获取数据源各类型文书
      */
     @FormUrlEncoded
-    @POST("/api/Datasource/zgsList")
+    @POST("/api/Datasource/industryReport")
     fun getSourceBookList(@Field("page") page: Int = 1,
                           @Field("pageSize") pageSize: Int = 20,
-                          @Field("type") @DocumentType type: Int,
-                          @Field("condition") condition: String? = null,
-                          @Field("keywords") keywords: String? = null): Observable<Payload<List<PdfBook>>>
+                          @Field("type") type: Int,
+                          @Field("condition") condition: Int? = null,
+                          @Field("keywords") keywords: String? = null,
+                          @Field("category") category: Int? = null): Observable<Payload<List<PdfBook>>>
 
 
     /**
@@ -53,6 +54,12 @@ interface DataSourceService {
      * 专利详情
      */
     @FormUrlEncoded
-    @POST("api/Datasource/getSoopatInfo")
+    @POST("/api/Datasource/getSoopatInfo")
     fun getPatentDetail(@Field("url") url: String): Observable<Payload<PatentDetail>>
+
+    /**
+     * 热门行业研报
+     */
+    @POST("/api/Datasource/hotReport")
+    fun getHotReport(): Observable<Payload<List<HotPostInfo>>>
 }

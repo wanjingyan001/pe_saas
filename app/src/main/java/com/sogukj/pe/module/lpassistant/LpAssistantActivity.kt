@@ -34,9 +34,7 @@ import org.jetbrains.anko.startActivity
  */
 @Route(path = ARouterPath.LpAssistantActivity)
 class LpAssistantActivity : BaseActivity() {
-    private val model: PatentViewModel by lazy {
-        ViewModelProviders.of(this, PatentModelFactory(this)).get(PatentViewModel::class.java)
-    }
+    private lateinit var model: PatentViewModel
 
     lateinit var lpaAdapter: RecyclerAdapter<LpAssisBean>
     private var infos = ArrayList<LpAssisBean>()
@@ -113,6 +111,11 @@ class LpAssistantActivity : BaseActivity() {
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        model =  ViewModelProviders.of(this, PatentModelFactory(this)).get(PatentViewModel::class.java)
     }
 
     private fun bindListener() {

@@ -48,9 +48,7 @@ class PatentDetailActivity : ToolbarActivity() {
                 .execute {
                     onNext { payload ->
                         payload.isOk.yes {
-                            info { payload.payload.jsonStr }
-                            model.getPatentHistory().plus(bean)
-                            model.saveLocalData()
+                            model.saveLocalData(bean)
                             payload.payload?.apply {
                                 titleTv.text = name
                                 numberTv.text = "申请号 ：$number"

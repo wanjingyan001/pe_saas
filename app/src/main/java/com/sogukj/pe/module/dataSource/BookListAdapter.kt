@@ -9,13 +9,14 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.google.gson.Gson
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.setVisible
+import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.bean.PdfBook
 import java.nio.charset.Charset
 
 /**
  * Created by admin on 2018/9/5.
  */
-class BookListAdapter(data: List<PdfBook>, var downloaded: List<String>) : BaseQuickAdapter<PdfBook, BaseViewHolder>(R.layout.item_data_source_pdf_list, data) {
+class BookListAdapter(data: List<PdfBook>, var downloaded: List<String>, val type: Int) : BaseQuickAdapter<PdfBook, BaseViewHolder>(R.layout.item_data_source_pdf_list, data) {
     override fun convert(helper: BaseViewHolder, item: PdfBook) {
         val name = helper.getView<TextView>(R.id.pdfName)
         val tagTv = helper.getView<TextView>(R.id.docTag)
@@ -27,6 +28,17 @@ class BookListAdapter(data: List<PdfBook>, var downloaded: List<String>) : BaseQ
         downloaded.forEach {
             if (it == item.pdf_name) {
                 download.visibility = View.INVISIBLE
+            }
+        }
+        when (type) {
+            DocumentType.EQUITY -> {
+                tagTv.text = "证监会"
+            }
+            DocumentType.INTELLIGENT -> {
+                tagTv.text = "拆借合同"
+            }
+            DocumentType.INDUSTRY_REPORTS -> {
+                tagTv.text = item.cat
             }
         }
     }

@@ -22,9 +22,6 @@ import android.widget.PopupWindow
 import android.widget.RemoteViews
 import androidx.core.content.edit
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.app.hubert.guide.NewbieGuide
-import com.app.hubert.guide.model.GuidePage
-import com.app.hubert.guide.model.HighLight
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.netease.nimlib.sdk.StatusCode
 import com.sogukj.pe.Extras
@@ -72,33 +69,6 @@ class PhoneInputActivity : BaseActivity() {
             }
         }
         ActivityHelper.finishAllWithoutTop()
-    }
-
-
-    private fun initGuideView() {
-        NewbieGuide.with(this)
-                .setLabel("Register")
-                .addGuidePage(GuidePage.newInstance()
-                        .addHighLight(nextStep, HighLight.Shape.ROUND_RECTANGLE)
-                        .setLayoutRes(R.layout.layout_guide))
-                .show()
-    }
-
-    private fun initNotice() {
-        val topWindow = PopupWindow(this)
-        val notice = layoutInflater.inflate(R.layout.layout_top_window, null)
-        topWindow.contentView = notice
-        topWindow.isFocusable = false
-        topWindow.setBackgroundDrawable(ColorDrawable(0x00000000))
-        topWindow.animationStyle = R.style.TopWindowAnimStyle
-        topWindow.isOutsideTouchable = true
-        topWindow.width = ViewGroup.LayoutParams.MATCH_PARENT
-        topWindow.height = ViewGroup.LayoutParams.WRAP_CONTENT
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            topWindow.elevation = dip(8).toFloat()
-        }
-        val parent = find<ConstraintLayout>(R.id.parentLayout)
-        topWindow.showAsDropDown(parent, 0, 0, Gravity.TOP)
     }
 
 

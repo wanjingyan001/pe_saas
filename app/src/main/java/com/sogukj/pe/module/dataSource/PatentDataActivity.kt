@@ -1,47 +1,35 @@
 package com.sogukj.pe.module.dataSource
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.FrameLayout
-import android.widget.ImageView
-import com.amap.api.mapcore.util.it
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.scwang.smartrefresh.layout.api.RefreshFooter
-import com.scwang.smartrefresh.layout.footer.ClassicsFooter
-import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.R.layout.header
 import com.sogukj.pe.baselibrary.Extended.*
-import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
-import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Rom
 import com.sogukj.pe.baselibrary.utils.StatusBarUtil
 import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
+import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.PatentItem
-import com.sogukj.pe.service.DataSourceService
-import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_patent_data.*
+import kotlinx.android.synthetic.main.item_patent_history.view.*
 import org.jetbrains.anko.ctx
-import org.jetbrains.anko.find
 import org.jetbrains.anko.info
 import org.jetbrains.anko.sdk25.coroutines.textChangedListener
+import org.jetbrains.anko.startActivity
 
 class PatentDataActivity : ToolbarActivity() {
     private val model: PatentViewModel by lazy {
         ViewModelProviders.of(this, PatentModelFactory(this)).get(PatentViewModel::class.java)
     }
-    private lateinit var listAdapter: PatentAdapter
-    private val data = mutableListOf<PatentItem>()
-    private var page = 1
-    private var searchkey: String? = null
+    private lateinit var listAdapter: RecyclerAdapter<PatentItem>
 
     private var NAVIGATION_GESTURE: String = when {
         Rom.isEmui() -> "navigationbar_is_min"
@@ -94,114 +82,52 @@ class PatentDataActivity : ToolbarActivity() {
         StatusBarUtil.setTranslucentForCoordinatorLayout(this, 0)
         toolbar?.setBackgroundColor(resources.getColor(R.color.transparent))
         deviceHasNavigationBar()
-        searchkey = intent.getStringExtra(Extras.DATA)
-        listAdapter = PatentAdapter(data)
+        listAdapter = RecyclerAdapter(this) { _adapter, parent, _ ->
+            PatentHisHolder(_adapter.getView(R.layout.item_patent_history, parent))
+        }
         patentList.apply {
             layoutManager = LinearLayoutManager(ctx)
             adapter = listAdapter
         }
-        listAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { adapter, view, position ->
-            PatentDetailActivity.start(this, data[position])
+        listAdapter.onItemClick = { view, position ->
+            PatentDetailActivity.start(this, listAdapter.dataList[position])
         }
         initRefreshConfig()
-        initSearch()
-        if (searchkey.isNullOrEmpty()) {
-            val list = model.getPatentHistory().reversed()
-            (list.size > 5).yes {
-                data.addAll(list.toList().subList(0, 5))
-            }.otherWise {
-                data.addAll(list)
-            }
-            listAdapter.notifyDataSetChanged()
-        } else {
-            searchEdt.setText(searchkey)
-        }
-    }
 
-    private fun initSearch() {
+        listAdapter.refreshData(model.getPatentHistory().toList().reversed())
+
+
         searchEdt.textChangedListener {
             afterTextChanged {
                 searchEdt.textStr.isNotEmpty().yes {
-                    clear.setVisible(true)
-                    getPatentList(searchEdt.textStr)
-                }.otherWise {
-                    headerLayout.setVisible(true)
-                    clear.setVisible(false)
+                    Utils.closeInput(ctx, searchEdt)
+                    startActivity<PatentListActivity>(Extras.CODE to searchEdt.textStr)
                 }
             }
         }
-        clear.clickWithTrigger {
-            searchEdt.setText("")
-        }
-        back.clickWithTrigger {
-            finish()
+        clearHistory.clickWithTrigger {
+            model.clearHistory()
+            listAdapter.dataList.clear()
+            listAdapter.notifyDataSetChanged()
         }
     }
 
 
     fun initRefreshConfig() {
         refresh.apply {
-            isEnableLoadMore = true
-            isEnableRefresh = true
-            isEnableAutoLoadMore = true
-            setRefreshHeader(ClassicsHeader(ctx))
-            setOnRefreshListener {
-                page = 1
-                getPatentList(searchkey)
-            }
-            setOnLoadMoreListener {
-                page += 1
-                getPatentList(searchkey)
-            }
+            isEnableLoadMore = false
+            isEnableRefresh = false
+            isEnableAutoLoadMore = false
         }
     }
 
-    private fun getPatentList(searchKey: String? = null) {
-        SoguApi.getService(application, DataSourceService::class.java)
-                .getPatentList(page, searchKey)
-                .execute {
-                    onSubscribe {
-                        showProgress("正在请求数据")
-                    }
-                    onNext { payload ->
-                        payload.isOk.yes {
-                            payload.payload?.let {
-                                listAdapter.searchKey = searchKey
-                                if (page == 1) {
-                                    data.clear()
-                                }
-                                data.addAll(it)
-                                listAdapter.notifyDataSetChanged()
-                            }
-                        }.otherWise {
-                            showErrorToast(payload.message)
-                        }
-                    }
-                    onComplete {
-                        hideProgress()
-                        if (page == 1) {
-                            refresh.finishRefresh()
-                        }else{
-                            refresh.finishLoadMore()
-                        }
-                        data.isNotEmpty().yes {
-                            refresh.setVisible(true)
-                            empty_img.setVisible(false)
-                            headerLayout.setVisible(false)
-                        }.otherWise {
-                            refresh.setVisible(false)
-                            empty_img.setVisible(true)
-                            headerLayout.setVisible(true)
-                        }
-                    }
-                    onError {
-                        hideProgress()
-                        refresh.setVisible(false)
-                        empty_img.setVisible(true)
-                        headerLayout.setVisible(true)
-                    }
-                }
+    inner class PatentHisHolder(itemView: View) : RecyclerHolder<PatentItem>(itemView) {
+        @SuppressLint("SetTextI18n")
+        override fun setData(view: View, data: PatentItem, position: Int) {
+            view.num.text = "${position + 1}"
+            view.patentName.text = data.name
+            view.applicantName.text = data.author
+            view.timeTv.text = data.date
+        }
     }
-
-
 }

@@ -103,12 +103,35 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/filterLayout">
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/filterResultList"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                </android.support.v7.widget.RecyclerView>
+                    <ImageView
+                        android:id="@+id/intelligentHeader"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:scaleType="centerCrop"
+                        android:src="@mipmap/icon_intelligent_header" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/filterResultList"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    </android.support.v7.widget.RecyclerView>
+
+                    <ImageView
+                        android:id="@+id/emptyImg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/img_empty"
+                        android:visibility="gone" />
+                </LinearLayout>
+
 
             </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 

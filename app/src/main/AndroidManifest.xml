@@ -13,12 +13,14 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
-                     tools:ignore="ProtectedPermissions"/>
+    <uses-permission
+        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"
-                     tools:ignore="ProtectedPermissions"/>
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE" />
     <uses-permission android:name="com.huawei.android.launcher.permission.READ_SETTINGS" />
@@ -27,8 +29,9 @@
     <uses-permission android:name="com.huawei.android.launcher2.permission.WRITE_SETTINGS" />
     <uses-permission android:name="com.huawei.android.launcher3.permission.READ_SETTINGS" />
     <uses-permission android:name="com.huawei.android.launcher3.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.READ_LOGS"
-                     tools:ignore="ProtectedPermissions"/>
+    <uses-permission
+        android:name="android.permission.READ_LOGS"
+        tools:ignore="ProtectedPermissions" />
     <!-- 网易云信IM权限 -->
     <!-- 权限声明 -->
     <!-- 访问网络状态 -->
@@ -1219,13 +1222,20 @@
             android:name=".module.dataSource.PatentDataActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".module.dataSource.PatentSearchActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysVisible" />
-        <activity android:name=".module.dataSource.PatentDetailActivity"></activity>
+        <activity android:name=".module.dataSource.PatentDetailActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity android:name=".module.dataSource.PatentListActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
     </application>
 
 </manifest>

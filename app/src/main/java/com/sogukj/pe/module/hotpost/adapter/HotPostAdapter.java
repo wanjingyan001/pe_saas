@@ -24,13 +24,14 @@ public class HotPostAdapter extends BaseLoadingAdapter<HotPostInfo> {
     private List<HotPostInfo> hotPostInfos;
     private OnHeaderClickListener onHeaderClickListener;
     private OnItemClickListener onItemClickListener;
-    public HotPostAdapter(Context context,RecyclerView recyclerView, List<HotPostInfo> hotPostInfos) {
+
+    public HotPostAdapter(Context context, RecyclerView recyclerView, List<HotPostInfo> hotPostInfos) {
         super(recyclerView, hotPostInfos);
         this.context = context;
         this.hotPostInfos = hotPostInfos;
     }
 
-    public void addDatas(List<HotPostInfo> hotPostInfos){
+    public void addDatas(List<HotPostInfo> hotPostInfos) {
         this.hotPostInfos = hotPostInfos;
     }
 
@@ -45,14 +46,14 @@ public class HotPostAdapter extends BaseLoadingAdapter<HotPostInfo> {
     public void onBindNormalViewHolder(RecyclerView.ViewHolder holder, int position) {
         HotPostInfo hotPostInfo = hotPostInfos.get(position);
         NormalViewHolder normalHolder = (NormalViewHolder) holder;
-        if(null != hotPostInfo) {
-            normalHolder.tv_title.setText(hotPostInfo.getTitle());
-            if(null != hotPostInfo.getImage()) {
-                Glide.with(context).load(hotPostInfo.getImage())
+        if (null != hotPostInfo) {
+            normalHolder.tv_title.setText(hotPostInfo.getName());
+            if (null != hotPostInfo.getIcon()) {
+                Glide.with(context).load(hotPostInfo.getIcon())
                         .apply(RequestOptions.bitmapTransform(new RoundedCorners(6))).into(normalHolder.iv_image);
             }
         }
-        if(null != onItemClickListener) {
+        if (null != onItemClickListener) {
             normalHolder.view.setOnClickListener(v -> {
                 onItemClickListener.onItemClick(position);
             });
@@ -70,24 +71,25 @@ public class HotPostAdapter extends BaseLoadingAdapter<HotPostInfo> {
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
         HotPostInfo hotPostInfo = hotPostInfos.get(0);
         HeaderViewHolder headerHolder = (HeaderViewHolder) holder;
-        if(null != hotPostInfo) {
-            headerHolder.tv_title.setText(hotPostInfo.getTitle());
-            if(null != hotPostInfo.getImage()) {
-                Glide.with(context).load(hotPostInfo.getImage())
+        if (null != hotPostInfo) {
+            headerHolder.tv_title.setText(hotPostInfo.getName());
+            if (null != hotPostInfo.getIcon()) {
+                Glide.with(context).load(hotPostInfo.getIcon())
                         .apply(RequestOptions.bitmapTransform(new RoundedCorners(6))).into(headerHolder.iv_image);
             }
         }
-        if(null != onHeaderClickListener) {
+        if (null != onHeaderClickListener) {
             headerHolder.view.setOnClickListener(v -> {
                 onHeaderClickListener.onHeaderClick(position);
             });
         }
     }
 
-    public class NormalViewHolder extends RecyclerView.ViewHolder{
+    public class NormalViewHolder extends RecyclerView.ViewHolder {
         public View view;
         public ImageView iv_image;
         public TextView tv_title;
+
         public NormalViewHolder(View itemView) {
             super(itemView);
             this.view = itemView;
@@ -96,10 +98,11 @@ public class HotPostAdapter extends BaseLoadingAdapter<HotPostInfo> {
         }
     }
 
-    public class HeaderViewHolder extends RecyclerView.ViewHolder{
+    public class HeaderViewHolder extends RecyclerView.ViewHolder {
         public View view;
         public ImageView iv_image;
         public TextView tv_title;
+
         public HeaderViewHolder(View itemView) {
             super(itemView);
             this.view = itemView;
@@ -116,11 +119,11 @@ public class HotPostAdapter extends BaseLoadingAdapter<HotPostInfo> {
         this.onItemClickListener = onItemClickListener;
     }
 
-    public interface OnHeaderClickListener{
+    public interface OnHeaderClickListener {
         void onHeaderClick(int position);
     }
 
-    public interface OnItemClickListener{
+    public interface OnItemClickListener {
         void onItemClick(int position);
     }
 }

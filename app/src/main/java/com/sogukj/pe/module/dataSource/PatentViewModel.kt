@@ -19,16 +19,28 @@ class PatentViewModel(context: Context) : ViewModel() {
     private val searchHistory = mutableSetOf<PatentItem>()
     private val sp: SharedPreferences by lazy { PreferenceManager.getDefaultSharedPreferences(context) }
 
-
-    fun getPatentHistory(): Set<PatentItem> {
+    init {
         val localData = Gson().fromJson<Array<PatentItem>>(sp.getString(Extras.PATENT_HISTORY, ""), Array<PatentItem>::class.java)
         localData?.let {
             searchHistory.addAll(localData)
         }
+    }
+
+    fun getPatentHistory(): Set<PatentItem> {
         return searchHistory
     }
 
-    fun saveLocalData() {
+    fun saveLocalData(bean: PatentItem) {
+        if (searchHistory.size > 4) {
+            searchHistory.toMutableList().removeAt(0)
+        }
+        searchHistory.add(bean)
         sp.edit { putString(Extras.PATENT_HISTORY, searchHistory.jsonStr) }
+    }
+
+
+    fun clearHistory(){
+        searchHistory.clear()
+        sp.edit { putString(Extras.PATENT_HISTORY, "") }
     }
 }

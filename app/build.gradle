@@ -257,8 +257,6 @@ static def releaseTime() {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
-    implementation 'com.android.support:support-v4:27.1.1'
     implementation project(':baselibrary')
     implementation project(':calendar')
     implementation project(':zxingLib')
@@ -275,10 +273,10 @@ dependencies {
     implementation "com.amap.api:search:${map_version}"
     implementation 'androidx.core:core-ktx:0.3'
     implementation 'com.github.gcacace:signature-pad:1.2.1'
-    //引导蒙版功能
-    implementation('com.github.huburt-Hu:NewbieGuide:v2.1.0') {
-        exclude group: 'com.android.support'
-    }
+//    //引导蒙版功能
+//    implementation('com.github.huburt-Hu:NewbieGuide:v2.1.0') {
+//        exclude group: 'com.android.support'
+//    }
     //    ARouter阿里路由
     implementation "com.alibaba:arouter-api:${arouter_version}"
     kapt "com.alibaba:arouter-compiler:${arouter_annotation_version}"

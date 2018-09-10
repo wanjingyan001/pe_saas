@@ -44,10 +44,9 @@ class PatentSearchActivity : ToolbarActivity() {
         }
         search.clickWithTrigger {
             Utils.toggleSoftInput(this,searchEdt)
-            startActivity<PatentDataActivity>(Extras.DATA to searchEdt.textStr)
             when(type){
                 0 -> {
-                    startActivity<PatentDataActivity>(Extras.DATA to searchEdt.textStr)
+                    startActivity<PatentListActivity>(Extras.CODE to searchEdt.textStr)
                 }
                 1 -> {
 

@@ -13,6 +13,7 @@ import android.text.Html
 import android.view.View
 import androidx.core.content.edit
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.amap.api.mapcore.util.it
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -32,17 +33,20 @@ import com.sogukj.pe.service.DataSourceService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_prospectus_list.*
 import org.jetbrains.anko.ctx
+
 @Route(path = ARouterPath.DocumentsListActivity)
 class DocumentsListActivity : BaseRefreshActivity() {
     companion object {
-        fun start(context: Context, @DocumentType type: Int) {
+        fun start(context: Context, @DocumentType type: Int, category: Int? = null) {
             val intent = Intent(context, DocumentsListActivity::class.java)
             intent.putExtra(Extras.TYPE, type)
+            intent.putExtra(Extras.TYPE1, category)
             context.startActivity(intent)
         }
     }
 
-    private var type: Int = -1
+    private val type: Int by extraDelegate(Extras.TYPE, -1)
+    private val category: Int? by extraDelegate(Extras.TYPE1, null)
     private var page = 1
     private lateinit var listAdapter: BookListAdapter
     private val documents = ArrayList<PdfBook>()
@@ -54,20 +58,23 @@ class DocumentsListActivity : BaseRefreshActivity() {
         toolbar?.setBackgroundColor(resources.getColor(R.color.white))
         Utils.setWindowStatusBarColor(this, R.color.white)
         setBack(true)
-        type = intent.getIntExtra(Extras.TYPE, -1)
         when (type) {
             DocumentType.INTELLIGENT -> {
                 title = "智能文书"
-                filterCondition.setVisible(true)
-                drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+                intelligentHeader.setVisible(true)
+                filterCondition.setVisible(false)
+//                drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+                drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
             }
             DocumentType.EQUITY -> {
                 title = "招股书"
+                intelligentHeader.setVisible(false)
                 filterCondition.setVisible(false)
                 drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
             }
             DocumentType.INDUSTRY_REPORTS -> {
                 title = "热门行业研报"
+                intelligentHeader.setVisible(false)
                 filterCondition.setVisible(false)
                 drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
             }
@@ -81,7 +88,7 @@ class DocumentsListActivity : BaseRefreshActivity() {
             }
         }
 
-        listAdapter = BookListAdapter(documents, downloaded.toList())
+        listAdapter = BookListAdapter(documents, downloaded.toList(), type)
         listAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { adapter, view, position ->
             val book = documents[position]
             PdfPreviewActivity.start(this, book.pdf_path, book.pdf_name, downloaded.contains(book.pdf_name))
@@ -116,14 +123,13 @@ class DocumentsListActivity : BaseRefreshActivity() {
         }
         getPdfList()
         searchLayout.clickWithTrigger {
-            PdfSearchActivity.start(this, type)
+            PdfSearchActivity.start(this, type, category = category)
         }
     }
 
-    @SuppressLint("WrongConstant")
     private fun getPdfList(searchKey: String? = null) {
         SoguApi.getService(application, DataSourceService::class.java)
-                .getSourceBookList(page = page, keywords = searchKey, type = type)
+                .getSourceBookList(page = page, keywords = searchKey, type = type, category = category)
                 .execute {
                     onNext { payload ->
                         payload.isOk.yes {
@@ -138,6 +144,10 @@ class DocumentsListActivity : BaseRefreshActivity() {
                         }.otherWise {
                             showErrorToast(payload.message)
                         }
+                    }
+                    onComplete {
+                        emptyImg.setVisible(documents.isEmpty())
+                        filterResultList.setVisible(documents.isNotEmpty())
                     }
                 }
     }
