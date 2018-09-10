@@ -3,9 +3,7 @@ package com.sogukj.pe.module.dataSource
 import android.os.Bundle
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
-import com.sogukj.pe.baselibrary.Extended.setVisible
-import com.sogukj.pe.baselibrary.Extended.textStr
+import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import kotlinx.android.synthetic.main.activity_patent_search.*
@@ -46,7 +44,11 @@ class PatentSearchActivity : ToolbarActivity() {
             Utils.toggleSoftInput(this,searchEdt)
             when(type){
                 0 -> {
-                    startActivity<PatentListActivity>(Extras.CODE to searchEdt.textStr)
+                    searchEdt.textStr.isNotEmpty().yes {
+                        startActivity<PatentListActivity>(Extras.CODE to searchEdt.textStr)
+                    }.otherWise {
+                        showCommonToast("请输入查询内容")
+                    }
                 }
                 1 -> {
 
