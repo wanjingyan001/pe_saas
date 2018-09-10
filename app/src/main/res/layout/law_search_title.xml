@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp"
+        android:background="@color/colorPrimary"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:theme="@style/AppTheme.AppBarOverlay">
+
+        <ImageView
+            android:id="@+id/toolbar_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="15dp"
+            android:src="@drawable/sogu_ic_back"  />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginRight="@dimen/text_20"
+            android:background="@drawable/selector_search_top"
+            android:layout_height="@dimen/text_30">
+
+            <ImageView
+                android:id="@+id/iv_search"
+                android:layout_width="@dimen/text_20"
+                android:layout_height="@dimen/text_20"
+                android:scaleType="fitXY"
+                android:layout_marginLeft="@dimen/text_10"
+                android:src="@drawable/ss_small"/>
+            <EditText
+                android:id="@+id/et_search"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:cursorVisible="true"
+                android:background="@null"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:hint="请输入关键词"
+                android:maxLines="1"
+                android:textColor="@color/black_28"
+                android:textColorHint="@color/gray_80"
+                android:textSize="@dimen/text_size_14"
+                android:paddingLeft="@dimen/text_10"
+                android:layout_weight="1"/>
+
+            <ImageView
+                android:id="@+id/iv_del"
+                android:layout_width="@dimen/text_20"
+                android:layout_height="@dimen/text_20"
+                android:scaleType="fitXY"
+                android:visibility="invisible"
+                android:layout_marginRight="@dimen/text_10"
+                android:src="@drawable/ic_refuse_disable"/>
+        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
+</LinearLayout>

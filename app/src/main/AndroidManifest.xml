@@ -77,7 +77,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:replace="android:theme">
+        tools:replace="android:icon,android:theme">
 
         <!-- 全面屏适配 -->
         <meta-data
@@ -1183,6 +1183,17 @@
             android:name=".module.dataSource.lawcase.LowCaseHisActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".module.dataSource.lawcase.LawSearchResultActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".module.dataSource.lawcase.LawResultDetailActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait" />
+
         <activity android:name=".module.im.RemoveMemberActivity" />
 
         <service android:name=".service.socket.DzhClientService">

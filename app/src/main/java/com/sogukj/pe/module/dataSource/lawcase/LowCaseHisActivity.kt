@@ -29,6 +29,7 @@ class LowCaseHisActivity : ToolbarActivity(){
     }
 
     private fun initView() {
+        toolbar?.setBackgroundColor(resources.getColor(R.color.transparent))
         setTitle("法律案例大全")
     }
 

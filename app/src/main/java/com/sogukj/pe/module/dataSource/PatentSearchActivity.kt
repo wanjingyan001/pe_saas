@@ -6,6 +6,7 @@ import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.module.dataSource.lawcase.LawSearchResultActivity
 import kotlinx.android.synthetic.main.activity_patent_search.*
 import org.jetbrains.anko.sdk25.coroutines.textChangedListener
 import org.jetbrains.anko.startActivity
@@ -51,7 +52,7 @@ class PatentSearchActivity : ToolbarActivity() {
                     }
                 }
                 1 -> {
-
+                    startActivity<LawSearchResultActivity>(Extras.DATA to searchEdt.textStr)
                 }
             }
             finish()

@@ -115,6 +115,9 @@ class PolicyExpressActivity : BaseRefreshActivity(),PolicyExpressCallBack {
             this.bannerInfos = bannerInfo.data!!
             initBannerFooter()
             setBannerAdapter()
+//            if (lv_express.headerViewsCount > 0){
+//                lv_express.removeHeaderView(headView)
+//            }
         }else{
             headView!!.visibility = View.GONE
         }
@@ -273,7 +276,7 @@ class PolicyExpressActivity : BaseRefreshActivity(),PolicyExpressCallBack {
 
     override fun doRefresh() {
         if (null != presenter){
-            presenter!!.doRefresh(type!!)
+            presenter!!.doRefresh(type)
         }
     }
 

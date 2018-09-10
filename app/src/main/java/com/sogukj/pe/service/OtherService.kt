@@ -134,4 +134,20 @@ interface OtherService {
     @FormUrlEncoded
     @POST("api/Datasource/newsInfo")
     fun getPolicyExpressDetail(@Field("news_id") news_id: Int): Observable<Payload<PlDetailInfo>>
+
+    /**
+     * 法律助手列表
+     */
+    @FormUrlEncoded
+    @POST("api/Datasource/getbdflLists")
+    fun getLawResultList(@Field("key_word") key_word:String,
+                             @Field("page") page: Int = 0,
+                             @Field("type") type : Int = 1): Observable<Payload<List<LawSearchResultInfo>>>
+
+    /**
+     * 法律助手详情
+     */
+    @FormUrlEncoded
+    @POST("api/Datasource/getbdxwContent")
+    fun getLawResultDetail(@Field("href") href:String): Observable<Payload<String>>
 }

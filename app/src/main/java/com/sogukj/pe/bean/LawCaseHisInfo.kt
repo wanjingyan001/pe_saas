@@ -9,4 +9,5 @@ class LawCaseHisInfo : Serializable {
     var title : String = ""
     var kind : String = ""
     var time : String = ""
+    var hao : String = ""
 }

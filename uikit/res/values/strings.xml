@@ -227,4 +227,5 @@
 
     <string name="select_file">文件传输</string>
     <string name="invest_event">投资事件</string>
+    <string name="search_keyword">请输入关键词</string>
 </resources>

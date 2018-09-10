@@ -36,7 +36,7 @@ class PolocyExpressPresenter : BasePresenter {
 
     }
 
-    open fun doRefresh(type:Int){
+    open fun doRefresh(type:Int?){
         doBannerRequest()
         doListInfoRequest(false,null,type)
     }

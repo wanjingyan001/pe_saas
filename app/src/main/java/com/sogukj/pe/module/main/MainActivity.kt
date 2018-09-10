@@ -115,8 +115,8 @@ class MainActivity : BaseActivity() {
                 modules.addAll(it.homeBottomButton!!)
             }
             val defaultLogo = when (getEnvironment()) {
-                "zgh" -> R.mipmap.ic_launcher_zgh
-                else -> R.mipmap.ic_launcher_mian_circle
+                "zgh" -> R.mipmap.ic_launcher_zgh_circle
+                else -> R.mipmap.ic_launch_pe_round
 
             }
             Glide.with(this@MainActivity)
@@ -462,7 +462,7 @@ class MainActivity : BaseActivity() {
             Glide.with(this@MainActivity)
                     .load(it.logo)
                     .apply(RequestOptions.circleCropTransform()
-                            .error(R.mipmap.ic_launcher_mian_circle))
+                            .error(R.mipmap.ic_launch_pe_round))
                     .into(mainLogo)
         }
     }
