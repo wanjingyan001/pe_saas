@@ -50,7 +50,9 @@ public class HotPostAdapter extends BaseLoadingAdapter<HotPostInfo> {
             normalHolder.tv_title.setText(hotPostInfo.getName());
             if (null != hotPostInfo.getIcon()) {
                 Glide.with(context).load(hotPostInfo.getIcon())
-                        .apply(RequestOptions.bitmapTransform(new RoundedCorners(6))).into(normalHolder.iv_image);
+                        .apply(RequestOptions.bitmapTransform(new RoundedCorners(6)))
+                        .thumbnail(0.5f)
+                        .into(normalHolder.iv_image);
             }
         }
         if (null != onItemClickListener) {
@@ -75,7 +77,9 @@ public class HotPostAdapter extends BaseLoadingAdapter<HotPostInfo> {
             headerHolder.tv_title.setText(hotPostInfo.getName());
             if (null != hotPostInfo.getIcon()) {
                 Glide.with(context).load(hotPostInfo.getIcon())
-                        .apply(RequestOptions.bitmapTransform(new RoundedCorners(6))).into(headerHolder.iv_image);
+                        .apply(RequestOptions.bitmapTransform(new RoundedCorners(6)))
+                        .thumbnail(0.5f)
+                        .into(headerHolder.iv_image);
             }
         }
         if (null != onHeaderClickListener) {
