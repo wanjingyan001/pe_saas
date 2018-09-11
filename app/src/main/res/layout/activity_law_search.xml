@@ -40,7 +40,7 @@
             android:textColor="@color/gray_a0"/>
     </LinearLayout>
     <View
-        android:id="@+id/view_line"
+        android:id="@+id/view_cut"
         android:layout_width="match_parent"
         android:layout_height="@dimen/text_1"
         android:background="@color/gray_f1"/>

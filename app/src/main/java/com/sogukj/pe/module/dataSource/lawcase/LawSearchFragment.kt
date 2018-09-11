@@ -176,13 +176,14 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
             presenter!!.doLawSearchRequest(searchKey,type!!,true)
         }
     }
+
     override fun refreshLawList(it: List<LawSearchResultInfo>?) {
         if (null != it && it!!.size > 0){
             if (null != iv_empty){
                 iv_empty.visibility = View.INVISIBLE
             }
             activity!!.ll_total.visibility = View.VISIBLE
-            activity!!.view_line.visibility = View.VISIBLE
+            activity!!.view_cut.visibility = View.VISIBLE
             searchData.clear()
             searchData.addAll(it!!)
             resultAdapter.notifyDataSetChanged()
@@ -192,7 +193,7 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
                 iv_empty.visibility = View.VISIBLE
             }
             activity!!.ll_total.visibility = View.GONE
-            activity!!.view_line.visibility = View.GONE
+            activity!!.view_cut.visibility = View.GONE
         }
     }
 

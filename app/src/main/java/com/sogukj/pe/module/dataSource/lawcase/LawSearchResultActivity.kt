@@ -42,20 +42,19 @@ class LawSearchResultActivity : ToolbarActivity() {
         view_pager!!.adapter = mAdapter
         mAdapter.notifyDataSetChanged()
         for (i in titles.indices) {
-            val tab = tabs!!.newTab().setCustomView(R.layout.item_tab_rank)
-            tabs?.addTab(tab)
-            var tv : TextView? = null
-            var line: FrameLayout? = null
-            tv = tab.customView?.findViewById(R.id.tv_tab_title)
-            line = tab.customView?.findViewById(R.id.view_line)
-            tv!!.text = titles[i]
+            val tab = tabs.newTab().setCustomView(R.layout.item_tab_rank)
+            tabs.addTab(tab)
+            var tv = tab.customView?.findViewById(R.id.tv_tab_title) as TextView
+            var line = tab.customView?.findViewById(R.id.view_line) as FrameLayout
+            tv.text = titles[i]
             if (i == 0){
+                tab.select()
                 line!!.visibility = View.VISIBLE
             }else{
                 line!!.visibility = View.INVISIBLE
             }
         }
-        tabs?.getTabAt(0)?.select()
+        tabs.getTabAt(0)?.select()
         view_pager?.currentItem = 0
         et_search.setText(searchKey)
         et_search.setSelection(searchKey.length)
@@ -68,16 +67,12 @@ class LawSearchResultActivity : ToolbarActivity() {
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
-                var line: FrameLayout ? = null
-                line = tab!!.customView?.findViewById(R.id.view_line)
-                line!!.visibility = View.INVISIBLE
+                tab!!.customView?.findViewById<FrameLayout>(R.id.view_line)!!.visibility = View.INVISIBLE
             }
 
             override fun onTabSelected(tab: TabLayout.Tab) {
                 view_pager?.currentItem = tab.position
-                var line: FrameLayout ? = null
-                line = tab!!.customView?.findViewById(R.id.view_line)
-                line!!.visibility = View.VISIBLE
+                tab!!.customView?.findViewById<FrameLayout>(R.id.view_line)!!.visibility = View.VISIBLE
             }
 
         })
