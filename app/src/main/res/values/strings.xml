@@ -22,7 +22,7 @@
     <string name="tv_title_result_news" formatted="false">匹配到&lt;font color="#ff3300">%d&lt;/font>条资讯: </string>
     <string name="tv_title_result_search" formatted="false">匹配到&lt;font color="#ff3300">%d&lt;/font>条结果: </string>
     <string name="tv_title_result_search1" formatted="false">搜索到&lt;font color="#ff3300">%d条&lt;/font>相关文书: </string>
-    <string name="tv_title_result_search2" formatted="false">&lt;font color="#3C98E8">%d&lt;/font>条结果</string>
+    <string name="tv_title_result_search2" formatted="false">&lt;font color="#3C98E8">%d&lt;/font>  条结果</string>
     <string-array name="Language">
         <item>汉语</item>
         <item>英语</item>

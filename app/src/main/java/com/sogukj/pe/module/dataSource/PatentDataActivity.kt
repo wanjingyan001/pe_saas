@@ -81,6 +81,7 @@ class PatentDataActivity : ToolbarActivity() {
         setContentView(R.layout.activity_patent_data)
         StatusBarUtil.setTranslucentForCoordinatorLayout(this, 0)
         toolbar?.setBackgroundColor(resources.getColor(R.color.transparent))
+        setBack(true)
         deviceHasNavigationBar()
         listAdapter = RecyclerAdapter(this) { _adapter, parent, _ ->
             PatentHisHolder(_adapter.getView(R.layout.item_patent_history, parent))
@@ -99,10 +100,10 @@ class PatentDataActivity : ToolbarActivity() {
 
         searchEdt.textChangedListener {
             afterTextChanged {
-                searchEdt.textStr.isNotEmpty().yes {
+                searchEdt.postDelayed({ searchEdt.textStr.isNotEmpty().yes {
                     Utils.closeInput(ctx, searchEdt)
                     startActivity<PatentListActivity>(Extras.CODE to searchEdt.textStr)
-                }
+                }},300)
             }
         }
         clearHistory.clickWithTrigger {

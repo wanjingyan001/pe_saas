@@ -10,6 +10,7 @@ import androidx.core.content.edit
 import com.google.gson.Gson
 import com.sogukj.pe.Extras
 import com.sogukj.pe.baselibrary.Extended.jsonStr
+import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.bean.PatentItem
 
 /**
@@ -27,6 +28,12 @@ class PatentViewModel(context: Context) : ViewModel() {
     }
 
     fun getPatentHistory(): Set<PatentItem> {
+        searchHistory.isEmpty().yes {
+            val localData = Gson().fromJson<Array<PatentItem>>(sp.getString(Extras.PATENT_HISTORY, ""), Array<PatentItem>::class.java)
+            localData?.let {
+                searchHistory.addAll(localData)
+            }
+        }
         return searchHistory
     }
 

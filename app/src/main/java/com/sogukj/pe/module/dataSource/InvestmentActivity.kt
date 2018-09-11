@@ -13,10 +13,7 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.scwang.smartrefresh.layout.api.RefreshFooter
 import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
-import com.sogukj.pe.baselibrary.Extended.execute
-import com.sogukj.pe.baselibrary.Extended.otherWise
-import com.sogukj.pe.baselibrary.Extended.yes
+import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -68,12 +65,16 @@ class InvestmentActivity : BaseRefreshActivity() {
         primaryAdapter.onItemClick = { v, position ->
             primaryAdapter.selectedPosition = position
             fIndustryId = primaryAdapter.dataList[position].id
+            filterConditionTv.setVisible(true)
+            filterConditionTv.text =  primaryAdapter.dataList[position].category_name
             primaryAdapter.dataList[position].child?.let {
                 secondaryAdapter.refreshData(it)
             }
         }
         secondaryAdapter.onItemClick = { v, position ->
             secondaryAdapter.selectedPosition = position
+            filterConditionTv.setVisible(true)
+            filterConditionTv.text =  secondaryAdapter.dataList[position].category_name
             fIndustryId = secondaryAdapter.dataList[position].id
         }
 
@@ -118,6 +119,14 @@ class InvestmentActivity : BaseRefreshActivity() {
         }
         searchLayout.clickWithTrigger {
             startActivity<InvestSearchActivity>()
+        }
+        filterConditionTv.clickWithTrigger {
+            filterConditionTv.text = ""
+            filterConditionTv.setVisible(false)
+            page = 1
+            fIndustryId = null
+            fYear = null
+            getInvestList()
         }
     }
 

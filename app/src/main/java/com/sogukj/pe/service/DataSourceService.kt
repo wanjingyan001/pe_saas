@@ -55,7 +55,7 @@ interface DataSourceService {
      */
     @FormUrlEncoded
     @POST("/api/Datasource/getSoopatInfo")
-    fun getPatentDetail(@Field("url") url: String): Observable<Payload<PatentDetail>>
+    fun getPatentDetail(@Field("link") link: String): Observable<Payload<PatentDetail>>
 
     /**
      * 热门行业研报

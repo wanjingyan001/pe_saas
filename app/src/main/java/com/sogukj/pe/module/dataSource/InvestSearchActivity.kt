@@ -3,6 +3,7 @@ package com.sogukj.pe.module.dataSource
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.core.content.edit
 import com.amap.api.mapcore.util.it
@@ -112,6 +113,13 @@ class InvestSearchActivity : BaseActivity() {
                 }
             }
             true
+        }
+        et_search.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH){
+                Utils.closeInput(ctx,et_search)
+                true
+            }
+            false
         }
         et_search.textChangedListener {
             onTextChanged { charSequence, start, before, count ->

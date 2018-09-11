@@ -85,7 +85,8 @@ class PatentListActivity : BaseActivity() {
                 .execute {
                     onSubscribe {
                         Utils.closeInput(ctx, searchEdt)
-                        showProgress("正在请求数据")
+                        if (page == 1)
+                            showProgress("正在请求数据")
                     }
                     onNext { payload ->
                         payload.isOk.yes {
@@ -103,6 +104,7 @@ class PatentListActivity : BaseActivity() {
                     }
                     onComplete {
                         hideProgress()
+                        searchEdt.clearFocus()
                         if (page == 1) {
                             refresh.finishRefresh()
                         } else {

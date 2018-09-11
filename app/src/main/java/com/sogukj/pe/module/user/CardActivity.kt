@@ -3,6 +3,7 @@ package com.sogukj.pe.module.user
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Environment
@@ -18,6 +19,10 @@ import cn.sharesdk.tencent.qq.QQ
 import cn.sharesdk.tencent.qzone.QQClientNotExistException
 import cn.sharesdk.wechat.friends.Wechat
 import cn.sharesdk.wechat.utils.WechatClientNotExistException
+import com.android.dingtalk.share.ddsharemodule.DDShareApiFactory
+import com.android.dingtalk.share.ddsharemodule.message.DDImageMessage
+import com.android.dingtalk.share.ddsharemodule.message.DDMediaMessage
+import com.android.dingtalk.share.ddsharemodule.message.SendMessageToDD
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -26,8 +31,12 @@ import com.bumptech.glide.request.target.Target
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
+import com.sogukj.pe.baselibrary.Extended.setOnClickFastListener
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.UserBean
+import com.sogukj.pe.ddshare.DDShareActivity
+import com.sogukj.pe.peUtils.ShareUtils
 import kotlinx.android.synthetic.main.layout_card_window.*
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.doAsync
@@ -93,16 +102,16 @@ class CardActivity : Activity(), PlatformActionListener {
 
 
     private fun share(){
-        val dialog = Dialog(this@CardActivity, R.style.AppTheme_Dialog)
-        dialog.setContentView(R.layout.dialog_share)
-        val lay = dialog.window.attributes
+        val dialog = Dialog(ctx, R.style.AppTheme_Dialog)
+        dialog.setContentView(R.layout.dialog_share_custom)
+        val lay = dialog.window!!.attributes
         lay.height = WindowManager.LayoutParams.WRAP_CONTENT
         lay.width = WindowManager.LayoutParams.MATCH_PARENT
         lay.gravity = Gravity.BOTTOM
         dialog.window.attributes = lay
         dialog.show()
         dialog.find<TextView>(R.id.tv_copy).visibility = View.GONE
-
+        dialog.find<TextView>(R.id.tv_sms).visibility = View.GONE
         dialog.find<TextView>(R.id.tv_wexin).clickWithTrigger {
             dialog.dismiss()
             val sp = cn.sharesdk.framework.Platform.ShareParams()
@@ -114,8 +123,8 @@ class CardActivity : Activity(), PlatformActionListener {
             wechat.platformActionListener = this@CardActivity
             wechat.share(sp)
         }
-        dialog.find<TextView>(R.id.tv_qq).visibility = View.GONE
-//        setOnClickFastListener {
+        dialog.find<TextView>(R.id.tv_qq).setVisible(false)
+//                clickWithTrigger {
 //            dialog.dismiss()
 //            val sp = Platform.ShareParams()
 //            sp.title = "我的名片"
@@ -125,6 +134,20 @@ class CardActivity : Activity(), PlatformActionListener {
 //            qq.platformActionListener = this@CardActivity
 //            qq.share(sp)
 //        }
+        dialog.find<TextView>(R.id.tv_dd).clickWithTrigger {
+            val iddShareApi = DDShareApiFactory.createDDShareApi(ctx, DDShareActivity.Companion.DDApp_Id, true)
+            //初始化一个DDImageMessage
+            val imageObject = DDImageMessage(BitmapFactory.decodeFile(PATH))
+
+            //构造一个mMediaObject对象
+            val mediaMessage = DDMediaMessage()
+            mediaMessage.mMediaObject = imageObject
+            //构造一个Req
+            val req = SendMessageToDD.Req()
+            req.mMediaMessage = mediaMessage
+            //调用api接口发送消息到钉钉
+            iddShareApi.sendReq(req)
+        }
     }
 
     fun setData(bean: UserBean) {
