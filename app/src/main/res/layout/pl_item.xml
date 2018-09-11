@@ -13,6 +13,7 @@
         android:maxLines="2"
         android:textColor="@color/black_28"
         android:textSize="@dimen/text_size_16"
+        android:text="基金业协会依法向公安机关移送华泽钴镍及相关人员涉嫌证券犯罪案件"
         android:lineSpacingExtra="@dimen/text_3"
         android:ellipsize="end"/>
 
@@ -24,11 +25,12 @@
         android:textSize="@dimen/text_size_12"
         android:layout_alignParentRight="true"
         android:layout_below="@id/tv_title1"
-        android:layout_marginTop="@dimen/text_15"
+        android:layout_marginTop="@dimen/text_20"
         android:paddingLeft="@dimen/text_3"
         android:paddingRight="@dimen/text_3"
         android:paddingTop="@dimen/text_1"
         android:paddingBottom="@dimen/text_1"
+        android:text="基金业协会"
         android:background="@drawable/shape_pl_item"/>
 
 
@@ -38,14 +40,15 @@
         android:layout_height="wrap_content"
         android:textColor="@color/gray_a0"
         android:textSize="@dimen/text_size_12"
+        android:text="6分钟前"
         android:layout_below="@id/tv_title1"
-        android:layout_marginTop="@dimen/text_15" />
+        android:layout_marginTop="@dimen/text_20" />
 
     <ImageView
         android:id="@+id/iv_image"
         android:visibility="invisible"
-        android:layout_width="@dimen/text_70"
-        android:layout_height="@dimen/text_70"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
         android:layout_alignParentRight="true"
         android:src="@mipmap/ic_launcher_pe"/>
 

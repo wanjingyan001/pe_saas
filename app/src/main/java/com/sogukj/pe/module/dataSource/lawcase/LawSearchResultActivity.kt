@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
-import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
@@ -21,7 +20,7 @@ import kotlinx.android.synthetic.main.law_search_title.*
  * 法律搜索
  */
 class LawSearchResultActivity : ToolbarActivity() {
-    private val titles = arrayOf("党内法规", "部门规章","行政法规", "法律","法规规章","行业规定")
+    private val titles = arrayOf("党内法规", "部门规章","行政法规", "法律","法规规章","行业规定","团体规定","司法解释")
     private var fragments = ArrayList<Fragment>()
     lateinit var mAdapter: PagerAdapter
     private var searchKey : String = ""
@@ -50,12 +49,16 @@ class LawSearchResultActivity : ToolbarActivity() {
             tv = tab.customView?.findViewById(R.id.tv_tab_title)
             line = tab.customView?.findViewById(R.id.view_line)
             tv!!.text = titles[i]
+            if (i == 0){
+                line!!.visibility = View.VISIBLE
+            }else{
+                line!!.visibility = View.INVISIBLE
+            }
         }
         tabs?.getTabAt(0)?.select()
         view_pager?.currentItem = 0
         et_search.setText(searchKey)
         et_search.setSelection(searchKey.length)
-
     }
 
     private fun bindListener() {
@@ -65,14 +68,12 @@ class LawSearchResultActivity : ToolbarActivity() {
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
-                Log.e("TAG","onTabUnselected --" + tab!!.position)
                 var line: FrameLayout ? = null
                 line = tab!!.customView?.findViewById(R.id.view_line)
                 line!!.visibility = View.INVISIBLE
             }
 
             override fun onTabSelected(tab: TabLayout.Tab) {
-                Log.e("TAG","onTabSelected --" + tab.position)
                 view_pager?.currentItem = tab.position
                 var line: FrameLayout ? = null
                 line = tab!!.customView?.findViewById(R.id.view_line)

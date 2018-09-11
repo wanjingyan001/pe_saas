@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="@dimen/text_50"
-              android:gravity="center"
+              android:layout_height="@dimen/text_35"
               android:layout_marginLeft="@dimen/text_10"
-              android:layout_marginRight="@dimen/text_10"
-              android:orientation="vertical">
+              android:layout_marginRight="@dimen/text_10">
 
     <TextView
         android:id="@+id/tv_tab_title"
@@ -13,14 +11,16 @@
         android:layout_height="wrap_content"
         android:maxLines="1"
         android:text="党内法规"
+        android:layout_centerHorizontal="true"
         android:textColor="@color/selector_quo_tab"
         android:textSize="@dimen/text_size_16" />
 
     <FrameLayout
         android:id="@+id/view_line"
-        android:layout_width="25dp"
+        android:layout_width="18dp"
         android:layout_height="2dp"
-        android:layout_marginTop="@dimen/text_10"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
         android:background="@drawable/tab_line"
         android:visibility="invisible" />
-</LinearLayout>
+</RelativeLayout>

@@ -4,7 +4,7 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/gray_f7"
+              android:background="@color/white"
               android:orientation="vertical"
               tools:context="com.sogukj.pe.module.lpassistant.PolicyExpressDetailActivity">
 
@@ -69,6 +69,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_size_20"
                 android:lineSpacingExtra="@dimen/text_3"
+                android:layout_marginTop="@dimen/text_8"
                 tools:text="基金业协会向公安机关移送华泽钴镍及相关人员涉嫌证券犯罪案件"
                 android:textColor="@color/black_28"/>
             <LinearLayout

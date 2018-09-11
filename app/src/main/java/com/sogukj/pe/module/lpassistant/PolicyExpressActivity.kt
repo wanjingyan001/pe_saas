@@ -191,7 +191,7 @@ class PolicyExpressActivity : BaseRefreshActivity(),PolicyExpressCallBack {
                 val infos = plAdapter!!.infos
                 if (null != infos && infos.size > 0){
                     Log.e("TAG","position ==" + position)
-                    PolicyExpressDetailActivity.invoke(this,infos[position].id)
+                    PolicyExpressDetailActivity.invoke(this,infos[position-1].id)
                 }
             }
         }
@@ -218,6 +218,7 @@ class PolicyExpressActivity : BaseRefreshActivity(),PolicyExpressCallBack {
 
     private fun showFillterPup() {
         val contentView = View.inflate(this,R.layout.fillter_pup,null)
+        val tv_all = contentView.findViewById<TextView>(R.id.tv_all)
         val tv1 = contentView.findViewById<TextView>(R.id.tv1)
         val tv2 = contentView.findViewById<TextView>(R.id.tv2)
         val popupWindow = PopupWindow(contentView, Utils.dip2px(this,140f), Utils.dip2px(this,110f), true)
@@ -235,6 +236,15 @@ class PolicyExpressActivity : BaseRefreshActivity(),PolicyExpressCallBack {
 
         popupWindow.showAsDropDown(iv_fillter)
 
+        tv_all.setOnClickListener {
+            type = null
+            if (popupWindow.isShowing){
+                popupWindow.dismiss()
+            }
+            if (null != presenter){
+                presenter!!.doListInfoRequest(true,null,type)
+            }
+        }
         tv1.setOnClickListener {
             //证监会
             type = 1

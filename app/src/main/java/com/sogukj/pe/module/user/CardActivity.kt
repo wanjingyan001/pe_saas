@@ -50,7 +50,6 @@ class CardActivity : Activity(), PlatformActionListener {
         }
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.layout_card_window)

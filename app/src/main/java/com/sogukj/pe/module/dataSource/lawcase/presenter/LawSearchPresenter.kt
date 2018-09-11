@@ -57,6 +57,9 @@ class LawSearchPresenter : BasePresenter {
                             }
 
                         }.otherWise {
+                            if (isRefresh && null != lawSearchCallBack){
+                                lawSearchCallBack!!.loadError()
+                            }
                             ToastUtil.showCustomToast(R.drawable.icon_toast_fail, payload.message, ctx!!)
                         }
                     }
@@ -74,6 +77,9 @@ class LawSearchPresenter : BasePresenter {
                     }
 
                     onError {
+                        if (isRefresh && null != lawSearchCallBack){
+                            lawSearchCallBack!!.loadError()
+                        }
                         ToastUtil.showCustomToast(R.drawable.icon_toast_fail, "获取数据失败", ctx!!)
                     }
                 }

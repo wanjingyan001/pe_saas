@@ -9,9 +9,8 @@
     <include layout="@layout/law_search_title"/>
     <android.support.design.widget.TabLayout
         android:id="@+id/tabs"
-        android:layout_toLeftOf="@id/iv_search"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/text_40"
+        android:layout_height="@dimen/text_35"
         app:tabGravity="fill"
         app:tabIndicatorColor="@null"
         android:background="@color/colorPrimary"

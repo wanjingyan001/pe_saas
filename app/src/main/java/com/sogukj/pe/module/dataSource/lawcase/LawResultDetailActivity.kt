@@ -2,6 +2,7 @@ package com.sogukj.pe.module.dataSource.lawcase
 
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import android.webkit.WebSettings
 import com.sogukj.pe.App
 import com.sogukj.pe.Extras
@@ -13,6 +14,8 @@ import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_law_detail.*
+import kotlinx.android.synthetic.main.white_back_toolbar.*
+
 /**
  * Created by CH-ZH on 2018/9/10.
  */
@@ -48,6 +51,10 @@ class LawResultDetailActivity : ToolbarActivity() {
 
         webSettings.loadsImagesAutomatically = true
         webSettings.layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
+
+        toolbar_back.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     private fun initData() {
@@ -55,6 +62,7 @@ class LawResultDetailActivity : ToolbarActivity() {
     }
 
     private fun getLawDetailData() {
+        fl_loadding.visibility = View.VISIBLE
         SoguApi.getService(App.INSTANCE, OtherService::class.java)
                 .getLawResultDetail(href)
                 .execute {
@@ -63,16 +71,16 @@ class LawResultDetailActivity : ToolbarActivity() {
                             payload.payload?.let {
                                 setLawDetailData(it)
                             }
-
                         }.otherWise {
                             showErrorToast(payload.message)
                         }
                     }
                     onComplete {
-
+                        fl_loadding.visibility = View.INVISIBLE
                     }
 
                     onError {
+                        fl_loadding.visibility = View.INVISIBLE
                         showErrorToast("获取数据失败")
                     }
                 }

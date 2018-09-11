@@ -10,12 +10,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.base.BaseRefreshFragment
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
+import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.LawCaseHisInfo
 import com.sogukj.pe.bean.LawSearchResultInfo
 import com.sogukj.pe.module.dataSource.lawcase.presenter.LawSearchPresenter
@@ -29,7 +31,7 @@ import org.jetbrains.anko.support.v4.startActivity
  * Created by CH-ZH on 2018/9/10.
  */
 class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
-    private var type : Int ? = null
+    private var type : Int  = -1
     private var searchKey : String = ""
     private var presenter:LawSearchPresenter ? = null
     private lateinit var resultAdapter: LawSearchAdapter
@@ -75,7 +77,20 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
 
     private fun getSearchData() {
         if (null != presenter){
+            showLoadding()
             presenter!!.doLawSearchRequest(searchKey,type!!,true)
+        }
+    }
+
+    private fun showLoadding(){
+        if (null != view_recover){
+            view_recover.visibility = View.VISIBLE
+        }
+    }
+
+    private fun goneLoadding(){
+        if (null != view_recover){
+            view_recover.visibility = View.INVISIBLE
         }
     }
 
@@ -86,6 +101,18 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
             setDelectIcon(false)
             activity!!.et_search.setHint(R.string.search_keyword)
             activity!!.et_search.setText("")
+        }
+
+        activity!!.et_search.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                val editable = activity!!.et_search.textStr
+                if (null != presenter){
+                    showLoadding()
+                    presenter!!.doLawSearchRequest(editable,type!!,true)
+                }
+                true
+            }
+            false
         }
     }
 
@@ -144,20 +171,22 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
         searchKey = activity!!.et_search.textStr
         Log.e("TAG","law search requestData -- query ==" + searchKey + "  type ==" + type)
         if (null != presenter){
+            Utils.closeInput(activity!!,activity!!.et_search)
+            showLoadding()
             presenter!!.doLawSearchRequest(searchKey,type!!,true)
         }
     }
-    override fun refreshLawList(it: List<LawSearchResultInfo>) {
-        if (null != it && it.size > 0){
+    override fun refreshLawList(it: List<LawSearchResultInfo>?) {
+        if (null != it && it!!.size > 0){
             if (null != iv_empty){
                 iv_empty.visibility = View.INVISIBLE
             }
             activity!!.ll_total.visibility = View.VISIBLE
             activity!!.view_line.visibility = View.VISIBLE
             searchData.clear()
-            searchData.addAll(it)
+            searchData.addAll(it!!)
             resultAdapter.notifyDataSetChanged()
-            activity!!.tv_total.text = it.size.toString()
+            activity!!.tv_total.text = it!!.size.toString()
         }else{
             if (null != iv_empty){
                 iv_empty.visibility = View.VISIBLE
@@ -167,13 +196,21 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
         }
     }
 
-    override fun loadMoreData(it: List<LawSearchResultInfo>) {
-        searchData.addAll(it)
+    override fun loadMoreData(it: List<LawSearchResultInfo>?) {
+        searchData.addAll(it!!)
         resultAdapter.notifyDataSetChanged()
         activity!!.tv_total.text = searchData.size.toString()
     }
 
+    override fun loadError() {
+        goneLoadding()
+        if (null != iv_empty){
+            iv_empty.visibility = View.VISIBLE
+        }
+    }
+
     override fun dofinishRefresh() {
+        goneLoadding()
         if (null != refresh && refresh.isRefreshing) {
             refresh.finishRefresh()
         }
@@ -224,26 +261,32 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
                 }
                 hisInfo.kind = kind
                 hisInfo.title = resultInfo.title
+                hisInfo.hao = resultInfo.fwzh
+                hisInfo.href = resultInfo.href
                 if (resultInfo.fbrq.contains("发")){
                     val split = resultInfo.fbrq.split("发")
                     if (null != split && split.size > 1){
                         hisInfo.time = split[0]
                     }
                 }
-                hisInfo.hao = resultInfo.fwzh
                 val lawHis = Store.store.getLawHis(activity!!)
-                var realHis = ArrayList<LawCaseHisInfo>()
                 if (null != lawHis && lawHis.size > 0){
+                    var index = 0
                     for (i in lawHis){
-                        if (!i.hao.equals(resultInfo.fwzh)){
-                            realHis.add(i)
+                        if (resultInfo.href.equals(i.href)){
+                            index ++
                         }
                     }
-
+                    if (index == 0){
+                        lawHis.add(hisInfo)
+                        Store.store.saveLawtHis(activity!!,lawHis)
+                    }
                 }else{
+                    val realHis = ArrayList<LawCaseHisInfo>()
                     realHis.add(hisInfo)
+                    Store.store.saveLawtHis(activity!!,realHis)
                 }
-                Store.store.saveLawtHis(activity!!,realHis)
+
 
             }
         }

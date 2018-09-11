@@ -10,4 +10,5 @@ class LawCaseHisInfo : Serializable {
     var kind : String = ""
     var time : String = ""
     var hao : String = ""
+    var href : String = ""
 }
