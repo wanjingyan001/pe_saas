@@ -17,8 +17,7 @@ import com.sogukj.pe.bean.PatentItem
 class PatentAdapter(data: MutableList<PatentItem>) : BaseQuickAdapter<PatentItem, BaseViewHolder>(R.layout.item_patent_list, data) {
     var searchKey: String? = null
     override fun convert(helper: BaseViewHolder, item: PatentItem) {
-
-        helper.getView<TextView>(R.id.patentName).text = replaceText("${item.name}, ${item.number}")
+        helper.getView<TextView>(R.id.patentName).text = replaceText("${item.name}-${item.number}")
         helper.getView<TextView>(R.id.applicantName).text = "申请人：${item.author}"
         helper.getView<TextView>(R.id.timeTv).text = "申请日期：${item.date}"
         helper.getView<TextView>(R.id.summaryTv).text = replaceText("【摘要】：${item.summary}")

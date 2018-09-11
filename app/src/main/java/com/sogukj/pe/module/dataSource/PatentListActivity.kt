@@ -55,8 +55,6 @@ class PatentListActivity : BaseActivity() {
             layoutManager = LinearLayoutManager(ctx)
             adapter = listAdapter
         }
-        searchEdt.setText(search)
-        searchEdt.setSelection(search.length)
         searchEdt.textChangedListener {
             afterTextChanged {
                 searchEdt.postDelayed({
@@ -70,6 +68,8 @@ class PatentListActivity : BaseActivity() {
                 }, 300)
             }
         }
+        searchEdt.setText(search)
+        searchEdt.setSelection(search.length)
         clear.clickWithTrigger {
             searchEdt.setText("")
         }

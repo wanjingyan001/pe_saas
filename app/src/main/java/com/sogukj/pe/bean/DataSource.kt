@@ -7,11 +7,13 @@ import kotlinx.android.parcel.Parcelize
 /**
  * Created by admin on 2018/9/5.
  */
+@SuppressLint("ParcelCreator")
+@Parcelize
 data class PdfBook(val id: Int,
                    val pdf_name: String,
                    val pdf_path: String,
                    val date: String,
-                   val cat: String? = null)
+                   val cat: String? = null) : Parcelable
 
 @SuppressLint("ParcelCreator")
 @Parcelize

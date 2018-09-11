@@ -65,7 +65,7 @@ class PdfSearchActivity : BaseActivity() {
         listAdapter = BookListAdapter(documents, downloaded.toList(), type)
         listAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { adapter, view, position ->
             val book = documents[position]
-            PdfPreviewActivity.start(this, book.pdf_path, book.pdf_name, downloaded.contains(book.pdf_name))
+            PdfPreviewActivity.start(this,book, downloaded.contains(book.pdf_name))
         }
         listAdapter.onItemChildClickListener = BaseQuickAdapter.OnItemChildClickListener { adapter, view, position ->
             val book = documents[position]

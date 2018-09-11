@@ -10,10 +10,12 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.core.content.edit
+import com.amap.api.mapcore.util.it
 import com.google.gson.Gson
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.arrayFromJson
+import com.sogukj.pe.baselibrary.Extended.extraDelegate
 import com.sogukj.pe.baselibrary.Extended.jsonStr
 import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
@@ -21,6 +23,7 @@ import com.sogukj.pe.baselibrary.utils.DownloadUtil
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.CusShareBean
+import com.sogukj.pe.bean.PdfBook
 import com.sogukj.pe.peUtils.BASE64Encoder
 import com.sogukj.pe.peUtils.ShareUtils
 import com.sogukj.pe.service.FundService
@@ -33,10 +36,9 @@ import java.io.UnsupportedEncodingException
 class PdfPreviewActivity : ToolbarActivity() {
 
     companion object {
-        fun start(context: Context, pdfUrl: String, title: String, hasDownloaded: Boolean) {
+        fun start(context: Context, bean: PdfBook, hasDownloaded: Boolean) {
             val intent = Intent(context, PdfPreviewActivity::class.java)
-            intent.putExtra(Extras.URL, pdfUrl)
-            intent.putExtra(Extras.TITLE, title)
+            intent.putExtra(Extras.DATA, bean)
             intent.putExtra(Extras.FLAG, hasDownloaded)
             context.startActivity(intent)
         }
@@ -45,10 +47,11 @@ class PdfPreviewActivity : ToolbarActivity() {
     override val menuId: Int
         get() = R.menu.menu_pdf_preview
 
+    private lateinit var pdfBean: PdfBook
     private var url: String? = null
     private var transUrl: String? = null
     private var flag: Boolean = false
-    private val downloaded= mutableSetOf<String>()
+    private val downloaded = mutableSetOf<String>()
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,8 +59,10 @@ class PdfPreviewActivity : ToolbarActivity() {
         setContentView(R.layout.activity_pdf_preview)
         toolbar?.setBackgroundColor(resources.getColor(R.color.white))
         Utils.setWindowStatusBarColor(this, R.color.white)
-        title = intent.getStringExtra(Extras.TITLE)
-        url = intent.getStringExtra(Extras.URL)
+        setBack(true)
+        pdfBean = intent.getParcelableExtra(Extras.DATA)
+        url = pdfBean.pdf_path
+        title = pdfBean.pdf_name
         flag = intent.getBooleanExtra(Extras.FLAG, false)
         flag.yes {
             supportInvalidateOptionsMenu()
@@ -94,7 +99,7 @@ class PdfPreviewActivity : ToolbarActivity() {
             }
         }
         pdfWeb.loadUrl("file:///android_asset/pdfjs/web/viewer.html?file=" + url)
-        Gson().fromJson<Array<String>>(sp.getString(Extras.DOWNLOADED_PDF, ""),Array<String>::class.java)?.let {
+        Gson().fromJson<Array<String>>(sp.getString(Extras.DOWNLOADED_PDF, ""), Array<String>::class.java)?.let {
             it.isNotEmpty().yes {
                 downloaded.addAll(it)
             }
@@ -132,7 +137,7 @@ class PdfPreviewActivity : ToolbarActivity() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        if(flag){
+        if (flag) {
             menu.findItem(R.id.download).isVisible = false
         }
         return super.onPrepareOptionsMenu(menu)
@@ -141,7 +146,8 @@ class PdfPreviewActivity : ToolbarActivity() {
 
     private fun download() {
         showProgress("正在下载")
-        DownloadUtil.getInstance().download(url, externalCacheDir.toString(), intent.getStringExtra(Extras.TITLE), object : DownloadUtil.OnDownloadListener {
+        val newUrl = pdfBean.pdf_path.substring(0, pdfBean.pdf_path.indexOf("?"))
+        DownloadUtil.getInstance().download(newUrl, externalCacheDir.toString(), pdfBean.pdf_name, object : DownloadUtil.OnDownloadListener {
             override fun onDownloadSuccess(path: String?) {
                 downloaded.add(intent.getStringExtra(Extras.TITLE))
                 hideProgress()
