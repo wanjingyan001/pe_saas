@@ -15,11 +15,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
@@ -48,6 +51,7 @@ import kotlinx.android.synthetic.main.activity_im_search.*
 import kotlinx.android.synthetic.main.search_header.*
 import kotlinx.android.synthetic.main.search_his.*
 import kotlinx.android.synthetic.main.search_result.*
+import org.jetbrains.anko.ctx
 
 /**
  * Created by CH-ZH on 2018/8/20.
@@ -316,6 +320,13 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
             Utils.showSoftInputFromWindow(this,et_search)
         }
         et_search.addTextChangedListener(this)
+        et_search.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH){
+                Utils.closeInput(ctx,et_search)
+                true
+            }
+            false
+        }
         iv_del.setOnClickListener {
             //删除搜索
             setDelectIcon(false)
@@ -514,19 +525,20 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
         val tag1 = convertView.findViewById<TextView>(R.id.tv_tag1)
         val tag2 = convertView.findViewById<TextView>(R.id.tv_tag2)
         val time = convertView.findViewById<TextView>(R.id.tv_time)
+        val tv_time2 = convertView.findViewById<TextView>(R.id.tv_time2)
         val image = convertView.findViewById<ImageView>(R.id.iv_image)
+        val rl_normal = convertView.findViewById<RelativeLayout>(R.id.rl_normal)
+        val rl_image = convertView.findViewById<RelativeLayout>(R.id.rl_image)
         override fun setData(view: View, plListInfos: PlListInfos, position: Int) {
-            if (null != plListInfos.image) {
-                title1.setVisibility(View.INVISIBLE)
-                title2.setVisibility(View.VISIBLE)
-                tag1.setVisibility(View.INVISIBLE)
-                tag2.setVisibility(View.VISIBLE)
-                image.setVisibility(View.VISIBLE)
+            if (null != plListInfos.img && !"".equals(plListInfos.img)) {
+                rl_image.visibility = View.VISIBLE
+                rl_normal.visibility = View.GONE
                 if (null != plListInfos.title) {
                     title2.setText(plListInfos.title)
                 }
-                if (null != plListInfos.image) {
-                    Glide.with(context).load(plListInfos.image).into(image)
+                if (null != plListInfos.img) {
+                    Glide.with(context).load(plListInfos.img).apply(RequestOptions.bitmapTransform(RoundedCorners(10)))
+                            .thumbnail(0.5f).into(image)
                 }
                 if (null != plListInfos.source) {
                     tag2.setText(plListInfos.source)
@@ -534,12 +546,8 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
                     tag2.setVisibility(View.INVISIBLE)
                 }
             } else {
-                title1.setVisibility(View.VISIBLE)
-                title2.setVisibility(View.INVISIBLE)
-                tag1.setVisibility(View.VISIBLE)
-                tag2.setVisibility(View.INVISIBLE)
-                image.setVisibility(View.INVISIBLE)
-
+                rl_image.visibility = View.GONE
+                rl_normal.visibility = View.VISIBLE
                 if (null != plListInfos.title) {
                     title1.setText(plListInfos.title)
                 }
@@ -553,6 +561,7 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
 
             if (null != plListInfos.time) {
                 time.setText(plListInfos.time)
+                tv_time2.setText(plListInfos.time)
             }
         }
 

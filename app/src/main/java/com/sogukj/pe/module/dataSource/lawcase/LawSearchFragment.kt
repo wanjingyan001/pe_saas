@@ -1,20 +1,26 @@
 package com.sogukj.pe.module.dataSource.lawcase
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
+import android.text.SpannableString
+import android.text.Spanned
 import android.text.TextWatcher
+import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import com.scwang.smartrefresh.layout.api.RefreshFooter
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.textStr
+import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.base.BaseRefreshFragment
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -22,7 +28,6 @@ import com.sogukj.pe.bean.LawCaseHisInfo
 import com.sogukj.pe.bean.LawSearchResultInfo
 import com.sogukj.pe.module.dataSource.lawcase.presenter.LawSearchPresenter
 import com.sogukj.pe.peUtils.Store
-import kotlinx.android.synthetic.main.activity_law_search.*
 import kotlinx.android.synthetic.main.fragment_law_search.*
 import kotlinx.android.synthetic.main.law_search_title.*
 import org.jetbrains.anko.support.v4.startActivity
@@ -83,15 +88,18 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
     }
 
     private fun showLoadding(){
-        if (null != view_recover){
-            view_recover.visibility = View.VISIBLE
-        }
+//        if (null != view_recover){
+//            view_recover.visibility = View.VISIBLE
+//        }
+
+        showProgress("正在请求数据")
     }
 
     private fun goneLoadding(){
-        if (null != view_recover){
-            view_recover.visibility = View.INVISIBLE
-        }
+//        if (null != view_recover){
+//            view_recover.visibility = View.INVISIBLE
+//        }
+        hideProgress()
     }
 
     private fun bindListener() {
@@ -104,6 +112,9 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
         }
 
         activity!!.et_search.setOnEditorActionListener { v, actionId, event ->
+            if (!activity!!.et_search.isCursorVisible){
+                activity!!.et_search.isCursorVisible = true
+            }
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 val editable = activity!!.et_search.textStr
                 if (null != presenter){
@@ -127,6 +138,11 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
             presenter!!.doLawSearchRequest(searchKey,type!!,false)
         }
     }
+
+    override fun initRefreshFooter(): RefreshFooter? {
+        return null
+    }
+
     private fun setDelectIcon(enable: Boolean) {
         if (enable){
             activity!!.iv_del.visibility = View.VISIBLE
@@ -146,7 +162,9 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
     }
 
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
+        if (!activity!!.et_search.isCursorVisible){
+            activity!!.et_search.isCursorVisible = true
+        }
     }
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -168,8 +186,10 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
     }
 
     private fun requestData(query: String) {
+        if (activity!!.et_search.isCursorVisible){
+            activity!!.et_search.isCursorVisible = false
+        }
         searchKey = activity!!.et_search.textStr
-        Log.e("TAG","law search requestData -- query ==" + searchKey + "  type ==" + type)
         if (null != presenter){
             Utils.closeInput(activity!!,activity!!.et_search)
             showLoadding()
@@ -182,25 +202,44 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
             if (null != iv_empty){
                 iv_empty.visibility = View.INVISIBLE
             }
-            activity!!.ll_total.visibility = View.VISIBLE
-            activity!!.view_cut.visibility = View.VISIBLE
+            setTotalCountEnable(true)
             searchData.clear()
             searchData.addAll(it!!)
             resultAdapter.notifyDataSetChanged()
-            activity!!.tv_total.text = it!!.size.toString()
+            if (null != tv_total){
+                tv_total.text = it!!.size.toString()
+            }
         }else{
             if (null != iv_empty){
                 iv_empty.visibility = View.VISIBLE
             }
-            activity!!.ll_total.visibility = View.GONE
-            activity!!.view_cut.visibility = View.GONE
+            setTotalCountEnable(false)
         }
     }
 
+    fun setTotalCountEnable(enable:Boolean){
+        if (enable){
+            if (null != ll_total){
+                ll_total.visibility = View.VISIBLE
+            }
+            if (null != view_cut){
+                view_cut.visibility = View.VISIBLE
+            }
+        }else{
+            if (null != ll_total){
+                ll_total.visibility = View.GONE
+            }
+            if (null != view_cut){
+                view_cut.visibility = View.GONE
+            }
+        }
+    }
     override fun loadMoreData(it: List<LawSearchResultInfo>?) {
         searchData.addAll(it!!)
         resultAdapter.notifyDataSetChanged()
-        activity!!.tv_total.text = searchData.size.toString()
+        if (null != tv_total){
+            tv_total.text = searchData.size.toString()
+        }
     }
 
     override fun loadError() {
@@ -208,6 +247,7 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
         if (null != iv_empty){
             iv_empty.visibility = View.VISIBLE
         }
+        setTotalCountEnable(false)
     }
 
     override fun dofinishRefresh() {
@@ -232,8 +272,8 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
         override fun onBindViewHolder(holder: LawHolder, position: Int) {
             val resultInfo = datas[position]
             if (null == resultInfo) return
-            holder.tv_title.text = resultInfo.title
-            holder.tv_content.text = resultInfo.fwzh + "/" + resultInfo.sxx+ "/" +resultInfo.fbrq+ "/" +resultInfo.ssrq
+            holder.tv_title.text = replaceText("${resultInfo.title}")
+            holder.tv_content.text = "${resultInfo.fwzh}/${resultInfo.sxx}/${resultInfo.fbrq}/${resultInfo.ssrq}"
 
             holder.itemView.setOnClickListener {
                 startActivity<LawResultDetailActivity>(Extras.DATA to resultInfo.href)
@@ -304,6 +344,19 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
             }
         }
     }
+
+    private fun replaceText(str: String): SpannableString {
+        val spannable = SpannableString(str)
+        searchKey?.let {
+            str.contains(it).yes {
+                spannable.setSpan(ForegroundColorSpan(Color.parseColor("#1787FB"))
+                        , str.indexOf(it), str.indexOf(it) + it.length,
+                        Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+            }
+        }
+        return spannable
+    }
+
     companion object {
         fun newInstance(type : Int,search_key:String) : LawSearchFragment {
             val fragment = LawSearchFragment()

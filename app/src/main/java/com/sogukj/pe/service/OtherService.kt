@@ -117,7 +117,11 @@ interface OtherService {
     @POST("/api/Datasource/invest_category")
     fun getInvestCategory():Observable<Payload<List<InvestCategory>>>
 
-
+    /**
+     * 政策速递新闻banner
+     */
+    @POST("api/Datasource/policyNewsBanner")
+    fun getPolicyExpressBanner(): Observable<Payload<List<PolicyBannerInfo.BannerInfo>>>
     /**
      * 政策速递新闻列表
      */
@@ -149,5 +153,5 @@ interface OtherService {
      */
     @FormUrlEncoded
     @POST("api/Datasource/getbdxwContent")
-    fun getLawResultDetail(@Field("href") href:String): Observable<Payload<String>>
+    fun getLawResultDetail(@Field("href") href:String): Observable<Payload<LawNewsDetailBean>>
 }

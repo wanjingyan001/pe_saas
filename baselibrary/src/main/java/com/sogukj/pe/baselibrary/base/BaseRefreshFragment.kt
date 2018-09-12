@@ -4,22 +4,15 @@ package com.sogukj.pe.baselibrary.base
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.api.RefreshFooter
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener
-
 import com.sogukj.pe.baselibrary.R
 import com.sogukj.pe.baselibrary.interf.SGRefreshListener
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
-import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.find
 
@@ -63,7 +56,7 @@ abstract class BaseRefreshFragment : BaseFragment(), SGRefreshListener {
 
             val footer = initRefreshFooter()
             if (footer == null) {
-                it.setRefreshFooter(ClassicsFooter(ctx), 0, 0)
+//                it.setRefreshFooter(ClassicsFooter(ctx), 0, 0)
             } else {
                 it.setRefreshFooter(footer)
             }

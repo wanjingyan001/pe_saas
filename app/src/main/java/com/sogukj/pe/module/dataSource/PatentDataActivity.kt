@@ -7,10 +7,11 @@ import android.provider.Settings
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.FrameLayout
-import com.chad.library.adapter.base.BaseQuickAdapter
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.*
+import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
+import com.sogukj.pe.baselibrary.Extended.textStr
+import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Rom
 import com.sogukj.pe.baselibrary.utils.StatusBarUtil
@@ -21,7 +22,6 @@ import com.sogukj.pe.bean.PatentItem
 import kotlinx.android.synthetic.main.activity_patent_data.*
 import kotlinx.android.synthetic.main.item_patent_history.view.*
 import org.jetbrains.anko.ctx
-import org.jetbrains.anko.info
 import org.jetbrains.anko.sdk25.coroutines.textChangedListener
 import org.jetbrains.anko.startActivity
 
@@ -75,7 +75,6 @@ class PatentDataActivity : ToolbarActivity() {
         return Settings.Global.getInt(contentResolver, NAVIGATION_GESTURE, 0) != 0
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patent_data)
@@ -110,6 +109,10 @@ class PatentDataActivity : ToolbarActivity() {
             model.clearHistory()
             listAdapter.dataList.clear()
             listAdapter.notifyDataSetChanged()
+        }
+
+        back.clickWithTrigger {
+            onBackPressed()
         }
     }
 

@@ -11,5 +11,5 @@ class PlListInfos :Serializable{
     var title : String = ""
     var time : String = ""
     var source : String = ""
-    var image : String ? = null
+    var img : String ? = null
 }

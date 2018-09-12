@@ -26,7 +26,7 @@ public class AutoScrollAdapter extends PagerAdapter {
     private ClickItemListener mClickItemListener;
     private int mImageWidth;
     private int mImageHeight;
-    private double mAspectRatio = 2.08d;
+    private double mAspectRatio = 2.01d;
 
     public interface ClickItemListener {
         void onPagerItemClick(PolicyBannerInfo.BannerInfo item, int position);
@@ -86,7 +86,7 @@ public class AutoScrollAdapter extends PagerAdapter {
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(mImageWidth, mImageHeight);
             ivImage.setLayoutParams(params);
             container.setLayoutParams(params);
-            Glide.with(mContext).load(currentItem.getImage()).into(ivImage);
+            Glide.with(mContext).load(currentItem.getImg()).into(ivImage);
             tv_title.setText(currentItem.getTitle());
             ivImage.setOnClickListener(new View.OnClickListener() {
                 @Override

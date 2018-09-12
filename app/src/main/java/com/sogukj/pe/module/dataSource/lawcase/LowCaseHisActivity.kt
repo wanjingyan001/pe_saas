@@ -12,6 +12,7 @@ import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
+import com.sogukj.pe.baselibrary.utils.StatusBarUtil
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.LawCaseHisInfo
@@ -32,6 +33,7 @@ class LowCaseHisActivity : ToolbarActivity(), TextWatcher {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_low_case)
+        StatusBarUtil.setTransparent(this)
         initView()
         initData()
         bindListener()

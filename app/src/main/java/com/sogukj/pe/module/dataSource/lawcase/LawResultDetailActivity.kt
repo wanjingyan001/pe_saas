@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.webkit.WebSettings
+import android.widget.TextView
 import com.sogukj.pe.App
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
@@ -11,6 +12,7 @@ import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.otherWise
 import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
+import com.sogukj.pe.bean.LawNewsDetailBean
 import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_law_detail.*
@@ -62,7 +64,7 @@ class LawResultDetailActivity : ToolbarActivity() {
     }
 
     private fun getLawDetailData() {
-        fl_loadding.visibility = View.VISIBLE
+        showLoadding()
         SoguApi.getService(App.INSTANCE, OtherService::class.java)
                 .getLawResultDetail(href)
                 .execute {
@@ -76,24 +78,48 @@ class LawResultDetailActivity : ToolbarActivity() {
                         }
                     }
                     onComplete {
-                        fl_loadding.visibility = View.INVISIBLE
+                        goneLoadding()
                     }
 
                     onError {
-                        fl_loadding.visibility = View.INVISIBLE
+                        goneLoadding()
                         showErrorToast("获取数据失败")
                     }
                 }
     }
 
-    private fun setLawDetailData(content: String) {
+    private fun showLoadding(){
+        showProgress("正在请求数据")
+    }
+
+    private fun goneLoadding(){
+        hideProgress()
+    }
+
+    private fun setLawDetailData(content: LawNewsDetailBean) {
+        if (null == content) return
+        tv_title.text = content.center
+        if (null != content.type && content.type!!.size > 0){
+            ll_content.visibility = View.VISIBLE
+            fitContentData(content.type!!)
+        }else{
+            ll_content.visibility = View.GONE
+        }
         val head = "<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\"> " +
                 "<style>img{max-width: 100%; height:auto;} .reduce-font p{font-size:" + fontSize + "px!important;}</style>" +
                 "</head>"
         val html = "<html>${head}<body style='margin:0px;'>" +
-                "<span style='color:#333;font-size:20px;line-height:30px;'>${content}</span>" +
+                "<span style='color:#808080;font-size:22px;line-height:30px;'>${content.content}</span>" +
                 "</body></html>"
         webview.loadDataWithBaseURL("about:blank", html, "text/html", "utf-8", null)
+    }
+
+    private fun fitContentData(tags: List<String>) {
+        for (title in tags){
+            val tag = View.inflate(this, R.layout.law_tag_item, null) as TextView
+            tag.text = title
+            ll_content.addView(tag)
+        }
     }
 
 }

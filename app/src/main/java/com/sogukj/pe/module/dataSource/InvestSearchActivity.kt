@@ -6,7 +6,6 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.core.content.edit
-import com.amap.api.mapcore.util.it
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.sogukj.pe.Extras
@@ -19,11 +18,9 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.baselibrary.widgets.SpaceItemDecoration
 import com.sogukj.pe.bean.InvestmentEvent
 import com.sogukj.pe.service.DataSourceService
-import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
-import io.reactivex.internal.util.HalfSerializer.onNext
 import kotlinx.android.synthetic.main.activity_invest_search.*
 import kotlinx.android.synthetic.main.item_investment_event_list.view.*
 import kotlinx.android.synthetic.main.search_header.*
@@ -96,6 +93,11 @@ class InvestSearchActivity : BaseActivity() {
         }
         iv_del.clickWithTrigger {
             et_search.setText("")
+            if (null != historyAdapter){
+                historyAdapter = HistoryAdapter(historyList.toMutableList())
+                tfl.adapter = historyAdapter
+                historyAdapter.notifyDataChanged()
+            }
         }
         tv_his.clickWithTrigger {
             sp.edit { putString(Extras.INVEST_SEARCH_HISTORY, "") }
@@ -124,6 +126,7 @@ class InvestSearchActivity : BaseActivity() {
         et_search.textChangedListener {
             onTextChanged { charSequence, start, before, count ->
                 et_search.textStr.isNotEmpty().yes {
+                    Utils.toggleSoftInput(this@InvestSearchActivity,et_search)
                     getInvestList(et_search.textStr)
                 }
             }
