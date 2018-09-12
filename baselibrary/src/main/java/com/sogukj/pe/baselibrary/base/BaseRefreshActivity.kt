@@ -1,5 +1,7 @@
 package com.sogukj.pe.baselibrary.base
 
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -7,6 +9,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.api.RefreshFooter
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
@@ -24,7 +27,7 @@ abstract class BaseRefreshActivity : ToolbarActivity(), SGRefreshListener {
         private set
     lateinit var config: RefreshConfig
     protected val defaultHeader by lazy { ClassicsHeader(this) }
-    protected val defaultFooter by lazy { ClassicsFooter(this) }
+    protected val defaultFooter by lazy { BallPulseFooter(this) }
 
     override fun setContentView(layoutResID: Int) {
         super.setContentView(layoutResID)
@@ -36,6 +39,7 @@ abstract class BaseRefreshActivity : ToolbarActivity(), SGRefreshListener {
         initRefresh()
     }
 
+    @SuppressLint("RestrictedApi")
     private fun initRefresh() {
         refresh = find(R.id.refresh)
         if (this::refresh.isLateinit) {
@@ -81,7 +85,11 @@ abstract class BaseRefreshActivity : ToolbarActivity(), SGRefreshListener {
 
     open fun initRefreshHeader(): RefreshHeader? = defaultHeader
 
-    open fun initRefreshFooter(): RefreshFooter? = defaultFooter
+    open fun initRefreshFooter(): RefreshFooter? {
+        defaultFooter.setIndicatorColor(Color.parseColor("#7BB4FC"))
+        defaultFooter.setAnimatingColor(Color.parseColor("#7BB4FC"))
+        return defaultFooter
+    }
 
     fun finishRefresh() {
         if (this::refresh.isLateinit && refresh.isRefreshing) {

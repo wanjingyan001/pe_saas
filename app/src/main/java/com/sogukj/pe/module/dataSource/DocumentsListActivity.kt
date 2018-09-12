@@ -174,8 +174,6 @@ class DocumentsListActivity : BaseRefreshActivity() {
         return config
     }
 
-    override fun initRefreshFooter(): RefreshFooter? = null
-
     override fun onPause() {
         super.onPause()
         downloaded.isNotEmpty().yes {

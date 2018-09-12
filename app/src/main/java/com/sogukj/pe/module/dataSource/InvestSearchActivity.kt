@@ -1,5 +1,6 @@
 package com.sogukj.pe.module.dataSource
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.core.content.edit
 import com.amap.api.mapcore.util.it
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.sogukj.pe.Extras
@@ -71,7 +73,10 @@ class InvestSearchActivity : BaseActivity() {
         refresh.isEnableLoadMore = true
         refresh.isEnableAutoLoadMore = true
         refresh.setRefreshHeader(ClassicsHeader(this))
-        refresh.setRefreshFooter(ClassicsFooter(this), 0, 0)
+        val footer = BallPulseFooter(ctx)
+        footer.setIndicatorColor(Color.parseColor("#7BB4FC"))
+        footer.setAnimatingColor(Color.parseColor("#7BB4FC"))
+        refresh.setRefreshFooter(footer)
         refresh.setOnRefreshListener {
             page = 1
             et_search.textStr.isNotEmpty().yes {

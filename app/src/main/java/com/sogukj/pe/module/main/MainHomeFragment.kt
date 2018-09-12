@@ -174,49 +174,14 @@ class MainHomeFragment : BaseFragment() {
         }
         moduleAdapter.onItemClick = { v, p ->
             val mainFunIcon = moduleAdapter.dataList[p]
-            if (mainFunIcon.name == "征信") {
-                XmlDb.open(ctx).set("INNER", "FALSE")
-                var first = XmlDb.open(ctx).get("FIRST", "TRUE")
-                if (first == "FALSE") {
-                    SoguApi.getService(baseActivity!!.application, CreditService::class.java)
-                            .showCreditList()
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribeOn(Schedulers.io())
-                            .subscribe({ payload ->
-                                if (payload.isOk) {
-                                    if (payload.payload == null) {
-                                        ShareHolderStepActivity.start(context, 1, 0, "")
-                                    } else {
-                                        if (payload.payload!!.size == 0) {
-                                            ShareHolderStepActivity.start(context, 1, 0, "")
-                                        } else {
-                                            var project = ProjectBean()
-                                            project.name = ""
-                                            project.company_id = 0
-                                            ShareholderCreditActivity.start(context, project)
-                                        }
-                                    }
-                                } else {
-                                    ShareHolderStepActivity.start(context, 1, 0, "")
-                                }
-                            }, { e ->
-                                Trace.e(e)
-                                ShareHolderStepActivity.start(context, 1, 0, "")
-                            })
-                } else if (first == "TRUE") {
-                    ShareHolderDescActivity.start(context, ProjectBean(), "OUTER")
-                    XmlDb.open(ctx).set("FIRST", "FALSE")
-                }
-            } else {
-                val path = mainFunIcon.address + mainFunIcon.port
-                //fragment中使用路由调用startActivityForResult回调将在Activity中
-                val bundle = Bundle()
-                bundle.putInt(Extras.DATA, local_sp!!)
-                bundle.putInt(Extras.FLAG, Extras.ROUTH_FLAG)
-                ARouter.getInstance().build(path)
-                        .with(bundle)
-                        .navigation(activity!!, Extras.REQUESTCODE)
-            }
+            val path = mainFunIcon.address + mainFunIcon.port
+            //fragment中使用路由调用startActivityForResult回调将在Activity中
+            val bundle = Bundle()
+            bundle.putInt(Extras.DATA, local_sp!!)
+            bundle.putInt(Extras.FLAG, Extras.ROUTH_FLAG)
+            ARouter.getInstance().build(path)
+                    .with(bundle)
+                    .navigation(activity!!, Extras.REQUESTCODE)
         }
 
         loadHead()

@@ -48,4 +48,6 @@ object ARouterPath {
     const val LpAssistantActivity:String = "/lp/assistant"
     //智能文书
     const val DocumentsListActivity:String = "/source/intelligent"
+    //征信
+    const val CreditSelectActivity:String = "/credit/main"
 }

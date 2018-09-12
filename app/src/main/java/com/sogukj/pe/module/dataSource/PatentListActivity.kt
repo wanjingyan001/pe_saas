@@ -1,10 +1,13 @@
 package com.sogukj.pe.module.dataSource
 
 import android.databinding.DataBindingUtil.setContentView
+import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
@@ -38,6 +41,10 @@ class PatentListActivity : BaseActivity() {
             isEnableLoadMore = true
             isEnableAutoLoadMore = true
             setRefreshHeader(ClassicsHeader(ctx))
+            val footer = BallPulseFooter(ctx)
+            footer.setIndicatorColor(Color.parseColor("#7BB4FC"))
+            footer.setAnimatingColor(Color.parseColor("#7BB4FC"))
+            setRefreshFooter(footer)
             setOnRefreshListener {
                 page = 1
                 getPatentList(searchEdt.textStr)

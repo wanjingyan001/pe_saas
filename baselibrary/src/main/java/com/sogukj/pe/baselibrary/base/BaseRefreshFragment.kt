@@ -2,6 +2,7 @@ package com.sogukj.pe.baselibrary.base
 
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import android.widget.TextView
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.api.RefreshFooter
 import com.scwang.smartrefresh.layout.api.RefreshHeader
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
@@ -31,7 +33,7 @@ abstract class BaseRefreshFragment : BaseFragment(), SGRefreshListener {
     private var refresh: SmartRefreshLayout? = null
     lateinit var config: RefreshConfig
     private val defaultHeader by lazy { ClassicsHeader(ctx) }
-    private val defaultFooter by lazy { ClassicsFooter(ctx) }
+    private val defaultFooter by lazy { BallPulseFooter(ctx) }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRefresh()
@@ -94,8 +96,11 @@ abstract class BaseRefreshFragment : BaseFragment(), SGRefreshListener {
 
     open fun initRefreshHeader(): RefreshHeader? = defaultHeader
 
-    open fun initRefreshFooter(): RefreshFooter? = defaultFooter
-
+    open fun initRefreshFooter(): RefreshFooter? {
+        defaultFooter.setIndicatorColor(Color.parseColor("#7BB4FC"))
+        defaultFooter.setAnimatingColor(Color.parseColor("#7BB4FC"))
+        return defaultFooter
+    }
     fun finishRefresh() {
         if (refresh != null) {
             refresh?.finishRefresh()
