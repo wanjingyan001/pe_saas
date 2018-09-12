@@ -20,7 +20,6 @@ import com.sogukj.service.SoguApi
 class PolocyExpressPresenter : BasePresenter {
     private var ctx : Context? =null
     private var callBack: PolicyExpressCallBack? = null
-    private var bannerInfos  = ArrayList<PolicyBannerInfo.BannerInfo>()
     private var page = 1
     private var pageSize = 20
     constructor(context: Context) : super(context){
@@ -42,26 +41,36 @@ class PolocyExpressPresenter : BasePresenter {
     }
 
     open fun doBannerRequest(){
-        val bannerInfo1 = PolicyBannerInfo.BannerInfo()
         val bannerInfo = PolicyBannerInfo()
-        bannerInfo1.image = "http://guwan-sg.oss-cn-hangzhou.aliyuncs.com/homePageIcon/BannerImage/kuaizhangxingqiu.png"
-        bannerInfo1.title = "快涨星球介绍"
-        val bannerInfo2 = PolicyBannerInfo.BannerInfo()
-        bannerInfo2.image = "http://guwan-sg.oss-cn-hangzhou.aliyuncs.com/homePageIcon/BannerImage/HD8888Banner.png"
-        bannerInfo2.title = "中国证券监督管理委员会行政许可实施程序规实施程序规实施程序规"
-        val bannerInfo3 = PolicyBannerInfo.BannerInfo()
-        bannerInfo3.image = "http://guwan-sg.oss-cn-hangzhou.aliyuncs.com/homePageIcon/BannerImage/SortAxg.png"
-        bannerInfo3.title = "关于修改<中国证券监督管理委员会上市公司并购重组审核委员会工作规程>的决定》"
-        bannerInfos.clear()
-        bannerInfos.add(bannerInfo1)
-        bannerInfos.add(bannerInfo2)
-        bannerInfos.add(bannerInfo3)
+        SoguApi.getService(App.INSTANCE,OtherService::class.java)
+                .getPolicyExpressBanner()
+                .execute {
+                    onNext { payload ->
+                        payload.isOk.yes {
+                            payload.payload?.let {
+                                bannerInfo.data = it
+                                if (null != callBack){
+                                    callBack!!.setBannerInfo(bannerInfo)
+                                }
+                            }
+                        }.otherWise {
+                            ToastUtil.showCustomToast(R.drawable.icon_toast_fail, payload.message, ctx!!)
+                            if (null != callBack){
+                                callBack!!.setBannerError()
+                            }
+                        }
+                    }
+                    onComplete {
 
-        bannerInfo.data = bannerInfos
+                    }
 
-        if (null != callBack){
-            callBack!!.setBannerInfo(bannerInfo)
-        }
+                    onError {
+                        it.printStackTrace()
+                        if (null != callBack){
+                            callBack!!.setBannerError()
+                        }
+                    }
+                }
     }
 
     open fun doListInfoRequest(isRefresh: Boolean, keywords: String?, type: Int?){

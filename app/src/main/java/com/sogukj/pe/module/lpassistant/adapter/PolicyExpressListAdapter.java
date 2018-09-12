@@ -5,9 +5,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.sogukj.pe.R;
 import com.sogukj.pe.bean.PlListInfos;
 
@@ -64,6 +67,9 @@ public class PolicyExpressListAdapter extends BaseAdapter {
             holder.iv_image = convertView.findViewById(R.id.iv_image);
             holder.tv_title2 = convertView.findViewById(R.id.tv_title2);
             holder.tv_tag2 = convertView.findViewById(R.id.tv_tag2);
+            holder.tv_time2 = convertView.findViewById(R.id.tv_time2);
+            holder.rl_normal = convertView.findViewById(R.id.rl_normal);
+            holder.rl_image = convertView.findViewById(R.id.rl_image);
             convertView.setTag(holder);
         }else{
             holder = (ViewHolder) convertView.getTag();
@@ -75,43 +81,32 @@ public class PolicyExpressListAdapter extends BaseAdapter {
     }
 
     private void fitData(ViewHolder holder, PlListInfos plListInfos) {
-        if(null != plListInfos.getImage()) {
-            holder.tv_title1.setVisibility(View.INVISIBLE);
-            holder.tv_title2.setVisibility(View.VISIBLE);
-            holder.tv_tag1.setVisibility(View.INVISIBLE);
-            holder.tv_tag2.setVisibility(View.VISIBLE);
-            holder.iv_image.setVisibility(View.VISIBLE);
-            if(null != plListInfos.getTitle()) {
-                holder.tv_title2.setText(plListInfos.getTitle());
-            }
-            if(null != plListInfos.getImage()) {
-                Glide.with(context).load(plListInfos.getImage()).into(holder.iv_image);
-            }
-            if(null != plListInfos.getSource()) {
-                holder.tv_tag2.setText(plListInfos.getSource());
-            }else{
-                holder.tv_tag2.setVisibility(View.INVISIBLE);
-            }
+        if(null != plListInfos.getImg() && !"".equals(plListInfos.getImg())) {
+            holder.rl_normal.setVisibility(View.GONE);
+            holder.rl_image.setVisibility(View.VISIBLE);
         }else{
-            holder.tv_title1.setVisibility(View.VISIBLE);
-            holder.tv_title2.setVisibility(View.INVISIBLE);
-            holder.tv_tag1.setVisibility(View.VISIBLE);
-            holder.tv_tag2.setVisibility(View.INVISIBLE);
-            holder.iv_image.setVisibility(View.INVISIBLE);
+            holder.rl_normal.setVisibility(View.VISIBLE);
+            holder.rl_image.setVisibility(View.GONE);
+        }
 
-            if(null != plListInfos.getTitle()) {
-                holder.tv_title1.setText(plListInfos.getTitle());
-            }
+        if(null != plListInfos.getTitle()) {
+            holder.tv_title1.setText(plListInfos.getTitle());
+            holder.tv_title2.setText(plListInfos.getTitle());
+        }
 
-            if(null != plListInfos.getSource()) {
-                holder.tv_tag1.setText(plListInfos.getSource());
-            }else{
-                holder.tv_tag1.setVisibility(View.INVISIBLE);
-            }
+        if(null != plListInfos.getImg()) {
+            Glide.with(context).load(plListInfos.getImg()).apply(RequestOptions.bitmapTransform(new RoundedCorners(10)))
+                    .thumbnail(0.5f).into(holder.iv_image);
         }
 
         if(null != plListInfos.getTime()) {
             holder.tv_time.setText(plListInfos.getTime());
+            holder.tv_time2.setText(plListInfos.getTime());
+        }
+
+        if(null != plListInfos.getSource()) {
+            holder.tv_tag1.setText(plListInfos.getSource());
+            holder.tv_tag2.setText(plListInfos.getSource());
         }
     }
     
@@ -122,6 +117,9 @@ public class PolicyExpressListAdapter extends BaseAdapter {
         ImageView iv_image;
         TextView tv_title2;
         TextView tv_tag2;
+        TextView tv_time2;
+        RelativeLayout rl_normal;
+        RelativeLayout rl_image;
     }
 
 }

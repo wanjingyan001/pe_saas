@@ -8,6 +8,7 @@ import com.sogukj.pe.bean.PolicyBannerInfo
  */
 interface PolicyExpressCallBack {
     fun setBannerInfo(bannerInfo: PolicyBannerInfo)
+    fun setBannerError()
     fun refreshPlList(infos : List<PlListInfos>)
     fun loadMoreData(infos : List<PlListInfos>)
     fun dofinishRefresh()

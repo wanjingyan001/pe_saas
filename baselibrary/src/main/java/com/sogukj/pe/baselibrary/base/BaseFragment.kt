@@ -1,5 +1,6 @@
 package com.sogukj.pe.baselibrary.base
 
+import android.app.ProgressDialog
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
@@ -122,6 +123,30 @@ abstract class BaseFragment : Fragment(),AnkoLogger {
                     .setMessageTextSize(16)
                     .setPromptThemBackground(Prompt.WARNING)
                     .show()
+        }
+    }
+
+    var progressDialog: ProgressDialog? = null
+    fun showProgress(msg: String) {
+        if (progressDialog == null) {
+            progressDialog = ProgressDialog(activity)
+        }
+        progressDialog?.setMessage(msg)
+        progressDialog?.show()
+    }
+
+    fun showProgress(msg: String, theme: Int) {
+        if (progressDialog == null) {
+            progressDialog = ProgressDialog(activity)
+        }
+        progressDialog?.setMessage(msg)
+        progressDialog?.setProgressStyle(theme)
+        progressDialog?.show()
+    }
+
+    fun hideProgress() {
+        if (progressDialog != null) {
+            progressDialog?.dismiss()
         }
     }
 }

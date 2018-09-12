@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:textColor="@color/gray_a0"
+    android:textSize="@dimen/text_size_14"
+    tools:text="发布部门：全国人大常委会">
+</TextView>

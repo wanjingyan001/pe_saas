@@ -90,14 +90,15 @@ class ImSearchPresenter : BasePresenter {
                                 imSearchCallBack!!.setEmpty(true)
                             }
                         }
-                    } else
+                    } else{
                         if (null != imSearchCallBack){
                             imSearchCallBack!!.setEmpty(true)
                         }
                         showCustomToast(R.drawable.icon_toast_fail, payload.message,ctx!!)
+                    }
                 }, { e ->
                     Trace.e(e)
-                    showCustomToast(R.drawable.icon_toast_fail, "公司组织架构人员获取失败",ctx!!)
+                    showCustomToast(R.drawable.icon_toast_fail, "数据获取失败",ctx!!)
                     if (null != imSearchCallBack){
                         imSearchCallBack!!.setEmpty(true)
                     }

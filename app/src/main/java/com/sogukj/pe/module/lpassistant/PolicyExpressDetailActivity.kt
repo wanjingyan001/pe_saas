@@ -142,6 +142,7 @@ class PolicyExpressDetailActivity : BaseActivity() {
     }
 
     private fun getPlNewsDetailData() {
+        fl_loadding.visibility = View.VISIBLE
         SoguApi.getService(App.INSTANCE, OtherService::class.java)
                 .getPolicyExpressDetail(news_id!!)
                 .execute {
@@ -151,6 +152,7 @@ class PolicyExpressDetailActivity : BaseActivity() {
                                 if (null != it){
                                     news = it
                                     setDetailData(it)
+                                    fl_loadding.visibility = View.INVISIBLE
                                 }
                             }
 
@@ -159,11 +161,12 @@ class PolicyExpressDetailActivity : BaseActivity() {
                         }
                     }
                     onComplete {
-
+                        fl_loadding.visibility = View.INVISIBLE
                     }
 
                     onError {
                         showErrorToast("获取数据失败")
+                        fl_loadding.visibility = View.INVISIBLE
                     }
                 }
     }

@@ -6,7 +6,6 @@ import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.view.ViewPager
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
@@ -28,22 +27,21 @@ import kotlinx.android.synthetic.main.activity_policy_express.*
 import kotlinx.android.synthetic.main.pex_toolbar.*
 
 
-
 /**
  * Created by CH-ZH on 2018/9/5.
  * 政策速递
  */
-class PolicyExpressActivity : BaseRefreshActivity(),PolicyExpressCallBack {
-    private var headView : View? = null
-    private var scroll_viewpager : AutoScrollViewPager ? = null
-    private var tv_title : TextView? = null
-    private var banner_ll_indicator : LinearLayout ? = null
-    private var presenter : PolocyExpressPresenter ? = null
-    private var plAdapter : PolicyExpressListAdapter ? = null
+class PolicyExpressActivity : BaseRefreshActivity(), PolicyExpressCallBack {
+    private var headView: View? = null
+    private var scroll_viewpager: AutoScrollViewPager? = null
+    private var tv_title: TextView? = null
+    private var banner_ll_indicator: LinearLayout? = null
+    private var presenter: PolocyExpressPresenter? = null
+    private var plAdapter: PolicyExpressListAdapter? = null
     private var bannerInfos = ArrayList<PolicyBannerInfo.BannerInfo>()
     private var indicators = arrayOfNulls<ImageView>(1)     //轮播图指示器
-    private var mScrollAdapter : AutoScrollAdapter ? = null
-    private var type : Int ? = null
+    private var mScrollAdapter: AutoScrollAdapter? = null
+    private var type: Int? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_policy_express)
@@ -57,16 +55,16 @@ class PolicyExpressActivity : BaseRefreshActivity(),PolicyExpressCallBack {
     }
 
     private fun initView() {
-        headView = View.inflate(this,R.layout.header_policy_express,null)
+        headView = View.inflate(this, R.layout.header_policy_express, null)
         scroll_viewpager = headView!!.findViewById(R.id.scroll_viewpager)
         banner_ll_indicator = headView!!.findViewById(R.id.banner_ll_indicator)
         tv_title = headView!!.findViewById(R.id.tv_title)
-        presenter = PolocyExpressPresenter(this,this)
+        presenter = PolocyExpressPresenter(this, this)
         headView!!.visibility = View.GONE
         lv_express.addHeaderView(headView)
 
         plAdapter = PolicyExpressListAdapter(this)
-        mScrollAdapter = AutoScrollAdapter(this,null)
+        mScrollAdapter = AutoScrollAdapter(this, null)
         lv_express.adapter = plAdapter
 
         initTopBanner()
@@ -80,14 +78,14 @@ class PolicyExpressActivity : BaseRefreshActivity(),PolicyExpressCallBack {
 
     override fun onStart() {
         super.onStart()
-        if (null != scroll_viewpager){
+        if (null != scroll_viewpager) {
             scroll_viewpager!!.startAutoScroll()
         }
     }
 
     override fun onPause() {
         super.onPause()
-        if (null != scroll_viewpager){
+        if (null != scroll_viewpager) {
             scroll_viewpager!!.stopAutoScroll()
         }
     }
@@ -98,31 +96,41 @@ class PolicyExpressActivity : BaseRefreshActivity(),PolicyExpressCallBack {
     }
 
     private fun getListInfoData() {
-        if (null != presenter){
-            presenter!!.doListInfoRequest(true,null,null)
+        if (null != presenter) {
+            presenter!!.doListInfoRequest(true, null, null)
         }
     }
 
     private fun getBannerData() {
-        if (null != presenter){
+        if (null != presenter) {
             presenter!!.doBannerRequest()
         }
     }
 
     override fun setBannerInfo(bannerInfo: PolicyBannerInfo) {
-        if (null != bannerInfo && null != bannerInfo.data && bannerInfo.data!!.size > 0){
+        if (null != bannerInfo && null != bannerInfo.data && bannerInfo.data!!.size > 0) {
             headView!!.visibility = View.VISIBLE
-            this.bannerInfos = bannerInfo.data!!
+            bannerInfos.clear()
+            bannerInfos.addAll(bannerInfo.data!!)
             initBannerFooter()
             setBannerAdapter()
-//            if (lv_express.headerViewsCount > 0){
-//                lv_express.removeHeaderView(headView)
-//            }
-        }else{
+            if (lv_express.headerViewsCount <= 0) {
+                lv_express.addHeaderView(headView)
+            }
+        } else {
             headView!!.visibility = View.GONE
+            if (lv_express.headerViewsCount > 0) {
+                lv_express.removeHeaderView(headView)
+            }
         }
 
         plAdapter!!.notifyDataSetChanged()
+    }
+
+    override fun setBannerError() {
+        if (lv_express.headerViewsCount > 0) {
+            lv_express.removeHeaderView(headView)
+        }
     }
 
     private fun setBannerAdapter() {
@@ -130,6 +138,9 @@ class PolicyExpressActivity : BaseRefreshActivity(),PolicyExpressCallBack {
         scroll_viewpager!!.adapter = mScrollAdapter
         mScrollAdapter!!.setClickItemListener { item, position ->
             //banner 跳转
+            if (null != item ){
+                PolicyExpressDetailActivity.invoke(this, item.id)
+            }
         }
     }
 
@@ -176,27 +187,32 @@ class PolicyExpressActivity : BaseRefreshActivity(),PolicyExpressCallBack {
 
     private fun bindListener() {
         iv_search.setOnClickListener {
-                //搜索
-            ImSearchResultActivity.invoke(this,2)
+            //搜索
+            ImSearchResultActivity.invoke(this, 2)
         }
 
         iv_fillter.setOnClickListener {
-                //过滤
+            //过滤
             showFillterPup()
         }
 
         lv_express.setOnItemClickListener { parent, view, position, id ->
             //新闻详情
-            if (null != plAdapter){
+            if (null != plAdapter) {
                 val infos = plAdapter!!.infos
-                if (null != infos && infos.size > 0){
-                    Log.e("TAG","position ==" + position)
-                    PolicyExpressDetailActivity.invoke(this,infos[position-1].id)
+                if (null != infos && infos.size > 0) {
+                    var realPosition = 0
+                    if (lv_express.headerViewsCount > 0){
+                        realPosition = position - 1
+                    }else{
+                        realPosition = position
+                    }
+                    PolicyExpressDetailActivity.invoke(this, infos[realPosition].id)
                 }
             }
         }
 
-        scroll_viewpager!!.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
+        scroll_viewpager!!.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
 
             }
@@ -206,7 +222,7 @@ class PolicyExpressActivity : BaseRefreshActivity(),PolicyExpressCallBack {
             }
 
             override fun onPageSelected(position: Int) {
-                if (null == bannerInfos || bannerInfos.size == 0){
+                if (null == bannerInfos || bannerInfos.size == 0) {
                     return
                 }
                 val realPosition = position % bannerInfos.size
@@ -217,11 +233,11 @@ class PolicyExpressActivity : BaseRefreshActivity(),PolicyExpressCallBack {
     }
 
     private fun showFillterPup() {
-        val contentView = View.inflate(this,R.layout.fillter_pup,null)
+        val contentView = View.inflate(this, R.layout.fillter_pup, null)
         val tv_all = contentView.findViewById<TextView>(R.id.tv_all)
         val tv1 = contentView.findViewById<TextView>(R.id.tv1)
         val tv2 = contentView.findViewById<TextView>(R.id.tv2)
-        val popupWindow = PopupWindow(contentView, Utils.dip2px(this,140f), Utils.dip2px(this,110f), true)
+        val popupWindow = PopupWindow(contentView, Utils.dip2px(this, 140f), Utils.dip2px(this, 110f), true)
         popupWindow.isTouchable = true
         popupWindow.setBackgroundDrawable(ColorDrawable(0x00000000))
         popupWindow.isOutsideTouchable = true
@@ -238,32 +254,32 @@ class PolicyExpressActivity : BaseRefreshActivity(),PolicyExpressCallBack {
 
         tv_all.setOnClickListener {
             type = null
-            if (popupWindow.isShowing){
+            if (popupWindow.isShowing) {
                 popupWindow.dismiss()
             }
-            if (null != presenter){
-                presenter!!.doListInfoRequest(true,null,type)
+            if (null != presenter) {
+                presenter!!.doListInfoRequest(true, null, type)
             }
         }
         tv1.setOnClickListener {
             //证监会
             type = 1
-            if (popupWindow.isShowing){
+            if (popupWindow.isShowing) {
                 popupWindow.dismiss()
             }
-            if (null != presenter){
-                presenter!!.doListInfoRequest(true,null,type)
+            if (null != presenter) {
+                presenter!!.doListInfoRequest(true, null, type)
             }
         }
 
         tv2.setOnClickListener {
             //基金协会
             type = 2
-            if (popupWindow.isShowing){
+            if (popupWindow.isShowing) {
                 popupWindow.dismiss()
             }
-            if (null != presenter){
-                presenter!!.doListInfoRequest(true,null,type)
+            if (null != presenter) {
+                presenter!!.doListInfoRequest(true, null, type)
             }
         }
     }
@@ -285,28 +301,28 @@ class PolicyExpressActivity : BaseRefreshActivity(),PolicyExpressCallBack {
     }
 
     override fun doRefresh() {
-        if (null != presenter){
+        if (null != presenter) {
             presenter!!.doRefresh(type)
         }
     }
 
     override fun doLoadMore() {
-        if (null != presenter){
-            presenter!!.doListInfoRequest(false,null,type)
+        if (null != presenter) {
+            presenter!!.doListInfoRequest(false, null, type)
         }
     }
 
     override fun refreshPlList(infos: List<PlListInfos>) {
-        if (null != infos && infos.size > 0){
+        if (null != infos && infos.size > 0) {
             plAdapter!!.infos = infos
         }
         plAdapter!!.notifyDataSetChanged()
     }
 
     override fun loadMoreData(infos: List<PlListInfos>) {
-       if (null != infos && infos.size > 0){
-           plAdapter!!.loadMoreInfos(infos)
-       }
+        if (null != infos && infos.size > 0) {
+            plAdapter!!.loadMoreInfos(infos)
+        }
         plAdapter!!.notifyDataSetChanged()
     }
 
@@ -324,9 +340,9 @@ class PolicyExpressActivity : BaseRefreshActivity(),PolicyExpressCallBack {
 
     companion object {
         val TAG = PolicyExpressActivity.javaClass.simpleName
-        fun invoke(context: Context){
+        fun invoke(context: Context) {
             var intent = Intent(context, PolicyExpressActivity::class.java)
-            if (context !is Activity){
+            if (context !is Activity) {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
             context.startActivity(intent)
