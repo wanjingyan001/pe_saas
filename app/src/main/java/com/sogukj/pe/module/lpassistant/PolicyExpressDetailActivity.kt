@@ -5,12 +5,14 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.support.v4.app.ActivityCompat
 import android.support.v4.widget.NestedScrollView
 import android.view.View
 import android.webkit.WebSettings
+import com.bumptech.glide.Glide
 import com.sogukj.pe.App
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
@@ -137,12 +139,15 @@ class PolicyExpressDetailActivity : BaseActivity() {
     }
 
     private fun initData() {
+        Glide.with(this)
+                .asGif()
+                .load(Uri.parse("file:///android_asset/img_loading_xh.gif")).into(iv_loading)
         toolbar_title.text="政策速递"
         getPlNewsDetailData()
     }
 
     private fun getPlNewsDetailData() {
-        fl_loadding.visibility = View.VISIBLE
+        showLoadding()
         SoguApi.getService(App.INSTANCE, OtherService::class.java)
                 .getPolicyExpressDetail(news_id!!)
                 .execute {
@@ -152,7 +157,7 @@ class PolicyExpressDetailActivity : BaseActivity() {
                                 if (null != it){
                                     news = it
                                     setDetailData(it)
-                                    fl_loadding.visibility = View.INVISIBLE
+                                    goneLoadding()
                                 }
                             }
 
@@ -161,12 +166,12 @@ class PolicyExpressDetailActivity : BaseActivity() {
                         }
                     }
                     onComplete {
-                        fl_loadding.visibility = View.INVISIBLE
+                        goneLoadding()
                     }
 
                     onError {
                         showErrorToast("获取数据失败")
-                        fl_loadding.visibility = View.INVISIBLE
+                        goneLoadding()
                     }
                 }
     }
@@ -209,6 +214,13 @@ class PolicyExpressDetailActivity : BaseActivity() {
         }
     }
 
+    fun showLoadding(){
+        view_recover.visibility = View.VISIBLE
+    }
+
+    fun goneLoadding(){
+        view_recover.visibility = View.INVISIBLE
+    }
     companion object {
         fun invoke(context: Context,news_id:Int){
             var intent = Intent(context, PolicyExpressDetailActivity::class.java)

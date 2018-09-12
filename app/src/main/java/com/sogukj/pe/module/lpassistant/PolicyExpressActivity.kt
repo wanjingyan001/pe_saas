@@ -241,9 +241,9 @@ class PolicyExpressActivity : BaseRefreshActivity(), PolicyExpressCallBack {
         popupWindow.isTouchable = true
         popupWindow.setBackgroundDrawable(ColorDrawable(0x00000000))
         popupWindow.isOutsideTouchable = true
-        setBackgroundAlpha(0.4f)
+//        setBackgroundAlpha(0.4f)
         popupWindow.setOnDismissListener {
-            setBackgroundAlpha(1f)
+//            setBackgroundAlpha(1f)
         }
         val showPos = IntArray(2)
         iv_fillter.getLocationOnScreen(showPos)

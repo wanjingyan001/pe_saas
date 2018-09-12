@@ -1,10 +1,12 @@
 package com.sogukj.pe.module.dataSource.lawcase
 
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.webkit.WebSettings
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.sogukj.pe.App
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
@@ -60,6 +62,10 @@ class LawResultDetailActivity : ToolbarActivity() {
     }
 
     private fun initData() {
+        Glide.with(this)
+                .asGif()
+                .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
+                .into(iv_loading)
         getLawDetailData()
     }
 
@@ -89,11 +95,11 @@ class LawResultDetailActivity : ToolbarActivity() {
     }
 
     private fun showLoadding(){
-        showProgress("正在请求数据")
+        view_recover.visibility = View.VISIBLE
     }
 
     private fun goneLoadding(){
-        hideProgress()
+        view_recover.visibility = View.INVISIBLE
     }
 
     private fun setLawDetailData(content: LawNewsDetailBean) {

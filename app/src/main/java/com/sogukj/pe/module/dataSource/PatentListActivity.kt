@@ -1,20 +1,17 @@
 package com.sogukj.pe.module.dataSource
 
-import android.databinding.DataBindingUtil.setContentView
 import android.graphics.Color
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter
-import com.scwang.smartrefresh.layout.footer.ClassicsFooter
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.Utils
-import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.bean.PatentItem
 import com.sogukj.pe.service.DataSourceService
 import com.sogukj.service.SoguApi
@@ -84,8 +81,13 @@ class PatentListActivity : BaseActivity() {
             finish()
         }
     }
+    fun showLoadding(){
+        view_recover.visibility = View.VISIBLE
+    }
 
-
+    fun goneLoadding(){
+        view_recover.visibility = View.INVISIBLE
+    }
     private fun getPatentList(searchKey: String? = null) {
         SoguApi.getService(application, DataSourceService::class.java)
                 .getPatentList(page, searchKey)
@@ -93,7 +95,7 @@ class PatentListActivity : BaseActivity() {
                     onSubscribe {
                         Utils.closeInput(ctx, searchEdt)
                         if (page == 1)
-                            showProgress("正在请求数据")
+                            showLoadding()
                     }
                     onNext { payload ->
                         payload.isOk.yes {
@@ -110,7 +112,7 @@ class PatentListActivity : BaseActivity() {
                         }
                     }
                     onComplete {
-                        hideProgress()
+                        goneLoadding()
                         searchEdt.clearFocus()
                         if (page == 1) {
                             refresh.finishRefresh()
@@ -127,7 +129,7 @@ class PatentListActivity : BaseActivity() {
 
                     }
                     onError {
-                        hideProgress()
+                        goneLoadding()
                         patentList.setVisible(false)
                         emptyImg.setVisible(true)
                     }

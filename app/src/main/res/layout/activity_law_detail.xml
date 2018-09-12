@@ -9,50 +9,74 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <include layout="@layout/white_back_toolbar"/>
-        <android.support.v4.widget.NestedScrollView
-            android:id="@+id/scroll_view"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:descendantFocusability="blocksDescendants"
-            android:scrollbars="none">
-            <LinearLayout
+            android:layout_height="match_parent">
+            <android.support.v4.widget.NestedScrollView
+                android:id="@+id/scroll_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingLeft="@dimen/text_15"
-                android:paddingRight="@dimen/text_15"
                 android:descendantFocusability="blocksDescendants"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/tv_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_size_20"
-                    android:lineSpacingExtra="@dimen/text_3"
-                    android:layout_marginTop="@dimen/text_8"
-                    tools:text="基金业协会向公安机关移送华泽钴镍及相关人员涉嫌证券犯罪案件"
-                    android:textColor="@color/black_28"/>
+                android:scrollbars="none">
                 <LinearLayout
-                    android:id="@+id/ll_content"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/text_15"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical">
-
-                </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/text_1"
-                    android:layout_marginTop="@dimen/text_15"
-                    android:background="@color/gray_f1"/>
-                <WebView
-                    android:id="@+id/webview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/text_15"
-                    android:scrollbars="none"/>
-            </LinearLayout>
+                    android:paddingLeft="@dimen/text_15"
+                    android:paddingRight="@dimen/text_15"
+                    android:descendantFocusability="blocksDescendants"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tv_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_size_20"
+                        android:lineSpacingExtra="@dimen/text_3"
+                        android:layout_marginTop="@dimen/text_8"
+                        tools:text="基金业协会向公安机关移送华泽钴镍及相关人员涉嫌证券犯罪案件"
+                        android:textColor="@color/black_28"/>
+                    <LinearLayout
+                        android:id="@+id/ll_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/text_15"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
 
-        </android.support.v4.widget.NestedScrollView>
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/text_1"
+                        android:layout_marginTop="@dimen/text_15"
+                        android:background="@color/gray_f1"/>
+                    <WebView
+                        android:id="@+id/webview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/text_15"
+                        android:scrollbars="none"/>
+                </LinearLayout>
+
+            </android.support.v4.widget.NestedScrollView>
+
+            <FrameLayout
+                android:id="@+id/view_recover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible"
+                android:background="@color/gray_f1">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+                               android:id="@+id/iv_loading"
+                               android:layout_width="54dp"
+                               android:layout_height="54dp"
+                               android:layout_gravity="center" />
+                </LinearLayout>
+            </FrameLayout>
+        </FrameLayout>
+
     </LinearLayout>
 </RelativeLayout>

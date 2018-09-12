@@ -10,12 +10,9 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.core.content.edit
-import com.amap.api.mapcore.util.it
 import com.google.gson.Gson
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.arrayFromJson
-import com.sogukj.pe.baselibrary.Extended.extraDelegate
 import com.sogukj.pe.baselibrary.Extended.jsonStr
 import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
@@ -51,6 +48,7 @@ class PdfPreviewActivity : ToolbarActivity() {
     private var url: String? = null
     private var transUrl: String? = null
     private var flag: Boolean = false
+    private var shareTitle : String = ""
     private val downloaded = mutableSetOf<String>()
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -63,6 +61,7 @@ class PdfPreviewActivity : ToolbarActivity() {
         pdfBean = intent.getParcelableExtra(Extras.DATA)
         url = pdfBean.pdf_path
         title = pdfBean.pdf_name
+        shareTitle = pdfBean.pdf_name
         flag = intent.getBooleanExtra(Extras.FLAG, false)
         flag.yes {
             supportInvalidateOptionsMenu()
@@ -149,7 +148,7 @@ class PdfPreviewActivity : ToolbarActivity() {
         val newUrl = pdfBean.pdf_path.substring(0, pdfBean.pdf_path.indexOf("?"))
         DownloadUtil.getInstance().download(newUrl, externalCacheDir.toString(), pdfBean.pdf_name, object : DownloadUtil.OnDownloadListener {
             override fun onDownloadSuccess(path: String?) {
-                downloaded.add(intent.getStringExtra(Extras.TITLE))
+                downloaded.add(shareTitle)
                 hideProgress()
                 flag = true
                 supportInvalidateOptionsMenu()
@@ -170,7 +169,7 @@ class PdfPreviewActivity : ToolbarActivity() {
         if (transUrl.isNullOrEmpty())
             return
         val shareBean = CusShareBean()
-        shareBean.shareTitle = intent.getStringExtra(Extras.TITLE)
+        shareBean.shareTitle = shareTitle
         shareBean.shareContent = ""
         shareBean.shareUrl = transUrl!!
         ShareUtils.share(shareBean, this)

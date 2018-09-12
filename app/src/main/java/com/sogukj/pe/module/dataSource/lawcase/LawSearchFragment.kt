@@ -2,6 +2,7 @@ package com.sogukj.pe.module.dataSource.lawcase
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -16,6 +17,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.textStr
@@ -29,6 +31,7 @@ import com.sogukj.pe.module.dataSource.lawcase.presenter.LawSearchPresenter
 import com.sogukj.pe.peUtils.Store
 import kotlinx.android.synthetic.main.fragment_law_search.*
 import kotlinx.android.synthetic.main.law_search_title.*
+import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.startActivity
 
 /**
@@ -73,6 +76,10 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
     }
 
     private fun initData() {
+        Glide.with(ctx)
+                .asGif()
+                .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
+                .into(iv_loading)
         resultAdapter = LawSearchAdapter(searchData)
         recycler_view.layoutManager = LinearLayoutManager(context)
         recycler_view.adapter = resultAdapter
@@ -90,14 +97,12 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
         if (null != view_recover){
             view_recover.visibility = View.VISIBLE
         }
-//        showProgress("正在请求数据")
     }
 
     private fun goneLoadding(){
         if (null != view_recover){
             view_recover.visibility = View.INVISIBLE
         }
-//         hideProgress()
     }
 
     private fun bindListener() {

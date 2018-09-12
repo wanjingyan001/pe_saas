@@ -3,21 +3,15 @@ package com.sogukj.pe.module.dataSource
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.annotation.IntRange
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
-import android.view.View
 import androidx.core.content.edit
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.amap.api.mapcore.util.it
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import com.scwang.smartrefresh.layout.api.RefreshFooter
 import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
@@ -26,9 +20,7 @@ import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
 import com.sogukj.pe.baselibrary.utils.DownloadUtil
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Utils
-import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.bean.PdfBook
-import com.sogukj.pe.module.other.OnlinePreviewActivity
 import com.sogukj.pe.service.DataSourceService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_prospectus_list.*
@@ -145,7 +137,10 @@ class DocumentsListActivity : BaseRefreshActivity() {
                                 filterResultTv.text = Html.fromHtml(getString(R.string.tv_title_result_search2, (payload.total as Double).toInt()))
                             }
                         }.otherWise {
-                            showErrorToast(payload.message)
+//                            showErrorToast(payload.message)
+                            if (page > 1){
+                                showErrorToast("已经全部加载完成")
+                            }
                         }
                     }
                     onComplete {

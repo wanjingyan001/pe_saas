@@ -101,6 +101,11 @@ class InvestSearchActivity : BaseActivity() {
                 historyAdapter = HistoryAdapter(historyList.toMutableList())
                 tfl.adapter = historyAdapter
                 historyAdapter.notifyDataChanged()
+                historyList.isNotEmpty().yes {
+                    ll_empty_his.setVisible(false)
+                }.otherWise {
+                    ll_empty_his.setVisible(true)
+                }
             }
         }
         tv_his.clickWithTrigger {
