@@ -58,7 +58,7 @@ abstract class BaseRefreshFragment : BaseFragment(), SGRefreshListener {
 
             val footer = initRefreshFooter()
             if (footer == null) {
-//                it.setRefreshFooter(ClassicsFooter(ctx), 0, 0)
+                it.setRefreshFooter(ClassicsFooter(ctx), 0, 0)
             } else {
                 it.setRefreshFooter(footer)
             }

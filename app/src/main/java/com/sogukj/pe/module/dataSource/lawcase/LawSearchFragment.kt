@@ -16,7 +16,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
-import com.scwang.smartrefresh.layout.api.RefreshFooter
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.textStr
@@ -88,18 +87,17 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
     }
 
     private fun showLoadding(){
-//        if (null != view_recover){
-//            view_recover.visibility = View.VISIBLE
-//        }
-
-        showProgress("正在请求数据")
+        if (null != view_recover){
+            view_recover.visibility = View.VISIBLE
+        }
+//        showProgress("正在请求数据")
     }
 
     private fun goneLoadding(){
-//        if (null != view_recover){
-//            view_recover.visibility = View.INVISIBLE
-//        }
-        hideProgress()
+        if (null != view_recover){
+            view_recover.visibility = View.INVISIBLE
+        }
+//         hideProgress()
     }
 
     private fun bindListener() {
@@ -137,10 +135,6 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
         if (null != presenter){
             presenter!!.doLawSearchRequest(searchKey,type!!,false)
         }
-    }
-
-    override fun initRefreshFooter(): RefreshFooter? {
-        return null
     }
 
     private fun setDelectIcon(enable: Boolean) {
