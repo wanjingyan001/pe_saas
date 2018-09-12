@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.white_back_toolbar.*
  */
 class LawResultDetailActivity : ToolbarActivity() {
     private var href : String = ""
-    internal val fontSize = 18
+    internal val fontSize = 30
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_law_detail)
@@ -108,8 +108,8 @@ class LawResultDetailActivity : ToolbarActivity() {
         val head = "<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\"> " +
                 "<style>img{max-width: 100%; height:auto;} .reduce-font p{font-size:" + fontSize + "px!important;}</style>" +
                 "</head>"
-        val html = "<html>${head}<body style='margin:0px;'>" +
-                "<span style='color:#808080;font-size:22px;line-height:30px;'>${content.content}</span>" +
+        val html = "<html style='color:#808080;font-size:30px>${head}<body style='margin:0px;'>" +
+                "<span line-height:30px;'>${content.content}</span>" +
                 "</body></html>"
         webview.loadDataWithBaseURL("about:blank", html, "text/html", "utf-8", null)
     }

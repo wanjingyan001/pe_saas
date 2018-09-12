@@ -197,7 +197,7 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
         }
     }
 
-    override fun refreshLawList(it: List<LawSearchResultInfo>?) {
+    override fun refreshLawList(it: List<LawSearchResultInfo>?, total: Any) {
         if (null != it && it!!.size > 0){
             if (null != iv_empty){
                 iv_empty.visibility = View.INVISIBLE
@@ -206,8 +206,8 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
             searchData.clear()
             searchData.addAll(it!!)
             resultAdapter.notifyDataSetChanged()
-            if (null != tv_total){
-                tv_total.text = it!!.size.toString()
+            if (null != tv_total && null != total){
+                tv_total.text = total.toString()
             }
         }else{
             if (null != iv_empty){

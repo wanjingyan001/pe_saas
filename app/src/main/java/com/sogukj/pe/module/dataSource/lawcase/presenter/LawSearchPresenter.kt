@@ -47,7 +47,7 @@ class LawSearchPresenter : BasePresenter {
                             payload.payload?.let {
                                 if (isRefresh) {
                                     if (null != lawSearchCallBack){
-                                        lawSearchCallBack!!.refreshLawList(it)
+                                        lawSearchCallBack!!.refreshLawList(it, payload.total!!)
                                     }
                                 } else {
                                     if (null != lawSearchCallBack){
