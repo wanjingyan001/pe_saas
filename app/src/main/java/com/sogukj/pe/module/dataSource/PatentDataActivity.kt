@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.FrameLayout
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
@@ -104,6 +105,15 @@ class PatentDataActivity : ToolbarActivity() {
                     startActivity<PatentListActivity>(Extras.CODE to searchEdt.textStr)
                 }},300)
             }
+        }
+        searchEdt.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                searchEdt.postDelayed({ searchEdt.textStr.isNotEmpty().yes {
+                    startActivity<PatentListActivity>(Extras.CODE to searchEdt.textStr)
+                }},300)
+                true
+            }
+            false
         }
         clearHistory.clickWithTrigger {
             model.clearHistory()

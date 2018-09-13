@@ -55,7 +55,7 @@ class PatentSearchActivity : ToolbarActivity() {
                     startActivity<LawSearchResultActivity>(Extras.DATA to searchEdt.textStr)
                 }
             }
-            finish()
+//            finish()
         }
     }
 }

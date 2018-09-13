@@ -121,6 +121,7 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 val editable = activity!!.et_search.textStr
                 if (null != presenter){
+                    Utils.closeInput(activity!!,activity!!.et_search)
                     showLoadding()
                     presenter!!.doLawSearchRequest(editable,type!!,true)
                 }

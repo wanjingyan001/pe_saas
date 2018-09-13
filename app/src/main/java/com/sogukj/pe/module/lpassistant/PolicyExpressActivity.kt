@@ -194,6 +194,7 @@ class PolicyExpressActivity : BaseRefreshActivity(), PolicyExpressCallBack {
         iv_fillter.setOnClickListener {
             //过滤
             showFillterPup()
+            fl_cover.visibility = View.VISIBLE
         }
 
         lv_express.setOnItemClickListener { parent, view, position, id ->
@@ -244,13 +245,14 @@ class PolicyExpressActivity : BaseRefreshActivity(), PolicyExpressCallBack {
 //        setBackgroundAlpha(0.4f)
         popupWindow.setOnDismissListener {
 //            setBackgroundAlpha(1f)
+            fl_cover.visibility = View.GONE
         }
         val showPos = IntArray(2)
         iv_fillter.getLocationOnScreen(showPos)
 //        popupWindow.showAtLocation(iv_fillter, Gravity.RIGHT,
 //                Utils.dip2px(this, 10f), showPos[1] + Utils.dip2px(this, 20f))
 
-        popupWindow.showAsDropDown(iv_fillter)
+        popupWindow.showAsDropDown(iv_fillter,0,Utils.dip2px(this,15f))
 
         tv_all.setOnClickListener {
             type = null

@@ -9,6 +9,7 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.module.dataSource.lawcase.adapter.PagerAdapter
@@ -58,6 +59,11 @@ class LawSearchResultActivity : ToolbarActivity() {
         view_pager?.currentItem = 0
         et_search.setText(searchKey)
         et_search.setSelection(searchKey.length)
+        if (null != et_search.textStr && et_search.textStr.length > 0){
+            iv_del.visibility = View.VISIBLE
+        }else{
+            iv_del.visibility = View.INVISIBLE
+        }
     }
 
     private fun bindListener() {

@@ -29,7 +29,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/team_bg_search2" />
+                    android:background="@drawable/team_bg_search" />
 
                 <TextView
                     android:id="@+id/search_hint"

@@ -114,7 +114,7 @@ class LawResultDetailActivity : ToolbarActivity() {
         val head = "<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\"> " +
                 "<style>img{max-width: 100%; height:auto;} .reduce-font p{font-size:" + fontSize + "px!important;}</style>" +
                 "</head>"
-        val html = "<html style='color:#808080;font-size:30px>${head}<body style='margin:0px;'>" +
+        val html = "<html style='color:#808080;font-size:25px;'>${head}<body style='margin:0px;'>" +
                 "<span line-height:30px;'>${content.content}</span>" +
                 "</body></html>"
         webview.loadDataWithBaseURL("about:blank", html, "text/html", "utf-8", null)

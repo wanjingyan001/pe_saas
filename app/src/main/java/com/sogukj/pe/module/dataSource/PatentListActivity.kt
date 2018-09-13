@@ -1,9 +1,12 @@
 package com.sogukj.pe.module.dataSource
 
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.View
+import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
@@ -29,6 +32,7 @@ class PatentListActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patent_list)
         initView()
+        showLoadding()
         getPatentList(search)
     }
 
@@ -65,6 +69,7 @@ class PatentListActivity : BaseActivity() {
                     searchEdt.textStr.isNotEmpty().yes {
                         clear.setVisible(true)
                         page = 1
+                        showLoadding()
                         getPatentList(searchEdt.textStr)
                     }.otherWise {
                         clear.setVisible(false)
@@ -80,6 +85,10 @@ class PatentListActivity : BaseActivity() {
         back.clickWithTrigger {
             finish()
         }
+
+        Glide.with(ctx)
+                .asGif()
+                .load(Uri.parse("file:///android_asset/img_loading_xh.gif")).into(iv_loading)
     }
     fun showLoadding(){
         view_recover.visibility = View.VISIBLE
@@ -94,8 +103,7 @@ class PatentListActivity : BaseActivity() {
                 .execute {
                     onSubscribe {
                         Utils.closeInput(ctx, searchEdt)
-                        if (page == 1)
-                            showLoadding()
+
                     }
                     onNext { payload ->
                         payload.isOk.yes {
@@ -130,8 +138,15 @@ class PatentListActivity : BaseActivity() {
                     }
                     onError {
                         goneLoadding()
-                        patentList.setVisible(false)
-                        emptyImg.setVisible(true)
+                        if (page == 1){
+                            patentList.setVisible(false)
+                            emptyImg.setVisible(true)
+                            refresh.finishRefresh()
+                        }else{
+                            refresh.finishLoadMore()
+                        }
+                        Log.e("TAG","专利列表 error ==" + it.message)
+                        showErrorToast("数据获取失败")
                     }
                 }
     }

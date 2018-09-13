@@ -71,8 +71,6 @@ import org.jetbrains.anko.startActivity
 import java.io.*
 import java.util.*
 import kotlin.collections.ArrayList
-
-
 /**
  * Created by qinfei on 17/7/18.
  */

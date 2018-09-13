@@ -36,7 +36,7 @@ import java.io.*
  */
 class PolicyExpressDetailActivity : BaseActivity() {
     private var news_id : Int ? = null
-    internal val fontSize = 18
+    internal val fontSize = 20
     private var news: PlDetailInfo ? = null
     var shareTitle: String = "政策速递"
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -184,7 +184,7 @@ class PolicyExpressDetailActivity : BaseActivity() {
                 "<style>img{max-width: 100%; height:auto;} .reduce-font p{font-size:" + fontSize + "px!important;}</style>" +
                 "</head>"
         val html = "<html>${head}<body style='margin:0px;'>" +
-                "<span style='color:#333;font-size:20px;line-height:30px;'>${detailInfo.content}</span>" +
+                "<span style='color:#808080;font-size:20px;line-height:30px;'>${detailInfo.content}</span>" +
                 "</body></html>"
         webview.loadDataWithBaseURL("about:blank", html, "text/html", "utf-8", null)
     }

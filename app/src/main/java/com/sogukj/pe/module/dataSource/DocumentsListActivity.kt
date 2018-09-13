@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.widget.DrawerLayout
-import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
 import androidx.core.content.edit
@@ -22,6 +21,7 @@ import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.PdfBook
 import com.sogukj.pe.service.DataSourceService
+import com.sogukj.pe.widgets.indexbar.RecycleViewDivider
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_prospectus_list.*
 import org.jetbrains.anko.ctx
@@ -113,7 +113,8 @@ class DocumentsListActivity : BaseRefreshActivity() {
         }
         filterResultList.apply {
             layoutManager = LinearLayoutManager(ctx)
-            addItemDecoration(DividerItemDecoration(ctx, DividerItemDecoration.VERTICAL))
+//            addItemDecoration(DividerItemDecoration(ctx, DividerItemDecoration.VERTICAL))
+            addItemDecoration(RecycleViewDivider(ctx,LinearLayoutManager.VERTICAL))
             adapter = listAdapter
         }
         getPdfList()

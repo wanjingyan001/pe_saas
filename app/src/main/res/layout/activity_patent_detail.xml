@@ -10,221 +10,240 @@
 
     <include layout="@layout/toolbar" />
 
-
-    <ScrollView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <android.support.constraint.ConstraintLayout
-            android:paddingBottom="48dp"
+        android:layout_height="match_parent">
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
+                <android.support.constraint.ConstraintLayout
+                    android:paddingBottom="48dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-            <android.support.constraint.Guideline
-                android:id="@+id/guide1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.18" />
+                    <android.support.constraint.Guideline
+                        android:id="@+id/guide1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.18" />
 
-            <TextView
-                android:id="@+id/titleTv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:gravity="center_horizontal"
-                android:textColor="@color/text_1"
-                android:textSize="@dimen/text_size_20"
-                app:layout_constraintEnd_toEndOf="@+id/guide2"
-                app:layout_constraintStart_toStartOf="@+id/guide1"
-                app:layout_constraintTop_toTopOf="parent" />
+                    <TextView
+                        android:id="@+id/titleTv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center_horizontal"
+                        android:textColor="@color/text_1"
+                        android:textSize="@dimen/text_size_20"
+                        app:layout_constraintEnd_toEndOf="@+id/guide2"
+                        app:layout_constraintStart_toStartOf="@+id/guide1"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            <android.support.constraint.Guideline
-                android:id="@+id/guide2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.8" />
+                    <android.support.constraint.Guideline
+                        android:id="@+id/guide2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.8" />
 
-            <TextView
-                android:id="@+id/typeTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_blue_radius_9"
-                android:text="发明"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_samll"
-                app:layout_constraintBottom_toBottomOf="@+id/titleTv"
-                app:layout_constraintEnd_toEndOf="@+id/guide1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/titleTv" />
+                    <TextView
+                        android:id="@+id/typeTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_blue_radius_9"
+                        android:text="发明"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_samll"
+                        app:layout_constraintBottom_toBottomOf="@+id/titleTv"
+                        app:layout_constraintEnd_toEndOf="@+id/guide1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/titleTv" />
 
 
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/applicationLayout"
+                    <android.support.constraint.ConstraintLayout
+                        android:id="@+id/applicationLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="20dp"
+                        android:background="#E7E8EA"
+                        app:layout_constraintTop_toBottomOf="@+id/titleTv">
+
+                        <ImageView
+                            android:id="@+id/patentIcon"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="14dp"
+                            android:src="@mipmap/icon_patent_detail"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/numberTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:text="申请号："
+                            android:textColor="@color/text_1"
+                            android:textSize="@dimen/text_size_samll"
+                            app:layout_constraintStart_toEndOf="@+id/patentIcon"
+                            app:layout_constraintTop_toTopOf="@+id/patentIcon" />
+
+                        <TextView
+                            android:id="@+id/timeTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:text="申请日："
+                            android:textColor="@color/text_1"
+                            android:textSize="@dimen/text_size_samll"
+                            app:layout_constraintBottom_toBottomOf="@+id/patentIcon"
+                            app:layout_constraintStart_toEndOf="@+id/patentIcon" />
+
+                    </android.support.constraint.ConstraintLayout>
+
+                    <TextView
+                        android:id="@+id/summaryTv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="20dp"
+                        android:lineSpacingExtra="7dp"
+                        android:text="【摘要】："
+                        android:textColor="@color/text_1"
+                        android:textSize="@dimen/text_size_medium"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/applicationLayout" />
+
+
+                    <TextView
+                        android:id="@+id/infoTv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="10dp"
+                        android:lineSpacingExtra="7dp"
+                        android:text="申请人："
+                        android:textColor="@color/text_1"
+                        android:textSize="@dimen/text_size_medium"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/summaryTv" />
+
+                    <ImageView
+                        android:layout_width="3dp"
+                        android:layout_height="10dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@color/colorPrimary"
+                        app:layout_constraintBottom_toBottomOf="@+id/legalStatus"
+                        app:layout_constraintEnd_toStartOf="@+id/legalStatus"
+                        app:layout_constraintTop_toTopOf="@+id/legalStatus" />
+
+                    <TextView
+                        android:id="@+id/legalStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginTop="26dp"
+                        android:text="法律状态"
+                        android:textColor="@color/text_1"
+                        android:textSize="@dimen/text_size_medium"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/infoTv" />
+
+                    <TextView
+                        android:id="@+id/legalStatusInfo"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="16dp"
+                        android:lineSpacingExtra="7dp"
+                        android:text=""
+                        android:textColor="@color/text_1"
+                        android:textSize="@dimen/text_size_medium"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/legalStatus" />
+
+                    <TextView
+                        android:id="@+id/lawTip"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginStart="20dp"
+                        android:text="注：本法律状态信息仅供参考，即时准确的法律状态信息须到国家知识产权局办理专利登记簿副本。"
+                        android:textColor="@color/text_3"
+                        android:layout_marginTop="8dp"
+                        android:textSize="@dimen/text_size_samll"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/legalStatusInfo" />
+
+                    <ImageView
+                        android:layout_width="3dp"
+                        android:layout_height="10dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@color/colorPrimary"
+                        app:layout_constraintBottom_toBottomOf="@+id/other"
+                        app:layout_constraintEnd_toStartOf="@+id/other"
+                        app:layout_constraintTop_toTopOf="@+id/other" />
+
+                    <TextView
+                        android:id="@+id/other"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginTop="26dp"
+                        android:text="其他"
+                        android:textColor="@color/text_1"
+                        android:textSize="@dimen/text_size_medium"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/lawTip" />
+
+                    <TextView
+                        android:id="@+id/otherInfo"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="16dp"
+                        android:lineSpacingExtra="7dp"
+                        android:text=""
+                        android:textColor="@color/text_1"
+                        android:textSize="@dimen/text_size_medium"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/other" />
+
+
+                </android.support.constraint.ConstraintLayout>
+
+        </ScrollView>
+        <FrameLayout
+            android:id="@+id/view_recover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible"
+            android:background="@color/gray_f1">
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="20dp"
-                android:background="#E7E8EA"
-                app:layout_constraintTop_toBottomOf="@+id/titleTv">
-
-                <ImageView
-                    android:id="@+id/patentIcon"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginStart="14dp"
-                    android:src="@mipmap/icon_patent_detail"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/numberTv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="申请号："
-                    android:textColor="@color/text_1"
-                    android:textSize="@dimen/text_size_samll"
-                    app:layout_constraintStart_toEndOf="@+id/patentIcon"
-                    app:layout_constraintTop_toTopOf="@+id/patentIcon" />
-
-                <TextView
-                    android:id="@+id/timeTv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="申请日："
-                    android:textColor="@color/text_1"
-                    android:textSize="@dimen/text_size_samll"
-                    app:layout_constraintBottom_toBottomOf="@+id/patentIcon"
-                    app:layout_constraintStart_toEndOf="@+id/patentIcon" />
-
-            </android.support.constraint.ConstraintLayout>
-
-            <TextView
-                android:id="@+id/summaryTv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:lineSpacingExtra="7dp"
-                android:text="【摘要】："
-                android:textColor="@color/text_1"
-                android:textSize="@dimen/text_size_medium"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/applicationLayout" />
-
-
-            <TextView
-                android:id="@+id/infoTv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:lineSpacingExtra="7dp"
-                android:text="申请人："
-                android:textColor="@color/text_1"
-                android:textSize="@dimen/text_size_medium"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/summaryTv" />
-
-            <ImageView
-                android:layout_width="3dp"
-                android:layout_height="10dp"
-                android:layout_marginEnd="8dp"
-                android:background="@color/colorPrimary"
-                app:layout_constraintBottom_toBottomOf="@+id/legalStatus"
-                app:layout_constraintEnd_toStartOf="@+id/legalStatus"
-                app:layout_constraintTop_toTopOf="@+id/legalStatus" />
-
-            <TextView
-                android:id="@+id/legalStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="26dp"
-                android:text="法律状态"
-                android:textColor="@color/text_1"
-                android:textSize="@dimen/text_size_medium"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/infoTv" />
-
-            <TextView
-                android:id="@+id/legalStatusInfo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="16dp"
-                android:lineSpacingExtra="7dp"
-                android:text=""
-                android:textColor="@color/text_1"
-                android:textSize="@dimen/text_size_medium"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/legalStatus" />
-
-            <TextView
-                android:id="@+id/lawTip"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:layout_marginStart="20dp"
-                android:text="注：本法律状态信息仅供参考，即时准确的法律状态信息须到国家知识产权局办理专利登记簿副本。"
-                android:textColor="@color/text_3"
-                android:layout_marginTop="8dp"
-                android:textSize="@dimen/text_size_samll"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/legalStatusInfo" />
-
-            <ImageView
-                android:layout_width="3dp"
-                android:layout_height="10dp"
-                android:layout_marginEnd="8dp"
-                android:background="@color/colorPrimary"
-                app:layout_constraintBottom_toBottomOf="@+id/other"
-                app:layout_constraintEnd_toStartOf="@+id/other"
-                app:layout_constraintTop_toTopOf="@+id/other" />
-
-            <TextView
-                android:id="@+id/other"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="26dp"
-                android:text="其他"
-                android:textColor="@color/text_1"
-                android:textSize="@dimen/text_size_medium"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lawTip" />
-
-            <TextView
-                android:id="@+id/otherInfo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="16dp"
-                android:lineSpacingExtra="7dp"
-                android:text=""
-                android:textColor="@color/text_1"
-                android:textSize="@dimen/text_size_medium"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/other" />
-
-
-        </android.support.constraint.ConstraintLayout>
-    </ScrollView>
-
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+                <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+                           android:id="@+id/iv_loading"
+                           android:layout_width="54dp"
+                           android:layout_height="54dp"
+                           android:layout_gravity="center" />
+            </LinearLayout>
+        </FrameLayout>
+    </FrameLayout>
 
 </LinearLayout>

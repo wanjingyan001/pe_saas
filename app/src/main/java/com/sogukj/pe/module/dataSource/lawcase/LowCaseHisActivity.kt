@@ -125,7 +125,6 @@ class LowCaseHisActivity : ToolbarActivity(), TextWatcher {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 val editable = searchEdt.textStr
                 startActivity<LawSearchResultActivity>(Extras.DATA to searchEdt.textStr)
-                this.finish()
                 true
             }
             false
