@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
+import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.otherWise
@@ -16,7 +17,7 @@ import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.HotPostInfo
 import com.sogukj.pe.module.dataSource.DocumentType
 import com.sogukj.pe.module.dataSource.DocumentsListActivity
-import com.sogukj.pe.module.hotpost.adapter.HotPostAdapter
+import com.sogukj.pe.module.dataSource.HotPostAdapter
 import com.sogukj.pe.service.DataSourceService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_hot_post.*
@@ -26,7 +27,7 @@ import kotlinx.android.synthetic.main.activity_hot_post.*
  */
 class HotPostActivity : BaseRefreshActivity() {
     private var infos = ArrayList<HotPostInfo>()
-    private var adapter: HotPostAdapter? = null
+    private lateinit var listAdapter: HotPostAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hot_post)
@@ -39,19 +40,28 @@ class HotPostActivity : BaseRefreshActivity() {
     }
 
     private fun initView() {
-        hot_recycle.layoutManager = GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
+        hot_recycle.layoutManager = GridLayoutManager(this, 2)
         hot_recycle.itemAnimator = DefaultItemAnimator()
         hot_recycle.addItemDecoration(GridSpacingItemDecoration(this, 2))
     }
 
     private fun initData() {
-        adapter = HotPostAdapter(this, hot_recycle, infos)
-        hot_recycle.adapter = adapter
-        adapter?.setOnHeaderClickListener { position ->
-            DocumentsListActivity.start(this, DocumentType.INDUSTRY_REPORTS, infos[position].id)
+        listAdapter = HotPostAdapter(infos)
+        listAdapter.setSpanSizeLookup { _, position ->
+            if (position == 0) {
+                return@setSpanSizeLookup 2
+            } else {
+                return@setSpanSizeLookup 1
+            }
         }
-        adapter?.setOnItemClickListener { position ->
-            DocumentsListActivity.start(this, DocumentType.INDUSTRY_REPORTS, infos[position].id)
+        hot_recycle.adapter = listAdapter
+        listAdapter.setOnItemClickListener { adapter, view, position ->
+            val info = infos[position]
+            val intent = Intent(this, DocumentsListActivity::class.java)
+            intent.putExtra(Extras.TYPE, DocumentType.INDUSTRY_REPORTS)
+            intent.putExtra(Extras.TYPE1, info.id)
+            intent.putExtra(Extras.NAME, info.name)
+            startActivity(intent)
         }
         getData()
     }
@@ -63,8 +73,15 @@ class HotPostActivity : BaseRefreshActivity() {
                     onNext { payload ->
                         payload.isOk.yes {
                             payload.payload?.let {
+                                it.forEachIndexed { index, hotPostInfo ->
+                                    if (hotPostInfo.name == "全部行业") {
+                                        hotPostInfo.setType(HotPostInfo.header)
+                                    } else {
+                                        hotPostInfo.setType(HotPostInfo.item)
+                                    }
+                                }
                                 infos.addAll(it)
-                                adapter?.notifyDataSetChanged()
+                                listAdapter.notifyDataSetChanged()
                             }
                         }.otherWise {
                             showErrorToast(payload.message)

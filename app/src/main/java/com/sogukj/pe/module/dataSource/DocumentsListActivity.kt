@@ -3,10 +3,16 @@ package com.sogukj.pe.module.dataSource
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.support.v4.content.FileProvider
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
+import android.text.TextUtils
+import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.edit
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -25,6 +31,8 @@ import com.sogukj.pe.widgets.indexbar.RecycleViewDivider
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_prospectus_list.*
 import org.jetbrains.anko.ctx
+import org.jetbrains.anko.singleLine
+import java.io.File
 
 @Route(path = ARouterPath.DocumentsListActivity)
 class DocumentsListActivity : BaseRefreshActivity() {
@@ -65,7 +73,12 @@ class DocumentsListActivity : BaseRefreshActivity() {
                 drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
             }
             DocumentType.INDUSTRY_REPORTS -> {
-                title = "热门行业研报"
+                val name = intent.getStringExtra(Extras.NAME)
+                val titleTv = toolbar!!.findViewById<TextView>(R.id.toolbar_title)
+                titleTv.maxEms = 9
+                titleTv.singleLine = true
+                titleTv.ellipsize = TextUtils.TruncateAt.END
+                title = name
                 intelligentHeader.setVisible(false)
                 filterCondition.setVisible(false)
                 drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
@@ -92,11 +105,12 @@ class DocumentsListActivity : BaseRefreshActivity() {
                     externalCacheDir.toString(),
                     book.pdf_name,
                     object : DownloadUtil.OnDownloadListener {
-                override fun onDownloadSuccess(path: String?) {
+                override fun onDownloadSuccess(path: String) {
                     downloaded.add(book.pdf_name)
                     hideProgress()
                     listAdapter.downloaded = downloaded.toList()
                     listAdapter.notifyItemChanged(position)
+                    opedPdf(path)
                 }
 
                 override fun onDownloading(progress: Int) {
@@ -149,6 +163,30 @@ class DocumentsListActivity : BaseRefreshActivity() {
                         filterResultList.setVisible(documents.isNotEmpty())
                     }
                 }
+    }
+
+    private fun opedPdf(path:String){
+        val intent = Intent()
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        //设置intent的Action属性
+        intent.action = Intent.ACTION_VIEW
+        try {
+            val data: Uri
+            val file = File(path)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                data = FileProvider.getUriForFile(context, context.applicationInfo.packageName + ".generic.file.provider", file)
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            } else {
+                //设置intent的data和Type属性
+                data = Uri.fromFile(file)
+            }
+            intent.setDataAndType(data,"application/pdf")
+            //跳转
+            context.startActivity(intent)
+        } catch (e: Exception) { //当系统没有携带文件打开软件，提示
+            showErrorToast( "没有可以打开该文件的软件")
+            e.printStackTrace()
+        }
     }
 
     override fun doRefresh() {

@@ -26,7 +26,7 @@ class BookListAdapter(data: List<PdfBook>, var downloaded: List<String>, val typ
         name.text = item.pdf_name
         timeTv.text = item.date
         downloaded.forEach {
-            if (it == item.pdf_name) {
+            if (it == item.pdf_name || item.pdf_path.isEmpty()) {
                 download.visibility = View.INVISIBLE
             }
         }

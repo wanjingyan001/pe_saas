@@ -101,7 +101,7 @@ class InvestmentActivity : BaseRefreshActivity() {
     private fun initListener(){
         filterCondition.clickWithTrigger {
             drawer.openDrawer(Gravity.START)
-            primaryOption[0].performClick()
+//            primaryOption[0].performClick()
         }
         resetCondition.clickWithTrigger {
             primaryAdapter.selectedPosition = 0
@@ -111,6 +111,7 @@ class InvestmentActivity : BaseRefreshActivity() {
             secondaryAdapter.selectedPosition = -1
             fIndustryId = null
             fYear = null
+            filterConditionTv.setVisible(false)
         }
         confirm.clickWithTrigger {
             page = 1

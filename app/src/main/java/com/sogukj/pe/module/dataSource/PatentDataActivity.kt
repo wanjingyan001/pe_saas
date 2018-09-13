@@ -11,6 +11,7 @@ import android.widget.FrameLayout
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
@@ -105,6 +106,9 @@ class PatentDataActivity : ToolbarActivity() {
                     startActivity<PatentListActivity>(Extras.CODE to searchEdt.textStr)
                 }},300)
             }
+            onTextChanged { charSequence, s, b, c ->
+                clear.setVisible(searchEdt.textStr.isNotEmpty())
+            }
         }
         searchEdt.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -120,7 +124,9 @@ class PatentDataActivity : ToolbarActivity() {
             listAdapter.dataList.clear()
             listAdapter.notifyDataSetChanged()
         }
-
+        clear.clickWithTrigger {
+            searchEdt.setText("")
+        }
         back.clickWithTrigger {
             onBackPressed()
         }
