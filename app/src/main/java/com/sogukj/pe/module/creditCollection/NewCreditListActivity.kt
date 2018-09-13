@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import com.bumptech.glide.Glide
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
@@ -21,6 +22,7 @@ import kotlinx.android.synthetic.main.activity_new_credit_list.*
 import kotlinx.android.synthetic.main.item_new_credit_list.view.*
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.dip
+import org.jetbrains.anko.sdk25.coroutines.textChangedListener
 import org.jetbrains.anko.startActivity
 
 class NewCreditListActivity : BaseActivity() {
@@ -29,7 +31,7 @@ class NewCreditListActivity : BaseActivity() {
         ViewModelProviders.of(this).get(CreditViewModel::class.java)
     }
     private var offset = 0
-
+    var searchKey: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,8 +90,42 @@ class NewCreditListActivity : BaseActivity() {
         }
         refresh.setOnLoadMoreListener {
             offset = listAdapter.dataList.size
-            loadMore(offset)
+            loadMore(offset, searchKey)
             refresh.postDelayed({ refresh.finishLoadMore() }, 2000)
+        }
+        search_edt.filters = Utils.getFilter(context)
+        search_edt.setOnFocusChangeListener { v, hasFocus ->
+            if (hasFocus) {
+                search_hint.visibility = View.GONE
+                search_icon.visibility = View.VISIBLE
+            } else {
+                search_hint.visibility = View.VISIBLE
+                search_icon.visibility = View.GONE
+                search_edt.clearFocus()
+            }
+        }
+        search_edt.textChangedListener {
+            afterTextChanged {
+                delete1.setVisible(search_edt.textStr.isNotEmpty())
+                search_edt.textStr.isEmpty().yes {
+                    search_edt.clearFocus()
+                    offset = 0
+                    getNewCreditList()
+                }
+            }
+        }
+        search_edt.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                searchKey = search_edt.text.toString()
+                offset = 0
+                loadMore(offset, searchKey)
+                true
+            } else {
+                false
+            }
+        }
+        delete1.clickWithTrigger {
+            search_edt.setText("")
         }
         inquireBtn.clickWithTrigger {
             startActivity<HundredSearchActivity>()
@@ -122,19 +158,25 @@ class NewCreditListActivity : BaseActivity() {
         })
     }
 
-    private fun loadMore(offset: Int) {
+    private fun loadMore(offset: Int, searchKey: String? = null) {
         SoguApi.getService(application, CreditService::class.java)
-                .getPersonalCreList(offset)
+                .getPersonalCreList(offset, fuzzyQuery = searchKey)
                 .execute {
                     onNext { payload ->
                         payload.isOk.yes {
                             payload.payload?.let {
+                                if (offset == 0){
+                                    listAdapter.dataList.clear()
+                                }
                                 listAdapter.dataList.addAll(it)
                                 listAdapter.notifyDataSetChanged()
                             }
                         }.otherWise {
                             showErrorToast(payload.message)
                         }
+                    }
+                    onComplete {
+                        iv_empty.setVisible(listAdapter.dataList.isEmpty())
                     }
                 }
     }

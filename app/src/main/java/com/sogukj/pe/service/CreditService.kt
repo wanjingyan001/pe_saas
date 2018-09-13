@@ -78,7 +78,8 @@ interface CreditService {
     @FormUrlEncoded
     @POST("/api/Credit/PersonalCreList")
     fun getPersonalCreList(@Field("offset") offset: Int = 0,
-                           @Field("pageSize") pageSize: Int = 20): Observable<Payload<List<PersonCreList>>>
+                           @Field("pageSize") pageSize: Int = 20,
+                           @Field("fuzzyQuery") fuzzyQuery: String? = null): Observable<Payload<List<PersonCreList>>>
 
 
     /**
