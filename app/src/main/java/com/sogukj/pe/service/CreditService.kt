@@ -1,8 +1,6 @@
 package com.sogukj.pe.service
 
-import com.sogukj.pe.bean.CreditInfo
-import com.sogukj.pe.bean.SecondaryBean
-import com.sogukj.pe.bean.SensitiveInfo
+import com.sogukj.pe.bean.*
 import io.reactivex.Observable
 import retrofit2.http.Body
 import retrofit2.http.Field
@@ -12,7 +10,7 @@ import retrofit2.http.POST
 /**
  * Created by admin on 2018/5/23.
  */
-interface CreditService{
+interface CreditService {
     /**
      * 征信开始界面接口
      */
@@ -64,5 +62,29 @@ interface CreditService{
     fun deleteCredit(@Field("id") id: Int): Observable<Payload<Any>>
 
 
+    /**
+     * 百融征信
+     */
+    @FormUrlEncoded
+    @POST("/api/Credit/queryPersonalCre")
+    fun HundredCredit(@Field("name") name: String,
+                      @Field("idCard") idCard: String,
+                      @Field("phone") phone: String): Observable<Payload<NewCreditInfo>>
 
+
+    /**
+     * 百融征信查询记录
+     */
+    @FormUrlEncoded
+    @POST("/api/Credit/PersonalCreList")
+    fun getPersonalCreList(@Field("offset") offset: Int = 0,
+                           @Field("pageSize") pageSize: Int = 20): Observable<Payload<List<PersonCreList>>>
+
+
+    /**
+     * 个人资质-详情
+     */
+    @FormUrlEncoded
+    @POST("/api/Credit/PersonalCreInfo")
+    fun hundredCreditDetail(@Field("idCard") idCard: String): Observable<Payload<NewCreditInfo>>
 }

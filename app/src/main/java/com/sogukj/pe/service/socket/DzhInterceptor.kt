@@ -21,7 +21,7 @@ class DzhInterceptor : Interceptor {
     }
 
     companion object {
-        var ctx : Context? = null
+       private var ctx : Context? = null
         fun newInstance(ctx : Context):DzhInterceptor{
             val instance = DzhInterceptor()
             this.ctx = ctx

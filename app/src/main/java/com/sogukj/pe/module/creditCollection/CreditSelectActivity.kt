@@ -1,11 +1,15 @@
 package com.sogukj.pe.module.creditCollection
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
+import com.sogukj.pe.baselibrary.Extended.otherWise
+import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.StatusBarUtil
 import com.sogukj.pe.baselibrary.utils.Trace
@@ -22,6 +26,8 @@ import org.jetbrains.anko.support.v4.ctx
 
 @Route(path = ARouterPath.CreditSelectActivity)
 class CreditSelectActivity : ToolbarActivity() {
+    private val model by lazy { ViewModelProviders.of(this).get(CreditViewModel::class.java) }
+    private var listIsEmpty = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,16 +36,27 @@ class CreditSelectActivity : ToolbarActivity() {
         toolbar?.setBackgroundColor(resources.getColor(R.color.transparent))
         title = "征信类型选择"
         setBack(true)
+
         typeLayout1.clickWithTrigger {
-            startActivity<HundredSearchActivity>()
+            listIsEmpty.yes {
+                startActivity<HundredSearchActivity>()
+            }.otherWise {
+                startActivity<NewCreditListActivity>()
+            }
         }
         typeLayout2.clickWithTrigger {
             oldCredit()
         }
+
+        model.getCreditList().observe(this, Observer { list ->
+            list?.let {
+                listIsEmpty = it.isEmpty()
+            }
+        })
     }
 
 
-    private fun oldCredit(){
+    private fun oldCredit() {
         XmlDb.open(this).set("INNER", "FALSE")
         val first = XmlDb.open(this).get("FIRST", "TRUE")
         if (first == "FALSE") {
