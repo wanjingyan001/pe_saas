@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter
@@ -77,6 +78,23 @@ class PatentListActivity : BaseActivity() {
                 }, 300)
             }
         }
+        searchEdt.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH){
+                searchEdt.postDelayed({
+                    searchEdt.textStr.isNotEmpty().yes {
+                        Utils.closeInput(this,searchEdt)
+                        clear.setVisible(true)
+                        page = 1
+                        showLoadding()
+                        getPatentList(searchEdt.textStr)
+                    }.otherWise {
+                        clear.setVisible(false)
+                    }
+                }, 300)
+                true
+            }
+            false
+        }
         searchEdt.setText(search)
         searchEdt.setSelection(search.length)
         clear.clickWithTrigger {
@@ -102,7 +120,6 @@ class PatentListActivity : BaseActivity() {
                 .getPatentList(page, searchKey)
                 .execute {
                     onSubscribe {
-                        Utils.closeInput(ctx, searchEdt)
 
                     }
                     onNext { payload ->

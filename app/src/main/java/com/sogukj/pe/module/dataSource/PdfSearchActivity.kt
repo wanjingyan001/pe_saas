@@ -4,18 +4,14 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.text.Html
 import android.view.View
 import android.widget.TextView
 import androidx.core.content.edit
-import com.amap.api.mapcore.util.it
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.google.gson.Gson
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter
-import com.scwang.smartrefresh.layout.footer.ClassicsFooter
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
@@ -24,7 +20,6 @@ import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.DownloadUtil
 import com.sogukj.pe.baselibrary.widgets.SpaceItemDecoration
 import com.sogukj.pe.bean.PdfBook
-import com.sogukj.pe.module.other.OnlinePreviewActivity
 import com.sogukj.pe.service.DataSourceService
 import com.sogukj.service.SoguApi
 import com.zhy.view.flowlayout.FlowLayout
@@ -145,9 +140,20 @@ class PdfSearchActivity : BaseActivity() {
         }
         iv_del.clickWithTrigger {
             et_search.setText("")
+            if (null != historyAdapter){
+                historyAdapter = PdfHistoryAdapter()
+                tfl.adapter = historyAdapter
+                historyAdapter.notifyDataChanged()
+                historyLayout.setVisible(true)
+                historyList.isNotEmpty().yes {
+                    ll_empty_his.setVisible(false)
+                }.otherWise {
+                    ll_empty_his.setVisible(true)
+                }
+            }
         }
         tv_his.clickWithTrigger {
-            sp.edit { putString(Extras.INVEST_SEARCH_HISTORY, "") }
+            sp.edit { putString(Extras.SOURCE_PDF_HISTORY + type, "") }
             historyList.clear()
             historyAdapter = PdfHistoryAdapter()
             tfl.adapter = historyAdapter
@@ -176,6 +182,13 @@ class PdfSearchActivity : BaseActivity() {
                     iv_del.setVisible(false)
                     et_search.setHint(R.string.search)
                     refresh.setVisible(false)
+
+                    historyLayout.setVisible(true)
+                    historyList.isNotEmpty().yes {
+                        ll_empty_his.setVisible(false)
+                    }.otherWise {
+                        ll_empty_his.setVisible(true)
+                    }
                 }
             }
         }
@@ -204,8 +217,8 @@ class PdfSearchActivity : BaseActivity() {
                             showErrorToast(payload.message)
                         }
                     }
+
                     onComplete {
-                        onComplete {
                             (page == 1).yes {
                                 refresh.finishRefresh()
                             }.otherWise {
@@ -221,7 +234,10 @@ class PdfSearchActivity : BaseActivity() {
                                 historyLayout.setVisible(true)
                             }
                         }
+                    onError {
+                        showErrorToast("获取数据失败")
                     }
+
                 }
     }
 

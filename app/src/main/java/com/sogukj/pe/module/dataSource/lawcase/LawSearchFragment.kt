@@ -115,13 +115,13 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
         }
 
         activity!!.et_search.setOnEditorActionListener { v, actionId, event ->
-            if (!activity!!.et_search.isCursorVisible){
-                activity!!.et_search.isCursorVisible = true
-            }
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 val editable = activity!!.et_search.textStr
                 if (null != presenter){
                     Utils.closeInput(activity!!,activity!!.et_search)
+                    if (activity!!.et_search.isCursorVisible){
+                        activity!!.et_search.isCursorVisible = false
+                    }
                     showLoadding()
                     presenter!!.doLawSearchRequest(editable,type!!,true)
                 }
@@ -186,12 +186,8 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
     }
 
     private fun requestData(query: String) {
-        if (activity!!.et_search.isCursorVisible){
-            activity!!.et_search.isCursorVisible = false
-        }
         searchKey = activity!!.et_search.textStr
         if (null != presenter){
-            Utils.closeInput(activity!!,activity!!.et_search)
             showLoadding()
             presenter!!.doLawSearchRequest(searchKey,type!!,true)
         }
@@ -234,6 +230,7 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
             }
         }
     }
+
     override fun loadMoreData(it: List<LawSearchResultInfo>?) {
         searchData.addAll(it!!)
         resultAdapter.notifyDataSetChanged()

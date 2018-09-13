@@ -60,9 +60,11 @@
                     android:hint="请输入专利关键词/专利号"
                     android:textColor="@color/text_1"
                     android:textColorHint="@color/text_3"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
                     android:textSize="@dimen/text_size_medium"
                     app:layout_constraintEnd_toStartOf="@+id/clear"
-                    app:layout_constraintStart_toEndOf="@+id/searchIcon" />
+                    app:layout_constraintStart_toEndOf="@+id/searchIcon"/>
 
                 <ImageView
                     android:id="@+id/clear"

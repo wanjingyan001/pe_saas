@@ -9,7 +9,6 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.core.content.edit
-import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -20,16 +19,15 @@ import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.bean.Department
-import com.sogukj.pe.bean.DepartmentBean
-import com.sogukj.pe.bean.RegisterVerResult
 import com.sogukj.pe.module.main.MainActivity
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.RegisterService
 import com.sogukj.service.SoguApi
-import io.reactivex.internal.util.HalfSerializer.onNext
 import kotlinx.android.synthetic.main.activity_department_setting.*
 import kotlinx.coroutines.experimental.runBlocking
-import org.jetbrains.anko.*
+import org.jetbrains.anko.ctx
+import org.jetbrains.anko.find
+import org.jetbrains.anko.startActivity
 
 class CreateDepartmentActivity : ToolbarActivity() {
     override val menuId: Int
@@ -62,7 +60,7 @@ class CreateDepartmentActivity : ToolbarActivity() {
         departmentAdapter.onItemChildClickListener = BaseQuickAdapter.OnItemChildClickListener { adapter, view, position ->
             when (view.id) {
                 R.id.deleteDepartment -> {
-                    deleteDepartment(position )
+                    deleteDepartment(position)
                 }
             }
         }

@@ -145,7 +145,6 @@
                         android:visibility="gone" />
                 </LinearLayout>
 
-
             </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
         </android.support.constraint.ConstraintLayout>
