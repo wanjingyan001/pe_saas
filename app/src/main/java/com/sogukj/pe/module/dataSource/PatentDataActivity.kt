@@ -95,10 +95,6 @@ class PatentDataActivity : ToolbarActivity() {
             PatentDetailActivity.start(this, listAdapter.dataList[position])
         }
         initRefreshConfig()
-
-        listAdapter.refreshData(model.getPatentHistory().toList().reversed())
-
-
         searchEdt.textChangedListener {
             afterTextChanged {
                 searchEdt.postDelayed({ searchEdt.textStr.isNotEmpty().yes {
@@ -132,6 +128,11 @@ class PatentDataActivity : ToolbarActivity() {
         }
     }
 
+
+    override fun onResume() {
+        super.onResume()
+        listAdapter.refreshData(model.getPatentHistory().toList().reversed())
+    }
 
     fun initRefreshConfig() {
         refresh.apply {

@@ -34,6 +34,9 @@ class PatentViewModel(context: Context) : ViewModel() {
                 searchHistory.addAll(localData)
             }
         }
+        if (searchHistory.size > 5){
+            searchHistory.toMutableList().removeAt(0)
+        }
         return searchHistory
     }
 
@@ -46,7 +49,7 @@ class PatentViewModel(context: Context) : ViewModel() {
     }
 
 
-    fun clearHistory(){
+    fun clearHistory() {
         searchHistory.clear()
         sp.edit { putString(Extras.PATENT_HISTORY, "") }
     }

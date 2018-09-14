@@ -66,7 +66,7 @@ class PatentDetailActivity : ToolbarActivity() {
                         payload.isOk.yes {
                             model.saveLocalData(bean)
                             payload.payload?.apply {
-                                titleTv.text = name
+                                titleTv.text = "${name}-${number}"
                                 numberTv.text = "申请号 ：$number"
                                 timeTv.text = "申请日 ：$date"
                                 summaryTv.text = "【摘要】：$summary"
