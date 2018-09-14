@@ -13,4 +13,5 @@ interface PolicyExpressCallBack {
     fun loadMoreData(infos : List<PlListInfos>)
     fun dofinishRefresh()
     fun dofinishLoadMore()
+    fun doError()
 }

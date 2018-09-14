@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.view.View
@@ -12,6 +13,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
@@ -68,6 +70,19 @@ class PolicyExpressActivity : BaseRefreshActivity(), PolicyExpressCallBack {
         lv_express.adapter = plAdapter
 
         initTopBanner()
+
+        Glide.with(this)
+                .asGif()
+                .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
+                .into(iv_loading)
+    }
+
+    private fun setLoadding(){
+        view_recover.visibility = View.VISIBLE
+    }
+
+    private fun goneLoadding(){
+        view_recover.visibility = View.INVISIBLE
     }
 
     private fun initTopBanner() {
@@ -91,6 +106,7 @@ class PolicyExpressActivity : BaseRefreshActivity(), PolicyExpressCallBack {
     }
 
     private fun initData() {
+        setLoadding()
         getBannerData()
         getListInfoData()
     }
@@ -319,6 +335,11 @@ class PolicyExpressActivity : BaseRefreshActivity(), PolicyExpressCallBack {
             plAdapter!!.infos = infos
         }
         plAdapter!!.notifyDataSetChanged()
+        goneLoadding()
+    }
+
+    override fun doError() {
+        goneLoadding()
     }
 
     override fun loadMoreData(infos: List<PlListInfos>) {
@@ -332,6 +353,7 @@ class PolicyExpressActivity : BaseRefreshActivity(), PolicyExpressCallBack {
         if (this::refresh.isLateinit && refresh.isRefreshing) {
             refresh.finishRefresh()
         }
+        goneLoadding()
     }
 
     override fun dofinishLoadMore() {

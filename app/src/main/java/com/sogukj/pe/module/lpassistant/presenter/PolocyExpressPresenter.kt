@@ -99,6 +99,9 @@ class PolocyExpressPresenter : BasePresenter {
 
                         }.otherWise {
                             ToastUtil.showCustomToast(R.drawable.icon_toast_fail, payload.message, ctx!!)
+                            if (null != callBack){
+                                callBack!!.doError()
+                            }
                         }
                     }
                     onComplete {
@@ -116,6 +119,9 @@ class PolocyExpressPresenter : BasePresenter {
 
                     onError {
                         ToastUtil.showCustomToast(R.drawable.icon_toast_fail, "获取数据失败", ctx!!)
+                        if (null != callBack){
+                            callBack!!.doError()
+                        }
                     }
                 }
     }
