@@ -30,15 +30,14 @@ public class CusBallImageVIew extends android.support.v7.widget.AppCompatImageVi
 
     private int lastX;
     private int lastY;
-    public boolean isClick;
+    private boolean isDrag;
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-          super.onTouchEvent(event);
         int rawX = (int) event.getRawX();
         int rawY = (int) event.getRawY();
           switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN :
-                    setPressed(true);
+                    isDrag = false;
                     getParent().requestDisallowInterceptTouchEvent(true);
                     lastX = rawX;
                     lastY = rawY;
@@ -48,15 +47,20 @@ public class CusBallImageVIew extends android.support.v7.widget.AppCompatImageVi
                         parentHeight = parent.getHeight();
                         parentWidth = parent.getWidth();
                     }
-                    isClick = true;
                     break;
                 case MotionEvent.ACTION_MOVE :
-
+                    if (parentHeight <= 0 || parentWidth == 0) {
+                        isDrag = false;
+                        break;
+                    } else {
+                        isDrag = true;
+                    }
                     int dx = rawX - lastX;
                     int dy = rawY - lastY;
                     //这里修复一些华为手机无法触发点击事件
                     int distance = (int) Math.sqrt(dx * dx + dy * dy);
                     if (distance == 0) {
+                        isDrag = false;
                         break;
                     }
                     float x = getX() + dx;
@@ -68,12 +72,8 @@ public class CusBallImageVIew extends android.support.v7.widget.AppCompatImageVi
                     setY(y);
                     lastX = rawX;
                     lastY = rawY;
-                    isClick = false;
                     break;
                 case MotionEvent.ACTION_UP :
-                        //恢复按压效果
-                        setPressed(false);
-                        //Log.i("getX="+getX()+"；screenWidthHalf="+screenWidthHalf);
                         if (rawX >= parentWidth / 2) {
                             //靠右吸附
                             animate().setInterpolator(new DecelerateInterpolator())
@@ -90,6 +90,9 @@ public class CusBallImageVIew extends android.support.v7.widget.AppCompatImageVi
                     break;
             }
 
-        return true;
+        return !isNotDrag() || super.onTouchEvent(event);
+    }
+    private boolean isNotDrag() {
+        return !isDrag && (getX() == 0 || (getX() == parentWidth - getWidth()));
     }
 }

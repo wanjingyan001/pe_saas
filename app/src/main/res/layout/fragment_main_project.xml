@@ -153,6 +153,7 @@
         android:layout_height="50dp"
         android:layout_gravity="left|bottom"
         android:layout_marginBottom="100dp"
+        android:visibility="gone"
         android:scaleType="fitCenter"
         app:backgroundTint="#FF9F52"
         app:rippleColor="#FF9F52"/>
@@ -162,7 +163,6 @@
         android:layout_width="50dp"
         android:layout_height="@dimen/text_50"
         android:layout_gravity="left|bottom"
-        android:visibility="invisible"
         android:elevation="@dimen/text_3"
         android:layout_marginBottom="100dp"/>
     <RelativeLayout
