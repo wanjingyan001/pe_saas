@@ -273,7 +273,6 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
             holder.tv_content.text = "${resultInfo.fwzh}/${resultInfo.sxx}/${resultInfo.fbrq}/${resultInfo.ssrq}"
 
             holder.itemView.setOnClickListener {
-                startActivity<LawResultDetailActivity>(Extras.DATA to resultInfo.href,Extras.TITLE to resultInfo.title)
                 Log.e("TAG","type ==" + type)
                 var hisInfo = LawCaseHisInfo()
                 var kind = ""
@@ -297,6 +296,7 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
                         kind = "行业规定"
                     }
                 }
+                startActivity<LawResultDetailActivity>(Extras.DATA to resultInfo.href, Extras.TITLE to kind)
                 hisInfo.kind = kind
                 hisInfo.title = resultInfo.title
                 hisInfo.hao = resultInfo.fwzh
