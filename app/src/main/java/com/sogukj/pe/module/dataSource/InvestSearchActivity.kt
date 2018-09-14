@@ -24,7 +24,6 @@ import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
 import kotlinx.android.synthetic.main.activity_invest_search.*
 import kotlinx.android.synthetic.main.item_investment_event_list.view.*
-import kotlinx.android.synthetic.main.search_header.*
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.sdk25.coroutines.textChangedListener

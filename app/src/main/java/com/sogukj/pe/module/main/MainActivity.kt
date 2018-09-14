@@ -71,6 +71,7 @@ import org.jetbrains.anko.startActivity
 import java.io.*
 import java.util.*
 import kotlin.collections.ArrayList
+
 /**
  * Created by qinfei on 17/7/18.
  */
@@ -238,7 +239,7 @@ class MainActivity : BaseActivity() {
         bottomBar.setTabSelectedListener(object : BottomNavigationBar.SimpleOnTabSelectedListener() {
             override fun onTabSelected(position: Int) {
                 if (fragments.size.rem(2) != 0) {
-                    if (position == 2) {
+                    if (position == fragments.size.div(2)) {
                         mainLogo.setVisible(true)
                         val scalex = PropertyValuesHolder.ofFloat("scaleX", 0.7f, 1f)
                         val scaley = PropertyValuesHolder.ofFloat("scaleY", 0.7f, 1f)
@@ -429,9 +430,10 @@ class MainActivity : BaseActivity() {
                     mDialog.dismiss()
                 })
     }
-    private var bundle:Bundle? = null
-    private var pathByUri: String ? = null
-    private var accid: String ? = null
+
+    private var bundle: Bundle? = null
+    private var pathByUri: String? = null
+    private var accid: String? = null
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         if (manager != null) {
@@ -440,8 +442,8 @@ class MainActivity : BaseActivity() {
         pathByUri = intent!!.getStringExtra("pathByUri")
         accid = intent!!.getStringExtra("accid")
         bundle = intent!!.getBundleExtra("bundle")
-        if (null != bundle){
-            if (bundle!!.getBoolean("formPersonalInfo")){
+        if (null != bundle) {
+            if (bundle!!.getBoolean("formPersonalInfo")) {
                 if (!pathByUri.isNullOrEmpty()) {
                     NimUIKit.startP2PSession(this, accid, pathByUri)
                 } else {
@@ -551,12 +553,12 @@ class MainActivity : BaseActivity() {
     }
 
     companion object {
-        fun invoke(context: Context,bundle: Bundle,pathByUri: String,accid: String){
-            val intent = Intent(context,MainActivity::class.java)
-            intent.putExtra("bundle",bundle)
-            intent.putExtra("pathByUri",pathByUri)
-            intent.putExtra("accid",accid)
-            if (context !is Activity){
+        fun invoke(context: Context, bundle: Bundle, pathByUri: String, accid: String) {
+            val intent = Intent(context, MainActivity::class.java)
+            intent.putExtra("bundle", bundle)
+            intent.putExtra("pathByUri", pathByUri)
+            intent.putExtra("accid", accid)
+            if (context !is Activity) {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
             context.startActivity(intent)
