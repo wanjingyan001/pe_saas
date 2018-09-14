@@ -71,6 +71,9 @@ class HundredSearchActivity : ToolbarActivity() {
                             showErrorToast(payload.message)
                         }
                     }
+                    onError {
+                        showErrorToast("查询失败")
+                    }
                 }
     }
 }

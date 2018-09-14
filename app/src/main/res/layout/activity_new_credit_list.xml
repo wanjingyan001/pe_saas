@@ -43,7 +43,7 @@
                         android:layout_marginTop="2dp"
                         android:gravity="center"
                         android:singleLine="true"
-                        android:text="征信查询"
+                        android:text="个人咨质查询"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_size_large"
                         android:textStyle="bold"
