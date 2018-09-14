@@ -37,7 +37,7 @@ class ImSearchPresenter : BasePresenter {
         this.ctx = context
     }
     override fun doRequest() {
-
+        
     }
 
     open fun doRequest(query : String){

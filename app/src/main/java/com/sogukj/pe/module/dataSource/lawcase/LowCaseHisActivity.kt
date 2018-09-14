@@ -153,7 +153,7 @@ class LowCaseHisActivity : ToolbarActivity(), TextWatcher {
             val infos = lawCaseAdapter!!.dataList
             if (null != infos && infos.size > 0){
                 if (null != infos[position]){
-                    startActivity<LawResultDetailActivity>(Extras.DATA to infos[position].href)
+                    startActivity<LawResultDetailActivity>(Extras.DATA to infos[position].href,Extras.TITLE to infos[position].title)
                 }
             }
         }

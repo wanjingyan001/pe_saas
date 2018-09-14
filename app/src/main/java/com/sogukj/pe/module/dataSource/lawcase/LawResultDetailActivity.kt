@@ -26,6 +26,7 @@ import kotlinx.android.synthetic.main.white_back_toolbar.*
 class LawResultDetailActivity : ToolbarActivity() {
     private var href : String = ""
     internal val fontSize = 30
+    private var title : String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_law_detail)
@@ -34,9 +35,13 @@ class LawResultDetailActivity : ToolbarActivity() {
     }
 
     private fun initView() {
-        setTitle("法律文书")
         href = intent.getStringExtra(Extras.DATA)
-
+        title = intent.getStringExtra(Extras.TITLE)
+        if (null != title && !("".equals(title))){
+            setTitle(title)
+        }else{
+            setTitle("法律文书")
+        }
         val webSettings = webview.settings
         webSettings.savePassword = false
         webSettings.javaScriptEnabled = true
