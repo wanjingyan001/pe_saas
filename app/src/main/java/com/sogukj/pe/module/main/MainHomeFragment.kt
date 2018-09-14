@@ -125,7 +125,7 @@ class MainHomeFragment : BaseFragment() {
                                         childView.clickWithTrigger {
                                             val path = mainModule.address + mainModule.port
                                             val bundle = Bundle()
-                                            bundle.putInt(Extras.FLAG, Extras.ROUTH_FLAG)
+                                            bundle.putInt(Extras.FLAG2, Extras.ROUTH_FLAG)
                                             //fragment中使用路由调用startActivityForResult回调将在Activity中
                                             ARouter.getInstance()
                                                     .build(path)

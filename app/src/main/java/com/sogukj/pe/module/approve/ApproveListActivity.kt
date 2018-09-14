@@ -76,7 +76,7 @@ class ApproveListActivity : BaseRefreshActivity(), TabLayout.OnTabSelectedListen
         setContentView(R.layout.activity_approve_list)
         inflater = LayoutInflater.from(this)
         mType = intent.getIntExtra(Extras.TYPE, 1)
-        title = if (intent.getIntExtra(Extras.FLAG,-1) == Extras.ROUTH_FLAG) {
+        title = if (intent.getIntExtra(Extras.FLAG2,-1) == Extras.ROUTH_FLAG) {
             "待我审批"
         }else{
             intent.getStringExtra(Extras.TITLE)

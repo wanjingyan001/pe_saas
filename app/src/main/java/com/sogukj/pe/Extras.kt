@@ -104,4 +104,5 @@ object Extras {
     const val DOWNLOADED_PDF = "ext.downloaded_pdf"//已下载文件
     const val PATENT_HISTORY = "ext.patent_history"//专利查询的查看历史
     const val IS_FIRST_LAW = "is_first_law"
+    const val IS_FIRST_PATENT = "is_first_patent"
 }

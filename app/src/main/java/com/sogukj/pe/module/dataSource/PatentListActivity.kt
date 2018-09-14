@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import androidx.core.content.edit
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter
@@ -79,10 +80,10 @@ class PatentListActivity : BaseActivity() {
             }
         }
         searchEdt.setOnEditorActionListener { v, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH){
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 searchEdt.postDelayed({
                     searchEdt.textStr.isNotEmpty().yes {
-                        Utils.closeInput(this,searchEdt)
+                        Utils.closeInput(this, searchEdt)
                         clear.setVisible(true)
                         page = 1
                         showLoadding()
@@ -108,19 +109,23 @@ class PatentListActivity : BaseActivity() {
                 .asGif()
                 .load(Uri.parse("file:///android_asset/img_loading_xh.gif")).into(iv_loading)
     }
-    fun showLoadding(){
+
+    fun showLoadding() {
         view_recover.visibility = View.VISIBLE
     }
 
-    fun goneLoadding(){
+    fun goneLoadding() {
         view_recover.visibility = View.INVISIBLE
     }
+
     private fun getPatentList(searchKey: String? = null) {
         SoguApi.getService(application, DataSourceService::class.java)
                 .getPatentList(page, searchKey)
                 .execute {
                     onSubscribe {
-
+                        sp.getBoolean(Extras.IS_FIRST_PATENT, true).yes {
+                            sp.edit { putBoolean(Extras.IS_FIRST_PATENT, false) }
+                        }
                     }
                     onNext { payload ->
                         payload.isOk.yes {
@@ -155,14 +160,14 @@ class PatentListActivity : BaseActivity() {
                     }
                     onError {
                         goneLoadding()
-                        if (page == 1){
+                        if (page == 1) {
                             patentList.setVisible(false)
                             emptyImg.setVisible(true)
                             refresh.finishRefresh()
-                        }else{
+                        } else {
                             refresh.finishLoadMore()
                         }
-                        Log.e("TAG","专利列表 error ==" + it.message)
+                        Log.e("TAG", "专利列表 error ==" + it.message)
                         showErrorToast("数据获取失败")
                     }
                 }

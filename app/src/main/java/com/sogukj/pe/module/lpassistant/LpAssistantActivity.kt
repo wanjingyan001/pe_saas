@@ -34,7 +34,6 @@ import org.jetbrains.anko.startActivity
  */
 @Route(path = ARouterPath.LpAssistantActivity)
 class LpAssistantActivity : BaseActivity() {
-    private lateinit var model: PatentViewModel
 
     lateinit var lpaAdapter: RecyclerAdapter<LpAssisBean>
     private var infos = ArrayList<LpAssisBean>()
@@ -113,16 +112,11 @@ class LpAssistantActivity : BaseActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        model =  ViewModelProviders.of(this, PatentModelFactory(this)).get(PatentViewModel::class.java)
-    }
-
     private fun bindListener() {
         lpaAdapter.onItemClick = { v: View, position: Int ->
             when (position) {
                 0 -> {
-                    if (model.getPatentHistory().isEmpty()) {
+                    if (sp.getBoolean(Extras.IS_FIRST_PATENT,true)) {
                         startActivity<PatentSearchActivity>(Extras.DATA to 0)
                     }else{
                         startActivity<PatentDataActivity>()

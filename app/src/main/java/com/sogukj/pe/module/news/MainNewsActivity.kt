@@ -15,7 +15,7 @@ class MainNewsActivity : ToolbarActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_news)
-        val intExtra = intent.getIntExtra(Extras.FLAG, -1)
+        val intExtra = intent.getIntExtra(Extras.FLAG2, -1)
         supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fl_container, MainNewsFragment.newInstance(intExtra))
