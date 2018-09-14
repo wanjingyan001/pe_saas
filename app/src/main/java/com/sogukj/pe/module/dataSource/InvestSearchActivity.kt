@@ -128,17 +128,15 @@ class InvestSearchActivity : BaseActivity() {
         et_search.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH){
                 Utils.closeInput(ctx,et_search)
+                et_search.textStr.isNotEmpty().yes {
+                    Utils.toggleSoftInput(this@InvestSearchActivity,et_search)
+                    getInvestList(et_search.textStr)
+                }
                 true
             }
             false
         }
         et_search.textChangedListener {
-            onTextChanged { charSequence, start, before, count ->
-                et_search.textStr.isNotEmpty().yes {
-                    Utils.toggleSoftInput(this@InvestSearchActivity,et_search)
-                    getInvestList(et_search.textStr)
-                }
-            }
             afterTextChanged {
                 if (et_search.text.isNotEmpty()) {
                     iv_del.setVisible(true)

@@ -110,15 +110,16 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/filterLayout">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="match_parent">
                     <View
+                        android:id="@+id/line0"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginEnd="10dp"
                         android:layout_marginStart="10dp"
+                        android:layout_alignParentTop="true"
                         android:background="#F1F1F1" />
 
                     <ImageView
@@ -126,12 +127,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:scaleType="centerCrop"
+                        android:layout_below="@+id/line0"
                         android:src="@mipmap/icon_intelligent_header"
                         android:visibility="gone" />
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/filterResultList"
                         android:layout_width="match_parent"
+                        android:layout_below="@+id/intelligentHeader"
                         android:layout_height="match_parent">
 
                     </android.support.v7.widget.RecyclerView>
@@ -140,10 +143,18 @@
                         android:id="@+id/emptyImg"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                       android:layout_centerInParent="true"
                         android:src="@drawable/img_empty"
                         android:visibility="gone" />
-                </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/iv_loading"
+                        android:layout_width="72dp"
+                        android:src="@drawable/img_empty"
+                        android:layout_height="72dp"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center" />
+                </RelativeLayout>
 
             </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 

@@ -64,6 +64,7 @@ class InvestmentActivity : BaseRefreshActivity() {
 
         primaryAdapter.onItemClick = { v, position ->
             primaryAdapter.selectedPosition = position
+            secondaryAdapter.selectedPosition = -1
             fIndustryId = primaryAdapter.dataList[position].id
             filterConditionTv.setVisible(true)
             filterConditionTv.text =  primaryAdapter.dataList[position].category_name
@@ -104,11 +105,10 @@ class InvestmentActivity : BaseRefreshActivity() {
 //            primaryOption[0].performClick()
         }
         resetCondition.clickWithTrigger {
-            primaryAdapter.selectedPosition = 0
-            primaryAdapter.dataList[0].child?.let {
-                secondaryAdapter.refreshData(it)
-            }
+            primaryAdapter.selectedPosition = -1
             secondaryAdapter.selectedPosition = -1
+            secondaryAdapter.dataList.clear()
+            secondaryAdapter.notifyDataSetChanged()
             fIndustryId = null
             fYear = null
             filterConditionTv.setVisible(false)

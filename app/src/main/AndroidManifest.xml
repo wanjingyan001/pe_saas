@@ -1221,7 +1221,7 @@
             android:name=".module.dataSource.PdfSearchActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateVisible" />
         <activity
             android:name=".module.dataSource.PdfPreviewActivity"
             android:configChanges="orientation|screenSize"
