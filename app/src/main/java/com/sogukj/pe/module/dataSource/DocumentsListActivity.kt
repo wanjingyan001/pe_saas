@@ -11,10 +11,11 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
 import android.text.TextUtils
+import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.content.edit
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.google.gson.Gson
 import com.sogukj.pe.ARouterPath
@@ -58,6 +59,10 @@ class DocumentsListActivity : BaseRefreshActivity() {
         toolbar?.setBackgroundColor(resources.getColor(R.color.white))
         Utils.setWindowStatusBarColor(this, R.color.white)
         setBack(true)
+        Glide.with(ctx)
+                .asGif()
+                .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
+                .into(iv_loading)
         when (type) {
             DocumentType.INTELLIGENT -> {
                 title = "智能文书"
@@ -131,6 +136,7 @@ class DocumentsListActivity : BaseRefreshActivity() {
             addItemDecoration(RecycleViewDivider(ctx,LinearLayoutManager.VERTICAL))
             adapter = listAdapter
         }
+        setLoadding()
         getPdfList()
         searchLayout.clickWithTrigger {
             PdfSearchActivity.start(this, type, category = category)
@@ -157,10 +163,16 @@ class DocumentsListActivity : BaseRefreshActivity() {
                                 showErrorToast("已经全部加载完成")
                             }
                         }
+                        goneLoadding()
                     }
                     onComplete {
                         emptyImg.setVisible(documents.isEmpty())
                         filterResultList.setVisible(documents.isNotEmpty())
+                        goneLoadding()
+                    }
+                    onError {
+                        it.printStackTrace()
+                        goneLoadding()
                     }
                 }
     }
@@ -212,6 +224,18 @@ class DocumentsListActivity : BaseRefreshActivity() {
         super.onPause()
         downloaded.isNotEmpty().yes {
             sp.edit { putString(Extras.DOWNLOADED_PDF, downloaded.jsonStr) }
+        }
+    }
+
+    fun setLoadding(){
+        if (null != view_recover){
+            view_recover.visibility = View.VISIBLE
+        }
+    }
+
+    fun goneLoadding(){
+        if (null != view_recover){
+            view_recover.visibility = View.INVISIBLE
         }
     }
 }

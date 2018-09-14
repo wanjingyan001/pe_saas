@@ -10,6 +10,7 @@ import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
+import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.ProjectBean
 import com.sogukj.pe.service.InfoService
 import com.sogukj.service.SoguApi
@@ -66,6 +67,13 @@ class ManageDataActivity : ToolbarActivity() {
                     Trace.e(e)
                     ToastError(e)
                 })
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (null != et_majorEvents){
+            Utils.closeInput(this,et_majorEvents)
+        }
     }
 
     val paramMap = HashMap<String, Any>()

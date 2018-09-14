@@ -3,9 +3,12 @@ package com.sogukj.pe.module.hotpost
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
+import android.view.View
+import com.bumptech.glide.Glide
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.execute
@@ -43,6 +46,10 @@ class HotPostActivity : BaseRefreshActivity() {
         hot_recycle.layoutManager = GridLayoutManager(this, 2)
         hot_recycle.itemAnimator = DefaultItemAnimator()
         hot_recycle.addItemDecoration(GridSpacingItemDecoration(this, 2))
+        Glide.with(this)
+                .asGif()
+                .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
+                .into(iv_loading)
     }
 
     private fun initData() {
@@ -63,7 +70,16 @@ class HotPostActivity : BaseRefreshActivity() {
             intent.putExtra(Extras.NAME, info.name)
             startActivity(intent)
         }
+        setLoadding()
         getData()
+    }
+
+    private fun setLoadding(){
+        view_recover.visibility = View.VISIBLE
+    }
+
+    private fun goneLoadding(){
+        view_recover.visibility = View.INVISIBLE
     }
 
     private fun getData() {
@@ -86,6 +102,15 @@ class HotPostActivity : BaseRefreshActivity() {
                         }.otherWise {
                             showErrorToast(payload.message)
                         }
+                        goneLoadding()
+                    }
+                    onComplete {
+                        goneLoadding()
+                    }
+
+                    onError {
+                        it.printStackTrace()
+                        goneLoadding()
                     }
                 }
     }
