@@ -65,10 +65,12 @@ class LowCaseHisActivity : ToolbarActivity(), TextWatcher {
                 for (i in 0..4) {
                     realLawHis.add(lawHis[i])
                 }
+                lawCaseAdapter!!.dataList.clear()
                 lawCaseAdapter!!.dataList.addAll(realLawHis)
                 recycler_view.adapter = lawCaseAdapter
                 lawCaseAdapter!!.notifyDataSetChanged()
             } else {
+                lawCaseAdapter!!.dataList.clear()
                 lawCaseAdapter!!.dataList.addAll(lawHis)
                 recycler_view.adapter = lawCaseAdapter
                 lawCaseAdapter!!.notifyDataSetChanged()
