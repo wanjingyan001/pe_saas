@@ -55,7 +55,7 @@ class HotPostActivity : BaseRefreshActivity() {
     private fun initData() {
         listAdapter = HotPostAdapter(infos)
         listAdapter.setSpanSizeLookup { _, position ->
-            if (position == 0) {
+            if (position == 0 || position == listAdapter.data.size - 1) {
                 return@setSpanSizeLookup 2
             } else {
                 return@setSpanSizeLookup 1
@@ -96,7 +96,11 @@ class HotPostActivity : BaseRefreshActivity() {
                                         hotPostInfo.setType(HotPostInfo.item)
                                     }
                                 }
+                                val hotPostInfo = HotPostInfo()
+                                hotPostInfo.setType(HotPostInfo.footer)
+                                hotPostInfo.name = "X-PE 你的专属投资大管家"
                                 infos.addAll(it)
+                                infos.add(hotPostInfo)
                                 listAdapter.notifyDataSetChanged()
                             }
                         }.otherWise {

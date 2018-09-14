@@ -12,6 +12,7 @@ class HotPostInfo : Serializable, MultiItemEntity {
     companion object {
         val header = 1
         val item = 2
+        val footer = 3
     }
 
     public fun setType(type:Int){

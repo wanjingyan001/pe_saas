@@ -19,6 +19,7 @@ class HotPostAdapter(data:List<HotPostInfo>): BaseMultiItemQuickAdapter<HotPostI
     init {
         addItemType(HotPostInfo.header, R.layout.item_hotpost_list)
         addItemType(HotPostInfo.item,R.layout.item2_hotpost_list)
+        addItemType(HotPostInfo.footer,R.layout.bottom_hint)
     }
 
     override fun convert(helper: BaseViewHolder, item: HotPostInfo) {

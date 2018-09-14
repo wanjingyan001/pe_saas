@@ -12,6 +12,7 @@
         android:layout_weight="1.5"
         android:background="@color/gray_f1"/>
     <TextView
+        android:id="@+id/tv_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="X-PE 你的专属投资大管家"
@@ -26,4 +27,10 @@
         android:layout_height="1dp"
         android:layout_weight="1.5"
         android:background="@color/gray_f1"/>
+
+    <ImageView
+        android:id="@+id/iv_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
 </LinearLayout>
