@@ -156,6 +156,15 @@
         android:scaleType="fitCenter"
         app:backgroundTint="#FF9F52"
         app:rippleColor="#FF9F52"/>
+
+    <com.sogukj.pe.widgets.CusBallImageVIew
+        android:id="@+id/cus_dangerous"
+        android:layout_width="50dp"
+        android:layout_height="@dimen/text_50"
+        android:layout_gravity="left|bottom"
+        android:visibility="invisible"
+        android:elevation="@dimen/text_3"
+        android:layout_marginBottom="100dp"/>
     <RelativeLayout
         android:id="@+id/ll_search"
         android:layout_width="match_parent"

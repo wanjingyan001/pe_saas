@@ -79,6 +79,12 @@ class LowCaseHisActivity : ToolbarActivity(), TextWatcher {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        lawHis = Store.store.getLawHis(this)
+        fitData()
+    }
+
     private fun showLawEmpty(enable: Boolean) {
         if (enable) {
             empty_img.visibility = View.VISIBLE

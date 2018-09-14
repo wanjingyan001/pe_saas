@@ -113,7 +113,9 @@ class MainProjectFragment : BaseRefreshFragment() {
         dangerous.setOnClickListener {
             DangerousActivity.start(baseActivity)
         }
-
+        cus_dangerous.setOnClickListener {
+            DangerousActivity.start(baseActivity)
+        }
         adapter = RecyclerAdapter(baseActivity!!, { _adapter, parent, type ->
             val convertView = _adapter.getView(R.layout.item_main_project_search, parent)
             object : RecyclerHolder<ProjectBean>(convertView) {
@@ -457,6 +459,7 @@ class MainProjectFragment : BaseRefreshFragment() {
 
     private fun loadDangerous() {
         Glide.with(activity!!).asGif().load(R.drawable.danger).into(dangerous)
+        Glide.with(activity!!).asGif().load(R.drawable.danger).into(cus_dangerous)
     }
 
     override fun doRefresh() {

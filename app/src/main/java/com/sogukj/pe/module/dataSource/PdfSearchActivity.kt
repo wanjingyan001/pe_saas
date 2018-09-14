@@ -183,11 +183,16 @@ class PdfSearchActivity : BaseActivity() {
                     et_search.setHint(R.string.search)
                     refresh.setVisible(false)
 
-                    historyLayout.setVisible(true)
-                    historyList.isNotEmpty().yes {
-                        ll_empty_his.setVisible(false)
-                    }.otherWise {
-                        ll_empty_his.setVisible(true)
+                    if (null != historyAdapter){
+                        historyAdapter = PdfHistoryAdapter()
+                        tfl.adapter = historyAdapter
+                        historyAdapter.notifyDataChanged()
+                        historyLayout.setVisible(true)
+                        historyList.isNotEmpty().yes {
+                            ll_empty_his.setVisible(false)
+                        }.otherWise {
+                            ll_empty_his.setVisible(true)
+                        }
                     }
                 }
             }
@@ -215,6 +220,9 @@ class PdfSearchActivity : BaseActivity() {
                             }
                         }.otherWise {
                             showErrorToast(payload.message)
+                            search_iv_empty.setVisible(true)
+                            refresh.setVisible(false)
+                            historyLayout.setVisible(false)
                         }
                     }
 
@@ -231,7 +239,7 @@ class PdfSearchActivity : BaseActivity() {
                             }.otherWise {
                                 search_iv_empty.setVisible(true)
                                 refresh.setVisible(false)
-                                historyLayout.setVisible(true)
+                                historyLayout.setVisible(false)
                             }
                         }
                     onError {

@@ -12,6 +12,7 @@ import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.baselibrary.utils.XmlDb
 import com.sogukj.pe.module.dataSource.lawcase.adapter.PagerAdapter
 import kotlinx.android.synthetic.main.activity_law_search.*
 import kotlinx.android.synthetic.main.law_search_title.*
@@ -29,6 +30,7 @@ class LawSearchResultActivity : ToolbarActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_law_search)
         searchKey = intent.getStringExtra(Extras.DATA)
+        XmlDb.open(this).set(Extras.IS_FIRST_LAW,true)
         initData()
         bindListener()
     }

@@ -16,13 +16,13 @@ import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.baselibrary.utils.XmlDb
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.LpAssisBean
 import com.sogukj.pe.module.dataSource.*
 import com.sogukj.pe.module.dataSource.lawcase.LowCaseHisActivity
 import com.sogukj.pe.module.hotpost.HotPostActivity
-import com.sogukj.pe.peUtils.Store
 import kotlinx.android.synthetic.main.activity_la_assistant.*
 import kotlinx.android.synthetic.main.commom_title.*
 import org.jetbrains.anko.find
@@ -130,11 +130,10 @@ class LpAssistantActivity : BaseActivity() {
                 }
                 1 -> {
                     //法律助手
-                    val lawHis = Store.store.getLawHis(this)
-                    if (null != lawHis && lawHis.size > 0){
-                        startActivity<LowCaseHisActivity>()
-                    }else{
+                    if (!XmlDb.open(this).get(Extras.IS_FIRST_LAW)){
                         startActivity<PatentSearchActivity>(Extras.DATA to 1)
+                    }else{
+                        startActivity<LowCaseHisActivity>()
                     }
                 }
 
