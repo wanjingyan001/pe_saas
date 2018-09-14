@@ -234,9 +234,6 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
     override fun loadMoreData(it: List<LawSearchResultInfo>?) {
         searchData.addAll(it!!)
         resultAdapter.notifyDataSetChanged()
-        if (null != tv_total){
-            tv_total.text = searchData.size.toString()
-        }
     }
 
     override fun loadError() {
