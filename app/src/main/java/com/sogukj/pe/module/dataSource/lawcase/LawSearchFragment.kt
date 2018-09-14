@@ -295,6 +295,12 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
                     6 -> {
                         kind = "行业规定"
                     }
+                    7 -> {
+                       kind = "团体规定"
+                    }
+                    8 -> {
+                        kind = "司法解释"
+                    }
                 }
                 startActivity<LawResultDetailActivity>(Extras.DATA to resultInfo.href, Extras.TITLE to kind)
                 hisInfo.kind = kind

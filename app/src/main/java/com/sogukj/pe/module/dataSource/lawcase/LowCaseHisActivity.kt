@@ -58,6 +58,7 @@ class LowCaseHisActivity : ToolbarActivity(), TextWatcher {
     }
 
     private fun fitData() {
+        realLawHis.clear()
         if (null != lawHis && lawHis.size > 0) {
             showLawEmpty(false)
             lawHis.reverse()
