@@ -63,6 +63,24 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
         plResultAdapter.dataList.addAll(infos)
         search_recycler_view.adapter = plResultAdapter
         plResultAdapter.notifyDataSetChanged()
+
+        val his = Store.store.getPlHis(this)
+        if (null != his && his.size > 0){
+            var index = 0
+            for (i in his){
+                if (searchKey.equals(i)){
+                    index ++
+                }
+            }
+            if (index == 0){
+                his.add(searchKey)
+                Store.store.savePltHis(this,his)
+            }
+        }else{
+            val keys = ArrayList<String>()
+            keys.add(searchKey)
+            Store.store.savePltHis(this,keys)
+        }
     }
 
     override fun loadMoreData(moreData: List<PlListInfos>) {
@@ -375,23 +393,6 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
                 val info = plResultAdapter.dataList[position]
                 if (null != info){
                     PolicyExpressDetailActivity.invoke(this,info.id)
-                }
-                val his = Store.store.getPlHis(this)
-                if (null != his && his.size > 0){
-                    var index = 0
-                    for (i in his){
-                        if (searchKey.equals(i)){
-                            index ++
-                        }
-                    }
-                    if (index == 0){
-                        his.add(searchKey)
-                        Store.store.savePltHis(this,his)
-                    }
-                }else{
-                    val keys = ArrayList<String>()
-                    keys.add(searchKey)
-                    Store.store.savePltHis(this,keys)
                 }
             }
         }
