@@ -111,6 +111,10 @@ public class Utils {
         }
     }
 
+    public static void forceCloseInput(Context context,View view){
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
     public static void showInput(Context context, View view) {
         view.requestFocus();
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);

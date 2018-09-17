@@ -304,6 +304,7 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
                 hisInfo.title = resultInfo.title
                 hisInfo.hao = resultInfo.fwzh
                 hisInfo.href = resultInfo.href
+                hisInfo.key_word = searchKey
                 if (resultInfo.fbrq.contains("发")){
                     val split = resultInfo.fbrq.split("发")
                     if (null != split && split.size > 1){

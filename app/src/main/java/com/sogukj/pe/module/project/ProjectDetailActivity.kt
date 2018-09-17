@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.support.v4.app.Fragment
@@ -60,7 +59,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_project_detail.*
 import kotlinx.android.synthetic.main.layout_project_header.view.*
-import org.jetbrains.anko.*
+import org.jetbrains.anko.backgroundResource
+import org.jetbrains.anko.ctx
+import org.jetbrains.anko.find
+import org.jetbrains.anko.textColor
 
 class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickListener {
     lateinit var project: ProjectBean

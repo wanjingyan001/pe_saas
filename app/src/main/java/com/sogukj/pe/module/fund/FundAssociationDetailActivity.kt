@@ -294,7 +294,7 @@ class FundAssociationDetailActivity : ToolbarActivity() {
     override fun onPause() {
         super.onPause()
         if (null != editText){
-            Utils.closeInput(this,editText)
+            Utils.forceCloseInput(this,editText)
         }
     }
 

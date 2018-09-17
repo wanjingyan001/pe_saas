@@ -167,7 +167,7 @@ class LowCaseHisActivity : ToolbarActivity(), TextWatcher {
         val tv_time = itemView.findViewById<TextView>(R.id.tv_time)
         override fun setData(view: View, data: LawCaseHisInfo, position: Int) {
             num.text = (position + 1).toString() + "."
-            tv_kind.text = data.kind
+            tv_kind.text = data.key_word
             tv_title.text = data.title
             tv_time.text = data.time
         }
