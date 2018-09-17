@@ -110,32 +110,7 @@ class MainHomeFragment : BaseFragment() {
             }
             else -> {
                 modulesLayout.inflate()
-                SoguApi.getService(baseActivity!!.application, OtherService::class.java)
-                        .getFourModules()
-                        .execute {
-                            onNext { payload ->
-                                if (payload.isOk) {
-                                    val layout = find<LinearLayout>(R.id.fourModules)
-                                    payload.payload?.forEachIndexed { index, mainModule ->
-                                        val childView = layout.getChildAt(index) as LinearLayout
-                                        val numTv = childView.getChildAt(0) as TextView
-                                        val nameTv = childView.getChildAt(1) as TextView
-                                        numTv.text = mainModule.num
-                                        nameTv.text = mainModule.name
-                                        childView.clickWithTrigger {
-                                            val path = mainModule.address + mainModule.port
-                                            val bundle = Bundle()
-                                            bundle.putInt(Extras.FLAG2, Extras.ROUTH_FLAG)
-                                            //fragment中使用路由调用startActivityForResult回调将在Activity中
-                                            ARouter.getInstance()
-                                                    .build(path)
-                                                    .with(bundle)
-                                                    .navigation(activity!!)
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                getTopModules()
             }
         }
         val company = sp.getString(Extras.SAAS_BASIC_DATA, "")
@@ -281,10 +256,6 @@ class MainHomeFragment : BaseFragment() {
         }
     }
 
-    fun initHeadTitle(title: String?) {
-
-    }
-
     lateinit var totalData: ArrayList<Any>
 
     override fun onResume() {
@@ -292,6 +263,38 @@ class MainHomeFragment : BaseFragment() {
         ShortcutBadger.removeCount(ctx)
         page = 1
         doRequest()
+        if (getEnvironment() != "ht") {
+            getTopModules()
+        }
+    }
+
+    private fun getTopModules() {
+        SoguApi.getService(baseActivity!!.application, OtherService::class.java)
+                .getFourModules()
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk) {
+                            val layout = find<LinearLayout>(R.id.fourModules)
+                            payload.payload?.forEachIndexed { index, mainModule ->
+                                val childView = layout.getChildAt(index) as LinearLayout
+                                val numTv = childView.getChildAt(0) as TextView
+                                val nameTv = childView.getChildAt(1) as TextView
+                                numTv.text = mainModule.num
+                                nameTv.text = mainModule.name
+                                childView.clickWithTrigger {
+                                    val path = mainModule.address + mainModule.port
+                                    val bundle = Bundle()
+                                    bundle.putInt(Extras.FLAG2, Extras.ROUTH_FLAG)
+                                    //fragment中使用路由调用startActivityForResult回调将在Activity中
+                                    ARouter.getInstance()
+                                            .build(path)
+                                            .with(bundle)
+                                            .navigation(activity!!)
+                                }
+                            }
+                        }
+                    }
+                }
     }
 
     fun doRequest() {

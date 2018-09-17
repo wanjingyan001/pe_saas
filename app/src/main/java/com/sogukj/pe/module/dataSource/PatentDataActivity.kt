@@ -146,9 +146,9 @@ class PatentDataActivity : ToolbarActivity() {
         @SuppressLint("SetTextI18n")
         override fun setData(view: View, data: PatentItem, position: Int) {
             view.num.text = "${position + 1}"
-            view.patentName.text = data.name
-            view.applicantName.text = data.author
-            view.timeTv.text = data.date
+            view.patentName.text = "${data.name}-${data.number}"
+            view.applicantName.text ="申请人：${data.author}"
+            view.timeTv.text ="申请日期：${data.date}"
         }
     }
 }
