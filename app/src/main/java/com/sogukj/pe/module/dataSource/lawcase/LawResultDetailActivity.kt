@@ -15,6 +15,7 @@ import com.sogukj.pe.baselibrary.Extended.otherWise
 import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.bean.LawNewsDetailBean
+import com.sogukj.pe.service.DataSourceService
 import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_law_detail.*
@@ -76,7 +77,7 @@ class LawResultDetailActivity : ToolbarActivity() {
 
     private fun getLawDetailData() {
         showLoadding()
-        SoguApi.getService(App.INSTANCE, OtherService::class.java)
+        SoguApi.getService(App.INSTANCE, DataSourceService::class.java)
                 .getLawResultDetail(href)
                 .execute {
                     onNext { payload ->

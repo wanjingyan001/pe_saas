@@ -3,7 +3,6 @@ package com.sogukj.pe.baselibrary.base
 import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.content.Context
-import anet.channel.util.Utils.context
 import java.util.ArrayList
 
 /**

@@ -67,16 +67,7 @@ class PatentListActivity : BaseActivity() {
         }
         searchEdt.textChangedListener {
             afterTextChanged {
-                searchEdt.postDelayed({
-                    searchEdt.textStr.isNotEmpty().yes {
-                        clear.setVisible(true)
-                        page = 1
-                        showLoadding()
-                        getPatentList(searchEdt.textStr)
-                    }.otherWise {
-                        clear.setVisible(false)
-                    }
-                }, 300)
+                clear.setVisible(searchEdt.textStr.isNotEmpty())
             }
         }
         searchEdt.setOnEditorActionListener { v, actionId, event ->

@@ -14,6 +14,7 @@ import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.peUtils.ToastUtil
 import com.sogukj.pe.peUtils.ToastUtil.Companion.showCustomToast
+import com.sogukj.pe.service.DataSourceService
 import com.sogukj.pe.service.OtherService
 import com.sogukj.pe.service.UserService
 import com.sogukj.service.SoguApi
@@ -112,7 +113,7 @@ class ImSearchPresenter : BasePresenter {
             page++
         }
         Log.e("TAG","page ==" + page)
-        SoguApi.getService(App.INSTANCE, OtherService::class.java)
+        SoguApi.getService(App.INSTANCE, DataSourceService::class.java)
                 .getPolicyExpressList(page, pageSize,query)
                 .execute {
                     onNext { payload ->

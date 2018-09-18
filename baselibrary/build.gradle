@@ -11,6 +11,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -102,9 +103,12 @@ dependencies {
     api "com.alibaba.android:ddsharesdk:1.1.0"
     //Retrofit动态修改BaseUrl
     api 'me.jessyan:retrofit-url-manager:1.4.0'
+    //友盟推送
 
     api project(':bottom-navigation-bar')
-    implementation project(':PushSDK')
+    api project(':push')
+
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

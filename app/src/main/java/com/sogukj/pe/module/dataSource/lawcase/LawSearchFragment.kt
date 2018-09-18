@@ -168,10 +168,7 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
     }
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        if (!activity!!.et_search.text.toString().isEmpty()){
-            inputTime = System.currentTimeMillis()
-            activity!!.et_search.post(inputRunnable)
-        }
+
     }
 
     private var inputRunnable:Runnable = object : Runnable{

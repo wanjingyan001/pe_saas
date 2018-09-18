@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.sogukj.pe.ARouterPath
+import com.sogukj.pe.Consts
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
@@ -25,6 +26,7 @@ import com.sogukj.pe.module.dataSource.lawcase.LowCaseHisActivity
 import com.sogukj.pe.module.hotpost.HotPostActivity
 import kotlinx.android.synthetic.main.activity_la_assistant.*
 import kotlinx.android.synthetic.main.commom_title.*
+import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
 
@@ -41,6 +43,7 @@ class LpAssistantActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_la_assistant)
         Utils.setWindowStatusBarColor(this, R.color.white)
+        RetrofitUrlManager.getInstance().putDomain("DataSource", Consts.HTTP_HOST)
         initView()
         initData()
         bindListener()

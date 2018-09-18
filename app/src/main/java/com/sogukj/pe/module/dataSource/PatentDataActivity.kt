@@ -96,12 +96,6 @@ class PatentDataActivity : ToolbarActivity() {
         }
         initRefreshConfig()
         searchEdt.textChangedListener {
-            afterTextChanged {
-                searchEdt.postDelayed({ searchEdt.textStr.isNotEmpty().yes {
-                    Utils.closeInput(ctx, searchEdt)
-                    startActivity<PatentListActivity>(Extras.CODE to searchEdt.textStr)
-                }},300)
-            }
             onTextChanged { charSequence, s, b, c ->
                 clear.setVisible(searchEdt.textStr.isNotEmpty())
             }

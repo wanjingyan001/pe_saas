@@ -37,10 +37,12 @@ import com.sogukj.pe.module.news.NewsDetailActivity
 import com.sogukj.pe.module.register.PhoneInputActivity
 import com.sogukj.pe.module.weekly.PersonalWeeklyActivity
 import com.sogukj.pe.peExtended.defaultIc
+import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.UserService
 import com.sogukj.service.SoguApi
 import com.tencent.bugly.crashreport.CrashReport
+import com.umeng.commonsdk.UMConfigure
 import com.umeng.message.IUmengRegisterCallback
 import com.umeng.message.MsgConstant
 import com.umeng.message.PushAgent
@@ -74,8 +76,14 @@ class App : MultiDexApplication() {
             CrashReport.initCrashReport(INSTANCE, "49fb9e37b7", BuildConfig.DEBUG)
             SgDatabase.getInstance(INSTANCE)
             MobSDK.init(INSTANCE, "214eaf8217e6c", "c1ddfcaa333020a5a06812bc745d508c")
+            //友盟初始化
+            if (getEnvironment() == "ht") {
+                UMConfigure.init(INSTANCE,UMConfigure.DEVICE_TYPE_PHONE,"8a3cd80e07007a0463e9b12f758b727b")
+            }else{
+                UMConfigure.init(INSTANCE,UMConfigure.DEVICE_TYPE_PHONE,"a4bb361310d9aee916f2cc43c5dbda5c")
+            }
+            UMConfigure.setLogEnabled(true)
             val mPushAgent = PushAgent.getInstance(INSTANCE)
-            mPushAgent.setDebugMode(false)
             mPushAgent.displayNotificationNumber = 5
             mPushAgent.notificationPlayLights = MsgConstant.NOTIFICATION_PLAY_SDK_ENABLE
             mPushAgent.register(object : IUmengRegisterCallback {

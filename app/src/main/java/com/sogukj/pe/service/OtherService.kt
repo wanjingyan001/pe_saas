@@ -111,47 +111,5 @@ interface OtherService {
     fun getFourModules(): Observable<Payload<List<MainModule>>>
 
 
-    /**
-     * 获取投资分类(投资事件的筛选条件1)
-     */
-    @POST("/api/Datasource/invest_category")
-    fun getInvestCategory():Observable<Payload<List<InvestCategory>>>
 
-    /**
-     * 政策速递新闻banner
-     */
-    @POST("api/Datasource/policyNewsBanner")
-    fun getPolicyExpressBanner(): Observable<Payload<List<PolicyBannerInfo.BannerInfo>>>
-    /**
-     * 政策速递新闻列表
-     */
-    @FormUrlEncoded
-    @POST("api/Datasource/policyNews")
-    fun getPolicyExpressList(@Field("page") page: Int = 1,
-                             @Field("pageSize") pageSize: Int = 20,
-                             @Field("keywords") keywords : String? = null,
-                             @Field("type") type : Int? = null): Observable<Payload<List<PlListInfos>>>
-
-    /**
-    * 政策速递新闻详情
-    */
-    @FormUrlEncoded
-    @POST("api/Datasource/newsInfo")
-    fun getPolicyExpressDetail(@Field("news_id") news_id: Int): Observable<Payload<PlDetailInfo>>
-
-    /**
-     * 法律助手列表
-     */
-    @FormUrlEncoded
-    @POST("api/Datasource/getbdflLists")
-    fun getLawResultList(@Field("key_word") key_word:String,
-                             @Field("page") page: Int = 0,
-                             @Field("type") type : Int = 1): Observable<Payload<List<LawSearchResultInfo>>>
-
-    /**
-     * 法律助手详情
-     */
-    @FormUrlEncoded
-    @POST("api/Datasource/getbdxwContent")
-    fun getLawResultDetail(@Field("href") href:String): Observable<Payload<LawNewsDetailBean>>
 }

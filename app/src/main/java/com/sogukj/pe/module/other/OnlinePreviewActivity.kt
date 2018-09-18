@@ -5,10 +5,7 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.Bundle
-import android.os.Environment
-import android.os.Handler
-import android.os.Message
+import android.os.*
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
@@ -111,12 +108,12 @@ class OnlinePreviewActivity : ToolbarActivity(), PlatformActionListener {
                 })
 
         if (url.toLowerCase().contains("pdf")) {
-            if (!"".equals(url)) {
+            if ("" != url) {
                 var bytes: ByteArray? = null
                 try {// 获取以字符编码为utf-8的字符
                     bytes = url.toByteArray(Charsets.UTF_8)
                 } catch (e: UnsupportedEncodingException) {
-                    e.printStackTrace();
+                    e.printStackTrace()
                 }
                 if (bytes != null) {
                     url = BASE64Encoder().encode(bytes)

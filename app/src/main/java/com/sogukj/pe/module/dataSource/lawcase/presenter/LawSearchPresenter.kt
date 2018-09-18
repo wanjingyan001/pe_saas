@@ -10,6 +10,7 @@ import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.module.dataSource.lawcase.LawSearchCallBack
 import com.sogukj.pe.peUtils.ToastUtil
 import com.sogukj.pe.presenter.BasePresenter
+import com.sogukj.pe.service.DataSourceService
 import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 
@@ -39,7 +40,7 @@ class LawSearchPresenter : BasePresenter {
         }else{
             page++
         }
-        SoguApi.getService(App.INSTANCE, OtherService::class.java)
+        SoguApi.getService(App.INSTANCE, DataSourceService::class.java)
                 .getLawResultList(key,page,type)
                 .execute {
                     onNext { payload ->

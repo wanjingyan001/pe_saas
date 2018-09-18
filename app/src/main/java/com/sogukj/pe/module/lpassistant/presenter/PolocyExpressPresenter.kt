@@ -2,6 +2,7 @@ package com.sogukj.pe.module.lpassistant.presenter
 
 import android.content.Context
 import android.util.Log
+import com.amap.api.mapcore.util.it
 import com.sogukj.pe.App
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.execute
@@ -11,8 +12,10 @@ import com.sogukj.pe.bean.PolicyBannerInfo
 import com.sogukj.pe.module.lpassistant.PolicyExpressCallBack
 import com.sogukj.pe.peUtils.ToastUtil
 import com.sogukj.pe.presenter.BasePresenter
+import com.sogukj.pe.service.DataSourceService
 import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
+import io.reactivex.internal.util.HalfSerializer.onNext
 
 /**
  * Created by CH-ZH on 2018/9/5.
@@ -42,7 +45,7 @@ class PolocyExpressPresenter : BasePresenter {
 
     open fun doBannerRequest(){
         val bannerInfo = PolicyBannerInfo()
-        SoguApi.getService(App.INSTANCE,OtherService::class.java)
+        SoguApi.getService(App.INSTANCE, DataSourceService::class.java)
                 .getPolicyExpressBanner()
                 .execute {
                     onNext { payload ->
@@ -80,7 +83,7 @@ class PolocyExpressPresenter : BasePresenter {
             page++
         }
         Log.e("TAG","page ==" + page)
-        SoguApi.getService(App.INSTANCE, OtherService::class.java)
+        SoguApi.getService(App.INSTANCE, DataSourceService::class.java)
                 .getPolicyExpressList(page, pageSize,keywords,type)
                 .execute {
                     onNext { payload ->

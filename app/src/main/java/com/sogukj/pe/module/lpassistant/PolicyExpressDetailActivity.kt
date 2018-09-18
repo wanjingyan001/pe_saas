@@ -26,6 +26,7 @@ import com.sogukj.pe.bean.CusShareBean
 import com.sogukj.pe.bean.PlDetailInfo
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.ShareUtils
+import com.sogukj.pe.service.DataSourceService
 import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_pl_deatil.*
@@ -148,7 +149,7 @@ class PolicyExpressDetailActivity : BaseActivity() {
 
     private fun getPlNewsDetailData() {
         showLoadding()
-        SoguApi.getService(App.INSTANCE, OtherService::class.java)
+        SoguApi.getService(App.INSTANCE, DataSourceService::class.java)
                 .getPolicyExpressDetail(news_id!!)
                 .execute {
                     onNext { payload ->

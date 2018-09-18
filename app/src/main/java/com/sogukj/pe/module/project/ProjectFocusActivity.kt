@@ -8,20 +8,25 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.extraDelegate
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
+import kotlin.properties.Delegates
 
 @Route(path = ARouterPath.ProjectFocusActivity)
 class ProjectFocusActivity : ToolbarActivity() {
+    private val flag2: Int by extraDelegate(Extras.FLAG2, -1)
+    private var type: Int by Delegates.notNull()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_project_focus)
         setBack(true)
-        val type = intent.getIntExtra(Extras.TYPE, -1)
-        title = if (type == -1) {
-            "关注"
-        } else {
-            intent.getStringExtra(Extras.TITLE)
+        if (flag2 == -1) {
+            type = intent.getIntExtra(Extras.TYPE, -1)
+            title = intent.getStringExtra(Extras.TITLE)
+        }else{
+            type = ProjectListFragment.TYPE_GZ
+            title = "关注"
         }
 //        when (type) {
 //            ProjectListFragment.TYPE_GZ -> title = "关注"
