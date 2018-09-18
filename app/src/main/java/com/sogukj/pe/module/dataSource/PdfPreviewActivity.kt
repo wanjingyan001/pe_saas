@@ -66,11 +66,11 @@ class PdfPreviewActivity : ToolbarActivity() {
         url = pdfBean.pdf_path
         title = pdfBean.pdf_name
         shareTitle = pdfBean.pdf_name
+        transUrl = pdfBean.share_url
         flag = intent.getBooleanExtra(Extras.FLAG, false)
         flag.yes {
             supportInvalidateOptionsMenu()
         }
-        getShareUrl()
         pdfWeb.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                 view.loadUrl(url)
@@ -109,23 +109,6 @@ class PdfPreviewActivity : ToolbarActivity() {
         }
     }
 
-    private fun getShareUrl() {
-        url?.let {
-            val map = HashMap<String, String>()
-            map.put("url", it)
-            SoguApi.getService(application, FundService::class.java)
-                    .previewFile(map)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.io())
-                    .subscribe({ payload ->
-                        if (payload.isOk) {
-                            transUrl = payload.payload
-                        }
-                    }, { e ->
-                        Trace.e(e)
-                    })
-        }
-    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {

@@ -77,11 +77,12 @@ class App : MultiDexApplication() {
             SgDatabase.getInstance(INSTANCE)
             MobSDK.init(INSTANCE, "214eaf8217e6c", "c1ddfcaa333020a5a06812bc745d508c")
             //友盟初始化
-            if (getEnvironment() == "ht") {
-                UMConfigure.init(INSTANCE,UMConfigure.DEVICE_TYPE_PHONE,"8a3cd80e07007a0463e9b12f758b727b")
-            }else{
-                UMConfigure.init(INSTANCE,UMConfigure.DEVICE_TYPE_PHONE,"a4bb361310d9aee916f2cc43c5dbda5c")
+            val secret = if (getEnvironment() == "ht") {
+                "8a3cd80e07007a0463e9b12f758b727b"
+            } else {
+                "a4bb361310d9aee916f2cc43c5dbda5c"
             }
+            UMConfigure.init(INSTANCE, UMConfigure.DEVICE_TYPE_PHONE, secret)
             UMConfigure.setLogEnabled(true)
             val mPushAgent = PushAgent.getInstance(INSTANCE)
             mPushAgent.displayNotificationNumber = 5
@@ -218,7 +219,7 @@ class App : MultiDexApplication() {
         val uToken = Store.store.getUToken(this)
         if (user?.uid != null && uToken != null) {
             val token = if (enable) uToken else ""
-            SoguApi.getService(INSTANCE,UserService::class.java)
+            SoguApi.getService(INSTANCE, UserService::class.java)
                     .saveUser(uid = user.uid!!, advice_token = token)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
@@ -275,7 +276,7 @@ class App : MultiDexApplication() {
         val xmlDb = XmlDb.open(applicationContext)
         val account = xmlDb.get(Extras.NIMACCOUNT, "")
         val token = xmlDb.get(Extras.NIMTOKEN, "")
-        AnkoLogger("WJY").info { "account:$account===>token:$token"}
+        AnkoLogger("WJY").info { "account:$account===>token:$token" }
         return if (account.isNotEmpty() && token.isNotEmpty()) {
             NimUIKit.setAccount(account)//必须做这一步
             LoginInfo(account, token)

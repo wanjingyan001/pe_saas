@@ -13,7 +13,8 @@ data class PdfBook(val id: Int,
                    val pdf_name: String,
                    val pdf_path: String,
                    val date: String,
-                   val cat: String? = null) : Parcelable
+                   val cat: String? = null,
+                   val share_url:String) : Parcelable
 
 @SuppressLint("ParcelCreator")
 @Parcelize
