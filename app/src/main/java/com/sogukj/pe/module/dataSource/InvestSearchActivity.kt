@@ -128,8 +128,8 @@ class InvestSearchActivity : BaseActivity() {
             if (actionId == EditorInfo.IME_ACTION_SEARCH){
                 Utils.closeInput(ctx,et_search)
                 et_search.textStr.isNotEmpty().yes {
-                    Utils.toggleSoftInput(this@InvestSearchActivity,et_search)
                     getInvestList(et_search.textStr)
+                    Utils.closeInput(this@InvestSearchActivity,et_search)
                 }
                 true
             }

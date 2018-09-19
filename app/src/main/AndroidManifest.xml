@@ -145,13 +145,12 @@
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="${Umeng_KEY}" />
-        <!--<meta-data-->
-            <!--android:name="UMENG_MESSAGE_SECRET"-->
-            <!--android:value="${Umeng_MESSAGE_SECRET}" />-->
+        <!-- <meta-data -->
+        <!-- android:name="UMENG_MESSAGE_SECRET" -->
+        <!-- android:value="${Umeng_MESSAGE_SECRET}" /> -->
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL_VALUE}" />
-
 
         <!-- 支付宝 -->
         <activity
@@ -1261,7 +1260,8 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".module.creditCollection.NewCreditListActivity"></activity>
+        <activity android:name=".module.creditCollection.NewCreditListActivity" />
+        <activity android:name=".module.other.MsgAssistantActivity"></activity>
     </application>
 
 </manifest>

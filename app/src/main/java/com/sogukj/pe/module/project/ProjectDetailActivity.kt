@@ -645,8 +645,8 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
             23 -> AppListActivity.start(this@ProjectDetailActivity, project)//产品信息
 
             33 -> PatentListActivity.start(this@ProjectDetailActivity, project)//专利信息
-            34 -> CopyrightListActivity.start(this@ProjectDetailActivity, project, 1)//软著权
-            35 -> CopyrightListActivity.start(this@ProjectDetailActivity, project, 2)//著作权
+            34 -> CopyrightListActivity.start(this@ProjectDetailActivity, project, 2)//软著权
+            35 -> CopyrightListActivity.start(this@ProjectDetailActivity, project, 1)//著作权
             36 -> ICPListActivity.start(this@ProjectDetailActivity, project)//网站备案
 
             52 -> {

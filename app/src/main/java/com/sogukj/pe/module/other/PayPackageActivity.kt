@@ -36,6 +36,10 @@ import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.onPageChangeListener
 import kotlin.properties.Delegates
 
+/**
+ * 由[PayExpansionActivity]替换
+ */
+@Deprecated("被PayExpansionActivity替代")
 class PayPackageActivity : BaseActivity() {
     private lateinit var mAdapter: PayPagerAdapter
     var sId: Int by Delegates.observable(0, { _, _, newValue ->

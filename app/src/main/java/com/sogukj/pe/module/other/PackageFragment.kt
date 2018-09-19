@@ -25,6 +25,7 @@ import org.jetbrains.anko.support.v4.ctx
  * Use the [PackageFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+@Deprecated("已废弃")
 class PackageFragment : BaseFragment() {
     override val containerViewId: Int
         get() = R.layout.fragment_package

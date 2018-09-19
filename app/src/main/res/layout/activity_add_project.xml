@@ -77,7 +77,7 @@
 
                         <TextView
                             style="@style/ItemTextLabel"
-                            android:text="项目名称(必填)" />
+                            android:text="公司简称(必填)" />
 
                         <TextView
                             android:id="@+id/et_short_name"

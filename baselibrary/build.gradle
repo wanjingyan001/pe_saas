@@ -103,7 +103,7 @@ dependencies {
     api "com.alibaba.android:ddsharesdk:1.1.0"
     //Retrofit动态修改BaseUrl
     api 'me.jessyan:retrofit-url-manager:1.4.0'
-    //友盟推送
+    api 'com.noober.background:core:1.2.3'
 
     api project(':bottom-navigation-bar')
     api project(':push')

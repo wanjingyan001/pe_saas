@@ -102,7 +102,7 @@ class InvestmentActivity : BaseRefreshActivity() {
     private fun initListener(){
         filterCondition.clickWithTrigger {
             drawer.openDrawer(Gravity.START)
-//            primaryOption[0].performClick()
+            primaryOption[0].performClick()
         }
         resetCondition.clickWithTrigger {
             primaryAdapter.selectedPosition = -1

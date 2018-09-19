@@ -21,6 +21,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.google.gson.JsonSyntaxException
+import com.noober.background.BackgroundLibrary
 import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.R
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -51,6 +52,7 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger {
     private lateinit var receiver: NetworkChangeReceiver
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        BackgroundLibrary.inject(this)
         super.onCreate(savedInstanceState)
         ActivityHelper.add(this)
         PushAgent.getInstance(this).onAppStart()
