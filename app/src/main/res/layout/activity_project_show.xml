@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,15 +8,21 @@
     android:orientation="vertical">
     <include android:id="@+id/toolbar"
              layout="@layout/commom_blue_title"/>
+    <include
+        android:id="@+id/ps_bottom"
+        layout="@layout/project_show_bottom"/>
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:layout_above="@+id/ps_bottom"
+        android:focusableInTouchMode="true"
         android:scrollbars="none">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/gray_f7"
-            android:paddingBottom="@dimen/text_30"
+            android:paddingBottom="@dimen/text_20"
             android:orientation="vertical">
             <com.sogukj.pe.widgets.ProjectIndexView
                 android:layout_width="match_parent"
@@ -78,4 +84,4 @@
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
-</LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingBottom="@dimen/text_10"
+    android:paddingLeft="@dimen/text_15"
+    android:layout_marginLeft="@dimen/text_25"
+    android:layout_marginRight="@dimen/text_25"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg_agree_build">
+    <ImageView
+        android:id="@+id/iv_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/text_10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/icon_delete_file"/>
+
+    <TextView
+        android:id="@+id/tv_agree_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_14"
+        android:textColor="@color/black_28"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/text_25"
+        android:text="@string/approve_agree"/>
+
+    <EditText
+        android:id="@+id/ed_agree"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        app:layout_constraintStart_toStartOf="@+id/tv_agree_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_agree_title"
+        android:layout_marginEnd="@dimen/text_20"
+        android:maxLines="1"
+        android:background="@drawable/bg_edit_agree"
+        android:layout_marginTop="@dimen/text_10"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_upload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_14"
+        app:layout_constraintTop_toBottomOf="@+id/ed_agree"
+        app:layout_constraintBottom_toTopOf="@+id/rv"
+        android:layout_marginTop="@dimen/text_10"
+        android:textColor="@color/black_28"
+        android:text="@string/upload_title"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        android:maxHeight="50dp"
+        android:adjustViewBounds="true"
+        app:layout_constraintHeight_max="@dimen/text_50"
+        android:layout_marginTop="@dimen/text_10"
+        tools:listitem="@layout/item_upload_file"
+        android:layout_marginBottom="@dimen/text_10"
+        app:layout_constraintTop_toBottomOf="@+id/tv_upload"
+        app:layout_constraintEnd_toEndOf="@+id/ed_agree"/>
+
+    <TextView
+        android:id="@+id/tv_add_file"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/text_10"
+        android:textColor="@color/gray_a0"
+        android:paddingLeft="@dimen/text_20"
+        android:paddingRight="@dimen/text_20"
+        android:paddingTop="@dimen/text_10"
+        android:paddingBottom="@dimen/text_10"
+        android:textSize="@dimen/text_size_14"
+        android:background="@drawable/bg_add_contact"
+        app:layout_constraintTop_toBottomOf="@+id/rv"
+        app:layout_constraintStart_toStartOf="@+id/ed_agree"
+        app:layout_constraintEnd_toEndOf="@+id/ed_agree"
+        android:text="@string/add_file"/>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/text_1"
+        android:background="@color/gray_f1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/text_10"
+        app:layout_constraintTop_toBottomOf="@+id/tv_add_file"/>
+
+    <TextView
+        android:id="@+id/tv_time_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_14"
+        android:textColor="@color/black_28"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        android:layout_marginTop="@dimen/text_15"
+        android:text="时间选择"/>
+
+    <ImageView
+        android:id="@+id/iv_time"
+        android:layout_width="@dimen/text_20"
+        android:layout_height="@dimen/text_20"
+        android:src="@mipmap/icon_build_time"
+        android:layout_marginTop="@dimen/text_10"
+        app:layout_constraintTop_toBottomOf="@+id/tv_time_title"/>
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="2018/12/25 12:12"
+        android:textSize="@dimen/text_size_14"
+        android:textColor="@color/black_28"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="@+id/iv_time"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_time"
+        app:layout_constraintStart_toEndOf="@+id/iv_time"
+        android:layout_marginStart="@dimen/text_10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_time_title"
+        android:background="@drawable/bg_edit_agree"/>
+
+    <TextView
+        android:id="@+id/tv_member"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_14"
+        android:textColor="@color/black_28"
+        android:layout_marginTop="@dimen/text_10"
+        app:layout_constraintTop_toBottomOf="@+id/tv_time"
+        android:text="参会人员"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_member"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxHeight="@dimen/text_50"
+        android:adjustViewBounds="true"
+        android:layout_marginTop="@dimen/text_8"
+        app:layout_constraintEnd_toEndOf="@+id/ed_agree"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_member"
+        app:layout_constraintHeight_max="@dimen/text_50"/>
+
+    <TextView
+        android:id="@+id/tv_cancel"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/text_45"
+        android:background="@drawable/bg_cancel"
+        android:gravity="center"
+        android:textColor="@color/blue_17"
+        android:layout_marginTop="@dimen/text_15"
+        app:layout_constraintVertical_weight="1"
+        android:layout_marginEnd="@dimen/text_7"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tv_agree"
+        app:layout_constraintTop_toBottomOf="@+id/rv_member"
+        android:text="取消"/>
+
+    <TextView
+        android:id="@+id/tv_agree"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/text_45"
+        android:text="同意通过"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:layout_marginStart="@dimen/text_7"
+        app:layout_constraintVertical_weight="1"
+        android:layout_marginTop="@dimen/text_15"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rv_member"
+        app:layout_constraintStart_toEndOf="@+id/tv_cancel"
+        android:background="@drawable/bg_agree"/>
+
+
+</android.support.constraint.ConstraintLayout>

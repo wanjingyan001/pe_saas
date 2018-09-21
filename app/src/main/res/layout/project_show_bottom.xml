@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="55dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:layout_alignParentBottom="true">
+
+    <TextView
+        android:id="@+id/tv_refuse"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:textColor="@color/blue_17"
+        android:gravity="center"
+        android:textSize="@dimen/text_size_16"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tv_agree"
+        android:text="@string/refuse"/>
+
+    <TextView
+        android:id="@+id/tv_agree_lxh"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:textColor="@color/blue_17"
+        android:gravity="center"
+        android:textSize="@dimen/text_size_16"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_agree"
+        android:text="@string/agree_lxh"/>
+    <TextView
+        android:id="@+id/tv_agree"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:textColor="@color/blue_17"
+        android:gravity="center"
+        android:textSize="@dimen/text_size_16"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/tv_refuse"
+        app:layout_constraintEnd_toStartOf="@+id/tv_agree_lxh"
+        android:text="@string/agree"/>
+    
+    <View
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_refuse"
+        android:layout_marginTop="@dimen/text_15"
+        android:layout_marginBottom="@dimen/text_15"
+        app:layout_constraintEnd_toStartOf="@+id/tv_agree"
+        android:background="@color/gray_dbd"/>
+
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_agree"
+        android:layout_marginTop="@dimen/text_15"
+        android:layout_marginBottom="@dimen/text_15"
+        app:layout_constraintEnd_toStartOf="@+id/tv_agree_lxh"
+        android:background="@color/gray_dbd"/>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="@dimen/text_1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/tv_refuse"
+        android:background="@color/gray_dbd"/>
+</android.support.constraint.ConstraintLayout>

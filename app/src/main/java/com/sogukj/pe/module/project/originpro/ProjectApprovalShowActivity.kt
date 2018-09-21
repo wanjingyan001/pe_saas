@@ -1,10 +1,14 @@
 package com.sogukj.pe.module.project.originpro
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.Theme
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
@@ -14,7 +18,9 @@ import com.sogukj.pe.bean.ProjectPostBean
 import com.sogukj.pe.widgets.indexbar.RecycleViewDivider
 import kotlinx.android.synthetic.main.activity_project_show.*
 import kotlinx.android.synthetic.main.commom_blue_title.*
+import kotlinx.android.synthetic.main.project_show_bottom.*
 import org.jetbrains.anko.ctx
+import org.jetbrains.anko.find
 
 /**
  * Created by CH-ZH on 2018/9/19.
@@ -33,8 +39,6 @@ class ProjectApprovalShowActivity : ToolbarActivity() {
     }
 
     private fun initView() {
-        tv_edit.visibility = View.VISIBLE
-        tv_edit.text = "编辑"
         setBack(true)
         setTitle("中兴资产股份有限公司")
         toolbar_title.maxEms = 12
@@ -73,6 +77,46 @@ class ProjectApprovalShowActivity : ToolbarActivity() {
             //pdf预览
             showErrorToast("pdf预览")
         }
+
+        tv_refuse.setOnClickListener {
+            //退回修改
+            showConfirmDialog()
+        }
+
+        tv_agree.setOnClickListener {
+            //同意通过
+
+        }
+
+        tv_agree_lxh.setOnClickListener {
+            //同意上立项会
+        }
+    }
+
+    private fun showConfirmDialog() {
+        val title =  "是否确认否决审批？"
+        val build = MaterialDialog.Builder(this)
+                .theme(Theme.DARK)
+                .customView(R.layout.layout_confirm_approve, false)
+                .canceledOnTouchOutside(false)
+                .build()
+        build.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val titleTv = build.find<TextView>(R.id.confirm_title)
+        val cancel = build.find<TextView>(R.id.cancel_comment)
+        val confirm = build.find<TextView>(R.id.confirm_comment)
+        titleTv.text = title
+        cancel.setOnClickListener {
+            if (build.isShowing) {
+                build.dismiss()
+            }
+        }
+        confirm.setOnClickListener {
+            if (build.isShowing) {
+                build.dismiss()
+            }
+            //确认否决
+        }
+        build.show()
     }
 
     inner class ProjectPostHolder(itemView:View) : RecyclerHolder<ProjectPostBean>(itemView){

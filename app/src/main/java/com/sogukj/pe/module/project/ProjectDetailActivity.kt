@@ -36,7 +36,6 @@ import com.sogukj.pe.bean.*
 import com.sogukj.pe.module.approve.ApproveListActivity
 import com.sogukj.pe.module.creditCollection.ShareHolderDescActivity
 import com.sogukj.pe.module.creditCollection.ShareholderCreditActivity
-import com.sogukj.pe.module.fund.BookListActivity
 import com.sogukj.pe.module.main.ContactsActivity
 import com.sogukj.pe.module.project.archives.EquityListActivity
 import com.sogukj.pe.module.project.archives.FinanceListActivity
@@ -49,6 +48,8 @@ import com.sogukj.pe.module.project.intellectualProperty.ICPListActivity
 import com.sogukj.pe.module.project.intellectualProperty.PatentListActivity
 import com.sogukj.pe.module.project.listingInfo.*
 import com.sogukj.pe.module.project.operate.*
+import com.sogukj.pe.module.project.originpro.NewOriginProjectActivity
+import com.sogukj.pe.module.project.originpro.ProjectUploadActivity
 import com.sogukj.pe.peExtended.needIm
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.NewService
@@ -59,10 +60,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_project_detail.*
 import kotlinx.android.synthetic.main.layout_project_header.view.*
-import org.jetbrains.anko.backgroundResource
-import org.jetbrains.anko.ctx
-import org.jetbrains.anko.find
-import org.jetbrains.anko.textColor
+import org.jetbrains.anko.*
 
 class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickListener {
     lateinit var project: ProjectBean
@@ -658,8 +656,8 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                     5, 7 -> "退出"
                     else -> ""
                 }
-                BookListActivity.start(context, project.company_id!!, 1, null, "项目文书", project.name!!, stage)
-//                startActivity<NewOriginProjectActivity>()
+//                BookListActivity.start(context, project.company_id!!, 1, null, "项目文书", project.name!!, stage)
+                startActivity<NewOriginProjectActivity>()
             }
             54 -> StoreProjectAddActivity.startView(this@ProjectDetailActivity, project)//储备信息
             51 -> {
@@ -675,8 +673,8 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
 
         // 跟踪记录,尽调数据,投决数据,投后管理数据
             55 -> RecordTraceActivity.start(this@ProjectDetailActivity, project)//跟踪记录
-            56 -> ManagerActivity.start(this@ProjectDetailActivity, project, 1, "尽调数据")//尽调数据
-//            56 -> startActivity<ProjectUploadActivity>()
+//            56 -> ManagerActivity.start(this@ProjectDetailActivity, project, 1, "尽调数据")//尽调数据
+            56 -> startActivity<ProjectUploadActivity>()
             57 -> ManagerActivity.start(this@ProjectDetailActivity, project, 8, "投决数据")//投决数据
             58 -> ManagerActivity.start(this@ProjectDetailActivity, project, 10, "投后管理")//投后管理
 

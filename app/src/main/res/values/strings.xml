@@ -159,4 +159,9 @@
     <string name="project_info">信息填写</string>
     <string name="project_info_title">两年一期的净利润、资产总额、净资产指标</string>
     <string name="submit">提交</string>
+    <string name="refuse">退回修改</string>
+    <string name="agree">同意通过</string>
+    <string name="agree_lxh">同意上立项会</string>
+    <string name="approve_agree">审批意见(选填)</string>
+    <string name="upload_title">上传文件(选填)</string>
 </resources>
