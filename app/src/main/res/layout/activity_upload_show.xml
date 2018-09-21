@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/gray_f7">
+    <include android:id="@+id/toolbar"
+             layout="@layout/commom_blue_title"/>
+    <LinearLayout
+        android:id="@+id/ll_create"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:padding="@dimen/text_8">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="确定"
+            android:gravity="center"
+            android:textSize="@dimen/text_size_18"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_create_pro"/>
+    </LinearLayout>
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:layout_above="@id/ll_create"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/text_10"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="关联基金"
+                android:textStyle="bold"
+                android:background="@color/white"
+                android:textSize="@dimen/text_size_14"
+                android:padding="@dimen/text_15"
+                android:textColor="@color/black_28"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_1"
+                android:background="@color/gray_f1"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_fund"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/item_link_fund"
+                android:background="@color/white">
+
+            </android.support.v7.widget.RecyclerView>
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white">
+
+
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+
+</RelativeLayout>

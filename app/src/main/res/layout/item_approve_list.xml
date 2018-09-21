@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    
+    <ImageView
+        android:id="@+id/iv_image"
+        android:layout_width="@dimen/text_25"
+        android:layout_height="@dimen/text_25"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@mipmap/ic_launch_pe_round"/>
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/text_25"
+        android:textSize="@dimen/text_size_12"
+        android:textColor="@color/black_28"
+        android:gravity="center"
+        android:layout_marginStart="@dimen/text_10"
+        app:layout_constraintStart_toEndOf="@+id/iv_image"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="陈建"/>
+
+    <TextView
+        android:id="@+id/tv_agree"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/text_25"
+        android:textSize="@dimen/text_size_12"
+        android:textColor="@color/green_50d"
+        android:gravity="center"
+        android:layout_marginStart="@dimen/text_10"
+        app:layout_constraintStart_toEndOf="@+id/tv_name"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="已同意"/>
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/text_25"
+        android:textColor="@color/gray_a0"
+        android:textSize="@dimen/text_size_10"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="06.12 18:00"/>
+
+    <TextView
+        android:id="@+id/tv_agree_pro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_12"
+        android:text="同意上立项会"
+        android:gravity="center_vertical"
+        android:drawablePadding="@dimen/text_8"
+        android:drawableRight="@mipmap/icon_agree_pro"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name"
+        app:layout_constraintStart_toStartOf="@+id/tv_name"
+        android:layout_marginStart="@dimen/text_5"
+        android:layout_marginTop="@dimen/text_3"
+        android:textColor="@color/black_28"/>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/blue_f6f"
+        app:layout_constraintStart_toEndOf="@+id/iv_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginLeft="@dimen/text_3"
+        app:layout_constraintTop_toTopOf="@+id/tv_meel_plan"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_meel_person"/>
+    
+    <TextView
+        android:id="@+id/tv_meel_plan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/shape_meel"
+        android:drawablePadding="@dimen/text_5"
+        android:paddingTop="@dimen/text_8"
+        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/text_15"
+        app:layout_constraintTop_toBottomOf="@+id/tv_agree_pro"
+        app:layout_constraintStart_toStartOf="@+id/tv_name"
+        android:text="会议安排"/>
+
+    <TextView
+        android:id="@+id/tv_meel_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_10"
+        android:textColor="@color/black_28"
+        android:gravity="center_vertical"
+        android:drawablePadding="@dimen/text_8"
+        app:layout_constraintTop_toBottomOf="@+id/tv_meel_plan"
+        app:layout_constraintStart_toStartOf="@+id/tv_meel_plan"
+        android:layout_marginStart="@dimen/text_7"
+        android:layout_marginTop="@dimen/text_5"
+        android:drawableLeft="@mipmap/icon_meel_plan"
+        android:text="2018年9月14日 10:30"/>
+
+    <TextView
+        android:id="@+id/tv_meel_person"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_10"
+        android:textColor="@color/black_28"
+        android:gravity="center_vertical"
+        android:drawablePadding="@dimen/text_8"
+        android:paddingBottom="@dimen/text_8"
+        app:layout_constraintTop_toBottomOf="@+id/tv_meel_time"
+        app:layout_constraintStart_toStartOf="@+id/tv_meel_time"
+        android:layout_marginTop="@dimen/text_10"
+        android:drawableLeft="@mipmap/icon_meel_plan"
+        android:text="张栋梁、王刚、刘宇、张塞、曹萌"/>
+    <View
+        android:id="@+id/view"
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_meel_person"/>
+    <View
+        android:layout_width="@dimen/text_2"
+        android:layout_height="0dp"
+        android:background="@color/gray_f1"
+        android:layout_marginStart="@dimen/text_12"
+        app:layout_constraintTop_toBottomOf="@+id/iv_image"
+        app:layout_constraintStart_toStartOf="@+id/iv_image"
+        app:layout_constraintBottom_toBottomOf="@+id/view"/>
+</android.support.constraint.ConstraintLayout>

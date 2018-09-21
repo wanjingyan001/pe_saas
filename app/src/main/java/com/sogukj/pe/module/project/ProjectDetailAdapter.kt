@@ -9,11 +9,9 @@ import android.widget.TextView
 import com.chad.library.adapter.base.BaseSectionQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.sogukj.pe.R
-import com.sogukj.pe.R.id.view
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.bean.ProjectModules
 import org.jetbrains.anko.imageResource
-import org.jetbrains.anko.textColor
 
 /**
  * Created by admin on 2018/8/23.
@@ -134,7 +132,15 @@ class ProjectDetailAdapter(data: List<ProjectModules>)
             59 -> R.drawable.ic_proj_spls//审批历史
             60 -> R.drawable.ic_proj_gqxx//股权信息
             61 -> R.drawable.ic_proj_cwbb//财务报表
-            62 -> R.drawable.ic_proj_pgqk//
+            62 -> R.drawable.ic_proj_pgqk//配股情况
+
+            63 -> R.drawable.ic_proj_xjxm //新建项目
+            64 -> R.drawable.ic_proj_lxsq //立项申请
+            65 -> R.drawable.ic_proj_ysh //预审会
+            66 -> R.drawable.ic_proj_tjh //投决会
+            67 -> R.drawable.ic_proj_qyfk //签约付款
+            68 -> R.drawable.ic_proj_thgl //投后管理
+            69 -> R.drawable.ic_proj_exit // 退出
             else -> 0
         }
     }

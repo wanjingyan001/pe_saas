@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:padding="@dimen/text_15">
+    <TextView
+        android:id="@+id/tv_index_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black_28"
+        android:textSize="@dimen/text_size_14"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="两年一期的净利润、资产总额、净资产指标"/>
+    <TextView
+        android:id="@+id/tv_index_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/gray_a0"
+        android:textSize="@dimen/text_size_12"
+        android:layout_marginTop="@dimen/text_15"
+        app:layout_constraintTop_toBottomOf="@+id/tv_index_title"
+        android:text="单位：万元"/>
+    <TextView
+        android:id="@+id/tv_green"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="净利润"
+        android:textSize="@dimen/text_size_10"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center_vertical"
+        android:drawableLeft="@drawable/shape_point_green"
+        app:layout_constraintTop_toTopOf="@+id/tv_index_unit"
+        android:drawablePadding="@dimen/text_5"
+        android:textColor="@color/black_28"/>
+
+    <TextView
+        android:id="@+id/tv_blue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="收入"
+        android:textSize="@dimen/text_size_10"
+        android:gravity="center_vertical"
+        android:drawableLeft="@drawable/shape_point_blue"
+        android:layout_marginEnd="@dimen/text_18"
+        app:layout_constraintTop_toTopOf="@+id/tv_index_unit"
+        app:layout_constraintRight_toLeftOf="@+id/tv_green"
+        android:drawablePadding="@dimen/text_5"
+        android:textColor="@color/black_28"/>
+
+    <TextView
+        android:id="@+id/tv_red"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="净资产"
+        android:textSize="@dimen/text_size_10"
+        android:gravity="center_vertical"
+        android:layout_marginEnd="@dimen/text_18"
+        android:drawableLeft="@drawable/shape_point_red"
+        app:layout_constraintTop_toTopOf="@+id/tv_index_unit"
+        app:layout_constraintRight_toLeftOf="@+id/tv_blue"
+        android:drawablePadding="@dimen/text_5"
+        android:textColor="@color/black_28"/>
+    
+    <com.sogukj.pe.widgets.ProjectLineChartView
+        android:id="@+id/project_chart"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_red"
+        android:layout_marginTop="@dimen/text_25"
+        android:layout_height="180dp"/>
+</android.support.constraint.ConstraintLayout>

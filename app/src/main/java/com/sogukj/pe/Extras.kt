@@ -105,4 +105,8 @@ object Extras {
     const val PATENT_HISTORY = "ext.patent_history"//专利查询的查看历史
     const val IS_FIRST_LAW = "is_first_law"
     const val IS_FIRST_PATENT = "is_first_patent"
+
+    val TYPE_LEVEL_0 = 0
+    val TYPE_LEVEL_1 = 1
+    val TYPE_FILE = 2
 }

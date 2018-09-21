@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/text_20"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/text_19"
+        android:paddingRight="@dimen/text_5"
+        android:paddingTop="@dimen/text_10"
+        android:paddingBottom="@dimen/text_10">
+        <ImageView
+            android:id="@+id/iv_expanded"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:padding="@dimen/text_15"
+            android:src="@drawable/icon_pro_expanded"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="用印文件"
+            android:textSize="@dimen/text_size_14"
+            android:layout_centerVertical="true"
+            android:textColor="@color/black_28"/>
+    </RelativeLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/file_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
+    <TextView
+        android:id="@+id/tv_add_file"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/text_10"
+        android:textColor="@color/gray_a0"
+        android:paddingLeft="@dimen/text_20"
+        android:paddingRight="@dimen/text_20"
+        android:paddingTop="@dimen/text_13"
+        android:paddingBottom="@dimen/text_13"
+        android:textSize="@dimen/text_size_14"
+        android:background="@drawable/bg_add_contact"
+        android:text="@string/add_file"/>
+</LinearLayout>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="wrap_content"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:paddingBottom="10dp"
+                                             android:paddingTop="10dp">
+
+    <ImageView
+        android:id="@+id/pdfIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:src="@mipmap/icon_data_source_pdf"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_right"
+        android:layout_width="@dimen/text_25"
+        android:layout_height="@dimen/text_25"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="@dimen/text_15"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/ic_right" />
+    <TextView
+        android:id="@+id/pdfName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@color/text_1"
+        tools:text="中国证券监督管理委员….pdf"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/text_size_normal"
+        app:layout_constraintStart_toEndOf="@+id/pdfIcon"
+        app:layout_constraintEnd_toStartOf="@+id/iv_right"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/gray_80"
+        android:textSize="@dimen/text_size_10"
+        tools:text="01/09 10:32:07"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/pdfName"
+        app:layout_constraintTop_toBottomOf="@+id/pdfName" />
+
+    <TextView
+        android:id="@+id/tv_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/text_15"
+        android:text="暂无文件"
+        android:textColor="@color/gray_a0"
+        android:textSize="@dimen/text_size_12"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:drawablePadding="@dimen/text_10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:drawableLeft="@mipmap/icon_empty_file"/>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_empty"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="@dimen/text_15"
+        android:layout_marginEnd="@dimen/text_15"
+        android:layout_marginTop="@dimen/text_20"
+        android:background="@color/gray_f1"/>
+</android.support.constraint.ConstraintLayout>

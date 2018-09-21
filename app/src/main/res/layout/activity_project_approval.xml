@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_f7"
+    android:orientation="vertical">
+    <include android:id="@+id/toolbar"
+             layout="@layout/commom_blue_title"/>
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_12"
+        android:layout_below="@+id/toolbar"
+        android:textColor="@color/gray_a0"
+        android:layout_marginLeft="@dimen/text_20"
+        android:layout_marginTop="@dimen/text_10"
+        android:layout_marginBottom="@dimen/text_10"
+        android:text="@string/project_info_title"/>
+    <LinearLayout
+        android:id="@+id/ll_create"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:padding="@dimen/text_8">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/submit"
+            android:gravity="center"
+            android:textSize="@dimen/text_size_18"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_create_pro"/>
+    </LinearLayout>
+    <android.support.v4.widget.NestedScrollView
+        android:layout_below="@id/tv_title"
+        android:layout_above="@id/ll_create"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/gray_f7"
+            android:paddingBottom="@dimen/text_20"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:id="@+id/rl_project_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/text_18"
+                android:background="@color/white"
+                android:paddingLeft="19dp"
+                android:paddingRight="@dimen/text_5"
+                android:paddingBottom="@dimen/text_18">
+                <TextView
+                    android:id="@+id/tv_name_tag2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_14"
+                    android:textColor="@color/black_28"
+                    android:gravity="center"
+                    android:layout_centerVertical="true"
+                    android:text="项目名称"/>
+                <TextView
+                    android:id="@+id/tv_name_simple"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="请选择"
+                    android:textColorHint="@color/gray_a0"
+                    android:textColor="@color/black_28"
+                    android:layout_centerVertical="true"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textSize="@dimen/text_size_14"
+                    android:gravity="right|center_vertical"
+                    android:drawablePadding="@dimen/text_8"
+                    android:layout_toRightOf="@id/tv_name_tag2"
+                    android:drawableRight="@drawable/ic_right"/>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_pro_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+            </LinearLayout>
+
+            <com.sogukj.pe.widgets.ProInfoBottomView
+                android:id="@+id/add_file_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/text_15">
+
+            </com.sogukj.pe.widgets.ProInfoBottomView>
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+</RelativeLayout>

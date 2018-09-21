@@ -659,6 +659,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                     else -> ""
                 }
                 BookListActivity.start(context, project.company_id!!, 1, null, "项目文书", project.name!!, stage)
+//                startActivity<NewOriginProjectActivity>()
             }
             54 -> StoreProjectAddActivity.startView(this@ProjectDetailActivity, project)//储备信息
             51 -> {
@@ -674,9 +675,10 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
 
         // 跟踪记录,尽调数据,投决数据,投后管理数据
             55 -> RecordTraceActivity.start(this@ProjectDetailActivity, project)//跟踪记录
-            56 -> ManagerActivity.start(this@ProjectDetailActivity, project, 1, "尽调数据")//尽调数据-----------------------
-            57 -> ManagerActivity.start(this@ProjectDetailActivity, project, 8, "投决数据")//投决数据------------------------
-            58 -> ManagerActivity.start(this@ProjectDetailActivity, project, 10, "投后管理")//投后管理--------------------------
+            56 -> ManagerActivity.start(this@ProjectDetailActivity, project, 1, "尽调数据")//尽调数据
+//            56 -> startActivity<ProjectUploadActivity>()
+            57 -> ManagerActivity.start(this@ProjectDetailActivity, project, 8, "投决数据")//投决数据
+            58 -> ManagerActivity.start(this@ProjectDetailActivity, project, 10, "投后管理")//投后管理
 
             59 -> ApproveListActivity.start(this@ProjectDetailActivity, 5, project.company_id)//审批历史
 
@@ -685,6 +687,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
             61 -> FinanceListActivity.start(this@ProjectDetailActivity, project)
 
             62 -> IncomeCurveActivity.start(this@ProjectDetailActivity, project)//收益曲线
+
         }
     }
 

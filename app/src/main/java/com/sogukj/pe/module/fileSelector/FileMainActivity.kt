@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
 import android.view.KeyEvent
 import android.widget.AdapterView
@@ -19,10 +18,8 @@ import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.module.partyBuild.PartyUploadActivity
-import com.sogukj.pe.module.user.UserFragment
 import com.sogukj.pe.peUtils.FileUtil
 import kotlinx.android.synthetic.main.activity_file_main.*
-import org.jetbrains.anko.info
 import java.io.File
 import kotlin.properties.Delegates
 
@@ -115,7 +112,7 @@ class FileMainActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         val intent = Intent()
         if (requestCode == PartyUploadActivity.SELECTFILE) {
             intent.putExtra(Extras.DATA, file)
-        } else {
+        }else {
             intent.putExtra(Extras.DATA, file.path)
         }
         setResult(Activity.RESULT_OK, intent)

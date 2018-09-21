@@ -150,4 +150,7 @@
     <color name="gray_f7f">#fff7f7f7</color>
     <color name="gray_90">#909090</color>
     <color name="white_80">#80ffffff</color>
+    <color name="green_50d">#50d59d</color>
+    <color name="blue_f6f">#F6FBFF</color>
+    <color name="red_f01">#f01400</color>
 </resources>

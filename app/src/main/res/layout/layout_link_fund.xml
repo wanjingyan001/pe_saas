@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:layout_marginTop="@dimen/text_10"
+    android:paddingBottom="@dimen/text_15"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="关联基金"
+        android:textStyle="bold"
+        android:textSize="@dimen/text_size_14"
+        android:padding="@dimen/text_15"
+        android:textColor="@color/black_28"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/text_1"
+        android:background="@color/gray_f1"/>
+
+    <include layout="@layout/add_fund_item"/>
+    <LinearLayout
+        android:id="@+id/ll_other_fund"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_add_fund"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/text_15"
+        android:textColor="@color/gray_a0"
+        android:paddingLeft="@dimen/text_20"
+        android:paddingRight="@dimen/text_20"
+        android:paddingTop="@dimen/text_13"
+        android:paddingBottom="@dimen/text_13"
+        android:textSize="@dimen/text_size_14"
+        android:background="@drawable/bg_add_contact"
+        android:text="@string/add_fund"/>
+
+</LinearLayout>

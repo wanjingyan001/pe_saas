@@ -22,7 +22,6 @@ import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
-import com.sogukj.pe.bean.DirBean
 import com.sogukj.pe.bean.FileListBean
 import com.sogukj.pe.module.fileSelector.FileMainActivity
 import com.sogukj.pe.peExtended.defaultHeadImg
@@ -41,6 +40,9 @@ import org.jetbrains.anko.backgroundResource
 import org.jetbrains.anko.find
 import java.io.File
 import java.util.HashMap
+import kotlin.collections.ArrayList
+import kotlin.collections.component1
+import kotlin.collections.component2
 
 class BookUploadActivity : ToolbarActivity() {
 
