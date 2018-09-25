@@ -13,6 +13,7 @@ import com.netease.nim.uikit.api.wrapper.NimMessageRevokeObserver
 import com.netease.nim.uikit.business.session.actions.BaseAction
 import com.netease.nim.uikit.business.session.viewholder.MsgViewHolderTip
 import com.netease.nimlib.sdk.NIMClient
+import com.netease.nimlib.sdk.msg.MsgService
 import com.netease.nimlib.sdk.msg.MsgServiceObserve
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum
@@ -29,6 +30,8 @@ object SessionHelper {
     private var teamCustomization: SessionCustomization? = null
 
     fun init() {
+        // 注册自定义消息附件解析器
+        NIMClient.getService(MsgService::class.java).registerCustomAttachmentParser(CustomAttachParser())
         //注册消息转发过滤器
         registerMsgForwardFilter()
         // 注册消息撤回过滤器
@@ -39,6 +42,7 @@ object SessionHelper {
         NimUIKit.setCommonP2PSessionCustomization(getP2pCustomization())
         NimUIKit.setCommonTeamSessionCustomization(getTeamCustomization())
         NimUIKit.registerTipMsgViewHolder(MsgViewHolderTip::class.java)
+        NimUIKit.registerMsgItemViewHolder(ApproveAttachment::class.java, MsgViewHolderApprove::class.java)
     }
 
     private fun setSessionListener() {

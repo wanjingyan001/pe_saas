@@ -16,14 +16,14 @@
         android:paddingEnd="6dp"
         android:paddingLeft="6dp"
         android:paddingTop="3dp"
+        android:text="6月15日 14:20"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_13"
         app:corners_radius="4dp"
-        android:text="6月15日 14:20"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:solid_color="#CECECE"/>
+        app:solid_color="#CECECE" />
 
     <ImageView
         android:id="@+id/header"
@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
         android:background="@mipmap/bg_msg_assistant_item"
-        android:paddingStart="10dp"
+        android:paddingStart="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/header"
         app:layout_constraintTop_toTopOf="@+id/header">
@@ -51,9 +51,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="15dp"
-            android:singleLine="true"
+            android:layout_marginTop="24dp"
             android:ellipsize="end"
+            android:singleLine="true"
             android:text="管理公司用印(业务)审批"
             android:textColor="@color/text_1"
             android:textSize="@dimen/text_size_medium"
@@ -65,9 +65,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="CXKAJG23452213552233"
-            android:singleLine="true"
             android:ellipsize="end"
+            android:singleLine="true"
+            android:text="CXKAJG23452213552233"
             android:textColor="@color/gray_80"
             android:textSize="@dimen/text_size_10"
             app:layout_constraintStart_toStartOf="@+id/approveType"
@@ -78,39 +78,40 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:text="发起人："
-            android:singleLine="true"
             android:ellipsize="end"
+            android:singleLine="true"
+            android:text="发起人："
             android:textColor="@color/text_1"
             android:textSize="@dimen/text_size_samll"
             app:layout_constraintStart_toStartOf="@+id/approveNum"
             app:layout_constraintTop_toBottomOf="@+id/approveNum" />
 
         <TextView
-            android:layout_width="wrap_content"
             android:id="@+id/reason"
-            app:layout_constraintTop_toBottomOf="@+id/sponsor"
-            app:layout_constraintStart_toStartOf="@+id/sponsor"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:textSize="12sp"
-            android:maxLines="2"
+            android:layout_marginEnd="25dp"
             android:ellipsize="end"
-            android:textColor="@color/text_1"
+            android:maxLines="2"
             android:text="审批事由："
-            android:layout_height="wrap_content" />
+            android:textColor="@color/text_1"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/sponsor"
+            app:layout_constraintTop_toBottomOf="@+id/sponsor" />
 
         <TextView
             android:id="@+id/schedule"
-            app:layout_constraintTop_toBottomOf="@+id/reason"
-            app:layout_constraintStart_toStartOf="@+id/reason"
-            android:layout_marginTop="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="20dp"
-            android:textSize="@dimen/text_size_samll"
-            android:textColor="#50D59D"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:textColor="#50D59D"
+            android:textSize="@dimen/text_size_samll"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/reason"
+            app:layout_constraintTop_toBottomOf="@+id/reason" />
 
 
     </android.support.constraint.ConstraintLayout>

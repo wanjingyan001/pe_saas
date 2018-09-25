@@ -41,6 +41,7 @@ import com.netease.nimlib.sdk.msg.model.IMMessage
 import com.netease.nimlib.sdk.msg.model.RecentContact
 import com.netease.nimlib.sdk.search.model.MsgIndexRecord
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter
+import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.textStr
@@ -55,6 +56,7 @@ import com.sogukj.pe.module.approve.ApproveListActivity
 import com.sogukj.pe.module.im.ImSearchResultActivity
 import com.sogukj.pe.module.other.GongGaoDetailActivity
 import com.sogukj.pe.module.other.MessageListActivity
+import com.sogukj.pe.module.other.MsgAssistantActivity
 import com.sogukj.pe.module.user.UserActivity
 import com.sogukj.pe.peUtils.MyGlideUrl
 import com.sogukj.pe.peUtils.Store
@@ -70,6 +72,7 @@ import org.jetbrains.anko.backgroundResource
 import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.info
 import org.jetbrains.anko.support.v4.ctx
+import org.jetbrains.anko.support.v4.startActivity
 import org.json.JSONObject
 import java.util.*
 import kotlin.collections.ArrayList
@@ -79,13 +82,11 @@ import kotlin.collections.HashMap
  * Created by qinfei on 17/10/11.
  */
 class MainMsgFragment : BaseFragment() {
-    var recentList = ArrayList<RecentContact>()
+    var recentList = mutableSetOf<RecentContact>()
     override val containerViewId: Int
         get() = R.layout.fragment_msg_center
 
-    lateinit var adapter: RecyclerAdapter<Any>
-    lateinit var searchResult: RecyclerAdapter<MsgIndexRecord>
-    val extMap = HashMap<String, Any>()
+    lateinit var adapter: RecyclerAdapter<RecentContact>
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
@@ -122,101 +123,6 @@ class MainMsgFragment : BaseFragment() {
         }
     }
 
-    private fun initSearchView() {
-        search_edt.filters = Utils.getFilter(context)
-        search_edt.setOnFocusChangeListener { v, hasFocus ->
-            if (hasFocus || search_edt.textStr.isNotEmpty()) {
-                search_hint.visibility = View.GONE
-                search_icon.visibility = View.VISIBLE
-                delete1.visibility = View.VISIBLE
-            } else {
-                search_hint.visibility = View.VISIBLE
-                search_icon.visibility = View.GONE
-                delete1.visibility = View.GONE
-                search_edt.clearFocus()
-            }
-        }
-        search_edt.setOnEditorActionListener { v, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                if (search_edt.textStr.isNotEmpty()) {
-                    searchKey = search_edt.text.toString()
-                    searchWithName()
-                }
-                true
-            } else {
-                false
-            }
-        }
-        delete1.setOnClickListener {
-            Utils.toggleSoftInput(context, search_edt)
-            search_edt.setText("")
-            search_edt.clearFocus()
-            recycler_view.adapter = adapter
-            doRequest()
-        }
-        search_edt.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (search_edt.text.toString().isEmpty()) {
-                    searchKey = ""
-                    adapter.dataList.clear()
-                    adapter.dataList.add(zhushou)
-                    adapter.dataList.add(sys_zhushou)
-                    adapter.dataList.addAll(recentList)
-                    recycler_view.adapter = adapter
-                    adapter.notifyDataSetChanged()
-                    if (adapter.dataList.size == 0) {
-                        recycler_view.visibility = View.GONE
-                        iv_empty.visibility = View.VISIBLE
-                    } else {
-                        recycler_view.visibility = View.VISIBLE
-                        iv_empty.visibility = View.GONE
-                    }
-                }
-                if (!search_edt.text.isNullOrEmpty()) {
-                    delete1.visibility = View.VISIBLE
-                } else {
-                    delete1.visibility = View.GONE
-                }
-            }
-        })
-    }
-
-    private fun searchWithName() {
-        NIMClient.getService(LuceneService::class.java).searchAllSession(searchKey, 20)
-                .setCallback(object : RequestCallback<List<MsgIndexRecord>> {
-                    override fun onSuccess(param: List<MsgIndexRecord>?) {
-                        searchResult.dataList.clear()
-                        param?.let {
-                            searchResult.dataList.addAll(it)
-                            recycler_view.adapter = searchResult
-                        }
-                        if (searchResult.dataList.isEmpty()) {
-                            recycler_view.visibility = View.GONE
-                            iv_empty.visibility = View.VISIBLE
-                        } else {
-                            recycler_view.visibility = View.VISIBLE
-                            iv_empty.visibility = View.GONE
-                        }
-                    }
-
-                    override fun onException(exception: Throwable?) {
-                        recycler_view.visibility = View.VISIBLE
-                        iv_empty.visibility = View.GONE
-                    }
-
-                    override fun onFailed(code: Int) {
-                        recycler_view.visibility = View.VISIBLE
-                        iv_empty.visibility = View.GONE
-                    }
-                })
-    }
 
     lateinit var searchKey: String
 
@@ -238,9 +144,7 @@ class MainMsgFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         toolbar_title.text = "消息"
-
         loadHead()
-//        initSearchView()
         toolbar_back.setOnClickListener {
             if (add_layout.visibility == View.VISIBLE) {
                 add_layout.visibility = View.GONE
@@ -286,7 +190,7 @@ class MainMsgFragment : BaseFragment() {
         }
         adapter = RecyclerAdapter(baseActivity!!, { _adapter, parent, type ->
             val convertView = _adapter.getView(R.layout.item_msg_index, parent)
-            object : RecyclerHolder<Any>(convertView) {
+            object : RecyclerHolder<RecentContact>(convertView) {
                 val msgIcon = convertView.findViewById<CircleImageView>(R.id.msg_icon) as CircleImageView
                 val tvTitle = convertView.findViewById<TextView>(R.id.tv_title) as TextView
                 val tvDate = convertView.findViewById<TextView>(R.id.tv_date) as TextView
@@ -295,129 +199,105 @@ class MainMsgFragment : BaseFragment() {
                 val topTag = convertView.findViewById<ImageView>(R.id.topTag)
                 val tv_flag = convertView.findViewById<TextView>(R.id.tv_flag)
                 @SuppressLint("SetTextI18n")
-                override fun setData(view: View, data: Any, position: Int) {
-                    if (data is MessageIndexBean) {
+                override fun setData(view: View, data: RecentContact, position: Int) {
+                    val titleName = UserInfoHelper.getUserTitleName(data.contactId, data.sessionType)
+                    tvTitle.text = titleName
+                    topTag.setVisible(data.tag == RECENT_TAG_STICKY)
+                    if (data.sessionType == SessionTypeEnum.P2P) {
                         tv_flag.visibility = View.GONE
-                        if (!TextUtils.isEmpty(data.title))
-                            tvTitleMsg.text = data.title
-                        else
-                            tvTitleMsg.text = "暂无数据"
-                        tvDate.text = data.time
-                        tvNum.text = "${data.count}"
-                        tvTitle.text = "系统消息助手"
-                        if (data.count > 0) {
+                        val value = data.msgStatus.value
+                        when (value) {
+                            3 -> tvTitleMsg.text = Html.fromHtml("<font color='#a0a4aa'>[已读]</font>${data.content}")
+                            4 -> tvTitleMsg.text = Html.fromHtml("<font color='#1787fb'>[未读]</font>${data.content}")
+                            else -> tvTitleMsg.text = data.content
+                        }
+                        val userInfo = NimUIKit.getUserInfoProvider().getUserInfo(data.contactId)
+                        userInfo?.let {
+                            Glide.with(this@MainMsgFragment)
+                                    .load(it.avatar)
+                                    .listener(object : RequestListener<Drawable> {
+                                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                                            val ch = userInfo.name.first()
+                                            msgIcon.setChar(ch)
+                                            return false
+                                        }
+
+                                        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                                            return false
+                                        }
+                                    })
+                                    .into(msgIcon)
+                        }
+                    } else if (data.sessionType == SessionTypeEnum.Team) {
+                        tv_flag.visibility = View.VISIBLE
+                        val value = data.msgStatus.value
+                        val fromNick = if (data.fromNick.isNullOrEmpty()) "" else "${data.fromNick}: "
+                        when (value) {
+                            3 -> tvTitleMsg.text = Html.fromHtml("<font color='#a0a4aa'>[已读]</font>$fromNick${data.content}")
+                            4 -> tvTitleMsg.text = Html.fromHtml("<font color='#1787fb'>[未读]</font>$fromNick${data.content}")
+                            else -> tvTitleMsg.text = "$fromNick${data.content}"
+                        }
+                        val team = NimUIKit.getTeamProvider().getTeamById(data.contactId)
+                        team?.let {
+                            Glide.with(this@MainMsgFragment)
+                                    .load(it.icon)
+                                    .apply(RequestOptions().error(R.drawable.im_team_default))
+                                    .into(msgIcon)
+
+                            val extServer = it.extServer
+                            if (null != extServer && "" != extServer && """"{}"""" != extServer) {
+                                val jsonObject = JSONObject(extServer)
+                                val flag = jsonObject.getString("grouptype")
+                                when (flag) {
+                                    "0" -> {
+                                        //全员
+                                        tv_flag.setBackgroundResource(R.drawable.shape_flag_bg)
+                                        tv_flag.setTextColor(activity!!.resources.getColor(R.color.orange_f5))
+                                        tv_flag.text = "全员"
+                                    }
+                                    "1" -> {
+                                        //部门
+                                        tv_flag.setBackgroundResource(R.drawable.shape_flag_bg)
+                                        tv_flag.setTextColor(activity!!.resources.getColor(R.color.orange_f5))
+                                        tv_flag.text = "部门"
+                                    }
+                                    else -> {
+                                        //内部群
+                                        tv_flag.setBackgroundResource(R.drawable.shape_flag_bg_other)
+                                        tv_flag.setTextColor(activity!!.resources.getColor(R.color.blue_43))
+                                        tv_flag.text = "内部群"
+                                    }
+                                }
+                            } else {
+                                //内部群
+                                tv_flag.setBackgroundResource(R.drawable.shape_flag_bg_other)
+                                tv_flag.setTextColor(activity!!.resources.getColor(R.color.blue_43))
+                                tv_flag.text = "内部群"
+                            }
+                        }
+                    }
+                    try {
+                        val time = Utils.getTime(data.time, "yyyy-MM-dd HH:mm:ss")
+                        tvDate.text = Utils.formatDingDate(time)
+                    } catch (e: Exception) {
+                    }
+                    val mutableMap = data.extension
+                    if (mutableMap != null && mutableMap.isNotEmpty() && mutableMap[data.contactId] == "Mute") {
+                        tvNum.visibility = View.VISIBLE
+                        tvNum.text = ""
+                        tvNum.backgroundResource = R.drawable.im_team_shield
+                        if (data.unreadCount > 0) {
+                            tvNum.setCompoundDrawables(null, null, resources.getDrawable(R.drawable.icon_im_mute_unread), null)
+                        } else {
+                            tvNum.setCompoundDrawables(null, null, null, null)
+                        }
+                    } else {
+                        tvNum.backgroundResource = R.drawable.bg_tag_num
+                        if (data.unreadCount > 0) {
                             tvNum.visibility = View.VISIBLE
+                            tvNum.text = data.unreadCount.toString()
                         } else {
                             tvNum.visibility = View.INVISIBLE
-                        }
-                        if (data.flag == 1) {
-                            tvTitle.text = "审批消息助手"
-                            msgIcon.imageResource = R.drawable.ic_sys_alert
-                        } else if (data.flag == 2) {
-                            tvTitle.text = "系统消息助手"
-                            msgIcon.imageResource = R.drawable.ic_msg_alert
-                        }
-                        topTag.setVisible(false)
-                    } else if (data is RecentContact) {
-                        val titleName = UserInfoHelper.getUserTitleName(data.contactId, data.sessionType)
-                        tvTitle.text = titleName
-                        topTag.setVisible(data.tag == RECENT_TAG_STICKY)
-                        if (data.sessionType == SessionTypeEnum.P2P) {
-                            tv_flag.visibility = View.GONE
-                            val value = data.msgStatus.value
-                            when (value) {
-                                3 -> tvTitleMsg.text = Html.fromHtml("<font color='#a0a4aa'>[已读]</font>${data.content}")
-                                4 -> tvTitleMsg.text = Html.fromHtml("<font color='#1787fb'>[未读]</font>${data.content}")
-                                else -> tvTitleMsg.text = data.content
-                            }
-                            val userInfo = NimUIKit.getUserInfoProvider().getUserInfo(data.contactId)
-                            userInfo?.let {
-                                Glide.with(this@MainMsgFragment)
-                                        .load(it.avatar)
-                                        .listener(object : RequestListener<Drawable> {
-                                            override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                                                val ch = userInfo.name.first()
-                                                msgIcon.setChar(ch)
-                                                return false
-                                            }
-
-                                            override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                                                return false
-                                            }
-                                        })
-                                        .into(msgIcon)
-                            }
-                        } else if (data.sessionType == SessionTypeEnum.Team) {
-                            tv_flag.visibility = View.VISIBLE
-                            val value = data.msgStatus.value
-                            val fromNick = if (data.fromNick.isNullOrEmpty()) "" else "${data.fromNick}: "
-                            when (value) {
-                                3 -> tvTitleMsg.text = Html.fromHtml("<font color='#a0a4aa'>[已读]</font>$fromNick${data.content}")
-                                4 -> tvTitleMsg.text = Html.fromHtml("<font color='#1787fb'>[未读]</font>$fromNick${data.content}")
-                                else -> tvTitleMsg.text = "$fromNick${data.content}"
-                            }
-                            val team = NimUIKit.getTeamProvider().getTeamById(data.contactId)
-                            team?.let {
-                                Glide.with(this@MainMsgFragment)
-                                        .load(it.icon)
-                                        .apply(RequestOptions().error(R.drawable.im_team_default))
-                                        .into(msgIcon)
-
-                                val extServer = it.extServer
-                                if (null != extServer && "" != extServer && """"{}"""" != extServer){
-                                    val jsonObject = JSONObject(extServer)
-                                    val flag = jsonObject.getString("grouptype")
-                                    when (flag) {
-                                        "0" -> {
-                                            //全员
-                                            tv_flag.setBackgroundResource(R.drawable.shape_flag_bg)
-                                            tv_flag.setTextColor(activity!!.resources.getColor(R.color.orange_f5))
-                                            tv_flag.text = "全员"
-                                        }
-                                        "1" -> {
-                                            //部门
-                                            tv_flag.setBackgroundResource(R.drawable.shape_flag_bg)
-                                            tv_flag.setTextColor(activity!!.resources.getColor(R.color.orange_f5))
-                                            tv_flag.text = "部门"
-                                        }
-                                        else -> {
-                                            //内部群
-                                            tv_flag.setBackgroundResource(R.drawable.shape_flag_bg_other)
-                                            tv_flag.setTextColor(activity!!.resources.getColor(R.color.blue_43))
-                                            tv_flag.text = "内部群"
-                                        }
-                                    }
-                                }else{
-                                    //内部群
-                                    tv_flag.setBackgroundResource(R.drawable.shape_flag_bg_other)
-                                    tv_flag.setTextColor(activity!!.resources.getColor(R.color.blue_43))
-                                    tv_flag.text = "内部群"
-                                }
-                            }
-                        }
-                        try {
-                            val time = Utils.getTime(data.time, "yyyy-MM-dd HH:mm:ss")
-                            tvDate.text = Utils.formatDingDate(time)
-                        } catch (e: Exception) {
-                        }
-                        val mutableMap = data.extension
-                        if (mutableMap != null && mutableMap.isNotEmpty() &&  mutableMap[data.contactId] == "Mute") {
-                            tvNum.visibility = View.VISIBLE
-                            tvNum.text = ""
-                            tvNum.backgroundResource = R.drawable.im_team_shield
-                            if (data.unreadCount > 0) {
-                                tvNum.setCompoundDrawables(null, null, resources.getDrawable(R.drawable.icon_im_mute_unread), null)
-                            } else {
-                                tvNum.setCompoundDrawables(null, null, null, null)
-                            }
-                        } else {
-                            tvNum.backgroundResource = R.drawable.bg_tag_num
-                            if (data.unreadCount > 0) {
-                                tvNum.visibility = View.VISIBLE
-                                tvNum.text = data.unreadCount.toString()
-                            } else {
-                                tvNum.visibility = View.INVISIBLE
-                            }
                         }
                     }
                 }
@@ -429,10 +309,14 @@ class MainMsgFragment : BaseFragment() {
                 search_edt.clearFocus()
             }
             val data = adapter.dataList[p]
-            if (data is MessageIndexBean) {
-                MessageListActivity.start(baseActivity, data)
-            } else if (data is RecentContact) {
-                if (NimUIKit.getAccount().isNotEmpty()) {
+            if (NimUIKit.getAccount().isNotEmpty()) {
+                if (data.contactId == "58d0c67d134fbc6c") {
+                    //审批消息助手
+                    startActivity<MsgAssistantActivity>(Extras.TYPE to 1)
+                } else if (data.contactId == "50a0500b1773be39") {
+                    //系统消息助手
+                    startActivity<MsgAssistantActivity>(Extras.TYPE to 2)
+                } else {
                     if (data.sessionType == SessionTypeEnum.P2P) {
                         NimUIKit.startP2PSession(activity, data.contactId)
                     } else if (data.sessionType == SessionTypeEnum.Team) {
@@ -443,61 +327,43 @@ class MainMsgFragment : BaseFragment() {
         }
         adapter.onItemLongClick = { v, positon ->
             val data = adapter.dataList[positon]
-            if (data is RecentContact) {
-                val top = if (isTagSet(data, RECENT_TAG_STICKY)) "取消置顶" else "置顶该聊天"
-                MaterialDialog.Builder(ctx)
-                        .theme(Theme.LIGHT)
-                        .items(mutableListOf(top, "删除"))
-                        .itemsCallback { dialog, itemView, position, text ->
-                            when (position) {
-                                0 -> {
-                                    if (isTagSet(data, RECENT_TAG_STICKY)) {
-                                        removeTag(data, RECENT_TAG_STICKY)
-                                    } else {
-                                        addTag(data, RECENT_TAG_STICKY)
-                                    }
-                                    NIMClient.getService(MsgService::class.java).updateRecent(data)
-                                    doRequest()
+            val top = if (isTagSet(data, RECENT_TAG_STICKY)) "取消置顶" else "置顶该聊天"
+            MaterialDialog.Builder(ctx)
+                    .theme(Theme.LIGHT)
+                    .items(mutableListOf(top, "删除"))
+                    .itemsCallback { dialog, itemView, position, text ->
+                        when (position) {
+                            0 -> {
+                                if (isTagSet(data, RECENT_TAG_STICKY)) {
+                                    removeTag(data, RECENT_TAG_STICKY)
+                                } else {
+                                    addTag(data, RECENT_TAG_STICKY)
                                 }
-                                1 -> {
-                                    deleteRecentContact(data.contactId, data.sessionType)
-                                }
+                                NIMClient.getService(MsgService::class.java).updateRecent(data)
+                                getIMRecentContact()
+                            }
+                            1 -> {
+                                deleteRecentContact(data.contactId, data.sessionType)
                             }
                         }
-                        .show()
-            }
+                    }
+                    .show()
             true
         }
         val layoutManager = LinearLayoutManager(baseActivity)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         recycler_view.layoutManager = layoutManager
         recycler_view.adapter = adapter
-        searchResult = RecyclerAdapter(ctx) { _adapter, parent, _ ->
-            SearchResultHolder(_adapter.getView(R.layout.item_msg_index, parent))
-        }
-        searchResult.onItemClick = { v, position ->
-            search_edt.setText("")
-            search_edt.clearFocus()
-            val record = searchResult.dataList[position]
-            when (record.sessionType) {
-                SessionTypeEnum.P2P -> {
-                    NimUIKit.startP2PSession(ctx, record.sessionId, record.message)
-                }
-                SessionTypeEnum.Team -> {
-                    NimUIKit.startTeamSession(ctx, record.sessionId, record.message)
-                }
-            }
-        }
         refresh.setEnableLoadMoreWhenContentNotFull(true)
         refresh.setRefreshFooter(BallPulseFooter(ctx))
         refresh.isEnableLoadMore = false
         refresh.setOnRefreshListener {
-            doRequest()
+            getIMRecentContact()
             refresh.finishRefresh(1000)
         }
         if (refresh.isEnableLoadMore) {
             refresh.setOnLoadMoreListener {
-                doRequest()
+                getIMRecentContact()
                 refresh.finishLoadMore(1000)
             }
         }
@@ -564,7 +430,7 @@ class MainMsgFragment : BaseFragment() {
             val bundle = data!!.extras
             val scanResult = bundle!!.getString("result")//       /api/qrlogin/notify
             if (scanResult.contains("/api/qrlogin/notify")) {
-                var index = scanResult.indexOf("/api/")
+                val index = scanResult.indexOf("/api/")
                 info { scanResult.substring(0, index) }
                 RetrofitUrlManager.getInstance().putDomain("QRCode", scanResult.substring(0, index))
                 SoguApi.getService(baseActivity!!.application, OtherService::class.java)
@@ -590,82 +456,33 @@ class MainMsgFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        doRequest()
+        getIMRecentContact()
     }
 
-    fun doRequest() {
-        SoguApi.getService(baseActivity!!.application, OtherService::class.java)
-                .msgIndex()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe({ payload ->
-                    if (payload.isOk) {
-                        adapter.dataList.clear()
-                        payload.payload?.apply {
-                            zhushou = this
-                            zhushou.flag = 1
-                            adapter.dataList.add(zhushou)
-                        }
-                        getAnnouncement()
-                    } else {
-                        showCustomToast(R.drawable.icon_toast_fail, payload.message)
-                        getAnnouncement()
-                    }
-                }, { e ->
-                    Trace.e(e)
-                    recycler_view.visibility = View.GONE
-                    iv_empty.visibility = View.VISIBLE
-                })
-    }
-
-    var zhushou = MessageIndexBean()
-    var sys_zhushou = MessageIndexBean()
-
-    private fun getAnnouncement() {
-        SoguApi.getService(baseActivity!!.application, OtherService::class.java)
-                .sysMsgIndex()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe({ payload ->
-                    if (payload.isOk) {
-                        payload.payload?.apply {
-                            sys_zhushou = this
-                            sys_zhushou.flag = 2
-                            adapter.dataList.add(sys_zhushou)
-                        }
-                        getIMRecentContact()
-                    } else {
-                        showCustomToast(R.drawable.icon_toast_fail, payload.message)
-                        getIMRecentContact()
-                    }
-                }, { e ->
-                    Trace.e(e)
-                    getIMRecentContact()
-                })
-    }
 
     private fun getIMRecentContact() {
+        adapter.dataList.clear()
         recentList.clear()
         NIMClient.getService(MsgService::class.java).queryRecentContacts().setCallback(object : RequestCallback<MutableList<RecentContact>> {
             override fun onSuccess(p0: MutableList<RecentContact>?) {
-                p0?.forEach { recentContact ->
-                    if (recentContact.sessionType == SessionTypeEnum.Team) {
-                        extMap.clear()
-                        val titleName = UserInfoHelper.getUserTitleName(recentContact.contactId, recentContact.sessionType)
-                        if (titleName.isNotEmpty()) {
-                            val team = NimUIKit.getTeamProvider().getTeamById(recentContact.contactId)
-                            if (team.isMyTeam) {
-                                extMap.put(recentContact.contactId, team.messageNotifyType)
-                                recentContact.extension = extMap
-                                recentList.add(recentContact)
-                            }
-                        }
-                    } else if (recentContact.sessionType == SessionTypeEnum.P2P) {
-                        recentList.add(recentContact)
-                    }
+                p0?.let {
+                    recentList.addAll(it)
                 }
-                Collections.sort(recentList) { o1, o2 ->
-                    // 先比较置顶tag
+                val list = recentList.toList()
+                Collections.sort(list) { o1, o2 ->
+                    if (o1.contactId == "58d0c67d134fbc6c" || o1.contactId == "50a0500b1773be39") {
+                        return@sort -1
+                    }
+                    if (o2.contactId == "58d0c67d134fbc6c" || o2.contactId == "50a0500b1773be39") {
+                        return@sort 1
+                    }
+                    if (o1.contactId == "58d0c67d134fbc6c" && o2.contactId == "50a0500b1773be39") {
+                        return@sort -1
+                    }
+                    if (o2.contactId == "58d0c67d134fbc6c" && o1.contactId == "50a0500b1773be39") {
+                        return@sort 1
+                    }
+                    // 比较置顶tag
                     val sticky = (o1.tag and RECENT_TAG_STICKY) - (o2.tag and RECENT_TAG_STICKY)
                     if (sticky != 0L) {
                         return@sort if (sticky > 0) -1 else 1
@@ -674,9 +491,8 @@ class MainMsgFragment : BaseFragment() {
                         return@sort if (time == 0L) 0 else if (time > 0) -1 else 1
                     }
                 }
-                refresh.isEnableLoadMore = recentList.size >= 10
-                adapter.dataList.addAll(recentList)
-                adapter.dataList.distinct()
+                refresh.isEnableLoadMore = list.size >= 10
+                adapter.dataList.addAll(list)
                 adapter.notifyDataSetChanged()
                 iv_loading.visibility = View.GONE
                 if (adapter.dataList.size == 0) {
@@ -715,7 +531,7 @@ class MainMsgFragment : BaseFragment() {
     }
 
     private var deleteObserver: Observer<RecentContact> = Observer { recentContact ->
-        doRequest()
+        getIMRecentContact()
     }
 
     // 暂存消息，当RecentContact 监听回来时使用，结束后清掉
@@ -723,29 +539,36 @@ class MainMsgFragment : BaseFragment() {
 
     private fun onRecentContactChanged(recentContacts: List<RecentContact>) {
         var index: Int
+        val list = recentList.toList()
         for (r in recentContacts) {
-            index = recentList.indices.firstOrNull { r.contactId == recentList[it].contactId && r.sessionType == recentList[it].sessionType }
+            index = recentList.indices.firstOrNull { r.contactId == list[it].contactId
+                    && r.sessionType == list[it].sessionType }
                     ?: -1
             if (index >= 0) {
-                recentList.removeAt(index)
+                recentList.toMutableList().removeAt(index)
             }
             recentList.add(r)
             if (r.sessionType == SessionTypeEnum.Team && cacheMessages[r.contactId] != null) {
                 TeamMemberAitHelper.setRecentContactAited(r, cacheMessages[r.contactId])
             }
         }
-        val iterator = adapter.dataList.iterator()
-        while (iterator.hasNext()) {
-            val next = iterator.next()
-            if (next is RecentContact) {
-                iterator.remove()
+        Collections.sort(list) { o1, o2 ->
+            if (o1.contactId == "58d0c67d134fbc6c" || o1.contactId == "50a0500b1773be39") {
+                return@sort -1
             }
-        }
-        Collections.sort(recentList) { o1, o2 ->
+            if (o2.contactId == "58d0c67d134fbc6c" || o2.contactId == "50a0500b1773be39") {
+                return@sort 1
+            }
+            if (o1.contactId == "58d0c67d134fbc6c" && o2.contactId == "50a0500b1773be39") {
+                return@sort -1
+            }
+            if (o2.contactId == "58d0c67d134fbc6c" && o1.contactId == "50a0500b1773be39") {
+                return@sort 1
+            }
             val time = o1.time - o2.time
             return@sort if (time == 0L) 0 else if (time > 0) -1 else 1
         }
-        adapter.dataList.addAll(recentList)
+        adapter.dataList.addAll(list)
         adapter.dataList.distinct()
         adapter.notifyDataSetChanged()
 
@@ -776,57 +599,6 @@ class MainMsgFragment : BaseFragment() {
             val intent = Bundle()
             fragment.arguments = intent
             return fragment
-        }
-    }
-
-    inner class SearchResultHolder(itemView: View) : RecyclerHolder<MsgIndexRecord>(itemView) {
-        val msgIcon = convertView.findViewById<CircleImageView>(R.id.msg_icon) as CircleImageView
-        val tvTitle = convertView.findViewById<TextView>(R.id.tv_title) as TextView
-        val tvDate = convertView.findViewById<TextView>(R.id.tv_date) as TextView
-        val tvTitleMsg = convertView.findViewById<TextView>(R.id.tv_title_msg) as TextView
-        val tvNum = convertView.findViewById<TextView>(R.id.tv_num) as TextView
-        @SuppressLint("SetTextI18n")
-        override fun setData(view: View, data: MsgIndexRecord, position: Int) {
-            tvNum.setVisible(false)
-            val titleName = UserInfoHelper.getUserTitleName(data.sessionId, data.sessionType)
-            tvTitle.text = titleName
-            val content = data.message.content
-            if (data.sessionType == SessionTypeEnum.P2P) {
-                tvTitleMsg.text = Html.fromHtml(content.replace(searchKey, "<font color='#1787fb'>$searchKey</font>"))
-                val userInfo = NimUIKit.getUserInfoProvider().getUserInfo(data.sessionId)
-                userInfo?.let {
-                    Glide.with(this@MainMsgFragment)
-                            .load(it.avatar)
-                            .listener(object : RequestListener<Drawable> {
-                                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                                    val ch = userInfo.name.first()
-                                    msgIcon.setChar(ch)
-                                    return false
-                                }
-
-                                override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                                    return false
-                                }
-
-                            })
-                            .into(msgIcon)
-                }
-            } else if (data.sessionType == SessionTypeEnum.Team) {
-                val fromNick = if (data.message.fromNick.isNullOrEmpty()) "" else "${data.message.fromNick}:"
-                tvTitleMsg.text = Html.fromHtml("$fromNick${content.replace(searchKey, "<font color='#1787fb'>$searchKey</font>")}")
-                val team = NimUIKit.getTeamProvider().getTeamById(data.sessionId)
-                team?.let {
-                    Glide.with(this@MainMsgFragment)
-                            .load(it.icon)
-                            .apply(RequestOptions().error(R.drawable.im_team_default))
-                            .into(msgIcon)
-                }
-            }
-            try {
-                val time = Utils.getTime(data.time, "yyyy-MM-dd HH:mm:ss")
-                tvDate.text = Utils.formatDingDate(time)
-            } catch (e: Exception) {
-            }
         }
     }
 }
