@@ -469,26 +469,28 @@ class MainMsgFragment : BaseFragment() {
                     recentList.addAll(it)
                 }
                 val list = recentList.toList()
-                Collections.sort(list) { o1, o2 ->
-                    if (o1.contactId == "58d0c67d134fbc6c" || o1.contactId == "50a0500b1773be39") {
-                        return@sort -1
-                    }
-                    if (o2.contactId == "58d0c67d134fbc6c" || o2.contactId == "50a0500b1773be39") {
-                        return@sort 1
-                    }
-                    if (o1.contactId == "58d0c67d134fbc6c" && o2.contactId == "50a0500b1773be39") {
-                        return@sort -1
-                    }
-                    if (o2.contactId == "58d0c67d134fbc6c" && o1.contactId == "50a0500b1773be39") {
-                        return@sort 1
-                    }
-                    // 比较置顶tag
-                    val sticky = (o1.tag and RECENT_TAG_STICKY) - (o2.tag and RECENT_TAG_STICKY)
-                    if (sticky != 0L) {
-                        return@sort if (sticky > 0) -1 else 1
-                    } else {
-                        val time = o1.time - o2.time
-                        return@sort if (time == 0L) 0 else if (time > 0) -1 else 1
+                if (list.size > 1) {
+                    Collections.sort(list) { o1, o2 ->
+                        if (o1.contactId == "58d0c67d134fbc6c" || o1.contactId == "50a0500b1773be39") {
+                            return@sort -1
+                        }
+                        if (o2.contactId == "58d0c67d134fbc6c" || o2.contactId == "50a0500b1773be39") {
+                            return@sort 1
+                        }
+                        if (o1.contactId == "58d0c67d134fbc6c" && o2.contactId == "50a0500b1773be39") {
+                            return@sort -1
+                        }
+                        if (o2.contactId == "58d0c67d134fbc6c" && o1.contactId == "50a0500b1773be39") {
+                            return@sort 1
+                        }
+                        // 比较置顶tag
+                        val sticky = (o1.tag and RECENT_TAG_STICKY) - (o2.tag and RECENT_TAG_STICKY)
+                        if (sticky != 0L) {
+                            return@sort if (sticky > 0) -1 else 1
+                        } else {
+                            val time = o1.time - o2.time
+                            return@sort if (time == 0L) 0 else if (time > 0) -1 else 1
+                        }
                     }
                 }
                 refresh.isEnableLoadMore = list.size >= 10
@@ -541,8 +543,10 @@ class MainMsgFragment : BaseFragment() {
         var index: Int
         val list = recentList.toList()
         for (r in recentContacts) {
-            index = recentList.indices.firstOrNull { r.contactId == list[it].contactId
-                    && r.sessionType == list[it].sessionType }
+            index = recentList.indices.firstOrNull {
+                r.contactId == list[it].contactId
+                        && r.sessionType == list[it].sessionType
+            }
                     ?: -1
             if (index >= 0) {
                 recentList.toMutableList().removeAt(index)
@@ -552,21 +556,23 @@ class MainMsgFragment : BaseFragment() {
                 TeamMemberAitHelper.setRecentContactAited(r, cacheMessages[r.contactId])
             }
         }
-        Collections.sort(list) { o1, o2 ->
-            if (o1.contactId == "58d0c67d134fbc6c" || o1.contactId == "50a0500b1773be39") {
-                return@sort -1
+        if (list.size > 1){
+            Collections.sort(list) { o1, o2 ->
+                if (o1.contactId == "58d0c67d134fbc6c" || o1.contactId == "50a0500b1773be39") {
+                    return@sort -1
+                }
+                if (o2.contactId == "58d0c67d134fbc6c" || o2.contactId == "50a0500b1773be39") {
+                    return@sort 1
+                }
+                if (o1.contactId == "58d0c67d134fbc6c" && o2.contactId == "50a0500b1773be39") {
+                    return@sort -1
+                }
+                if (o2.contactId == "58d0c67d134fbc6c" && o1.contactId == "50a0500b1773be39") {
+                    return@sort 1
+                }
+                val time = o1.time - o2.time
+                return@sort if (time == 0L) 0 else if (time > 0) -1 else 1
             }
-            if (o2.contactId == "58d0c67d134fbc6c" || o2.contactId == "50a0500b1773be39") {
-                return@sort 1
-            }
-            if (o1.contactId == "58d0c67d134fbc6c" && o2.contactId == "50a0500b1773be39") {
-                return@sort -1
-            }
-            if (o2.contactId == "58d0c67d134fbc6c" && o1.contactId == "50a0500b1773be39") {
-                return@sort 1
-            }
-            val time = o1.time - o2.time
-            return@sort if (time == 0L) 0 else if (time > 0) -1 else 1
         }
         adapter.dataList.addAll(list)
         adapter.dataList.distinct()
