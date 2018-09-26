@@ -80,6 +80,11 @@ class MsgAssistantActivity : BaseRefreshActivity() {
             layoutManager = LinearLayoutManager(ctx)
             adapter = listAdapter
         }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
         doRequest()
         clearUnReadCount()
     }

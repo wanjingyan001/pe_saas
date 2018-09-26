@@ -43,6 +43,7 @@ import com.netease.nimlib.sdk.search.model.MsgIndexRecord
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.jsonStr
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.base.BaseFragment
@@ -68,6 +69,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_msg_center.*
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
+import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.backgroundResource
 import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.info
@@ -466,6 +468,9 @@ class MainMsgFragment : BaseFragment() {
         NIMClient.getService(MsgService::class.java).queryRecentContacts().setCallback(object : RequestCallback<MutableList<RecentContact>> {
             override fun onSuccess(p0: MutableList<RecentContact>?) {
                 p0?.let {
+                    it.forEach { item->
+                        AnkoLogger("WJY").info { item.jsonStr }
+                    }
                     recentList.addAll(it)
                 }
                 val list = recentList.toList()
@@ -523,6 +528,7 @@ class MainMsgFragment : BaseFragment() {
 
     private fun registerObservers(register: Boolean) {
         val service = NIMClient.getService(MsgServiceObserve::class.java)
+        service.observeReceiveMessage(messageReceiverObserver, register)
         service.observeRecentContact(messageObserver, register)
         service.observeRecentContactDeleted(deleteObserver, register)
     }
@@ -535,29 +541,45 @@ class MainMsgFragment : BaseFragment() {
     private var deleteObserver: Observer<RecentContact> = Observer { recentContact ->
         getIMRecentContact()
     }
+    //监听在线消息中是否有@我
+    private val messageReceiverObserver = Observer<List<IMMessage>> { imMessages ->
+        if (imMessages != null) {
+            for (imMessage in imMessages) {
+                if (!TeamMemberAitHelper.isAitMessage(imMessage)) {
+                    continue
+                }
+                var cacheMessageSet: MutableSet<IMMessage>? = cacheMessages[imMessage.sessionId]?.toMutableSet()
+                if (cacheMessageSet == null) {
+                    cacheMessageSet = HashSet()
+                    cacheMessages.put(imMessage.sessionId, cacheMessageSet)
+                }
+                cacheMessageSet.add(imMessage)
+            }
+        }
+    }
 
     // 暂存消息，当RecentContact 监听回来时使用，结束后清掉
     private val cacheMessages = HashMap<String, Set<IMMessage>>()
 
     private fun onRecentContactChanged(recentContacts: List<RecentContact>) {
         var index: Int
-        val list = recentList.toList()
         for (r in recentContacts) {
-            index = recentList.indices.firstOrNull {
-                r.contactId == list[it].contactId
-                        && r.sessionType == list[it].sessionType
+            index = adapter.dataList.indices.firstOrNull {
+                r.contactId == adapter.dataList[it].contactId && r.sessionType == adapter.dataList[it].sessionType
             }
                     ?: -1
             if (index >= 0) {
-                recentList.toMutableList().removeAt(index)
+                adapter.dataList.removeAt(index)
             }
-            recentList.add(r)
+
+            adapter.dataList.add(r)
             if (r.sessionType == SessionTypeEnum.Team && cacheMessages[r.contactId] != null) {
                 TeamMemberAitHelper.setRecentContactAited(r, cacheMessages[r.contactId])
             }
         }
-        if (list.size > 1){
-            Collections.sort(list) { o1, o2 ->
+        cacheMessages.clear()
+        if (adapter.dataList.size > 1){
+            Collections.sort(adapter.dataList) { o1, o2 ->
                 if (o1.contactId == "58d0c67d134fbc6c" || o1.contactId == "50a0500b1773be39") {
                     return@sort -1
                 }
@@ -574,7 +596,6 @@ class MainMsgFragment : BaseFragment() {
                 return@sort if (time == 0L) 0 else if (time > 0) -1 else 1
             }
         }
-        adapter.dataList.addAll(list)
         adapter.dataList.distinct()
         adapter.notifyDataSetChanged()
 

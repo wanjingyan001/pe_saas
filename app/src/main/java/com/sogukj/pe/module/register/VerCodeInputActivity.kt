@@ -156,7 +156,6 @@ class VerCodeInputActivity : BaseActivity() {
                                 Store.store.setUser(this@VerCodeInputActivity, it)
                                 ifNotNull(it.accid, it.token, { accid, token ->
                                     IMLogin(accid, token)
-                                    NoticeService()
                                 })
                                 getCompanyInfo()
                             }
