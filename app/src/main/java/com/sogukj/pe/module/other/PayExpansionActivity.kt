@@ -126,11 +126,11 @@ class PayExpansionActivity : BaseActivity() {
 
     private fun setScribeInfos(it: PackageBean) {
         tv_phone.text = it.tel
-        if (null != it.wechat){
+        if (null != it.wechat) {
             tv_wx.text = it.wechat
         }
 
-        if (null != it.email){
+        if (null != it.email) {
             tv_email.text = it.email
         }
     }
@@ -189,7 +189,9 @@ class PayExpansionActivity : BaseActivity() {
             when (adapter.mode) {
                 1 -> {
                     view.addNumberTv.text = "增加${data.quantity}个项目额度"
-                    view.payPrice.text = "￥${data.price.toMoney()}"
+                    disInfo?.let {
+                        view.payPrice.text = "￥${(data.price - it[0].rates).toMoney()}"
+                    }
                     view.originalPrice.paint.flags = Paint.STRIKE_THRU_TEXT_FLAG
                     view.originalPrice.setVisible(false)
                     view.offerLists.setVisible(isSelected)
@@ -219,16 +221,18 @@ class PayExpansionActivity : BaseActivity() {
                                         OriginalPrice = pjPrice,
                                         calenderPrice = product.calenderPrice)
                                 if (dis.discount != 10) {
-                                    view.payPrice.text = "￥${pjPrice.times(dis.discount).div(10).toMoney()}"
+                                    val actualPrice = pjPrice.times(dis.discount).div(10) - dis.rates
+                                    view.payPrice.text = "￥${actualPrice.toMoney()}"
                                     view.originalPrice.text = "￥${pjPrice.toMoney()}"
-                                    product.discountPrice = pjPrice.times(dis.discount).div(10)
-                                    product = product.copy(discountPrice = pjPrice.times(dis.discount).div(10),
+                                    product.discountPrice = actualPrice
+                                    product = product.copy(discountPrice = actualPrice,
                                             OriginalPrice = product.OriginalPrice,
                                             calenderPrice = product.calenderPrice)
                                 } else {
-                                    view.payPrice.text = "￥${pjPrice.toMoney()}"
-                                    product.discountPrice = pjPrice
-                                    product = product.copy(discountPrice = pjPrice,
+                                    val actualPrice = pjPrice - dis.rates
+                                    view.payPrice.text = "￥${actualPrice.toMoney()}"
+                                    product.discountPrice = actualPrice
+                                    product = product.copy(discountPrice = actualPrice,
                                             OriginalPrice = product.OriginalPrice,
                                             calenderPrice = product.calenderPrice)
                                 }
@@ -255,16 +259,18 @@ class PayExpansionActivity : BaseActivity() {
                                     OriginalPrice = pjPrice,
                                     calenderPrice = product.calenderPrice)
                             if (dis.discount != 10) {
-                                view.payPrice.text = "￥${pjPrice.times(dis.discount).div(10).toMoney()}"
+                                val actualPrice = pjPrice.times(dis.discount).div(10) - dis.rates
+                                view.payPrice.text = "￥${actualPrice.toMoney()}"
                                 view.originalPrice.text = "￥${pjPrice.toMoney()}"
-                                product.discountPrice = pjPrice.times(dis.discount).div(10)
-                                product = product.copy(discountPrice = pjPrice.times(dis.discount).div(10),
+                                product.discountPrice = actualPrice
+                                product = product.copy(discountPrice = actualPrice,
                                         OriginalPrice = product.OriginalPrice,
                                         calenderPrice = product.calenderPrice)
                             } else {
-                                view.payPrice.text = "￥${pjPrice.toMoney()}"
-                                product.discountPrice = pjPrice
-                                product = product.copy(discountPrice = pjPrice,
+                                val actualPrice = pjPrice - dis.rates
+                                view.payPrice.text = "￥${actualPrice.toMoney()}"
+                                product.discountPrice = actualPrice
+                                product = product.copy(discountPrice = actualPrice,
                                         OriginalPrice = product.OriginalPrice,
                                         calenderPrice = product.calenderPrice)
                             }

@@ -36,6 +36,7 @@ import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.core.ServiceSettings;
 import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeQuery;
@@ -191,7 +192,7 @@ public class MyMapView extends View {
         uiSettings.setZoomControlsEnabled(false);
         uiSettings.setMyLocationButtonEnabled(false);
         //uiSettings.logoPosition = AMapOptions.LOGO_POSITION_BOTTOM_RIGHT
-
+        ServiceSettings.getInstance().setLanguage(ServiceSettings.CHINESE);
         geocoderSearch = new GeocodeSearch(mContext);
         geocoderSearch.setOnGeocodeSearchListener(new GeocodeSearch.OnGeocodeSearchListener() {
             @Override

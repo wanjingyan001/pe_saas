@@ -14,7 +14,7 @@ data class PackageBean(val mealName: String,
                        val type: Int,//type=1代表项目套餐,type=2代表征信套餐
                        val tel: String,
                        val wechat: String,
-                       val email:String,
+                       val email: String,
                        val used: Int,
                        val max: Int,
                        val list: List<PackageChild>,
@@ -31,7 +31,8 @@ data class PackageChild(val id: Int? = null,
 @SuppressLint("ParcelCreator")
 @Parcelize
 data class Discount(val period: Int, //年限
-                    val discount: Int //折扣,10代表不打折,8代表打8折
+                    val discount: Int, //折扣,10代表不打折,8代表打8折
+                    val rates: Int//折扣后优惠价
 ) : Parcelable
 
 
@@ -48,6 +49,6 @@ data class PayReq(var key: String,
 data class PayReqChid(var id: Int?,//征信套餐ID
                       var quantity: Int?,//项目套餐包含的商品数量
                       var period: Int?//项目套餐的有效年限
-){
+) {
     constructor() : this(null, null, null)
 }

@@ -22,6 +22,7 @@ import com.amap.api.maps.model.LatLng
 import com.amap.api.maps.model.MyLocationStyle
 import com.amap.api.services.core.LatLonPoint
 import com.amap.api.services.core.PoiItem
+import com.amap.api.services.core.ServiceSettings
 import com.amap.api.services.geocoder.GeocodeResult
 import com.amap.api.services.geocoder.GeocodeSearch
 import com.amap.api.services.geocoder.RegeocodeQuery
@@ -101,6 +102,7 @@ class IMLocationActivity : BaseActivity(), AMap.OnCameraChangeListener, AMapLoca
         uiSettings.isZoomControlsEnabled = false
         uiSettings.isMyLocationButtonEnabled = false
         uiSettings.logoPosition = AMapOptions.LOGO_POSITION_BOTTOM_RIGHT
+        ServiceSettings.getInstance().language = ServiceSettings.CHINESE
         map.setOnMapTouchListener {
             isUserTouch = true
         }

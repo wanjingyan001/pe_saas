@@ -54,6 +54,7 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.MessageIndexBean
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.module.approve.ApproveListActivity
+import com.sogukj.pe.module.im.ApproveAttachment
 import com.sogukj.pe.module.im.ImSearchResultActivity
 import com.sogukj.pe.module.other.GongGaoDetailActivity
 import com.sogukj.pe.module.other.MessageListActivity
@@ -212,6 +213,10 @@ class MainMsgFragment : BaseFragment() {
                             3 -> tvTitleMsg.text = Html.fromHtml("<font color='#a0a4aa'>[已读]</font>${data.content}")
                             4 -> tvTitleMsg.text = Html.fromHtml("<font color='#1787fb'>[未读]</font>${data.content}")
                             else -> tvTitleMsg.text = data.content
+                        }
+                        if (data.content == "[自定义消息]"){
+                            val attachment = data.attachment as ApproveAttachment
+                            tvTitleMsg.text = attachment.messageBean.type_name
                         }
                         val userInfo = NimUIKit.getUserInfoProvider().getUserInfo(data.contactId)
                         userInfo?.let {
