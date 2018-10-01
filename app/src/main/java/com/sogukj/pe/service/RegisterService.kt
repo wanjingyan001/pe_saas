@@ -148,5 +148,11 @@ interface RegisterService {
     @FormUrlEncoded
     @POST("/api/Saas/get_basic_data")
     fun getBasicInfo(@Field("key")key:String):Observable<Payload<MechanismBasicInfo>>
+
+    /**
+     * 登录后告知服务端,服务端会推送一条IM消息,用来使消息列表不为空
+     */
+    @POST("api/Saas/pushMsg")
+    fun NoticeService(): Observable<Payload<Any>>
 }
 

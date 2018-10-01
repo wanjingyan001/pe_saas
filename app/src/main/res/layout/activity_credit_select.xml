@@ -83,7 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="17dp"
-            android:text="个人咨质查询"
+            android:text="个人资质查询"
             android:textColor="@color/text_1"
             android:textSize="@dimen/text_size_normal"
             app:layout_constraintStart_toEndOf="@+id/typeIcon1"

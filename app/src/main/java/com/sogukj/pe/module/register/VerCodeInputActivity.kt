@@ -219,6 +219,11 @@ class VerCodeInputActivity : BaseActivity() {
                     }
         }
     }
+    private fun NoticeService(){
+        SoguApi.getService(application,RegisterService::class.java)
+                .NoticeService()
+                .execute {  }
+    }
 
     override fun onDestroy() {
         super.onDestroy()
