@@ -2,11 +2,11 @@ package com.sogukj.pe.module.project.originpro
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.EditText
-import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.chad.library.adapter.base.entity.MultiItemEntity
@@ -14,13 +14,16 @@ import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
+import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.Level0Item
 import com.sogukj.pe.bean.Level1Item
 import com.sogukj.pe.bean.Level2Item
+import com.sogukj.pe.bean.LinkFundBean
 import com.sogukj.pe.module.fileSelector.FileMainActivity
 import com.sogukj.pe.module.project.originpro.adapter.ExpandableItemAdapter
+import com.sogukj.pe.widgets.indexbar.RecycleViewDivider
 import kotlinx.android.synthetic.main.activity_project_upload.*
-import kotlinx.android.synthetic.main.add_fund_item.*
 import kotlinx.android.synthetic.main.layout_link_fund.*
 import org.jetbrains.anko.startActivity
 import java.io.File
@@ -32,8 +35,12 @@ import java.util.*
 class ProjectUploadActivity : ToolbarActivity() {
     private var list = ArrayList<MultiItemEntity>()
     private lateinit var adapter : ExpandableItemAdapter
+    lateinit var fundAdapter: RecyclerAdapter<LinkFundBean>
     val REQ_SELECT_FILE = 0x2018
     private var addPosition = 0
+    private val fundMap = HashMap<Int,TextView>()
+    private val amountMap = HashMap<Int,EditText>()
+    private val ratioMap = HashMap<Int,EditText>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_project_upload)
@@ -54,30 +61,42 @@ class ProjectUploadActivity : ToolbarActivity() {
         rv.adapter = adapter
         adapter.expandAll()
 
-    }
-
-    private fun bindListener() {
-        rl_invest_subject.setOnClickListener {
-            //选择投资主体
-        }
-
-        tv_add_fund.setOnClickListener {
-            //添加关联基金
-            val convertView = View.inflate(this,R.layout.add_fund_item,null)
+        fundAdapter = RecyclerAdapter<LinkFundBean>(this, { _adapter, parent, type ->
+            val convertView = _adapter.getView(R.layout.add_fund_item, parent)
             val rl_invest_subject = convertView.findViewById<RelativeLayout>(R.id.rl_invest_subject)
             val tv_invest = convertView.findViewById<TextView>(R.id.tv_invest)
             val et_amount_name = convertView.findViewById<EditText>(R.id.et_amount_name)
             val et_stock_ratio = convertView.findViewById<EditText>(R.id.et_stock_ratio)
+            object : RecyclerHolder<LinkFundBean>(convertView) {
+                override fun setData(view: View, data: LinkFundBean, position: Int) {
+                    if (null == data) return
+                    rl_invest_subject.setOnClickListener {
+                        //选择投资主体
+                    }
+                    tv_invest.text = data.fundName
+                    et_amount_name.setText(data.had_invest)
+                    et_stock_ratio.setText(data.proportion)
 
-            rl_invest_subject.setOnClickListener {
-                //选择投资主体
+                    fundMap.put(position,tv_invest)
+                    amountMap.put(position,et_amount_name)
+                    ratioMap.put(position,et_stock_ratio)
+                }
+
             }
 
-            val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-            params.topMargin = Utils.dip2px(this,15f)
-            convertView.layoutParams = params
+        })
 
-            ll_other_fund.addView(convertView)
+        rv_add_fund.addItemDecoration(RecycleViewDivider(this, LinearLayoutManager.VERTICAL,
+                Utils.dip2px(this, 8f), Color.parseColor("#f7f9fc")))
+        rv_add_fund.layoutManager = LinearLayoutManager(this)
+        rv_add_fund.adapter = fundAdapter
+    }
+
+    private fun bindListener() {
+        tv_add_fund.setOnClickListener {
+            //添加关联基金
+            fundAdapter.dataList.add(LinkFundBean())
+            fundAdapter.notifyDataSetChanged()
         }
 
         adapter.setOnItemChildClickListener { adapter, view, position ->
@@ -96,6 +115,7 @@ class ProjectUploadActivity : ToolbarActivity() {
         }
 
         ll_create.setOnClickListener {
+            //添加预审会
             startActivity<ProjectUploadShowActivity>()
         }
     }

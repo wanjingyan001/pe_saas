@@ -119,6 +119,24 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/text_15"
             android:maxLines="5"
+            android:visibility="invisible"
+            android:textColor="@color/black_28"
+            android:hint="填写业务简介"
+            android:background="@null"
+            android:textColorHint="@color/gray_a0"
+            android:gravity="start"
+            android:ellipsize="end"
+            android:textSize="@dimen/text_size_14"
+            android:layout_toRightOf="@id/tv_business_tag"/>
+
+        <TextView
+            android:id="@+id/tv_business_brief"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:lineSpacingExtra="@dimen/text_4"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/text_15"
+            android:maxLines="5"
             android:textColor="@color/black_28"
             android:hint="填写业务简介"
             android:background="@null"
@@ -229,4 +247,38 @@
         android:layout_marginLeft="19dp"
         android:layout_marginRight="@dimen/text_10"
         android:background="@color/gray_f1"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_credit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/text_18"
+        android:paddingLeft="19dp"
+        android:background="@color/white"
+        android:paddingRight="@dimen/text_5"
+        android:paddingBottom="@dimen/text_18">
+
+        <TextView
+            android:id="@+id/tv_credit_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_14"
+            android:textColor="@color/black_28"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:text="统一信用代码"/>
+        <TextView
+            android:id="@+id/tv_credit_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/text_18"
+            android:layout_marginLeft="@dimen/text_15"
+            android:gravity="right|center_vertical"
+            android:textColor="@color/black_28"
+            android:layout_toRightOf="@id/tv_credit_tag"
+            android:text=""
+            android:textSize="@dimen/text_size_14"/>
+    </RelativeLayout>
+
 </merge>

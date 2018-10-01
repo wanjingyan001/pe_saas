@@ -13,6 +13,7 @@
         android:id="@+id/ll_create"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:visibility="gone"
         android:layout_alignParentBottom="true"
         android:padding="@dimen/text_8">
         <TextView
@@ -38,13 +39,15 @@
             android:orientation="vertical">
             <include layout="@layout/layout_pro_top"/>
             <include layout="@layout/layout_pro_contact"/>
-            <LinearLayout
-                android:id="@+id/ll_add_contact"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                tools:listitem="@layout/layout_add_contact"
+                android:background="@color/gray_f7">
 
-            </LinearLayout>
+            </android.support.v7.widget.RecyclerView>
+
             <TextView
                 android:id="@+id/tv_add_contact"
                 android:layout_width="wrap_content"

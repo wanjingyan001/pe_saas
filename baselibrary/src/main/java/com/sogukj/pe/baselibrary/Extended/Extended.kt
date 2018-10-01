@@ -6,25 +6,20 @@ import android.content.Context
 import android.graphics.Color
 import android.net.ConnectivityManager
 import android.os.Build
-import android.support.v7.util.DiffUtil
-import android.support.v7.util.DiffUtil.calculateDiff
 import android.util.DisplayMetrics
-import android.util.SparseArray
-import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.TextView
 import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.sogukj.pe.baselibrary.R
 import com.sogukj.pe.baselibrary.interf.MoneyUnit
-import com.sogukj.pe.baselibrary.utils.DiffCallBack
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.OnClickFastListener
-import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -74,6 +69,8 @@ val EditText.noSpace: String
 val Any?.jsonStr: String
     get() = if (this == null) "" else Gson().toJson(this)
 
+val TextView.textStr: String
+    get() = text.trim().toString().replace(" ", "")
 /**
  * 扩展View是否可见，VISIBLE 与 GONE。
  */

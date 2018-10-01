@@ -23,7 +23,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="用印文件"
+            android:text="立项报告"
             android:textSize="@dimen/text_size_14"
             android:layout_centerVertical="true"
             android:textColor="@color/black_28"/>

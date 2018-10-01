@@ -4,6 +4,7 @@ import com.sogukj.pe.bean.*
 import com.sogukj.pe.database.HomeFunctionReq
 import com.sogukj.pe.database.MainFunIcon
 import io.reactivex.Observable
+import okhttp3.RequestBody
 import retrofit2.http.*
 
 /**
@@ -110,6 +111,88 @@ interface OtherService {
     @POST("/api/index/bannerstatus")
     fun getFourModules(): Observable<Payload<List<MainModule>>>
 
+    /**
+     * 项目基本信息
+     */
+    @FormUrlEncoded
+    @POST("/api/Company/showComBase")
+    fun getProBuildInfo(@Field("company_id") company_id:Int): Observable<Payload<NewProjectInfo>>
+
+    /**
+     * 添加修改项目基本数据
+     */
+    @POST("/api/Company/newProject")
+    fun createProjectBuild(@Body map: HashMap<String, Any>): Observable<Payload<Any>>
+
+    /**
+     * 立项信息填写
+     */
+    @FormUrlEncoded
+    @POST("/api/Company/comFileList")
+    fun getProApproveInfo(@Field("company_id") company_id:Int,@Field("floor") floor : Int,
+                                   @Field("type") type : Int = 0 ): Observable<Payload<List<List<ProjectApproveInfo>>>>
+
+    /**
+     * 删除文件
+     */
+    @FormUrlEncoded
+    @POST("/api/Company/deleteFile")
+    fun deleteProjectFile(@Field("file_id") file_id:Int) : Observable<Payload<Any>>
+
+    /**
+     * 立项提交
+     */
+    @POST("/api/Company/uploadMoreFile")
+    fun createProjectApprove(@Body map: HashMap<String, Any>): Observable<Payload<Any>>
+
+    /**
+     * 上传文件
+     */
+    @POST("/api/Company/uploadFlowFile")
+    fun uploadProFile(@Body body: RequestBody): Observable<Payload<ProUploadFileBean>>
+
+    /**
+     * 删除OSS文件
+     */
+    @FormUrlEncoded
+    @POST("/api/Company/deleteOssFile")
+    fun deleteProjectOssFile(@Field("filepath") filepath:String) : Observable<Payload<Any>>
+
+    /**
+     * 提交审批
+     */
+    @POST("/api/Company/submitApprove")
+    fun commitApprove(@Body map: HashMap<String, Any>): Observable<Payload<Any>>
 
 
+    /**
+     * 审批记录
+     */
+    @FormUrlEncoded
+    @POST("/api/Company/approveRecord")
+    fun getApproveRecord(@Field("company_id") company_id:Int,@Field("floor") floor : Int): Observable<Payload<ApproveRecordInfo>>
+
+    /**
+     * 分配审批
+     */
+    @FormUrlEncoded
+    @POST("/api/Company/allotApproval")
+    fun commitAllocationApprove(@Field("user_id") user_id : Int,@Field("company_id") company_id:Int,
+                                @Field("floor") floor : Int): Observable<Payload<Any>>
+
+
+    /**
+     * 添加投资主体信息
+     */
+    @FormUrlEncoded
+    @POST("/api/Company/submitInvest")
+    fun addLinkFund(@Field("company_id") company_id:Int,
+                                @Field("data") data : String): Observable<Payload<Any>>
+
+    /**
+     * 查看投资主体信息
+     */
+    @FormUrlEncoded
+    @POST("/api/Company/investSubject")
+    fun getLinkFund(@Field("company_id") company_id:Int): Observable<Payload<List<LinkFundBean>>>
 }

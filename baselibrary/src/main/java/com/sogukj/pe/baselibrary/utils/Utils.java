@@ -74,6 +74,10 @@ import java.util.regex.PatternSyntaxException;
 public class Utils {
 
     public static final String TAG = Utils.class.getSimpleName();
+    /**
+     * 正则表达式:验证邮箱
+     */
+    public static final String REGEX_EMAIL = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
 
     public static int dpToPx(Context context, int dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
@@ -273,6 +277,12 @@ public class Utils {
     @SuppressLint("SimpleDateFormat")
     public static String getTime(Date date) {//可根据需要自行截取数据显示
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM");
+        return format.format(date);
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    public static String getTime_(Date date) {//可根据需要自行截取数据显示
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
         return format.format(date);
     }
 
@@ -902,7 +912,6 @@ public class Utils {
 
     /**
      * 验证身份证号码是否正确
-     *
      * @param IDCardNo 身份证号码
      * @return boolean
      */
@@ -1465,6 +1474,15 @@ public class Utils {
         while ((read = in.read(buffer)) != -1) {
             out.write(buffer, 0, read);
         }
+    }
+
+    /**
+     * 校验邮箱
+     * @param email
+     * @return 校验通过返回true，否则返回false
+     */
+    public static boolean isEmail(String email) {
+        return Pattern.matches(REGEX_EMAIL, email);
     }
 
 }

@@ -5,16 +5,20 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.TextView
 import com.chad.library.adapter.base.entity.MultiItemEntity
+import com.sogukj.pe.App
+import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
-import com.sogukj.pe.bean.Level0Item
-import com.sogukj.pe.bean.Level1Item
-import com.sogukj.pe.bean.Level2Item
-import com.sogukj.pe.bean.ProjectFundInfo
+import com.sogukj.pe.bean.*
 import com.sogukj.pe.module.project.originpro.adapter.ExpandableItemAdapter
+import com.sogukj.pe.service.OtherService
+import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_upload_show.*
+import kotlinx.android.synthetic.main.commom_blue_title.*
+import org.jetbrains.anko.startActivity
 import java.util.*
 
 /**
@@ -23,8 +27,9 @@ import java.util.*
 class ProjectUploadShowActivity : ToolbarActivity(){
     private var list = ArrayList<MultiItemEntity>()
     private lateinit var adapter : ExpandableItemAdapter
-    private lateinit var fundAdapter : RecyclerAdapter<ProjectFundInfo>
-    private var fundInfos = ArrayList<ProjectFundInfo>()
+    private lateinit var fundAdapter : RecyclerAdapter<LinkFundBean>
+    private var fundInfos = ArrayList<LinkFundBean>()
+    private var project : ProjectBean ? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_upload_show)
@@ -36,6 +41,10 @@ class ProjectUploadShowActivity : ToolbarActivity(){
     private fun initView() {
         setBack(true)
         setTitle("信息填写")
+        tv_edit.visibility = View.VISIBLE
+        tv_edit.text = "编辑"
+
+        project = intent.getSerializableExtra(Extras.DATA) as ProjectBean?
     }
 
     private fun initData() {
@@ -48,22 +57,48 @@ class ProjectUploadShowActivity : ToolbarActivity(){
         fundAdapter = RecyclerAdapter(this){adapter,parent,_ ->
             ProjectFundHolder(adapter.getView(R.layout.item_link_fund,parent))
         }
-        for (i in 0 .. 2){
-            val info = ProjectFundInfo()
-            info.name = "海通证券${i}"
-            info.account = 10000f+i
-            info.ratio = "20%"
-            fundInfos.add(info)
-        }
+
         rv_fund.layoutManager = LinearLayoutManager(this)
-        fundAdapter.dataList.addAll(fundInfos)
         rv_fund.adapter = fundAdapter
+
+        getFundData()
+    }
+
+    private fun getFundData() {
+      if (null == project) return
+        SoguApi.getService(App.INSTANCE,OtherService::class.java)
+                .getLinkFund(project!!.company_id!!)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+                            val fundInfos = payload.payload
+                            if (null != fundInfos && fundInfos.size > 0){
+                                fundAdapter.dataList.clear()
+                                fundAdapter.dataList.addAll(fundInfos)
+                                fundAdapter.notifyDataSetChanged()
+                            }
+                        }else{
+                            showErrorToast(payload.message)
+                        }
+
+                    }
+
+                    onError {
+                        it.printStackTrace()
+                        showErrorToast("获取数据失败")
+                    }
+                }
     }
 
     private fun bindListener() {
 
         adapter.setOnItemChildClickListener { adapter, view, position ->
             adapter.remove(position)
+        }
+
+        tv_edit.setOnClickListener {
+            //编辑
+            startActivity<ProjectUploadActivity>()
         }
     }
 
@@ -83,15 +118,15 @@ class ProjectUploadShowActivity : ToolbarActivity(){
         return res
     }
 
-    inner class ProjectFundHolder(itemView: View) : RecyclerHolder<ProjectFundInfo>(itemView) {
+    inner class ProjectFundHolder(itemView: View) : RecyclerHolder<LinkFundBean>(itemView) {
         val tv_invest = itemView.findViewById<TextView>(R.id.tv_invest)
         val tv_amount_name = itemView.findViewById<TextView>(R.id.tv_amount_name)
         val tv_stock_ratio = itemView.findViewById<TextView>(R.id.tv_stock_ratio)
-        override fun setData(view: View, data: ProjectFundInfo, position: Int) {
+        override fun setData(view: View, data: LinkFundBean, position: Int) {
              if (null == data) return
-            tv_invest.text = data.name
-            tv_amount_name.text = data.account.toString()
-            tv_stock_ratio.text = data.ratio
+            tv_invest.text = data.fundName
+            tv_amount_name.text = data.had_invest
+            tv_stock_ratio.text = data.proportion
         }
 
     }

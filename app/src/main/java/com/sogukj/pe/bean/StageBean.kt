@@ -7,4 +7,5 @@ class StageBean {
     var type: Int? = null
     var name: String? = null
     var icon: String? = null
+    var floor:Int ? = null
 }

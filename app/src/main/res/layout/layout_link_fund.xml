@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
     android:layout_marginTop="@dimen/text_10"
     android:paddingBottom="@dimen/text_15"
@@ -19,16 +20,14 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/text_1"
         android:background="@color/gray_f1"/>
-
-    <include layout="@layout/add_fund_item"/>
-    <LinearLayout
-        android:id="@+id/ll_other_fund"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_add_fund"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        tools:listitem="@layout/add_fund_item"
+        android:background="@color/white">
 
-
-    </LinearLayout>
+    </android.support.v7.widget.RecyclerView>
 
     <TextView
         android:id="@+id/tv_add_fund"

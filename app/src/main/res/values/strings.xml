@@ -39,6 +39,15 @@
         <item>MBA</item>
         <item>博士</item>
     </string-array>
+
+    <string-array name="job">
+        <item>董事长</item>
+        <item>总经理</item>
+        <item>财务总监</item>
+        <item>董秘</item>
+        <item>其他</item>
+    </string-array>
+
     <string-array name="workers">
         <item>少于50人</item>
         <item>50–150人</item>

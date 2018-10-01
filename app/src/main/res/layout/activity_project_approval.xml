@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/gray_f7"
     android:orientation="vertical">
     <include android:id="@+id/toolbar"
@@ -79,14 +80,15 @@
                     android:drawableRight="@drawable/ic_right"/>
             </RelativeLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_pro_info"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                tools:listitem="@layout/layout_pro_edit"
+                android:layout_marginTop="@dimen/text_15"
+                android:background="@color/white">
 
-
-            </LinearLayout>
+            </android.support.v7.widget.RecyclerView>
 
             <com.sogukj.pe.widgets.ProInfoBottomView
                 android:id="@+id/add_file_view"

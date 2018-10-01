@@ -2,14 +2,10 @@ package com.sogukj.pe.module.register
 
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import androidx.core.content.edit
-import com.alibaba.android.arouter.facade.annotation.Route
-import com.amap.api.mapcore.util.it
 import com.netease.nim.uikit.api.NimUIKit
 import com.netease.nimlib.sdk.RequestCallback
 import com.netease.nimlib.sdk.auth.LoginInfo
-import com.sogukj.pe.App
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
@@ -23,15 +19,12 @@ import com.sogukj.pe.baselibrary.utils.XmlDb
 import com.sogukj.pe.baselibrary.widgets.SingleEditLayout
 import com.sogukj.pe.bean.MechanismInfo
 import com.sogukj.pe.interf.ReviewStatus
-import com.sogukj.pe.module.main.LoginActivity
 import com.sogukj.pe.module.main.MainActivity
 import com.sogukj.pe.peUtils.LoginTimer
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.RegisterService
 import com.sogukj.service.SoguApi
 import com.tencent.bugly.crashreport.CrashReport
-import io.reactivex.Observable
-import io.reactivex.internal.util.HalfSerializer.onNext
 import kotlinx.android.synthetic.main.activity_register_vercode.*
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import org.jetbrains.anko.AnkoLogger
@@ -82,7 +75,11 @@ class VerCodeInputActivity : BaseActivity() {
                                 it.domain_name?.let {
                                     if (it.isNotEmpty()) {
                                         val newBaseUtl: String = if (!it.startsWith("http://")) {
-                                            "http://$it"
+                                            if (it.startsWith("https://")){
+                                                it
+                                            }else{
+                                                "http://$it"
+                                            }
                                         } else {
                                             it
                                         }

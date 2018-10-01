@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="40dp"
+              android:layout_height="wrap_content"
+              android:layout_margin="10dp"
+              android:gravity="center"
+              android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="@dimen/text_25"
+        android:layout_height="@dimen/text_25">
+
+        <com.sogukj.pe.widgets.CircleImageView
+            android:id="@+id/icon"
+            android:layout_width="@dimen/text_25"
+            android:layout_height="@dimen/text_25"
+            android:background="@null"
+            android:src="@drawable/send_add" />
+
+
+        <ImageView
+            android:id="@+id/delete"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_gravity="right|top"
+            android:visibility="gone"
+            android:src="@drawable/cs_add" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="张三"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="@color/text_3"
+        android:textSize="12sp" />
+
+</LinearLayout>

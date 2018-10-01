@@ -24,6 +24,7 @@ public class RecycleViewDivider extends RecyclerView.ItemDecoration {
     private int mOrientation;//列表的方向：LinearLayoutManager.VERTICAL或LinearLayoutManager.HORIZONTAL
     private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
     private Context context;
+    private int padding;
     /**
      * 默认分割线：高度为1px，颜色为灰色
      *
@@ -32,6 +33,21 @@ public class RecycleViewDivider extends RecyclerView.ItemDecoration {
      */
     public RecycleViewDivider(Context context, int orientation) {
         this.context = context;
+        this.padding = Utils.dip2px(context,10);
+        if (orientation != LinearLayoutManager.VERTICAL && orientation != LinearLayoutManager.HORIZONTAL) {
+            throw new IllegalArgumentException("请输入正确的参数！");
+        }
+        mOrientation = orientation;
+
+        final TypedArray a = context.obtainStyledAttributes(ATTRS);
+        mDivider = a.getDrawable(0);
+        a.recycle();
+    }
+
+    public RecycleViewDivider(Context context, int orientation,int mDividerHeight) {
+        this.context = context;
+        this.mDividerHeight = mDividerHeight;
+        this.padding = 0;
         if (orientation != LinearLayoutManager.VERTICAL && orientation != LinearLayoutManager.HORIZONTAL) {
             throw new IllegalArgumentException("请输入正确的参数！");
         }
@@ -49,7 +65,7 @@ public class RecycleViewDivider extends RecyclerView.ItemDecoration {
      * @param orientation 列表方向
      * @param drawableId  分割线图片
      */
-    public RecycleViewDivider(Context context, int orientation, int drawableId) {
+    public RecycleViewDivider(Context context, int orientation, int drawableId,boolean isFlag) {
         this(context, orientation);
         mDivider = ContextCompat.getDrawable(context, drawableId);
         mDividerHeight = mDivider.getIntrinsicHeight();
@@ -66,6 +82,7 @@ public class RecycleViewDivider extends RecyclerView.ItemDecoration {
     public RecycleViewDivider(Context context, int orientation, int dividerHeight, int dividerColor) {
         this(context, orientation);
         mDividerHeight = dividerHeight;
+        this.padding = 0;
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setColor(dividerColor);
         mPaint.setStyle(Paint.Style.FILL);
@@ -101,8 +118,8 @@ public class RecycleViewDivider extends RecyclerView.ItemDecoration {
      * @param parent
      */
     private void drawVertical(Canvas canvas, RecyclerView parent) {
-        final int left = parent.getPaddingLeft() + Utils.dip2px(context,10);
-        final int right = parent.getMeasuredWidth() - parent.getPaddingRight() - Utils.dip2px(context,10);
+        final int left = parent.getPaddingLeft() + padding;
+        final int right = parent.getMeasuredWidth() - parent.getPaddingRight() - padding;
         final int childSize = parent.getChildCount();
         for (int i = 0; i < childSize; i++) {
             final View child = parent.getChildAt(i);

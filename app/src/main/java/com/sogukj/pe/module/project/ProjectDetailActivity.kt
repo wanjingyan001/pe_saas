@@ -36,6 +36,7 @@ import com.sogukj.pe.bean.*
 import com.sogukj.pe.module.approve.ApproveListActivity
 import com.sogukj.pe.module.creditCollection.ShareHolderDescActivity
 import com.sogukj.pe.module.creditCollection.ShareholderCreditActivity
+import com.sogukj.pe.module.fund.BookListActivity
 import com.sogukj.pe.module.main.ContactsActivity
 import com.sogukj.pe.module.project.archives.EquityListActivity
 import com.sogukj.pe.module.project.archives.FinanceListActivity
@@ -49,7 +50,8 @@ import com.sogukj.pe.module.project.intellectualProperty.PatentListActivity
 import com.sogukj.pe.module.project.listingInfo.*
 import com.sogukj.pe.module.project.operate.*
 import com.sogukj.pe.module.project.originpro.NewOriginProjectActivity
-import com.sogukj.pe.module.project.originpro.ProjectUploadActivity
+import com.sogukj.pe.module.project.originpro.ProjectApprovalShowActivity
+import com.sogukj.pe.module.project.originpro.ProjectUploadShowActivity
 import com.sogukj.pe.peExtended.needIm
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.NewService
@@ -593,7 +595,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
     }
 
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
-        if (view.tag in 1..62) {
+        if (view.tag in 1..64) {
             SoguApi.getService(application, NewService::class.java)
                     .saveClick(view.tag as Int)
                     .execute {}
@@ -656,8 +658,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                     5, 7 -> "退出"
                     else -> ""
                 }
-//                BookListActivity.start(context, project.company_id!!, 1, null, "项目文书", project.name!!, stage)
-                startActivity<NewOriginProjectActivity>()
+                BookListActivity.start(context, project.company_id!!, 1, null, "项目文书", project.name!!, stage)
             }
             54 -> StoreProjectAddActivity.startView(this@ProjectDetailActivity, project)//储备信息
             51 -> {
@@ -673,8 +674,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
 
         // 跟踪记录,尽调数据,投决数据,投后管理数据
             55 -> RecordTraceActivity.start(this@ProjectDetailActivity, project)//跟踪记录
-//            56 -> ManagerActivity.start(this@ProjectDetailActivity, project, 1, "尽调数据")//尽调数据
-            56 -> startActivity<ProjectUploadActivity>()
+            56 -> ManagerActivity.start(this@ProjectDetailActivity, project, 1, "尽调数据")//尽调数据
             57 -> ManagerActivity.start(this@ProjectDetailActivity, project, 8, "投决数据")//投决数据
             58 -> ManagerActivity.start(this@ProjectDetailActivity, project, 10, "投后管理")//投后管理
 
@@ -684,8 +684,10 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
 
             61 -> FinanceListActivity.start(this@ProjectDetailActivity, project)
 
-            62 -> IncomeCurveActivity.start(this@ProjectDetailActivity, project)//收益曲线
-
+//            62 -> IncomeCurveActivity.start(this@ProjectDetailActivity, project)//收益曲线
+            62 ->  startActivity<NewOriginProjectActivity>(Extras.DATA to project) //新建项目
+            63 ->  startActivity<ProjectApprovalShowActivity>(Extras.DATA to project) //立项申请
+            64 ->  startActivity<ProjectUploadShowActivity>(Extras.DATA to project) //预审会
         }
     }
 
