@@ -8,4 +8,5 @@ import com.sogukj.pe.bean.NewProjectInfo
 interface NewOriginProCallBack {
     fun setProjectOriginData(data: NewProjectInfo)
     fun setCreateOriginSuccess()
+    fun goneLoadding()
 }

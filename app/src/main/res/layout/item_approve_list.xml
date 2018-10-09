@@ -118,7 +118,7 @@
         android:drawableLeft="@mipmap/icon_meel_plan"
         android:text="张栋梁、王刚、刘宇、张塞、曹萌"/>
     <View
-        android:id="@+id/view"
+        android:id="@+id/view_space"
         android:layout_width="wrap_content"
         android:layout_height="10dp"
         android:background="@android:color/transparent"
@@ -131,7 +131,7 @@
         android:layout_marginStart="@dimen/text_12"
         app:layout_constraintTop_toBottomOf="@+id/iv_image"
         app:layout_constraintStart_toStartOf="@+id/iv_image"
-        app:layout_constraintBottom_toBottomOf="@+id/view"/>
+        app:layout_constraintBottom_toBottomOf="@+id/view_space"/>
 
     <View android:id="@+id/view_line1"
         android:layout_width="@dimen/text_2"
@@ -147,7 +147,7 @@
         app:layout_constraintStart_toEndOf="@+id/iv_image"
         app:layout_constraintEnd_toEndOf="parent"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:layout_constraintTop_toBottomOf="@+id/view_space"
         android:layout_marginLeft="@dimen/text_3">
         <RelativeLayout
             android:id="@+id/rl_suggest"
@@ -199,6 +199,7 @@
             android:id="@+id/fl_assign_approve"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:paddingTop="@dimen/text_8"
             android:paddingBottom="@dimen/text_8"
             android:background="@drawable/bg_agree"
@@ -220,6 +221,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/text_10"
+            android:visibility="gone"
             android:background="@color/blue_f6f"
             android:layout_marginTop="@dimen/text_8"
             android:orientation="vertical">

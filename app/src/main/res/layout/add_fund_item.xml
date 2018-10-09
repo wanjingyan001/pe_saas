@@ -58,6 +58,7 @@
         <EditText
             android:id="@+id/et_amount_name"
             style="@style/addContactContent"
+            android:inputType="numberDecimal"
             android:layout_toRightOf="@id/tv_invest_amount"/>
     </RelativeLayout>
     <View
@@ -79,6 +80,7 @@
         <EditText
             android:id="@+id/et_stock_ratio"
             style="@style/addContactContent"
+            android:inputType="numberDecimal"
             android:layout_toRightOf="@id/tv_stock_tag"/>
     </RelativeLayout>
     <View

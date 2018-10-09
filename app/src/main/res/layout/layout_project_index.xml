@@ -75,7 +75,7 @@
         android:textColor="@color/gray_a0"
         android:layout_marginTop="@dimen/text_20"
         app:layout_constraintTop_toBottomOf="@+id/tv_index_unit"
-        android:text="1000000"/>
+        android:text="----"/>
 
     <TextView
         android:id="@+id/tv_value2"
@@ -88,7 +88,7 @@
         android:textColor="@color/gray_a0"
         android:layout_marginTop="@dimen/text_25"
         app:layout_constraintTop_toBottomOf="@+id/tv_value1"
-        android:text="700000"/>
+        android:text="----"/>
 
     <TextView
         android:id="@+id/tv_value3"
@@ -101,7 +101,7 @@
         android:textColor="@color/gray_a0"
         android:layout_marginTop="@dimen/text_25"
         app:layout_constraintTop_toBottomOf="@+id/tv_value2"
-        android:text="400000"/>
+        android:text="----"/>
 
     <TextView
         android:id="@+id/tv_value4"
@@ -114,7 +114,7 @@
         android:textColor="@color/gray_a0"
         android:layout_marginTop="@dimen/text_25"
         app:layout_constraintTop_toBottomOf="@+id/tv_value3"
-        android:text="100000"/>
+        android:text="----"/>
 
     <View
         android:id="@+id/view1"

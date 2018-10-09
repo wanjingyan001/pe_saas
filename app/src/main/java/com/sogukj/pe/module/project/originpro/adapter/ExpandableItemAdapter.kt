@@ -1,8 +1,7 @@
 package com.sogukj.pe.module.project.originpro.adapter
 
+import android.app.Activity
 import android.widget.ImageView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.entity.MultiItemEntity
@@ -13,16 +12,19 @@ import com.sogukj.pe.R
 import com.sogukj.pe.bean.Level0Item
 import com.sogukj.pe.bean.Level1Item
 import com.sogukj.pe.bean.Level2Item
+import com.sogukj.pe.module.other.OnlinePreviewActivity
 import com.sogukj.pe.peUtils.FileTypeUtils
-import com.sogukj.pe.peUtils.FileUtil
+import org.jetbrains.anko.imageResource
 
 /**
  * Created by CH-ZH on 2018/9/20.
  */
 class ExpandableItemAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder> {
     private var type : Int = 0
-    constructor(data: MutableList<MultiItemEntity>,type:Int):super(data){
+    private var mAct : Activity ? = null
+    constructor(data: MutableList<MultiItemEntity>,type:Int,act: Activity):super(data){
         this.type = type
+        mAct = act
         addItemType(TYPE_LEVEL_0, R.layout.item_expandable_lv0)
         addItemType(TYPE_LEVEL_1, R.layout.item_expandable_lv1)
         if (type == 0){
@@ -71,29 +73,19 @@ class ExpandableItemAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseVie
                         holder.setGone(R.id.tv_add_file,true)
                         holder.setGone(R.id.view,true)
                     }else{
+                        val file = level2Item.file
+                        if (null == file) return
                         holder.setGone(R.id.pdfIcon,true)
                         holder.setGone(R.id.iv_delete,true)
                         holder.setGone(R.id.pdfName,true)
 
                         holder.setGone(R.id.tv_add_file,false)
                         holder.setGone(R.id.view,false)
-                        holder.setText(R.id.pdfName,level2Item.name)
+                        holder.setText(R.id.pdfName,file.file_name)
 
                         holder.addOnClickListener(R.id.iv_delete)
                         val pdfIcon = holder.getView<ImageView>(R.id.pdfIcon)
-                        if (null != level2Item.file){
-                            if (null != FileUtil.getFileType(level2Item.file!!.absolutePath)) {
-                                Glide.with(mContext)
-                                        .load(level2Item.file!!.absolutePath)
-                                        .thumbnail(0.1f)
-                                        .apply(RequestOptions()
-                                                .centerCrop()
-                                                .error(R.drawable.icon_pic))
-                                        .into(pdfIcon)
-                            } else {
-                                holder.setImageResource(R.id.pdfIcon,FileTypeUtils.getFileType(level2Item.file).icon)
-                            }
-                        }
+                        pdfIcon.imageResource = FileTypeUtils.getFileType(file.file_name).icon
                     }
                     holder.addOnClickListener(R.id.tv_add_file)
 
@@ -106,6 +98,8 @@ class ExpandableItemAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseVie
                         holder.setGone(R.id.time,false)
                         holder.setGone(R.id.iv_right,false)
                     }else{
+                        val file = level2Item.file
+                        if (null == file) return
                         holder.setGone(R.id.tv_empty,false)
                         holder.setGone(R.id.view,false)
                         holder.setGone(R.id.pdfIcon,true)
@@ -113,10 +107,13 @@ class ExpandableItemAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseVie
                         holder.setGone(R.id.time,true)
                         holder.setGone(R.id.iv_right,true)
 
-                        holder.setText(R.id.pdfName,level2Item.name)
-
+                        holder.setText(R.id.pdfName,file.file_name)
+                        holder.setText(R.id.time,file.date)
+                        val pdfIcon = holder.getView<ImageView>(R.id.pdfIcon)
+                        pdfIcon.imageResource = FileTypeUtils.getFileType(file.file_name).icon
                         holder.itemView.setOnClickListener {
                             //预览页面
+                            OnlinePreviewActivity.start(mAct!!,file.url,file.file_name)
                         }
                     }
                 }

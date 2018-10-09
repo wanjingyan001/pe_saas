@@ -29,7 +29,7 @@ class ProjectIndexView : LinearLayout {
     private var tv5 : TextView ? = null
     private var tv6 : TextView ? = null
     private var project_chart : ProjectLineChartView ? = null
-    private var amounts = ArrayList<Long>()
+    private var amounts = ArrayList<Float>()
     constructor(context: Context) : super(context){
         mContext = context
         initView()
@@ -68,16 +68,17 @@ class ProjectIndexView : LinearLayout {
         if (null != frames && frames.size > 0){
             for (frame in frames) {
                 if (!frame.asset.isNullOrEmpty()){
-                    amounts.add(frame.asset.toLong())
+                    amounts.add(frame.asset.toFloat())
                 }
                 if (!frame.income.isNullOrEmpty()){
-                    amounts.add(frame.income.toLong())
+                    amounts.add(frame.income.toFloat())
                 }
                 if (!frame.profit.isNullOrEmpty()){
-                    amounts.add(frame.profit.toLong())
+                    amounts.add(frame.profit.toFloat())
                 }
             }
         }
+        if (amounts.size <= 0) return
         val max = Collections.max(amounts)
         val min = Collections.min(amounts)
 

@@ -8,15 +8,10 @@ import java.io.File
  * Created by CH-ZH on 2018/9/20.
  */
 class Level2Item : MultiItemEntity {
-    var img : String ? = null
-    var name : String = ""
     var type : Int = 0
-    var file : File? = null
-    constructor(img : String,name : String,type : Int = 0){
-        this.img = img
-        this.name = name
-        this.type = type
-    }
+    var file : ProjectApproveInfo.ApproveFile? = null
+    var localFile : File? = null
+    var class_id : Int = 0
     constructor()
     override fun getItemType(): Int {
         return Extras.TYPE_FILE

@@ -3,6 +3,7 @@ package com.sogukj.pe.module.project.originpro
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
@@ -13,6 +14,7 @@ import android.widget.TextView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.bigkoo.pickerview.TimePickerView
+import com.bumptech.glide.Glide
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.textStr
@@ -48,6 +50,7 @@ class ProjectApprovalActivity : ToolbarActivity(), ProjectApproveCallBack {
     private var class_id: Int? = null
     private var class_file_id : Int ? = null
     private var type = -1
+    private var floor : Int ? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_project_approval)
@@ -60,7 +63,12 @@ class ProjectApprovalActivity : ToolbarActivity(), ProjectApproveCallBack {
         setBack(true)
         setTitle(R.string.project_info)
         project = intent.getSerializableExtra(Extras.DATA) as ProjectBean?
+        floor = intent.getIntExtra(Extras.FLAG,-1)
         presenter = ProjectApprovePresenter(this, this)
+        Glide.with(this)
+                .asGif()
+                .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
+                .into(iv_loading)
     }
 
     private fun initData() {
@@ -121,10 +129,18 @@ class ProjectApprovalActivity : ToolbarActivity(), ProjectApproveCallBack {
         recycler_view.adapter = adapter
 
         if (null != presenter && null != project) {
-            presenter!!.getProApproveInfo(project!!.company_id!!, project!!.floor!!)
+            setLoadding()
+            presenter!!.getProApproveInfo(project!!.company_id!!, floor!!)
         }
     }
 
+    private fun setLoadding(){
+        view_recover.visibility = View.VISIBLE
+    }
+
+    override fun goneLoading() {
+        view_recover.visibility = View.INVISIBLE
+    }
     private fun bindListener() {
         ll_create.setOnClickListener {
             //提交立项申请
@@ -190,12 +206,13 @@ class ProjectApprovalActivity : ToolbarActivity(), ProjectApproveCallBack {
             val fileData = add_file_view.getFileData()
             for (info in fileData) {
                 val fileBean = FileDataBean()
-                fileBean.class_id = class_file_id
-                fileBean.filepath = info.filePath
-                fileBean.filename = info.file_name
-                fileBean.size = info.size
-
-                files.add(fileBean)
+                if (null != info.file!!){
+                    fileBean.class_id = class_file_id
+                    fileBean.filepath = info.filePath
+                    fileBean.filename = info.file_name
+                    fileBean.size = info.size
+                    files.add(fileBean)
+                }
             }
         }
         commitProjectDataToNet(infos, files, type)

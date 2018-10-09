@@ -58,7 +58,7 @@
         <EditText
             android:id="@+id/et_property_name"
             style="@style/addContactContent"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:layout_toRightOf="@id/tv_property_tag"/>
     </RelativeLayout>
     <View
@@ -80,7 +80,7 @@
         <EditText
             android:id="@+id/et_income_name"
             style="@style/addContactContent"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:layout_toRightOf="@id/tv_income_tag"/>
     </RelativeLayout>
     <View
@@ -103,7 +103,7 @@
         <EditText
             android:id="@+id/et_profit_name"
             style="@style/addContactContent"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:layout_toRightOf="@id/tv_cn_tag"/>
     </RelativeLayout>
     <View

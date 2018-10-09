@@ -18,7 +18,7 @@ class ApproveRecordInfo : Serializable {
         var url = ""
         var name = ""
         var file : List<RecordFile> ? = null
-        var meet : List<ApproveMeet> ? = null
+        var meet : ApproveMeet ? = null
     }
 
     class RecordFile : Serializable{

@@ -600,6 +600,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                     .saveClick(view.tag as Int)
                     .execute {}
         }
+        val detailSmallBean = detailModules[position].t
         when (view.tag) {
             38 -> StockInfoActivity.start(this@ProjectDetailActivity, project)//股票行情
             39 -> CompanyInfoActivity.start(this@ProjectDetailActivity, project)//企业简介
@@ -686,8 +687,8 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
 
 //            62 -> IncomeCurveActivity.start(this@ProjectDetailActivity, project)//收益曲线
             62 ->  startActivity<NewOriginProjectActivity>(Extras.DATA to project) //新建项目
-            63 ->  startActivity<ProjectApprovalShowActivity>(Extras.DATA to project) //立项申请
-            64 ->  startActivity<ProjectUploadShowActivity>(Extras.DATA to project) //预审会
+            63 ->  startActivity<ProjectApprovalShowActivity>(Extras.DATA to project,Extras.FLAG to detailSmallBean.floor) //立项申请
+            64 ->  startActivity<ProjectUploadShowActivity>(Extras.DATA to project,Extras.FLAG to detailSmallBean.floor) //预审会
         }
     }
 

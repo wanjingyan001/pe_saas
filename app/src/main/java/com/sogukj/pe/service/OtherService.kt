@@ -184,10 +184,8 @@ interface OtherService {
     /**
      * 添加投资主体信息
      */
-    @FormUrlEncoded
     @POST("/api/Company/submitInvest")
-    fun addLinkFund(@Field("company_id") company_id:Int,
-                                @Field("data") data : String): Observable<Payload<Any>>
+    fun addLinkFund(@Body map: HashMap<String, Any>): Observable<Payload<Any>>
 
     /**
      * 查看投资主体信息
@@ -195,4 +193,11 @@ interface OtherService {
     @FormUrlEncoded
     @POST("/api/Company/investSubject")
     fun getLinkFund(@Field("company_id") company_id:Int): Observable<Payload<List<LinkFundBean>>>
+
+    /**
+     * 基金列表
+     */
+    @FormUrlEncoded
+    @POST("/api/Archives/allProjectOrFund")
+    fun getLinkFundList(@Field("type") type:Int = 2,@Field("flag") flag:Int = 1): Observable<Payload<List<InvestFundBean>>>
 }

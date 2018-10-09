@@ -188,7 +188,7 @@ class BuildProjectDialog {
             files.add(fileBean)
         }
         val map = HashMap<String,Any>()
-        map.put("comapny_id",project!!.company_id!!)
+        map.put("company_id",project!!.company_id!!)
         map.put("floor",project!!.floor!!)
         map.put("type",1) //-1=>’否决’,1=>’同意通过’,2=> 同意上储备,3=>同意退出
         map.put("content",content)
@@ -203,6 +203,7 @@ class BuildProjectDialog {
                             if (build.isShowing) {
                                 build.dismiss()
                             }
+                            (mAct as ProjectApprovalShowActivity).getApprevoRecordInfo()
                         }else{
                             ToastUtil.showCustomToast(R.drawable.icon_toast_fail, payload.message, mAct!!)
                         }
@@ -309,16 +310,16 @@ class BuildProjectDialog {
             files.add(fileBean)
         }
         val map = HashMap<String,Any>()
-        map.put("comapny_id",project!!.company_id!!)
+        map.put("company_id",project!!.company_id!!)
         map.put("floor",project!!.floor!!)
         map.put("type",2) //-1=>’否决’,1=>’同意通过’,2=> 同意上储备,3=>同意退出
         map.put("content",content)
         map.put("current",0)
         map.put("files",files)
         if (null != date){
-            map.put("meeting_time",date!!.time)
+            map.put("meeting_time",date!!.time/1000)
         }else{
-            map.put("meeting_time",Date().time)
+            map.put("meeting_time",Date().time/1000)
         }
 
         if (null != memberAdapter){
@@ -338,6 +339,7 @@ class BuildProjectDialog {
                             if (build!!.isShowing) {
                                 build.dismiss()
                             }
+                            (mAct as ProjectApprovalShowActivity).getApprevoRecordInfo()
                         }else{
                             ToastUtil.showCustomToast(R.drawable.icon_toast_fail, payload.message, mAct!!)
                         }

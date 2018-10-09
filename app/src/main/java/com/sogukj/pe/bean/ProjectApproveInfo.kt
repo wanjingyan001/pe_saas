@@ -17,7 +17,7 @@ class ProjectApproveInfo : Serializable {
 
      var frame: List<ApproveInfo>? = null
      var files: List<ApproveFile>? = null
-
+     var son : List<ApproveSon>? = null
     class ApproveFile : Serializable {
          var file_id: Int? = null
          var originUrl: String = ""
@@ -36,4 +36,15 @@ class ProjectApproveInfo : Serializable {
          var income = ""
          var profit = ""
      }
+
+    class ApproveSon : Serializable{
+        var name = ""
+        var class_id: Int? = null
+        var pid: Int? = null
+        var must: Int? = null
+        var fields = ""
+        var control: Int? = null
+        var floor: Int? = null
+        var files: List<ApproveFile>? = null
+    }
 }

@@ -23,32 +23,32 @@ class ProjectLineChartView : View {
     private var paintCircleRed : Paint? = null
     private var paintCircleBlue : Paint? = null
     private var paintCircleGrreen : Paint? = null
-    private var property1 = 0L
-    private var property2 = 0L
-    private var property3 = 0L
+    private var property1 = 0f
+    private var property2 = 0f
+    private var property3 = 0f
 
-    private var realProperty1 = 0L
-    private var realProperty2 = 0L
-    private var realProperty3 = 0L
+    private var realProperty1 = 0f
+    private var realProperty2 = 0f
+    private var realProperty3 = 0f
 
-    private var income1 = 0L
-    private var income2 = 0L
-    private var income3 = 0L
+    private var income1 = 0f
+    private var income2 = 0f
+    private var income3 = 0f
 
-    private var realIncome1 = 0L
-    private var realIncome2 = 0L
-    private var realIncome3 = 0L
+    private var realIncome1 = 0f
+    private var realIncome2 = 0f
+    private var realIncome3 = 0f
 
-    private var profit1 = 0L
-    private var profit2 = 0L
-    private var profit3 = 0L
+    private var profit1 = 0f
+    private var profit2 = 0f
+    private var profit3 = 0f
 
-    private var realProfit1 = 0L
-    private var realProfit2 = 0L
-    private var realProfit3 = 0L
+    private var realProfit1 = 0f
+    private var realProfit2 = 0f
+    private var realProfit3 = 0f
 
     private var type = -1
-    private var maxValue = 0L
+    private var maxValue = 0f
     private val circleRadius = 6f
     constructor(context: Context) : super(context) {
         mContext = context
@@ -387,7 +387,7 @@ class ProjectLineChartView : View {
     }
 
 
-    open fun fitDataAndInvalite(frames: List<ProjectApproveInfo.ApproveInfo>, maxValue: Long, maxYear: Int, minYear: Int, size: Int, realYear1: String,
+    open fun fitDataAndInvalite(frames: List<ProjectApproveInfo.ApproveInfo>, maxValue: Float, maxYear: Int, minYear: Int, size: Int, realYear1: String,
                                 realYear2: String, realYear3: String){
         val infos = ArrayList<ApproveFrameInfo>()
         this.maxValue = maxValue
@@ -406,56 +406,56 @@ class ProjectLineChartView : View {
             type = 1
             if (!"".equals(realYear1)){
                 if (!infos[0].property_amount.isNullOrEmpty()){
-                    property1 = infos[0].property_amount.toLong()
+                    property1 = infos[0].property_amount.toFloat()
                 }
                 if (!infos[0].income_amount.isNullOrEmpty()){
-                    income1 = infos[0].income_amount.toLong()
+                    income1 = infos[0].income_amount.toFloat()
                 }
                 if (!infos[0].profit_amount.isNullOrEmpty()){
-                    profit1 = infos[0].profit_amount.toLong()
+                    profit1 = infos[0].profit_amount.toFloat()
                 }
             }else if (!"".equals(realYear2)){
                 if (!infos[1].property_amount.isNullOrEmpty()){
-                    property1 = infos[1].property_amount.toLong()
+                    property1 = infos[1].property_amount.toFloat()
                 }
                 if (!infos[1].income_amount.isNullOrEmpty()){
-                    income1 = infos[1].income_amount.toLong()
+                    income1 = infos[1].income_amount.toFloat()
                 }
                 if (!infos[1].profit_amount.isNullOrEmpty()){
-                    profit1 = infos[1].profit_amount.toLong()
+                    profit1 = infos[1].profit_amount.toFloat()
                 }
             }else if (!"".equals(realYear3)){
                 if (!infos[2].property_amount.isNullOrEmpty()){
-                    property1 = infos[2].property_amount.toLong()
+                    property1 = infos[2].property_amount.toFloat()
                 }
                 if (!infos[2].income_amount.isNullOrEmpty()){
-                    income1 = infos[2].income_amount.toLong()
+                    income1 = infos[2].income_amount.toFloat()
                 }
                 if (!infos[2].profit_amount.isNullOrEmpty()){
-                    profit1 = infos[2].profit_amount.toLong()
+                    profit1 = infos[2].profit_amount.toFloat()
                 }
             }
         }else if (size == 2){
             type = 2
             if ("".equals(realYear1)){
                 if (!infos[1].property_amount.isNullOrEmpty()){
-                    property1 = infos[1].property_amount.toLong()
+                    property1 = infos[1].property_amount.toFloat()
                 }
                 if (!infos[1].income_amount.isNullOrEmpty()){
-                    income1 = infos[1].income_amount.toLong()
+                    income1 = infos[1].income_amount.toFloat()
                 }
                 if (!infos[1].profit_amount.isNullOrEmpty()){
-                    profit1 = infos[1].profit_amount.toLong()
+                    profit1 = infos[1].profit_amount.toFloat()
                 }
 
                 if (!infos[2].property_amount.isNullOrEmpty()){
-                    property2 = infos[2].property_amount.toLong()
+                    property2 = infos[2].property_amount.toFloat()
                 }
                 if (!infos[2].income_amount.isNullOrEmpty()){
-                    income2 = infos[2].income_amount.toLong()
+                    income2 = infos[2].income_amount.toFloat()
                 }
                 if (!infos[2].profit_amount.isNullOrEmpty()){
-                    profit2 = infos[2].profit_amount.toLong()
+                    profit2 = infos[2].profit_amount.toFloat()
                 }
                 if (maxYear.toString().equals(infos[2].year.subSequence(0,4))){
                     realProperty1 = property1
@@ -476,23 +476,23 @@ class ProjectLineChartView : View {
                 }
             }else if ("".equals(realYear2)){
                 if (!infos[0].property_amount.isNullOrEmpty()){
-                    property1 = infos[0].property_amount.toLong()
+                    property1 = infos[0].property_amount.toFloat()
                 }
                 if (!infos[0].income_amount.isNullOrEmpty()){
-                    income1 = infos[0].income_amount.toLong()
+                    income1 = infos[0].income_amount.toFloat()
                 }
                 if (!infos[0].profit_amount.isNullOrEmpty()){
-                    profit1 = infos[0].profit_amount.toLong()
+                    profit1 = infos[0].profit_amount.toFloat()
                 }
 
                 if (!infos[2].property_amount.isNullOrEmpty()){
-                    property2 = infos[2].property_amount.toLong()
+                    property2 = infos[2].property_amount.toFloat()
                 }
                 if (!infos[2].income_amount.isNullOrEmpty()){
-                    income2 = infos[2].income_amount.toLong()
+                    income2 = infos[2].income_amount.toFloat()
                 }
                 if (!infos[2].profit_amount.isNullOrEmpty()){
-                    profit2 = infos[2].profit_amount.toLong()
+                    profit2 = infos[2].profit_amount.toFloat()
                 }
 
                 if (maxYear.toString().equals(infos[2].year.subSequence(0,4))){
@@ -514,23 +514,23 @@ class ProjectLineChartView : View {
                 }
             }else if ("".equals(realYear3)){
                 if (!infos[0].property_amount.isNullOrEmpty()){
-                    property1 = infos[0].property_amount.toLong()
+                    property1 = infos[0].property_amount.toFloat()
                 }
                 if (!infos[0].income_amount.isNullOrEmpty()){
-                    income1 = infos[0].income_amount.toLong()
+                    income1 = infos[0].income_amount.toFloat()
                 }
                 if (!infos[0].profit_amount.isNullOrEmpty()){
-                    profit1 = infos[0].profit_amount.toLong()
+                    profit1 = infos[0].profit_amount.toFloat()
                 }
 
                 if (!infos[1].property_amount.isNullOrEmpty()){
-                    property2 = infos[1].property_amount.toLong()
+                    property2 = infos[1].property_amount.toFloat()
                 }
                 if (!infos[1].income_amount.isNullOrEmpty()){
-                    income2 = infos[1].income_amount.toLong()
+                    income2 = infos[1].income_amount.toFloat()
                 }
                 if (!infos[1].profit_amount.isNullOrEmpty()){
-                    profit2 = infos[1].profit_amount.toLong()
+                    profit2 = infos[1].profit_amount.toFloat()
                 }
 
                 if (maxYear.toString().equals(infos[1].year.subSequence(0,4))){
@@ -554,33 +554,33 @@ class ProjectLineChartView : View {
         }else if (size == 3){
             type = 3
             if (!infos[0].property_amount.isNullOrEmpty()){
-                property1 = infos[0].property_amount.toLong()
+                property1 = infos[0].property_amount.toFloat()
             }
             if (!infos[0].income_amount.isNullOrEmpty()){
-                income1 = infos[0].income_amount.toLong()
+                income1 = infos[0].income_amount.toFloat()
             }
             if (!infos[0].profit_amount.isNullOrEmpty()){
-                profit1 = infos[0].profit_amount.toLong()
+                profit1 = infos[0].profit_amount.toFloat()
             }
 
             if (!infos[1].property_amount.isNullOrEmpty()){
-                property2 = infos[1].property_amount.toLong()
+                property2 = infos[1].property_amount.toFloat()
             }
             if (!infos[1].income_amount.isNullOrEmpty()){
-                income2 = infos[1].income_amount.toLong()
+                income2 = infos[1].income_amount.toFloat()
             }
             if (!infos[1].profit_amount.isNullOrEmpty()){
-                profit2 = infos[1].profit_amount.toLong()
+                profit2 = infos[1].profit_amount.toFloat()
             }
 
             if (!infos[2].property_amount.isNullOrEmpty()){
-                property3 = infos[2].property_amount.toLong()
+                property3 = infos[2].property_amount.toFloat()
             }
             if (!infos[2].income_amount.isNullOrEmpty()){
-                income3 = infos[2].income_amount.toLong()
+                income3 = infos[2].income_amount.toFloat()
             }
             if (!infos[2].profit_amount.isNullOrEmpty()){
-                profit3 = infos[2].profit_amount.toLong()
+                profit3 = infos[2].profit_amount.toFloat()
             }
 
             if (maxYear.toString().equals(infos[2].year.subSequence(0,4))){

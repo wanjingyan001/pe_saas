@@ -3,6 +3,7 @@ package com.sogukj.pe.module.project.originpro
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.text.SpannableStringBuilder
@@ -13,6 +14,7 @@ import android.widget.*
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.sogukj.pe.App
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
@@ -20,14 +22,13 @@ import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
-import com.sogukj.pe.bean.ApproveRecordInfo
-import com.sogukj.pe.bean.ProjectApproveInfo
-import com.sogukj.pe.bean.ProjectBean
-import com.sogukj.pe.bean.UserBean
+import com.sogukj.pe.bean.*
 import com.sogukj.pe.module.other.OnlinePreviewActivity
 import com.sogukj.pe.module.project.originpro.callback.ProjectApproveCallBack
 import com.sogukj.pe.module.project.originpro.presenter.ProjectApprovePresenter
 import com.sogukj.pe.peUtils.FileTypeUtils
+import com.sogukj.pe.peUtils.Store
+import com.sogukj.pe.peUtils.ToastUtil
 import com.sogukj.pe.service.OtherService
 import com.sogukj.pe.widgets.BuildProjectDialog
 import com.sogukj.pe.widgets.indexbar.RecycleViewDivider
@@ -91,11 +92,12 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
 
     private lateinit var postAdapter: RecyclerAdapter<ProjectApproveInfo.ApproveFile>
     private lateinit var approveAdapter:RecyclerAdapter<ApproveRecordInfo.ApproveFlow>
-    private var approveInfos = ArrayList<ApproveRecordInfo.ApproveFlow>()
     private var project: ProjectBean? = null
     private var presenter : ProjectApprovePresenter? = null
     private var class_id : Int ? = null
     private var dialog : BuildProjectDialog ? = null
+    private var user : UserBean ? = null
+    private var floor : Int ? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_project_show)
@@ -107,15 +109,20 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
     private fun initView() {
         setBack(true)
         project = intent.getSerializableExtra(Extras.DATA) as ProjectBean?
+        floor = intent.getIntExtra(Extras.FLAG,-1)
         setTitle(project!!.name)
         toolbar_title.maxEms = 12
 
         presenter = ProjectApprovePresenter(this,this)
         dialog = BuildProjectDialog()
+        user = Store.store.getUser(this)
+        Glide.with(this)
+                .asGif()
+                .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
+                .into(iv_loading)
     }
 
     private fun initData() {
-
         postAdapter = RecyclerAdapter(this){_adapter,parent,_ ->
             ProjectPostHolder(_adapter.getView(R.layout.item_approval_post, parent))
         }
@@ -127,20 +134,66 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
             ProjectApproveHolder(_adapter.getView(R.layout.item_approve_list, parent))
         }
         approve_list.layoutManager = LinearLayoutManager(this)
-        approveAdapter.dataList.addAll(approveInfos)
         approve_list.adapter = approveAdapter
         if (null != project){
+            setLoadding()
+            getProjectComBase()
             getApprevoRecordInfo()
         }
 
         if (null != presenter){
-            presenter!!.getProApproveInfo(project!!.company_id!!,project!!.floor!!)
+            presenter!!.getProApproveInfo(project!!.company_id!!,floor!!)
         }
     }
 
-    private fun getApprevoRecordInfo() {
+    private fun getProjectComBase() {
         SoguApi.getService(App.INSTANCE,OtherService::class.java)
-                .getApproveRecord(project!!.company_id!!,project!!.floor!!)
+                .getProBuildInfo(project!!.company_id!!)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+                            val projectInfo = payload.payload
+                            if (null != projectInfo){
+                               setEditStatus(projectInfo)
+                            }
+                        }else{
+                            ToastUtil.showCustomToast(R.drawable.icon_toast_fail, payload.message, ctx!!)
+                        }
+                    }
+                    onComplete {
+
+                    }
+
+                    onError {
+                        it.printStackTrace()
+                        ToastUtil.showCustomToast(R.drawable.icon_toast_fail, "获取数据失败", ctx!!)
+                    }
+                }
+    }
+
+    private fun setEditStatus(projectInfo: NewProjectInfo) {
+        var pm = 0
+        var pl = 0
+        if (null != projectInfo.duty){
+            pm = projectInfo.duty!!.principal!!
+        }
+        if (null != projectInfo.lead){
+            pl = projectInfo.lead!!.leader!!
+        }
+
+        if (user!!.uid == pm || user!!.uid == pl){
+            //可编辑
+            tv_edit.visibility = View.VISIBLE
+            tv_edit.text = "编辑"
+        }else{
+            //不可编辑
+            tv_edit.visibility = View.GONE
+        }
+    }
+
+    open fun getApprevoRecordInfo() {
+        SoguApi.getService(App.INSTANCE,OtherService::class.java)
+                .getApproveRecord(project!!.company_id!!,floor!!)
                 .execute {
                     onNext { payload ->
                         if (payload.isOk){
@@ -148,14 +201,13 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
                             if (null != recordInfo){
                                 val flow = recordInfo.flow
                                 if (null != flow && flow.size > 0){
-                                    approveInfos = (flow as ArrayList<ApproveRecordInfo.ApproveFlow>?)!!
                                     approveAdapter.dataList.clear()
                                     approveAdapter.dataList.addAll(flow)
                                     approveAdapter.notifyDataSetChanged()
                                 }
                                 val click = recordInfo.click
                                 if (null != click){
-                                    setEditStatus(click)
+                                    setApproveStatus(click)
                                 }
                             }
                         }else{
@@ -170,22 +222,25 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
                 }
     }
 
-    private fun setEditStatus(click: Int) {
+    private fun setApproveStatus(click: Int) {
         if (click == 1){
             //审批人
-            tv_edit.visibility = View.GONE
             ps_bottom.visibility = View.VISIBLE
         }else if (click == 2){
             //发起人
-            tv_edit.visibility = View.VISIBLE
-            tv_edit.text = "编辑"
             ps_bottom.visibility = View.GONE
         }else{
-            tv_edit.visibility = View.GONE
             ps_bottom.visibility = View.GONE
         }
     }
 
+    private fun setLoadding(){
+        view_recover.visibility = View.VISIBLE
+    }
+
+    override fun goneLoading() {
+        view_recover.visibility = View.INVISIBLE
+    }
     private fun bindListener() {
         postAdapter.onItemClick = {v,position ->
             //预览
@@ -220,8 +275,19 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
 
         tv_edit.setOnClickListener {
             //编辑
-            startActivity<ProjectApprovalActivity>(Extras.DATA to project)
+            startActivity<ProjectApprovalActivity>(Extras.DATA to project,Extras.FLAG to floor)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+//        if (null != project){
+//            getApprevoRecordInfo()
+//        }
+//
+//        if (null != presenter){
+//            presenter!!.getProApproveInfo(project!!.company_id!!,project!!.floor!!)
+//        }
     }
 
     private fun showConfirmDialog() {
@@ -271,8 +337,8 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
         val tv_meel_time = itemView.findViewById<TextView>(R.id.tv_meel_time) //会议时间
         val tv_meel_person = itemView.findViewById<TextView>(R.id.tv_meel_person) //会议人员
         val view_bg = itemView.find<View>(R.id.view_bg) //会议背景
-        val tv_meel_plan = itemView.find<TextView>(R.id.tv_meel_plan)
-        val view = itemView.find<View>(R.id.view) //间隔
+        val tv_meel_plan = itemView.find<TextView>(R.id.tv_meel_plan) //会议安排
+        val view_space = itemView.find<View>(R.id.view_space) //间隔
         val view_line2 = itemView.find<View>(R.id.view_line2) //有会议线
         val view_line1 = itemView.find<View>(R.id.view_line1) //无会议线
         val ll_bottom = itemView.find<LinearLayout>(R.id.ll_bottom)
@@ -285,7 +351,9 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
         val tv_assign_person = itemView.find<TextView>(R.id.tv_assign_person)
         override fun setData(view: View, data: ApproveRecordInfo.ApproveFlow, position: Int) {
             if (null == data) return
-            Glide.with(this@ProjectApprovalShowActivity).load(data.url).into(iv_image)
+            Glide.with(this@ProjectApprovalShowActivity).load(data.url).apply(RequestOptions.circleCropTransform()
+                    .placeholder(R.mipmap.ic_launch_pe_round)
+                    .error(R.mipmap.ic_launch_pe_round)).into(iv_image)
             tv_name.text = data.name
             tv_time.text = data.approve_time
             when(data.status){
@@ -298,7 +366,7 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
                     tv_meel_person.visibility = View.GONE
                     view_bg.visibility = View.GONE
                     tv_meel_plan.visibility = View.GONE
-                    view.visibility = View.GONE
+                    view_space.visibility = View.GONE
                     view_line2.visibility = View.GONE
                     view_line1.visibility = View.VISIBLE
                     ll_bottom.visibility = View.GONE
@@ -312,7 +380,7 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
                     tv_meel_person.visibility = View.GONE
                     view_bg.visibility = View.GONE
                     tv_meel_plan.visibility = View.GONE
-                    view.visibility = View.GONE
+                    view_space.visibility = View.GONE
                     view_line2.visibility = View.GONE
                     view_line1.visibility = View.VISIBLE
                     ll_bottom.visibility = View.GONE
@@ -326,12 +394,14 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
                     tv_meel_person.visibility = View.GONE
                     view_bg.visibility = View.GONE
                     tv_meel_plan.visibility = View.GONE
-                    view.visibility = View.GONE
+                    view_space.visibility = View.GONE
                     view_line2.visibility = View.GONE
                     view_line1.visibility = View.VISIBLE
                     ll_bottom.visibility = View.GONE
                 }
                 1 -> {
+                    //不可编辑
+                    tv_edit.visibility = View.GONE
                     //同意通过
                     tv_agree.text = "同意通过"
                     tv_agree.setTextColor(Color.parseColor("#50D59D"))
@@ -340,12 +410,12 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
                     tv_meel_person.visibility = View.GONE
                     view_bg.visibility = View.GONE
                     tv_meel_plan.visibility = View.GONE
-                    view.visibility = View.GONE
+                    view_space.visibility = View.GONE
                     view_line2.visibility = View.GONE
                     view_line1.visibility = View.VISIBLE
                     if (!data.content.isNullOrEmpty()){
-                        val span = SpannableStringBuilder("意见意见${data.content}")
-                        span.setSpan(ForegroundColorSpan(Color.TRANSPARENT),0,4, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+                        val span = SpannableStringBuilder("意见意${data.content}")
+                        span.setSpan(ForegroundColorSpan(Color.TRANSPARENT),0,3, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
                         tv_suggest.text = span
                         rl_suggest.visibility = View.VISIBLE
                     }else{
@@ -369,11 +439,69 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
 
                 }
                 2 -> {
+                    //不可编辑
+                    tv_edit.visibility = View.GONE
                     //同意上立项会
+                    tv_agree.text = "同意通过"
+                    tv_agree.setTextColor(Color.parseColor("#50D59D"))
+                    tv_agree_pro.visibility = View.VISIBLE
+                    if (null != data.meet && !"".equals(data.meet!!.meeting_time)
+                    && null != data.meet!!.meeter && data.meet!!.meeter!!.size > 0){
+                        tv_meel_plan.visibility = View.VISIBLE
+                        view_bg.visibility = View.VISIBLE
+                        tv_meel_time.visibility = View.VISIBLE
+                        tv_meel_person.visibility = View.VISIBLE
+                        view_line2.visibility = View.VISIBLE
+                        view_line1.visibility = View.GONE
+                    }else{
+                        tv_meel_time.visibility = View.GONE
+                        tv_meel_person.visibility = View.GONE
+                        view_bg.visibility = View.GONE
+                        tv_meel_plan.visibility = View.GONE
+                        view_line2.visibility = View.GONE
+                        view_line1.visibility = View.VISIBLE
+                    }
+
+                    if (!data.content.isNullOrEmpty()){
+                        val span = SpannableStringBuilder("意见意${data.content}")
+                        span.setSpan(ForegroundColorSpan(Color.TRANSPARENT),0,3, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+                        tv_suggest.text = span
+                        rl_suggest.visibility = View.VISIBLE
+                        view_space.visibility = View.VISIBLE
+                    }else{
+                        rl_suggest.visibility = View.GONE
+                        view_space.visibility = View.GONE
+                    }
+                    if (null != data.file && data.file!!.size > 0){
+                        //有文件
+                        for (file in data.file!!){
+                            val item = View.inflate(context,R.layout.file_item,null)
+                            val iv_image = item.find<ImageView>(R.id.iv_image)
+                            val tv_name = item.find<TextView>(R.id.tv_name)
+                            Glide.with(context).load(file.url).into(iv_image)
+                            tv_name.text = file.file_name
+                            ll_files.addView(item)
+                        }
+                    }else{
+                        //无文件
+                        tv_file.visibility = View.GONE
+                        ll_files.visibility = View.GONE
+                    }
                 }
 
             }
-
+            if (null != data.meet){
+                if (!"".equals(data.meet!!.meeting_time)){
+                    tv_meel_time.text = data.meet!!.meeting_time
+                }
+                if (null != data.meet!!.meeter && data.meet!!.meeter!!.size > 0){
+                    var names = ""
+                    for (meeter in data.meet!!.meeter!!){
+                        names += "${meeter.name}、"
+                    }
+                    tv_meel_person.text = names.substring(0,names.length-1)
+                }
+            }
             fl_assign_approve.setOnClickListener {
                 //分配审批
                 if (null != dialog){

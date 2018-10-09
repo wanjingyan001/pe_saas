@@ -28,6 +28,7 @@ class ProjectDetailBean : Serializable {
             var status: Int? = null
             var module: Int? = null
             var count: String? = null
+            val floor : Int ? = null
 //            "id": 60,
 //            "name": "股权信息",
 //            "state": 1,

@@ -109,4 +109,6 @@ object Extras {
     val TYPE_LEVEL_0 = 0
     val TYPE_LEVEL_1 = 1
     val TYPE_FILE = 2
+    val FUND = "ext.fund"
+    val PROJECT = "ext.project"
 }

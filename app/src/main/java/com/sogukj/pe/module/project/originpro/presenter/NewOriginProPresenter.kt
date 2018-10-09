@@ -43,6 +43,9 @@ class NewOriginProPresenter : BasePresenter {
                         }else{
                             ToastUtil.showCustomToast(R.drawable.icon_toast_fail, payload.message, ctx!!)
                         }
+                        if (null != callBack){
+                            callBack!!.goneLoadding()
+                        }
                     }
                     onComplete {
 
@@ -51,6 +54,9 @@ class NewOriginProPresenter : BasePresenter {
                     onError {
                         it.printStackTrace()
                         ToastUtil.showCustomToast(R.drawable.icon_toast_fail, "获取数据失败", ctx!!)
+                        if (null != callBack){
+                            callBack!!.goneLoadding()
+                        }
                     }
                 }
 

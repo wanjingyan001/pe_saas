@@ -9,4 +9,5 @@ interface ProjectApproveCallBack {
     fun setProApproveInfo(infos : List<ProjectApproveInfo>)
     fun createApproveSuccess()
     fun goneCommitLodding()
+    fun goneLoading()
 }

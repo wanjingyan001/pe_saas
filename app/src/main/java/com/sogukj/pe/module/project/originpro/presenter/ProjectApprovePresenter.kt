@@ -46,6 +46,9 @@ class ProjectApprovePresenter : BasePresenter {
                         }else{
                             ToastUtil.showCustomToast(R.drawable.icon_toast_fail, payload.message, ctx!!)
                         }
+                        if (null != callBack){
+                            callBack!!.goneLoading()
+                        }
                     }
 
                     onComplete {
@@ -55,6 +58,9 @@ class ProjectApprovePresenter : BasePresenter {
                     onError {
                         it.printStackTrace()
                         ToastUtil.showCustomToast(R.drawable.icon_toast_fail, "获取数据失败", ctx!!)
+                        if (null != callBack){
+                            callBack!!.goneLoading()
+                        }
                     }
                 }
     }

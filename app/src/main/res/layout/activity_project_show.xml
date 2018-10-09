@@ -17,7 +17,6 @@
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
         android:layout_above="@+id/ps_bottom"
-        android:focusableInTouchMode="true"
         android:scrollbars="none">
         <LinearLayout
             android:layout_width="match_parent"
@@ -83,6 +82,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/text_15"
                 android:paddingTop="@dimen/text_15"
+                tools:listitem="@layout/item_approve_list"
                 android:background="@color/white"
                 android:paddingRight="@dimen/text_20">
 
@@ -90,4 +90,21 @@
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
+
+    <FrameLayout
+        android:id="@+id/view_recover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:layout_above="@+id/ps_bottom"
+        android:visibility="invisible"
+        android:background="@color/gray_f1">
+
+        <ImageView
+            android:id="@+id/iv_loading"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:layout_gravity="center"/>
+
+    </FrameLayout>
 </RelativeLayout>
