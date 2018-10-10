@@ -199,6 +199,9 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
                         if (payload.isOk){
                             val recordInfo = payload.payload
                             if (null != recordInfo){
+                                val button = recordInfo.button
+                                setApproveButtonStatus(button)
+
                                 val flow = recordInfo.flow
                                 if (null != flow && flow.size > 0){
                                     approveAdapter.dataList.clear()
@@ -207,7 +210,7 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
                                 }
                                 val click = recordInfo.click
                                 if (null != click){
-                                    setApproveStatus(click)
+//                                    setApproveStatus(click)
                                 }
                             }
                         }else{
@@ -220,6 +223,243 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
                         showErrorToast("获取数据失败")
                     }
                 }
+    }
+    val realButtons = ArrayList<ApproveRecordInfo.ApproveButton>()
+    private fun setApproveButtonStatus(button: List<ApproveRecordInfo.ApproveButton>?) {
+        realButtons.clear()
+        val checkButtons =ArrayList<ApproveRecordInfo.ApproveButton>()
+        if (null != button && button.size > 0){
+            ps_bottom.visibility = View.VISIBLE
+            for (btn in button){
+                if (btn.type != 3){
+                    realButtons.add(btn)
+                }
+                if (btn.type != 3 && btn.type != 4){
+                    checkButtons.add(btn)
+                }
+            }
+            setRealButtonStatus(checkButtons)
+        }else{
+            ps_bottom.visibility = View.GONE
+        }
+    }
+
+    private fun setRealButtonStatus(realButtons: ArrayList<ApproveRecordInfo.ApproveButton>) {
+        when(realButtons.size){
+            1 -> {
+                tv_agree1.visibility = View.VISIBLE
+
+                tv_agree2.visibility = View.GONE
+                tv_refuse2.visibility = View.GONE
+                view1.visibility = View.GONE
+                tv_refuse.visibility = View.GONE
+                tv_agree_lxh.visibility = View.GONE
+                tv_agree.visibility = View.GONE
+                view_line1.visibility = View.GONE
+                view_line2.visibility = View.GONE
+                val type = realButtons[0].type
+                val name = realButtons[0].name
+                clickJumpStatus1(type,name)
+            }
+            2 -> {
+                tv_agree2.visibility = View.VISIBLE
+                tv_refuse2.visibility = View.VISIBLE
+                view1.visibility = View.VISIBLE
+
+                tv_agree1.visibility = View.GONE
+                tv_refuse.visibility = View.GONE
+                tv_agree_lxh.visibility = View.GONE
+                tv_agree.visibility = View.GONE
+                view_line1.visibility = View.GONE
+                view_line2.visibility = View.GONE
+                val type1 = realButtons[0].type
+                val type2 = realButtons[1].type
+                val name1 = realButtons[0].name
+                val name2 = realButtons[1].name
+                clickJumpStatus2(type1,type2,name1,name2)
+            }
+            3 -> {
+                tv_agree1.visibility = View.GONE
+                tv_agree2.visibility = View.GONE
+                tv_refuse2.visibility = View.GONE
+                view1.visibility = View.GONE
+
+                tv_refuse.visibility = View.VISIBLE
+                tv_agree_lxh.visibility = View.VISIBLE
+                tv_agree.visibility = View.VISIBLE
+                view_line1.visibility = View.VISIBLE
+                view_line2.visibility = View.VISIBLE
+                val type1 = realButtons[0].type
+                val type2 = realButtons[1].type
+                val type3 = realButtons[2].type
+                val name1 = realButtons[0].name
+                val name2 = realButtons[1].name
+                val name3 = realButtons[2].name
+                clickJumpStatus3(type1,type2,type3,name1,name2,name3)
+            }
+        }
+    }
+
+    private fun clickJumpStatus3(type1: Int, type2: Int, type3: Int, name1: String, name2: String, name3: String) {
+        tv_refuse.text = name1
+        tv_agree.text = name2
+        tv_agree_lxh.text = name3
+
+        tv_refuse.setOnClickListener {
+            when(type1){
+                -1 -> {
+                    //退回修改
+                    showConfirmDialog()
+                }
+                1 -> {
+                    //同意通过
+                    if (null != dialog){
+                        dialog!!.showAgreeBuildProDialog(this,project)
+                    }else{
+                        BuildProjectDialog().showAgreeBuildProDialog(this,project)
+                    }
+                }
+                2 -> {
+                    //同意上立项会
+                    if (null != dialog){
+                        dialog!!.showAgreeBuildLxh(this,project)
+                    }else{
+                        BuildProjectDialog().showAgreeBuildLxh(this,project)
+                    }
+                }
+            }
+        }
+        tv_agree.setOnClickListener {
+            when(type2){
+                -1 -> {
+                    //退回修改
+                    showConfirmDialog()
+                }
+                1 -> {
+                    //同意通过
+                    if (null != dialog){
+                        dialog!!.showAgreeBuildProDialog(this,project)
+                    }else{
+                        BuildProjectDialog().showAgreeBuildProDialog(this,project)
+                    }
+                }
+                2 -> {
+                    //同意上立项会
+                    if (null != dialog){
+                        dialog!!.showAgreeBuildLxh(this,project)
+                    }else{
+                        BuildProjectDialog().showAgreeBuildLxh(this,project)
+                    }
+                }
+            }
+        }
+        tv_agree_lxh.setOnClickListener {
+            when(type3){
+                -1 -> {
+                    //退回修改
+                    showConfirmDialog()
+                }
+                1 -> {
+                    //同意通过
+                    if (null != dialog){
+                        dialog!!.showAgreeBuildProDialog(this,project)
+                    }else{
+                        BuildProjectDialog().showAgreeBuildProDialog(this,project)
+                    }
+                }
+                2 -> {
+                    //同意上立项会
+                    if (null != dialog){
+                        dialog!!.showAgreeBuildLxh(this,project)
+                    }else{
+                        BuildProjectDialog().showAgreeBuildLxh(this,project)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun clickJumpStatus2(type1: Int, type2: Int, name1: String, name2: String) {
+        tv_agree2.text = name1
+        tv_refuse2.text = name2
+
+        tv_agree2.setOnClickListener {
+            when(type1){
+                -1 -> {
+                    //退回修改
+                    showConfirmDialog()
+                }
+                1 -> {
+                    //同意通过
+                    if (null != dialog){
+                        dialog!!.showAgreeBuildProDialog(this,project)
+                    }else{
+                        BuildProjectDialog().showAgreeBuildProDialog(this,project)
+                    }
+                }
+                2 -> {
+                    //同意上立项会
+                    if (null != dialog){
+                        dialog!!.showAgreeBuildLxh(this,project)
+                    }else{
+                        BuildProjectDialog().showAgreeBuildLxh(this,project)
+                    }
+                }
+            }
+        }
+
+        tv_refuse2.setOnClickListener {
+            when(type2){
+                -1 -> {
+                    //退回修改
+                    showConfirmDialog()
+                }
+                1 -> {
+                    //同意通过
+                    if (null != dialog){
+                        dialog!!.showAgreeBuildProDialog(this,project)
+                    }else{
+                        BuildProjectDialog().showAgreeBuildProDialog(this,project)
+                    }
+                }
+                2 -> {
+                    //同意上立项会
+                    if (null != dialog){
+                        dialog!!.showAgreeBuildLxh(this,project)
+                    }else{
+                        BuildProjectDialog().showAgreeBuildLxh(this,project)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun clickJumpStatus1(type: Int, name: String) {
+        tv_agree1.text = name
+        tv_agree1.setOnClickListener {
+            when(type){
+                -1 -> {
+                    //退回修改
+                    showConfirmDialog()
+                }
+                1 -> {
+                    //同意通过
+                    if (null != dialog){
+                        dialog!!.showAgreeBuildProDialog(this,project)
+                    }else{
+                        BuildProjectDialog().showAgreeBuildProDialog(this,project)
+                    }
+                }
+                2 -> {
+                    //同意上立项会
+                    if (null != dialog){
+                        dialog!!.showAgreeBuildLxh(this,project)
+                    }else{
+                        BuildProjectDialog().showAgreeBuildLxh(this,project)
+                    }
+                }
+            }
+        }
     }
 
     private fun setApproveStatus(click: Int) {
@@ -247,29 +487,6 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
             val dataList = postAdapter.dataList
             if (null != dataList && dataList.size > 0 && null != dataList[position]){
                 OnlinePreviewActivity.start(this,dataList[position].url,dataList[position].file_name)
-            }
-        }
-
-        tv_refuse.setOnClickListener {
-            //退回修改
-            showConfirmDialog()
-        }
-
-        tv_agree.setOnClickListener {
-            //同意通过
-            if (null != dialog){
-                dialog!!.showAgreeBuildProDialog(this,project)
-            }else{
-                BuildProjectDialog().showAgreeBuildProDialog(this,project)
-            }
-        }
-
-        tv_agree_lxh.setOnClickListener {
-            //同意上立项会
-            if (null != dialog){
-                dialog!!.showAgreeBuildLxh(this,project)
-            }else{
-                BuildProjectDialog().showAgreeBuildLxh(this,project)
             }
         }
 
@@ -312,8 +529,36 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
                 build.dismiss()
             }
             //确认否决
+            refuseApprove()
         }
         build.show()
+    }
+
+    private fun refuseApprove() {
+        if (null == project) return
+        val map = HashMap<String,Any>()
+        map.put("company_id",project!!.company_id!!)
+        map.put("floor",project!!.floor!!)
+        map.put("type",-1) //-1=>’否决’,1=>’同意通过’,2=> 同意上储备,3=>同意退出
+        map.put("current",0)
+
+        SoguApi.getService(App.INSTANCE,OtherService::class.java)
+                .commitApprove(map)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+                            getApprevoRecordInfo()
+                        }else{
+                            showErrorToast(payload.message)
+                        }
+                    }
+
+                    onError {
+                        it.printStackTrace()
+                        showErrorToast("否决失败")
+                    }
+                }
+
     }
 
     inner class ProjectPostHolder(itemView:View) : RecyclerHolder<ProjectApproveInfo.ApproveFile>(itemView){
@@ -384,6 +629,17 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
                     view_line2.visibility = View.GONE
                     view_line1.visibility = View.VISIBLE
                     ll_bottom.visibility = View.GONE
+                    if (null != approveAdapter.dataList && approveAdapter.dataList.size > 0){
+                        if (position == approveAdapter.dataList.size - 1){
+                            if (realButtons.size > 0){
+                                for (btn in realButtons){
+                                    if (btn.type == 4){
+                                        fl_assign_approve.visibility = View.VISIBLE
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
                 3 -> {
                     //重新发起
@@ -436,7 +692,6 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
                         tv_file.visibility = View.GONE
                         ll_files.visibility = View.GONE
                     }
-
                 }
                 2 -> {
                     //不可编辑

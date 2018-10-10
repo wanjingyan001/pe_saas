@@ -10,7 +10,6 @@
              layout="@layout/commom_blue_title"/>
     <include
         android:id="@+id/ps_bottom"
-        android:visibility="gone"
         layout="@layout/project_show_bottom"/>
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"

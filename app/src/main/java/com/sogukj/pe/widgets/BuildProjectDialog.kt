@@ -33,6 +33,7 @@ import com.sogukj.pe.module.project.originpro.ProjectApprovalShowActivity
 import com.sogukj.pe.module.project.originpro.ProjectApprovalShowActivity.Companion.REQ_LXH_FILE
 import com.sogukj.pe.module.project.originpro.ProjectApprovalShowActivity.Companion.REQ_SELECT_FILE
 import com.sogukj.pe.module.project.originpro.ProjectApprovalShowActivity.Companion.REW_SELECT_TIME
+import com.sogukj.pe.module.project.originpro.ProjectUploadShowActivity
 import com.sogukj.pe.module.project.originpro.SelectTimeActivity
 import com.sogukj.pe.peUtils.FileTypeUtils
 import com.sogukj.pe.peUtils.ToastUtil
@@ -67,6 +68,9 @@ class BuildProjectDialog {
     lateinit var calendar: CalendarDingDing
     var selectDate: Date? = null
     private var type = -1
+    /**
+     * 同意通过
+     */
     fun showAgreeBuildProDialog(context: Activity, project: ProjectBean?) {
         mAct = context
         this.project = project
@@ -113,6 +117,9 @@ class BuildProjectDialog {
         setRecycleLayout(fileInfos.size)
     }
 
+    /**
+     * 分配审批
+     */
     fun allocationApprove(context: Activity, project: ProjectBean?){
         mAct = context
         this.project = project
@@ -203,7 +210,12 @@ class BuildProjectDialog {
                             if (build.isShowing) {
                                 build.dismiss()
                             }
-                            (mAct as ProjectApprovalShowActivity).getApprevoRecordInfo()
+                            if (mAct is ProjectApprovalShowActivity){
+                                (mAct as ProjectApprovalShowActivity).getApprevoRecordInfo()
+                            }
+                            if (mAct is ProjectUploadShowActivity){
+                                (mAct as ProjectUploadShowActivity).getApprevoRecordInfo()
+                            }
                         }else{
                             ToastUtil.showCustomToast(R.drawable.icon_toast_fail, payload.message, mAct!!)
                         }
@@ -217,6 +229,9 @@ class BuildProjectDialog {
     }
     private var tv_time : TextView ? = null
     private var date : Date ? = null
+    /**
+     * 同意上立项会
+     */
     fun showAgreeBuildLxh(context: Activity, project: ProjectBean?) {
         mAct = context
         this.project = project
@@ -339,7 +354,13 @@ class BuildProjectDialog {
                             if (build!!.isShowing) {
                                 build.dismiss()
                             }
-                            (mAct as ProjectApprovalShowActivity).getApprevoRecordInfo()
+                            if (mAct is ProjectApprovalShowActivity){
+                                (mAct as ProjectApprovalShowActivity).getApprevoRecordInfo()
+                            }
+
+                            if (mAct is ProjectUploadShowActivity){
+                                (mAct as ProjectUploadShowActivity).getApprevoRecordInfo()
+                            }
                         }else{
                             ToastUtil.showCustomToast(R.drawable.icon_toast_fail, payload.message, mAct!!)
                         }
@@ -540,9 +561,11 @@ class BuildProjectDialog {
                             }
                         }
                         if (type == 0){
+                            //会议人员
                             ContactsActivity.startWithDefault(mAct!!, infos, false, false, null, ProjectApprovalShowActivity.REQ_ADD_MEMBER)
                         }else if (type == 1){
-                            ContactsActivity.startWithDefault(mAct!!, infos, false, false, null, ProjectApprovalShowActivity.REQ_ADD_MEMBER)
+                            //分配人员
+                            ContactsActivity.startWithDefault(mAct!!, infos, false, false, null, ProjectApprovalShowActivity.REQ_ADD_ALLOCATION)
                         }
                     }else{
                         removeData(position)

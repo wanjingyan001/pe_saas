@@ -488,6 +488,10 @@ class NewOriginProjectActivity : ToolbarActivity() , NewOriginProCallBack {
     }
 
     override fun setProjectOriginData(data: NewProjectInfo) {
+
+        tv_name_all.text = data.name
+        tv_name_simple.text = data.shortName
+
         if (null != data.duty){
             tv_pm_name.text = data.duty!!.name
             if (null != data.duty!!.principal){

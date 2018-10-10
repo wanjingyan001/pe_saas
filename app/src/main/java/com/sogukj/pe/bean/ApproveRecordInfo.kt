@@ -8,6 +8,7 @@ import java.io.Serializable
 class ApproveRecordInfo : Serializable {
     var flow : List<ApproveFlow> ? = null
     var click : Int ? = null //0=>无操作，1=>审批人，2=>发起人
+    var button : List<ApproveButton> ? = null
     class ApproveFlow : Serializable{
         var approval_id : Int ? = null
         var content = ""
@@ -35,6 +36,11 @@ class ApproveRecordInfo : Serializable {
 
     class Meeter : Serializable{
         var url = ""
+        var name = ""
+    }
+
+    class ApproveButton : Serializable{
+        var type = 0
         var name = ""
     }
 }

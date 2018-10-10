@@ -12,6 +12,9 @@ class NewProjectInfo : Serializable {
     var operate : Int ? = null //1=>可操作，0=>不能操作
     var info : String ? = null //业务简介
     var floor : Int ? = null  //当前所在阶段floor
+    var name = ""
+    var shortName = ""
+    var type = ""
     class Duty : Serializable{
         var principal : Int ?= null
         var name  = ""
