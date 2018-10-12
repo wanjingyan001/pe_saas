@@ -20,11 +20,14 @@ import com.sogukj.pe.App
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.execute
-import com.sogukj.pe.baselibrary.base.ToolbarActivity
+import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
+import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.*
+import com.sogukj.pe.module.other.OnlinePreviewActivity
 import com.sogukj.pe.module.project.originpro.adapter.ExpandableItemAdapter
+import com.sogukj.pe.peUtils.FileTypeUtils
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.peUtils.ToastUtil
 import com.sogukj.pe.service.OtherService
@@ -35,6 +38,7 @@ import kotlinx.android.synthetic.main.commom_blue_title.*
 import kotlinx.android.synthetic.main.project_show_bottom.*
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.find
+import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.startActivity
 import java.io.File
 import java.util.*
@@ -43,15 +47,15 @@ import java.util.*
  * Created by CH-ZH on 2018/9/20.
  * 预审会
  */
-class ProjectUploadShowActivity : ToolbarActivity(){
-    private  var adapter : ExpandableItemAdapter ?  = null
-    private var project : ProjectBean ? = null
-    private var floor : Int ?= null
-    private var user : UserBean ? = null
+class ProjectUploadShowActivity : BaseRefreshActivity() {
+    private var adapter: ExpandableItemAdapter? = null
+    private var project: ProjectBean? = null
+    private var floor: Int? = null
+    private var user: UserBean? = null
     private var approveDatas = ArrayList<ProjectApproveInfo>()
     private var linkFundDatas = ArrayList<LinkFundBean>()
-    private lateinit var approveAdapter:RecyclerAdapter<ApproveRecordInfo.ApproveFlow>
-    private var dialog : BuildProjectDialog ? = null
+    private lateinit var approveAdapter: RecyclerAdapter<ApproveRecordInfo.ApproveFlow>
+    private var dialog: BuildProjectDialog? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_upload_show)
@@ -65,7 +69,7 @@ class ProjectUploadShowActivity : ToolbarActivity(){
         setTitle("预审会")
 
         project = intent.getSerializableExtra(Extras.DATA) as ProjectBean?
-        floor = intent.getIntExtra(Extras.FLAG,-1)
+        floor = intent.getIntExtra(Extras.FLAG, -1)
         user = Store.store.getUser(this)
         Glide.with(this)
                 .asGif()
@@ -78,14 +82,14 @@ class ProjectUploadShowActivity : ToolbarActivity(){
     }
 
     private fun initData() {
-        approveAdapter = RecyclerAdapter(this){_adapter,parent,_ ->
+        approveAdapter = RecyclerAdapter(this) { _adapter, parent, _ ->
             ProjectApproveHolder(_adapter.getView(R.layout.item_approve_list, parent))
         }
 
         approve_list.layoutManager = LinearLayoutManager(this)
         approve_list.adapter = approveAdapter
 
-        if (null != project){
+        if (null != project) {
             setLoadding()
             getProjectComBase()
             getApproveShowData()
@@ -93,18 +97,43 @@ class ProjectUploadShowActivity : ToolbarActivity(){
         }
     }
 
+    override fun initRefreshConfig(): RefreshConfig? {
+        val config = RefreshConfig()
+        config.loadMoreEnable = false
+        config.autoLoadMoreEnable = true
+        config.scrollContentWhenLoaded = true
+        config.disableContentWhenRefresh = true
+        return config
+    }
+
+    override fun doRefresh() {
+        if (null != project) {
+            getApprevoRecordInfo()
+        }
+    }
+
+    override fun doLoadMore() {
+
+    }
+
+    fun refreshComplete() {
+        if (this::refresh.isLateinit && refresh.isRefreshing) {
+            refresh.finishRefresh()
+        }
+    }
+
     open fun getApprevoRecordInfo() {
-        SoguApi.getService(App.INSTANCE,OtherService::class.java)
-                .getApproveRecord(project!!.company_id!!,floor!!)
+        SoguApi.getService(App.INSTANCE, OtherService::class.java)
+                .getApproveRecord(project!!.company_id!!, floor!!)
                 .execute {
                     onNext { payload ->
-                        if (payload.isOk){
+                        if (payload.isOk) {
                             val recordInfo = payload.payload
-                            if (null != recordInfo){
+                            if (null != recordInfo) {
                                 val button = recordInfo.button
                                 setApproveButtonStatus(button)
                                 val flow = recordInfo.flow
-                                if (null != flow && flow.size > 0){
+                                if (null != flow && flow.size > 0) {
                                     approveAdapter.dataList.clear()
                                     approveAdapter.dataList.addAll(flow)
                                     approveAdapter.notifyDataSetChanged()
@@ -112,22 +141,24 @@ class ProjectUploadShowActivity : ToolbarActivity(){
                                     setApproveEditStatus(approveFlow)
                                 }
                             }
-                        }else{
+                        } else {
                             showErrorToast(payload.message)
                         }
+                        refreshComplete()
                     }
 
                     onError {
                         it.printStackTrace()
                         showErrorToast("获取审批记录失败")
+                        refreshComplete()
                     }
                 }
     }
 
     private fun setApproveEditStatus(approveFlow: ApproveRecordInfo.ApproveFlow) {
-        if (null != approveFlow){
-            if (null != approveFlow.status && enableEdit){
-                when(approveFlow.status){
+        if (null != approveFlow) {
+            if (null != approveFlow.status && enableEdit) {
+                when (approveFlow.status) {
                     1 -> {
                         tv_edit.visibility = View.GONE
                     }
@@ -145,25 +176,25 @@ class ProjectUploadShowActivity : ToolbarActivity(){
     val realButtons = ArrayList<ApproveRecordInfo.ApproveButton>()
     private fun setApproveButtonStatus(button: List<ApproveRecordInfo.ApproveButton>?) {
         realButtons.clear()
-        val checkButtons =ArrayList<ApproveRecordInfo.ApproveButton>()
-        if (null != button && button.size > 0){
+        val checkButtons = ArrayList<ApproveRecordInfo.ApproveButton>()
+        if (null != button && button.size > 0) {
             ps_bottom.visibility = View.VISIBLE
-            for (btn in button){
-                if (btn.type != 3){
+            for (btn in button) {
+                if (btn.type != 3) {
                     realButtons.add(btn)
                 }
-                if (btn.type != 3 && btn.type != 4){
+                if (btn.type != 3 && btn.type != 4) {
                     checkButtons.add(btn)
                 }
             }
             setRealButtonStatus(checkButtons)
-        }else{
+        } else {
             ps_bottom.visibility = View.GONE
         }
     }
 
     private fun setRealButtonStatus(realButtons: ArrayList<ApproveRecordInfo.ApproveButton>) {
-        when(realButtons.size){
+        when (realButtons.size) {
             1 -> {
                 tv_agree1.visibility = View.VISIBLE
 
@@ -177,7 +208,7 @@ class ProjectUploadShowActivity : ToolbarActivity(){
                 view_line2.visibility = View.GONE
                 val type = realButtons[0].type
                 val name = realButtons[0].name
-                clickJumpStatus1(type,name)
+                clickJumpStatus1(type, name)
             }
             2 -> {
                 tv_agree2.visibility = View.VISIBLE
@@ -194,7 +225,7 @@ class ProjectUploadShowActivity : ToolbarActivity(){
                 val type2 = realButtons[1].type
                 val name1 = realButtons[0].name
                 val name2 = realButtons[1].name
-                clickJumpStatus2(type1,type2,name1,name2)
+                clickJumpStatus2(type1, type2, name1, name2)
             }
             3 -> {
                 tv_agree1.visibility = View.GONE
@@ -213,7 +244,7 @@ class ProjectUploadShowActivity : ToolbarActivity(){
                 val name1 = realButtons[0].name
                 val name2 = realButtons[1].name
                 val name3 = realButtons[2].name
-                clickJumpStatus3(type1,type2,type3,name1,name2,name3)
+                clickJumpStatus3(type1, type2, type3, name1, name2, name3)
             }
         }
     }
@@ -224,73 +255,73 @@ class ProjectUploadShowActivity : ToolbarActivity(){
         tv_agree_lxh.text = name3
 
         tv_refuse.setOnClickListener {
-            when(type1){
+            when (type1) {
                 -1 -> {
                     //退回修改
                     showConfirmDialog()
                 }
                 1 -> {
                     //同意通过
-                    if (null != dialog){
-                        dialog!!.showAgreeBuildProDialog(this,project)
-                    }else{
-                        BuildProjectDialog().showAgreeBuildProDialog(this,project)
+                    if (null != dialog) {
+                        dialog!!.showAgreeBuildProDialog(this, project)
+                    } else {
+                        BuildProjectDialog().showAgreeBuildProDialog(this, project)
                     }
                 }
                 2 -> {
                     //同意上立项会
-                    if (null != dialog){
-                        dialog!!.showAgreeBuildLxh(this,project)
-                    }else{
-                        BuildProjectDialog().showAgreeBuildLxh(this,project)
+                    if (null != dialog) {
+                        dialog!!.showAgreeBuildLxh(this, project)
+                    } else {
+                        BuildProjectDialog().showAgreeBuildLxh(this, project)
                     }
                 }
             }
         }
         tv_agree.setOnClickListener {
-            when(type2){
+            when (type2) {
                 -1 -> {
                     //退回修改
                     showConfirmDialog()
                 }
                 1 -> {
                     //同意通过
-                    if (null != dialog){
-                        dialog!!.showAgreeBuildProDialog(this,project)
-                    }else{
-                        BuildProjectDialog().showAgreeBuildProDialog(this,project)
+                    if (null != dialog) {
+                        dialog!!.showAgreeBuildProDialog(this, project)
+                    } else {
+                        BuildProjectDialog().showAgreeBuildProDialog(this, project)
                     }
                 }
                 2 -> {
                     //同意上立项会
-                    if (null != dialog){
-                        dialog!!.showAgreeBuildLxh(this,project)
-                    }else{
-                        BuildProjectDialog().showAgreeBuildLxh(this,project)
+                    if (null != dialog) {
+                        dialog!!.showAgreeBuildLxh(this, project)
+                    } else {
+                        BuildProjectDialog().showAgreeBuildLxh(this, project)
                     }
                 }
             }
         }
         tv_agree_lxh.setOnClickListener {
-            when(type3){
+            when (type3) {
                 -1 -> {
                     //退回修改
                     showConfirmDialog()
                 }
                 1 -> {
                     //同意通过
-                    if (null != dialog){
-                        dialog!!.showAgreeBuildProDialog(this,project)
-                    }else{
-                        BuildProjectDialog().showAgreeBuildProDialog(this,project)
+                    if (null != dialog) {
+                        dialog!!.showAgreeBuildProDialog(this, project)
+                    } else {
+                        BuildProjectDialog().showAgreeBuildProDialog(this, project)
                     }
                 }
                 2 -> {
                     //同意上立项会
-                    if (null != dialog){
-                        dialog!!.showAgreeBuildLxh(this,project)
-                    }else{
-                        BuildProjectDialog().showAgreeBuildLxh(this,project)
+                    if (null != dialog) {
+                        dialog!!.showAgreeBuildLxh(this, project)
+                    } else {
+                        BuildProjectDialog().showAgreeBuildLxh(this, project)
                     }
                 }
             }
@@ -302,50 +333,50 @@ class ProjectUploadShowActivity : ToolbarActivity(){
         tv_refuse2.text = name2
 
         tv_agree2.setOnClickListener {
-            when(type1){
+            when (type1) {
                 -1 -> {
                     //退回修改
                     showConfirmDialog()
                 }
                 1 -> {
                     //同意通过
-                    if (null != dialog){
-                        dialog!!.showAgreeBuildProDialog(this,project)
-                    }else{
-                        BuildProjectDialog().showAgreeBuildProDialog(this,project)
+                    if (null != dialog) {
+                        dialog!!.showAgreeBuildProDialog(this, project)
+                    } else {
+                        BuildProjectDialog().showAgreeBuildProDialog(this, project)
                     }
                 }
                 2 -> {
                     //同意上立项会
-                    if (null != dialog){
-                        dialog!!.showAgreeBuildLxh(this,project)
-                    }else{
-                        BuildProjectDialog().showAgreeBuildLxh(this,project)
+                    if (null != dialog) {
+                        dialog!!.showAgreeBuildLxh(this, project)
+                    } else {
+                        BuildProjectDialog().showAgreeBuildLxh(this, project)
                     }
                 }
             }
         }
 
         tv_refuse2.setOnClickListener {
-            when(type2){
+            when (type2) {
                 -1 -> {
                     //退回修改
                     showConfirmDialog()
                 }
                 1 -> {
                     //同意通过
-                    if (null != dialog){
-                        dialog!!.showAgreeBuildProDialog(this,project)
-                    }else{
-                        BuildProjectDialog().showAgreeBuildProDialog(this,project)
+                    if (null != dialog) {
+                        dialog!!.showAgreeBuildProDialog(this, project)
+                    } else {
+                        BuildProjectDialog().showAgreeBuildProDialog(this, project)
                     }
                 }
                 2 -> {
                     //同意上立项会
-                    if (null != dialog){
-                        dialog!!.showAgreeBuildLxh(this,project)
-                    }else{
-                        BuildProjectDialog().showAgreeBuildLxh(this,project)
+                    if (null != dialog) {
+                        dialog!!.showAgreeBuildLxh(this, project)
+                    } else {
+                        BuildProjectDialog().showAgreeBuildLxh(this, project)
                     }
                 }
             }
@@ -355,25 +386,25 @@ class ProjectUploadShowActivity : ToolbarActivity(){
     private fun clickJumpStatus1(type: Int, name: String) {
         tv_agree1.text = name
         tv_agree1.setOnClickListener {
-            when(type){
+            when (type) {
                 -1 -> {
                     //退回修改
                     showConfirmDialog()
                 }
                 1 -> {
                     //同意通过
-                    if (null != dialog){
-                        dialog!!.showAgreeBuildProDialog(this,project)
-                    }else{
-                        BuildProjectDialog().showAgreeBuildProDialog(this,project)
+                    if (null != dialog) {
+                        dialog!!.showAgreeBuildProDialog(this, project)
+                    } else {
+                        BuildProjectDialog().showAgreeBuildProDialog(this, project)
                     }
                 }
                 2 -> {
                     //同意上立项会
-                    if (null != dialog){
-                        dialog!!.showAgreeBuildLxh(this,project)
-                    }else{
-                        BuildProjectDialog().showAgreeBuildLxh(this,project)
+                    if (null != dialog) {
+                        dialog!!.showAgreeBuildLxh(this, project)
+                    } else {
+                        BuildProjectDialog().showAgreeBuildLxh(this, project)
                     }
                 }
             }
@@ -381,7 +412,7 @@ class ProjectUploadShowActivity : ToolbarActivity(){
     }
 
     private fun showConfirmDialog() {
-        val title =  "是否确认否决审批？"
+        val title = "是否确认否决审批？"
         val build = MaterialDialog.Builder(this)
                 .theme(Theme.DARK)
                 .customView(R.layout.layout_confirm_approve, false)
@@ -409,19 +440,19 @@ class ProjectUploadShowActivity : ToolbarActivity(){
 
     private fun refuseApprove() {
         if (null == project) return
-        val map = HashMap<String,Any>()
-        map.put("company_id",project!!.company_id!!)
-        map.put("floor",project!!.floor!!)
-        map.put("type",-1) //-1=>’否决’,1=>’同意通过’,2=> 同意上储备,3=>同意退出
-        map.put("current",0)
+        val map = HashMap<String, Any>()
+        map.put("company_id", project!!.company_id!!)
+        map.put("floor", project!!.floor!!)
+        map.put("type", -1) //-1=>’否决’,1=>’同意通过’,2=> 同意上储备,3=>同意退出
+        map.put("current", 0)
 
-        SoguApi.getService(App.INSTANCE,OtherService::class.java)
+        SoguApi.getService(App.INSTANCE, OtherService::class.java)
                 .commitApprove(map)
                 .execute {
                     onNext { payload ->
-                        if (payload.isOk){
+                        if (payload.isOk) {
                             getApprevoRecordInfo()
-                        }else{
+                        } else {
                             showErrorToast(payload.message)
                         }
                     }
@@ -435,21 +466,21 @@ class ProjectUploadShowActivity : ToolbarActivity(){
     }
 
     private fun getApproveShowData() {
-        SoguApi.getService(App.INSTANCE,OtherService::class.java)
-                .getProApproveInfo(project!!.company_id!!,floor!!)
+        SoguApi.getService(App.INSTANCE, OtherService::class.java)
+                .getProApproveInfo(project!!.company_id!!, floor!!)
                 .execute {
                     onNext { payload ->
-                        if (payload.isOk){
+                        if (payload.isOk) {
                             val datas = payload.payload
-                            if (null != datas && datas.size > 0){
+                            if (null != datas && datas.size > 0) {
                                 val list = datas[0]
-                                if (null != list && list.size > 0){
+                                if (null != list && list.size > 0) {
                                     approveDatas = list as ArrayList<ProjectApproveInfo>
                                     setMultiItemData(list)
                                 }
 
                             }
-                        }else{
+                        } else {
                             showErrorToast(payload.message)
                         }
                         goneLoadding()
@@ -465,19 +496,19 @@ class ProjectUploadShowActivity : ToolbarActivity(){
 
     private fun setMultiItemData(datas: List<ProjectApproveInfo>) {
         val res = ArrayList<MultiItemEntity>()
-        for (data in datas){
+        for (data in datas) {
             val level0Item = Level0Item(data.name)
-            if (null != data.son && data.son!!.size > 0){
-                for (son in data.son!!){
+            if (null != data.son && data.son!!.size > 0) {
+                for (son in data.son!!) {
                     val level1Item = Level1Item(son.name)
-                    if (null != son.files && son.files!!.size > 0){
-                        for (file in son.files!!){
+                    if (null != son.files && son.files!!.size > 0) {
+                        for (file in son.files!!) {
                             val level2Item = Level2Item()
                             level2Item.type = 0
                             level2Item.file = file
                             level1Item.addSubItem(level2Item)
                         }
-                    }else{
+                    } else {
                         val level2Item = Level2Item()
                         level2Item.type = -1
                         level1Item.addSubItem(level2Item)
@@ -485,16 +516,16 @@ class ProjectUploadShowActivity : ToolbarActivity(){
 
                     level0Item.addSubItem(level1Item)
                 }
-            }else{
-                if (null != data.files && data.files!!.size > 0){
+            } else {
+                if (null != data.files && data.files!!.size > 0) {
                     //有文件
-                    for (file in data.files!!){
+                    for (file in data.files!!) {
                         val level2Item = Level2Item()
                         level2Item.type = 0
                         level2Item.file = file
                         level0Item.addSubItem(level2Item)
                     }
-                }else{
+                } else {
                     //无文件
                     val level2Item = Level2Item()
                     level2Item.type = -1
@@ -504,22 +535,22 @@ class ProjectUploadShowActivity : ToolbarActivity(){
             }
             res.add(level0Item)
         }
-        adapter = ExpandableItemAdapter(res,1,this)
+        adapter = ExpandableItemAdapter(res, 1, this)
         rv_file.adapter = adapter
         adapter!!.expandAll()
     }
 
     private fun getProjectComBase() {
-        SoguApi.getService(App.INSTANCE,OtherService::class.java)
+        SoguApi.getService(App.INSTANCE, OtherService::class.java)
                 .getProBuildInfo(project!!.company_id!!)
                 .execute {
                     onNext { payload ->
-                        if (payload.isOk){
+                        if (payload.isOk) {
                             val projectInfo = payload.payload
-                            if (null != projectInfo){
+                            if (null != projectInfo) {
                                 setEditStatus(projectInfo)
                             }
-                        }else{
+                        } else {
                             ToastUtil.showCustomToast(R.drawable.icon_toast_fail, payload.message, ctx!!)
                         }
                     }
@@ -533,23 +564,24 @@ class ProjectUploadShowActivity : ToolbarActivity(){
                     }
                 }
     }
+
     private var enableEdit = false
     private fun setEditStatus(projectInfo: NewProjectInfo) {
         var pm = 0
         var pl = 0
-        if (null != projectInfo.duty){
+        if (null != projectInfo.duty) {
             pm = projectInfo.duty!!.principal!!
         }
-        if (null != projectInfo.lead){
+        if (null != projectInfo.lead) {
             pl = projectInfo.lead!!.leader!!
         }
 
-        if (user!!.uid == pm || user!!.uid == pl){
+        if (user!!.uid == pm || user!!.uid == pl) {
             //可编辑
             tv_edit.visibility = View.VISIBLE
             tv_edit.text = "编辑"
             enableEdit = true
-        }else{
+        } else {
             //不可编辑
             tv_edit.visibility = View.GONE
             enableEdit = false
@@ -557,23 +589,22 @@ class ProjectUploadShowActivity : ToolbarActivity(){
     }
 
     private fun bindListener() {
-        if (null != adapter){
+        if (null != adapter) {
             adapter!!.setOnItemChildClickListener { adapter, view, position ->
-//                adapter.remove(position)
+                //                adapter.remove(position)
             }
         }
 
         tv_edit.setOnClickListener {
             //编辑
-            startActivity<ProjectUploadActivity>(Extras.DATA to approveDatas,Extras.FUND to linkFundDatas
-                    ,Extras.PROJECT to project,Extras.FLAG to floor,Extras.TITLE to "预审会")
+            startActivity<ProjectUploadActivity>(Extras.DATA to approveDatas, Extras.FUND to linkFundDatas
+                    , Extras.PROJECT to project, Extras.FLAG to floor, Extras.TITLE to "预审会")
             finish()
         }
     }
 
 
-
-    inner class ProjectApproveHolder(itemView : View):RecyclerHolder<ApproveRecordInfo.ApproveFlow>(itemView){
+    inner class ProjectApproveHolder(itemView: View) : RecyclerHolder<ApproveRecordInfo.ApproveFlow>(itemView) {
         val iv_image = itemView.findViewById<ImageView>(R.id.iv_image) //头像
         val tv_name = itemView.findViewById<TextView>(R.id.tv_name) //名称
         val tv_agree = itemView.findViewById<TextView>(R.id.tv_agree)  //审批状态 -2=>失效审批，-1=否决，0=待审批，1=同意通过，2=同意上立项会 ,3=>重新发起
@@ -599,13 +630,13 @@ class ProjectUploadShowActivity : ToolbarActivity(){
                     .error(R.mipmap.ic_launch_pe_round)).into(iv_image)
             tv_name.text = data.name
             tv_time.text = data.approve_time
-            if (!data.fenpei.isNullOrEmpty()){
+            if (!data.fenpei.isNullOrEmpty()) {
                 ll_assign.visibility = View.VISIBLE
                 tv_assign_person.text = data.fenpei
-            }else{
+            } else {
                 ll_assign.visibility = View.GONE
             }
-            when(data.status){
+            when (data.status) {
                 -1 -> {
                     //否决
                     tv_agree.text = "已否决"
@@ -630,11 +661,11 @@ class ProjectUploadShowActivity : ToolbarActivity(){
                     view_space.visibility = View.VISIBLE
                     ll_bottom.visibility = View.GONE
 
-                    if (null != approveAdapter.dataList && approveAdapter.dataList.size > 0){
-                        if (position == approveAdapter.dataList.size - 1){
-                            if (realButtons.size > 0){
-                                for (btn in realButtons){
-                                    if (btn.type == 4){
+                    if (null != approveAdapter.dataList && approveAdapter.dataList.size > 0) {
+                        if (position == approveAdapter.dataList.size - 1) {
+                            if (realButtons.size > 0) {
+                                for (btn in realButtons) {
+                                    if (btn.type == 4) {
                                         ll_bottom.visibility = View.VISIBLE
                                         rl_suggest.visibility = View.GONE
                                         tv_file.visibility = View.GONE
@@ -668,25 +699,30 @@ class ProjectUploadShowActivity : ToolbarActivity(){
                     view_bg.visibility = View.GONE
                     tv_meel_plan.visibility = View.GONE
                     view_space.visibility = View.GONE
-                    if (!data.content.isNullOrEmpty()){
+                    if (!data.content.isNullOrEmpty()) {
                         val span = SpannableStringBuilder("意见意${data.content}")
-                        span.setSpan(ForegroundColorSpan(Color.TRANSPARENT),0,3, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+                        span.setSpan(ForegroundColorSpan(Color.TRANSPARENT), 0, 3, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
                         tv_suggest.text = span
                         rl_suggest.visibility = View.VISIBLE
-                    }else{
+                    } else {
                         rl_suggest.visibility = View.GONE
                     }
-                    if (null != data.file && data.file!!.size > 0){
+                    if (null != data.file && data.file!!.size > 0) {
                         //有文件
-                        for (file in data.file!!){
-                            val item = View.inflate(context,R.layout.file_item,null)
+                        ll_files.removeAllViews()
+                        for (file in data.file!!) {
+                            val item = View.inflate(context, R.layout.file_item, null)
                             val iv_image = item.find<ImageView>(R.id.iv_image)
                             val tv_name = item.find<TextView>(R.id.tv_name)
-                            Glide.with(context).load(file.url).into(iv_image)
+                            iv_image.imageResource = FileTypeUtils.getFileType(file.file_name).icon
                             tv_name.text = file.file_name
+                            item.setOnClickListener {
+                                //预览页面
+                                OnlinePreviewActivity.start(this@ProjectUploadShowActivity,file.url,file.file_name)
+                            }
                             ll_files.addView(item)
                         }
-                    }else{
+                    } else {
                         //无文件
                         tv_file.visibility = View.GONE
                         ll_files.visibility = View.GONE
@@ -699,39 +735,44 @@ class ProjectUploadShowActivity : ToolbarActivity(){
                     tv_agree.setTextColor(Color.parseColor("#50D59D"))
                     tv_agree_pro.visibility = View.VISIBLE
                     if (null != data.meet && !"".equals(data.meet!!.meeting_time)
-                            && null != data.meet!!.meeter && data.meet!!.meeter!!.size > 0){
+                            && null != data.meet!!.meeter && data.meet!!.meeter!!.size > 0) {
                         tv_meel_plan.visibility = View.VISIBLE
                         view_bg.visibility = View.VISIBLE
                         tv_meel_time.visibility = View.VISIBLE
                         tv_meel_person.visibility = View.VISIBLE
-                    }else{
+                    } else {
                         tv_meel_time.visibility = View.GONE
                         tv_meel_person.visibility = View.GONE
                         view_bg.visibility = View.GONE
                         tv_meel_plan.visibility = View.GONE
                     }
 
-                    if (!data.content.isNullOrEmpty()){
+                    if (!data.content.isNullOrEmpty()) {
                         val span = SpannableStringBuilder("意见意${data.content}")
-                        span.setSpan(ForegroundColorSpan(Color.TRANSPARENT),0,3, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+                        span.setSpan(ForegroundColorSpan(Color.TRANSPARENT), 0, 3, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
                         tv_suggest.text = span
                         rl_suggest.visibility = View.VISIBLE
                         view_space.visibility = View.VISIBLE
-                    }else{
+                    } else {
                         rl_suggest.visibility = View.GONE
                         view_space.visibility = View.GONE
                     }
-                    if (null != data.file && data.file!!.size > 0){
+                    if (null != data.file && data.file!!.size > 0) {
                         //有文件
-                        for (file in data.file!!){
-                            val item = View.inflate(context,R.layout.file_item,null)
+                        ll_files.removeAllViews()
+                        for (file in data.file!!) {
+                            val item = View.inflate(context, R.layout.file_item, null)
                             val iv_image = item.find<ImageView>(R.id.iv_image)
                             val tv_name = item.find<TextView>(R.id.tv_name)
-                            Glide.with(context).load(file.url).into(iv_image)
+                            iv_image.imageResource = FileTypeUtils.getFileType(file.file_name).icon
                             tv_name.text = file.file_name
+                            item.setOnClickListener {
+                                //预览页面
+                                OnlinePreviewActivity.start(this@ProjectUploadShowActivity,file.url,file.file_name)
+                            }
                             ll_files.addView(item)
                         }
-                    }else{
+                    } else {
                         //无文件
                         tv_file.visibility = View.GONE
                         ll_files.visibility = View.GONE
@@ -739,42 +780,42 @@ class ProjectUploadShowActivity : ToolbarActivity(){
                 }
 
             }
-            if (null != data.meet){
-                if (!"".equals(data.meet!!.meeting_time)){
+            if (null != data.meet) {
+                if (!"".equals(data.meet!!.meeting_time)) {
                     tv_meel_time.text = data.meet!!.meeting_time
                 }
-                if (null != data.meet!!.meeter && data.meet!!.meeter!!.size > 0){
+                if (null != data.meet!!.meeter && data.meet!!.meeter!!.size > 0) {
                     var names = ""
-                    for (meeter in data.meet!!.meeter!!){
+                    for (meeter in data.meet!!.meeter!!) {
                         names += "${meeter.name}、"
                     }
-                    tv_meel_person.text = names.substring(0,names.length-1)
+                    tv_meel_person.text = names.substring(0, names.length - 1)
                 }
             }
             fl_assign_approve.setOnClickListener {
                 //分配审批
-                if (null != dialog){
-                    dialog!!.allocationApprove(this@ProjectUploadShowActivity,project)
-                }else{
-                    BuildProjectDialog().allocationApprove(this@ProjectUploadShowActivity,project)
+                if (null != dialog) {
+                    dialog!!.allocationApprove(this@ProjectUploadShowActivity, project)
+                } else {
+                    BuildProjectDialog().allocationApprove(this@ProjectUploadShowActivity, project)
                 }
             }
         }
 
     }
 
-    private fun setLoadding(){
+    private fun setLoadding() {
         view_recover.visibility = View.VISIBLE
     }
 
-    private fun goneLoadding(){
+    private fun goneLoadding() {
         view_recover.visibility = View.INVISIBLE
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (null != data){
-            when(requestCode){
+        if (null != data) {
+            when (requestCode) {
                 ProjectApprovalShowActivity.REQ_SELECT_FILE -> {
                     val paths = data?.getStringArrayListExtra(Extras.LIST)
                     paths?.forEach {
@@ -782,10 +823,10 @@ class ProjectUploadShowActivity : ToolbarActivity(){
                         val file = File(it)
                         info.file = file
                         info.file_name = file.name
-                        if (null != dialog){
-                            dialog!!.addFileData(info,file,0)
-                        }else{
-                            BuildProjectDialog().addFileData(info,file,0)
+                        if (null != dialog) {
+                            dialog!!.addFileData(info, file, 0)
+                        } else {
+                            BuildProjectDialog().addFileData(info, file, 0)
                         }
                     }
                 }
@@ -797,19 +838,19 @@ class ProjectUploadShowActivity : ToolbarActivity(){
                         val file = File(it)
                         info.file = file
                         info.file_name = file.name
-                        if (null != dialog){
-                            dialog!!.addFileData(info,file,1)
-                        }else{
-                            BuildProjectDialog().addFileData(info,file,1)
+                        if (null != dialog) {
+                            dialog!!.addFileData(info, file, 1)
+                        } else {
+                            BuildProjectDialog().addFileData(info, file, 1)
                         }
                     }
                 }
 
                 ProjectApprovalShowActivity.REW_SELECT_TIME -> {
                     val date = data.getSerializableExtra(Extras.DATA)
-                    if (null != dialog){
+                    if (null != dialog) {
                         dialog!!.setTime(date as Date?)
-                    }else{
+                    } else {
                         BuildProjectDialog().setTime(date as Date?)
                     }
                 }
@@ -820,9 +861,9 @@ class ProjectUploadShowActivity : ToolbarActivity(){
                     infos.clear()
                     infos.addAll(list)
                     infos.add(UserBean())
-                    if (null != dialog){
+                    if (null != dialog) {
                         dialog!!.setMemberData(infos)
-                    }else{
+                    } else {
                         BuildProjectDialog().setMemberData(infos)
                     }
                 }
@@ -833,9 +874,9 @@ class ProjectUploadShowActivity : ToolbarActivity(){
                     infos.clear()
                     infos.addAll(list)
                     infos.add(UserBean())
-                    if (null != dialog){
+                    if (null != dialog) {
                         dialog!!.setAllocationData(infos)
-                    }else{
+                    } else {
                         BuildProjectDialog().setAllocationData(infos)
                     }
                 }

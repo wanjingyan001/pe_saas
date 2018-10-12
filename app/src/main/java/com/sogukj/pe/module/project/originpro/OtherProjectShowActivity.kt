@@ -20,11 +20,14 @@ import com.sogukj.pe.App
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.execute
-import com.sogukj.pe.baselibrary.base.ToolbarActivity
+import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
+import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.*
+import com.sogukj.pe.module.other.OnlinePreviewActivity
 import com.sogukj.pe.module.project.originpro.adapter.ExpandableItemAdapter
+import com.sogukj.pe.peUtils.FileTypeUtils
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.peUtils.ToastUtil
 import com.sogukj.pe.service.OtherService
@@ -36,6 +39,7 @@ import kotlinx.android.synthetic.main.commom_blue_title.*
 import kotlinx.android.synthetic.main.project_show_bottom.*
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.find
+import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.startActivity
 import java.io.File
 import java.util.*
@@ -44,7 +48,7 @@ import java.util.*
  * Created by CH-ZH on 2018/10/11.
  * 投决会、签约付款等
  */
-class OtherProjectShowActivity : ToolbarActivity() {
+class OtherProjectShowActivity : BaseRefreshActivity() {
     private  var adapter : ExpandableItemAdapter?  = null
     private lateinit var fundAdapter : RecyclerAdapter<LinkFundBean>
     private var project : ProjectBean? = null
@@ -111,6 +115,34 @@ class OtherProjectShowActivity : ToolbarActivity() {
         }
     }
 
+    override fun initRefreshConfig(): RefreshConfig? {
+        val config = RefreshConfig()
+        config.loadMoreEnable = false
+        config.autoLoadMoreEnable = true
+        config.scrollContentWhenLoaded = true
+        config.disableContentWhenRefresh = true
+        return config
+    }
+
+    override fun doRefresh() {
+        if (null != project){
+            if ("签约付款".equals(title)){
+                getFundData()
+            }
+            getApprevoRecordInfo()
+        }
+    }
+
+    override fun doLoadMore() {
+
+    }
+
+    fun refreshComplete(){
+        if (this::refresh.isLateinit && refresh.isRefreshing) {
+            refresh.finishRefresh()
+        }
+    }
+
     open fun getApprevoRecordInfo() {
         SoguApi.getService(App.INSTANCE, OtherService::class.java)
                 .getApproveRecord(project!!.company_id!!,floor!!)
@@ -129,16 +161,17 @@ class OtherProjectShowActivity : ToolbarActivity() {
                                     val approveFlow = flow[flow.size - 1]
                                     setApproveEditStatus(approveFlow)
                                 }
-
                             }
                         }else{
                             showErrorToast(payload.message)
                         }
+                        refreshComplete()
                     }
 
                     onError {
                         it.printStackTrace()
                         showErrorToast("获取审批记录失败")
+                        refreshComplete()
                     }
                 }
     }
@@ -716,8 +749,6 @@ class OtherProjectShowActivity : ToolbarActivity() {
                     ll_bottom.visibility = View.GONE
                 }
                 1 -> {
-                    //不可编辑
-                    tv_edit.visibility = View.GONE
                     //同意通过
                     tv_agree.text = "同意通过"
                     tv_agree.setTextColor(Color.parseColor("#50D59D"))
@@ -737,12 +768,17 @@ class OtherProjectShowActivity : ToolbarActivity() {
                     }
                     if (null != data.file && data.file!!.size > 0){
                         //有文件
+                        ll_files.removeAllViews()
                         for (file in data.file!!){
                             val item = View.inflate(context, R.layout.file_item,null)
                             val iv_image = item.find<ImageView>(R.id.iv_image)
                             val tv_name = item.find<TextView>(R.id.tv_name)
-                            Glide.with(context).load(file.url).into(iv_image)
+                            iv_image.imageResource = FileTypeUtils.getFileType(file.file_name).icon
                             tv_name.text = file.file_name
+                            item.setOnClickListener {
+                                //预览页面
+                                OnlinePreviewActivity.start(this@OtherProjectShowActivity,file.url,file.file_name)
+                            }
                             ll_files.addView(item)
                         }
                     }else{
@@ -753,8 +789,6 @@ class OtherProjectShowActivity : ToolbarActivity() {
 
                 }
                 2 -> {
-                    //不可编辑
-                    tv_edit.visibility = View.GONE
                     //同意上立项会
                     tv_agree.text = "同意通过"
                     tv_agree.setTextColor(Color.parseColor("#50D59D"))
@@ -784,12 +818,17 @@ class OtherProjectShowActivity : ToolbarActivity() {
                     }
                     if (null != data.file && data.file!!.size > 0){
                         //有文件
+                        ll_files.removeAllViews()
                         for (file in data.file!!){
                             val item = View.inflate(context, R.layout.file_item,null)
                             val iv_image = item.find<ImageView>(R.id.iv_image)
                             val tv_name = item.find<TextView>(R.id.tv_name)
-                            Glide.with(context).load(file.url).into(iv_image)
+                            iv_image.imageResource = FileTypeUtils.getFileType(file.file_name).icon
                             tv_name.text = file.file_name
+                            item.setOnClickListener {
+                                //预览页面
+                                OnlinePreviewActivity.start(this@OtherProjectShowActivity,file.url,file.file_name)
+                            }
                             ll_files.addView(item)
                         }
                     }else{

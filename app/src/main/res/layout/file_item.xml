@@ -28,7 +28,7 @@
         android:ellipsize="end"
         android:textColor="@color/black_28"
         android:textSize="@dimen/text_size_16"
-        android:layout_marginLeft="@dimen/text_20"
+        android:layout_marginLeft="@dimen/text_10"
         android:layout_centerVertical="true"
         tools:text="中国证券监督管理委员会规定….pdf"/>
 </RelativeLayout>

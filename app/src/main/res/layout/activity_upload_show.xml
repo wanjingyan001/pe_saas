@@ -11,66 +11,73 @@
     <include
         android:id="@+id/ps_bottom"
         layout="@layout/project_show_bottom"/>
-
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refresh"
         android:layout_below="@id/toolbar"
         android:layout_above="@id/ps_bottom"
-        android:fillViewport="true"
-        android:scrollbars="none">
-        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/text_10"
-            android:paddingBottom="@dimen/text_15"
-            android:descendantFocusability="blocksDescendants"
-            android:orientation="vertical">
-            <include
-                android:id="@+id/ll_fund"
-                android:visibility="gone"
-                layout="@layout/approve_fund"/>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_file"
+            android:scrollbars="none">
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white">
-            </android.support.v7.widget.RecyclerView>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/text_15"
-                android:paddingRight="@dimen/text_15"
-                android:paddingTop="@dimen/text_10"
-                android:paddingBottom="@dimen/text_10"
-                android:text="审批记录"
+                android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/text_10"
-                android:background="@color/white"
-                android:textSize="@dimen/text_size_14"
-                android:textColor="@color/black_28"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/text_1"
-                android:background="@color/gray_f1"/>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/approve_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/text_15"
-                android:paddingTop="@dimen/text_15"
                 android:paddingBottom="@dimen/text_15"
-                tools:listitem="@layout/item_approve_list"
-                android:background="@color/white"
-                android:paddingRight="@dimen/text_20">
+                android:descendantFocusability="blocksDescendants"
+                android:orientation="vertical">
+                <include
+                    android:id="@+id/ll_fund"
+                    android:visibility="gone"
+                    layout="@layout/approve_fund"/>
 
-            </android.support.v7.widget.RecyclerView>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_file"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    android:background="@color/white">
+                </android.support.v7.widget.RecyclerView>
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/text_15"
+                    android:paddingRight="@dimen/text_15"
+                    android:paddingTop="@dimen/text_10"
+                    android:paddingBottom="@dimen/text_10"
+                    android:text="审批记录"
+                    android:layout_marginTop="@dimen/text_10"
+                    android:background="@color/white"
+                    android:textSize="@dimen/text_size_14"
+                    android:textColor="@color/black_28"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/text_1"
+                    android:background="@color/gray_f1"/>
 
-    </android.support.v4.widget.NestedScrollView>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/approve_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/text_15"
+                    android:paddingTop="@dimen/text_15"
+                    android:paddingBottom="@dimen/text_15"
+                    android:nestedScrollingEnabled="false"
+                    tools:listitem="@layout/item_approve_list"
+                    android:background="@color/white"
+                    android:paddingRight="@dimen/text_20">
+
+                </android.support.v7.widget.RecyclerView>
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     <FrameLayout
         android:id="@+id/view_recover"

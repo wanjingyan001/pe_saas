@@ -204,6 +204,7 @@
             android:visibility="gone"
             android:paddingTop="@dimen/text_8"
             android:paddingBottom="@dimen/text_8"
+            android:clickable="true"
             android:background="@drawable/bg_agree"
             android:layout_marginTop="@dimen/text_8">
             <TextView

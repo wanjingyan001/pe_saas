@@ -19,7 +19,8 @@ import com.sogukj.pe.App
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.execute
-import com.sogukj.pe.baselibrary.base.ToolbarActivity
+import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
+import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.*
@@ -46,7 +47,7 @@ import java.util.*
 /**
  * Created by CH-ZH on 2018/9/19.
  */
-class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
+class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack{
     override fun setProApproveInfo(infos: List<ProjectApproveInfo>) {
         if (null != infos) {
             if (infos.size > 0) {
@@ -242,6 +243,28 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
                 }
             }
         }
+    }
+
+    override fun initRefreshConfig(): RefreshConfig? {
+        val config = RefreshConfig()
+        config.loadMoreEnable = false
+        config.autoLoadMoreEnable = true
+        config.scrollContentWhenLoaded = true
+        config.disableContentWhenRefresh = true
+        return config
+    }
+
+    override fun doRefresh() {
+        if (null != project){
+            getApprevoRecordInfo()
+            if (null != presenter){
+                presenter!!.getProApproveInfo(project!!.company_id!!,floor!!)
+            }
+        }
+    }
+
+    override fun doLoadMore() {
+
     }
 
     val realButtons = ArrayList<ApproveRecordInfo.ApproveButton>()
@@ -488,7 +511,11 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
 
     override fun goneLoading() {
         view_recover.visibility = View.INVISIBLE
+        if (this::refresh.isLateinit && refresh.isRefreshing) {
+            refresh.finishRefresh()
+        }
     }
+
     private fun bindListener() {
         postAdapter.onItemClick = {v,position ->
             //预览
@@ -656,8 +683,6 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
                     ll_bottom.visibility = View.GONE
                 }
                 1 -> {
-                    //不可编辑
-                    tv_edit.visibility = View.GONE
                     //同意通过
                     tv_agree.text = "同意通过"
                     tv_agree.setTextColor(Color.parseColor("#50D59D"))
@@ -677,12 +702,17 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
                     }
                     if (null != data.file && data.file!!.size > 0){
                         //有文件
+                        ll_files.removeAllViews()
                         for (file in data.file!!){
                             val item = View.inflate(context,R.layout.file_item,null)
                             val iv_image = item.find<ImageView>(R.id.iv_image)
                             val tv_name = item.find<TextView>(R.id.tv_name)
-                            Glide.with(context).load(file.url).into(iv_image)
+                            iv_image.imageResource = FileTypeUtils.getFileType(file.file_name).icon
                             tv_name.text = file.file_name
+                            item.setOnClickListener {
+                                //预览页面
+                                OnlinePreviewActivity.start(this@ProjectApprovalShowActivity,file.url,file.file_name)
+                            }
                             ll_files.addView(item)
                         }
                     }else{
@@ -692,8 +722,6 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
                     }
                 }
                 2 -> {
-                    //不可编辑
-                    tv_edit.visibility = View.GONE
                     //同意上立项会
                     tv_agree.text = "同意通过"
                     tv_agree.setTextColor(Color.parseColor("#50D59D"))
@@ -723,12 +751,17 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
                     }
                     if (null != data.file && data.file!!.size > 0){
                         //有文件
+                        ll_files.removeAllViews()
                         for (file in data.file!!){
                             val item = View.inflate(context,R.layout.file_item,null)
                             val iv_image = item.find<ImageView>(R.id.iv_image)
                             val tv_name = item.find<TextView>(R.id.tv_name)
-                            Glide.with(context).load(file.url).into(iv_image)
+                            iv_image.imageResource = FileTypeUtils.getFileType(file.file_name).icon
                             tv_name.text = file.file_name
+                            item.setOnClickListener {
+                                //预览页面
+                                OnlinePreviewActivity.start(this@ProjectApprovalShowActivity,file.url,file.file_name)
+                            }
                             ll_files.addView(item)
                         }
                     }else{
