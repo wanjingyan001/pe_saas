@@ -166,6 +166,7 @@
     <string name="add_fund">+添加关联基金</string>
     <string name="pro_contact">标的公司联系人</string>
     <string name="project_info">信息填写</string>
+    <string name="project_build">立项申请</string>
     <string name="project_info_title">两年一期的净利润、资产总额、净资产指标</string>
     <string name="submit">提交</string>
     <string name="refuse">退回修改</string>

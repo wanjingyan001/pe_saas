@@ -15,6 +15,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.chad.library.adapter.base.entity.MultiItemEntity
 import com.sogukj.pe.App
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
@@ -23,84 +24,40 @@ import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.*
-import com.sogukj.pe.module.other.OnlinePreviewActivity
-import com.sogukj.pe.module.project.originpro.callback.ProjectApproveCallBack
-import com.sogukj.pe.module.project.originpro.presenter.ProjectApprovePresenter
-import com.sogukj.pe.peUtils.FileTypeUtils
+import com.sogukj.pe.module.project.originpro.adapter.ExpandableItemAdapter
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.peUtils.ToastUtil
 import com.sogukj.pe.service.OtherService
 import com.sogukj.pe.widgets.BuildProjectDialog
-import com.sogukj.pe.widgets.indexbar.RecycleViewDivider
 import com.sogukj.service.SoguApi
-import kotlinx.android.synthetic.main.activity_project_show.*
+import kotlinx.android.synthetic.main.activity_upload_show.*
+import kotlinx.android.synthetic.main.approve_fund.*
 import kotlinx.android.synthetic.main.commom_blue_title.*
 import kotlinx.android.synthetic.main.project_show_bottom.*
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.find
-import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.startActivity
 import java.io.File
 import java.util.*
 
 /**
- * Created by CH-ZH on 2018/9/19.
+ * Created by CH-ZH on 2018/10/11.
+ * 投决会、签约付款等
  */
-class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
-    override fun setProApproveInfo(infos: List<ProjectApproveInfo>) {
-        if (null != infos) {
-            if (infos.size > 0) {
-                val approveInfo = infos[0]
-                if (null != approveInfo) {
-                    class_id = approveInfo.class_id
-                    val frames = approveInfo.frame
-                    if (null != frames && frames.size > 0){
-                        setAmountData(frames!!)
-                    }
-                }
-            }
-            if (infos.size > 1){
-                val approveInfo = infos[1]
-                if (null != approveInfo){
-                    if (null != approveInfo.files){
-                        setFilesData(approveInfo.files)
-                    }
-                }
-            }
-        }
-    }
-
-    private fun setFilesData(files: List<ProjectApproveInfo.ApproveFile>?) {
-        postAdapter.dataList.clear()
-        postAdapter.dataList.addAll(files!!)
-        postAdapter.notifyDataSetChanged()
-    }
-
-    private fun setAmountData(frames: List<ProjectApproveInfo.ApproveInfo>) {
-        if (null != piv){
-            piv.setAmountData(frames)
-        }
-    }
-
-    override fun createApproveSuccess() {
-
-    }
-
-    override fun goneCommitLodding() {
-
-    }
-
-    private lateinit var postAdapter: RecyclerAdapter<ProjectApproveInfo.ApproveFile>
-    private lateinit var approveAdapter:RecyclerAdapter<ApproveRecordInfo.ApproveFlow>
-    private var project: ProjectBean? = null
-    private var presenter : ProjectApprovePresenter? = null
-    private var class_id : Int ? = null
-    private var dialog : BuildProjectDialog ? = null
-    private var user : UserBean ? = null
-    private var floor : Int ? = null
+class OtherProjectShowActivity : ToolbarActivity() {
+    private  var adapter : ExpandableItemAdapter?  = null
+    private lateinit var fundAdapter : RecyclerAdapter<LinkFundBean>
+    private var project : ProjectBean? = null
+    private var floor : Int ?= null
+    private var user : UserBean? = null
+    private var approveDatas = ArrayList<ProjectApproveInfo>()
+    private var linkFundDatas = ArrayList<LinkFundBean>()
+    private lateinit var approveAdapter: RecyclerAdapter<ApproveRecordInfo.ApproveFlow>
+    private var dialog : BuildProjectDialog? = null
+    private var title = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_project_show)
+        setContentView(R.layout.activity_upload_show)
         initView()
         initData()
         bindListener()
@@ -108,92 +65,54 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
 
     private fun initView() {
         setBack(true)
+
         project = intent.getSerializableExtra(Extras.DATA) as ProjectBean?
         floor = intent.getIntExtra(Extras.FLAG,-1)
-        toolbar_title.maxEms = 12
-        setTitle(project!!.name)
-        presenter = ProjectApprovePresenter(this,this)
-        dialog = BuildProjectDialog()
+        title = intent.getStringExtra(Extras.TITLE)
         user = Store.store.getUser(this)
         Glide.with(this)
                 .asGif()
                 .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
                 .into(iv_loading)
+        dialog = BuildProjectDialog()
+        setTitle(title)
+
     }
 
     private fun initData() {
-        postAdapter = RecyclerAdapter(this){_adapter,parent,_ ->
-            ProjectPostHolder(_adapter.getView(R.layout.item_approval_post, parent))
+        rv_file.layoutManager = LinearLayoutManager(this)
+        fundAdapter = RecyclerAdapter(this){adapter,parent,_ ->
+            ProjectFundHolder(adapter.getView(R.layout.item_link_fund,parent))
         }
-        recycler_view.layoutManager = LinearLayoutManager(this)
-        recycler_view.addItemDecoration(RecycleViewDivider(ctx,LinearLayoutManager.VERTICAL))
-        recycler_view.adapter = postAdapter
+
+        rv_fund.layoutManager = LinearLayoutManager(this)
+        rv_fund.adapter = fundAdapter
 
         approveAdapter = RecyclerAdapter(this){_adapter,parent,_ ->
             ProjectApproveHolder(_adapter.getView(R.layout.item_approve_list, parent))
         }
+
         approve_list.layoutManager = LinearLayoutManager(this)
         approve_list.adapter = approveAdapter
+
         if (null != project){
             setLoadding()
             getProjectComBase()
+            if ("签约付款".equals(title)){
+                ll_fund.visibility = View.VISIBLE
+                rv_file.isNestedScrollingEnabled = false
+                getFundData()
+            }else{
+                ll_fund.visibility = View.GONE
+                rv_file.isNestedScrollingEnabled = true
+            }
+            getApproveShowData()
             getApprevoRecordInfo()
-        }
-
-        if (null != presenter){
-            presenter!!.getProApproveInfo(project!!.company_id!!,floor!!)
-        }
-    }
-
-    private fun getProjectComBase() {
-        SoguApi.getService(App.INSTANCE,OtherService::class.java)
-                .getProBuildInfo(project!!.company_id!!)
-                .execute {
-                    onNext { payload ->
-                        if (payload.isOk){
-                            val projectInfo = payload.payload
-                            if (null != projectInfo){
-                               setEditStatus(projectInfo)
-                            }
-                        }else{
-                            ToastUtil.showCustomToast(R.drawable.icon_toast_fail, payload.message, ctx!!)
-                        }
-                    }
-                    onComplete {
-
-                    }
-
-                    onError {
-                        it.printStackTrace()
-                        ToastUtil.showCustomToast(R.drawable.icon_toast_fail, "获取数据失败", ctx!!)
-                    }
-                }
-    }
-    private var enableEdit = false
-    private fun setEditStatus(projectInfo: NewProjectInfo) {
-        var pm = 0
-        var pl = 0
-        if (null != projectInfo.duty){
-            pm = projectInfo.duty!!.principal!!
-        }
-        if (null != projectInfo.lead){
-            pl = projectInfo.lead!!.leader!!
-        }
-
-        if (user!!.uid == pm || user!!.uid == pl){
-            //可编辑
-            tv_edit.visibility = View.VISIBLE
-            tv_edit.text = "编辑"
-            enableEdit = true
-        }else{
-            //不可编辑
-            tv_edit.visibility = View.GONE
-            enableEdit = false
         }
     }
 
     open fun getApprevoRecordInfo() {
-        SoguApi.getService(App.INSTANCE,OtherService::class.java)
+        SoguApi.getService(App.INSTANCE, OtherService::class.java)
                 .getApproveRecord(project!!.company_id!!,floor!!)
                 .execute {
                     onNext { payload ->
@@ -202,13 +121,11 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
                             if (null != recordInfo){
                                 val button = recordInfo.button
                                 setApproveButtonStatus(button)
-
                                 val flow = recordInfo.flow
                                 if (null != flow && flow.size > 0){
                                     approveAdapter.dataList.clear()
                                     approveAdapter.dataList.addAll(flow)
                                     approveAdapter.notifyDataSetChanged()
-
                                     val approveFlow = flow[flow.size - 1]
                                     setApproveEditStatus(approveFlow)
                                 }
@@ -221,7 +138,7 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
 
                     onError {
                         it.printStackTrace()
-                        showErrorToast("获取数据失败")
+                        showErrorToast("获取审批记录失败")
                     }
                 }
     }
@@ -247,7 +164,7 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
     val realButtons = ArrayList<ApproveRecordInfo.ApproveButton>()
     private fun setApproveButtonStatus(button: List<ApproveRecordInfo.ApproveButton>?) {
         realButtons.clear()
-        val checkButtons =ArrayList<ApproveRecordInfo.ApproveButton>()
+        val checkButtons = ArrayList<ApproveRecordInfo.ApproveButton>()
         if (null != button && button.size > 0){
             ps_bottom.visibility = View.VISIBLE
             for (btn in button){
@@ -482,33 +399,6 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
         }
     }
 
-    private fun setLoadding(){
-        view_recover.visibility = View.VISIBLE
-    }
-
-    override fun goneLoading() {
-        view_recover.visibility = View.INVISIBLE
-    }
-    private fun bindListener() {
-        postAdapter.onItemClick = {v,position ->
-            //预览
-            val dataList = postAdapter.dataList
-            if (null != dataList && dataList.size > 0 && null != dataList[position]){
-                OnlinePreviewActivity.start(this,dataList[position].preview,dataList[position].file_name)
-            }
-        }
-
-        tv_edit.setOnClickListener {
-            //编辑
-            startActivity<ProjectApprovalActivity>(Extras.DATA to project,Extras.FLAG to floor)
-            finish()
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-    }
-
     private fun showConfirmDialog() {
         val title =  "是否确认否决审批？"
         val build = MaterialDialog.Builder(this)
@@ -544,7 +434,7 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
         map.put("type",-1) //-1=>’否决’,1=>’同意通过’,2=> 同意上储备,3=>同意退出
         map.put("current",0)
 
-        SoguApi.getService(App.INSTANCE,OtherService::class.java)
+        SoguApi.getService(App.INSTANCE, OtherService::class.java)
                 .commitApprove(map)
                 .execute {
                     onNext { payload ->
@@ -563,19 +453,184 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
 
     }
 
-    inner class ProjectPostHolder(itemView:View) : RecyclerHolder<ProjectApproveInfo.ApproveFile>(itemView){
-        val pdfIcon = itemView.findViewById<ImageView>(R.id.pdfIcon)
-        val time = itemView.findViewById<TextView>(R.id.time)
-        val pdfName = itemView.findViewById<TextView>(R.id.pdfName)
-        override fun setData(view: View, data: ProjectApproveInfo.ApproveFile, position: Int) {
-            pdfName.text = data.file_name
-            time.text = data.date
-            pdfIcon.imageResource = FileTypeUtils.getFileType(data.file_name).icon
+    private fun getApproveShowData() {
+        SoguApi.getService(App.INSTANCE, OtherService::class.java)
+                .getProApproveInfo(project!!.company_id!!,floor!!)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+                            val datas = payload.payload
+                            if (null != datas && datas.size > 0){
+                                val list = datas[0]
+                                if (null != list && list.size > 0){
+                                    approveDatas = list as ArrayList<ProjectApproveInfo>
+                                    setMultiItemData(list)
+                                }
+
+                            }
+                        }else{
+                            showErrorToast(payload.message)
+                        }
+                        goneLoadding()
+                    }
+
+                    onError {
+                        it.printStackTrace()
+                        showErrorToast("获取数据失败")
+                        goneLoadding()
+                    }
+                }
+    }
+
+    private fun setMultiItemData(datas: List<ProjectApproveInfo>) {
+        val res = ArrayList<MultiItemEntity>()
+        for (data in datas){
+            val level0Item = Level0Item(data.name)
+            if (null != data.son && data.son!!.size > 0){
+                for (son in data.son!!){
+                    val level1Item = Level1Item(son.name)
+                    if (null != son.files && son.files!!.size > 0){
+                        for (file in son.files!!){
+                            val level2Item = Level2Item()
+                            level2Item.type = 0
+                            level2Item.file = file
+                            level1Item.addSubItem(level2Item)
+                        }
+                    }else{
+                        val level2Item = Level2Item()
+                        level2Item.type = -1
+                        level1Item.addSubItem(level2Item)
+                    }
+
+                    level0Item.addSubItem(level1Item)
+                }
+            }else{
+                if (null != data.files && data.files!!.size > 0){
+                    //有文件
+                    for (file in data.files!!){
+                        val level2Item = Level2Item()
+                        level2Item.type = 0
+                        level2Item.file = file
+                        level0Item.addSubItem(level2Item)
+                    }
+                }else{
+                    //无文件
+                    val level2Item = Level2Item()
+                    level2Item.type = -1
+                    level0Item.addSubItem(level2Item)
+                }
+
+            }
+            res.add(level0Item)
+        }
+        adapter = ExpandableItemAdapter(res,1,this)
+        rv_file.adapter = adapter
+        adapter!!.expandAll()
+    }
+
+    private fun getProjectComBase() {
+        SoguApi.getService(App.INSTANCE, OtherService::class.java)
+                .getProBuildInfo(project!!.company_id!!)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+                            val projectInfo = payload.payload
+                            if (null != projectInfo){
+                                setEditStatus(projectInfo)
+                            }
+                        }else{
+                            ToastUtil.showCustomToast(R.drawable.icon_toast_fail, payload.message, ctx!!)
+                        }
+                    }
+                    onComplete {
+
+                    }
+
+                    onError {
+                        it.printStackTrace()
+                        ToastUtil.showCustomToast(R.drawable.icon_toast_fail, "获取权限失败", ctx!!)
+                    }
+                }
+    }
+    private var enableEdit = false
+    private fun setEditStatus(projectInfo: NewProjectInfo) {
+        var pm = -1
+        var pl = -1
+        if (null != projectInfo.duty){
+            pm = projectInfo.duty!!.principal!!
+        }
+        if (null != projectInfo.lead){
+            pl = projectInfo.lead!!.leader!!
+        }
+
+        if (user!!.uid == pm || user!!.uid == pl){
+            //可编辑
+            tv_edit.visibility = View.VISIBLE
+            tv_edit.text = "编辑"
+            enableEdit = true
+        }else{
+            //不可编辑
+            tv_edit.visibility = View.GONE
+            enableEdit = false
+        }
+    }
+
+    private fun getFundData() {
+        if (null == project) return
+        SoguApi.getService(App.INSTANCE, OtherService::class.java)
+                .getLinkFund(project!!.company_id!!)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+                            val fundInfos = payload.payload
+                            if (null != fundInfos && fundInfos.size > 0){
+                                linkFundDatas = fundInfos as ArrayList<LinkFundBean>
+                                fundAdapter.dataList.clear()
+                                fundAdapter.dataList.addAll(fundInfos)
+                                fundAdapter.notifyDataSetChanged()
+                            }
+                        }else{
+                            showErrorToast(payload.message)
+                        }
+
+                    }
+
+                    onError {
+                        it.printStackTrace()
+                        showErrorToast("获取基金数据失败")
+                    }
+                }
+    }
+
+    private fun bindListener() {
+        if (null != adapter){
+            adapter!!.setOnItemChildClickListener { adapter, view, position ->
+                //                adapter.remove(position)
+            }
+        }
+
+        tv_edit.setOnClickListener {
+            //编辑
+            startActivity<ProjectUploadActivity>(Extras.DATA to approveDatas, Extras.FUND to linkFundDatas
+                    , Extras.PROJECT to project, Extras.FLAG to floor,Extras.TITLE to title)
+        }
+    }
+
+
+    inner class ProjectFundHolder(itemView: View) : RecyclerHolder<LinkFundBean>(itemView) {
+        val tv_invest = itemView.findViewById<TextView>(R.id.tv_invest)
+        val tv_amount_name = itemView.findViewById<TextView>(R.id.tv_amount_name)
+        val tv_stock_ratio = itemView.findViewById<TextView>(R.id.tv_stock_ratio)
+        override fun setData(view: View, data: LinkFundBean, position: Int) {
+            if (null == data) return
+            tv_invest.text = data.fundName
+            tv_amount_name.text = data.had_invest
+            tv_stock_ratio.text = data.proportion
         }
 
     }
 
-    inner class ProjectApproveHolder(itemView : View):RecyclerHolder<ApproveRecordInfo.ApproveFlow>(itemView){
+    inner class ProjectApproveHolder(itemView : View): RecyclerHolder<ApproveRecordInfo.ApproveFlow>(itemView){
         val iv_image = itemView.findViewById<ImageView>(R.id.iv_image) //头像
         val tv_name = itemView.findViewById<TextView>(R.id.tv_name) //名称
         val tv_agree = itemView.findViewById<TextView>(R.id.tv_agree)  //审批状态 -2=>失效审批，-1=否决，0=待审批，1=同意通过，2=同意上立项会 ,3=>重新发起
@@ -596,7 +651,7 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
         val tv_assign_person = itemView.find<TextView>(R.id.tv_assign_person)
         override fun setData(view: View, data: ApproveRecordInfo.ApproveFlow, position: Int) {
             if (null == data) return
-            Glide.with(this@ProjectApprovalShowActivity).load(data.url).apply(RequestOptions.circleCropTransform()
+            Glide.with(this@OtherProjectShowActivity).load(data.url).apply(RequestOptions.circleCropTransform()
                     .placeholder(R.mipmap.ic_launch_pe_round)
                     .error(R.mipmap.ic_launch_pe_round)).into(iv_image)
             tv_name.text = data.name
@@ -631,11 +686,16 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
                     tv_meel_plan.visibility = View.GONE
                     view_space.visibility = View.GONE
                     ll_bottom.visibility = View.GONE
+
                     if (null != approveAdapter.dataList && approveAdapter.dataList.size > 0){
                         if (position == approveAdapter.dataList.size - 1){
                             if (realButtons.size > 0){
                                 for (btn in realButtons){
                                     if (btn.type == 4){
+                                        ll_bottom.visibility = View.VISIBLE
+                                        rl_suggest.visibility = View.GONE
+                                        tv_file.visibility = View.GONE
+                                        ll_files.visibility = View.GONE
                                         fl_assign_approve.visibility = View.VISIBLE
                                     }
                                 }
@@ -678,7 +738,7 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
                     if (null != data.file && data.file!!.size > 0){
                         //有文件
                         for (file in data.file!!){
-                            val item = View.inflate(context,R.layout.file_item,null)
+                            val item = View.inflate(context, R.layout.file_item,null)
                             val iv_image = item.find<ImageView>(R.id.iv_image)
                             val tv_name = item.find<TextView>(R.id.tv_name)
                             Glide.with(context).load(file.url).into(iv_image)
@@ -690,6 +750,7 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
                         tv_file.visibility = View.GONE
                         ll_files.visibility = View.GONE
                     }
+
                 }
                 2 -> {
                     //不可编辑
@@ -699,7 +760,7 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
                     tv_agree.setTextColor(Color.parseColor("#50D59D"))
                     tv_agree_pro.visibility = View.VISIBLE
                     if (null != data.meet && !"".equals(data.meet!!.meeting_time)
-                    && null != data.meet!!.meeter && data.meet!!.meeter!!.size > 0){
+                            && null != data.meet!!.meeter && data.meet!!.meeter!!.size > 0){
                         tv_meel_plan.visibility = View.VISIBLE
                         view_bg.visibility = View.VISIBLE
                         tv_meel_time.visibility = View.VISIBLE
@@ -724,7 +785,7 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
                     if (null != data.file && data.file!!.size > 0){
                         //有文件
                         for (file in data.file!!){
-                            val item = View.inflate(context,R.layout.file_item,null)
+                            val item = View.inflate(context, R.layout.file_item,null)
                             val iv_image = item.find<ImageView>(R.id.iv_image)
                             val tv_name = item.find<TextView>(R.id.tv_name)
                             Glide.with(context).load(file.url).into(iv_image)
@@ -737,8 +798,8 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
                         ll_files.visibility = View.GONE
                     }
                 }
-            }
 
+            }
             if (null != data.meet){
                 if (!"".equals(data.meet!!.meeting_time)){
                     tv_meel_time.text = data.meet!!.meeting_time
@@ -754,26 +815,28 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
             fl_assign_approve.setOnClickListener {
                 //分配审批
                 if (null != dialog){
-                    dialog!!.allocationApprove(this@ProjectApprovalShowActivity,project)
+                    dialog!!.allocationApprove(this@OtherProjectShowActivity,project)
                 }else{
-                    BuildProjectDialog().allocationApprove(this@ProjectApprovalShowActivity,project)
+                    BuildProjectDialog().allocationApprove(this@OtherProjectShowActivity,project)
                 }
             }
         }
 
     }
-    companion object {
-        val REQ_SELECT_FILE = 0x1005
-        val REQ_LXH_FILE = 0x1006
-        val REW_SELECT_TIME = 0x1007
-        val REQ_ADD_MEMBER = 0x1008
-        val REQ_ADD_ALLOCATION = 0x1009
+
+    private fun setLoadding(){
+        view_recover.visibility = View.VISIBLE
     }
+
+    private fun goneLoadding(){
+        view_recover.visibility = View.INVISIBLE
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (null != data){
             when(requestCode){
-                REQ_SELECT_FILE -> {
+                ProjectApprovalShowActivity.REQ_SELECT_FILE -> {
                     val paths = data?.getStringArrayListExtra(Extras.LIST)
                     paths?.forEach {
                         val info = ProjectApproveInfo.ApproveFile()
@@ -788,7 +851,7 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
                     }
                 }
 
-                REQ_LXH_FILE -> {
+                ProjectApprovalShowActivity.REQ_LXH_FILE -> {
                     val paths = data?.getStringArrayListExtra(Extras.LIST)
                     paths?.forEach {
                         val info = ProjectApproveInfo.ApproveFile()
@@ -803,7 +866,7 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
                     }
                 }
 
-                REW_SELECT_TIME -> {
+                ProjectApprovalShowActivity.REW_SELECT_TIME -> {
                     val date = data.getSerializableExtra(Extras.DATA)
                     if (null != dialog){
                         dialog!!.setTime(date as Date?)
@@ -812,7 +875,7 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
                     }
                 }
 
-                REQ_ADD_MEMBER -> {
+                ProjectApprovalShowActivity.REQ_ADD_MEMBER -> {
                     val list = data.getSerializableExtra(Extras.DATA) as ArrayList<UserBean>
                     val infos = ArrayList<UserBean>()
                     infos.clear()
@@ -825,7 +888,7 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
                     }
                 }
 
-                REQ_ADD_ALLOCATION -> {
+                ProjectApprovalShowActivity.REQ_ADD_ALLOCATION -> {
                     val list = data.getSerializableExtra(Extras.DATA) as ArrayList<UserBean>
                     val infos = ArrayList<UserBean>()
                     infos.clear()
@@ -840,5 +903,4 @@ class ProjectApprovalShowActivity : ToolbarActivity(),ProjectApproveCallBack{
             }
         }
     }
-
 }

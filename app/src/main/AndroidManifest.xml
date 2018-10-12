@@ -555,16 +555,7 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
-            android:name=".module.fund.FundBookActivity"
-            android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
-            android:name=".module.fund.FundBookMoreActivity"
-            android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+
         <activity
             android:name=".module.fund.FundDetailActivity"
             android:configChanges="orientation|screenSize"
@@ -679,11 +670,6 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <!-- 项目 -->
-        <activity
-            android:name=".module.project.ProjectActivity"
-            android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".module.project.ProjectDetailActivity"
             android:configChanges="orientation|screenSize"
@@ -1018,7 +1004,6 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name=".module.other.PayPackageActivity" />
         <activity android:name=".module.other.PayExpansionActivity" />
         <activity
             android:name=".module.other.MessageListActivity"
@@ -1291,7 +1276,11 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-
+        <activity
+            android:name=".module.project.originpro.OtherProjectShowActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".module.project.originpro.ProjectSearchResultActivity"
             android:configChanges="orientation|screenSize"
@@ -1309,6 +1298,7 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+
     </application>
 
 </manifest>

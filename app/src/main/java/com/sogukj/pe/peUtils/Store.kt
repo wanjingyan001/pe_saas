@@ -3,6 +3,7 @@ import android.content.Context
 import android.text.TextUtils
 import android.util.Log
 import com.google.gson.Gson
+import com.sogukj.pe.Extras
 import com.sogukj.pe.baselibrary.utils.XmlDb
 import com.sogukj.pe.bean.LawCaseHisInfo
 import com.sogukj.pe.bean.UserBean
@@ -297,6 +298,12 @@ class Store private constructor() {
         return XmlDb.open(ctx).set(com.sogukj.pe.Extras.DZH_TOKEN,token)
     }
 
+    fun getApproveConfig(ctx:Context):Int{
+        return XmlDb.open(ctx).get(Extras.APPROVE_CONFIG,0)
+    }
+    fun saveApproveConfig(ctx:Context,config:Int):Boolean{
+        return XmlDb.open(ctx).set(Extras.APPROVE_CONFIG,config)
+    }
     class SizeList<E> : LinkedList<E>() {
 
         fun distinct() {

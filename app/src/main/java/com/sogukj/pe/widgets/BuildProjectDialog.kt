@@ -29,6 +29,7 @@ import com.sogukj.pe.bean.ProjectBean
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.module.fileSelector.FileMainActivity
 import com.sogukj.pe.module.main.ContactsActivity
+import com.sogukj.pe.module.project.originpro.OtherProjectShowActivity
 import com.sogukj.pe.module.project.originpro.ProjectApprovalShowActivity
 import com.sogukj.pe.module.project.originpro.ProjectApprovalShowActivity.Companion.REQ_LXH_FILE
 import com.sogukj.pe.module.project.originpro.ProjectApprovalShowActivity.Companion.REQ_SELECT_FILE
@@ -172,6 +173,16 @@ class BuildProjectDialog {
                             if (build.isShowing) {
                                 build.dismiss()
                             }
+                            ToastUtil.showSuccessToast("分配成功", mAct!!)
+                            if (mAct is ProjectApprovalShowActivity){
+                                (mAct as ProjectApprovalShowActivity).getApprevoRecordInfo()
+                            }
+                            if (mAct is ProjectUploadShowActivity){
+                                (mAct as ProjectUploadShowActivity).getApprevoRecordInfo()
+                            }
+                            if (mAct is OtherProjectShowActivity){
+                                (mAct as OtherProjectShowActivity).getApprevoRecordInfo()
+                            }
                         }else{
                             ToastUtil.showCustomToast(R.drawable.icon_toast_fail, payload.message, mAct!!)
                         }
@@ -215,6 +226,9 @@ class BuildProjectDialog {
                             }
                             if (mAct is ProjectUploadShowActivity){
                                 (mAct as ProjectUploadShowActivity).getApprevoRecordInfo()
+                            }
+                            if (mAct is OtherProjectShowActivity){
+                                (mAct as OtherProjectShowActivity).getApprevoRecordInfo()
                             }
                         }else{
                             ToastUtil.showCustomToast(R.drawable.icon_toast_fail, payload.message, mAct!!)
@@ -360,6 +374,9 @@ class BuildProjectDialog {
 
                             if (mAct is ProjectUploadShowActivity){
                                 (mAct as ProjectUploadShowActivity).getApprevoRecordInfo()
+                            }
+                            if (mAct is OtherProjectShowActivity){
+                                (mAct as OtherProjectShowActivity).getApprevoRecordInfo()
                             }
                         }else{
                             ToastUtil.showCustomToast(R.drawable.icon_toast_fail, payload.message, mAct!!)

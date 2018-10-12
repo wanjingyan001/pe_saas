@@ -7,6 +7,7 @@ import java.io.Serializable
  */
 class FileDataBean : Serializable {
     var class_id : Int ? = null
+    var file_id : Int ? = null
     var filepath = ""
     var filename = ""
     var size = ""

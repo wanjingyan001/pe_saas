@@ -41,10 +41,10 @@ import java.util.*
 
 /**
  * Created by CH-ZH on 2018/9/20.
+ * 预审会
  */
 class ProjectUploadShowActivity : ToolbarActivity(){
     private  var adapter : ExpandableItemAdapter ?  = null
-    private lateinit var fundAdapter : RecyclerAdapter<LinkFundBean>
     private var project : ProjectBean ? = null
     private var floor : Int ?= null
     private var user : UserBean ? = null
@@ -62,7 +62,7 @@ class ProjectUploadShowActivity : ToolbarActivity(){
 
     private fun initView() {
         setBack(true)
-        setTitle("信息填写")
+        setTitle("预审会")
 
         project = intent.getSerializableExtra(Extras.DATA) as ProjectBean?
         floor = intent.getIntExtra(Extras.FLAG,-1)
@@ -72,18 +72,12 @@ class ProjectUploadShowActivity : ToolbarActivity(){
                 .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
                 .into(iv_loading)
         dialog = BuildProjectDialog()
+        ll_fund.visibility = View.GONE
+
+        rv_file.layoutManager = LinearLayoutManager(this)
     }
 
     private fun initData() {
-        rv.layoutManager = LinearLayoutManager(this)
-
-        fundAdapter = RecyclerAdapter(this){adapter,parent,_ ->
-            ProjectFundHolder(adapter.getView(R.layout.item_link_fund,parent))
-        }
-
-        rv_fund.layoutManager = LinearLayoutManager(this)
-        rv_fund.adapter = fundAdapter
-
         approveAdapter = RecyclerAdapter(this){_adapter,parent,_ ->
             ProjectApproveHolder(_adapter.getView(R.layout.item_approve_list, parent))
         }
@@ -94,7 +88,6 @@ class ProjectUploadShowActivity : ToolbarActivity(){
         if (null != project){
             setLoadding()
             getProjectComBase()
-            getFundData()
             getApproveShowData()
             getApprevoRecordInfo()
         }
@@ -115,10 +108,8 @@ class ProjectUploadShowActivity : ToolbarActivity(){
                                     approveAdapter.dataList.clear()
                                     approveAdapter.dataList.addAll(flow)
                                     approveAdapter.notifyDataSetChanged()
-                                }
-                                val click = recordInfo.click
-                                if (null != click){
-//                                    setApproveStatus(click)
+                                    val approveFlow = flow[flow.size - 1]
+                                    setApproveEditStatus(approveFlow)
                                 }
                             }
                         }else{
@@ -131,6 +122,24 @@ class ProjectUploadShowActivity : ToolbarActivity(){
                         showErrorToast("获取审批记录失败")
                     }
                 }
+    }
+
+    private fun setApproveEditStatus(approveFlow: ApproveRecordInfo.ApproveFlow) {
+        if (null != approveFlow){
+            if (null != approveFlow.status && enableEdit){
+                when(approveFlow.status){
+                    1 -> {
+                        tv_edit.visibility = View.GONE
+                    }
+                    2 -> {
+                        tv_edit.visibility = View.GONE
+                    }
+                    else -> {
+                        tv_edit.visibility = View.VISIBLE
+                    }
+                }
+            }
+        }
     }
 
     val realButtons = ArrayList<ApproveRecordInfo.ApproveButton>()
@@ -474,14 +483,29 @@ class ProjectUploadShowActivity : ToolbarActivity(){
                         level1Item.addSubItem(level2Item)
                     }
 
-
                     level0Item.addSubItem(level1Item)
                 }
+            }else{
+                if (null != data.files && data.files!!.size > 0){
+                    //有文件
+                    for (file in data.files!!){
+                        val level2Item = Level2Item()
+                        level2Item.type = 0
+                        level2Item.file = file
+                        level0Item.addSubItem(level2Item)
+                    }
+                }else{
+                    //无文件
+                    val level2Item = Level2Item()
+                    level2Item.type = -1
+                    level0Item.addSubItem(level2Item)
+                }
+
             }
             res.add(level0Item)
         }
         adapter = ExpandableItemAdapter(res,1,this)
-        rv.adapter = adapter
+        rv_file.adapter = adapter
         adapter!!.expandAll()
     }
 
@@ -509,7 +533,7 @@ class ProjectUploadShowActivity : ToolbarActivity(){
                     }
                 }
     }
-
+    private var enableEdit = false
     private fun setEditStatus(projectInfo: NewProjectInfo) {
         var pm = 0
         var pl = 0
@@ -524,37 +548,12 @@ class ProjectUploadShowActivity : ToolbarActivity(){
             //可编辑
             tv_edit.visibility = View.VISIBLE
             tv_edit.text = "编辑"
+            enableEdit = true
         }else{
             //不可编辑
             tv_edit.visibility = View.GONE
+            enableEdit = false
         }
-    }
-
-    private fun getFundData() {
-      if (null == project) return
-        SoguApi.getService(App.INSTANCE,OtherService::class.java)
-                .getLinkFund(project!!.company_id!!)
-                .execute {
-                    onNext { payload ->
-                        if (payload.isOk){
-                            val fundInfos = payload.payload
-                            if (null != fundInfos && fundInfos.size > 0){
-                                linkFundDatas = fundInfos as ArrayList<LinkFundBean>
-                                fundAdapter.dataList.clear()
-                                fundAdapter.dataList.addAll(fundInfos)
-                                fundAdapter.notifyDataSetChanged()
-                            }
-                        }else{
-                            showErrorToast(payload.message)
-                        }
-
-                    }
-
-                    onError {
-                        it.printStackTrace()
-                        showErrorToast("获取基金数据失败")
-                    }
-                }
     }
 
     private fun bindListener() {
@@ -567,23 +566,12 @@ class ProjectUploadShowActivity : ToolbarActivity(){
         tv_edit.setOnClickListener {
             //编辑
             startActivity<ProjectUploadActivity>(Extras.DATA to approveDatas,Extras.FUND to linkFundDatas
-                    ,Extras.PROJECT to project,Extras.FLAG to floor)
+                    ,Extras.PROJECT to project,Extras.FLAG to floor,Extras.TITLE to "预审会")
+            finish()
         }
     }
 
 
-    inner class ProjectFundHolder(itemView: View) : RecyclerHolder<LinkFundBean>(itemView) {
-        val tv_invest = itemView.findViewById<TextView>(R.id.tv_invest)
-        val tv_amount_name = itemView.findViewById<TextView>(R.id.tv_amount_name)
-        val tv_stock_ratio = itemView.findViewById<TextView>(R.id.tv_stock_ratio)
-        override fun setData(view: View, data: LinkFundBean, position: Int) {
-             if (null == data) return
-            tv_invest.text = data.fundName
-            tv_amount_name.text = data.had_invest
-            tv_stock_ratio.text = data.proportion
-        }
-
-    }
 
     inner class ProjectApproveHolder(itemView : View):RecyclerHolder<ApproveRecordInfo.ApproveFlow>(itemView){
         val iv_image = itemView.findViewById<ImageView>(R.id.iv_image) //头像
@@ -596,8 +584,6 @@ class ProjectUploadShowActivity : ToolbarActivity(){
         val view_bg = itemView.find<View>(R.id.view_bg) //会议背景
         val tv_meel_plan = itemView.find<TextView>(R.id.tv_meel_plan) //会议安排
         val view_space = itemView.find<View>(R.id.view_space) //间隔
-        val view_line2 = itemView.find<View>(R.id.view_line2) //有会议线
-        val view_line1 = itemView.find<View>(R.id.view_line1) //无会议线
         val ll_bottom = itemView.find<LinearLayout>(R.id.ll_bottom)
         val rl_suggest = itemView.find<RelativeLayout>(R.id.rl_suggest)
         val tv_suggest = itemView.find<TextView>(R.id.tv_suggest)
@@ -613,6 +599,12 @@ class ProjectUploadShowActivity : ToolbarActivity(){
                     .error(R.mipmap.ic_launch_pe_round)).into(iv_image)
             tv_name.text = data.name
             tv_time.text = data.approve_time
+            if (!data.fenpei.isNullOrEmpty()){
+                ll_assign.visibility = View.VISIBLE
+                tv_assign_person.text = data.fenpei
+            }else{
+                ll_assign.visibility = View.GONE
+            }
             when(data.status){
                 -1 -> {
                     //否决
@@ -624,8 +616,6 @@ class ProjectUploadShowActivity : ToolbarActivity(){
                     view_bg.visibility = View.GONE
                     tv_meel_plan.visibility = View.GONE
                     view_space.visibility = View.GONE
-                    view_line2.visibility = View.GONE
-                    view_line1.visibility = View.VISIBLE
                     ll_bottom.visibility = View.GONE
                 }
                 0 -> {
@@ -637,9 +627,7 @@ class ProjectUploadShowActivity : ToolbarActivity(){
                     tv_meel_person.visibility = View.GONE
                     view_bg.visibility = View.GONE
                     tv_meel_plan.visibility = View.GONE
-                    view_space.visibility = View.GONE
-                    view_line2.visibility = View.GONE
-                    view_line1.visibility = View.VISIBLE
+                    view_space.visibility = View.VISIBLE
                     ll_bottom.visibility = View.GONE
 
                     if (null != approveAdapter.dataList && approveAdapter.dataList.size > 0){
@@ -647,6 +635,10 @@ class ProjectUploadShowActivity : ToolbarActivity(){
                             if (realButtons.size > 0){
                                 for (btn in realButtons){
                                     if (btn.type == 4){
+                                        ll_bottom.visibility = View.VISIBLE
+                                        rl_suggest.visibility = View.GONE
+                                        tv_file.visibility = View.GONE
+                                        ll_files.visibility = View.GONE
                                         fl_assign_approve.visibility = View.VISIBLE
                                     }
                                 }
@@ -664,13 +656,9 @@ class ProjectUploadShowActivity : ToolbarActivity(){
                     view_bg.visibility = View.GONE
                     tv_meel_plan.visibility = View.GONE
                     view_space.visibility = View.GONE
-                    view_line2.visibility = View.GONE
-                    view_line1.visibility = View.VISIBLE
                     ll_bottom.visibility = View.GONE
                 }
                 1 -> {
-                    //不可编辑
-                    tv_edit.visibility = View.GONE
                     //同意通过
                     tv_agree.text = "同意通过"
                     tv_agree.setTextColor(Color.parseColor("#50D59D"))
@@ -680,8 +668,6 @@ class ProjectUploadShowActivity : ToolbarActivity(){
                     view_bg.visibility = View.GONE
                     tv_meel_plan.visibility = View.GONE
                     view_space.visibility = View.GONE
-                    view_line2.visibility = View.GONE
-                    view_line1.visibility = View.VISIBLE
                     if (!data.content.isNullOrEmpty()){
                         val span = SpannableStringBuilder("意见意${data.content}")
                         span.setSpan(ForegroundColorSpan(Color.TRANSPARENT),0,3, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
@@ -708,8 +694,6 @@ class ProjectUploadShowActivity : ToolbarActivity(){
 
                 }
                 2 -> {
-                    //不可编辑
-                    tv_edit.visibility = View.GONE
                     //同意上立项会
                     tv_agree.text = "同意通过"
                     tv_agree.setTextColor(Color.parseColor("#50D59D"))
@@ -720,15 +704,11 @@ class ProjectUploadShowActivity : ToolbarActivity(){
                         view_bg.visibility = View.VISIBLE
                         tv_meel_time.visibility = View.VISIBLE
                         tv_meel_person.visibility = View.VISIBLE
-                        view_line2.visibility = View.VISIBLE
-                        view_line1.visibility = View.GONE
                     }else{
                         tv_meel_time.visibility = View.GONE
                         tv_meel_person.visibility = View.GONE
                         view_bg.visibility = View.GONE
                         tv_meel_plan.visibility = View.GONE
-                        view_line2.visibility = View.GONE
-                        view_line1.visibility = View.VISIBLE
                     }
 
                     if (!data.content.isNullOrEmpty()){

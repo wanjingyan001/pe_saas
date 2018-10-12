@@ -26,7 +26,6 @@ import com.sogukj.pe.module.approve.SignApproveActivity
 import com.sogukj.pe.module.calendar.adapter.ScheduleAdapter
 import com.sogukj.pe.module.creditCollection.ShareholderCreditActivity
 import com.sogukj.pe.module.fund.FundDetailActivity
-import com.sogukj.pe.module.project.ProjectActivity
 import com.sogukj.pe.module.project.ProjectDetailActivity
 import com.sogukj.pe.module.project.archives.RecordTraceActivity
 import com.sogukj.pe.service.CalendarService

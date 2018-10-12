@@ -111,4 +111,5 @@ object Extras {
     val TYPE_FILE = 2
     val FUND = "ext.fund"
     val PROJECT = "ext.project"
+    val APPROVE_CONFIG = "approve_config"
 }

@@ -4,24 +4,16 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
-import android.view.WindowManager
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.PopupWindow
 import android.widget.TextView
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.Theme
-import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
@@ -72,15 +64,7 @@ class ProjectListFragment : BaseFragment(), SupportEmptyView {
         })
         adapter.onItemClick = { v, p ->
             val project = adapter.getItem(p);
-//            val intent = Intent(context, ProjectActivity::class.java)
-//            intent.putExtra(Extras.DATA, project)
-//            if (type == ProjectListFragment.TYPE_GZ) {
-//                intent.putExtra(Extras.TYPE, project.type)
-//            } else {
-//                intent.putExtra(Extras.TYPE, type)
-//            }
-//            intent.putExtra(Extras.CODE, p)
-//            startActivityForResult(intent, 0x001)
+
             val t = if (type == ProjectListFragment.TYPE_GZ) {
                 project.type
             } else {

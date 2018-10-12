@@ -61,7 +61,7 @@ class ProjectApprovalActivity : ToolbarActivity(), ProjectApproveCallBack {
 
     private fun initView() {
         setBack(true)
-        setTitle(R.string.project_info)
+        setTitle(R.string.project_build)
         project = intent.getSerializableExtra(Extras.DATA) as ProjectBean?
         floor = intent.getIntExtra(Extras.FLAG,-1)
         presenter = ProjectApprovePresenter(this, this)
@@ -204,14 +204,15 @@ class ProjectApprovalActivity : ToolbarActivity(), ProjectApproveCallBack {
         val files = ArrayList<FileDataBean>()
         if (null != add_file_view) {
             val fileData = add_file_view.getFileData()
-            for (info in fileData) {
-                val fileBean = FileDataBean()
-                if (null != info.file!!){
-                    fileBean.class_id = class_file_id
-                    fileBean.filepath = info.filePath
-                    fileBean.filename = info.file_name
-                    fileBean.size = info.size
-                    files.add(fileBean)
+            if (null != fileData && fileData.size > 0){
+                for (info in fileData) {
+                    val fileBean = FileDataBean()
+                        fileBean.class_id = class_file_id
+                        fileBean.filepath = info.filePath
+                        fileBean.filename = info.file_name
+                        fileBean.size = info.size
+                        fileBean.file_id = info.file_id
+                        files.add(fileBean)
                 }
             }
         }
@@ -296,7 +297,7 @@ class ProjectApprovalActivity : ToolbarActivity(), ProjectApproveCallBack {
     override fun createApproveSuccess() {
         if (type == 2){
             showSuccessToast("提交成功")
-            startActivity<ProjectApprovalShowActivity>(Extras.DATA to project)
+            startActivity<ProjectApprovalShowActivity>(Extras.DATA to project,Extras.FLAG to floor)
             finish()
         }else{
             showSuccessToast("保存成功")

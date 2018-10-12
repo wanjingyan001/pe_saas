@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/gray_f7"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
     <include android:id="@+id/toolbar"
              layout="@layout/commom_blue_title"/>
@@ -53,6 +54,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:background="@color/white"
+                android:nestedScrollingEnabled="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -81,6 +83,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/text_15"
                 android:paddingTop="@dimen/text_15"
+                android:nestedScrollingEnabled="false"
                 tools:listitem="@layout/item_approve_list"
                 android:background="@color/white"
                 android:paddingRight="@dimen/text_20">

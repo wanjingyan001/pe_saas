@@ -10,4 +10,5 @@ class ProUploadFileBean : Serializable {
     var size = ""
     var url = ""
     var filePath = ""
+    var file_id : Int ? = null
 }

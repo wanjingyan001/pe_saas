@@ -29,7 +29,6 @@ import com.sogukj.pe.module.approve.SealApproveActivity
 import com.sogukj.pe.module.approve.SignApproveActivity
 import com.sogukj.pe.module.calendar.adapter.ProjectAdapter
 import com.sogukj.pe.module.other.CompanySelectActivity
-import com.sogukj.pe.module.project.ProjectActivity
 import com.sogukj.pe.module.project.ProjectDetailActivity
 import com.sogukj.pe.module.project.archives.RecordTraceActivity
 import com.sogukj.pe.service.CalendarService

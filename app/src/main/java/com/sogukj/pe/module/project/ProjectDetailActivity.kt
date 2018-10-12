@@ -50,6 +50,7 @@ import com.sogukj.pe.module.project.intellectualProperty.PatentListActivity
 import com.sogukj.pe.module.project.listingInfo.*
 import com.sogukj.pe.module.project.operate.*
 import com.sogukj.pe.module.project.originpro.NewOriginProjectActivity
+import com.sogukj.pe.module.project.originpro.OtherProjectShowActivity
 import com.sogukj.pe.module.project.originpro.ProjectApprovalShowActivity
 import com.sogukj.pe.module.project.originpro.ProjectUploadShowActivity
 import com.sogukj.pe.peExtended.needIm
@@ -76,6 +77,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
 
     private var is_business: Int? = null//非空(1=>有价值 ,2=>无价值)
     private var is_ability: Int? = null//非空(1=>有能力,2=>无能力)
+    private var isHidden : Int = 0
     private var NAVIGATION_GESTURE: String = when {
         Rom.isEmui() -> "navigationbar_is_min"
         Rom.isMiui() -> "force_fsg_nav_bar"
@@ -119,6 +121,8 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
         project = intent.getSerializableExtra(Extras.DATA) as ProjectBean
         position = intent.getIntExtra(Extras.CODE, 0)
         type = intent.getIntExtra(Extras.TYPE, 0)
+
+        isHidden = Store.store.getApproveConfig(this)
     }
 
     /**
@@ -171,6 +175,14 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
         } else {
             proj_stage.visibility = View.VISIBLE
         }
+        if (isHidden == 1){
+            //隐藏
+            proj_stage.visibility = View.INVISIBLE
+            edit.visibility = View.GONE
+        }else{
+            proj_stage.visibility = View.VISIBLE
+            edit.visibility = View.VISIBLE
+        }
         when (type) {
             ProjectListFragment.TYPE_DY -> {
                 proj_stage.text = "储 备"
@@ -198,6 +210,13 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                 proj_stage.visibility = View.GONE
                 edit.visibility = View.GONE
                 delete.visibility = View.GONE
+
+                if (isHidden == 1){
+                    //隐藏
+                    history.visibility = View.GONE
+                }else{
+                    history.visibility = View.VISIBLE
+                }
             }
         }
 
@@ -689,6 +708,14 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
             62 ->  startActivity<NewOriginProjectActivity>(Extras.DATA to project) //新建项目
             63 ->  startActivity<ProjectApprovalShowActivity>(Extras.DATA to project,Extras.FLAG to detailSmallBean.floor) //立项申请
             64 ->  startActivity<ProjectUploadShowActivity>(Extras.DATA to project,Extras.FLAG to detailSmallBean.floor) //预审会
+            65 -> startActivity<OtherProjectShowActivity>(Extras.DATA to project,Extras.FLAG to detailSmallBean.floor,
+                    Extras.TITLE to "投决会") //投决会
+            66 -> startActivity<OtherProjectShowActivity>(Extras.DATA to project,Extras.FLAG to detailSmallBean.floor,
+                    Extras.TITLE to "签约付款")//签约付款
+            67 -> startActivity<OtherProjectShowActivity>(Extras.DATA to project,Extras.FLAG to detailSmallBean.floor,
+                    Extras.TITLE to "投后管理")//投后管理
+            68 -> startActivity<OtherProjectShowActivity>(Extras.DATA to project,Extras.FLAG to detailSmallBean.floor,
+                    Extras.TITLE to "退出")//退出
         }
     }
 

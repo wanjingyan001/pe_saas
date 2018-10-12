@@ -16,12 +16,12 @@ class NewProjectInfo : Serializable {
     var shortName = ""
     var type = ""
     class Duty : Serializable{
-        var principal : Int ?= null
+        var principal = -1
         var name  = ""
     }
 
     class Lead : Serializable{
-        var leader : Int ?= null
+        var leader = -1
         var name : String = ""
     }
 

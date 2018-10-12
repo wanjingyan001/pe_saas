@@ -23,7 +23,6 @@ class UserActivity : ToolbarActivity() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if (requestCode == Extras.REQUESTCODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//            startActivity<PayPackageActivity>()
             startActivity<PayExpansionActivity>()
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)

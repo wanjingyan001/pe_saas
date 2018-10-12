@@ -6,9 +6,12 @@ import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.RelativeLayout
 import android.widget.TextView
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.Theme
 import com.chad.library.adapter.base.entity.MultiItemEntity
 import com.sogukj.pe.App
 import com.sogukj.pe.Extras
@@ -30,6 +33,7 @@ import kotlinx.android.synthetic.main.layout_link_fund.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
 import java.io.File
 import java.util.*
@@ -56,6 +60,7 @@ class ProjectUploadActivity : ToolbarActivity() {
     private var uploadFiles = ArrayList<FileDataBean>()
     private var class_id = 0
     private var floor = 0
+    private var title = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_project_upload)
@@ -71,12 +76,23 @@ class ProjectUploadActivity : ToolbarActivity() {
         linkFundDatas = intent.getSerializableExtra(Extras.FUND) as List<LinkFundBean>
         project = intent.getSerializableExtra(Extras.PROJECT) as ProjectBean
         floor = intent.getIntExtra(Extras.FLAG,-1)
+        title = intent.getStringExtra(Extras.TITLE)
+        if ("签约付款".equals(title)){
+            link_fund.visibility = View.VISIBLE
+        }else{
+            link_fund.visibility = View.GONE
+        }
     }
 
     private fun initData() {
         list = getLocalData()
         adapter = ExpandableItemAdapter(list,0,this)
-        rv.layoutManager = LinearLayoutManager(this)
+        rv.layoutManager = object : LinearLayoutManager(this){
+            override fun canScrollVertically() = false
+        }
+        rv.isNestedScrollingEnabled = false
+        rv.setHasFixedSize(true)
+        rv.isFocusable = false
         rv.adapter = adapter
         adapter.expandAll()
 
@@ -158,7 +174,6 @@ class ProjectUploadActivity : ToolbarActivity() {
         }
 
         ll_create.setOnClickListener {
-            //添加预审会
             if (null == project) return@setOnClickListener
             modifyYshData()
         }
@@ -166,13 +181,45 @@ class ProjectUploadActivity : ToolbarActivity() {
 
     private fun modifyYshData() {
         showProgress("正在提交")
-        uploadLinkFund()
+        if ("签约付款".equals(title)){
+            uploadLinkFund()
+        }else{
+            uploadInvestFiles(2)
+        }
+
     }
 
-    private fun uploadInvestFiles() {
+    override fun onBackPressed() {
+        editSaveDialog()
+    }
+
+    private fun editSaveDialog() {
+        var mDialog = MaterialDialog.Builder(this)
+                .theme(Theme.LIGHT)
+                .canceledOnTouchOutside(true)
+                .customView(R.layout.dialog_yongyin, false).build()
+        val content = mDialog.find<TextView>(R.id.content)
+        val cancel = mDialog.find<Button>(R.id.cancel)
+        val yes = mDialog.find<Button>(R.id.yes)
+        content.text = "是否需要保存草稿"
+        cancel.text = "否"
+        yes.text = "是"
+        cancel.setOnClickListener {
+            mDialog.dismiss()
+            super.onBackPressed()
+        }
+        yes.setOnClickListener {
+            uploadInvestFiles(1)
+            mDialog.dismiss()
+        }
+
+        mDialog.show()
+    }
+
+    private fun uploadInvestFiles(type : Int) {
         val map = HashMap<String, Any>()
         map.put("company_id", project!!.company_id!!)
-        map.put("type", 2)
+        map.put("type", type)
         map.put("floor", project!!.floor!!)
         map.put("current", 0)
         map.put("files", uploadFiles)
@@ -181,7 +228,14 @@ class ProjectUploadActivity : ToolbarActivity() {
                 .execute {
                     onNext { payload ->
                         if (payload.isOk){
-                            startActivity<ProjectUploadShowActivity>(Extras.DATA to project,Extras.FLAG to floor)
+                            if (type == 2){
+                                showSuccessToast("提交成功")
+                                startActivity<ProjectUploadShowActivity>(Extras.DATA to project,Extras.FLAG to floor)
+                                finish()
+                            }else{
+                                showSuccessToast("保存成功")
+                                super.onBackPressed()
+                            }
                         }else{
                             showErrorToast(payload.message)
                         }
@@ -218,7 +272,7 @@ class ProjectUploadActivity : ToolbarActivity() {
                 .execute {
                     onNext { payload ->
                         if (payload.isOk){
-                            uploadInvestFiles()
+                            uploadInvestFiles(2)
                         }else{
                             showErrorToast(payload.message)
                             hideProgress()
@@ -286,6 +340,14 @@ class ProjectUploadActivity : ToolbarActivity() {
                             level2Item.file = file
                             level2Item.class_id = son.class_id!!
                             level1Item.addSubItem(level2Item)
+
+                            val fileDataBean = FileDataBean()
+                            fileDataBean.class_id = son.class_id!!
+                            fileDataBean.filepath = file.filePath
+                            fileDataBean.filename = file.file_name
+                            fileDataBean.size = file.size
+                            fileDataBean.file_id = file.file_id
+                            uploadFiles.add(fileDataBean)
                         }
                         val addItem = Level2Item()
                         addItem.type = -1
@@ -298,6 +360,35 @@ class ProjectUploadActivity : ToolbarActivity() {
                         level1Item.addSubItem(level2Item)
                     }
                     level0Item.addSubItem(level1Item)
+                }
+            }else{
+                if (null != data.files && data.files!!.size > 0){
+                    //有文件
+                    for (file in data.files!!){
+                        val level2Item = Level2Item()
+                        level2Item.type = 0
+                        level2Item.file = file
+                        level2Item.class_id = data.class_id!!
+                        level0Item.addSubItem(level2Item)
+
+                        val fileDataBean = FileDataBean()
+                        fileDataBean.class_id = data.class_id!!
+                        fileDataBean.filepath = file.filePath
+                        fileDataBean.filename = file.file_name
+                        fileDataBean.size = file.size
+                        fileDataBean.file_id = file.file_id
+                        uploadFiles.add(fileDataBean)
+                    }
+                    val addItem = Level2Item()
+                    addItem.type = -1
+                    addItem.class_id = data.class_id!!
+                    level0Item.addSubItem(addItem)
+                }else{
+                    //无文件
+                    val level2Item = Level2Item()
+                    level2Item.type = -1
+                    level2Item.class_id = data.class_id!!
+                    level0Item.addSubItem(level2Item)
                 }
             }
             res.add(level0Item)
@@ -368,6 +459,7 @@ class ProjectUploadActivity : ToolbarActivity() {
                             fileDataBean.filepath = fileBean!!.filePath
                             fileDataBean.filename = fileBean!!.file_name
                             fileDataBean.size = fileBean!!.size
+                            fileDataBean.file_id = fileBean.file_id
                             uploadFiles.add(fileDataBean)
                         }else{
                            showErrorToast(payload.message)

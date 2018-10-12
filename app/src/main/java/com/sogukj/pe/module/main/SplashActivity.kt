@@ -15,6 +15,7 @@ import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.module.register.PhoneInputActivity
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.Store
+import com.sogukj.pe.service.OtherService
 import com.sogukj.pe.service.RegisterService
 import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers

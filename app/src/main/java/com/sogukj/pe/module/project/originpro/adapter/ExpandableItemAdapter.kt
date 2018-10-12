@@ -113,7 +113,7 @@ class ExpandableItemAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseVie
                         pdfIcon.imageResource = FileTypeUtils.getFileType(file.file_name).icon
                         holder.itemView.setOnClickListener {
                             //预览页面
-                            OnlinePreviewActivity.start(mAct!!,file.url,file.file_name)
+                            OnlinePreviewActivity.start(mAct!!,file.preview,file.file_name)
                         }
                     }
                 }

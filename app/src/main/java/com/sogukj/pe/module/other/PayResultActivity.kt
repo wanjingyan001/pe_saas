@@ -10,7 +10,6 @@ import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.PackageBean
 import com.sogukj.pe.bean.PackageChild
 import kotlinx.android.synthetic.main.activity_pay_result.*
-import org.jetbrains.anko.startActivity
 
 class PayResultActivity : BaseActivity() {
 
@@ -50,7 +49,6 @@ class PayResultActivity : BaseActivity() {
             finish()
         }
         continuePay.clickWithTrigger {
-            startActivity<PayPackageActivity>()
             finish()
         }
     }

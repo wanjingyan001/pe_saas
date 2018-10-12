@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:focusableInTouchMode="true"
     android:background="@color/gray_f7">
     <include android:id="@+id/toolbar"
              layout="@layout/commom_blue_title"/>
@@ -18,42 +17,25 @@
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
         android:layout_above="@id/ps_bottom"
+        android:fillViewport="true"
         android:scrollbars="none">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/text_10"
+            android:paddingBottom="@dimen/text_15"
+            android:descendantFocusability="blocksDescendants"
             android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="关联基金"
-                android:textStyle="bold"
-                android:background="@color/white"
-                android:textSize="@dimen/text_size_14"
-                android:padding="@dimen/text_15"
-                android:textColor="@color/black_28"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/text_1"
-                android:background="@color/gray_f1"/>
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_fund"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:listitem="@layout/item_link_fund"
-                android:background="@color/white">
-
-            </android.support.v7.widget.RecyclerView>
-
+            <include
+                android:id="@+id/ll_fund"
+                android:visibility="gone"
+                layout="@layout/approve_fund"/>
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv"
+                android:id="@+id/rv_file"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@color/white">
-
-
             </android.support.v7.widget.RecyclerView>
 
             <TextView
@@ -79,6 +61,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/text_15"
                 android:paddingTop="@dimen/text_15"
+                android:paddingBottom="@dimen/text_15"
                 tools:listitem="@layout/item_approve_list"
                 android:background="@color/white"
                 android:paddingRight="@dimen/text_20">

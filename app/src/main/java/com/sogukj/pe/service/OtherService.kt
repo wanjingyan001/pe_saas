@@ -1,5 +1,6 @@
 package com.sogukj.pe.service
 
+import com.google.gson.JsonObject
 import com.sogukj.pe.bean.*
 import com.sogukj.pe.database.HomeFunctionReq
 import com.sogukj.pe.database.MainFunIcon
@@ -200,4 +201,11 @@ interface OtherService {
     @FormUrlEncoded
     @POST("/api/Archives/allProjectOrFund")
     fun getLinkFundList(@Field("type") type:Int = 2,@Field("flag") flag:Int = 1): Observable<Payload<List<InvestFundBean>>>
+
+
+    /**
+     * 尚荣新项目流程配置
+     */
+    @POST("/api/Company/hideButton")
+    fun configApprove():Observable<Payload<JsonObject>>
 }

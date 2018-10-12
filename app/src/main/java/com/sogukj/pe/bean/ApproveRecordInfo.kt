@@ -20,6 +20,7 @@ class ApproveRecordInfo : Serializable {
         var name = ""
         var file : List<RecordFile> ? = null
         var meet : ApproveMeet ? = null
+        var fenpei = ""
     }
 
     class RecordFile : Serializable{

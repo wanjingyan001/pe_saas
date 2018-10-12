@@ -3,8 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:focusableInTouchMode="true"
     android:background="@color/gray_f7">
     <include android:id="@+id/toolbar"
              layout="@layout/commom_blue_title"/>
@@ -32,10 +31,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:descendantFocusability="blocksDescendants"
             android:orientation="vertical">
 
             <include
                 android:id="@+id/link_fund"
+                android:visibility="gone"
                 layout="@layout/layout_link_fund"/>
 
 
