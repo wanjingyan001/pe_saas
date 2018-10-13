@@ -36,6 +36,7 @@ class ProInfoBottomView : LinearLayout {
     private var tv_add_file : TextView? = null
     lateinit var adapter: AddFileAdapter
     private var fileInfos = ArrayList<ProjectApproveInfo.ApproveFile>()
+    private var tv_create : TextView ? = null
     constructor(context: Context) : super(context){
         mContext = context
         initView()
@@ -72,6 +73,10 @@ class ProInfoBottomView : LinearLayout {
                 iv_expanded!!.setImageResource(R.drawable.icon_pro_expanded)
             }
         }
+    }
+
+    open fun setCreateTextView(tv_create : TextView){
+        this.tv_create = tv_create
     }
 
     /**
@@ -121,7 +126,7 @@ class ProInfoBottomView : LinearLayout {
                     }
                 }
     }
-
+    private var isClickCreate = false
     open fun setFileData(files: List<ProjectApproveInfo.ApproveFile>){
         if (null != adapter){
             fileInfos.clear()
@@ -133,6 +138,13 @@ class ProInfoBottomView : LinearLayout {
     open fun getFileData():List<ProjectApproveInfo.ApproveFile>{
         return fileInfos
     }
+
+    open fun setClickCreate(isClick:Boolean){
+        this.isClickCreate = isClick
+    }
+    open fun isClickCreat():Boolean{
+        return isClickCreate
+    }
     inner class AddFileAdapter(val context: Context,val fileInfos:ArrayList<ProjectApproveInfo.ApproveFile>) : RecyclerView.Adapter<AddFileAdapter.ViewHolder>(){
         fun addData(position: Int,info : ProjectApproveInfo.ApproveFile){
             fileInfos.add(position,info)
@@ -142,6 +154,17 @@ class ProInfoBottomView : LinearLayout {
             fileInfos.removeAt(position)
             notifyItemRemoved(position)
             notifyDataSetChanged()
+            if (fileInfos.size > 0){
+                isClickCreate = true
+                if (null != tv_create){
+                    tv_create!!.setBackgroundResource(R.drawable.bg_create_pro)
+                }
+            }else{
+                isClickCreate = false
+                if (null != tv_create){
+                    tv_create!!.setBackgroundResource(R.drawable.bg_create_gray)
+                }
+            }
         }
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             return ViewHolder(LayoutInflater.from(context).inflate(R.layout.layout_add_file,null,false))
@@ -154,6 +177,17 @@ class ProInfoBottomView : LinearLayout {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             holder.fitData(fileInfos[position],position)
             holder.bindListener(fileInfos[position],position)
+            if (fileInfos.size > 0){
+                isClickCreate = true
+                if (null != tv_create){
+                    tv_create!!.setBackgroundResource(R.drawable.bg_create_pro)
+                }
+            }else{
+                isClickCreate = false
+                if (null != tv_create){
+                    tv_create!!.setBackgroundResource(R.drawable.bg_create_gray)
+                }
+            }
         }
 
         inner class ViewHolder(itemView : View):RecyclerView.ViewHolder(itemView){

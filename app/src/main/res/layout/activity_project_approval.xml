@@ -27,6 +27,7 @@
         android:layout_alignParentBottom="true"
         android:padding="@dimen/text_8">
         <TextView
+            android:id="@+id/tv_create"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/submit"
@@ -86,6 +87,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:listitem="@layout/layout_pro_edit"
+                android:nestedScrollingEnabled="false"
                 android:layout_marginTop="@dimen/text_15"
                 android:background="@color/white">
 
@@ -95,6 +97,7 @@
                 android:id="@+id/add_file_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
                 android:layout_marginTop="@dimen/text_15">
 
             </com.sogukj.pe.widgets.ProInfoBottomView>

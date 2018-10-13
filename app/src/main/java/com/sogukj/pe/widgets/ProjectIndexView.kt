@@ -80,12 +80,11 @@ class ProjectIndexView : LinearLayout {
         }
         if (amounts.size <= 0) return
         val max = Collections.max(amounts)
-        val min = Collections.min(amounts)
 
-        val space = (max - min) / 3
+        val space = max / 3
         val value1 = max
-        val value4 = min
-        val value3 = min + space
+        val value4 = 0
+        val value3 = 0 + space
         val value2 = max - space
         tv_value1!!.text = value1.toString()
         tv_value2!!.text = value2.toString()

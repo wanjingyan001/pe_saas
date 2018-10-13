@@ -15,6 +15,7 @@ class NewProjectInfo : Serializable {
     var name = ""
     var shortName = ""
     var type = ""
+    var creditCode = ""
     class Duty : Serializable{
         var principal = -1
         var name  = ""

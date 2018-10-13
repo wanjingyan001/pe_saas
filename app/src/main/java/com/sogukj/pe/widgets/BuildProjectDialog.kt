@@ -330,7 +330,7 @@ class BuildProjectDialog {
     private fun commitLxhApprove(content: String, build: MaterialDialog?) {
         if (null == project) return
         val files = ArrayList<FileDataBean>()
-        var copier : String ? = null
+        var copier  = ""
         for (file in lxhFileInfos){
             val fileBean = FileDataBean()
             fileBean.filepath = file.filePath

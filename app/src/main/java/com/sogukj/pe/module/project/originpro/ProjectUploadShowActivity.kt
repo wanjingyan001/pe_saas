@@ -56,6 +56,7 @@ class ProjectUploadShowActivity : BaseRefreshActivity() {
     private var linkFundDatas = ArrayList<LinkFundBean>()
     private lateinit var approveAdapter: RecyclerAdapter<ApproveRecordInfo.ApproveFlow>
     private var dialog: BuildProjectDialog? = null
+    private var approvalInfos = ArrayList<ApproveRecordInfo.ApproveFlow>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_upload_show)
@@ -87,13 +88,10 @@ class ProjectUploadShowActivity : BaseRefreshActivity() {
         }
 
         approve_list.layoutManager = LinearLayoutManager(this)
-        approve_list.adapter = approveAdapter
-
         if (null != project) {
             setLoadding()
             getProjectComBase()
             getApproveShowData()
-            getApprevoRecordInfo()
         }
     }
 
@@ -134,8 +132,12 @@ class ProjectUploadShowActivity : BaseRefreshActivity() {
                                 setApproveButtonStatus(button)
                                 val flow = recordInfo.flow
                                 if (null != flow && flow.size > 0) {
+                                    approvalInfos.clear()
+                                    approvalInfos.addAll(flow)
+
                                     approveAdapter.dataList.clear()
                                     approveAdapter.dataList.addAll(flow)
+                                    approve_list.adapter = approveAdapter
                                     approveAdapter.notifyDataSetChanged()
                                     val approveFlow = flow[flow.size - 1]
                                     setApproveEditStatus(approveFlow)
@@ -550,6 +552,7 @@ class ProjectUploadShowActivity : BaseRefreshActivity() {
                             if (null != projectInfo) {
                                 setEditStatus(projectInfo)
                             }
+                            getApprevoRecordInfo()
                         } else {
                             ToastUtil.showCustomToast(R.drawable.icon_toast_fail, payload.message, ctx!!)
                         }
@@ -623,6 +626,7 @@ class ProjectUploadShowActivity : BaseRefreshActivity() {
         val fl_assign_approve = itemView.find<FrameLayout>(R.id.fl_assign_approve)
         val ll_assign = itemView.find<LinearLayout>(R.id.ll_assign)
         val tv_assign_person = itemView.find<TextView>(R.id.tv_assign_person)
+        val view_line2 = itemView.find<View>(R.id.view_line2)
         override fun setData(view: View, data: ApproveRecordInfo.ApproveFlow, position: Int) {
             if (null == data) return
             Glide.with(this@ProjectUploadShowActivity).load(data.url).apply(RequestOptions.circleCropTransform()
@@ -636,6 +640,17 @@ class ProjectUploadShowActivity : BaseRefreshActivity() {
             } else {
                 ll_assign.visibility = View.GONE
             }
+            if (approvalInfos.size > 0){
+                if (approvalInfos.size == 1){
+                    view_line2.visibility = View.GONE
+                }else{
+                    if (position == approvalInfos.size - 1){
+                        view_line2.visibility = View.GONE
+                    }else{
+                        view_line2.visibility = View.VISIBLE
+                    }
+                }
+            }
             when (data.status) {
                 -1 -> {
                     //否决
@@ -646,7 +661,6 @@ class ProjectUploadShowActivity : BaseRefreshActivity() {
                     tv_meel_person.visibility = View.GONE
                     view_bg.visibility = View.GONE
                     tv_meel_plan.visibility = View.GONE
-                    view_space.visibility = View.GONE
                     ll_bottom.visibility = View.GONE
                 }
                 0 -> {
@@ -658,7 +672,6 @@ class ProjectUploadShowActivity : BaseRefreshActivity() {
                     tv_meel_person.visibility = View.GONE
                     view_bg.visibility = View.GONE
                     tv_meel_plan.visibility = View.GONE
-                    view_space.visibility = View.VISIBLE
                     ll_bottom.visibility = View.GONE
 
                     if (null != approveAdapter.dataList && approveAdapter.dataList.size > 0) {
@@ -686,7 +699,6 @@ class ProjectUploadShowActivity : BaseRefreshActivity() {
                     tv_meel_person.visibility = View.GONE
                     view_bg.visibility = View.GONE
                     tv_meel_plan.visibility = View.GONE
-                    view_space.visibility = View.GONE
                     ll_bottom.visibility = View.GONE
                 }
                 1 -> {
@@ -698,7 +710,6 @@ class ProjectUploadShowActivity : BaseRefreshActivity() {
                     tv_meel_person.visibility = View.GONE
                     view_bg.visibility = View.GONE
                     tv_meel_plan.visibility = View.GONE
-                    view_space.visibility = View.GONE
                     if (!data.content.isNullOrEmpty()) {
                         val span = SpannableStringBuilder("意见意${data.content}")
                         span.setSpan(ForegroundColorSpan(Color.TRANSPARENT), 0, 3, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
@@ -734,6 +745,7 @@ class ProjectUploadShowActivity : BaseRefreshActivity() {
                     tv_agree.text = "同意通过"
                     tv_agree.setTextColor(Color.parseColor("#50D59D"))
                     tv_agree_pro.visibility = View.VISIBLE
+                    tv_agree_pro.text = "同意上投决会"
                     if (null != data.meet && !"".equals(data.meet!!.meeting_time)
                             && null != data.meet!!.meeter && data.meet!!.meeter!!.size > 0) {
                         tv_meel_plan.visibility = View.VISIBLE
@@ -752,10 +764,8 @@ class ProjectUploadShowActivity : BaseRefreshActivity() {
                         span.setSpan(ForegroundColorSpan(Color.TRANSPARENT), 0, 3, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
                         tv_suggest.text = span
                         rl_suggest.visibility = View.VISIBLE
-                        view_space.visibility = View.VISIBLE
                     } else {
                         rl_suggest.visibility = View.GONE
-                        view_space.visibility = View.GONE
                     }
                     if (null != data.file && data.file!!.size > 0) {
                         //有文件

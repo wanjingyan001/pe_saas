@@ -99,6 +99,7 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
     private var dialog : BuildProjectDialog ? = null
     private var user : UserBean ? = null
     private var floor : Int ? = null
+    private var approveDatas = ArrayList<ApproveRecordInfo.ApproveFlow>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_project_show)
@@ -134,11 +135,9 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
             ProjectApproveHolder(_adapter.getView(R.layout.item_approve_list, parent))
         }
         approve_list.layoutManager = LinearLayoutManager(this)
-        approve_list.adapter = approveAdapter
         if (null != project){
             setLoadding()
             getProjectComBase()
-            getApprevoRecordInfo()
         }
 
         if (null != presenter){
@@ -156,6 +155,7 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
                             if (null != projectInfo){
                                setEditStatus(projectInfo)
                             }
+                            getApprevoRecordInfo()
                         }else{
                             ToastUtil.showCustomToast(R.drawable.icon_toast_fail, payload.message, ctx!!)
                         }
@@ -206,10 +206,13 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
 
                                 val flow = recordInfo.flow
                                 if (null != flow && flow.size > 0){
+                                    approveDatas.clear()
+                                    approveDatas.addAll(flow)
+
                                     approveAdapter.dataList.clear()
                                     approveAdapter.dataList.addAll(flow)
+                                    approve_list.adapter = approveAdapter
                                     approveAdapter.notifyDataSetChanged()
-
                                     val approveFlow = flow[flow.size - 1]
                                     setApproveEditStatus(approveFlow)
                                 }
@@ -521,7 +524,7 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
             //预览
             val dataList = postAdapter.dataList
             if (null != dataList && dataList.size > 0 && null != dataList[position]){
-                OnlinePreviewActivity.start(this,dataList[position].preview,dataList[position].file_name)
+                OnlinePreviewActivity.start(this,dataList[position].originUrl,dataList[position].file_name)
             }
         }
 
@@ -621,6 +624,7 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
         val fl_assign_approve = itemView.find<FrameLayout>(R.id.fl_assign_approve)
         val ll_assign = itemView.find<LinearLayout>(R.id.ll_assign)
         val tv_assign_person = itemView.find<TextView>(R.id.tv_assign_person)
+        val view_line2 = itemView.find<View>(R.id.view_line2)
         override fun setData(view: View, data: ApproveRecordInfo.ApproveFlow, position: Int) {
             if (null == data) return
             Glide.with(this@ProjectApprovalShowActivity).load(data.url).apply(RequestOptions.circleCropTransform()
@@ -634,6 +638,17 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
             }else{
                 ll_assign.visibility = View.GONE
             }
+            if (approveDatas.size > 0){
+                if (approveDatas.size == 1){
+                    view_line2.visibility = View.GONE
+                }else{
+                    if (position == approveDatas.size - 1){
+                        view_line2.visibility = View.GONE
+                    }else{
+                        view_line2.visibility = View.VISIBLE
+                    }
+                }
+            }
             when(data.status){
                 -1 -> {
                     //否决
@@ -644,7 +659,6 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
                     tv_meel_person.visibility = View.GONE
                     view_bg.visibility = View.GONE
                     tv_meel_plan.visibility = View.GONE
-                    view_space.visibility = View.GONE
                     ll_bottom.visibility = View.GONE
                 }
                 0 -> {
@@ -656,7 +670,6 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
                     tv_meel_person.visibility = View.GONE
                     view_bg.visibility = View.GONE
                     tv_meel_plan.visibility = View.GONE
-                    view_space.visibility = View.GONE
                     ll_bottom.visibility = View.GONE
                     if (null != approveAdapter.dataList && approveAdapter.dataList.size > 0){
                         if (position == approveAdapter.dataList.size - 1){
@@ -679,7 +692,6 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
                     tv_meel_person.visibility = View.GONE
                     view_bg.visibility = View.GONE
                     tv_meel_plan.visibility = View.GONE
-                    view_space.visibility = View.GONE
                     ll_bottom.visibility = View.GONE
                 }
                 1 -> {
@@ -691,7 +703,6 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
                     tv_meel_person.visibility = View.GONE
                     view_bg.visibility = View.GONE
                     tv_meel_plan.visibility = View.GONE
-                    view_space.visibility = View.GONE
                     if (!data.content.isNullOrEmpty()){
                         val span = SpannableStringBuilder("意见意${data.content}")
                         span.setSpan(ForegroundColorSpan(Color.TRANSPARENT),0,3, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
@@ -726,6 +737,7 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
                     tv_agree.text = "同意通过"
                     tv_agree.setTextColor(Color.parseColor("#50D59D"))
                     tv_agree_pro.visibility = View.VISIBLE
+                    tv_agree_pro.text = "同意上预审会"
                     if (null != data.meet && !"".equals(data.meet!!.meeting_time)
                     && null != data.meet!!.meeter && data.meet!!.meeter!!.size > 0){
                         tv_meel_plan.visibility = View.VISIBLE
@@ -744,10 +756,8 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
                         span.setSpan(ForegroundColorSpan(Color.TRANSPARENT),0,3, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
                         tv_suggest.text = span
                         rl_suggest.visibility = View.VISIBLE
-                        view_space.visibility = View.VISIBLE
                     }else{
                         rl_suggest.visibility = View.GONE
-                        view_space.visibility = View.GONE
                     }
                     if (null != data.file && data.file!!.size > 0){
                         //有文件

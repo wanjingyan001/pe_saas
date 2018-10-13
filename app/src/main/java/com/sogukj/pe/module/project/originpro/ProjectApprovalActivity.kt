@@ -7,10 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.bigkoo.pickerview.TimePickerView
@@ -69,6 +66,10 @@ class ProjectApprovalActivity : ToolbarActivity(), ProjectApproveCallBack {
                 .asGif()
                 .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
                 .into(iv_loading)
+
+        if (null != add_file_view){
+            add_file_view.setCreateTextView(tv_create)
+        }
     }
 
     private fun initData() {
@@ -85,6 +86,7 @@ class ProjectApprovalActivity : ToolbarActivity(), ProjectApproveCallBack {
                 val et_profit_name = convertView.findViewById<EditText>(R.id.et_profit_name)
                 override fun setData(view: View, data: ApproveFrameInfo, position: Int) {
                     rl_project_time.setOnClickListener {
+                        Utils.forceCloseInput(this@ProjectApprovalActivity,et_property_name)
                         val selectedDate = Calendar.getInstance()//系统当前时间
                         val startDate = Calendar.getInstance()
                         startDate.set(1949, 10, 1)
@@ -144,7 +146,14 @@ class ProjectApprovalActivity : ToolbarActivity(), ProjectApproveCallBack {
     private fun bindListener() {
         ll_create.setOnClickListener {
             //提交立项申请
-            commitProjectData(2)
+            if (null != add_file_view){
+                if (add_file_view.isClickCreat()){
+                    commitProjectData(2)
+                }else{
+                    Toast.makeText(this,"请先添加立项文件在提交",Toast.LENGTH_SHORT).show()
+                }
+            }
+
         }
         //添加文件
         add_file_view.addFileListener(object : View.OnClickListener {
@@ -330,6 +339,11 @@ class ProjectApprovalActivity : ToolbarActivity(), ProjectApproveCallBack {
         if (null != files && files.size > 0) {
             if (null != add_file_view) {
                 add_file_view.setFileData(files!!)
+            }
+        }else{
+            if (null != add_file_view) {
+                add_file_view.setClickCreate(false)
+                tv_create!!.setBackgroundResource(R.drawable.bg_create_gray)
             }
         }
     }

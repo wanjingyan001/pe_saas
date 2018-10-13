@@ -182,11 +182,11 @@ class ProjectLineChartView : View {
     }
 
     private fun setHeightLimit() {
-        if (profitHeight1 <= 5.0f){
-            profitHeight1 += 10.0f
+        if (propertyHeight1 <= 5.0f){
+            propertyHeight1 += 10.0f
         }
-        if (profitHeight1 >= height - 5.0f){
-            profitHeight1 -= 10.0f
+        if (propertyHeight1 >= height - 5.0f){
+            propertyHeight1 -= 10.0f
         }
 
         if (propertyHeight2 <= 5.0f){
@@ -249,27 +249,27 @@ class ProjectLineChartView : View {
     }
 
     private fun drawLineChart2(canvas: Canvas) {
-        val exProperty1 = (maxValue - realProperty1).toFloat()
-        val exIncome1 = (maxValue - realIncome1).toFloat()
-        val exProfit1 = (maxValue - realProfit1).toFloat()
+        val exProperty1 = (maxValue - realProperty1)
+        val exIncome1 = (maxValue - realIncome1)
+        val exProfit1 = (maxValue - realProfit1)
 
-        val exProperty2 = (maxValue - realProperty2).toFloat()
-        val exIncome2 = (maxValue - realIncome2).toFloat()
-        val exProfit2 = (maxValue - realProfit2).toFloat()
+        val exProperty2 = (maxValue - realProperty2)
+        val exIncome2 = (maxValue - realIncome2)
+        val exProfit2 = (maxValue - realProfit2)
 
-        var propertyHeight1 = exProperty1 / maxValue.toFloat() * height.toFloat()
-        var incomeHeight1 = exIncome1 / maxValue.toFloat() * height.toFloat()
-        var profitHeight1 = exProfit1 / maxValue.toFloat() * height.toFloat()
+        var propertyHeight1 = exProperty1 / maxValue * height.toFloat()
+        var incomeHeight1 = exIncome1 / maxValue * height.toFloat()
+        var profitHeight1 = exProfit1 / maxValue * height.toFloat()
 
-        var propertyHeight2 = exProperty2 / maxValue.toFloat() * height.toFloat()
-        var incomeHeight2 = exIncome2 / maxValue.toFloat() * height.toFloat()
-        var profitHeight2 = exProfit2 / maxValue.toFloat() * height.toFloat()
+        var propertyHeight2 = exProperty2 / maxValue * height.toFloat()
+        var incomeHeight2 = exIncome2 / maxValue * height.toFloat()
+        var profitHeight2 = exProfit2 / maxValue * height.toFloat()
 
-        if (profitHeight1 <= 5.0f){
-            profitHeight1 += 10.0f
+        if (propertyHeight1 <= 5.0f){
+            propertyHeight1 += 10.0f
         }
-        if (profitHeight1 >= height - 5.0f){
-            profitHeight1 -= 10.0f
+        if (propertyHeight1 >= height - 5.0f){
+            propertyHeight1 -= 10.0f
         }
 
         if (propertyHeight2 <= 5.0f){
@@ -335,12 +335,12 @@ class ProjectLineChartView : View {
     }
 
     private fun drawLineChart1(canvas: Canvas) {
-        val exProperty = (maxValue - property1).toFloat()
-        val exIncome = (maxValue - income1).toFloat()
-        val exProfit = (maxValue - profit1).toFloat()
-        var propertyHeight = exProperty / maxValue.toFloat() * height.toFloat()
-        var incomeHeight = exIncome / maxValue.toFloat() * height.toFloat()
-        var profitHeight = exProfit / maxValue.toFloat() * height.toFloat()
+        val exProperty = (maxValue - property1)
+        val exIncome = (maxValue - income1)
+        val exProfit = (maxValue - profit1)
+        var propertyHeight = exProperty / maxValue * height.toFloat()
+        var incomeHeight = exIncome / maxValue * height.toFloat()
+        var profitHeight = exProfit / maxValue * height.toFloat()
 
         if (propertyHeight <= 5.0f){
             propertyHeight += 10.0f

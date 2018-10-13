@@ -71,12 +71,12 @@ class ProjectUploadActivity : ToolbarActivity() {
 
     private fun initView() {
         setBack(true)
-        setTitle("信息填写")
         approveDatas = intent.getSerializableExtra(Extras.DATA) as List<ProjectApproveInfo>
         linkFundDatas = intent.getSerializableExtra(Extras.FUND) as List<LinkFundBean>
         project = intent.getSerializableExtra(Extras.PROJECT) as ProjectBean
         floor = intent.getIntExtra(Extras.FLAG,-1)
         title = intent.getStringExtra(Extras.TITLE)
+        setTitle(title)
         if ("签约付款".equals(title)){
             link_fund.visibility = View.VISIBLE
         }else{
@@ -230,7 +230,11 @@ class ProjectUploadActivity : ToolbarActivity() {
                         if (payload.isOk){
                             if (type == 2){
                                 showSuccessToast("提交成功")
-                                startActivity<ProjectUploadShowActivity>(Extras.DATA to project,Extras.FLAG to floor)
+                                if ("预审会".equals(title)){
+                                    startActivity<ProjectUploadShowActivity>(Extras.DATA to project,Extras.FLAG to floor)
+                                }else{
+                                    startActivity<OtherProjectShowActivity>(Extras.DATA to project,Extras.FLAG to floor,Extras.TITLE to title)
+                                }
                                 finish()
                             }else{
                                 showSuccessToast("保存成功")
@@ -340,14 +344,6 @@ class ProjectUploadActivity : ToolbarActivity() {
                             level2Item.file = file
                             level2Item.class_id = son.class_id!!
                             level1Item.addSubItem(level2Item)
-
-                            val fileDataBean = FileDataBean()
-                            fileDataBean.class_id = son.class_id!!
-                            fileDataBean.filepath = file.filePath
-                            fileDataBean.filename = file.file_name
-                            fileDataBean.size = file.size
-                            fileDataBean.file_id = file.file_id
-                            uploadFiles.add(fileDataBean)
                         }
                         val addItem = Level2Item()
                         addItem.type = -1
@@ -370,14 +366,6 @@ class ProjectUploadActivity : ToolbarActivity() {
                         level2Item.file = file
                         level2Item.class_id = data.class_id!!
                         level0Item.addSubItem(level2Item)
-
-                        val fileDataBean = FileDataBean()
-                        fileDataBean.class_id = data.class_id!!
-                        fileDataBean.filepath = file.filePath
-                        fileDataBean.filename = file.file_name
-                        fileDataBean.size = file.size
-                        fileDataBean.file_id = file.file_id
-                        uploadFiles.add(fileDataBean)
                     }
                     val addItem = Level2Item()
                     addItem.type = -1
@@ -459,7 +447,6 @@ class ProjectUploadActivity : ToolbarActivity() {
                             fileDataBean.filepath = fileBean!!.filePath
                             fileDataBean.filename = fileBean!!.file_name
                             fileDataBean.size = fileBean!!.size
-                            fileDataBean.file_id = fileBean.file_id
                             uploadFiles.add(fileDataBean)
                         }else{
                            showErrorToast(payload.message)

@@ -127,6 +127,7 @@ class NewOriginProjectActivity : ToolbarActivity(), NewOriginProCallBack {
                         setModuleEnable(true)
                         rl_job.setOnClickListener {
                             //选择职位
+                            Utils.forceCloseInput(this@NewOriginProjectActivity,et_contact_name)
                             val experience = resources.getStringArray(R.array.job).toList()
                             val position = experience.indices.firstOrNull { experience[it].contains(tv_job_name.text) }
                                     ?: 0
@@ -225,6 +226,9 @@ class NewOriginProjectActivity : ToolbarActivity(), NewOriginProCallBack {
                 tv_name_simple.text = project!!.shortName
             }
 
+            if (null != project!!.creditCode){
+                tv_credit_code.text = project!!.creditCode
+            }
             if (null != presenter && null != project!!.company_id) {
                 setLoadding()
                 company_id = project!!.company_id!!
@@ -313,6 +317,7 @@ class NewOriginProjectActivity : ToolbarActivity(), NewOriginProCallBack {
 
             tv_edit.visibility = View.INVISIBLE
             ll_create.visibility = View.VISIBLE
+            tv_add_contact.visibility = View.VISIBLE
         }
 
         mCompanyAdapter.onItemClick = { v, p ->
@@ -491,7 +496,9 @@ class NewOriginProjectActivity : ToolbarActivity(), NewOriginProCallBack {
 
         tv_name_all.text = data.name
         tv_name_simple.text = data.shortName
-
+        if (!data.creditCode.isNullOrEmpty()){
+            tv_credit_code.text = data.creditCode
+        }
         if (null != data.duty) {
             tv_pm_name.text = data.duty!!.name
             if (null != data.duty!!.principal) {

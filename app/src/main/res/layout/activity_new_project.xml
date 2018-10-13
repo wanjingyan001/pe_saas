@@ -66,6 +66,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/text_20"
                 android:background="@drawable/bg_add_contact"
+                android:visibility="gone"
                 android:paddingBottom="@dimen/text_13"
                 android:paddingLeft="@dimen/text_20"
                 android:paddingRight="@dimen/text_20"
