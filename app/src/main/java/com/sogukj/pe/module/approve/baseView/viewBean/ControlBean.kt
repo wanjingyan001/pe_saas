@@ -45,7 +45,7 @@ data class ControlBean(
         val control: Int,//控件id
         val componentName: String,//控件名称
         val fields: String,//传值时候用的key值(父级控件名称_当前控件名称_当前控件所在index)
-        val name: String?,//控件名字
+        var name: String?,//控件名字
         val name1: String?,//开始时间(日期区间专用)
         val name2: String?,//结束时间(日期区间专用)
         val name3: String?,//时长(日期区间专用)
@@ -74,8 +74,8 @@ data class ControlBean(
         val linkText: String?,//跳转文字
         val stable: String?,//跳转链接
         val extras: ExtrasBean?,
-        var value: List<Any?>?,//存放值(有可能是String,obj等)
-        val children: List<ControlBean>?//套件下的子控件
+        var value: MutableList<Any?>?,//存放值(有可能是String,obj等)
+        val children: MutableList<ControlBean>?//套件下的子控件
 
         /**
          * -1	请假套件	textNote（这是本月第n次请假）	holiday_textNote_leaveCount

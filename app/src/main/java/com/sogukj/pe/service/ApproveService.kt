@@ -1,6 +1,8 @@
 package com.sogukj.pe.service
 
 import com.sogukj.pe.bean.*
+import com.sogukj.pe.module.approve.baseView.viewBean.*
+import com.sogukj.pe.module.approve.baseView.viewBean.CityBean
 import io.reactivex.Observable
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -8,11 +10,12 @@ import retrofit2.http.*
 /**
  * Created by admin on 2018/5/23.
  */
-interface ApproveService{
+interface ApproveService {
     companion object {
         const val APPKEY_NAME = "appkey"
         const val APPKEY_VALUE = "d5f17cafef0829b5"
     }
+
     @POST("/api/Approve/uploadApprove")
     fun uploadApprove(@Body body: RequestBody): Observable<Payload<CustomSealBean.ValueBean>>
 
@@ -175,9 +178,8 @@ interface ApproveService{
             , @Field("template_id") template_id: String? = null): Observable<Payload<List<ApprovalBean>>>
 
 
-
     @POST("/api/Approve/showVacation")
-    fun showVacation():Observable<Payload<ArrayList<VacationBean>>>
+    fun showVacation(): Observable<Payload<ArrayList<VacationBean>>>
 
     @FormUrlEncoded
     @POST("/api/Approve/historyCity")
@@ -218,7 +220,7 @@ interface ApproveService{
     @POST("/api/Index/outCardApproveList")
     fun outCardApproveList(): Observable<Payload<ArrayList<LocationRecordBean.LocationCellBean>>>
 
-//    stamp	int		时间戳(年月日时分秒)	非空
+    //    stamp	int		时间戳(年月日时分秒)	非空
 //    place	str		地点	非空
 //    longitude	str		经度	非空
 //    latitude	str		纬度	非空
@@ -230,6 +232,80 @@ interface ApproveService{
                       @Field("place") place: String,
                       @Field("longitude") longitude: String,
                       @Field("latitude") latitude: String,
-                      @Field("sid") sid: Int ?= null,
-                      @Field("id") id: Int ?= null): Observable<Payload<Int>>
+                      @Field("sid") sid: Int? = null,
+                      @Field("id") id: Int? = null): Observable<Payload<Int>>
+
+
+    /**
+     * 审批分组布局界面
+     */
+    @POST("/api/Sptemplate/spWindow")
+    fun approveGroup(): Observable<Payload<List<ApproveGroup>>>
+
+
+    /**
+     * 显示审批
+     */
+    @FormUrlEncoded
+    @POST("api/Sptemplate/showTemplate")
+    fun showTemplate(@Field("tid") tid: Int, //模板id
+                     @Field("aid") aid: Int? = null//修改的审批id
+    ): Observable<Payload<List<ControlBean>>>
+
+
+    /**
+     * 获取审批人/抄送人
+     */
+    @FormUrlEncoded
+    @POST("api/Sptemplate/spInfo")
+    fun getApprovers(@Field("tid") tid: Int,
+                     @Field("project_id") project_id: String? = null,
+                     @Field("fund_id") fund_id: String? = null): Observable<Payload<Approvers>>
+
+
+    /**
+     * 计算时长
+     */
+    @FormUrlEncoded
+    @POST("api/Skip/calcTotalTime")
+    fun countDuration(@Field("start_time") start_time: String,//开始时间
+                      @Field("end_time") end_time: String,//结束时间
+                      @Field("scal_unit") scal_unit: String//计算方式 year=>年 month=>月 day=> 天 hour=>小时 min=>分钟 sec=>秒 work=>按工作时长计算 非空
+    ): Observable<Payload<String>>
+
+
+    /**
+     * 上传文件
+     */
+    @POST("api/Skip/uploadFile")
+    fun uploadFiles(@Body body: RequestBody): Observable<Payload<AttachmentBean>>
+
+
+    /**
+     * 请假类型
+     */
+    @POST("api/Skip/holidaysList")
+    fun holidaysList(): Observable<Payload<List<MyLeaveBean>>>
+
+    /**
+     * 新审批的选择列表
+     */
+    @FormUrlEncoded
+    @POST
+    fun selectionList(@Url url: String, @Field("fund_id") fund_id: String? = null): Observable<Payload<List<ApproveValueBean>>>
+
+
+    /**
+     * 获取省市区数据
+     */
+    @POST("/api/Skip/cityArea")
+    fun selectionCity():Observable<Payload<List<CityBean>>>
+
+
+    /**
+     * 人员列表
+     */
+    @POST("/api/Skip/userList")
+    fun approvalUsers():Observable<Payload<List<ApprovalUser>>>
+
 }

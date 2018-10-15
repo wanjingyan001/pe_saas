@@ -276,7 +276,7 @@ class ApproveFillActivity : ToolbarActivity() {
         //info                  备注说明                4
         //sms              是否发短信提醒审批人      5
 //        if ((paramMap.get("reasons") == null || (paramMap.get("reasons") as String?).isNullOrEmpty()) &&
-//                (paramMap.get("sealFile") == null || (paramMap.get("sealFile") as ArrayList<CustomSealBean.ValueBean>).size == 0) &&
+//                (paramMap.get("sealFile") == null || (paramMap.get("sealFile") as ArrayList<CustomSealBean.ApproveValueBean>).size == 0) &&
 //                (paramMap.get("info") == null || (paramMap.get("info") as String?).isNullOrEmpty()) &&
 //                (paramMap.get("sms") == null || (paramMap.get("sms") as Int) == 0) &&
 //                (paramMap.get("project_id") == null)) {//project_id 选填
@@ -284,15 +284,15 @@ class ApproveFillActivity : ToolbarActivity() {
 //            return
 //        }
         //用印申请
-//        if ((paramMap.get("seal") == null || judgeSealEmpty(paramMap.get("seal") as ArrayList<CustomSealBean.ValueBean>)) &&
+//        if ((paramMap.get("seal") == null || judgeSealEmpty(paramMap.get("seal") as ArrayList<CustomSealBean.ApproveValueBean>)) &&
 //                (paramMap.get("fund_id") == null) &&
 //                (paramMap.get("reasons") == null || (paramMap.get("reasons") as String?).isNullOrEmpty()) &&
 //                (paramMap.get("info") == null || (paramMap.get("info") as String?).isNullOrEmpty()) &&
 //                (paramMap.get("manager_opinion") == null || (paramMap.get("manager_opinion") as String?).isNullOrEmpty()) &&
-//                (paramMap.get("lawyerFile") == null || (paramMap.get("lawyerFile") as ArrayList<CustomSealBean.ValueBean>).size == 0) &&
+//                (paramMap.get("lawyerFile") == null || (paramMap.get("lawyerFile") as ArrayList<CustomSealBean.ApproveValueBean>).size == 0) &&
 //                (paramMap.get("is_lawyer") == null || (paramMap.get("is_lawyer") as Int) == 0) &&
 //                (paramMap.get("sms") == null || (paramMap.get("sms") as Int) == 0) &&
-//                (paramMap.get("sealFile") == null || (paramMap.get("sealFile") as ArrayList<CustomSealBean.ValueBean>).size == 0) &&
+//                (paramMap.get("sealFile") == null || (paramMap.get("sealFile") as ArrayList<CustomSealBean.ApproveValueBean>).size == 0) &&
 //                (paramMap.get("project_name") == null) &&
 //                (paramMap.get("foreign_id") == null)) {
 //            super.onBackPressed()

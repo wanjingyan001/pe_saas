@@ -556,16 +556,6 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name=".module.fund.FundBookActivity"
-            android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
-            android:name=".module.fund.FundBookMoreActivity"
-            android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
             android:name=".module.fund.FundDetailActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
@@ -1018,7 +1008,6 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name=".module.other.PayPackageActivity" />
         <activity android:name=".module.other.PayExpansionActivity" />
         <activity
             android:name=".module.other.MessageListActivity"
@@ -1261,26 +1250,22 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".module.creditCollection.NewCreditListActivity" />
-        <activity android:name=".module.other.MsgAssistantActivity"></activity>
-
+        <activity android:name=".module.other.MsgAssistantActivity" />
         <activity
             android:name=".module.project.originpro.NewOriginProjectActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-
         <activity
             android:name=".module.project.originpro.ProjectApprovalActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-
         <activity
             android:name=".module.project.originpro.ProjectApprovalShowActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-
         <activity
             android:name=".module.project.originpro.ProjectUploadActivity"
             android:configChanges="orientation|screenSize"
@@ -1291,6 +1276,10 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+        <activity android:name=".module.approve.SelectionActivity" />
+        <activity android:name=".module.approve.TestActivity" />
+        <activity android:name=".module.approve.ApproveGroupActivity" />
+        <activity android:name=".module.approve.ApproveInitiateActivity"></activity>
     </application>
 
 </manifest>

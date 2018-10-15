@@ -6,7 +6,7 @@ buildscript {
     repositories {
         maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
         google()
-//        jcenter()
+        jcenter()
         maven {
             url  "http://dl.bintray.com/lukaville/maven"
         }
@@ -28,7 +28,7 @@ allprojects {
     repositories {
         maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
         google()
-//        jcenter()
+        jcenter()
         maven {
             url  "http://dl.bintray.com/lukaville/maven"
         }

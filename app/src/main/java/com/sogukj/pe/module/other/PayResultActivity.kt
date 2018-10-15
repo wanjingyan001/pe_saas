@@ -50,7 +50,6 @@ class PayResultActivity : BaseActivity() {
             finish()
         }
         continuePay.clickWithTrigger {
-            startActivity<PayPackageActivity>()
             finish()
         }
     }

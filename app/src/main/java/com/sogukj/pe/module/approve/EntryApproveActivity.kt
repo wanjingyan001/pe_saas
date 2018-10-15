@@ -14,6 +14,7 @@ import com.google.gson.Gson
 import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.isNullOrEmpty
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
@@ -25,18 +26,15 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_approve.*
 import kotlinx.android.synthetic.main.layout_network_error.*
+import kotlinx.android.synthetic.main.toolbar.*
+import org.jetbrains.anko.startActivity
 import java.text.SimpleDateFormat
 
 /**
  * Created by qinfei on 17/10/18.
  */
 @Route(path = ARouterPath.EntryApproveActivity)
-class EntryApproveActivity : ToolbarActivity(), View.OnClickListener {
-    override fun onClick(v: View?) {
-        when (v?.id) {
-            R.id.resetRefresh -> doRequest()
-        }
-    }
+class EntryApproveActivity : ToolbarActivity(){
 
     val fmt = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     val gson = Gson()
@@ -45,6 +43,9 @@ class EntryApproveActivity : ToolbarActivity(), View.OnClickListener {
         setContentView(R.layout.activity_approve)
         setBack(true)
         title = "审批"
+        toolbar?.clickWithTrigger {
+            startActivity<ApproveGroupActivity>()
+        }
         ll_custom.removeAllViews()
         doRequest()
         item_dwsp.setOnClickListener {
@@ -82,15 +83,13 @@ class EntryApproveActivity : ToolbarActivity(), View.OnClickListener {
                         //showToast(payload.message)
                         showCustomToast(R.drawable.icon_toast_fail, payload.message)
                         approveLayout.visibility = View.GONE
-                        showEmptyView()
-                        resetRefresh.setOnClickListener(this)
+                        showEmptyView { doRequest() }
                     }
                 }, { e ->
                     Trace.e(e)
                     //showToast("暂无可用数据")
                     approveLayout.visibility = View.GONE
-                    showEmptyView()
-                    resetRefresh.setOnClickListener(this)
+                    showEmptyView { doRequest() }
                     ToastError(e)
                 })
     }
@@ -99,7 +98,7 @@ class EntryApproveActivity : ToolbarActivity(), View.OnClickListener {
         if (payload == null) return
         val inflater = LayoutInflater.from(this)
         payload.forEach { spGroupBean ->
-            if(spGroupBean.item.isNullOrEmpty()){
+            if (spGroupBean.item.isNullOrEmpty()) {
                 return@forEach
             }
             val groupView = inflater.inflate(R.layout.cs_group, null, false) as LinearLayout

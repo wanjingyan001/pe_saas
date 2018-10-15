@@ -22,12 +22,14 @@ import android.widget.TextView
 import android.widget.Toast
 import com.google.gson.JsonSyntaxException
 import com.noober.background.BackgroundLibrary
+import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.R
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.snackbar.Prompt
 import com.sogukj.pe.baselibrary.widgets.snackbar.TSnackbar
 import com.umeng.message.PushAgent
+import kotlinx.android.synthetic.main.layout_network_error.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.find
 import org.jetbrains.anko.imageResource
@@ -133,9 +135,12 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger {
         }
     }
 
-    protected fun showEmptyView() {
+    protected fun showEmptyView(block:()->Unit) {
         layout?.let {
             it.visibility = View.VISIBLE
+            it.find<TextView>(R.id.resetRefresh).clickWithTrigger {
+                block.invoke()
+            }
         }
     }
 

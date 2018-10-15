@@ -81,11 +81,7 @@ class VerCodeInputActivity : BaseActivity() {
                             payload.payload?.let {
                                 it.domain_name?.let {
                                     if (it.isNotEmpty()) {
-                                        val newBaseUtl: String = if (!it.startsWith("http://")) {
-                                            "http://$it"
-                                        } else {
-                                            it
-                                        }
+                                        val newBaseUtl: String = it
                                         sp.edit { putString(Extras.HTTPURL, newBaseUtl) }
                                         CrashReport.putUserData(this@VerCodeInputActivity, Extras.HTTPURL, newBaseUtl)
                                         RetrofitUrlManager.getInstance().setGlobalDomain(newBaseUtl)
@@ -222,10 +218,11 @@ class VerCodeInputActivity : BaseActivity() {
                     }
         }
     }
-    private fun NoticeService(){
-        SoguApi.getService(application,RegisterService::class.java)
+
+    private fun NoticeService() {
+        SoguApi.getService(application, RegisterService::class.java)
                 .NoticeService()
-                .execute {  }
+                .execute { }
     }
 
     override fun onDestroy() {

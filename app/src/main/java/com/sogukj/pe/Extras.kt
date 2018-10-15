@@ -8,6 +8,7 @@ object Extras {
     val FLAG = "ext.flag"
     val FLAG2 = "ext.flag2"
     val ID = "ext.id"
+    val ID2 = "ext.id2"
     val TYPE = "ext.type"
     val TITLE = "ext.title"
     val NAME = "ext.name"

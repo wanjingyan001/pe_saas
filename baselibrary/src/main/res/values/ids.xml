@@ -13,4 +13,5 @@
     <item name="refresh" type="id"/>
     <item name="iv_empty" type="id"/>
     <item name="inputEdt" type="id"/>
+    <item name="star" type="id"/>
 </resources>

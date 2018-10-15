@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/leaveTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/divider2"
+        android:gravity="center_vertical"
+        android:paddingBottom="10dp"
+        android:paddingStart="24dp"
+        android:paddingTop="4dp"
+        android:text="这是本月第%d次请假"
+        android:textColor="@color/text_3"
+        android:textSize="@dimen/text_size_medium"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@id/star"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:background="@drawable/star"
+        android:layout_marginStart="6dp"
+        app:layout_constraintBottom_toBottomOf="@+id/leaveTypeTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/leaveTypeTitle" />
+
+
+    <TextView
+        android:id="@+id/leaveTypeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="单选框"
+        android:textColor="@color/text_1"
+        android:textSize="@dimen/text_size_medium"
+        app:layout_constraintBottom_toBottomOf="@+id/leaveTypeTv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/leaveTypeTv" />
+
+    <TextView
+        android:id="@+id/leaveTypeTv"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:background="@null"
+        android:drawableEnd="@drawable/ic_right"
+        android:gravity="end|center_vertical"
+        android:hint="请选择"
+        android:singleLine="true"
+        android:textColor="@color/text_1"
+        android:textSize="@dimen/text_size_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/leaveTypeTitle"
+        app:layout_constraintTop_toBottomOf="@+id/leaveTitle" />
+
+    <TextView
+        android:id="@+id/myLeave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/divider2"
+        android:gravity="center_vertical"
+        android:paddingBottom="10dp"
+        android:paddingStart="24dp"
+        android:paddingTop="10dp"
+        android:text="剩余假期,我的假期"
+        android:textColor="@color/text_3"
+        android:textSize="@dimen/text_size_medium"
+        app:layout_constraintTop_toBottomOf="@+id/leaveTypeTv" />
+
+    <LinearLayout
+        android:id="@+id/timeSelection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/myLeave">
+
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/leaveTip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/divider2"
+        android:gravity="center_vertical"
+        android:paddingBottom="10dp"
+        android:paddingStart="24dp"
+        android:paddingTop="10dp"
+        android:text="时长将自动计入考勤统计"
+        android:textColor="@color/text_3"
+        android:textSize="@dimen/text_size_medium"
+        app:layout_constraintTop_toBottomOf="@+id/timeSelection" />
+
+</android.support.constraint.ConstraintLayout>

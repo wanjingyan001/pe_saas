@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/radioItem"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerVertical="true"
+    android:drawableLeft="@drawable/team_select_bg"
+    android:drawablePadding="8dp"
+    android:gravity="center_vertical"
+    android:padding="6dp"
+    android:text="选项1"
+    android:textColor="@color/text_1"
+    android:textSize="@dimen/text_size_medium" />
