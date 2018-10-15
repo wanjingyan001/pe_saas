@@ -2,7 +2,6 @@ package com.sogukj.pe.module.project.originpro
 
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -11,8 +10,6 @@ import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.widget.*
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.Theme
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.sogukj.pe.App
@@ -112,7 +109,7 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
         setBack(true)
         project = intent.getSerializableExtra(Extras.DATA) as ProjectBean?
         floor = intent.getIntExtra(Extras.FLAG,-1)
-        toolbar_title.maxEms = 12
+        toolbar_title.maxEms = 11
         setTitle(project!!.name)
         presenter = ProjectApprovePresenter(this,this)
         dialog = BuildProjectDialog()
@@ -215,6 +212,9 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
                                     approveAdapter.notifyDataSetChanged()
                                     val approveFlow = flow[flow.size - 1]
                                     setApproveEditStatus(approveFlow)
+                                    view_file.visibility = View.VISIBLE
+                                }else{
+                                    view_file.visibility = View.GONE
                                 }
 
                             }
@@ -359,19 +359,11 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
                 }
                 1 -> {
                     //同意通过
-                    if (null != dialog){
-                        dialog!!.showAgreeBuildProDialog(this,project)
-                    }else{
-                        BuildProjectDialog().showAgreeBuildProDialog(this,project)
-                    }
+                    showAgreeDialog()
                 }
                 2 -> {
                     //同意上立项会
-                    if (null != dialog){
-                        dialog!!.showAgreeBuildLxh(this,project)
-                    }else{
-                        BuildProjectDialog().showAgreeBuildLxh(this,project)
-                    }
+                    showAgreeLxhDialog()
                 }
             }
         }
@@ -383,19 +375,11 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
                 }
                 1 -> {
                     //同意通过
-                    if (null != dialog){
-                        dialog!!.showAgreeBuildProDialog(this,project)
-                    }else{
-                        BuildProjectDialog().showAgreeBuildProDialog(this,project)
-                    }
+                    showAgreeDialog()
                 }
                 2 -> {
                     //同意上立项会
-                    if (null != dialog){
-                        dialog!!.showAgreeBuildLxh(this,project)
-                    }else{
-                        BuildProjectDialog().showAgreeBuildLxh(this,project)
-                    }
+                    showAgreeLxhDialog()
                 }
             }
         }
@@ -407,19 +391,11 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
                 }
                 1 -> {
                     //同意通过
-                    if (null != dialog){
-                        dialog!!.showAgreeBuildProDialog(this,project)
-                    }else{
-                        BuildProjectDialog().showAgreeBuildProDialog(this,project)
-                    }
+                    showAgreeDialog()
                 }
                 2 -> {
                     //同意上立项会
-                    if (null != dialog){
-                        dialog!!.showAgreeBuildLxh(this,project)
-                    }else{
-                        BuildProjectDialog().showAgreeBuildLxh(this,project)
-                    }
+                    showAgreeLxhDialog()
                 }
             }
         }
@@ -437,19 +413,11 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
                 }
                 1 -> {
                     //同意通过
-                    if (null != dialog){
-                        dialog!!.showAgreeBuildProDialog(this,project)
-                    }else{
-                        BuildProjectDialog().showAgreeBuildProDialog(this,project)
-                    }
+                    showAgreeDialog()
                 }
                 2 -> {
                     //同意上立项会
-                    if (null != dialog){
-                        dialog!!.showAgreeBuildLxh(this,project)
-                    }else{
-                        BuildProjectDialog().showAgreeBuildLxh(this,project)
-                    }
+                    showAgreeLxhDialog()
                 }
             }
         }
@@ -462,21 +430,37 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
                 }
                 1 -> {
                     //同意通过
-                    if (null != dialog){
-                        dialog!!.showAgreeBuildProDialog(this,project)
-                    }else{
-                        BuildProjectDialog().showAgreeBuildProDialog(this,project)
-                    }
+                    showAgreeDialog()
                 }
                 2 -> {
                     //同意上立项会
-                    if (null != dialog){
-                        dialog!!.showAgreeBuildLxh(this,project)
-                    }else{
-                        BuildProjectDialog().showAgreeBuildLxh(this,project)
-                    }
+                    showAgreeLxhDialog()
                 }
             }
+        }
+    }
+
+    private fun showConfirmDialog() {
+        if (null != dialog){
+            dialog!!.showRejectBuildProDialog(this,project)
+        }else{
+            BuildProjectDialog().showRejectBuildProDialog(this,project)
+        }
+    }
+
+    private fun showAgreeDialog(){
+        if (null != dialog){
+            dialog!!.showAgreeBuildProDialog(this,project)
+        }else{
+            BuildProjectDialog().showAgreeBuildProDialog(this,project)
+        }
+    }
+
+    private fun showAgreeLxhDialog(){
+        if (null != dialog){
+            dialog!!.showAgreeBuildLxh(this,project)
+        }else{
+            BuildProjectDialog().showAgreeBuildLxh(this,project)
         }
     }
 
@@ -490,19 +474,11 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
                 }
                 1 -> {
                     //同意通过
-                    if (null != dialog){
-                        dialog!!.showAgreeBuildProDialog(this,project)
-                    }else{
-                        BuildProjectDialog().showAgreeBuildProDialog(this,project)
-                    }
+                    showAgreeDialog()
                 }
                 2 -> {
                     //同意上立项会
-                    if (null != dialog){
-                        dialog!!.showAgreeBuildLxh(this,project)
-                    }else{
-                        BuildProjectDialog().showAgreeBuildLxh(this,project)
-                    }
+                    showAgreeLxhDialog()
                 }
             }
         }
@@ -539,60 +515,6 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
         super.onResume()
     }
 
-    private fun showConfirmDialog() {
-        val title =  "是否确认否决审批？"
-        val build = MaterialDialog.Builder(this)
-                .theme(Theme.DARK)
-                .customView(R.layout.layout_confirm_approve, false)
-                .canceledOnTouchOutside(false)
-                .build()
-        build.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        val titleTv = build.find<TextView>(R.id.confirm_title)
-        val cancel = build.find<TextView>(R.id.cancel_comment)
-        val confirm = build.find<TextView>(R.id.confirm_comment)
-        titleTv.text = title
-        cancel.setOnClickListener {
-            if (build.isShowing) {
-                build.dismiss()
-            }
-        }
-        confirm.setOnClickListener {
-            if (build.isShowing) {
-                build.dismiss()
-            }
-            //确认否决
-            refuseApprove()
-        }
-        build.show()
-    }
-
-    private fun refuseApprove() {
-        if (null == project) return
-        val map = HashMap<String,Any>()
-        map.put("company_id",project!!.company_id!!)
-        map.put("floor",project!!.floor!!)
-        map.put("type",-1) //-1=>’否决’,1=>’同意通过’,2=> 同意上储备,3=>同意退出
-        map.put("current",0)
-
-        SoguApi.getService(App.INSTANCE,OtherService::class.java)
-                .commitApprove(map)
-                .execute {
-                    onNext { payload ->
-                        if (payload.isOk){
-                            getApprevoRecordInfo()
-                        }else{
-                            showErrorToast(payload.message)
-                        }
-                    }
-
-                    onError {
-                        it.printStackTrace()
-                        showErrorToast("否决失败")
-                    }
-                }
-
-    }
-
     inner class ProjectPostHolder(itemView:View) : RecyclerHolder<ProjectApproveInfo.ApproveFile>(itemView){
         val pdfIcon = itemView.findViewById<ImageView>(R.id.pdfIcon)
         val time = itemView.findViewById<TextView>(R.id.time)
@@ -613,6 +535,7 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
         val tv_agree_pro = itemView.findViewById<TextView>(R.id.tv_agree_pro) //同意上立项会
         val tv_meel_time = itemView.findViewById<TextView>(R.id.tv_meel_time) //会议时间
         val tv_meel_person = itemView.findViewById<TextView>(R.id.tv_meel_person) //会议人员
+        val tv_meel_image = itemView.findViewById<TextView>(R.id.tv_meel_image)
         val view_bg = itemView.find<View>(R.id.view_bg) //会议背景
         val tv_meel_plan = itemView.find<TextView>(R.id.tv_meel_plan) //会议安排
         val view_space = itemView.find<View>(R.id.view_space) //间隔
@@ -657,9 +580,37 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
                     tv_agree_pro.visibility = View.GONE
                     tv_meel_time.visibility = View.GONE
                     tv_meel_person.visibility = View.GONE
+                    tv_meel_image.visibility = View.GONE
                     view_bg.visibility = View.GONE
                     tv_meel_plan.visibility = View.GONE
-                    ll_bottom.visibility = View.GONE
+                    if (!data.content.isNullOrEmpty()){
+                        val span = SpannableStringBuilder("意见意${data.content}")
+                        span.setSpan(ForegroundColorSpan(Color.TRANSPARENT),0,3, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+                        tv_suggest.text = span
+                        rl_suggest.visibility = View.VISIBLE
+                    }else{
+                        rl_suggest.visibility = View.GONE
+                    }
+                    if (null != data.file && data.file!!.size > 0){
+                        //有文件
+                        ll_files.removeAllViews()
+                        for (file in data.file!!){
+                            val item = View.inflate(context,R.layout.file_item,null)
+                            val iv_image = item.find<ImageView>(R.id.iv_image)
+                            val tv_name = item.find<TextView>(R.id.tv_name)
+                            iv_image.imageResource = FileTypeUtils.getFileType(file.file_name).icon
+                            tv_name.text = file.file_name
+                            item.setOnClickListener {
+                                //预览页面
+                                OnlinePreviewActivity.start(this@ProjectApprovalShowActivity,file.url,file.file_name)
+                            }
+                            ll_files.addView(item)
+                        }
+                    }else{
+                        //无文件
+                        tv_file.visibility = View.GONE
+                        ll_files.visibility = View.GONE
+                    }
                 }
                 0 -> {
                     //待审批
@@ -668,6 +619,7 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
                     tv_agree_pro.visibility = View.GONE
                     tv_meel_time.visibility = View.GONE
                     tv_meel_person.visibility = View.GONE
+                    tv_meel_image.visibility = View.GONE
                     view_bg.visibility = View.GONE
                     tv_meel_plan.visibility = View.GONE
                     ll_bottom.visibility = View.GONE
@@ -690,6 +642,7 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
                     tv_agree_pro.visibility = View.GONE
                     tv_meel_time.visibility = View.GONE
                     tv_meel_person.visibility = View.GONE
+                    tv_meel_image.visibility = View.GONE
                     view_bg.visibility = View.GONE
                     tv_meel_plan.visibility = View.GONE
                     ll_bottom.visibility = View.GONE
@@ -701,6 +654,7 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
                     tv_agree_pro.visibility = View.GONE
                     tv_meel_time.visibility = View.GONE
                     tv_meel_person.visibility = View.GONE
+                    tv_meel_image.visibility = View.GONE
                     view_bg.visibility = View.GONE
                     tv_meel_plan.visibility = View.GONE
                     if (!data.content.isNullOrEmpty()){
@@ -744,9 +698,11 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
                         view_bg.visibility = View.VISIBLE
                         tv_meel_time.visibility = View.VISIBLE
                         tv_meel_person.visibility = View.VISIBLE
+                        tv_meel_image.visibility = View.VISIBLE
                     }else{
                         tv_meel_time.visibility = View.GONE
                         tv_meel_person.visibility = View.GONE
+                        tv_meel_image.visibility = View.GONE
                         view_bg.visibility = View.GONE
                         tv_meel_plan.visibility = View.GONE
                     }
@@ -806,6 +762,7 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
 
     }
     companion object {
+        val REQ_REJECT_FILE = 0x1004
         val REQ_SELECT_FILE = 0x1005
         val REQ_LXH_FILE = 0x1006
         val REW_SELECT_TIME = 0x1007
@@ -816,6 +773,21 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
         super.onActivityResult(requestCode, resultCode, data)
         if (null != data){
             when(requestCode){
+                REQ_REJECT_FILE -> {
+                    val paths = data?.getStringArrayListExtra(Extras.LIST)
+                    paths?.forEach {
+                        val info = ProjectApproveInfo.ApproveFile()
+                        val file = File(it)
+                        info.file = file
+                        info.file_name = file.name
+                        if (null != dialog){
+                            dialog!!.addFileData(info,file,2)
+                        }else{
+                            BuildProjectDialog().addFileData(info,file,2)
+                        }
+                    }
+                }
+
                 REQ_SELECT_FILE -> {
                     val paths = data?.getStringArrayListExtra(Extras.LIST)
                     paths?.forEach {

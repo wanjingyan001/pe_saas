@@ -358,7 +358,7 @@ class NewOriginProjectActivity : ToolbarActivity(), NewOriginProCallBack {
         val dataList = mRelateAdapter.dataList
         for (i in dataList.indices) {
             val info = NewProjectInfo.RelateInfo()
-            info.position_id = dataList[i].position_id
+//            info.position_id = dataList[i].position_id
             info.id = dataList[i].id
             for ((k, v) in nameMap) {
                 if (k == i) {
@@ -367,7 +367,9 @@ class NewOriginProjectActivity : ToolbarActivity(), NewOriginProCallBack {
             }
             for ((k, v) in jobMap) {
                 if (k == i) {
-                    info.position = v.textStr
+                    if (!"请选择".equals(v.textStr)){
+                        info.position = v.textStr
+                    }
                 }
             }
 

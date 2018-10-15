@@ -1,6 +1,7 @@
 package com.sogukj.pe.module.project.originpro.adapter
 
 import android.app.Activity
+import android.util.Log
 import android.widget.ImageView
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
@@ -52,6 +53,11 @@ class ExpandableItemAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseVie
                     }else{
                         expand(position)
                     }
+                    val mData = mData
+                    if (null != mData){
+
+                    }
+                    Log.e("TAG","pandPosition ==" + position + "   data size ==" + mData.size)
                 }
             }
 
@@ -84,6 +90,7 @@ class ExpandableItemAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseVie
                         holder.setText(R.id.pdfName,file.file_name)
 
                         holder.addOnClickListener(R.id.iv_delete)
+                        holder.addOnClickListener(R.id.cons_item)
                         val pdfIcon = holder.getView<ImageView>(R.id.pdfIcon)
                         pdfIcon.imageResource = FileTypeUtils.getFileType(file.file_name).icon
                     }

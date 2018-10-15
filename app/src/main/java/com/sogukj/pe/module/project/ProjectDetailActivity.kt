@@ -715,7 +715,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
             67 -> startActivity<OtherProjectShowActivity>(Extras.DATA to project,Extras.FLAG to detailSmallBean.floor,
                     Extras.TITLE to "投后管理")//投后管理
             68 -> startActivity<OtherProjectShowActivity>(Extras.DATA to project,Extras.FLAG to detailSmallBean.floor,
-                    Extras.TITLE to "退出")//退出
+                    Extras.TITLE to "退出管理")//退出
         }
     }
 

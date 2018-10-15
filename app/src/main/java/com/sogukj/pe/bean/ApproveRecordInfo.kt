@@ -41,7 +41,7 @@ class ApproveRecordInfo : Serializable {
     }
 
     class ApproveButton : Serializable{
-        var type = 0
+        var type = 0  // -1:退回修改 1:同意通过 2:同意上立项会 3:退出 4:分配
         var name = ""
     }
 }

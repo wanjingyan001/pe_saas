@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -87,12 +88,7 @@ class ProjectUploadActivity : ToolbarActivity() {
     private fun initData() {
         list = getLocalData()
         adapter = ExpandableItemAdapter(list,0,this)
-        rv.layoutManager = object : LinearLayoutManager(this){
-            override fun canScrollVertically() = false
-        }
-        rv.isNestedScrollingEnabled = false
-        rv.setHasFixedSize(true)
-        rv.isFocusable = false
+        rv.layoutManager = LinearLayoutManager(this)
         rv.adapter = adapter
         adapter.expandAll()
 
@@ -145,11 +141,13 @@ class ProjectUploadActivity : ToolbarActivity() {
             fundAdapter.notifyDataSetChanged()
         }
 
-        adapter.setOnItemChildClickListener { adapter, view, position ->
-            val data = adapter.data
+        adapter.setOnItemChildClickListener { _adapter, view, position ->
+            val data = _adapter.data
             val entity = data[position]
             when(view.id){
-                R.id.iv_delete -> {
+                R.id.iv_delete,
+                R.id.cons_item -> {
+                    Log.e("TAG","deletePosition ==" + position)
                     //移除文件
                     if (entity is Level2Item){
                         val level2Item = entity
@@ -163,6 +161,7 @@ class ProjectUploadActivity : ToolbarActivity() {
                 R.id.tv_add_file -> {
                     //添加文件
                     addPosition = position
+                    Log.e("TAG","addPosition ===" + addPosition)
                     FileMainActivity.start(context, 1,requestCode = REQ_SELECT_FILE)
                     if (entity is Level2Item){
                         class_id = entity.class_id
@@ -437,7 +436,6 @@ class ProjectUploadActivity : ToolbarActivity() {
                                 level2Item.type = 0
                                 if (null != adapter){
                                     adapter.addData(addPosition,level2Item)
-                                    adapter.notifyDataSetChanged()
                                 }
                             }
                             showSuccessToast("上传成功")

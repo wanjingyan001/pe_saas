@@ -32,6 +32,7 @@ import com.sogukj.pe.module.main.ContactsActivity
 import com.sogukj.pe.module.project.originpro.OtherProjectShowActivity
 import com.sogukj.pe.module.project.originpro.ProjectApprovalShowActivity
 import com.sogukj.pe.module.project.originpro.ProjectApprovalShowActivity.Companion.REQ_LXH_FILE
+import com.sogukj.pe.module.project.originpro.ProjectApprovalShowActivity.Companion.REQ_REJECT_FILE
 import com.sogukj.pe.module.project.originpro.ProjectApprovalShowActivity.Companion.REQ_SELECT_FILE
 import com.sogukj.pe.module.project.originpro.ProjectApprovalShowActivity.Companion.REW_SELECT_TIME
 import com.sogukj.pe.module.project.originpro.ProjectUploadShowActivity
@@ -56,19 +57,22 @@ import kotlin.collections.ArrayList
 class BuildProjectDialog {
     private var recycle_view: RecyclerView? = null
     private var rv : RecyclerView ? = null
+    private var reject_view : RecyclerView ? = null
     private var mAct: Activity? = null
     lateinit var adapter: AddFileAdapter
+    lateinit var rejectAdapter : AddFileAdapter
     lateinit var lxhAdapter : AddFileAdapter
     lateinit var memberAdapter : MeetingMemberAdapter
     lateinit var allocationAdapter: MeetingMemberAdapter
     private var fileInfos = ArrayList<ProjectApproveInfo.ApproveFile>()
     private var lxhFileInfos = ArrayList<ProjectApproveInfo.ApproveFile>()
+    private var rejectFileInfos = ArrayList<ProjectApproveInfo.ApproveFile>()
     private var memberInfos = ArrayList<UserBean>()
     private var allocationInfos = ArrayList<UserBean>()
     private var project: ProjectBean ? = null
     lateinit var calendar: CalendarDingDing
     var selectDate: Date? = null
-    private var type = -1
+    private var type = -1 // 0:同意通过 1:同意上立项会 2：否决
     /**
      * 同意通过
      */
@@ -88,7 +92,7 @@ class BuildProjectDialog {
         val tv_add_file = build.find<TextView>(R.id.tv_add_file)
         val tv_cancel = build.find<TextView>(R.id.tv_cancel)
         val tv_agree = build.find<TextView>(R.id.tv_agree)
-
+        fileInfos.clear()
         adapter = AddFileAdapter(mAct!!, fileInfos)
         recycle_view!!.layoutManager = LinearLayoutManager(mAct)
         recycle_view!!.adapter = adapter
@@ -112,10 +116,60 @@ class BuildProjectDialog {
 
         tv_agree.setOnClickListener {
             //同意通过
-            commitApprove(ed_agree.textStr,build)
+            commitApprove(ed_agree.textStr,build,1)
         }
         build.show()
         setRecycleLayout(fileInfos.size)
+    }
+
+    /**
+     * 否决
+     */
+    fun showRejectBuildProDialog(context: Activity, project: ProjectBean?) {
+        mAct = context
+        this.project = project
+        type = 2
+        val build = MaterialDialog.Builder(context)
+                .theme(Theme.DARK)
+                .customView(R.layout.layout_agree_build, false)
+                .canceledOnTouchOutside(false)
+                .build()
+        build.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val iv_close = build.find<ImageView>(R.id.iv_close)
+        val ed_agree = build.find<EditText>(R.id.ed_agree)
+        reject_view = build.find<RecyclerView>(R.id.rv)
+        val tv_add_file = build.find<TextView>(R.id.tv_add_file)
+        val tv_cancel = build.find<TextView>(R.id.tv_cancel)
+        val tv_agree = build.find<TextView>(R.id.tv_agree)
+        tv_agree.text = "返回修改"
+        rejectFileInfos.clear()
+        rejectAdapter = AddFileAdapter(mAct!!, rejectFileInfos)
+        reject_view!!.layoutManager = LinearLayoutManager(mAct)
+        reject_view!!.adapter = rejectAdapter
+
+        iv_close.setOnClickListener {
+            if (build.isShowing) {
+                build.dismiss()
+            }
+        }
+
+        tv_add_file.setOnClickListener {
+            //添加文件
+            FileMainActivity.start(mAct!!, 1, requestCode = REQ_REJECT_FILE)
+        }
+
+        tv_cancel.setOnClickListener {
+            if (build.isShowing) {
+                build.dismiss()
+            }
+        }
+
+        tv_agree.setOnClickListener {
+            //否决
+            commitApprove(ed_agree.textStr,build,-1)
+        }
+        build.show()
+        setRejectRecycleLayout(rejectFileInfos.size)
     }
 
     /**
@@ -195,20 +249,30 @@ class BuildProjectDialog {
                 }
     }
 
-    private fun commitApprove(content: String, build: MaterialDialog) {
+    private fun commitApprove(content: String, build: MaterialDialog,type: Int) {
         if (null == project) return
         val files = ArrayList<FileDataBean>()
-        for (file in fileInfos){
-            val fileBean = FileDataBean()
-            fileBean.filepath = file.filePath
-            fileBean.filename = file.file_name
-            fileBean.size = file.size
-            files.add(fileBean)
+        if (type == 1){
+            for (file in fileInfos){
+                val fileBean = FileDataBean()
+                fileBean.filepath = file.filePath
+                fileBean.filename = file.file_name
+                fileBean.size = file.size
+                files.add(fileBean)
+            }
+        }else if (type == -1){
+            for (file in rejectFileInfos){
+                val fileBean = FileDataBean()
+                fileBean.filepath = file.filePath
+                fileBean.filename = file.file_name
+                fileBean.size = file.size
+                files.add(fileBean)
+            }
         }
         val map = HashMap<String,Any>()
         map.put("company_id",project!!.company_id!!)
         map.put("floor",project!!.floor!!)
-        map.put("type",1) //-1=>’否决’,1=>’同意通过’,2=> 同意上储备,3=>同意退出
+        map.put("type",type) //-1=>’否决’,1=>’同意通过’,2=> 同意上储备,3=>同意退出
         map.put("content",content)
         map.put("current",0)
         map.put("files",files)
@@ -266,6 +330,7 @@ class BuildProjectDialog {
         val tv_agree = build.find<TextView>(R.id.tv_agree)
         tv_time = build.find<TextView>(R.id.tv_time)
         val iv_time = build.find<ImageView>(R.id.iv_time)
+        lxhFileInfos.clear()
         lxhAdapter = AddFileAdapter(mAct!!, lxhFileInfos)
         rv!!.layoutManager = LinearLayoutManager(mAct)
         rv!!.adapter = lxhAdapter
@@ -402,7 +467,7 @@ class BuildProjectDialog {
 
     /**
      * 添加文件
-     * type : 0 -> 同意通过 1 -> 同意上立项会
+     * type : 0 -> 同意通过 1 -> 同意上立项会 2 -> 否决
      */
     open fun addFileData(info: ProjectApproveInfo.ApproveFile, file: File,type : Int) {
         uploadFileToOss(file, info,type)
@@ -437,6 +502,15 @@ class BuildProjectDialog {
                                     info.filePath = fileBean!!.filePath
                                     lxhAdapter.addData(lxhFileInfos.size, info)
                                     setLxhRecycleLayout(lxhFileInfos.size)
+                                }
+                            }else if (type == 2){
+                                if (null != rejectAdapter){
+                                    info.file_name = fileBean!!.file_name
+                                    info.size = fileBean!!.size
+                                    info.url = fileBean!!.url
+                                    info.filePath = fileBean!!.filePath
+                                    rejectAdapter.addData(rejectFileInfos.size, info)
+                                    setRejectRecycleLayout(rejectFileInfos.size)
                                 }
                             }
 
@@ -489,6 +563,26 @@ class BuildProjectDialog {
                         layoutParams.height = Utils.dip2px(mAct, 40f)*size
                     }
                     recycle_view!!.layoutParams = layoutParams
+
+                }
+            })
+        }
+    }
+
+    private fun setRejectRecycleLayout(size: Int) {
+        if (null != reject_view) {
+            reject_view!!.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    //设置recyclerView高度
+                    val layoutParams = reject_view!!.layoutParams
+                    reject_view!!.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    val height = Utils.dip2px(mAct, 350f)
+                    if (reject_view!!.height > height) {
+                        layoutParams.height = height
+                    } else {
+                        layoutParams.height = Utils.dip2px(mAct, 40f)*size
+                    }
+                    reject_view!!.layoutParams = layoutParams
 
                 }
             })
@@ -651,6 +745,8 @@ class BuildProjectDialog {
                                         setRecycleLayout(fileInfos.size)
                                     }else if (type == 1){
                                        setLxhRecycleLayout(lxhFileInfos.size)
+                                    }else if(type == 2){
+                                        setRejectRecycleLayout(rejectFileInfos.size)
                                     }
                                 } else {
                                     ToastUtil.showCustomToast(R.drawable.icon_toast_fail, payload.message, mAct!!)
@@ -675,6 +771,8 @@ class BuildProjectDialog {
                                         setRecycleLayout(fileInfos.size)
                                     }else if (type == 1){
                                         setLxhRecycleLayout(lxhFileInfos.size)
+                                    }else if(type == 2){
+                                        setRejectRecycleLayout(rejectFileInfos.size)
                                     }
                                 } else {
                                     ToastUtil.showCustomToast(R.drawable.icon_toast_fail, payload.message, mAct!!)
