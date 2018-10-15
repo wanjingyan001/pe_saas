@@ -160,6 +160,9 @@ class OtherProjectShowActivity : BaseRefreshActivity() {
                                     approveAdapter.notifyDataSetChanged()
                                     val approveFlow = flow[flow.size - 1]
                                     setApproveEditStatus(approveFlow)
+                                    view_file.visibility = View.VISIBLE
+                                }else{
+                                    view_file.visibility = View.GONE
                                 }
                             }
                         }else{
@@ -172,6 +175,7 @@ class OtherProjectShowActivity : BaseRefreshActivity() {
                         it.printStackTrace()
                         showErrorToast("获取审批记录失败")
                         refreshComplete()
+                        view_file.visibility = View.GONE
                     }
                 }
     }
@@ -191,7 +195,7 @@ class OtherProjectShowActivity : BaseRefreshActivity() {
                     }
                 }
 
-                if ("投后管理".equals(title) || "退出管理".equals(title)){
+                if ("退出管理".equals(title)){
                     tv_edit.visibility = View.VISIBLE
                 }
             }

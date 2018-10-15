@@ -138,6 +138,9 @@ class ProjectUploadShowActivity : BaseRefreshActivity() {
                                     approveAdapter.notifyDataSetChanged()
                                     val approveFlow = flow[flow.size - 1]
                                     setApproveEditStatus(approveFlow)
+                                    view_file.visibility = View.VISIBLE
+                                }else{
+                                    view_file.visibility = View.GONE
                                 }
                             }
                         } else {
@@ -150,6 +153,7 @@ class ProjectUploadShowActivity : BaseRefreshActivity() {
                         it.printStackTrace()
                         showErrorToast("获取审批记录失败")
                         refreshComplete()
+                        view_file.visibility = View.GONE
                     }
                 }
     }

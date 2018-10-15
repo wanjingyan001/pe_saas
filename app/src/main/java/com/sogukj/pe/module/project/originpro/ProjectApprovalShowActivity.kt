@@ -226,6 +226,7 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
                     onError {
                         it.printStackTrace()
                         showErrorToast("获取数据失败")
+                        view_file.visibility = View.GONE
                     }
                 }
     }

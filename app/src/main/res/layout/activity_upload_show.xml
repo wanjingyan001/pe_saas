@@ -54,6 +54,7 @@
                     android:textSize="@dimen/text_size_14"
                     android:textColor="@color/black_28"/>
                 <View
+                    android:id="@+id/view_file"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/text_1"
                     android:background="@color/gray_f1"/>

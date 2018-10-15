@@ -119,18 +119,19 @@
 
     <TextView
         android:id="@+id/tv_meel_person"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_size_10"
         android:textColor="@color/black_28"
         android:gravity="center_vertical"
-        android:layout_marginStart="23dp"
+        android:layout_marginStart="22dp"
         android:maxLines="5"
         android:ellipsize="end"
         android:lineSpacingExtra="@dimen/text_3"
         android:paddingBottom="@dimen/text_8"
         app:layout_constraintTop_toBottomOf="@+id/tv_meel_time"
         app:layout_constraintStart_toStartOf="@+id/tv_meel_time"
+        app:layout_constraintEnd_toEndOf="@+id/view_bg"
         android:layout_marginTop="@dimen/text_10"
         tools:text="张栋梁、王刚、刘宇、张塞、曹萌/张栋梁、王刚、刘宇、张塞、曹萌张栋梁、王刚、刘宇、张塞、曹萌"/>
 

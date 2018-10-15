@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.preference.PreferenceManager
 import android.support.multidex.BuildConfig
-import android.support.multidex.MultiDex
 import android.support.multidex.MultiDexApplication
 import android.util.Log
 import android.widget.RemoteViews
@@ -299,10 +298,5 @@ class App : MultiDexApplication() {
 
     companion object {
         lateinit var INSTANCE: App
-    }
-
-    override fun attachBaseContext(base: Context?) {
-        super.attachBaseContext(base)
-        MultiDex.install(this)
     }
 }

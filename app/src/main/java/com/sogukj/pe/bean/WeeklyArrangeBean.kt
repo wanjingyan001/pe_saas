@@ -1,8 +1,5 @@
 package com.sogukj.pe.bean
 
-import android.annotation.SuppressLint
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
 import java.io.Serializable
 
 /**
