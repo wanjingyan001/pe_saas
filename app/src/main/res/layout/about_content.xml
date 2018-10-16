@@ -20,7 +20,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/text_0.5"
-        android:visibility="gone"
         android:layout_marginLeft="@dimen/text_15"
         android:layout_marginRight="@dimen/text_15"
         android:background="@color/gray_f1"/>
@@ -29,11 +28,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:visibility="gone"
         android:drawableRight="@drawable/ic_right"
         android:gravity="left|center_vertical"
         android:padding="@dimen/text_15"
         android:text="@string/declare"
+        android:textSize="@dimen/text_size_16"
+        android:textColor="@color/black_28" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/text_0.5"
+        android:layout_marginLeft="@dimen/text_15"
+        android:layout_marginRight="@dimen/text_15"
+        android:background="@color/gray_f1"/>
+    <TextView
+        android:id="@+id/tv_safe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:drawableRight="@drawable/ic_right"
+        android:gravity="left|center_vertical"
+        android:padding="@dimen/text_15"
+        android:text="@string/safe"
         android:textSize="@dimen/text_size_16"
         android:textColor="@color/black_28" />
 </LinearLayout>

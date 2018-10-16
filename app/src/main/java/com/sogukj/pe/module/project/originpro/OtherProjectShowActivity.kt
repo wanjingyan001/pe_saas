@@ -16,6 +16,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity
 import com.sogukj.pe.App
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
@@ -164,6 +165,7 @@ class OtherProjectShowActivity : BaseRefreshActivity() {
                                 }else{
                                     view_file.visibility = View.GONE
                                 }
+                                setThManageEditStatus(recordInfo.repeat)
                             }
                         }else{
                             showErrorToast(payload.message)
@@ -178,6 +180,17 @@ class OtherProjectShowActivity : BaseRefreshActivity() {
                         view_file.visibility = View.GONE
                     }
                 }
+    }
+
+    private fun setThManageEditStatus(repeat: Int?) {
+        if (null == repeat)return
+        if (enableEdit && "投后管理".equals(title)){
+            if (1 == repeat){
+                tv_edit.visibility = View.VISIBLE
+            }else{
+                tv_edit.visibility = View.GONE
+            }
+        }
     }
 
     private fun setApproveEditStatus(approveFlow: ApproveRecordInfo.ApproveFlow) {
@@ -195,9 +208,9 @@ class OtherProjectShowActivity : BaseRefreshActivity() {
                     }
                 }
 
-                if ("退出管理".equals(title)){
-                    tv_edit.visibility = View.VISIBLE
-                }
+//                if ("退出管理".equals(title)){
+//                    tv_edit.visibility = View.VISIBLE
+//                }
             }
         }
     }
@@ -573,7 +586,7 @@ class OtherProjectShowActivity : BaseRefreshActivity() {
             }
         }
 
-        tv_edit.setOnClickListener {
+        tv_edit.clickWithTrigger {
             //编辑
             startActivity<ProjectUploadActivity>(Extras.DATA to approveDatas, Extras.FUND to linkFundDatas
                     , Extras.PROJECT to project, Extras.FLAG to floor,Extras.TITLE to title)

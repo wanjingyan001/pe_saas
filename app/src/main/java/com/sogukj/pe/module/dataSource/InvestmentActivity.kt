@@ -7,7 +7,6 @@ import android.view.Gravity
 import android.view.View
 import androidx.core.view.get
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.amap.api.mapcore.util.it
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.scwang.smartrefresh.layout.api.RefreshFooter
@@ -24,13 +23,11 @@ import com.sogukj.pe.bean.CategoryChild1
 import com.sogukj.pe.bean.InvestCategory
 import com.sogukj.pe.bean.InvestmentEvent
 import com.sogukj.pe.service.DataSourceService
-import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
-import io.reactivex.internal.util.HalfSerializer.onNext
 import kotlinx.android.synthetic.main.activity_investment_event.*
-import kotlinx.android.synthetic.main.item_investment_event_list.view.*
 import kotlinx.android.synthetic.main.item_invest_primary.view.*
 import kotlinx.android.synthetic.main.item_invest_secondary.view.*
+import kotlinx.android.synthetic.main.item_investment_event_list.view.*
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivity
@@ -50,7 +47,7 @@ class InvestmentActivity : BaseRefreshActivity() {
         setContentView(R.layout.activity_investment_event)
         Utils.setWindowStatusBarColor(this, R.color.white)
         toolbar?.setBackgroundColor(resources.getColor(R.color.white))
-        title = "行业近期投融资历史"
+        title = "融资事件"
         setBack(true)
         resultAdapter = RecyclerAdapter(this) { _adapter, parent, _ ->
             ResultHolder(_adapter.getView(R.layout.item_investment_event_list, parent))

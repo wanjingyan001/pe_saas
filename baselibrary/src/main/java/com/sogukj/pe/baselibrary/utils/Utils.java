@@ -78,7 +78,7 @@ public class Utils {
      * 正则表达式:验证邮箱
      */
     public static final String REGEX_EMAIL = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
-
+    public static final String CREDIT_CODE = "[0-9A-HJ-NPQRTUWXY]{2}\\d{6}[0-9A-HJ-NPQRTUWXY]{10}";
     public static int dpToPx(Context context, int dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
     }
@@ -106,6 +106,7 @@ public class Utils {
         Matcher m = p.matcher(str);
         return m.replaceAll("").trim();
     }
+
 
     public static void closeInput(Context context, View view) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -1484,5 +1485,29 @@ public class Utils {
     public static boolean isEmail(String email) {
         return Pattern.matches(REGEX_EMAIL, email);
     }
+
+    public static boolean isCreditCode(String code){
+        return Pattern.matches(CREDIT_CODE,code);
+    }
+
+
+    //判断整数（int）
+    public static boolean isInteger(String str) {
+        if (null == str || "".equals(str)) {
+            return false;
+        }
+        Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
+        return pattern.matcher(str).matches();
+    }
+
+    //判断浮点数（double和float）
+    public static boolean isDouble(String str) {
+        if (null == str || "".equals(str)) {
+            return false;
+        }
+        Pattern pattern = Pattern.compile("^[-\\+]?[.\\d]*$");
+        return pattern.matcher(str).matches();
+    }
+
 
 }

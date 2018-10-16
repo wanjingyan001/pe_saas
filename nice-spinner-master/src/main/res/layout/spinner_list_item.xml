@@ -28,7 +28,7 @@
         android:gravity="center"
         android:paddingBottom="5dp"
         android:paddingTop="5dp"
-        android:text="搜股X-PE"
+        android:text="搜股XPE"
         android:textColor="#ffa0a4aa"
         android:textSize="10sp" />
 

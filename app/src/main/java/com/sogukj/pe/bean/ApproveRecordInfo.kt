@@ -9,6 +9,7 @@ class ApproveRecordInfo : Serializable {
     var flow : List<ApproveFlow> ? = null
     var click : Int ? = null //0=>无操作，1=>审批人，2=>发起人
     var button : List<ApproveButton> ? = null
+    var repeat : Int ? = null // 1:重复编辑
     class ApproveFlow : Serializable{
         var approval_id : Int ? = null
         var content = ""

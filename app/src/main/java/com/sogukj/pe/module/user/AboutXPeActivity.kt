@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.base.BaseActivity
@@ -28,7 +29,7 @@ class AboutXPeActivity : BaseActivity(){
 
     private fun initData() {
         toolbar_title.text = resources.getString(R.string.about_xpe)
-        tv_version.text = "搜股X-PE " + Utils.getVersionName(this)
+        tv_version.text = "搜股XPE " + Utils.getVersionName(this)
     }
 
     private fun bindListener() {
@@ -42,6 +43,11 @@ class AboutXPeActivity : BaseActivity(){
 
         tv_declare.clickWithTrigger {
             //免责声明
+            WebNormalActivity.invoke(this,"免责声明", Extras.DECLARE_URL)
+        }
+        tv_safe.clickWithTrigger {
+            //X-PE安全白皮书
+            WebNormalActivity.invoke(this,"XPE安全白皮书", Extras.getSafeUrl())
         }
     }
 

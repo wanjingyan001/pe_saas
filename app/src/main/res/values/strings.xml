@@ -147,9 +147,10 @@
     <string name="jump_link">还没团队? 立刻创建团队>></string>
     <string name="tips1">本产品只面向私募机构开放，因此我们需要对您提供的名片进行审核,感谢合作!</string>
     <string name="tips_under_review">审核预计需要2个工作日，我们会短信通知您结果，请耐心等待</string>
-    <string name="about_xpe">关于X-PE</string>
+    <string name="about_xpe">关于XPE</string>
     <string name="check_update">检查新版本</string>
     <string name="declare">免责声明</string>
+    <string name="safe">XPE安全白皮书</string>
     <string name="notif_setting">新消息通知设置</string>
     <string name="notif_warn">注：当PE在后台运行时，部分华为手机（例如：荣耀）存在不能接收新消息通知的问题</string>
     <string name="notif_content">1、进入"系统设置"，点击"全部设置"；\n2、点击"受保护的后台应用"；\n3、将"PE"设置为受保护。</string>

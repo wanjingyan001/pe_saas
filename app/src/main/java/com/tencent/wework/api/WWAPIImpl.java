@@ -147,6 +147,7 @@ final public class WWAPIImpl implements IWWAPI {
             var1 = context.getPackageManager().getPackageInfo(pkg, PackageManager.GET_SIGNATURES);
             return MD5Encode(var1.signatures[0].toByteArray());
         } catch (Throwable var2) {
+
         }
         return "";
     }

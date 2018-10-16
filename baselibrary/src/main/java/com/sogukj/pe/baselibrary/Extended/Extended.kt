@@ -279,3 +279,13 @@ private fun <T : View> T.clickEnable(): Boolean {
     triggerLastTime = currentClickTime
     return flag
 }
+private var mClickTime = 0L
+ fun isClickEnable(delay: Long): Boolean {
+    var flag = false
+    val currentClickTime = System.currentTimeMillis()
+    if (currentClickTime - mClickTime >= delay) {
+        flag = true
+    }
+    mClickTime = currentClickTime
+    return flag
+}

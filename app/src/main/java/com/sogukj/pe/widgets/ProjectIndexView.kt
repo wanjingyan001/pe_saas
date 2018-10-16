@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.ProjectApproveInfo
 import java.util.*
 
@@ -68,13 +69,25 @@ class ProjectIndexView : LinearLayout {
         if (null != frames && frames.size > 0){
             for (frame in frames) {
                 if (!frame.asset.isNullOrEmpty()){
-                    amounts.add(frame.asset.toFloat())
+                    if (Utils.isInteger(frame.asset) || Utils.isDouble(frame.asset)){
+                        amounts.add(frame.asset.toFloat())
+                    }else{
+                        amounts.add(0f)
+                    }
                 }
                 if (!frame.income.isNullOrEmpty()){
-                    amounts.add(frame.income.toFloat())
+                    if (Utils.isInteger(frame.income) || Utils.isDouble(frame.income)){
+                        amounts.add(frame.income.toFloat())
+                    }else{
+                        amounts.add(0f)
+                    }
                 }
                 if (!frame.profit.isNullOrEmpty()){
-                    amounts.add(frame.profit.toFloat())
+                    if (Utils.isInteger(frame.profit) || Utils.isDouble(frame.profit)){
+                        amounts.add(frame.profit.toFloat())
+                    }else{
+                        amounts.add(0f)
+                    }
                 }
             }
         }
@@ -117,20 +130,23 @@ class ProjectIndexView : LinearLayout {
                 realYear3 = ""
             }
 
-            if (!"".equals(realYear1)){
+            if (!"".equals(realYear1) && Utils.isInteger(realYear1)){
                 years.add(realYear1.toInt())
             }
-            if (!"".equals(realYear2)){
+            if (!"".equals(realYear2)&& Utils.isInteger(realYear2)){
                 years.add(realYear2.toInt())
             }
-            if (!"".equals(realYear3)){
+            if (!"".equals(realYear3)&& Utils.isInteger(realYear3)){
                 years.add(realYear3.toInt())
             }
+            var maxYear = 0
+            var minYear = 0
+            if (years.size > 0){
+                maxYear = Collections.max(years)
+                minYear = Collections.min(years)
+            }
 
-            val maxYear = Collections.max(years)
-            val minYear = Collections.min(years)
             if (years.size == 1){
-
                 tv1!!.text = maxYear.toString()
                 tv1!!.visibility = View.VISIBLE
                 ll_2!!.visibility = View.INVISIBLE

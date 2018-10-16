@@ -31,12 +31,10 @@ import com.bumptech.glide.request.target.Target
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
-import com.sogukj.pe.baselibrary.Extended.setOnClickFastListener
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.ddshare.DDShareActivity
-import com.sogukj.pe.peUtils.ShareUtils
 import kotlinx.android.synthetic.main.layout_card_window.*
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.doAsync
@@ -123,6 +121,7 @@ class CardActivity : Activity(), PlatformActionListener {
             wechat.platformActionListener = this@CardActivity
             wechat.share(sp)
         }
+
         dialog.find<TextView>(R.id.tv_qq).setVisible(false)
 //                clickWithTrigger {
 //            dialog.dismiss()

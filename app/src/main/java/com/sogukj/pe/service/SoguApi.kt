@@ -7,6 +7,7 @@ import android.os.Build
 import android.preference.PreferenceManager
 import com.sogukj.pe.Consts
 import com.sogukj.pe.Extras
+import com.sogukj.pe.baselibrary.utils.EncryptionUtil
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peExtended.getIntEnvironment
@@ -141,6 +142,7 @@ class SoguApi {
                 .addHeader("version", Utils.getVersionName(context))
                 .addHeader("client", "android")
                 .addHeader("system", Build.VERSION.RELEASE)
+                .addHeader("sign",EncryptionUtil.getSign(EncryptionUtil.getSign(user?.let {it.app_token} + Extras.SIGN_CODE)+System.currentTimeMillis()))
                 .build()
         chain.proceed(request)
     }

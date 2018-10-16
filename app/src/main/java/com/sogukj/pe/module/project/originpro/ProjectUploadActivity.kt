@@ -17,6 +17,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity
 import com.sogukj.pe.App
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
@@ -172,8 +173,8 @@ class ProjectUploadActivity : ToolbarActivity() {
 
         }
 
-        ll_create.setOnClickListener {
-            if (null == project) return@setOnClickListener
+        ll_create.clickWithTrigger {
+            if (null == project) return@clickWithTrigger
             modifyYshData()
         }
     }

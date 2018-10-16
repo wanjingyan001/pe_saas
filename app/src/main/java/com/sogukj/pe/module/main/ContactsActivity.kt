@@ -271,7 +271,7 @@ class ContactsActivity : ToolbarActivity() {
                         .load(detail?.logo)
                         .apply(RequestOptions().placeholder(R.mipmap.ic_launcher_pe).error(R.mipmap.ic_launcher_pe))
                         .into(company_icon)
-                companyName.text = detail?.mechanism_name ?: "搜股X-PE"
+                companyName.text = detail?.mechanism_name ?: "搜股XPE"
             }
         }
     }

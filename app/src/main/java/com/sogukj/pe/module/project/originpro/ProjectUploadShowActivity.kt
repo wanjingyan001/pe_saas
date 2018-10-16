@@ -16,6 +16,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity
 import com.sogukj.pe.App
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
@@ -521,7 +522,7 @@ class ProjectUploadShowActivity : BaseRefreshActivity() {
             }
         }
 
-        tv_edit.setOnClickListener {
+        tv_edit.clickWithTrigger {
             //编辑
             startActivity<ProjectUploadActivity>(Extras.DATA to approveDatas, Extras.FUND to linkFundDatas
                     , Extras.PROJECT to project, Extras.FLAG to floor, Extras.TITLE to "预审会")

@@ -38,6 +38,7 @@
         android:layout_marginEnd="@dimen/text_20"
         android:maxLines="1"
         android:singleLine="true"
+        android:paddingLeft="@dimen/text_8"
         android:textSize="@dimen/text_size_14"
         android:textColor="@color/black_28"
         android:background="@drawable/bg_edit_agree"

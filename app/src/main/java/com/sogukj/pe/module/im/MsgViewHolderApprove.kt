@@ -6,12 +6,10 @@ import android.support.constraint.ConstraintLayout
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
-import android.widget.FrameLayout
 import com.netease.nim.uikit.business.session.viewholder.MsgViewHolderBase
 import com.netease.nim.uikit.common.ui.recyclerview.adapter.BaseMultiItemFetchLoadAdapter
 import com.netease.nim.uikit.common.util.sys.ScreenUtil
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.no
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.MessageBean
 import com.sogukj.pe.module.approve.LeaveBusinessApproveActivity

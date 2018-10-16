@@ -14,6 +14,7 @@ import com.bigkoo.pickerview.TimePickerView
 import com.bumptech.glide.Glide
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -144,7 +145,7 @@ class ProjectApprovalActivity : ToolbarActivity(), ProjectApproveCallBack {
         view_recover.visibility = View.INVISIBLE
     }
     private fun bindListener() {
-        ll_create.setOnClickListener {
+        ll_create.clickWithTrigger {
             //提交立项申请
             if (null != add_file_view){
                 if (add_file_view.isClickCreat()){
@@ -210,6 +211,10 @@ class ProjectApprovalActivity : ToolbarActivity(), ProjectApproveCallBack {
                 }
             }
         }
+//        if (years.isNullOrEmpty()){
+//            showErrorToast("年份不能全为空")
+//            return
+//        }
         val files = ArrayList<FileDataBean>()
         if (null != add_file_view) {
             val fileData = add_file_view.getFileData()

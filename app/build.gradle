@@ -89,6 +89,7 @@ android {
         javaMaxHeapSize "4g"//越大越好
         preDexLibraries false
         dexInProcess true
+        jumboMode = true
     }
     androidExtensions {
         experimental = true
@@ -99,7 +100,7 @@ android {
         pe {
             dimension "channel"
             applicationId "com.sogukj.pe"
-            resValue "string", "app_name", "搜股X-PE"
+            resValue "string", "app_name", "搜股XPE"
             resValue "bool", "isrRank", 'true'
             buildConfigField "String", "ENVIRONMENT", '"pe"'
             buildConfigField "String", "FILEPROVIDER", '"com.sogukj.pe.fileProvider"'

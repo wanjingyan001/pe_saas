@@ -69,7 +69,7 @@
                     android:layout_height="40dp"
                     android:layout_gravity="right"
                     android:padding="10dp"
-                    android:src="@drawable/tj_main" />
+                    android:src="@drawable/plus" />
 
             </android.support.v7.widget.Toolbar>
 

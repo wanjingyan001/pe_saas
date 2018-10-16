@@ -15,6 +15,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
+import android.widget.Toast
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -26,10 +27,7 @@ import com.netease.nimlib.sdk.team.TeamService
 import com.netease.nimlib.sdk.team.model.Team
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
-import com.sogukj.pe.baselibrary.Extended.execute
-import com.sogukj.pe.baselibrary.Extended.ifNotNull
-import com.sogukj.pe.baselibrary.Extended.setVisible
+import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.*
 import com.sogukj.pe.bean.*
@@ -612,13 +610,17 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
         }
         dialog.show()
     }
-
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
-        if (view.tag in 1..64) {
+        if (!isClickEnable(200)){
+            Toast.makeText(this, "请勿重复点击", Toast.LENGTH_SHORT).show()
+            return
+        }
+        if (view.tag in 1..68) {
             SoguApi.getService(application, NewService::class.java)
                     .saveClick(view.tag as Int)
                     .execute {}
         }
+
         val detailSmallBean = detailModules[position].t
         when (view.tag) {
             38 -> StockInfoActivity.start(this@ProjectDetailActivity, project)//股票行情

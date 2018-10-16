@@ -36,7 +36,7 @@ class HotPostActivity : BaseRefreshActivity() {
         setContentView(R.layout.activity_hot_post)
         Utils.setWindowStatusBarColor(this, R.color.white)
         toolbar?.setBackgroundColor(resources.getColor(R.color.white))
-        title = "热门行业研报"
+        title = "行业研报"
         setBack(true)
         initView()
         initData()
@@ -98,7 +98,7 @@ class HotPostActivity : BaseRefreshActivity() {
                                 }
                                 val hotPostInfo = HotPostInfo()
                                 hotPostInfo.setType(HotPostInfo.footer)
-                                hotPostInfo.name = "X-PE 你的专属投资大管家"
+                                hotPostInfo.name = "XPE 你的专属投资大管家"
                                 infos.addAll(it)
                                 infos.add(hotPostInfo)
                                 listAdapter.notifyDataSetChanged()

@@ -16,6 +16,7 @@ import com.bigkoo.pickerview.OptionsPickerView
 import com.bumptech.glide.Glide
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.isNullOrEmpty
 import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
@@ -308,7 +309,7 @@ class NewOriginProjectActivity : ToolbarActivity(), NewOriginProCallBack {
             addContactView()
         }
 
-        tv_edit.setOnClickListener {
+        tv_edit.clickWithTrigger {
             //编辑
             editAble = true
             et_business_brief.visibility = View.VISIBLE
@@ -338,7 +339,7 @@ class NewOriginProjectActivity : ToolbarActivity(), NewOriginProCallBack {
             }
         }
 
-        ll_create.setOnClickListener {
+        ll_create.clickWithTrigger {
             createProjectBuild()
         }
     }
@@ -408,6 +409,11 @@ class NewOriginProjectActivity : ToolbarActivity(), NewOriginProCallBack {
                 relateInfos.add(info)
             }
         }
+        val code = tv_credit_code.textStr
+        if (!Utils.isCreditCode(code)){
+            showCustomToast(R.drawable.icon_toast_common, "请填写正确的信用代码")
+            return
+        }
         val map = HashMap<String, Any>()
         map.put("cName", tv_name_all.textStr)
         map.put("shortName", tv_name_simple.textStr)
@@ -415,7 +421,7 @@ class NewOriginProjectActivity : ToolbarActivity(), NewOriginProCallBack {
         map.put("principal", chargerPmId)
         map.put("leader", chargerPlId)
         map.put("type", 2)
-        map.put("creditCode", tv_credit_code.textStr)
+        map.put("creditCode", code)
         map.put("company_id", company_id)
         map.put("relate", relateInfos)
         if (null != presenter) {

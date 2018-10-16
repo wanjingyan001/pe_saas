@@ -7,6 +7,7 @@ import android.graphics.Path
 import android.util.AttributeSet
 import android.view.View
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.ApproveFrameInfo
 import com.sogukj.pe.bean.ProjectApproveInfo
 import java.util.*
@@ -395,9 +396,22 @@ class ProjectLineChartView : View {
             for (frame in frames) {
                 val info = ApproveFrameInfo()
                 info.year = frame.year
-                info.property_amount = frame.asset
-                info.income_amount = frame.income
-                info.profit_amount = frame.profit
+                if (Utils.isInteger(frame.asset) || Utils.isDouble(frame.asset)){
+                    info.property_amount = frame.asset
+                }else{
+                    info.property_amount = "0"
+                }
+                if (Utils.isInteger(frame.income) || Utils.isDouble(frame.income)){
+                    info.income_amount = frame.income
+                }else{
+                    info.income_amount = "0"
+                }
+                if (Utils.isInteger(frame.profit) || Utils.isDouble(frame.profit)){
+                    info.profit_amount = frame.profit
+                }else{
+                    info.profit_amount = "0"
+                }
+
                 infos.add(info)
             }
         }

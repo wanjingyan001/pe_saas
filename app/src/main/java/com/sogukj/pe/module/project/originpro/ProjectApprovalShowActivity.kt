@@ -15,6 +15,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.sogukj.pe.App
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
@@ -505,7 +506,7 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
             }
         }
 
-        tv_edit.setOnClickListener {
+        tv_edit.clickWithTrigger {
             //编辑
             startActivity<ProjectApprovalActivity>(Extras.DATA to project,Extras.FLAG to floor)
             finish()
