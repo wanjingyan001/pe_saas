@@ -72,7 +72,8 @@
         android:layout_marginTop="20dp"
         android:textColor="#50D59D"
         android:textSize="@dimen/text_size_samll"
+        android:text="已审批"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/reason"
+        app:layout_constraintStart_toStartOf="@+id/sponsor"
         app:layout_constraintTop_toBottomOf="@+id/reason" />
 </android.support.constraint.ConstraintLayout>

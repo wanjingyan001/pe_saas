@@ -6,17 +6,24 @@ import android.support.constraint.ConstraintLayout
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
+import android.view.View
 import com.netease.nim.uikit.business.session.viewholder.MsgViewHolderBase
 import com.netease.nim.uikit.common.ui.recyclerview.adapter.BaseMultiItemFetchLoadAdapter
 import com.netease.nim.uikit.common.util.sys.ScreenUtil
+import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.MessageBean
+import com.sogukj.pe.bean.ProjectBean
 import com.sogukj.pe.module.approve.LeaveBusinessApproveActivity
 import com.sogukj.pe.module.approve.SealApproveActivity
 import com.sogukj.pe.module.approve.SignApproveActivity
+import com.sogukj.pe.module.project.originpro.OtherProjectShowActivity
+import com.sogukj.pe.module.project.originpro.ProjectApprovalShowActivity
+import com.sogukj.pe.module.project.originpro.ProjectUploadShowActivity
 import kotlinx.android.synthetic.main.item_im_approve_message.view.*
 import org.jetbrains.anko.backgroundResource
+import org.jetbrains.anko.startActivity
 
 /**
  * Created by admin on 2018/9/21.
@@ -38,12 +45,21 @@ class MsgViewHolderApprove(adapter: BaseMultiItemFetchLoadAdapter<*, *>) : MsgVi
     override fun bindContentView() {
         val attachment = message.attachment as ApproveAttachment
         data = attachment.messageBean
-
         view.approveType.text = data.type_name
         view.approveNum.text = data.title
         view.sponsor.text = replaceText("发起人：", data.username)
         view.reason.text = replaceText("审批事由：", data.reasons)
-        view.schedule.text = data.status_str
+        view.schedule.text = data.preapproval
+        if (!data.reasons.isNullOrEmpty()){
+            view.reason.visibility = View.VISIBLE
+        }else{
+            view.reason.visibility = View.GONE
+        }
+        if (data.title.isNullOrEmpty()){
+            view.approveNum.visibility = View.GONE
+        }else{
+            view.approveNum.visibility = View.VISIBLE
+        }
     }
 
     private fun replaceText(hintStr: String, str: String?): SpannableString {
@@ -69,6 +85,43 @@ class MsgViewHolderApprove(adapter: BaseMultiItemFetchLoadAdapter<*, *>) : MsgVi
             2 -> SealApproveActivity.start(context as Activity, data, isMine)
             3 -> SignApproveActivity.start(context as Activity, data, isMine)
             1 -> LeaveBusinessApproveActivity.start(context as Activity, data, isMine)//出差  SealApproveActivity
+        }
+        if (null != data.floor){
+            val floor = data.floor
+            val project = ProjectBean()
+            project.company_id = data.company_id
+            project.floor = data.company_floor
+            project.name = data.company_name
+            when(floor){
+                2 -> {
+                    //立项
+                    context.startActivity<ProjectApprovalShowActivity>(Extras.DATA to project, Extras.FLAG to floor)
+                }
+                3 -> {
+                    //预审会
+                    context.startActivity<ProjectUploadShowActivity>(Extras.DATA to project,Extras.FLAG to floor)
+                }
+                4 -> {
+                    //投决会
+                    context.startActivity<OtherProjectShowActivity>(Extras.DATA to project,Extras.FLAG to floor,
+                            Extras.TITLE to "投决会")
+                }
+                5 -> {
+                    //签约付款
+                    context.startActivity<OtherProjectShowActivity>(Extras.DATA to project,Extras.FLAG to floor,
+                            Extras.TITLE to "签约付款")
+                }
+                6 -> {
+                    //投后管理
+                    context.startActivity<OtherProjectShowActivity>(Extras.DATA to project,Extras.FLAG to floor,
+                            Extras.TITLE to "投后管理")
+                }
+                7 -> {
+                    //退出管理
+                    context.startActivity<OtherProjectShowActivity>(Extras.DATA to project,Extras.FLAG to floor,
+                            Extras.TITLE to "退出管理")
+                }
+            }
         }
     }
 
