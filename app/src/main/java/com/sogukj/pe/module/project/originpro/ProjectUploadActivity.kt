@@ -184,7 +184,12 @@ class ProjectUploadActivity : ToolbarActivity() {
         if ("签约付款".equals(title)){
             uploadLinkFund()
         }else{
-            uploadInvestFiles(2)
+            if ("投后管理".equals(title)){
+                uploadInvestFiles(2,1)
+            }else{
+                uploadInvestFiles(2,0)
+            }
+
         }
 
     }
@@ -209,20 +214,26 @@ class ProjectUploadActivity : ToolbarActivity() {
             super.onBackPressed()
         }
         yes.setOnClickListener {
-            uploadInvestFiles(1)
+            if ("投后管理".equals(title)){
+                uploadInvestFiles(1,1)
+            }else{
+                uploadInvestFiles(1,0)
+            }
+
             mDialog.dismiss()
         }
 
         mDialog.show()
     }
 
-    private fun uploadInvestFiles(type : Int) {
+    private fun uploadInvestFiles(type : Int,current : Int) {
         val map = HashMap<String, Any>()
         map.put("company_id", project!!.company_id!!)
         map.put("type", type)
         map.put("floor", project!!.floor!!)
-        map.put("current", 0)
+        map.put("current", current)
         map.put("files", uploadFiles)
+        map.put("iconfloor",floor)
         SoguApi.getService(App.INSTANCE,OtherService::class.java)
                 .createProjectApprove(map)
                 .execute {
@@ -276,7 +287,12 @@ class ProjectUploadActivity : ToolbarActivity() {
                 .execute {
                     onNext { payload ->
                         if (payload.isOk){
-                            uploadInvestFiles(2)
+                            if ("投后管理".equals(title)){
+                                uploadInvestFiles(2,1)
+                            }else{
+                                uploadInvestFiles(2,0)
+                            }
+
                         }else{
                             showErrorToast(payload.message)
                             hideProgress()

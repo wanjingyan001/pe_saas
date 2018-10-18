@@ -208,4 +208,10 @@ interface OtherService {
      */
     @POST("/api/Company/hideButton")
     fun configApprove():Observable<Payload<JsonObject>>
+
+    /**
+     * 关于
+     */
+    @POST("/api/index/getxieyiurl")
+    fun getAboutPage():Observable<Payload<AboutPageBean>>
 }

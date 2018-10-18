@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/blue_43"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/text_17"
+    android:paddingTop="@dimen/text_17">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="舆情监控共15次"
+            android:textColor="@color/blue_a9"
+            android:textSize="@dimen/text_size_12"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_5"
+            android:text="剩余10个"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_18"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="@dimen/text_1"
+        android:layout_height="match_parent"
+        android:background="@color/blue_27"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="征信套餐共50次"
+            android:textColor="@color/blue_a9"
+            android:textSize="@dimen/text_size_12"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_5"
+            android:text="剩余25次"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_18"/>
+    </LinearLayout>
+</LinearLayout>

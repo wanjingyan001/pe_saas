@@ -52,6 +52,7 @@
     <dimen name="text_13">13dp</dimen>
     <dimen name="text_15">15dp</dimen>
     <dimen name="text_16">16dp</dimen>
+    <dimen name="text_17">17dp</dimen>
     <dimen name="text_18">18dp</dimen>
     <dimen name="text_19">19dp</dimen>
     <dimen name="text_20">20dp</dimen>
@@ -59,6 +60,7 @@
     <dimen name="text_25">25dp</dimen>
     <dimen name="text_26">26dp</dimen>
     <dimen name="text_27">27dp</dimen>
+    <dimen name="text_28">28dp</dimen>
     <dimen name="text_30">30dp</dimen>
     <dimen name="text_35">35dp</dimen>
     <dimen name="text_40">40dp</dimen>

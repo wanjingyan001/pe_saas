@@ -4,6 +4,7 @@ import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.os.Build
 import android.util.DisplayMetrics
@@ -78,6 +79,16 @@ fun View.setVisible(visible: Boolean) {
     visibility = if (visible) View.VISIBLE else View.GONE
 }
 
+fun View.setDrawable(textView : TextView ,direct : Int,drawable: Drawable){
+
+    drawable.setBounds(0,0,drawable.minimumWidth,drawable.minimumHeight)
+    when(direct){
+        0 -> textView.setCompoundDrawables(drawable,null,null,null)
+        1 -> textView.setCompoundDrawables(null,drawable,null,null)
+        2 -> textView.setCompoundDrawables(null,null,drawable,null)
+        3 -> textView.setCompoundDrawables(null,null,null,drawable)
+    }
+}
 
 fun <T> Observable<T>.execute(init: Ex_T0_Unit<SubscriberHelper<T>>) {
     val subscriberHelper = SubscriberHelper<T>()

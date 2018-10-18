@@ -410,7 +410,7 @@ class NewOriginProjectActivity : ToolbarActivity(), NewOriginProCallBack {
             }
         }
         val code = tv_credit_code.textStr
-        if (!Utils.isCreditCode(code)){
+        if (!code.isNullOrEmpty() && !Utils.isCreditCode(code)){
             showCustomToast(R.drawable.icon_toast_common, "请填写正确的信用代码")
             return
         }

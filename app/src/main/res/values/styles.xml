@@ -384,4 +384,22 @@
         <item name="android:layout_marginRight">@dimen/text_5</item>
         <item name="android:layout_marginLeft">@dimen/text_15</item>
     </style>
+
+    <style name="mineWalletTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:textColor">@color/gray_80</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <style name="mineWalletContent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_size_12</item>
+        <item name="android:textColor">@color/gray_a0</item>
+        <item name="android:gravity">right</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
 </resources>

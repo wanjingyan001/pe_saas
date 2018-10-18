@@ -110,7 +110,6 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
         setBack(true)
         project = intent.getSerializableExtra(Extras.DATA) as ProjectBean?
         floor = intent.getIntExtra(Extras.FLAG,-1)
-        toolbar_title.maxEms = 11
         setTitle(project!!.name)
         presenter = ProjectApprovePresenter(this,this)
         dialog = BuildProjectDialog()
@@ -244,6 +243,7 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
                     }
                     else -> {
                         tv_edit.visibility = View.VISIBLE
+                        toolbar_title.maxEms = 11
                     }
                 }
             }

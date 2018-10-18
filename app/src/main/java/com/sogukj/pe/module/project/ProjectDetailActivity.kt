@@ -177,43 +177,35 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
             //隐藏
             proj_stage.visibility = View.INVISIBLE
             edit.visibility = View.GONE
+            history.visibility = View.GONE
         }else{
-            proj_stage.visibility = View.VISIBLE
-            edit.visibility = View.VISIBLE
-        }
-        when (type) {
-            ProjectListFragment.TYPE_DY -> {
-                proj_stage.text = "储 备"
-                history.visibility = View.GONE
-            }
-            ProjectListFragment.TYPE_CB -> {
-                proj_stage.text = "立 项"
-                history.visibility = View.GONE
-            }
-            ProjectListFragment.TYPE_LX -> {
-                proj_stage.text = "投 决"
-                edit.visibility = View.GONE
-                history.visibility = View.GONE
-            }
-            ProjectListFragment.TYPE_YT -> {
-                proj_stage.text = "退 出"
-                edit.visibility = View.GONE
-                history.visibility = View.GONE
-                delete.visibility = View.GONE
-                if (project.quit == 1) {
-                    history.visibility = View.VISIBLE
-                }
-            }
-            ProjectListFragment.TYPE_TC -> {
-                proj_stage.visibility = View.GONE
-                edit.visibility = View.GONE
-                delete.visibility = View.GONE
-
-                if (isHidden == 1){
-                    //隐藏
+            when (type) {
+                ProjectListFragment.TYPE_DY -> {
+                    proj_stage.text = "储 备"
                     history.visibility = View.GONE
-                }else{
-                    history.visibility = View.VISIBLE
+                }
+                ProjectListFragment.TYPE_CB -> {
+                    proj_stage.text = "立 项"
+                    history.visibility = View.GONE
+                }
+                ProjectListFragment.TYPE_LX -> {
+                    proj_stage.text = "投 决"
+                    edit.visibility = View.GONE
+                    history.visibility = View.GONE
+                }
+                ProjectListFragment.TYPE_YT -> {
+                    proj_stage.text = "退 出"
+                    edit.visibility = View.GONE
+                    history.visibility = View.GONE
+                    delete.visibility = View.GONE
+                    if (project.quit == 1) {
+                        history.visibility = View.VISIBLE
+                    }
+                }
+                ProjectListFragment.TYPE_TC -> {
+                    proj_stage.visibility = View.GONE
+                    edit.visibility = View.GONE
+                    delete.visibility = View.GONE
                 }
             }
         }
