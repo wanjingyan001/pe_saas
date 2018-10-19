@@ -29,6 +29,7 @@ class ProjectSelection @JvmOverloads constructor(
 
     override fun bindContentView() {
         hasInit.yes {
+            inflate.star.setVisible(isMust)
             inflate.projectSelectionTitle.text = controlBean.name
             controlBean.value?.let { values ->
                 values.isNotEmpty().yes {

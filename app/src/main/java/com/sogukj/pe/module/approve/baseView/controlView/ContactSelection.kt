@@ -1,15 +1,13 @@
 package com.sogukj.pe.module.approve.baseView.controlView
 
+import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import com.amap.api.mapcore.util.it
 import com.google.gson.internal.LinkedTreeMap
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
-import com.sogukj.pe.baselibrary.Extended.isNullOrEmpty
-import com.sogukj.pe.baselibrary.Extended.otherWise
-import com.sogukj.pe.baselibrary.Extended.yes
+import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.AvoidOnResult
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.module.approve.ApproveInitiateActivity
@@ -35,6 +33,8 @@ class ContactSelection @JvmOverloads constructor(
 
     override fun bindContentView() {
         hasInit.yes {
+            inflate.star.setVisible(isMust)
+            inflate.contactSelectTitle.text = controlBean.name
             controlBean.value?.let { values ->
                 values.isNotEmpty().yes {
                     val beans = mutableListOf<ApproveValueBean>()
@@ -57,7 +57,7 @@ class ContactSelection @JvmOverloads constructor(
                                     Extras.LIST to alreadySelected,
                                     Extras.FLAG to controlBean.is_multiple,
                                     Extras.TYPE to controlBean.skip!![0].skip_site)
-                            .filter { it.resultCode == Extras.RESULTCODE }
+                            .filter { it.resultCode == Activity.RESULT_OK}
                             .flatMap {
                                 val selected = it.data.getSerializableExtra(Extras.BEAN) as ArrayList<ApproveValueBean>
                                 Observable.just(selected)

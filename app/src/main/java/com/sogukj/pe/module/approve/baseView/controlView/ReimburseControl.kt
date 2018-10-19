@@ -12,20 +12,19 @@ import com.amap.api.mapcore.util.it
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
-import com.sogukj.pe.baselibrary.Extended.isNullOrEmpty
-import com.sogukj.pe.baselibrary.Extended.textStr
-import com.sogukj.pe.baselibrary.Extended.yes
+import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.widgets.SpaceItemDecoration
 import com.sogukj.pe.module.approve.baseView.BaseControl
 import com.sogukj.pe.module.approve.baseView.ControlFactory
 import com.sogukj.pe.module.approve.baseView.viewBean.ControlBean
 import com.sogukj.pe.module.approve.utils.NumberToCN
+import kotlinx.android.synthetic.main.layout_control_money_input.view.*
 import kotlinx.android.synthetic.main.layout_control_reimburse.view.*
 import kotlinx.android.synthetic.main.layout_control_reimburse_list_footer.view.*
 import org.jetbrains.anko.backgroundColorResource
 import org.jetbrains.anko.backgroundResource
 import org.jetbrains.anko.dip
+import org.jetbrains.anko.info
 import kotlin.properties.Delegates
 
 /**
@@ -40,23 +39,11 @@ class ReimburseControl @JvmOverloads constructor(
 
     private lateinit var detailAdapter: DetailAdapter
 
+    private var totals = mutableListOf<Double>()
+
     override fun getContentResId(): Int = R.layout.layout_control_reimburse
 
-    private var group: MutableList<ControlBean> by Delegates.observable(mutableListOf(), { property, oldValue, newValue ->
-        var totalMoney = 0.0
-        (newValue.size > 0).yes {
-            group.forEach {
-                it.children!!.filter { it.control == 9 }.filterNot { it.value.isNullOrEmpty() }.forEach {
-                    it.value!!.isNotEmpty().yes {
-                        val singMoney = (it.value!![0] as String).toDouble()
-                        totalMoney += singMoney
-                    }
-                }
-            }
-            inflate.totalAmount.text = totalMoney.toString()
-            inflate.CNMoney.text =  NumberToCN.money2CNUnit(totalMoney.toString())
-        }
-    })
+    private var group = mutableListOf<ControlBean>()
 
     override fun bindContentView() {
         hasInit.yes {
@@ -73,8 +60,11 @@ class ReimburseControl @JvmOverloads constructor(
                     //                    addItemDecoration(SpaceItemDecoration(dip(12)))
                 }
                 footer.copyDetail.clickWithTrigger { _ ->
-                    it.add(resetValues(it[0].copy()))
-                    detailAdapter.notifyDataSetChanged()
+                    val element = resetValues(it[0].copy())
+                    element?.let {
+                        group.add(it)
+                        detailAdapter.notifyItemInserted(group.size - 1)
+                    }
                 }
             }
         }
@@ -82,10 +72,28 @@ class ReimburseControl @JvmOverloads constructor(
 
 
     inner class DetailAdapter(data: List<ControlBean>) : BaseQuickAdapter<ControlBean, BaseViewHolder>(R.layout.item_control_reimburse_detail, data) {
+        var moneyNum = 0.0
+
         override fun convert(helper: BaseViewHolder, item: ControlBean) {
+            var itemMoney: Double by Delegates.observable(0.0, { property, oldValue, newValue ->
+                moneyNum = moneyNum + newValue - oldValue
+                totals.add(moneyNum)
+                totals.forEach {
+                    info { it }
+                }
+                helper.itemView.postDelayed({
+                    val d = totals[totals.size - 1]
+                    totals.clear()
+                    totals.add(d)
+                    inflate.totalAmount.text = d.toString()
+                    inflate.CNMoney.text = NumberToCN.money2CNUnit(d.toString())
+                }, 1000)
+
+            })
             //"报销明细"的控件组(包含提示文字,金额输入,报销类型选择,费用明细填写)
             val detailItem = helper.getView<LinearLayout>(R.id.detailsItem)
             val delete = helper.getView<ImageView>(R.id.deleteItem)
+            delete.setVisible(item.is_delete ?: false)
             val factory = ControlFactory(activity)
             item.children?.let {
                 it.forEach {
@@ -94,7 +102,13 @@ class ReimburseControl @JvmOverloads constructor(
                             it.name = "报销明细${helper.adapterPosition + 1}"
                             factory.createControl(NoticText::class.java, it)
                         }
-                        9 -> factory.createControl(MoneyInput::class.java, it)
+                        9 -> {
+                            val input = factory.createControl(MoneyInput::class.java, it)
+                            (input as MoneyInput).block = { money ->
+                                itemMoney = money
+                            }
+                            input
+                        }
                         4 -> factory.createControl(SingSelection::class.java, it)
                         2 -> factory.createControl(MultiLineInput::class.java, it)
                         else -> throw  Exception("")

@@ -94,7 +94,8 @@ dependencies {
 
 //    other
 //    api 'com.ashokvarma.android:bottom-navigation-bar:2.0.4'
-    api 'com.contrarywind:Android-PickerView:3.2.7'
+    api 'com.contrarywind:Android-PickerView:4.1.6'
+    api 'com.contrarywind:wheelview:4.0.8'
     api 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
     api 'me.leolin:ShortcutBadger:1.1.21@aar'
     api 'com.lcodecorex:tkrefreshlayout:1.0.7'

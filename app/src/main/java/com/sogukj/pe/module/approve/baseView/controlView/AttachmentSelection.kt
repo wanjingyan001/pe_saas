@@ -10,10 +10,7 @@ import com.amap.api.mapcore.util.it
 import com.google.gson.internal.LinkedTreeMap
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
-import com.sogukj.pe.baselibrary.Extended.execute
-import com.sogukj.pe.baselibrary.Extended.otherWise
-import com.sogukj.pe.baselibrary.Extended.yes
+import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.AvoidOnResult
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
@@ -46,6 +43,8 @@ class AttachmentSelection @JvmOverloads constructor(
 
     override fun bindContentView() {
         hasInit.yes {
+            inflate.star.visibility = if (isMust) View.VISIBLE else View.INVISIBLE
+            inflate.attachSelectionTitle.text = controlBean.name
             attachAdapter = RecyclerAdapter(context) { _adapter, parent, _ ->
                 AttachHolder(_adapter.getView(R.layout.item_control_attach_selection, parent))
             }

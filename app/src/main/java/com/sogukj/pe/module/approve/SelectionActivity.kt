@@ -33,7 +33,7 @@ class SelectionActivity : ToolbarActivity() {
     /**
      * 选择类型
      */
-    private val skipSite: Int by extraDelegate(Extras.TYPE, -1)
+    private val skipSite: String by extraDelegate(Extras.TYPE, "")
     /**
      * 是否多选
      */
@@ -59,7 +59,7 @@ class SelectionActivity : ToolbarActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_selection)
         setBack(true)
-        when (skipSite) {
+        when (skipSite.toInt()) {
             7 -> {
                 title = "请选择城市"
                 cityAdapter = CityAdapter(citys)
@@ -80,7 +80,7 @@ class SelectionActivity : ToolbarActivity() {
                 }
             }
             else -> {
-                when (skipSite) {
+                when (skipSite.toInt()) {
                     1 -> {
                         requestUrl = "/api/Skip/projectList"
                         title = "请选择项目"
@@ -93,7 +93,6 @@ class SelectionActivity : ToolbarActivity() {
                         requestUrl = "/api/Skip/foreignList"
                         title = "请选择外资"
                     }
-
                     10 -> {
                         requestUrl = "/api/Skip/fundProject"
                         title = "请选择项目"
@@ -146,7 +145,7 @@ class SelectionActivity : ToolbarActivity() {
                         }
                     }
         }.otherWise {
-            when (skipSite) {
+            when (skipSite.toInt()) {
                 7 -> {
                     SoguApi.getService(application, ApproveService::class.java)
                             .selectionCity()
@@ -154,7 +153,14 @@ class SelectionActivity : ToolbarActivity() {
                                 onNext { payload ->
                                     payload.isOk.yes {
                                         payload.payload?.let {
-                                            citys.addAll(it)
+                                            val list = mutableListOf<MultiItemEntity>()
+                                            it.forEach { city->
+                                                city.children.forEach {
+                                                    city.addSubItem(it)
+                                                }
+                                                list.add(city)
+                                            }
+                                            citys.addAll(list)
                                             cityAdapter.notifyDataSetChanged()
                                             cityAdapter.expandAll()
                                         }
@@ -171,7 +177,14 @@ class SelectionActivity : ToolbarActivity() {
                                 onNext { payload ->
                                     payload.isOk.yes {
                                         payload.payload?.let {
-                                            users.addAll(it)
+                                            val list = mutableListOf<MultiItemEntity>()
+                                            it.forEach { dep->
+                                                dep.children.forEach {
+                                                    dep.addSubItem(it)
+                                                }
+                                                list.add(dep)
+                                            }
+                                            users.addAll(list)
                                             userAdapter.notifyDataSetChanged()
                                             userAdapter.expandAll()
                                         }
@@ -181,12 +194,28 @@ class SelectionActivity : ToolbarActivity() {
                                 }
                             }
                 }
+                12 -> {
+                    SoguApi.getService(application,ApproveService::class.java)
+                            .docAssociate()
+                            .execute {
+                                onNext { payload ->
+                                    payload.isOk.yes {
+                                        payload.payload?.let {
+                                            listAdapter.refreshData(it)
+                                        }
+                                    }.otherWise {
+                                        showErrorToast(payload.message)
+                                    }
+                                }
+                            }
+                }
+
             }
         }
     }
 
     override fun onBackPressed() {
-        when (skipSite) {
+        when (skipSite.toInt()) {
             7 -> {
                 multiple.yes {
                     val list = ArrayList<ApproveValueBean>()
@@ -199,6 +228,8 @@ class SelectionActivity : ToolbarActivity() {
                     intent.putExtra(Extras.BEAN, list)
                     setResult(Activity.RESULT_OK, intent)
                     finish()
+                }.otherWise {
+                    super.onBackPressed()
                 }
             }
             9 ->{
@@ -213,6 +244,8 @@ class SelectionActivity : ToolbarActivity() {
                     intent.putExtra(Extras.BEAN, list)
                     setResult(Activity.RESULT_OK, intent)
                     finish()
+                }.otherWise {
+                    super.onBackPressed()
                 }
             }
             else -> {
@@ -229,6 +262,8 @@ class SelectionActivity : ToolbarActivity() {
         override fun setData(view: View, data: Any, position: Int) {
             if (data is ApproveValueBean) {
                 view.itemTv.text = data.name
+            }else if (data is Document){
+                view.itemTv.text = data.title
             }
         }
     }
@@ -272,6 +307,7 @@ class SelectionActivity : ToolbarActivity() {
                             }.otherWise {
                                 selected.add(item)
                             }
+                            notifyItemChanged(helper.adapterPosition)
                         }.otherWise {
                             selected.add(item)
                             val list = ArrayList<ApproveValueBean>()
@@ -330,6 +366,7 @@ class SelectionActivity : ToolbarActivity() {
                             }.otherWise {
                                 selected.add(item)
                             }
+                            notifyItemChanged(holder.adapterPosition)
                         }.otherWise {
                             selected.add(item)
                             val list = ArrayList<ApproveValueBean>()

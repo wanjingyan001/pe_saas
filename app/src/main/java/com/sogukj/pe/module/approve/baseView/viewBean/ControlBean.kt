@@ -51,6 +51,11 @@ data class ControlBean(
         val name3: String?,//时长(日期区间专用)
         val placeholder: String?,//提示文字
         val is_must: Boolean?,//是否必填
+        /**
+         * 以下两项为基金项目关联中使用
+         */
+        val is_must_fund:Boolean?,//基金是否必填(目前固定为true)
+        val is_must_pro:Boolean?,//项目是否必填
         val is_disabled: Boolean?,//  是否可编辑
         val skip: List<SkipBean>?,//跳转相关
         val is_show: Boolean?,//是否打印
@@ -150,7 +155,7 @@ data class SkipBean(
          * 11 部门 web/Skip/departList
          * 12 审批单
          */
-        val skip_site: Int)
+        val skip_site: String)
 
 data class OptionBean(val name: String,//选项名
                       val scal_unit: String? //外出套件时 选项的计时单位

@@ -39,6 +39,9 @@ class NumberToCN {
 
         @JvmStatic
         fun money2CNUnit(money: String): String {
+            money.isEmpty().yes {
+                return ""
+            }
             val numberOfMoney = BigDecimal.valueOf(money.toDouble())
             val buffer = StringBuffer()
             val signum = numberOfMoney.signum()

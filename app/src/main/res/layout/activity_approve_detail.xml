@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    tools:context="com.sogukj.pe.module.approve.ApproveDetailActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:scrollbars="none"
+        android:layout_height="wrap_content">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:paddingTop="20dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
+
+                    <LinearLayout
+                        android:id="@+id/ll_user"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <com.sogukj.pe.widgets.CircleImageView
+                            android:id="@+id/applicantHeader"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_marginEnd="10dp" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="申请人"
+                                android:textColor="@color/text_1" />
+
+                            <TextView
+                                android:id="@+id/applicantName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="申请人"
+                                android:textColor="@color/text_2" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/approveNum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="18dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_gravity="right|top"
+                        android:background="@drawable/bg_tag_filter_0"
+                        android:paddingLeft="6dp"
+                        android:paddingRight="6dp"
+                        android:textSize="10sp" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/approveInfo"
+                    style="@style/SoguTextMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="30dp"
+                    android:lineSpacingMultiplier="1.5" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:orientation="vertical">
+
+                    <include
+                        android:id="@+id/part1"
+                        layout="@layout/seal_approve_part1" />
+
+                    <include
+                        android:id="@+id/part2"
+                        layout="@layout/seal_approve_part2" />
+
+                    <LinearLayout
+                        android:id="@+id/part3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingBottom="15dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="11dp"
+                            android:layout_marginTop="11dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <View
+                                android:layout_width="5dp"
+                                android:layout_height="10dp"
+                                android:layout_marginRight="5dp"
+                                android:background="@color/color_main" />
+
+                            <TextView
+                                style="@style/SoguTextNormal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="审批流程" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/divider" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_segments"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/cs_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="11dp"
+                        android:layout_marginTop="11dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="5dp"
+                            android:layout_height="10dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@color/color_main" />
+
+                        <TextView
+                            style="@style/SoguTextNormal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="抄送人" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/divider" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/copyPeoList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:nestedScrollingEnabled="false"
+                        android:layout_marginTop="10dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btnLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="15dp"
+                    android:paddingBottom="20dp"
+                    android:orientation="vertical">
+
+                    <View
+                        android:id="@+id/btnTopLine"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/divider" />
+
+                    <LinearLayout
+                        android:id="@+id/operateLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/btnBottomLine"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/divider" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_state_agreed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|top"
+                android:layout_marginTop="50dp"
+                android:src="@drawable/ic_flow_state_agree"
+                android:visibility="gone" />
+
+            <!--<ImageView-->
+                <!--android:id="@+id/iv_state_signed"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="right|top"-->
+                <!--android:layout_marginTop="50dp"-->
+                <!--android:src="@drawable/ic_flow_state_signed"-->
+                <!--android:visibility="gone" />-->
+        </FrameLayout>
+    </ScrollView>
+
+</LinearLayout>

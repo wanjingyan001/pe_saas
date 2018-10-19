@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/approverLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/approversTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:drawablePadding="8dp"
+        android:drawableStart="@drawable/star"
+        android:paddingBottom="12dp"
+        android:paddingStart="6dp"
+        android:paddingTop="12dp"
+        android:text="审批人"
+        android:textColor="@color/text_1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/approverList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingBottom="12dp"
+        android:paddingEnd="12dp"
+        android:paddingStart="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/approversTitle">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/copyPeopleTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:paddingBottom="12dp"
+        android:paddingStart="24dp"
+        android:paddingTop="12dp"
+        android:text="抄送人"
+        android:textColor="@color/text_1"
+        app:layout_constraintTop_toBottomOf="@+id/approverList" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/copyPeoList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingBottom="12dp"
+        android:paddingEnd="12dp"
+        android:paddingStart="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/copyPeopleTitle">
+
+    </android.support.v7.widget.RecyclerView>
+
+</android.support.constraint.ConstraintLayout>

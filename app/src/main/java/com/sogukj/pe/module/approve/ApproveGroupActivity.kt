@@ -7,6 +7,9 @@ import android.view.View
 import android.widget.ImageView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.request.RequestOptions
 import com.chad.library.adapter.base.BaseSectionQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.sogukj.pe.ARouterPath
@@ -90,7 +93,7 @@ class ApproveGroupActivity : ToolbarActivity(), View.OnClickListener {
             R.id.item_cswd -> 4
             else -> throw Exception("数据有误")
         }
-        ApproveListActivity.start(this, type)
+        startActivity<NewApproveListActivity>(Extras.TYPE to type)
     }
 
 
@@ -103,7 +106,7 @@ class ApproveGroupActivity : ToolbarActivity(), View.OnClickListener {
         override fun convert(helper: BaseViewHolder, item: AGroup) {
             helper.setText(R.id.tv_label, item.t.name)
             val icon = helper.getView<ImageView>(R.id.iv_icon)
-            Glide.with(ctx).load(item.t.url).thumbnail(0.1f).into(icon)
+            Glide.with(ctx).load(item.t.url).apply(RequestOptions().optionalCircleCrop()).thumbnail(0.1f).into(icon)
         }
 
     }

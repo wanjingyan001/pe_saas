@@ -1,5 +1,6 @@
 package com.sogukj.pe.module.approve.baseView.controlView
 
+import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.TextView
@@ -32,6 +33,7 @@ class CitySelection @JvmOverloads constructor(
 
     override fun bindContentView() {
         hasInit.yes {
+            inflate.star.setVisible(isMust)
             inflate.citySelectionTitle.text = controlBean.name
             controlBean.value?.let { values ->
                 values.isNotEmpty().yes {
@@ -59,7 +61,7 @@ class CitySelection @JvmOverloads constructor(
                         .startForResult<SelectionActivity>(Extras.REQUESTCODE,
                                 Extras.TYPE to controlBean.skip!![0].skip_site,
                                 Extras.FLAG to controlBean.is_multiple)
-                        .filter { it.resultCode == Extras.RESULTCODE }
+                        .filter { it.resultCode == Activity.RESULT_OK}
                         .flatMap {
                             val list = it.data.getSerializableExtra(Extras.BEAN) as ArrayList<ApproveValueBean>
                             Observable.just(list)
@@ -72,9 +74,10 @@ class CitySelection @JvmOverloads constructor(
                         (0 until inflate.cities.childCount).forEach {
                             val textView = inflate.cities.getChildAt(it) as TextView
                             if (it < values.size) {
-                                textView.setVisible(true)
+                                inflate.cities.setVisible(true)
                                 textView.text = values[it].name
                             } else {
+                                inflate.cities.setVisible(false)
                                 textView.setVisible(false)
                             }
                         }

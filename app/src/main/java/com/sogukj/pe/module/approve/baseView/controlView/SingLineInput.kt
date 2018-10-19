@@ -4,10 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.isNullOrEmpty
-import com.sogukj.pe.baselibrary.Extended.no
-import com.sogukj.pe.baselibrary.Extended.otherWise
-import com.sogukj.pe.baselibrary.Extended.yes
+import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.module.approve.baseView.BaseControl
 import kotlinx.android.synthetic.main.layout_control_singline_edt.view.*
 
@@ -25,6 +22,7 @@ class SingLineInput @JvmOverloads constructor(
 
     override fun bindContentView() {
         hasInit.yes {
+            inflate.star.setVisible(isMust)
             inflate.singLineTitle.text = controlBean.name
             controlBean.value?.let {
                 it.isNotEmpty().yes {
@@ -36,13 +34,8 @@ class SingLineInput @JvmOverloads constructor(
             RxTextView.textChanges(inflate.singLineEdt).skipInitialValue().map { input ->
                 input.toString().trimStart().trimEnd()
             }.subscribe { input ->
-                if (controlBean.value.isNullOrEmpty()) {
-                    controlBean.value?.add(input)
-                } else {
-                    controlBean.value?.let {
-                        it[0] = input
-                    }
-                }
+                controlBean.value?.clear()
+                controlBean.value?.add(input)
             }
         }
     }

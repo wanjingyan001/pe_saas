@@ -5,10 +5,7 @@ import android.text.InputFilter
 import android.util.AttributeSet
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.isNullOrEmpty
-import com.sogukj.pe.baselibrary.Extended.no
-import com.sogukj.pe.baselibrary.Extended.otherWise
-import com.sogukj.pe.baselibrary.Extended.yes
+import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.module.approve.baseView.BaseControl
 import kotlinx.android.synthetic.main.layout_control_number_edt.view.*
 import org.jetbrains.anko.sdk25.coroutines.textChangedListener
@@ -30,6 +27,7 @@ class NumberInput @JvmOverloads constructor(
 
     override fun bindContentView() {
         hasInit.yes {
+            inflate.star.setVisible(isMust)
             inflate.numberEdtTitle.text = controlBean.name
             inflate.numberEdt.textChangedListener {
                 afterTextChanged { editable ->
@@ -73,13 +71,8 @@ class NumberInput @JvmOverloads constructor(
             RxTextView.textChanges(inflate.numberEdt).skipInitialValue().map { input ->
                 nf.format(input.toString().trimStart().trimEnd())
             }.subscribe { input ->
-                if (controlBean.value.isNullOrEmpty()) {
-                    controlBean.value?.add(input)
-                } else {
-                    controlBean.value?.let {
-                        it[0] = input
-                    }
-                }
+                controlBean.value?.clear()
+                controlBean.value?.add(input)
             }
         }
     }

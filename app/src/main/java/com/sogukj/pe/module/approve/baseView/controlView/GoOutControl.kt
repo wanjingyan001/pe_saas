@@ -11,6 +11,7 @@ import com.google.gson.internal.LinkedTreeMap
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.otherWise
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.module.approve.baseView.BaseControl
 import com.sogukj.pe.module.approve.baseView.ControlFactory
@@ -42,6 +43,7 @@ class GoOutControl @JvmOverloads constructor(
 
     override fun bindContentView() {
         hasInit.yes {
+            inflate.star.setVisible(isMust)
             controlBean.children?.let {
                 inflate.goOutTitle.text = it[0].name
                 it[0].value?.let { values ->

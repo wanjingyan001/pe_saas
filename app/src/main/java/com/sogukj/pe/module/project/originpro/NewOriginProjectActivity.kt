@@ -11,7 +11,9 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
-import com.bigkoo.pickerview.OptionsPickerView
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener
+import com.bigkoo.pickerview.view.OptionsPickerView
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
@@ -28,6 +30,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_new_project.*
 import kotlinx.android.synthetic.main.layout_pro_contact.*
 import kotlinx.android.synthetic.main.layout_pro_top.*
+import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
 import java.util.HashMap
 import kotlin.collections.ArrayList
@@ -137,9 +140,9 @@ class NewOriginProjectActivity : ToolbarActivity() {
                 experience.add("职位" + i)
             }
             val position = experience.indices.firstOrNull { experience[it].contains(tv_job_name.text) } ?: 0
-            val pvOptions = OptionsPickerView.Builder(this, OptionsPickerView.OnOptionsSelectListener { options1, option2, options3, v ->
+            val pvOptions = OptionsPickerBuilder(this, OnOptionsSelectListener { options1, option2, options3, v ->
                 tv_job_name.text = experience[options1]
-            }).build()
+            }).setDecorView(window.decorView.find(android.R.id.content)).build<String>()
             pvOptions.setPicker(experience)
             pvOptions.setSelectOptions(position)
             pvOptions.show()
@@ -170,9 +173,9 @@ class NewOriginProjectActivity : ToolbarActivity() {
                 experience.add("职位" + i)
             }
             val position = experience.indices.firstOrNull { experience[it].contains(tv_job_name.text) } ?: 0
-            val pvOptions = OptionsPickerView.Builder(this, OptionsPickerView.OnOptionsSelectListener { options1, option2, options3, v ->
+            val pvOptions = OptionsPickerBuilder(this, OnOptionsSelectListener { options1, option2, options3, v ->
                 tv_job_name.text = experience[options1]
-            }).build()
+            }).setDecorView(window.decorView.find(android.R.id.content)).build<String>()
             pvOptions.setPicker(experience)
             pvOptions.setSelectOptions(position)
             pvOptions.show()

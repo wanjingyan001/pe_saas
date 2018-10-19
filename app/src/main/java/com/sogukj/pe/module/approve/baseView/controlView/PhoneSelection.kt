@@ -10,7 +10,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
+import com.google.gson.internal.LinkedTreeMap
 import com.huantansheng.easyphotos.EasyPhotos
 import com.netease.nim.uikit.support.glide.GlideEngine
 import com.sogukj.pe.BuildConfig
@@ -18,6 +20,7 @@ import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.module.approve.baseView.BaseControl
+import com.sogukj.pe.module.approve.baseView.viewBean.ApproveValueBean
 import com.sogukj.pe.service.ApproveService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_project.view.*
@@ -43,26 +46,30 @@ class PhoneSelection @JvmOverloads constructor(
     private val ADD_TYPE = 2
     private val Max_Phone = 9
     private lateinit var phoneAdapter: PhoneAdapter
-    private val selectedPhones by Delegates.observable(arrayListOf<String>(), { _, _, newValue ->
-        controlBean.value?.let {
-            it.clear()
-            it.addAll(newValue)
-        }
-    })
+    private val selectedPhones = arrayListOf<String>()
 
     override fun getContentResId(): Int = R.layout.layout_control_phone_selection
 
     override fun bindContentView() {
         hasInit.yes {
+            inflate.star.setVisible(isMust)
             inflate.phoneSelectionTitle.text = controlBean.name
-            controlBean.value?.let {
-                it.isNotEmpty().yes {
-                    selectedPhones.addAll(it as List<String>)
+            controlBean.value?.let { values ->
+                values.isNotEmpty().yes {
+                    val beans = mutableListOf<ApproveValueBean>()
+                    values.forEach { map ->
+                        val treeMap = map as LinkedTreeMap<String, Any>
+                        beans.add(ApproveValueBean(name = treeMap["name"] as String, url = treeMap["url"] as String, size = treeMap["size"] as String))
+                    }
+                    controlBean.value?.clear()
+                    controlBean.value?.addAll(beans)
+                    selectedPhones.addAll(beans.filterNot { it.url.isNullOrEmpty() }.map { it.url!! })
                 }
             }
             phoneAdapter = PhoneAdapter(activity, selectedPhones)
             phoneAdapter.onItemClick = { _, position ->
                 controlBean.value!!.removeAt(position)
+                selectedPhones.removeAt(position)
                 phoneAdapter.notifyItemRemoved(position)
             }
             phoneAdapter.onPhoneAdd = {
@@ -87,6 +94,7 @@ class PhoneSelection @JvmOverloads constructor(
             selectedPhones.clear()
             selectedPhones.addAll(phones)
             phoneAdapter.notifyDataSetChanged()
+            controlBean.value?.clear()
             phones.map { File(it) }.forEach {
                 uploadPhones(it)
             }
@@ -94,8 +102,8 @@ class PhoneSelection @JvmOverloads constructor(
     }
 
 
-    private fun uploadPhones(file:File){
-        SoguApi.getService(activity.application,ApproveService::class.java)
+    private fun uploadPhones(file: File) {
+        SoguApi.getService(activity.application, ApproveService::class.java)
                 .uploadFiles(MultipartBody.Builder().setType(MultipartBody.FORM)
                         .addFormDataPart("file", file.name, RequestBody.create(MediaType.parse("*/*"), file))
                         .build())

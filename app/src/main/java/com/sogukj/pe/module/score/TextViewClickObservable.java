@@ -1,8 +1,10 @@
 package com.sogukj.pe.module.score;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -10,7 +12,9 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bigkoo.pickerview.OptionsPickerView;
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.sogukj.pe.R;
 import com.sogukj.pe.bean.PFBZ;
 
@@ -80,29 +84,27 @@ class TextViewClickObservable extends Observable<Integer> {
         @Override
         public void onClick(View v) {
             if (!isDisposed()) {
-                pvOptions = new OptionsPickerView.Builder(context, new OptionsPickerView.OnOptionsSelectListener() {
-                    @Override
-                    public void onOptionsSelect(int options1, int option2, int options3, View v) {
-                        //返回的分别是三个级别的选中位置
-                        int pro = mSelected.get(options1);
-                        bar.setProgress(pro);
-                        if (pro >= Integer.parseInt(biaozhun.get(0).getSs()) && pro <= Integer.parseInt(biaozhun.get(0).getEs())) {
-                            bar.setProgressDrawable(context.getResources().getDrawable(R.drawable.pb_a));
-                        } else if (pro >= Integer.parseInt(biaozhun.get(1).getSs()) && pro <= Integer.parseInt(biaozhun.get(1).getEs())) {
-                            bar.setProgressDrawable(context.getResources().getDrawable(R.drawable.pb_b));
-                        } else if (pro >= Integer.parseInt(biaozhun.get(2).getSs()) && pro <= Integer.parseInt(biaozhun.get(2).getEs())) {
-                            bar.setProgressDrawable(context.getResources().getDrawable(R.drawable.pb_c));
-                        } else if (pro >= Integer.parseInt(biaozhun.get(3).getSs()) && pro <= Integer.parseInt(biaozhun.get(3).getEs())) {
-                            bar.setProgressDrawable(context.getResources().getDrawable(R.drawable.pb_d));
-                        }
-                        view.setText(pro + "");
-                        view.setTextColor(Color.parseColor("#ffa0a4aa"));
-                        view.setTextSize(16);
-                        view.setBackgroundDrawable(null);
-
-                        observer.onNext(pro);
+                pvOptions = new OptionsPickerBuilder(context, (options1, option2, options3, v1) -> {
+                    //返回的分别是三个级别的选中位置
+                    int pro = mSelected.get(options1);
+                    bar.setProgress(pro);
+                    if (pro >= Integer.parseInt(biaozhun.get(0).getSs()) && pro <= Integer.parseInt(biaozhun.get(0).getEs())) {
+                        bar.setProgressDrawable(context.getResources().getDrawable(R.drawable.pb_a));
+                    } else if (pro >= Integer.parseInt(biaozhun.get(1).getSs()) && pro <= Integer.parseInt(biaozhun.get(1).getEs())) {
+                        bar.setProgressDrawable(context.getResources().getDrawable(R.drawable.pb_b));
+                    } else if (pro >= Integer.parseInt(biaozhun.get(2).getSs()) && pro <= Integer.parseInt(biaozhun.get(2).getEs())) {
+                        bar.setProgressDrawable(context.getResources().getDrawable(R.drawable.pb_c));
+                    } else if (pro >= Integer.parseInt(biaozhun.get(3).getSs()) && pro <= Integer.parseInt(biaozhun.get(3).getEs())) {
+                        bar.setProgressDrawable(context.getResources().getDrawable(R.drawable.pb_d));
                     }
-                }).build();
+                    view.setText(pro + "");
+                    view.setTextColor(Color.parseColor("#ffa0a4aa"));
+                    view.setTextSize(16);
+                    view.setBackgroundDrawable(null);
+
+                    observer.onNext(pro);
+
+                }).setDecorView(((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content)).build();
                 pvOptions.setPicker(optionsItems_D);
                 pvOptions.show();
 

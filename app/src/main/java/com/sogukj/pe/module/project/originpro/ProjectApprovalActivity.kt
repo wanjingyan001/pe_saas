@@ -9,7 +9,7 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
-import com.bigkoo.pickerview.TimePickerView
+import com.bigkoo.pickerview.builder.TimePickerBuilder
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
@@ -17,6 +17,7 @@ import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.ProjectFileInfo
 import com.sogukj.pe.module.fileSelector.FileMainActivity
 import kotlinx.android.synthetic.main.activity_project_approval.*
+import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
 import java.io.File
 import java.util.*
@@ -57,16 +58,17 @@ class ProjectApprovalActivity : ToolbarActivity(){
             startDate.set(1949, 10, 1)
             val endDate = Calendar.getInstance()
             endDate.set(selectedDate.get(Calendar.YEAR), selectedDate.get(Calendar.MONTH) + 1, selectedDate.get(Calendar.DAY_OF_MONTH))
-            val timePicker = TimePickerView.Builder(this, { date, view ->
+            val timePicker = TimePickerBuilder(this, { date, view ->
                 tv_time.text = Utils.getTime(date)
             })
                     //年月日时分秒 的显示与否，不设置则默认全部显示
                     .setType(booleanArrayOf(true, true, false, false, false, false))
                     .setDividerColor(Color.DKGRAY)
-                    .setContentSize(21)
+                    .setContentTextSize(21)
                     .setDate(selectedDate)
                     .setCancelColor(resources.getColor(R.color.shareholder_text_gray))
                     .setRangDate(startDate, endDate)
+                    .setDecorView(window.decorView.find(android.R.id.content))
                     .build()
             timePicker.show()
         }

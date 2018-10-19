@@ -6,8 +6,11 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import com.bigkoo.pickerview.OptionsPickerView
-import com.bigkoo.pickerview.TimePickerView
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder
+import com.bigkoo.pickerview.builder.TimePickerBuilder
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener
+import com.bigkoo.pickerview.view.OptionsPickerView
+import com.bigkoo.pickerview.view.TimePickerView
 import com.google.gson.Gson
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
@@ -22,6 +25,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_education.*
 import kotlinx.android.synthetic.main.layout_shareholder_toolbar.*
+import org.jetbrains.anko.find
 import java.util.*
 
 class EducationActivity : BaseActivity(), View.OnClickListener {
@@ -123,38 +127,40 @@ class EducationActivity : BaseActivity(), View.OnClickListener {
                     education.id = educationBean!!.id
                     reqBean.ae = education
                     reqBean.type = 1
-                    Log.d("WJY",Gson().toJson(educationBean))
-                    Log.d("WJY",Gson().toJson(reqBean))
+                    Log.d("WJY", Gson().toJson(educationBean))
+                    Log.d("WJY", Gson().toJson(reqBean))
                     doRequest2(reqBean)
                 }
             }
             R.id.tv_start_date -> {
                 //入学时间
-                val timePicker = TimePickerView.Builder(this, { date, view ->
+                val timePicker = TimePickerBuilder(this, { date, view ->
                     tv_start_date.text = Utils.getTime(date)
                 })
                         //年月日时分秒 的显示与否，不设置则默认全部显示
                         .setType(booleanArrayOf(true, true, false, false, false, false))
                         .setDividerColor(Color.DKGRAY)
-                        .setContentSize(21)
+                        .setContentTextSize(21)
                         .setDate(selectedDate)
                         .setCancelColor(resources.getColor(R.color.shareholder_text_gray))
                         .setRangDate(startDate, endDate)
+                        .setDecorView(window.decorView.find(android.R.id.content))
                         .build()
                 timePicker.show()
             }
             R.id.tv_date_end -> {
                 //毕业时间
-                val timePicker = TimePickerView.Builder(this, { date, view ->
+                val timePicker = TimePickerBuilder(this, { date, view ->
                     tv_date_end.text = Utils.getTime(date)
                 })
                         //年月日时分秒 的显示与否，不设置则默认全部显示
                         .setType(booleanArrayOf(true, true, false, false, false, false))
                         .setDividerColor(Color.DKGRAY)
-                        .setContentSize(21)
+                        .setContentTextSize(21)
                         .setDate(selectedDate)
                         .setCancelColor(resources.getColor(R.color.shareholder_text_gray))
                         .setRangDate(startDate, endDate)
+                        .setDecorView(window.decorView.find(android.R.id.content))
                         .build()
                 timePicker.show()
             }
@@ -172,10 +178,11 @@ class EducationActivity : BaseActivity(), View.OnClickListener {
 //                        .negativeText("取消")
 //                        .show()
                 var dataList = resources.getStringArray(R.array.Education).toList()
-                var pvOptions = OptionsPickerView.Builder(this, OptionsPickerView.OnOptionsSelectListener { options1, option2, options3, v ->
+                var pvOptions = OptionsPickerBuilder(this, OnOptionsSelectListener { options1, option2, options3, v ->
                     tv_education.text = dataList.get(options1)
                     index = options1
-                }).build()
+                }).setDecorView(window.decorView.find(android.R.id.content))
+                        .build<String>()
                 pvOptions.setPicker(dataList, null, null)
                 pvOptions.setSelectOptions(index)
                 pvOptions.show()
@@ -186,7 +193,7 @@ class EducationActivity : BaseActivity(), View.OnClickListener {
     var index = 0
 
     fun doRequest(reqBean: EducationReqBean) {
-        SoguApi.getService(application,UserService::class.java)
+        SoguApi.getService(application, UserService::class.java)
                 .addExperience(reqBean)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -213,7 +220,7 @@ class EducationActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun doRequest2(reqBean: EducationReqBean) {
-        SoguApi.getService(application,UserService::class.java)
+        SoguApi.getService(application, UserService::class.java)
                 .editExperience(reqBean)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())

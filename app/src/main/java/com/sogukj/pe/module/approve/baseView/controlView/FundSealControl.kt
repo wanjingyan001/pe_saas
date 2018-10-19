@@ -1,6 +1,7 @@
 package com.sogukj.pe.module.approve.baseView.controlView
 
 import android.content.Context
+import android.content.Intent
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
@@ -97,6 +98,15 @@ class FundSealControl @JvmOverloads constructor(
                     inflate.controlLayout3.addView(getDividerView())
                     inflate.controlLayout2.addView(factory.createControl(SMSNotification::class.java, it))
                 }
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        (0 until  inflate.controlLayout2.childCount).forEach {
+            if (inflate.controlLayout2.getChildAt(it) is PhoneSelection){
+                (inflate.controlLayout2.getChildAt(it) as PhoneSelection).onActivityResult(requestCode, resultCode, data)
             }
         }
     }

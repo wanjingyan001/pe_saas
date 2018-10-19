@@ -9,6 +9,7 @@ import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.otherWise
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.base.AvoidOnResult
 import com.sogukj.pe.module.approve.SelectionActivity
@@ -28,6 +29,7 @@ class DocumentAssociate @JvmOverloads constructor(
 
     override fun bindContentView() {
         hasInit.yes {
+            inflate.star.setVisible(isMust)
             inflate.associateTitle.text = controlBean.name
             controlBean.value?.let {values->
                 values.isNotEmpty().yes {

@@ -40,6 +40,7 @@ class LeaveControl @JvmOverloads constructor(
 
     override fun bindContentView() {
         hasInit.yes {
+            inflate.star.setVisible(isMust)
             /**
              * 基础控件初始化
              */
@@ -82,6 +83,7 @@ class LeaveControl @JvmOverloads constructor(
     }
 
 
+
     private fun getHolidaysList() {
         SoguApi.getService(activity.application, ApproveService::class.java)
                 .holidaysList()
@@ -101,6 +103,8 @@ class LeaveControl @JvmOverloads constructor(
                                             holiday = it[which]
                                             dateRange.holiday = holiday
                                             inflate.leaveTypeTv.text = it.map { it.name }[which]
+                                            controlBean.children!![1].value?.clear()
+                                            controlBean.children!![1].value?.add(ApproveValueBean(name = it[which].name,id = it[which].id.toString()))
                                             dialog.dismiss()
                                             true
                                         }

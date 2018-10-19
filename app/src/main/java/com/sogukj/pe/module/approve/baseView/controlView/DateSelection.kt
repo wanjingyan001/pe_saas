@@ -1,14 +1,17 @@
 package com.sogukj.pe.module.approve.baseView.controlView
 
 import android.content.Context
+import android.databinding.adapters.CalendarViewBindingAdapter.setDate
 import android.graphics.Color
 import android.util.AttributeSet
-import com.bigkoo.pickerview.TimePickerView
+import android.view.ViewGroup
+import com.bigkoo.pickerview.builder.TimePickerBuilder
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.module.approve.baseView.BaseControl
 import kotlinx.android.synthetic.main.layout_control_data_selection.view.*
+import org.jetbrains.anko.find
 import java.util.*
 
 /**
@@ -22,6 +25,7 @@ class DateSelection @JvmOverloads constructor(
 
     override fun bindContentView() {
         hasInit.yes {
+            inflate.star.setVisible(isMust)
             inflate.dateSelectionTitle.text = controlBean.name
             controlBean.value?.let {
                 it.isNotEmpty().yes {
@@ -42,20 +46,21 @@ class DateSelection @JvmOverloads constructor(
                     timeFormat[4] = it.contains("mm")
                     timeFormat[5] = it.contains("ss")
                     val startDate = Calendar.getInstance()
-                    startDate.set(1949, 1, 1)
+                    startDate.set(1949, 0, 1)
                     val endDate = Calendar.getInstance()
-                    endDate.set(2049, 1, 1)
-                    TimePickerView.Builder(activity) { date, v ->
+                    endDate.set(2049, 11, 31)
+                    TimePickerBuilder(activity) { date, v ->
                         inflate.dateTv.text = Utils.getTime(date, it)
                         controlBean.value?.clear()
                         controlBean.value?.add(Utils.getTime(date, it))
                     } //年月日时分秒 的显示与否，不设置则默认全部显示
                             .setType(timeFormat)
+                            .setContentTextSize(18)
                             .setDividerColor(Color.DKGRAY)
-                            .setContentSize(21)
                             .setDate(Calendar.getInstance())
                             .setCancelColor(resources.getColor(R.color.shareholder_text_gray))
                             .setRangDate(startDate, endDate)
+                            .setDecorView(activity.window.decorView.find(android.R.id.content))
                             .build()
                             .show()
                 }

@@ -9,6 +9,7 @@ import com.google.gson.internal.LinkedTreeMap
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.otherWise
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.module.approve.baseView.BaseControl
 import com.sogukj.pe.module.approve.baseView.viewBean.ApproveValueBean
@@ -25,6 +26,7 @@ class SingSelection @JvmOverloads constructor(
 
     override fun bindContentView() {
         hasInit.yes {
+            inflate.star.setVisible(isMust)
             inflate.singSelectionTitle.text = controlBean.name
             controlBean.value?.let { values->
                 values.isNotEmpty().yes {
@@ -45,7 +47,9 @@ class SingSelection @JvmOverloads constructor(
                     controlBean.options?.let {
                         var index = -1
                         controlBean.value?.let { bean ->
-                            index = it.map { it.name }.indexOf((bean[0] as ApproveValueBean).name)
+                            bean.isNotEmpty().yes {
+                                index = it.map { it.name }.indexOf((bean[0] as ApproveValueBean).name)
+                            }
                         }
                         MaterialDialog.Builder(activity)
                                 .title(controlBean.name!!)

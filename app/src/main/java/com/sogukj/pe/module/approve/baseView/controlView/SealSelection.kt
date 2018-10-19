@@ -14,7 +14,6 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.module.approve.baseView.BaseControl
 import com.sogukj.pe.module.approve.baseView.viewBean.ApproveValueBean
-import com.sogukj.pe.module.approve.baseView.viewBean.SealBean
 import kotlinx.android.synthetic.main.item_control_seal_list.view.*
 import kotlinx.android.synthetic.main.layout_control_seal_selection.view.*
 import org.jetbrains.anko.sdk25.coroutines.textChangedListener
@@ -33,6 +32,8 @@ class SealSelection @JvmOverloads constructor(
 
     override fun bindContentView() {
         hasInit.yes {
+            inflate.star.setVisible(isMust)
+            inflate.sealSelectionTitle.text = controlBean.name
             sealAdapter = RecyclerAdapter(context) { _adapter, parent, _ ->
                 SealHolder(_adapter.getView(R.layout.item_control_seal_list, parent))
             }
@@ -69,7 +70,11 @@ class SealSelection @JvmOverloads constructor(
             view.sealNum.setText(sealValue.toString())
             view.sealNum.textChangedListener {
                 onTextChanged { _, _, _, _ ->
-                    (controlBean.value?.get(position) as ApproveValueBean).value = view.sealNum.textStr.toInt()
+                    val num = view.sealNum.textStr
+                    num.isNotEmpty().yes {
+                        (controlBean.value?.get(position) as ApproveValueBean).value = num.toInt()
+                        view.sealTitle.isChecked = num.toInt() > 0
+                    }
                 }
             }
             view.minus.clickWithTrigger {

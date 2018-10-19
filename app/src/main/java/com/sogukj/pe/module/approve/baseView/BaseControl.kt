@@ -17,13 +17,11 @@ import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.base.AvoidOnResult
 import com.sogukj.pe.baselibrary.base.BaseActivity
+import com.sogukj.pe.module.approve.baseView.controlView.*
 import com.sogukj.pe.module.approve.baseView.viewBean.ControlBean
 import com.sogukj.pe.module.main.MainActivity
 import kotlinx.android.synthetic.main.layout_control_fund_seal.view.*
-import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.backgroundColorResource
-import org.jetbrains.anko.dip
-import org.jetbrains.anko.find
+import org.jetbrains.anko.*
 
 /**
  * 审批控件基类
@@ -39,19 +37,12 @@ abstract class BaseControl @JvmOverloads constructor(
     protected abstract fun bindContentView()
     protected lateinit var inflate: View
     protected val hasInit: Boolean by lazy { ::controlBean.isLateinit }
-    private val isMust: Boolean by lazy { hasInit.yes { controlBean.is_must ?: false }.otherWise { false } }
+    protected val isMust: Boolean by lazy { hasInit.yes { controlBean.is_must ?: false }.otherWise { false } }
 
     fun init() {
         inflate = LayoutInflater.from(context).inflate(getContentResId(), null)
         bindContentView()
-        necessity()
         addView(inflate, ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.WRAP_CONTENT))
-    }
-
-    private fun necessity() {
-        if (findViewById<ImageView>(R.id.star) != null) {
-            find<ImageView>(R.id.star).setVisible(isMust)
-        }
     }
 
 
@@ -75,21 +66,36 @@ abstract class BaseControl @JvmOverloads constructor(
     }
 
 
-    protected fun resetValues(controlBean: ControlBean): ControlBean {
-        controlBean.value?.clear()
+    protected fun resetValues(controlBean: ControlBean): ControlBean? {
         controlBean.children?.let {
             it.forEach { bean ->
-                resetValues(bean)
+                info { bean.name }
+                bean.value?.clear()
             }
         }
         return controlBean
     }
 
 
+    fun getBean(): Boolean {
+        controlBean.children?.forEach { bean ->
+            bean.value?.let {
+                it.isEmpty().yes {
+                    showErrorToast(when (bean.control) {
+                        1, 2, 3, 9 -> "${bean.name}为必填项"
+                        else -> "${bean.name}为必选项"
+                    })
+                    return false
+                }
+            }
+        }
+        return true
+    }
+
     protected fun getDividerView(height: Int = 10): View {
         val view = View(activity)
         val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dip(height))
-        view.backgroundColorResource = R.color.divider2
+        view.backgroundColorResource = R.color.bg_record
         view.layoutParams = lp
         return view
     }

@@ -8,7 +8,8 @@ import android.view.View
 import android.widget.TextView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
-import com.bigkoo.pickerview.OptionsPickerView
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.BaseActivity
@@ -320,9 +321,9 @@ class UserResumeActivity : BaseActivity(), View.OnClickListener {
                     else -> 0
                 }
                 val dataList = arrayListOf("男", "女")
-                val pvOptions = OptionsPickerView.Builder(this, OptionsPickerView.OnOptionsSelectListener { options1, option2, options3, v ->
+                val pvOptions = OptionsPickerBuilder(this, OnOptionsSelectListener { options1, option2, options3, v ->
                     tv_sex.text = dataList[options1]
-                }).build()
+                }).setDecorView(window.decorView.find(android.R.id.content)).build<String>()
                 pvOptions.setPicker(dataList, null, null)
                 pvOptions.setSelectOptions(position)
                 pvOptions.show()
@@ -359,9 +360,9 @@ class UserResumeActivity : BaseActivity(), View.OnClickListener {
                 val experience = ArrayList<String>()
                 (1..30).mapTo(experience) { "${it}年" }
                 val position = experience.indices.firstOrNull { experience[it].contains(tv_woek_experience.text) } ?: 0
-                val pvOptions = OptionsPickerView.Builder(this, OptionsPickerView.OnOptionsSelectListener { options1, option2, options3, v ->
+                val pvOptions = OptionsPickerBuilder(this, OnOptionsSelectListener { options1, option2, options3, v ->
                     tv_woek_experience.text = experience[options1]
-                }).build()
+                }).setDecorView(window.decorView.find(android.R.id.content)).build<String>()
                 pvOptions.setPicker(experience)
                 pvOptions.setSelectOptions(position)
                 pvOptions.show()
@@ -372,9 +373,9 @@ class UserResumeActivity : BaseActivity(), View.OnClickListener {
             R.id.tr_education -> {
                 val dataList = resources.getStringArray(R.array.Education).toList()
                 val position = dataList.indices.firstOrNull { dataList[it].contains(tv_education.text) } ?: 0
-                val pvOptions = OptionsPickerView.Builder(this, OptionsPickerView.OnOptionsSelectListener { options1, option2, options3, v ->
+                val pvOptions = OptionsPickerBuilder(this, OnOptionsSelectListener { options1, option2, options3, v ->
                     tv_education.text = dataList.get(options1)
-                }).build()
+                }).setDecorView(window.decorView.find(android.R.id.content)).build<String>()
                 pvOptions.setPicker(dataList)
                 pvOptions.setSelectOptions(position)
                 pvOptions.show()

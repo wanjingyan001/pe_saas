@@ -33,11 +33,7 @@ class ForeignSealControl @JvmOverloads constructor(
                         24 -> factory.createControl(SMSNotification::class.java, it)
                         else -> throw  Exception("")
                     }
-                    val view = View(activity)
-                    val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dip(10))
-                    view.backgroundColorResource = R.color.divider2
-                    view.layoutParams = lp
-                    inflate.controlLayout.addView(view)
+                    inflate.controlLayout.addView(getDividerView())
                     inflate.controlLayout.addView(control)
                 }
             }

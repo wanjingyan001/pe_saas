@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import com.amap.api.mapcore.util.it
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.sogukj.pe.R
@@ -21,6 +22,8 @@ import kotlinx.android.synthetic.main.layout_control_reimburse_list_footer.view.
 import kotlinx.android.synthetic.main.layout_control_travel.view.*
 import org.jetbrains.anko.backgroundColorResource
 import org.jetbrains.anko.dip
+import org.jetbrains.anko.info
+import kotlin.properties.Delegates
 
 /**
  * 出差套件
@@ -46,7 +49,8 @@ class TravelControl @JvmOverloads constructor(
                 }
             }
             //行程行情列表
-            groupList[1].children?.let {
+            val group = groupList[1].children!!
+            group.let {
                 travelAdapter = TravelAdapter(it)
                 val footer = LayoutInflater.from(activity).inflate(R.layout.layout_control_reimburse_list_footer, null)
                 footer.copyDetail.text = groupList[2].name
@@ -56,8 +60,10 @@ class TravelControl @JvmOverloads constructor(
                     adapter = travelAdapter
                 }
                 footer.copyDetail.clickWithTrigger { _ ->
-                    it.add(resetValues(it[0].copy()))
-                    travelAdapter.notifyDataSetChanged()
+                    resetValues(it[0].copy())?.let {
+                        group.add(it)
+                        travelAdapter.notifyItemInserted(group.size - 1)
+                    }
                 }
             }
             //出差总天数
@@ -90,10 +96,18 @@ class TravelControl @JvmOverloads constructor(
 
 
     inner class TravelAdapter(data: List<ControlBean>) : BaseQuickAdapter<ControlBean, BaseViewHolder>(R.layout.item_control_reimburse_detail, data) {
+        var days = 0.0
+
         override fun convert(helper: BaseViewHolder, item: ControlBean) {
+            var itemDays: Pair<Double, String> by Delegates.observable(0.0 to "", { property, oldValue, newValue ->
+                days = days + newValue.first - oldValue.first
+                inflate.totalDays.text = "${days}${newValue.second} "
+            })
+
             //行程
             val detailItem = helper.getView<LinearLayout>(R.id.detailsItem)
             val delete = helper.getView<ImageView>(R.id.deleteItem)
+            delete.setVisible(item.is_delete ?: false)
             val factory = ControlFactory(activity)
             item.children?.let {
                 it.forEach {
@@ -105,7 +119,13 @@ class TravelControl @JvmOverloads constructor(
                         17 -> factory.createControl(CheckBoxControl::class.java, it)
                         16 -> factory.createControl(RadioControl::class.java, it)
                         25 -> factory.createControl(CitySelection::class.java, it)
-                        22 -> factory.createControl(DateRangeControl::class.java, it)
+                        22 -> {
+                            val dateRange = factory.createControl(DateRangeControl::class.java, it)
+                            (dateRange as DateRangeControl).block = { days, unit ->
+                                itemDays = days to unit
+                            }
+                            dateRange
+                        }
                         else -> throw Exception("")
                     }
                     detailItem.addView(getDividerView(1))

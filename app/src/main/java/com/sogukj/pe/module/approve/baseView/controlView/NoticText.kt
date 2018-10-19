@@ -19,6 +19,7 @@ import com.sogukj.pe.module.approve.baseView.BaseControl
 import com.sogukj.pe.module.approve.baseView.SkipType
 import com.sogukj.pe.module.register.InfoSupplementActivity
 import kotlinx.android.synthetic.main.layout_control_notice_text.view.*
+import org.jetbrains.anko.info
 import org.jetbrains.anko.startActivity
 
 /**
@@ -48,6 +49,7 @@ class NoticText @JvmOverloads constructor(
         override fun onClick(widget: View) {
             controlBean.skip?.let {
                 if (it[0].skip_type == SkipType.SKIP_LINK) {
+                    info { it[0].skip_site }
 //                    activity.startActivity(Intent(Intent.ACTION_VIEW, it[0].skip_site))
                 }
             }

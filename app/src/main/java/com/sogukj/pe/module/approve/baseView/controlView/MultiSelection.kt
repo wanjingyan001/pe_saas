@@ -9,6 +9,7 @@ import com.google.gson.internal.LinkedTreeMap
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.otherWise
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.module.approve.baseView.BaseControl
 import com.sogukj.pe.module.approve.baseView.viewBean.ApproveValueBean
@@ -25,6 +26,7 @@ class MultiSelection @JvmOverloads constructor(
     override fun getContentResId(): Int = R.layout.layout_control_multi_selection
     override fun bindContentView() {
         hasInit.yes {
+            inflate.star.setVisible(isMust)
             inflate.multiSelectionTitle.text = controlBean.name
             controlBean.value?.let {values->
                 values.isNotEmpty().yes {
@@ -57,7 +59,7 @@ class MultiSelection @JvmOverloads constructor(
                             .itemsCallbackMultiChoice(position.toTypedArray()){dialog, which, text ->
                                 controlBean.value?.clear()
                                 which.forEach { i->
-                                    controlBean.value?.add(it[i])
+                                    controlBean.value?.add(ApproveValueBean(name = it[i].name))
                                 }
                                 inflate.multiTv.text = text.joinToString(",")
                                 inflate.multiTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)

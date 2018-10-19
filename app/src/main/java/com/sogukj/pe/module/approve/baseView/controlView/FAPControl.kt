@@ -30,6 +30,9 @@ class FAPControl @JvmOverloads constructor(
 
     override fun bindContentView() {
         hasInit.yes {
+            inflate.star1.setVisible(controlBean.is_must_fund ?: true)
+            inflate.star2.setVisible(controlBean.is_must_pro ?: false)
+
             inflate.fundSelectionTitle.text = controlBean.name1
             controlBean.value?.let { values ->
                 values.isNotEmpty().yes {
@@ -58,8 +61,13 @@ class FAPControl @JvmOverloads constructor(
                             val extra = it.data.getSerializableExtra(Extras.BEAN)
                             Observable.just(extra as ApproveValueBean)
                         }.subscribe {
-                    controlBean.value?.clear()
-                    controlBean.value?.add(it)
+                    controlBean.value?.let { values ->
+                        values.isNotEmpty().yes {
+                            values[0] = it
+                        }.otherWise {
+                            values.add(it)
+                        }
+                    }
                     inflate.fundTv.text = it.name
                     if (block != null && refresh) {
                         block!!.invoke(it.id, null)
@@ -68,7 +76,7 @@ class FAPControl @JvmOverloads constructor(
             }
 
             inflate.projectSelectionTitle.text = controlBean.name2
-            controlBean.value.isNullOrEmpty().no {
+            (controlBean.value != null && controlBean.value!!.size > 1).yes {
                 inflate.projectTv.text = (controlBean.value!![1] as ApproveValueBean).name
                 inflate.projectTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
             }.otherWise {
@@ -89,8 +97,13 @@ class FAPControl @JvmOverloads constructor(
                                 val extra = it.data.getSerializableExtra(Extras.BEAN)
                                 Observable.just(extra as ApproveValueBean)
                             }.subscribe {
-                        controlBean.value?.clear()
-                        controlBean.value?.add(it)
+                        controlBean.value?.let { values ->
+                            (values.size > 1).yes {
+                                values[1] = it
+                            }.otherWise {
+                                values.add(it)
+                            }
+                        }
                         inflate.projectTv.text = it.name
                         if (block != null && refresh) {
                             block!!.invoke(fundId, it.id)

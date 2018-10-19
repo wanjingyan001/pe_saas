@@ -6,7 +6,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerVertical="true"
-    android:drawableLeft="@drawable/team_select_bg"
+    android:drawableLeft="@drawable/icon_new_approve_radio_inc"
     android:drawablePadding="8dp"
     android:gravity="center_vertical"
     android:padding="6dp"

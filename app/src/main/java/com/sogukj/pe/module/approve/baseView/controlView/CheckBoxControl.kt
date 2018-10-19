@@ -7,6 +7,7 @@ import android.view.View
 import com.google.gson.internal.LinkedTreeMap
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.otherWise
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
@@ -28,6 +29,8 @@ class CheckBoxControl @JvmOverloads constructor(
 
     override fun bindContentView() {
         hasInit.yes {
+            inflate.star.setVisible(isMust)
+            inflate.checkBoxTitle.text = controlBean.name
             optionAdapter = RecyclerAdapter(context) { _adapter, parent, _ ->
                 OptionHolder(_adapter.getView(R.layout.item_control_checkbox_option, parent))
             }

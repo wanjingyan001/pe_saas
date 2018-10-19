@@ -16,7 +16,7 @@
     <TextView
         android:id="@+id/totalAmount"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="12dp"
         android:gravity="center_vertical|end"
@@ -42,18 +42,14 @@
         android:id="@+id/CNMoney"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/divider2"
+        android:background="@color/bg_record"
         android:paddingBottom="6dp"
         android:paddingStart="24dp"
         android:paddingTop="6dp"
         android:text="大写:"
+        android:textSize="@dimen/text_size_samll"
         android:textColor="@color/text_3"
         app:layout_constraintTop_toBottomOf="@+id/totalAmount" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@+id/CNMoney"/>
 
 </android.support.constraint.ConstraintLayout>

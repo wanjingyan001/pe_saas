@@ -8,6 +8,7 @@ import com.amap.api.mapcore.util.it
 import com.google.gson.internal.LinkedTreeMap
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.ifNotNull
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
@@ -30,6 +31,8 @@ class RadioControl @JvmOverloads constructor(
 
     override fun bindContentView() {
         hasInit.yes {
+            inflate.star.setVisible(isMust)
+            inflate.radioTitle.text = controlBean.name
             radioAdapter = RecyclerAdapter(context) { _adapter, parent, _ ->
                 RadioHolder(_adapter.getView(R.layout.item_control_radio, parent))
             }

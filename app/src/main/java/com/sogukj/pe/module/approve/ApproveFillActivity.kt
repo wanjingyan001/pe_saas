@@ -16,7 +16,9 @@ import android.view.ViewGroup
 import android.widget.*
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
-import com.bigkoo.pickerview.OptionsPickerView
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener
+import com.bigkoo.pickerview.view.OptionsPickerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -689,12 +691,12 @@ class ApproveFillActivity : ToolbarActivity() {
         }
         if (map.isNotEmpty()) {
             convertView.setOnClickListener {
-                var pvOptions = OptionsPickerView.Builder(this, OptionsPickerView.OnOptionsSelectListener { options1, option2, options3, v ->
+                val pvOptions = OptionsPickerBuilder(this, OnOptionsSelectListener { options1, option2, options3, v ->
                     val tx = items.get(options1)
                     etValue.text = tx
                     val valBean = map[tx]
                     paramMap.put(bean.fields, valBean?.id)
-                }).build()
+                }) .setDecorView(window.decorView.find(android.R.id.content)).build<String>()
                 pvOptions.setPicker(items, null, null)
                 pvOptions.show()
             }

@@ -4,10 +4,7 @@ import android.content.Context
 import android.text.TextUtils
 import android.util.AttributeSet
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.no
-import com.sogukj.pe.baselibrary.Extended.setVisible
-import com.sogukj.pe.baselibrary.Extended.textStr
-import com.sogukj.pe.baselibrary.Extended.yes
+import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.module.approve.baseView.BaseControl
 import com.sogukj.pe.module.approve.utils.NumberToCN
@@ -24,24 +21,27 @@ import java.util.regex.Pattern
 class MoneyInput @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : BaseControl(context, attrs, defStyleAttr) {
-
+    var block: ((money: Double) -> Unit)? = null
 
     override fun getContentResId(): Int = R.layout.layout_control_money_input
 
     override fun bindContentView() {
         hasInit.yes {
+            inflate.star.setVisible(isMust)
             inflate.moneyTitle.text = controlBean.name
             inflate.moneyEdt.filters = arrayOf(MoneyFilter())
+
             controlBean.value?.let {
                 it.isNotEmpty().yes {
                     it[0].toString().isNotEmpty().yes {
                         inflate.moneyEdt.setText(it[0].toString())
+                        block?.invoke(inflate.moneyEdt.textStr.toDouble())
                     }
                 }
             }
             inflate.moneyEdt.onFocusChange { v, hasFocus ->
-//                && inflate.moneyEdt.textStr != controlBean.value!![0]
-                if (!hasFocus && inflate.moneyEdt.textStr.isNotEmpty() ) {
+                //                && inflate.moneyEdt.textStr != controlBean.value!![0]
+                if (!hasFocus && inflate.moneyEdt.textStr.isNotEmpty()) {
                     isConformRules(inflate.moneyEdt.textStr).no {
                         showErrorToast("输入的金额有误,请重新输入")
                         inflate.moneyEdt.requestFocus()
@@ -53,10 +53,14 @@ class MoneyInput @JvmOverloads constructor(
             controlBean.is_show?.yes {
                 inflate.moneyEdt.textChangedListener {
                     afterTextChanged {
-                        moneyCapitalTv.text = NumberToCN.money2CNUnit(inflate.moneyEdt.textStr)
-                        controlBean.value?.clear()
-                        controlBean.value?.add(inflate.moneyEdt.textStr)
-                        controlBean.extras?.value = NumberToCN.money2CNUnit(inflate.moneyEdt.textStr)
+                        val moneyStr = inflate.moneyEdt.textStr
+                        moneyStr.isNotEmpty().yes {
+                            moneyCapitalTv.text = NumberToCN.money2CNUnit(moneyStr)
+                            block?.invoke(moneyStr.toDouble())
+                            controlBean.value?.clear()
+                            controlBean.value?.add(moneyStr)
+                            controlBean.extras?.value = NumberToCN.money2CNUnit(moneyStr)
+                        }
                     }
                 }
             }

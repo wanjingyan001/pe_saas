@@ -2,7 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="50dp"
     android:id="@+id/citySelectionLayout"
     android:layout_marginBottom="10dp"
     android:layout_marginTop="10dp"
@@ -37,7 +37,7 @@
     <TextView
         android:id="@+id/cityTv"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="50dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:background="@null"
@@ -55,7 +55,7 @@
     <LinearLayout
         android:id="@+id/cities"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_weight="1"
         android:gravity="end"
         android:orientation="horizontal"
@@ -75,8 +75,6 @@
             android:paddingLeft="3dp"
             android:paddingRight="3dp"
             android:paddingTop="2dp"
-            android:text="舟山"
-            android:visibility="gone"
             android:textColor="#ff1787fb"
             android:textSize="12sp" />
 
@@ -90,8 +88,6 @@
             android:paddingLeft="3dp"
             android:paddingRight="3dp"
             android:paddingTop="2dp"
-            android:text="舟山"
-            android:visibility="gone"
             android:textColor="#ff1787fb"
             android:textSize="12sp" />
 
@@ -104,8 +100,6 @@
             android:paddingLeft="3dp"
             android:paddingRight="3dp"
             android:paddingTop="2dp"
-            android:visibility="gone"
-            android:text="舟山"
             android:textColor="#ff1787fb"
             android:textSize="12sp" />
 

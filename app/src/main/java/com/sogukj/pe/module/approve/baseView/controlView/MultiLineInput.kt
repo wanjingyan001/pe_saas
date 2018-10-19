@@ -4,10 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.isNullOrEmpty
-import com.sogukj.pe.baselibrary.Extended.no
-import com.sogukj.pe.baselibrary.Extended.otherWise
-import com.sogukj.pe.baselibrary.Extended.yes
+import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.module.approve.baseView.BaseControl
 import kotlinx.android.synthetic.main.layout_control_multi_line_edt.view.*
 
@@ -22,6 +19,7 @@ class MultiLineInput @JvmOverloads constructor(
 
     override fun bindContentView() {
        hasInit.yes{
+           inflate.star.setVisible(isMust)
            inflate.multiLineTitle.text = controlBean.name
            controlBean.value?.let {
                it.isNotEmpty().yes {
@@ -30,16 +28,11 @@ class MultiLineInput @JvmOverloads constructor(
                    inflate.multiLineEdt.hint = controlBean.placeholder
                }
            }
-           RxTextView.textChanges(inflate.multiLineTitle).skipInitialValue().map { input->
+           RxTextView.textChanges(inflate.multiLineEdt).skipInitialValue().map { input->
                input.toString().trimStart().trimEnd()
            }.subscribe { input ->
-               if (controlBean.value.isNullOrEmpty()) {
-                   controlBean.value?.add(input)
-               } else {
-                   controlBean.value?.let {
-                       it[0] = input
-                   }
-               }
+               controlBean.value?.clear()
+               controlBean.value?.add(input)
            }
        }
     }

@@ -15,9 +15,6 @@ data class AttachmentBean(val name: String,
                           val size: String)
 
 
-data class SealBean(val name: String,
-                    var value: Int)
-
 /**
  * 审批控件中的值
  */
@@ -52,7 +49,7 @@ data class User(
 
 data class Cs(
         var def: String,//默认抄送人 以逗号隔开
-        var users: List<User>
+        var users: MutableList<User>
 )
 
 /**
@@ -63,6 +60,15 @@ data class MyLeaveBean(
         var name: String,// 年假
         var hours: String,// 109
         var status: Int//  1->还剩余时间，0->已申请时间
+)
+/**
+ * 关联审批单
+ */
+data class Document(
+		var id: Int,// 1
+		var title: String,// 尹加久的请假
+		var number: String,// CPCP201809251610294746
+		var add_time: String// 2018-09-25 16:10:29
 )
 
 /**
@@ -108,3 +114,24 @@ data class UChild(
 ) : MultiItemEntity, Serializable {
     override fun getItemType(): Int = 2
 }
+
+/**
+ * 审批列表
+ */
+data class ApproveList(
+		var data: List<ApproveListBean>,
+		var total: Int// 1
+)
+
+data class ApproveListBean(
+		var approval_id: Int,// 1
+		var title: String,// 吴美星的审批模版一
+		var number: String,// SXYG201810081137216856
+		var name: String,// 吴美星
+		var add_time: Long,// 1538969841
+		var status: Int,// int-1 审批不通过，0待审批，1审批中，2审批人都通过，3待用印，4审批真正完成, 5撤销成功
+		var uid: Int,// 46
+		var url: String,// http://prepewinner.oss-cn-hangzhou.aliyuncs.com/uploads/headimg/5ae18f59c9193.jpg?OSSAccessKeyId=dZwbJBSoG9OREtPi&Expires=1538990127&Signature=wUIbHIvqrA5etiK9VE8iKcdz4LM%3D
+		var temName: String,// 审批模版一
+		var handle: Boolean//  true=>待经办  false=>不显示任何标志
+)

@@ -37,7 +37,8 @@
     <RadioGroup
         android:id="@+id/optionGroup"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
         android:layout_marginEnd="24dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"

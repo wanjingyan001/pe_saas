@@ -3,8 +3,9 @@ package com.sogukj.pe.module.approve.baseView.controlView
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
+import android.view.ViewGroup
 import com.amap.api.mapcore.util.it
-import com.bigkoo.pickerview.TimePickerView
+import com.bigkoo.pickerview.builder.TimePickerBuilder
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -15,6 +16,7 @@ import com.sogukj.pe.service.ApproveService
 import com.sogukj.service.SoguApi
 import io.reactivex.internal.util.HalfSerializer.onNext
 import kotlinx.android.synthetic.main.layout_control_date_range.view.*
+import org.jetbrains.anko.find
 import java.util.*
 import kotlin.properties.Delegates
 
@@ -34,11 +36,13 @@ class DateRangeControl @JvmOverloads constructor(
     var needAssociate: Int = -1
     var holiday: MyLeaveBean? = null
     var selectionType: OptionBean? = null
+    var block: ((days: Double, unit: String) -> Unit)? = null
 
     override fun getContentResId(): Int = R.layout.layout_control_date_range
 
     override fun bindContentView() {
         hasInit.yes {
+            inflate.star.setVisible(isMust)
             inflate.startTimeTitle.text = controlBean.name1
             inflate.endTimeTitle.text = controlBean.name2
             inflate.durationTitle.text = controlBean.name3
@@ -107,7 +111,7 @@ class DateRangeControl @JvmOverloads constructor(
                         }
                     }
                 }
-                TimePickerView.Builder(activity) { date, v ->
+                TimePickerBuilder(activity) { date, v ->
                     inflate.startTimeTv.text = Utils.getTime(date, formatStr)
                     controlBean.value?.clear()
                     controlBean.value?.add(Utils.getTime(date, formatStr))
@@ -115,8 +119,9 @@ class DateRangeControl @JvmOverloads constructor(
                 } //年月日时分秒 的显示与否，不设置则默认全部显示
                         .setType(timeFormat)
                         .setDividerColor(Color.DKGRAY)
-                        .setContentSize(21)
+                        .setContentTextSize(18)
                         .setDate(Calendar.getInstance())
+                        .setDecorView(activity.window.decorView.find(android.R.id.content))
                         .setCancelColor(resources.getColor(R.color.shareholder_text_gray))
                         .setRangDate(startDate, endDate)
                         .build()
@@ -128,7 +133,7 @@ class DateRangeControl @JvmOverloads constructor(
                     showCommonToast("请先选择开始时间")
                     return@clickWithTrigger
                 }
-                TimePickerView.Builder(activity) { date, v ->
+                TimePickerBuilder(activity) { date, v ->
                     inflate.endTimeTv.text = Utils.getTime(date, formatStr)
                     if (controlBean.value!!.size > 1)
                         controlBean.value?.removeAt(1)
@@ -137,10 +142,11 @@ class DateRangeControl @JvmOverloads constructor(
                 } //年月日时分秒 的显示与否，不设置则默认全部显示
                         .setType(timeFormat)
                         .setDividerColor(Color.DKGRAY)
-                        .setContentSize(21)
+                        .setContentTextSize(18)
                         .setDate(Calendar.getInstance())
                         .setCancelColor(resources.getColor(R.color.shareholder_text_gray))
                         .setRangDate(startDate, endDate)
+                        .setDecorView(activity.window.decorView.find(android.R.id.content))
                         .build()
                         .show()
             }
@@ -176,6 +182,7 @@ class DateRangeControl @JvmOverloads constructor(
                                 }
                                 controlBean.value?.add(it)
                                 inflate.durationTv.setText(it + unit)
+                                block?.invoke(it.toDouble(), unit)
                                 inflate.durationTv.isClickable = false
                             }
                         }.otherWise {

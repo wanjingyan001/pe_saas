@@ -13,7 +13,6 @@ import com.sogukj.pe.module.approve.SelectionActivity
 import com.sogukj.pe.module.approve.baseView.BaseControl
 import com.sogukj.pe.module.approve.baseView.viewBean.ApproveValueBean
 import io.reactivex.Observable
-import kotlinx.android.synthetic.main.layout_control_foreign.view.*
 import kotlinx.android.synthetic.main.layout_control_fund_selection.view.*
 
 /**
@@ -30,6 +29,7 @@ class FundSelection @JvmOverloads constructor(
 
     override fun bindContentView() {
         hasInit.yes {
+            inflate.star.setVisible(isMust)
             inflate.fundSelectionTitle.text = controlBean.name
             controlBean.value?.let { values ->
                 values.isNotEmpty().yes {

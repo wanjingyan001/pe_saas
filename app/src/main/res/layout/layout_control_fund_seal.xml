@@ -18,7 +18,7 @@
         android:id="@+id/line0"
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:background="@color/divider2"
+        android:background="@color/bg_record"
         app:layout_constraintTop_toBottomOf="@+id/controlLayout1"
         app:layout_constraintBottom_toTopOf="@+id/lawyerTitle"/>
 
@@ -41,7 +41,7 @@
     <RadioGroup
         android:id="@+id/optionGroup"
         android:layout_width="wrap_content"
-        android:layout_height="42dp"
+        android:layout_height="50dp"
         android:layout_marginEnd="24dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -70,13 +70,20 @@
             android:textSize="@dimen/text_size_medium" />
 
     </RadioGroup>
+    <View
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider2"
+        app:layout_constraintTop_toBottomOf="@+id/optionGroup"
+        app:layout_constraintBottom_toTopOf="@+id/controlLayout2"/>
 
     <LinearLayout
         android:id="@+id/controlLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/optionGroup">
+        app:layout_constraintTop_toBottomOf="@+id/line1">
 
     </LinearLayout>
 
@@ -85,7 +92,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/divider2"
+        android:background="@color/bg_record"
         app:layout_constraintTop_toBottomOf="@+id/controlLayout2">
 
     </LinearLayout>
