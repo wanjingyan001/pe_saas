@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/text14_color80"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray_f7"
+        android:paddingBottom="@dimen/text_10"
+        android:paddingStart="@dimen/text_15"
+        android:paddingTop="@dimen/text_10"
+        android:text="发票详情"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/text_20">
+
+        <TextView
+            style="@style/text14_color28_all"
+            android:text="抬头类型"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/ll_enterprise"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_enterprise"
+                    android:layout_width="@dimen/text_18"
+                    android:layout_height="@dimen/text_18"
+                    android:src="@mipmap/ic_unselect_receipt"/>
+
+                <TextView
+                    style="@style/text14_color28_all"
+                    android:layout_marginLeft="@dimen/text_10"
+                    android:text="企业单位"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_personal"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.2"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_personal"
+                    android:layout_width="@dimen/text_18"
+                    android:layout_height="@dimen/text_18"
+                    android:src="@mipmap/ic_select_receipt"/>
+
+                <TextView
+                    android:id="@+id/tv_personal"
+                    style="@style/text14_color28_all"
+                    android:layout_marginLeft="@dimen/text_10"
+                    android:text="个人/非企业单位"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/text_1"
+        android:layout_marginLeft="@dimen/text_20"
+        android:layout_marginRight="@dimen/text_20"
+        android:background="@color/gray_f1"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/text_20">
+
+        <TextView
+            style="@style/text14_color28_all"
+            android:text="发票抬头"/>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4">
+
+            <ImageView
+                android:id="@+id/iv_delete"
+                android:layout_width="@dimen/text_16"
+                android:layout_height="@dimen/text_16"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/ic_delete"
+                android:visibility="invisible"/>
+
+            <EditText
+                android:id="@+id/et_header"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/text_8"
+                android:layout_toLeftOf="@id/iv_delete"
+                android:background="@null"
+                android:textColor="@color/black_28"
+                android:textSize="@dimen/text_size_14"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/text_1"
+        android:layout_marginLeft="@dimen/text_20"
+        android:layout_marginRight="@dimen/text_20"
+        android:background="@color/gray_f1"/>
+
+    <LinearLayout
+        android:id="@+id/ll_duty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/text_20">
+
+        <TextView
+            style="@style/text14_color28_all"
+            android:text="税号"/>
+
+        <EditText
+            android:id="@+id/et_duty"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_weight="4"
+            android:layout_marginRight="@dimen/text_8"
+            android:background="@null"
+            android:textColor="@color/black_28"
+            android:textSize="@dimen/text_size_14"/>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view_duty"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/text_1"
+        android:layout_marginLeft="@dimen/text_20"
+        android:layout_marginRight="@dimen/text_20"
+        android:background="@color/gray_f1"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/text_20">
+
+        <TextView
+            style="@style/text14_color28_all"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="发票内容"/>
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_weight="4"
+            android:layout_marginRight="@dimen/text_8"
+            android:text="客运服务费"
+            android:textColor="@color/black_28"
+            android:textSize="@dimen/text_size_14"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/text_1"
+        android:layout_marginLeft="@dimen/text_20"
+        android:layout_marginRight="@dimen/text_20"
+        android:background="@color/gray_f1"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/text_20">
+
+        <TextView
+            style="@style/text14_color28_all"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="发票金额"/>
+
+        <TextView
+            android:id="@+id/tv_coin"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_weight="4"
+            android:layout_marginRight="@dimen/text_8"
+            android:text="20元"
+            android:textColorHint="@color/gray_a0"
+            android:textColor="@color/black_28"
+            android:textSize="@dimen/text_size_14"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/text_1"
+        android:layout_marginLeft="@dimen/text_20"
+        android:layout_marginRight="@dimen/text_20"
+        android:background="@color/gray_f1"/>
+
+    <LinearLayout
+        android:id="@+id/ll_more"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/text_20">
+
+        <TextView
+            style="@style/text14_color28_all"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="更多信息"/>
+
+        <TextView
+            android:id="@+id/tv_more"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_weight="4"
+            android:layout_marginRight="@dimen/text_8"
+            android:gravity="right|center_vertical"
+            android:hint="填写备注、地址等"
+            android:drawablePadding="@dimen/text_10"
+            android:drawableRight="@drawable/ic_right"
+            android:textColorHint="@color/gray_a0"
+            android:textColor="@color/black_28"
+            android:textSize="@dimen/text_size_14"/>
+    </LinearLayout>
+
+</LinearLayout>

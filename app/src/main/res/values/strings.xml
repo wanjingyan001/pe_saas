@@ -181,4 +181,6 @@
     <string name="open_bill">开发票</string>
     <string name="bill_his">开票历史</string>
     <string name="bill_header">发票抬头管理</string>
+    <string name="electron_tips">电子发票与纸质发票具有同等法律效力，可支持报销入账</string>
+    <string name="paper_tips">电子发票与纸质发票具有同等法律效力，可支持报销入账，推荐 使用电子发票</string>
 </resources>

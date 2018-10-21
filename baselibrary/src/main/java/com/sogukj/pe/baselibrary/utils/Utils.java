@@ -20,6 +20,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -38,6 +40,8 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewGroupOverlay;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -1353,9 +1357,7 @@ public class Utils {
                 Toast.makeText(context, "截屏失败", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
-
         }
-
     }
 
     /**
@@ -1509,5 +1511,38 @@ public class Utils {
         return pattern.matcher(str).matches();
     }
 
+    public static void setBackgroundAlpha(Context mContext, float bgAlpha) {
+//        WindowManager.LayoutParams lp = ((Activity) mContext).getWindow().getAttributes();
+//        lp.alpha = bgAlpha;
+//        ((Activity) mContext).getWindow().setAttributes(lp);
 
+        if (bgAlpha == 1f) {
+            clearDim((Activity) mContext);
+        }else{
+            applyDim((Activity) mContext, bgAlpha);
+        }
+    }
+
+    private static void applyDim(Activity activity, float bgAlpha) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            ViewGroup parent = (ViewGroup) activity.getWindow().getDecorView().getRootView();
+            //activity跟布局
+//        ViewGroup parent = (ViewGroup) parent1.getChildAt(0);
+            Drawable dim = new ColorDrawable(Color.BLACK);
+            dim.setBounds(0, 0, parent.getWidth(), parent.getHeight());
+            dim.setAlpha((int) (255 * bgAlpha));
+            ViewGroupOverlay overlay = parent.getOverlay();
+            overlay.add(dim);
+        }
+    }
+
+    private static void clearDim(Activity activity) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            ViewGroup parent = (ViewGroup) activity.getWindow().getDecorView().getRootView();
+            //activity跟布局
+//        ViewGroup parent = (ViewGroup) parent1.getChildAt(0);
+            ViewGroupOverlay overlay = parent.getOverlay();
+            overlay.clear();
+        }
+    }
 }

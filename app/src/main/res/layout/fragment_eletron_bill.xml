@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_f1"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/gray_f1"
+            android:paddingBottom="@dimen/text_25"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_tips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/text12_colora0"
+                android:background="@color/white"
+                android:paddingLeft="@dimen/text_15"
+                android:paddingBottom="@dimen/text_15"
+                android:text="电子发票与纸质发票具有同等法律效力，可支持报销入账"/>
+            <include
+                android:id="@+id/bill_detail"
+                layout="@layout/layout_bill_detail"/>
+            <include layout="@layout/layout_accept_type"/>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+</android.support.constraint.ConstraintLayout>

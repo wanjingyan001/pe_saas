@@ -407,25 +407,25 @@ class OtherProjectShowActivity : BaseRefreshActivity() {
 
     private fun showConfirmDialog() {
         if (null != dialog){
-            dialog!!.showRejectBuildProDialog(this,project)
+            dialog!!.showRejectBuildProDialog(this,project,floor!!)
         }else{
-            BuildProjectDialog().showRejectBuildProDialog(this,project)
+            BuildProjectDialog().showRejectBuildProDialog(this,project,floor!!)
         }
     }
 
     private fun showAgreeDialog(){
         if (null != dialog){
-            dialog!!.showAgreeBuildProDialog(this,project)
+            dialog!!.showAgreeBuildProDialog(this,project,floor!!)
         }else{
-            BuildProjectDialog().showAgreeBuildProDialog(this,project)
+            BuildProjectDialog().showAgreeBuildProDialog(this,project,floor!!)
         }
     }
 
     private fun showAgreeLxhDialog(){
         if (null != dialog){
-            dialog!!.showAgreeBuildLxh(this,project)
+            dialog!!.showAgreeBuildLxh(this,project,floor!!)
         }else{
-            BuildProjectDialog().showAgreeBuildLxh(this,project)
+            BuildProjectDialog().showAgreeBuildLxh(this,project,floor!!)
         }
     }
 
@@ -839,9 +839,9 @@ class OtherProjectShowActivity : BaseRefreshActivity() {
             fl_assign_approve.setOnClickListener {
                 //分配审批
                 if (null != dialog){
-                    dialog!!.allocationApprove(this@OtherProjectShowActivity,project)
+                    dialog!!.allocationApprove(this@OtherProjectShowActivity,project,floor!!)
                 }else{
-                    BuildProjectDialog().allocationApprove(this@OtherProjectShowActivity,project)
+                    BuildProjectDialog().allocationApprove(this@OtherProjectShowActivity,project,floor!!)
                 }
             }
         }

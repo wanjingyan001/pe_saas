@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/gray_f1">
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/normal_toolbar"/>
+    <TextView
+        android:id="@+id/tv_top"
+        style="@style/text14_color80"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="@dimen/text_15"
+        android:layout_marginTop="@dimen/text_8"
+        android:text="请选择发票类型"/>
+    <RadioGroup
+        android:id="@+id/radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/text_8"
+        android:paddingLeft="@dimen/text_15"
+        android:paddingRight="@dimen/text_15"
+        android:paddingTop="@dimen/text_10"
+        android:paddingBottom="@dimen/text_10"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/tv_top">
+        <RadioButton
+            android:id="@+id/rb_one"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:paddingTop="@dimen/text_10"
+            android:paddingBottom="@dimen/text_10"
+            android:checked="true"
+            android:layout_marginRight="@dimen/text_20"
+            android:background="@drawable/bg_select_bill"
+            android:text="电子发票"/>
+
+        <RadioButton
+            android:id="@+id/rb_two"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:paddingTop="@dimen/text_10"
+            android:paddingBottom="@dimen/text_10"
+            android:background="@drawable/bg_select_bill"
+            android:text="纸质发票"/>
+
+    </RadioGroup>
+
+    <LinearLayout
+        android:id="@+id/ll_submit"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:padding="@dimen/text_8">
+
+        <TextView
+            android:id="@+id/tv_submit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_create_pro_gray"
+            android:gravity="center"
+            android:text="提交"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_18"/>
+    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/fl_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/gray_f1"
+        app:layout_constraintBottom_toTopOf="@+id/ll_submit"
+        app:layout_constraintTop_toBottomOf="@+id/radio_group">
+
+
+    </FrameLayout>
+</android.support.constraint.ConstraintLayout>

@@ -214,4 +214,18 @@ interface OtherService {
      */
     @POST("/api/index/getxieyiurl")
     fun getAboutPage():Observable<Payload<AboutPageBean>>
+
+    /**
+     * 提交发票信息
+     */
+    @POST("/api/Ordder/submitInvoice")
+    fun submitBillDetail(@Body map: HashMap<String, Any>): Observable<Payload<Any>>
+
+    /**
+     * 订单列表
+     */
+    @FormUrlEncoded
+    @POST("/api/Order/invoiceOrderList")
+    fun billOrderList(@Field("page") page: Int? = 1,
+                   @Field("pageSize") pageSize: Int? = 20): Observable<Payload<List<MineReceiptBean>>>
 }

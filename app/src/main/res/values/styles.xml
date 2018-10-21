@@ -402,4 +402,70 @@
         <item name="android:gravity">right</item>
         <item name="android:layout_centerVertical">true</item>
     </style>
+
+    <style name="textWhite10">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_size_10</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="text12_color80">
+        <item name="android:textSize">@dimen/text_size_12</item>
+        <item name="android:textColor">@color/gray_80</item>
+    </style>
+
+    <style name="text12_colora0">
+        <item name="android:textSize">@dimen/text_size_12</item>
+        <item name="android:textColor">@color/gray_a0</item>
+    </style>
+
+    <style name="text14_color28">
+        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:textColor">@color/black_28</item>
+    </style>
+
+    <style name="text16_color28">
+        <item name="android:textSize">@dimen/text_size_16</item>
+        <item name="android:textColor">@color/black_28</item>
+    </style>
+
+    <style name="text14_color28_all">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:textColor">@color/black_28</item>
+        <item name="android:gravity">left</item>
+    </style>
+
+    <style name="text14_colora0_all">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:textColor">@color/gray_a0</item>
+        <item name="android:gravity">left</item>
+    </style>
+
+    <style name="text14_color80">
+        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:textColor">@color/gray_80</item>
+    </style>
+
+    <style name="text14_colora0">
+        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:textColor">@color/gray_a0</item>
+    </style>
+
+    <style name="text22_color28">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/black_28</item>
+    </style>
+
+    <style name="text18_color28">
+        <item name="android:textSize">@dimen/text_size_18</item>
+        <item name="android:textColor">@color/black_28</item>
+    </style>
 </resources>

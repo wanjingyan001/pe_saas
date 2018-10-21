@@ -72,13 +72,15 @@ class BuildProjectDialog {
     private var project: ProjectBean ? = null
     lateinit var calendar: CalendarDingDing
     var selectDate: Date? = null
+    private var floor = -1
     private var type = -1 // 0:同意通过 1:同意上立项会 2：否决
     /**
      * 同意通过
      */
-    fun showAgreeBuildProDialog(context: Activity, project: ProjectBean?) {
+    fun showAgreeBuildProDialog(context: Activity, project: ProjectBean?,floor:Int) {
         mAct = context
         this.project = project
+        this.floor = floor
         type = 0
         val build = MaterialDialog.Builder(context)
                 .theme(Theme.DARK)
@@ -125,9 +127,10 @@ class BuildProjectDialog {
     /**
      * 否决
      */
-    fun showRejectBuildProDialog(context: Activity, project: ProjectBean?) {
+    fun showRejectBuildProDialog(context: Activity, project: ProjectBean?,floor:Int) {
         mAct = context
         this.project = project
+        this.floor = floor
         type = 2
         val build = MaterialDialog.Builder(context)
                 .theme(Theme.DARK)
@@ -175,9 +178,10 @@ class BuildProjectDialog {
     /**
      * 分配审批
      */
-    fun allocationApprove(context: Activity, project: ProjectBean?){
+    fun allocationApprove(context: Activity, project: ProjectBean?,floor:Int){
         mAct = context
         this.project = project
+        this.floor = floor
         val build = MaterialDialog.Builder(context)
                 .theme(Theme.DARK)
                 .customView(R.layout.layout_allocation_build, false)
@@ -276,7 +280,7 @@ class BuildProjectDialog {
         map.put("content",content)
         map.put("current",0)
         map.put("files",files)
-
+        map.put("iconfloor",floor)
         SoguApi.getService(App.INSTANCE,OtherService::class.java)
                 .commitApprove(map)
                 .execute {
@@ -310,9 +314,10 @@ class BuildProjectDialog {
     /**
      * 同意上立项会
      */
-    fun showAgreeBuildLxh(context: Activity, project: ProjectBean?) {
+    fun showAgreeBuildLxh(context: Activity, project: ProjectBean?,floor : Int) {
         mAct = context
         this.project = project
+        this.floor = floor
         type = 1
         val build = MaterialDialog.Builder(context)
                 .theme(Theme.DARK)
@@ -410,6 +415,7 @@ class BuildProjectDialog {
         map.put("content",content)
         map.put("current",0)
         map.put("files",files)
+        map.put("iconfloor",floor)
         if (null != date){
             map.put("meeting_time",date!!.time/1000)
         }else{
