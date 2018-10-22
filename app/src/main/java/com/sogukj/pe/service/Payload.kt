@@ -8,6 +8,7 @@ import com.google.gson.Gson
 class Payload<T>() {
     var timestamp: Long = System.currentTimeMillis()
     var code: Int = 0  // 200 is success other see errorCode list
+    var msgNo = "" // 1001 : 签名过期,1002:签名验证错误 ,1003 : 缺少签名
     var message: String? = null
     var payload: T? = null
     var total:Any? = null

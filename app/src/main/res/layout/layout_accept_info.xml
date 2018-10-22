@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/text14_color80"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray_f7"
+        android:paddingBottom="@dimen/text_10"
+        android:paddingStart="@dimen/text_15"
+        android:paddingTop="@dimen/text_10"
+        android:text="接收信息"/>
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/ll_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:padding="@dimen/text_20">
+
+            <TextView
+                style="@style/text14_colora0_all"
+                android:layout_weight="1.2"
+                android:text="电子邮件"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_weight="4"
+                android:layout_marginRight="@dimen/text_8"
+                android:text="2983762618@sina.com"
+                android:textColor="@color/black_28"
+                android:textSize="@dimen/text_size_14"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_other"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/ll_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/text_20">
+
+                <TextView
+                    style="@style/text14_colora0_all"
+                    android:layout_weight="1.2"
+                    android:text="详细地址"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_weight="4"
+                    android:layout_marginRight="@dimen/text_8"
+                    android:text="2983762618@sina.com"
+                    android:textColor="@color/black_28"
+                    android:textSize="@dimen/text_size_14"/>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view_phone"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_1"
+                android:layout_marginLeft="@dimen/text_20"
+                android:layout_marginRight="@dimen/text_20"
+                android:background="@color/gray_f1"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/text_20">
+
+                <TextView
+                    style="@style/text14_colora0_all"
+                    android:layout_weight="1.2"
+                    android:text="接收人"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_weight="4"
+                    android:layout_marginRight="@dimen/text_8"
+                    android:text="张栋梁 18736637821"
+                    android:textColor="@color/black_28"
+                    android:textSize="@dimen/text_size_14"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -2,17 +2,13 @@ package com.sogukj.pe.module.main
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.widget.ImageView
 import android.widget.TextView
-import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.alibaba.android.arouter.launcher.ARouter
-import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseItemDraggableAdapter
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -20,11 +16,12 @@ import com.chad.library.adapter.base.BaseSectionQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback
 import com.chad.library.adapter.base.listener.OnItemDragListener
-import com.google.gson.Gson
 import com.sogukj.pe.ARouterPath
-import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.*
+import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
+import com.sogukj.pe.baselibrary.Extended.execute
+import com.sogukj.pe.baselibrary.Extended.jsonStr
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.database.*
@@ -37,7 +34,10 @@ import kotlinx.android.synthetic.main.activity_main_edit.*
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.runBlocking
-import org.jetbrains.anko.*
+import org.jetbrains.anko.ctx
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.imageResource
+import org.jetbrains.anko.info
 
 @Route(path = ARouterPath.MainEditActivity)
 class MainEditActivity : ToolbarActivity() {
@@ -98,7 +98,6 @@ class MainEditActivity : ToolbarActivity() {
         }
 
 
-
         mainModuleAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { adapter, _, position ->
             if (isEdit) {
                 val funIcon = adapter.data[position] as MainFunIcon
@@ -113,6 +112,7 @@ class MainEditActivity : ToolbarActivity() {
                 }
             }
         }
+
         allModuleAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { adapter, _, position ->
             val function = allModule[position]
             if (!function.isHeader and isEdit) {
@@ -162,19 +162,19 @@ class MainEditActivity : ToolbarActivity() {
         subscribe = flowable0.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap {
-                    if (it.isNotEmpty() && allModule.find { it.header == "项目功能" } == null) {
-                        allModule.add(MainFunction(true, "项目功能"))
+                    if (it.isNotEmpty() && allModule.find { it.header == "项目管理" } == null) {
+                        allModule.add(MainFunction(true, "项目管理"))
                         it.forEach {
-                            info { "项目功能" + it.jsonStr }
+                            info { "项目管理" + it.jsonStr }
                             allModule.add(MainFunction(it))
                         }
                     }
                     return@flatMap flowable
                 }.flatMap {
-            if (it.isNotEmpty() && allModule.find { it.header == "基金功能" } == null) {
-                allModule.add(MainFunction(true, "基金功能"))
+            if (it.isNotEmpty() && allModule.find { it.header == "基金管理" } == null) {
+                allModule.add(MainFunction(true, "基金管理"))
                 it.forEach {
-                    info { "基金功能" + it.jsonStr }
+                    info { "基金管理" + it.jsonStr }
                     allModule.add(MainFunction(it))
                 }
             }

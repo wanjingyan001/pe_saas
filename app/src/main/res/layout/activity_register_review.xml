@@ -81,7 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:text="享受X-PE带来的智能化股权投资管理"
+            android:text="享受XPE带来的智能化股权投资管理"
             android:textColor="@color/text_3"
             android:textSize="@dimen/text_size_normal"
             android:visibility="invisible"

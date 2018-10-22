@@ -21,7 +21,7 @@
         android:textSize="@dimen/text_size_12"
         android:textColor="@color/black_28"
         android:gravity="center"
-        android:layout_marginStart="@dimen/text_10"
+        android:layout_marginStart="@dimen/text_8"
         app:layout_constraintStart_toEndOf="@+id/iv_image"
         app:layout_constraintTop_toTopOf="parent"
         android:text="陈建"/>
@@ -65,6 +65,7 @@
         android:textColor="@color/black_28"/>
 
     <View
+        android:id="@+id/view_bg"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/blue_f6f"
@@ -83,6 +84,8 @@
         android:paddingTop="@dimen/text_8"
         android:gravity="center_vertical"
         android:layout_marginTop="@dimen/text_15"
+        android:textColor="@color/black_28"
+        android:textSize="@dimen/text_size_12"
         app:layout_constraintTop_toBottomOf="@+id/tv_agree_pro"
         app:layout_constraintStart_toStartOf="@+id/tv_name"
         android:text="会议安排"/>
@@ -103,7 +106,7 @@
         android:text="2018年9月14日 10:30"/>
 
     <TextView
-        android:id="@+id/tv_meel_person"
+        android:id="@+id/tv_meel_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_size_10"
@@ -114,20 +117,159 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_meel_time"
         app:layout_constraintStart_toStartOf="@+id/tv_meel_time"
         android:layout_marginTop="@dimen/text_10"
-        android:drawableLeft="@mipmap/icon_meel_plan"
-        android:text="张栋梁、王刚、刘宇、张塞、曹萌"/>
+        android:drawableLeft="@mipmap/icon_meel_plan"/>
+
+    <TextView
+        android:id="@+id/tv_meel_person"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_10"
+        android:textColor="@color/black_28"
+        android:gravity="center_vertical"
+        android:layout_marginStart="22dp"
+        android:maxLines="5"
+        android:ellipsize="end"
+        android:lineSpacingExtra="@dimen/text_3"
+        android:paddingBottom="@dimen/text_8"
+        app:layout_constraintTop_toBottomOf="@+id/tv_meel_time"
+        app:layout_constraintStart_toStartOf="@+id/tv_meel_time"
+        app:layout_constraintEnd_toEndOf="@+id/view_bg"
+        android:layout_marginTop="@dimen/text_10"
+        tools:text="张栋梁、王刚、刘宇、张塞、曹萌/张栋梁、王刚、刘宇、张塞、曹萌张栋梁、王刚、刘宇、张塞、曹萌"/>
+
     <View
-        android:id="@+id/view"
+        android:id="@+id/view_space"
         android:layout_width="wrap_content"
         android:layout_height="10dp"
         android:background="@android:color/transparent"
         app:layout_constraintTop_toBottomOf="@+id/tv_meel_person"/>
     <View
+        android:id="@+id/view_line2"
         android:layout_width="@dimen/text_2"
         android:layout_height="0dp"
         android:background="@color/gray_f1"
         android:layout_marginStart="@dimen/text_12"
         app:layout_constraintTop_toBottomOf="@+id/iv_image"
         app:layout_constraintStart_toStartOf="@+id/iv_image"
-        app:layout_constraintBottom_toBottomOf="@+id/view"/>
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <View android:id="@+id/view_line1"
+        android:layout_width="@dimen/text_2"
+        android:layout_height="25dp"
+        android:background="@color/gray_f1"
+        android:layout_marginStart="@dimen/text_12"
+          android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/iv_image"
+        app:layout_constraintStart_toStartOf="@+id/iv_image"/>
+    <LinearLayout
+        android:id="@+id/ll_bottom"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/iv_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingBottom="@dimen/text_5"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/view_space"
+        android:layout_marginLeft="@dimen/text_3">
+        <RelativeLayout
+            android:id="@+id/rl_suggest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="意见"
+                android:textSize="@dimen/text_size_12"
+                android:textColor="@color/blue_3c"
+                android:paddingLeft="@dimen/text_6"
+                android:paddingRight="@dimen/text_6"
+                android:paddingTop="@dimen/text_1"
+                android:paddingBottom="@dimen/text_1"
+                android:background="@drawable/bg_blue3c"/>
+            <TextView
+                android:id="@+id/tv_suggest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_14"
+                android:textColor="@color/black_28"
+                android:maxLines="3"
+                tools:text="              通过审批，注意事项注意投资风险，投资意见比对。
+                通过审批，注意事项注意投资风险，投资意见比对。"
+                android:ellipsize="end"/>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_file"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="文件"
+            android:textSize="@dimen/text_size_12"
+            android:textColor="@color/blue_3c"
+            android:layout_marginTop="@dimen/text_5"
+            android:paddingLeft="@dimen/text_6"
+            android:paddingRight="@dimen/text_6"
+            android:paddingTop="@dimen/text_1"
+            android:paddingBottom="@dimen/text_1"
+            android:background="@drawable/bg_blue3c"/>
+        <LinearLayout
+            android:id="@+id/ll_files"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/text_5"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+        </LinearLayout>
+        <FrameLayout
+            android:id="@+id/fl_assign_approve"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:paddingTop="@dimen/text_8"
+            android:paddingBottom="@dimen/text_8"
+            android:clickable="true"
+            android:background="@drawable/bg_agree"
+            android:layout_marginTop="@dimen/text_8">
+            <TextView
+                android:id="@+id/tv_assign_approve"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_12"
+                android:textColor="@color/white"
+                android:layout_gravity="center"
+                android:drawablePadding="@dimen/text_8"
+                android:drawableLeft="@mipmap/icon_assign"
+                android:text="分配审批"/>
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_assign"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/text_10"
+            android:visibility="gone"
+            android:background="@color/blue_f6f"
+            android:layout_marginTop="@dimen/text_8"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_assign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/shape_meel"
+                android:drawablePadding="@dimen/text_5"
+                android:gravity="center_vertical"
+                android:text="分配审批人"/>
+            <TextView
+                android:id="@+id/tv_assign_person"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_10"
+                android:textColor="@color/black_28"
+                android:gravity="center_vertical"
+                android:drawablePadding="@dimen/text_8"
+                android:layout_marginTop="@dimen/text_10"
+                android:drawableLeft="@mipmap/icon_meel_plan"
+                android:text="张栋梁、王刚、刘宇、张塞、曹萌"/>
+        </LinearLayout>
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

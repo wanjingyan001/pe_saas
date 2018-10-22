@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_f7"
+    android:orientation="vertical">
+    <include layout="@layout/normal_toolbar"/>
+    <ImageView
+        android:layout_width="@dimen/text_60"
+        android:layout_height="@dimen/text_60"
+        android:src="@mipmap/default_head"
+        android:layout_marginTop="70dp"
+        android:layout_gravity="center_horizontal"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/text_10"
+        android:text="提交成功"
+        style="@style/text16_color28"/>
+
+    <LinearLayout
+        android:id="@+id/ll_his"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/text_60"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:padding="@dimen/text_8">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_create_pro"
+            android:layout_marginLeft="@dimen/text_10"
+            android:layout_marginRight="@dimen/text_10"
+            android:gravity="center"
+            android:text="开票历史"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_18"/>
+    </LinearLayout>
+</LinearLayout>

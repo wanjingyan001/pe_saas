@@ -81,7 +81,15 @@ class VerCodeInputActivity : BaseActivity() {
                             payload.payload?.let {
                                 it.domain_name?.let {
                                     if (it.isNotEmpty()) {
-                                        val newBaseUtl: String = it
+                                        val newBaseUtl: String = if (!it.startsWith("http://")) {
+                                            if (it.startsWith("https://")){
+                                                it
+                                            }else{
+                                                "http://$it"
+                                            }
+                                        } else {
+                                            it
+                                        }
                                         sp.edit { putString(Extras.HTTPURL, newBaseUtl) }
                                         CrashReport.putUserData(this@VerCodeInputActivity, Extras.HTTPURL, newBaseUtl)
                                         RetrofitUrlManager.getInstance().setGlobalDomain(newBaseUtl)

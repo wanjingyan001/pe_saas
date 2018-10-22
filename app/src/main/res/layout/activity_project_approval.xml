@@ -3,7 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/gray_f7"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
     <include android:id="@+id/toolbar"
              layout="@layout/commom_blue_title"/>
@@ -25,6 +27,7 @@
         android:layout_alignParentBottom="true"
         android:padding="@dimen/text_8">
         <TextView
+            android:id="@+id/tv_create"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/submit"
@@ -79,23 +82,42 @@
                     android:drawableRight="@drawable/ic_right"/>
             </RelativeLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_pro_info"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                tools:listitem="@layout/layout_pro_edit"
+                android:nestedScrollingEnabled="false"
+                android:layout_marginTop="@dimen/text_15"
+                android:background="@color/white">
 
-
-            </LinearLayout>
+            </android.support.v7.widget.RecyclerView>
 
             <com.sogukj.pe.widgets.ProInfoBottomView
                 android:id="@+id/add_file_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
                 android:layout_marginTop="@dimen/text_15">
 
             </com.sogukj.pe.widgets.ProInfoBottomView>
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
+    <FrameLayout
+        android:id="@+id/view_recover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/ll_create"
+        android:layout_below="@id/toolbar"
+        android:visibility="invisible"
+        android:background="@color/gray_f1">
+
+        <ImageView
+            android:id="@+id/iv_loading"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:layout_gravity="center"/>
+
+    </FrameLayout>
 </RelativeLayout>

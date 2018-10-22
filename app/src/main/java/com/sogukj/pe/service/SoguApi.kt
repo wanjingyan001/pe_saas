@@ -7,7 +7,9 @@ import android.os.Build
 import android.preference.PreferenceManager
 import com.sogukj.pe.Consts
 import com.sogukj.pe.Extras
+import com.sogukj.pe.baselibrary.utils.EncryptionUtil
 import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.module.register.PhoneInputActivity
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peExtended.getIntEnvironment
 import com.sogukj.pe.peUtils.Store
@@ -17,6 +19,7 @@ import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.jetbrains.anko.startActivity
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -141,11 +144,28 @@ class SoguApi {
                 .addHeader("version", Utils.getVersionName(context))
                 .addHeader("client", "android")
                 .addHeader("system", Build.VERSION.RELEASE)
+                .addHeader("sign",EncryptionUtil.getSign(EncryptionUtil.getSign(user?.let {it.app_token} + Extras.SIGN_CODE)+System.currentTimeMillis()))
                 .build()
-        chain.proceed(request)
+        val response = chain.proceed(request)
+        response
+//        val mediaType = response.body()!!.contentType()
+//        val content = response.body()!!.string()
+//        val jsonObject = JSONObject(content)
+//        try {
+//            val msgNo = jsonObject.getString("msgNo")
+//            if (msgNo.equals("1001")){
+//                //签名过期
+//                exitUser()
+//            }
+//        }catch (e:Exception){
+//            e.printStackTrace()
+//        }
+//        response.newBuilder().body(ResponseBody.create(mediaType,content)).build()
     }
-
-
+    fun exitUser(){
+        Store.store.clearUser(context)
+        context.startActivity<PhoneInputActivity>()
+    }
     companion object {
         private var TAG = SoguApi::class.java.simpleName
 

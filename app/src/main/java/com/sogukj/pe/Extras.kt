@@ -1,5 +1,7 @@
 package com.sogukj.pe
 
+import com.sogukj.pe.peExtended.getIntEnvironment
+
 /**
  * Created by qinfei on 17/3/28.
  */
@@ -111,4 +113,26 @@ object Extras {
     val TYPE_LEVEL_0 = 0
     val TYPE_LEVEL_1 = 1
     val TYPE_FILE = 2
+    val FUND = "ext.fund"
+    val PROJECT = "ext.project"
+    val APPROVE_CONFIG = "approve_config"
+    val SIGN_CODE = "pe2017Signkey"
+
+    val DECLARE_URL = "https://sougu.pewinner.com/uploads/xieyi/%E5%85%8D%E8%B4%A3%E5%A3%B0%E6%98%8E.pdf"
+    val SAFE_PRE_URL = "http://prehts.pewinner.com/uploads/xieyi/X-PE%E5%AE%89%E5%85%A8%E7%99%BD%E7%9A%AE%E4%B9%A6.pdf"
+    val SAFE_ONLINE_URL = "https://sougu.pewinner.com/uploads/xieyi/X-PE%E5%AE%89%E5%85%A8%E7%99%BD%E7%9A%AE%E4%B9%A6.pdf"
+    fun getSafeUrl():String{
+        var safe_url = ""
+        when(getIntEnvironment()){
+            0 -> {
+                //dev
+                safe_url = SAFE_PRE_URL
+            }
+            1 -> {
+                //online
+                safe_url = SAFE_ONLINE_URL
+            }
+        }
+        return safe_url
+    }
 }

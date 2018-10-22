@@ -3,8 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:focusableInTouchMode="true"
     android:background="@color/gray_f7">
     <include android:id="@+id/toolbar"
              layout="@layout/commom_blue_title"/>
@@ -17,7 +16,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="确定"
+            android:text="@string/submit"
             android:gravity="center"
             android:textSize="@dimen/text_size_18"
             android:textColor="@color/white"
@@ -36,13 +35,14 @@
 
             <include
                 android:id="@+id/link_fund"
+                android:visibility="gone"
                 layout="@layout/layout_link_fund"/>
 
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@color/white">
 
 

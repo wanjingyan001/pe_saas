@@ -263,16 +263,20 @@ class MainProjectFragment : BaseRefreshFragment() {
         }
 
         fb_add.setOnClickListener {
-            if (view_pager.currentItem == 0) {
-                var intent = Intent(context, ProjectAddActivity::class.java)
-                intent.putExtra(Extras.TYPE, "ADD")
-                intent.putExtra(Extras.TITLE, mTypeMap.get(mTypeList.get(0)))
-                startActivityForResult(intent, 0x543)
-            } else if (view_pager.currentItem == 1) {
-                val intent = Intent(context, StoreProjectAddActivity::class.java)
-                intent.putExtra(Extras.TYPE, StoreProjectAddActivity.TYPE_ADD)
-                startActivityForResult(intent, 0x543)
-            }
+//            if (view_pager.currentItem == 0) {
+//                var intent = Intent(context, ProjectAddActivity::class.java)
+//                intent.putExtra(Extras.TYPE, "ADD")
+//                intent.putExtra(Extras.TITLE, mTypeMap.get(mTypeList.get(0)))
+//                startActivityForResult(intent, 0x543)
+//            } else if (view_pager.currentItem == 1) {
+//                val intent = Intent(context, StoreProjectAddActivity::class.java)
+//                intent.putExtra(Extras.TYPE, StoreProjectAddActivity.TYPE_ADD)
+//                startActivityForResult(intent, 0x543)
+//            }
+            var intent = Intent(context, ProjectAddActivity::class.java)
+            intent.putExtra(Extras.TYPE, "ADD")
+            intent.putExtra(Extras.TITLE, mTypeMap.get(mTypeList.get(0)))
+            startActivityForResult(intent, 0x543)
         }
         fb_search.setOnClickListener {
             toolbar.visibility = View.GONE
@@ -315,7 +319,7 @@ class MainProjectFragment : BaseRefreshFragment() {
             //滑到新页面才算，没滑到又返回不算
             override fun onPageSelected(position: Int) {
                 tabs?.getTabAt(position)?.select()
-                fb_add.visibility = if (position == 0) View.VISIBLE else View.GONE
+//                fb_add.visibility = if (position == 0) View.VISIBLE else View.GONE
                 if (previousState == "TOP") {
                     (tabs.parent as FrameLayout).setBackgroundResource(R.drawable.tab_bg_2)
                     tabs.setTabTextColors(Color.parseColor("#ff7bb4fc"), Color.parseColor("#ffffff"))

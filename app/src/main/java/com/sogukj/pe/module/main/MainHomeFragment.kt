@@ -115,7 +115,7 @@ class MainHomeFragment : BaseFragment() {
         }
         val company = sp.getString(Extras.SAAS_BASIC_DATA, "")
         val detail = Gson().fromJson<MechanismBasicInfo?>(company)
-        toolbar_title.text = detail?.mechanism_name ?: "X-PE"
+        toolbar_title.text = detail?.mechanism_name ?: "XPE"
         val factory = Injection.provideViewModelFactory(ctx)
         val model = ViewModelProviders.of(this, factory).get(FunctionViewModel::class.java)
 

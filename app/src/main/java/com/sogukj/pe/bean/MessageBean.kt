@@ -26,6 +26,11 @@ class MessageBean : Serializable {
 
     var finishNum: Int? = null
     var waitNum: Int? = null
+    var company_id : Int ? = null
+    var floor : Int ? = null
+    var company_floor : Int ? = null
+    var company_name = ""
+
 //    "finishNum": 4,
 //    "waitNum": 0
 }

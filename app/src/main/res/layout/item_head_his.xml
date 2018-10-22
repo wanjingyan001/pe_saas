@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:elevation="@dimen/text_5"
+    android:background="@drawable/select_white"
+    android:paddingStart="@dimen/text_10"
+    android:paddingTop="@dimen/text_15"
+    android:paddingBottom="@dimen/text_15"
+    android:paddingEnd="@dimen/text_10">
+   <TextView
+       android:id="@+id/tv_name"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="搜股(上海)科技有限公司"
+       android:maxLines="1"
+       android:ellipsize="end"
+       style="@style/text18_color28"/>
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/text_1"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name"
+        android:layout_marginTop="@dimen/text_15"
+        android:background="@color/gray_f1"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:ellipsize="end"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        android:text="税号：9131 0000 MA28 3233 2C"
+        android:layout_marginTop="@dimen/text_8"
+        style="@style/text14_colora0"/>
+</android.support.constraint.ConstraintLayout>

@@ -139,8 +139,27 @@ class MainActivity : BaseActivity() {
         showPhoneNotifiDialog()
 
         saveCityAreaJson()
+        saveConfigApprove()
         copyAssets("ic_launcher_pe.png")
 
+    }
+
+    private fun saveConfigApprove() {
+        SoguApi.getService(application,OtherService::class.java)
+                .configApprove()
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+                            val jsonObject = payload.payload
+                            val hidden = jsonObject!!.get("hidden").asInt
+                            Store.store.saveApproveConfig(this@MainActivity,hidden)
+                        }
+                    }
+
+                    onError {
+                        it.printStackTrace()
+                    }
+                }
     }
 
     private fun copyAssets(filename: String) {

@@ -309,7 +309,18 @@
                     android:text="管理员权限" />
 
 
-
+                <TextView
+                    android:id="@+id/tv_wallet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/icon_admin_privileges"
+                    android:drawablePadding="10dp"
+                    android:textColor="@color/black_28"
+                    android:background="@drawable/selector_user_item"
+                    android:drawableRight="@drawable/ic_right"
+                    android:gravity="start|center_vertical"
+                    android:padding="18dp"
+                    android:text="我的钱包" />
 
             </LinearLayout>
 

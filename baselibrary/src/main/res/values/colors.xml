@@ -135,16 +135,21 @@
     <color name="gray_80">#808080</color>
     <color name="white_ff">#ffffff</color>
     <color name="black_28">#282828</color>
+    <color name="black_35">#35383A</color>
     <color name="gray_f1">#f1f1f1</color>
     <color name="blue_43">#4390F0</color>
     <color name="blue_3c">#3c98e8</color>
     <color name="blue_17">#1787fb</color>
+    <color name="blue_27">#2F7DDD</color>
     <color name="gary_a0">#a0a4aa</color>
     <color name="gray_f6">#f6f6f6</color>
     <color name="gray_66">#666666</color>
+    <color name="gray_61">#616E82</color>
     <color name="gray_ce">#CEDCFF</color>
     <color name="gray_d8">#d8d8d8</color>
+    <color name="gray_d9">#D9D9D9</color>
     <color name="gray_a0">#a0a4aa</color>
+    <color name="gray_80a0">#80a0a4aa</color>
     <color name="partTranslucent">#39000000</color>
     <color name="orange_f5">#f5a623</color>
     <color name="gray_f7f">#fff7f7f7</color>
@@ -153,5 +158,12 @@
     <color name="green_50d">#50d59d</color>
     <color name="blue_f6f">#F6FBFF</color>
     <color name="red_f01">#f01400</color>
+    <color name="red_ff7">#FF7676</color>
     <color name="gray_dbd">#DBDCDD</color>
+    <color name="blue_bb">#bbddff</color>
+    <color name="red_f85">#F85959</color>
+    <color name="black_8028">#80282828</color>
+    <color name="blue_a9">#A9D0FF</color>
+    <color name="province_line_border">#C7C7C7</color>
+    <color name="gray_ef">#EFEFEF</color>
 </resources>

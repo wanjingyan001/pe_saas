@@ -8,7 +8,6 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 52
         versionName '5.5.0'
-        multiDexEnabled true
         renderscriptTargetApi rootProject.ext.compileSdkVersion
         renderscriptSupportModeEnabled true
     }

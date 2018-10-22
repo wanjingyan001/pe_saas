@@ -20,6 +20,10 @@
             android:id="@+id/et_contact_name"
             style="@style/addContactContent"
             android:layout_toRightOf="@id/tv_cn_tag"/>
+        <TextView
+            android:id="@+id/tv_contact_name"
+            style="@style/addContactContent"
+            android:layout_toRightOf="@+id/tv_cn_tag"/>
     </RelativeLayout>
 
     <View
@@ -53,7 +57,7 @@
             android:textSize="@dimen/text_size_14"
             android:gravity="right|center_vertical"
             android:drawablePadding="@dimen/text_8"
-            android:layout_toRightOf="@id/tv_job_tag"
+            android:layout_toRightOf="@+id/tv_job_tag"
             android:drawableRight="@drawable/ic_right"/>
     </RelativeLayout>
 
@@ -76,7 +80,13 @@
         <EditText
             android:id="@+id/et_phone_name"
             style="@style/addContactContent"
-            android:layout_toRightOf="@id/tv_phone_tag"/>
+            android:visibility="invisible"
+            android:inputType="phone"
+            android:layout_toRightOf="@+id/tv_phone_tag"/>
+        <TextView
+            android:id="@+id/tv_phone_name"
+            style="@style/addContactContent"
+            android:layout_toRightOf="@+id/tv_phone_tag"/>
     </RelativeLayout>
 
     <View
@@ -98,7 +108,13 @@
         <EditText
             android:id="@+id/et_card_name"
             style="@style/addContactContent"
-            android:layout_toRightOf="@id/tv_card_tag"/>
+            android:visibility="invisible"
+            android:inputType="number"
+            android:layout_toRightOf="@+id/tv_card_tag"/>
+        <TextView
+            android:id="@+id/tv_card_name"
+            style="@style/addContactContent"
+            android:layout_toRightOf="@+id/tv_card_tag"/>
     </RelativeLayout>
 
     <View
@@ -120,13 +136,12 @@
         <EditText
             android:id="@+id/et_email_name"
             style="@style/addContactContent"
-            android:layout_toRightOf="@id/tv_email_tag"/>
+            android:visibility="invisible"
+            android:layout_toRightOf="@+id/tv_email_tag"/>
+        <TextView
+            android:id="@+id/tv_email_name"
+            style="@style/addContactContent"
+            android:layout_toRightOf="@+id/tv_email_tag"/>
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/text_1"
-        android:layout_marginLeft="19dp"
-        android:layout_marginRight="@dimen/text_10"
-        android:background="@color/gray_f1"/>
 </LinearLayout>

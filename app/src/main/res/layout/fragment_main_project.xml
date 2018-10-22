@@ -65,11 +65,13 @@
 
                 <ImageView
                     android:id="@+id/fb_add"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="right"
-                    android:padding="10dp"
-                    android:src="@drawable/tj_main" />
+                    android:gravity="center"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:src="@drawable/plus" />
 
             </android.support.v7.widget.Toolbar>
 

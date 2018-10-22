@@ -37,6 +37,10 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_agree_title"
         android:layout_marginEnd="@dimen/text_20"
         android:maxLines="1"
+        android:singleLine="true"
+        android:textColor="@color/black_28"
+        android:paddingLeft="@dimen/text_8"
+        android:textSize="@dimen/text_size_14"
         android:background="@drawable/bg_edit_agree"
         android:layout_marginTop="@dimen/text_10"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -55,11 +59,11 @@
         android:id="@+id/rv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:scrollbars="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        android:maxHeight="@dimen/text_50"
-        app:layout_constraintHeight_max="@dimen/text_50"
         android:layout_marginTop="@dimen/text_10"
         tools:listitem="@layout/item_upload_file"
+        android:layout_marginBottom="@dimen/text_10"
         app:layout_constraintTop_toBottomOf="@+id/tv_upload"
         app:layout_constraintBottom_toTopOf="@+id/tv_add_file"
         app:layout_constraintEnd_toEndOf="@+id/ed_agree"/>
@@ -69,7 +73,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/text_10"
         android:textColor="@color/gray_a0"
         android:paddingLeft="@dimen/text_20"
         android:paddingRight="@dimen/text_20"
@@ -109,5 +112,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_cancel"
+        android:layout_marginEnd="@dimen/text_15"
         android:background="@drawable/bg_agree"/>
 </android.support.constraint.ConstraintLayout>

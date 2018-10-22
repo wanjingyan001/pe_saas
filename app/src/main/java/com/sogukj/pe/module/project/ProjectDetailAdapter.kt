@@ -132,15 +132,15 @@ class ProjectDetailAdapter(data: List<ProjectModules>)
             59 -> R.drawable.ic_proj_spls//审批历史
             60 -> R.drawable.ic_proj_gqxx//股权信息
             61 -> R.drawable.ic_proj_cwbb//财务报表
-            62 -> R.drawable.ic_proj_pgqk//配股情况
+//            62 -> R.drawable.ic_proj_pgqk//配股情况
 
-            63 -> R.drawable.ic_proj_xjxm //新建项目
-            64 -> R.drawable.ic_proj_lxsq //立项申请
-            65 -> R.drawable.ic_proj_ysh //预审会
-            66 -> R.drawable.ic_proj_tjh //投决会
-            67 -> R.drawable.ic_proj_qyfk //签约付款
-            68 -> R.drawable.ic_proj_thgl //投后管理
-            69 -> R.drawable.ic_proj_exit // 退出
+            62 -> R.drawable.ic_proj_xjxm //新建项目
+            63 -> R.drawable.ic_proj_lxsq //立项申请
+            64 -> R.drawable.ic_proj_ysh //预审会
+            65 -> R.drawable.ic_proj_tjh //投决会
+            66 -> R.drawable.ic_proj_qyfk //签约付款
+            67 -> R.drawable.ic_proj_thgl //投后管理
+            68 -> R.drawable.ic_proj_exit // 退出
             else -> 0
         }
     }

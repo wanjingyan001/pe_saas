@@ -4,11 +4,15 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
+import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.peUtils.CheckUpdateUtil.Companion.checkUpdate
+import com.sogukj.pe.service.OtherService
+import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.about_content.*
 import kotlinx.android.synthetic.main.activity_aboutxpe.*
 
@@ -17,7 +21,8 @@ import kotlinx.android.synthetic.main.activity_aboutxpe.*
  * 关于X-PE
  */
 class AboutXPeActivity : BaseActivity(){
-
+    private var mzsm = Extras.DECLARE_URL
+    private var bps = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_aboutxpe)
@@ -28,7 +33,28 @@ class AboutXPeActivity : BaseActivity(){
 
     private fun initData() {
         toolbar_title.text = resources.getString(R.string.about_xpe)
-        tv_version.text = "搜股X-PE " + Utils.getVersionName(this)
+        tv_version.text = "搜股XPE " + Utils.getVersionName(this)
+        getAboutPageData()
+    }
+
+    private fun getAboutPageData() {
+        SoguApi.getService(application,OtherService::class.java)
+                .getAboutPage()
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+                            val pageBean = payload.payload
+                            pageBean?.let {
+                                mzsm = it.mzsm
+                                bps = it.bps
+                            }
+                        }
+                    }
+
+                    onError {
+                        it.printStackTrace()
+                    }
+                }
     }
 
     private fun bindListener() {
@@ -42,6 +68,11 @@ class AboutXPeActivity : BaseActivity(){
 
         tv_declare.clickWithTrigger {
             //免责声明
+            WebNormalActivity.invoke(this,"免责声明", mzsm)
+        }
+        tv_safe.clickWithTrigger {
+            //X-PE安全白皮书
+            WebNormalActivity.invoke(this,"XPE安全白皮书", bps)
         }
     }
 

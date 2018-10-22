@@ -5,83 +5,116 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/gray_f7"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
     <include android:id="@+id/toolbar"
              layout="@layout/commom_blue_title"/>
     <include
         android:id="@+id/ps_bottom"
         layout="@layout/project_show_bottom"/>
-    <android.support.v4.widget.NestedScrollView
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refresh"
+        android:layout_below="@id/toolbar"
+        android:layout_above="@+id/ps_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/gray_f7"
+                android:paddingBottom="@dimen/text_20"
+                android:orientation="vertical">
+                <com.sogukj.pe.widgets.ProjectIndexView
+                    android:id="@+id/piv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingBottom="@dimen/text_10">
+
+                </com.sogukj.pe.widgets.ProjectIndexView>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/text_1"
+                    android:background="@color/gray_f1"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/text_15"
+                    android:paddingRight="@dimen/text_15"
+                    android:paddingTop="@dimen/text_10"
+                    android:background="@color/white"
+                    android:paddingBottom="@dimen/text_10"
+                    android:text="立项报告"
+                    android:textSize="@dimen/text_size_14"
+                    android:textColor="@color/black_28"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/text_1"
+                    android:background="@color/gray_f1"/>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:background="@color/white"
+                    android:nestedScrollingEnabled="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </android.support.v7.widget.RecyclerView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/text_15"
+                    android:paddingRight="@dimen/text_15"
+                    android:paddingTop="@dimen/text_10"
+                    android:paddingBottom="@dimen/text_10"
+                    android:text="审批记录"
+                    android:layout_marginTop="@dimen/text_10"
+                    android:background="@color/white"
+                    android:textSize="@dimen/text_size_14"
+                    android:textColor="@color/black_28"/>
+                <View
+                    android:id="@+id/view_file"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/text_1"
+                    android:background="@color/gray_f1"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/approve_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/text_15"
+                    android:paddingTop="@dimen/text_15"
+                    android:nestedScrollingEnabled="false"
+                    android:focusable="false"
+                    tools:listitem="@layout/item_approve_list"
+                    android:background="@color/white"
+                    android:paddingRight="@dimen/text_20">
+
+                </android.support.v7.widget.RecyclerView>
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <FrameLayout
+        android:id="@+id/view_recover"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
         android:layout_above="@+id/ps_bottom"
-        android:focusableInTouchMode="true"
-        android:scrollbars="none">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/gray_f7"
-            android:paddingBottom="@dimen/text_20"
-            android:orientation="vertical">
-            <com.sogukj.pe.widgets.ProjectIndexView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+        android:visibility="invisible"
+        android:background="@color/gray_f1">
 
-            </com.sogukj.pe.widgets.ProjectIndexView>
+        <ImageView
+            android:id="@+id/iv_loading"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:layout_gravity="center"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/text_15"
-                android:paddingRight="@dimen/text_15"
-                android:paddingTop="@dimen/text_10"
-                android:background="@color/white"
-                android:layout_marginTop="@dimen/text_10"
-                android:paddingBottom="@dimen/text_10"
-                android:text="立项报告"
-                android:textSize="@dimen/text_size_14"
-                android:textColor="@color/black_28"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/text_1"
-                android:background="@color/gray_f1"/>
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view"
-                android:background="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </android.support.v7.widget.RecyclerView>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/text_15"
-                android:paddingRight="@dimen/text_15"
-                android:paddingTop="@dimen/text_10"
-                android:paddingBottom="@dimen/text_10"
-                android:text="审批记录"
-                android:layout_marginTop="@dimen/text_10"
-                android:background="@color/white"
-                android:textSize="@dimen/text_size_14"
-                android:textColor="@color/black_28"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/text_1"
-                android:background="@color/gray_f1"/>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/approve_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/text_15"
-                android:paddingTop="@dimen/text_15"
-                android:background="@color/white"
-                android:paddingRight="@dimen/text_20">
-
-            </android.support.v7.widget.RecyclerView>
-        </LinearLayout>
-
-    </android.support.v4.widget.NestedScrollView>
+    </FrameLayout>
 </RelativeLayout>

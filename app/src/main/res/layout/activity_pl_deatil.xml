@@ -47,7 +47,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:gravity="center"
-            android:padding="15dp"
+            android:paddingTop="@dimen/text_15"
+            android:paddingBottom="@dimen/text_15"
+            android:paddingLeft="@dimen/text_20"
+            android:paddingRight="@dimen/text_20"
             android:src="@drawable/ic_pl_share" />
     </android.support.v7.widget.Toolbar>
     <FrameLayout

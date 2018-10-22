@@ -7,6 +7,7 @@ import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
+import com.sogukj.pe.baselibrary.utils.Utils
 import kotlinx.android.synthetic.main.activity_form.*
 
 class FormActivity : ToolbarActivity() {
@@ -44,6 +45,13 @@ class FormActivity : ToolbarActivity() {
             intent.putExtra(Extras.TITLE, title)
             intent.putExtra(Extras.DATA, content)
             ctx?.startActivityForResult(intent, code)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (null != fill){
+            Utils.forceCloseInput(this,fill)
         }
     }
 }

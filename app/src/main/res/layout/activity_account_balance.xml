@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/gray_f7"
+    android:orientation="vertical">
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/normal_toolbar"/>
+    <LinearLayout
+        android:id="@+id/ll_recharge"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:padding="@dimen/text_8">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_create_pro"
+            android:gravity="center"
+            android:text="充值"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_18"/>
+    </LinearLayout>
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refresh"
+        android:layout_below="@id/toolbar"
+        android:layout_above="@id/ll_recharge"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:id="@+id/ll_balance_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/blue_43"
+                android:paddingBottom="@dimen/text_45"
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_20"
+                    android:layout_marginRight="@dimen/text_20"
+                    android:layout_marginTop="@dimen/text_16">
+                    <TextView
+                        style="@style/textWhite10"
+                        android:textSize="@dimen/text_size_16"
+                        android:layout_centerVertical="true"
+                        android:text="余额(元)"/>
+                    <TextView
+                        style="@style/textWhite10"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:drawablePadding="@dimen/text_5"
+                        android:drawableLeft="@mipmap/ic_warn_balance"
+                        android:text="余额不可提现"/>
+                </RelativeLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:layout_marginLeft="@dimen/text_18"
+                    android:layout_marginRight="@dimen/text_10"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_marginTop="@dimen/text_10"
+                    android:text="120"
+                    android:textSize="50sp"/>
+                <TextView
+                    style="@style/textWhite10"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:drawablePadding="@dimen/text_5"
+                    android:layout_marginLeft="@dimen/text_20"
+                    android:text="余额可用于支付应用内套餐"/>
+            </LinearLayout>
+            <FrameLayout
+                android:id="@+id/fl_empty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ll_balance_top"
+                android:layout_marginLeft="@dimen/text_10"
+                android:layout_marginRight="@dimen/text_10"
+                android:layout_marginTop="-35dp"
+                android:visibility="gone"
+                android:background="@drawable/selector_balance_bg">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingTop="@dimen/text_40"
+                    android:paddingBottom="49dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="76dp"
+                        android:layout_height="76dp"
+                        android:src="@mipmap/ic_empty_balance"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="暂无余额明细"
+                        android:layout_marginTop="@dimen/text_8"
+                        android:textSize="@dimen/text_size_14"
+                        android:textColor="@color/gray_61"/>
+                </LinearLayout>
+
+            </FrameLayout>
+
+
+            <FrameLayout
+                android:id="@+id/fl_balance"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/ll_balance_top"
+                android:layout_marginLeft="@dimen/text_10"
+                android:layout_marginRight="@dimen/text_10"
+                android:layout_marginTop="-35dp"
+                android:paddingLeft="@dimen/text_15"
+                android:paddingRight="@dimen/text_15"
+                android:paddingBottom="@dimen/text_10"
+                android:background="@drawable/selector_balance_bg2">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_balance"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:listitem="@layout/item_account_balance">
+
+
+                </android.support.v7.widget.RecyclerView>
+
+            </FrameLayout>
+        </RelativeLayout>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+</RelativeLayout>

@@ -15,6 +15,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
+import android.widget.Toast
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -26,16 +27,14 @@ import com.netease.nimlib.sdk.team.TeamService
 import com.netease.nimlib.sdk.team.model.Team
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
-import com.sogukj.pe.baselibrary.Extended.execute
-import com.sogukj.pe.baselibrary.Extended.ifNotNull
-import com.sogukj.pe.baselibrary.Extended.setVisible
+import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.*
 import com.sogukj.pe.bean.*
 import com.sogukj.pe.module.approve.ApproveListActivity
 import com.sogukj.pe.module.creditCollection.ShareHolderDescActivity
 import com.sogukj.pe.module.creditCollection.ShareholderCreditActivity
+import com.sogukj.pe.module.fund.BookListActivity
 import com.sogukj.pe.module.main.ContactsActivity
 import com.sogukj.pe.module.project.archives.EquityListActivity
 import com.sogukj.pe.module.project.archives.FinanceListActivity
@@ -49,7 +48,9 @@ import com.sogukj.pe.module.project.intellectualProperty.PatentListActivity
 import com.sogukj.pe.module.project.listingInfo.*
 import com.sogukj.pe.module.project.operate.*
 import com.sogukj.pe.module.project.originpro.NewOriginProjectActivity
-import com.sogukj.pe.module.project.originpro.ProjectUploadActivity
+import com.sogukj.pe.module.project.originpro.OtherProjectShowActivity
+import com.sogukj.pe.module.project.originpro.ProjectApprovalShowActivity
+import com.sogukj.pe.module.project.originpro.ProjectUploadShowActivity
 import com.sogukj.pe.peExtended.needIm
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.NewService
@@ -74,6 +75,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
 
     private var is_business: Int? = null//非空(1=>有价值 ,2=>无价值)
     private var is_ability: Int? = null//非空(1=>有能力,2=>无能力)
+    private var isHidden : Int = 0
     private var NAVIGATION_GESTURE: String = when {
         Rom.isEmui() -> "navigationbar_is_min"
         Rom.isMiui() -> "force_fsg_nav_bar"
@@ -117,6 +119,8 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
         project = intent.getSerializableExtra(Extras.DATA) as ProjectBean
         position = intent.getIntExtra(Extras.CODE, 0)
         type = intent.getIntExtra(Extras.TYPE, 0)
+
+        isHidden = Store.store.getApproveConfig(this)
     }
 
     /**
@@ -169,33 +173,40 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
         } else {
             proj_stage.visibility = View.VISIBLE
         }
-        when (type) {
-            ProjectListFragment.TYPE_DY -> {
-                proj_stage.text = "储 备"
-                history.visibility = View.GONE
-            }
-            ProjectListFragment.TYPE_CB -> {
-                proj_stage.text = "立 项"
-                history.visibility = View.GONE
-            }
-            ProjectListFragment.TYPE_LX -> {
-                proj_stage.text = "投 决"
-                edit.visibility = View.GONE
-                history.visibility = View.GONE
-            }
-            ProjectListFragment.TYPE_YT -> {
-                proj_stage.text = "退 出"
-                edit.visibility = View.GONE
-                history.visibility = View.GONE
-                delete.visibility = View.GONE
-                if (project.quit == 1) {
-                    history.visibility = View.VISIBLE
+        if (isHidden == 1){
+            //隐藏
+            proj_stage.visibility = View.INVISIBLE
+            edit.visibility = View.GONE
+            history.visibility = View.GONE
+        }else{
+            when (type) {
+                ProjectListFragment.TYPE_DY -> {
+                    proj_stage.text = "储 备"
+                    history.visibility = View.GONE
                 }
-            }
-            ProjectListFragment.TYPE_TC -> {
-                proj_stage.visibility = View.GONE
-                edit.visibility = View.GONE
-                delete.visibility = View.GONE
+                ProjectListFragment.TYPE_CB -> {
+                    proj_stage.text = "立 项"
+                    history.visibility = View.GONE
+                }
+                ProjectListFragment.TYPE_LX -> {
+                    proj_stage.text = "投 决"
+                    edit.visibility = View.GONE
+                    history.visibility = View.GONE
+                }
+                ProjectListFragment.TYPE_YT -> {
+                    proj_stage.text = "退 出"
+                    edit.visibility = View.GONE
+                    history.visibility = View.GONE
+                    delete.visibility = View.GONE
+                    if (project.quit == 1) {
+                        history.visibility = View.VISIBLE
+                    }
+                }
+                ProjectListFragment.TYPE_TC -> {
+                    proj_stage.visibility = View.GONE
+                    edit.visibility = View.GONE
+                    delete.visibility = View.GONE
+                }
             }
         }
 
@@ -591,13 +602,18 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
         }
         dialog.show()
     }
-
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
-        if (view.tag in 1..62) {
+        if (!isClickEnable(200)){
+            Toast.makeText(this, "请勿重复点击", Toast.LENGTH_SHORT).show()
+            return
+        }
+        if (view.tag in 1..68) {
             SoguApi.getService(application, NewService::class.java)
                     .saveClick(view.tag as Int)
                     .execute {}
         }
+
+        val detailSmallBean = detailModules[position].t
         when (view.tag) {
             38 -> StockInfoActivity.start(this@ProjectDetailActivity, project)//股票行情
             39 -> CompanyInfoActivity.start(this@ProjectDetailActivity, project)//企业简介
@@ -656,8 +672,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                     5, 7 -> "退出"
                     else -> ""
                 }
-//                BookListActivity.start(context, project.company_id!!, 1, null, "项目文书", project.name!!, stage)
-                startActivity<NewOriginProjectActivity>()
+                BookListActivity.start(context, project.company_id!!, 1, null, "项目文书", project.name!!, stage)
             }
             54 -> StoreProjectAddActivity.startView(this@ProjectDetailActivity, project)//储备信息
             51 -> {
@@ -673,8 +688,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
 
         // 跟踪记录,尽调数据,投决数据,投后管理数据
             55 -> RecordTraceActivity.start(this@ProjectDetailActivity, project)//跟踪记录
-//            56 -> ManagerActivity.start(this@ProjectDetailActivity, project, 1, "尽调数据")//尽调数据
-            56 -> startActivity<ProjectUploadActivity>()
+            56 -> ManagerActivity.start(this@ProjectDetailActivity, project, 1, "尽调数据")//尽调数据
             57 -> ManagerActivity.start(this@ProjectDetailActivity, project, 8, "投决数据")//投决数据
             58 -> ManagerActivity.start(this@ProjectDetailActivity, project, 10, "投后管理")//投后管理
 
@@ -684,8 +698,18 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
 
             61 -> FinanceListActivity.start(this@ProjectDetailActivity, project)
 
-            62 -> IncomeCurveActivity.start(this@ProjectDetailActivity, project)//收益曲线
-
+//            62 -> IncomeCurveActivity.start(this@ProjectDetailActivity, project)//收益曲线
+            62 ->  startActivity<NewOriginProjectActivity>(Extras.DATA to project) //新建项目
+            63 ->  startActivity<ProjectApprovalShowActivity>(Extras.DATA to project,Extras.FLAG to detailSmallBean.floor) //立项申请
+            64 ->  startActivity<ProjectUploadShowActivity>(Extras.DATA to project,Extras.FLAG to detailSmallBean.floor) //预审会
+            65 -> startActivity<OtherProjectShowActivity>(Extras.DATA to project,Extras.FLAG to detailSmallBean.floor,
+                    Extras.TITLE to "投决会") //投决会
+            66 -> startActivity<OtherProjectShowActivity>(Extras.DATA to project,Extras.FLAG to detailSmallBean.floor,
+                    Extras.TITLE to "签约付款")//签约付款
+            67 -> startActivity<OtherProjectShowActivity>(Extras.DATA to project,Extras.FLAG to detailSmallBean.floor,
+                    Extras.TITLE to "投后管理")//投后管理
+            68 -> startActivity<OtherProjectShowActivity>(Extras.DATA to project,Extras.FLAG to detailSmallBean.floor,
+                    Extras.TITLE to "退出管理")//退出
         }
     }
 

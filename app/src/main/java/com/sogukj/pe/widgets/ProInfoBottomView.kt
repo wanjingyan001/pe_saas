@@ -1,5 +1,6 @@
 package com.sogukj.pe.widgets
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -10,13 +11,19 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
+import com.sogukj.pe.App
 import com.sogukj.pe.R
-import com.sogukj.pe.bean.ProjectFileInfo
+import com.sogukj.pe.baselibrary.Extended.execute
+import com.sogukj.pe.bean.ProjectApproveInfo
 import com.sogukj.pe.peUtils.FileTypeUtils
-import com.sogukj.pe.peUtils.FileUtil
+import com.sogukj.pe.peUtils.ToastUtil
+import com.sogukj.pe.service.OtherService
+import com.sogukj.service.SoguApi
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import org.jetbrains.anko.imageResource
+import java.io.File
 
 /**
  * Created by CH-ZH on 2018/9/18.
@@ -28,7 +35,8 @@ class ProInfoBottomView : LinearLayout {
     private var file_list : RecyclerView ? = null
     private var tv_add_file : TextView? = null
     lateinit var adapter: AddFileAdapter
-    private var fileInfos = ArrayList<ProjectFileInfo>()
+    private var fileInfos = ArrayList<ProjectApproveInfo.ApproveFile>()
+    private var tv_create : TextView ? = null
     constructor(context: Context) : super(context){
         mContext = context
         initView()
@@ -67,6 +75,10 @@ class ProInfoBottomView : LinearLayout {
         }
     }
 
+    open fun setCreateTextView(tv_create : TextView){
+        this.tv_create = tv_create
+    }
+
     /**
      * 添加文件
      */
@@ -77,14 +89,64 @@ class ProInfoBottomView : LinearLayout {
     /**
      * 添加文件
      */
-    open fun addFileData(info : ProjectFileInfo){
+    open fun addFileData(info: ProjectApproveInfo.ApproveFile, file: File){
+        uploadFileToOss(file,info)
+    }
+
+    private fun uploadFileToOss(file: File, info: ProjectApproveInfo.ApproveFile) {
+        val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("file", file.name, RequestBody.create(MediaType.parse("*/*"), file))
+                .addFormDataPart("type",1.toString()) //1 项目文件 2审批文件
+        val body = builder.build()
+        showProgress("正在上传")
+        SoguApi.getService(App.INSTANCE,OtherService::class.java)
+                .uploadProFile(body)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+                            val fileBean = payload.payload
+                            if (null != adapter){
+                                info.file_name = fileBean!!.file_name
+                                info.size = fileBean!!.size
+                                info.url = fileBean!!.url
+                                info.filePath = fileBean!!.filePath
+                                adapter.addData(fileInfos.size,info)
+                            }
+                            ToastUtil.showSuccessToast("上传成功",mContext!!)
+                        }else{
+                            ToastUtil.showCustomToast(R.drawable.icon_toast_fail,payload.message,mContext!!)
+                        }
+                        hideProgress()
+                    }
+
+                    onError {
+                        it.printStackTrace()
+                        ToastUtil.showCustomToast(R.drawable.icon_toast_fail,"上传失败",mContext!!)
+                        hideProgress()
+                    }
+                }
+    }
+    private var isClickCreate = false
+    open fun setFileData(files: List<ProjectApproveInfo.ApproveFile>){
         if (null != adapter){
-            adapter.addData(fileInfos.size,info)
+            fileInfos.clear()
+            fileInfos.addAll(files)
+            adapter.notifyDataSetChanged()
         }
     }
 
-    inner class AddFileAdapter(val context: Context,val fileInfos:ArrayList<ProjectFileInfo>) : RecyclerView.Adapter<AddFileAdapter.ViewHolder>(){
-        fun addData(position: Int,info : ProjectFileInfo){
+    open fun getFileData():List<ProjectApproveInfo.ApproveFile>{
+        return fileInfos
+    }
+
+    open fun setClickCreate(isClick:Boolean){
+        this.isClickCreate = isClick
+    }
+    open fun isClickCreat():Boolean{
+        return isClickCreate
+    }
+    inner class AddFileAdapter(val context: Context,val fileInfos:ArrayList<ProjectApproveInfo.ApproveFile>) : RecyclerView.Adapter<AddFileAdapter.ViewHolder>(){
+        fun addData(position: Int,info : ProjectApproveInfo.ApproveFile){
             fileInfos.add(position,info)
             notifyItemInserted(position)
         }
@@ -92,7 +154,17 @@ class ProInfoBottomView : LinearLayout {
             fileInfos.removeAt(position)
             notifyItemRemoved(position)
             notifyDataSetChanged()
-
+            if (fileInfos.size > 0){
+                isClickCreate = true
+                if (null != tv_create){
+                    tv_create!!.setBackgroundResource(R.drawable.bg_create_pro)
+                }
+            }else{
+                isClickCreate = false
+                if (null != tv_create){
+                    tv_create!!.setBackgroundResource(R.drawable.bg_create_gray)
+                }
+            }
         }
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             return ViewHolder(LayoutInflater.from(context).inflate(R.layout.layout_add_file,null,false))
@@ -104,7 +176,18 @@ class ProInfoBottomView : LinearLayout {
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             holder.fitData(fileInfos[position],position)
-            holder.bindListener(position)
+            holder.bindListener(fileInfos[position],position)
+            if (fileInfos.size > 0){
+                isClickCreate = true
+                if (null != tv_create){
+                    tv_create!!.setBackgroundResource(R.drawable.bg_create_pro)
+                }
+            }else{
+                isClickCreate = false
+                if (null != tv_create){
+                    tv_create!!.setBackgroundResource(R.drawable.bg_create_gray)
+                }
+            }
         }
 
         inner class ViewHolder(itemView : View):RecyclerView.ViewHolder(itemView){
@@ -112,32 +195,75 @@ class ProInfoBottomView : LinearLayout {
             val tv_name = itemView.findViewById<TextView>(R.id.tv_name)
             val iv_delete = itemView.findViewById<ImageView>(R.id.iv_delete)
 
-            fun fitData(projectFileInfo: ProjectFileInfo, position: Int) {
+            fun fitData(projectFileInfo: ProjectApproveInfo.ApproveFile, position: Int) {
                 if (null != projectFileInfo){
-                    if (null != projectFileInfo.file){
-                        if (null != FileUtil.getFileType(projectFileInfo.file!!.absolutePath)) {
-                            Glide.with(context)
-                                    .load(projectFileInfo.file!!.absolutePath)
-                                    .thumbnail(0.1f)
-                                    .apply(RequestOptions()
-                                            .centerCrop()
-                                            .error(R.drawable.icon_pic))
-                                    .into(iv_image)
-                        } else {
-                            iv_image.imageResource = FileTypeUtils.getFileType(projectFileInfo.file).icon
-                        }
-                    }
-
-                    tv_name.text = projectFileInfo.name
+                    iv_image.imageResource = FileTypeUtils.getFileType(projectFileInfo.file_name).icon
+                    tv_name.text = projectFileInfo.file_name
                 }
-
             }
 
-            fun bindListener(position: Int) {
+            fun bindListener(projectFileInfo: ProjectApproveInfo.ApproveFile, position: Int) {
                 iv_delete.setOnClickListener {
-                    removeData(position)
+                    if (null != projectFileInfo.file){
+                        removeDataFroOss(projectFileInfo,position)
+                    }else{
+                        removeDataFromNet(projectFileInfo,position)
+                    }
                 }
             }
+
+            private fun removeDataFroOss(projectFileInfo: ProjectApproveInfo.ApproveFile, position: Int) {
+                SoguApi.getService(App.INSTANCE,OtherService::class.java)
+                        .deleteProjectOssFile(projectFileInfo.filePath)
+                        .execute {
+                            onNext { payload ->
+                                if (payload.isOk){
+                                    removeData(position)
+                                }else{
+                                    ToastUtil.showCustomToast(R.drawable.icon_toast_fail, payload.message, mContext!!)
+                                }
+                            }
+
+                            onError {
+                                it.printStackTrace()
+                                ToastUtil.showCustomToast(R.drawable.icon_toast_fail, "文件删除失败", mContext!!)
+                            }
+                        }
+            }
+
+            private fun removeDataFromNet(projectFileInfo: ProjectApproveInfo.ApproveFile, position: Int) {
+                SoguApi.getService(App.INSTANCE,OtherService::class.java)
+                        .deleteProjectFile(projectFileInfo.file_id!!)
+                        .execute {
+                            onNext { payload ->
+                                if(payload.isOk){
+                                    removeData(position)
+                                }else{
+                                    ToastUtil.showCustomToast(R.drawable.icon_toast_fail, payload.message, mContext!!)
+                                }
+                            }
+
+                            onError {
+                                it.printStackTrace()
+                                ToastUtil.showCustomToast(R.drawable.icon_toast_fail, "文件删除失败", mContext!!)
+                            }
+                        }
+            }
+        }
+    }
+
+    var progressDialog: ProgressDialog? = null
+    fun showProgress(msg: String) {
+        if (progressDialog == null) {
+            progressDialog = ProgressDialog(mContext)
+        }
+        progressDialog?.setMessage(msg)
+        progressDialog?.show()
+    }
+
+    fun hideProgress() {
+        if (progressDialog != null) {
+            progressDialog?.dismiss()
         }
     }
 }

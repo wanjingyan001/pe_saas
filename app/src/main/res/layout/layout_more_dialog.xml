@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/text_15"
+        android:paddingLeft="@dimen/text_8"
+        android:paddingTop="@dimen/text_15">
+
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/text_10"
+            android:src="@mipmap/ic_bill_delete"/>
+
+        <TextView
+            style="@style/text16_color28"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="更多信息"/>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/text_1"
+        android:layout_marginLeft="@dimen/text_20"
+        android:layout_marginRight="@dimen/text_20"
+        android:background="@color/gray_f1"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/text_20">
+
+        <TextView
+            style="@style/text14_color28_all"
+            android:layout_weight="2"
+            android:text="备注说明"/>
+
+        <EditText
+            android:id="@+id/et_explain"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/text_8"
+            android:layout_weight="4"
+            android:hint="填写备注说明"
+            android:background="@null"
+            android:textColorHint="@color/gray_a0"
+            android:textColor="@color/black_28"
+            android:textSize="@dimen/text_size_14"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/text_1"
+        android:layout_marginLeft="@dimen/text_20"
+        android:layout_marginRight="@dimen/text_20"
+        android:background="@color/gray_f1"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/text_20">
+
+        <TextView
+            style="@style/text14_color28_all"
+            android:layout_weight="2"
+            android:text="地址和电话"/>
+
+        <EditText
+            android:id="@+id/et_phoneaddress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/text_8"
+            android:layout_weight="4"
+            android:hint="填写地址和电话"
+            android:background="@null"
+            android:textColorHint="@color/gray_a0"
+            android:textColor="@color/black_28"
+            android:textSize="@dimen/text_size_14"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/text_1"
+        android:layout_marginLeft="@dimen/text_20"
+        android:layout_marginRight="@dimen/text_20"
+        android:background="@color/gray_f1"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/text_20">
+
+        <TextView
+            style="@style/text14_color28_all"
+            android:layout_weight="2"
+            android:text="开户行和帐号"/>
+
+        <EditText
+            android:id="@+id/et_bank"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/text_8"
+            android:layout_weight="4"
+            android:hint="填写开户行和帐号"
+            android:background="@null"
+            android:textColorHint="@color/gray_a0"
+            android:textColor="@color/black_28"
+            android:textSize="@dimen/text_size_14"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/text_1"
+        android:layout_marginLeft="@dimen/text_20"
+        android:layout_marginRight="@dimen/text_20"
+        android:background="@color/gray_f1"/>
+
+</LinearLayout>
+
+
+

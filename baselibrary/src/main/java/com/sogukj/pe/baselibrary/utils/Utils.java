@@ -20,6 +20,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -38,6 +40,8 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewGroupOverlay;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -74,7 +78,11 @@ import java.util.regex.PatternSyntaxException;
 public class Utils {
 
     public static final String TAG = Utils.class.getSimpleName();
-
+    /**
+     * 正则表达式:验证邮箱
+     */
+    public static final String REGEX_EMAIL = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+    public static final String CREDIT_CODE = "[0-9A-HJ-NPQRTUWXY]{2}\\d{6}[0-9A-HJ-NPQRTUWXY]{10}";
     public static int dpToPx(Context context, int dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
     }
@@ -102,6 +110,7 @@ public class Utils {
         Matcher m = p.matcher(str);
         return m.replaceAll("").trim();
     }
+
 
     public static void closeInput(Context context, View view) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -273,6 +282,12 @@ public class Utils {
     @SuppressLint("SimpleDateFormat")
     public static String getTime(Date date) {//可根据需要自行截取数据显示
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM");
+        return format.format(date);
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    public static String getTime_(Date date) {//可根据需要自行截取数据显示
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
         return format.format(date);
     }
 
@@ -902,7 +917,6 @@ public class Utils {
 
     /**
      * 验证身份证号码是否正确
-     *
      * @param IDCardNo 身份证号码
      * @return boolean
      */
@@ -1343,9 +1357,7 @@ public class Utils {
                 Toast.makeText(context, "截屏失败", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
-
         }
-
     }
 
     /**
@@ -1467,4 +1479,70 @@ public class Utils {
         }
     }
 
+    /**
+     * 校验邮箱
+     * @param email
+     * @return 校验通过返回true，否则返回false
+     */
+    public static boolean isEmail(String email) {
+        return Pattern.matches(REGEX_EMAIL, email);
+    }
+
+    public static boolean isCreditCode(String code){
+        return Pattern.matches(CREDIT_CODE,code);
+    }
+
+
+    //判断整数（int）
+    public static boolean isInteger(String str) {
+        if (null == str || "".equals(str)) {
+            return false;
+        }
+        Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
+        return pattern.matcher(str).matches();
+    }
+
+    //判断浮点数（double和float）
+    public static boolean isDouble(String str) {
+        if (null == str || "".equals(str)) {
+            return false;
+        }
+        Pattern pattern = Pattern.compile("^[-\\+]?[.\\d]*$");
+        return pattern.matcher(str).matches();
+    }
+
+    public static void setBackgroundAlpha(Context mContext, float bgAlpha) {
+//        WindowManager.LayoutParams lp = ((Activity) mContext).getWindow().getAttributes();
+//        lp.alpha = bgAlpha;
+//        ((Activity) mContext).getWindow().setAttributes(lp);
+
+        if (bgAlpha == 1f) {
+            clearDim((Activity) mContext);
+        }else{
+            applyDim((Activity) mContext, bgAlpha);
+        }
+    }
+
+    private static void applyDim(Activity activity, float bgAlpha) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            ViewGroup parent = (ViewGroup) activity.getWindow().getDecorView().getRootView();
+            //activity跟布局
+//        ViewGroup parent = (ViewGroup) parent1.getChildAt(0);
+            Drawable dim = new ColorDrawable(Color.BLACK);
+            dim.setBounds(0, 0, parent.getWidth(), parent.getHeight());
+            dim.setAlpha((int) (255 * bgAlpha));
+            ViewGroupOverlay overlay = parent.getOverlay();
+            overlay.add(dim);
+        }
+    }
+
+    private static void clearDim(Activity activity) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            ViewGroup parent = (ViewGroup) activity.getWindow().getDecorView().getRootView();
+            //activity跟布局
+//        ViewGroup parent = (ViewGroup) parent1.getChildAt(0);
+            ViewGroupOverlay overlay = parent.getOverlay();
+            overlay.clear();
+        }
+    }
 }

@@ -55,6 +55,7 @@ import com.sogukj.pe.module.fileSelector.FileMainActivity
 import com.sogukj.pe.module.other.PayExpansionActivity
 import com.sogukj.pe.module.project.ProjectFocusActivity
 import com.sogukj.pe.module.project.ProjectListFragment
+import com.sogukj.pe.module.receipt.MineWalletActivity
 import com.sogukj.pe.module.register.CreateDepartmentActivity
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.MyGlideUrl
@@ -156,6 +157,11 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
                         showCustomToast(R.drawable.icon_toast_fail, "获取分享链接失败")
                     })
         }
+
+        tv_wallet.clickWithTrigger {
+             startActivity<MineWalletActivity>()
+        }
+
         val user = Store.store.getUser(ctx)
         createDep.setVisible((user?.is_admin == 1) or (user?.is_admin == 2))
         createDep.clickWithTrigger {

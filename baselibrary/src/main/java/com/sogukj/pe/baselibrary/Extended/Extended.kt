@@ -4,27 +4,23 @@ import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.os.Build
-import android.support.v7.util.DiffUtil
-import android.support.v7.util.DiffUtil.calculateDiff
 import android.util.DisplayMetrics
-import android.util.SparseArray
-import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.TextView
 import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.sogukj.pe.baselibrary.R
 import com.sogukj.pe.baselibrary.interf.MoneyUnit
-import com.sogukj.pe.baselibrary.utils.DiffCallBack
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.OnClickFastListener
-import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -74,6 +70,8 @@ val EditText.noSpace: String
 val Any?.jsonStr: String
     get() = if (this == null) "" else Gson().toJson(this)
 
+val TextView.textStr: String
+    get() = text.trim().toString().replace(" ", "")
 /**
  * 扩展View是否可见，VISIBLE 与 GONE。
  */
@@ -81,6 +79,16 @@ fun View.setVisible(visible: Boolean) {
     visibility = if (visible) View.VISIBLE else View.GONE
 }
 
+fun View.setDrawable(textView : TextView ,direct : Int,drawable: Drawable){
+
+    drawable.setBounds(0,0,drawable.minimumWidth,drawable.minimumHeight)
+    when(direct){
+        0 -> textView.setCompoundDrawables(drawable,null,null,null)
+        1 -> textView.setCompoundDrawables(null,drawable,null,null)
+        2 -> textView.setCompoundDrawables(null,null,drawable,null)
+        3 -> textView.setCompoundDrawables(null,null,null,drawable)
+    }
+}
 
 fun <T> Observable<T>.execute(init: Ex_T0_Unit<SubscriberHelper<T>>) {
     val subscriberHelper = SubscriberHelper<T>()
@@ -280,5 +288,15 @@ private fun <T : View> T.clickEnable(): Boolean {
         flag = true
     }
     triggerLastTime = currentClickTime
+    return flag
+}
+private var mClickTime = 0L
+ fun isClickEnable(delay: Long): Boolean {
+    var flag = false
+    val currentClickTime = System.currentTimeMillis()
+    if (currentClickTime - mClickTime >= delay) {
+        flag = true
+    }
+    mClickTime = currentClickTime
     return flag
 }

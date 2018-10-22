@@ -7,7 +7,7 @@ import java.io.Serializable
  */
 class ProjectBean : Serializable {
     var name: String? = null//	Varchar	公司名称
-    var shortName: String? = null;
+    var shortName: String? = null
     var state: String? = null//	Datetime	现状	A轮  B轮  类似这些（type=2时取此数据）
     var type: Int? = null//（4是储备，1是立项，3是关注，5是退出，6是调研）
     var update_time: String? = null//	Varchar	最近更新时间	（type=2时取此数据）
@@ -35,4 +35,5 @@ class ProjectBean : Serializable {
     var quit: Int = 1 //0---在投，1---部分退出
 
     var sortLetters:String = ""//显示数据拼音的首字母
+    var floor : Int ? = null
 }

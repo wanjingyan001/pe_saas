@@ -7,7 +7,7 @@ import com.sogukj.pe.Extras
 /**
  * Created by CH-ZH on 2018/9/20.
  */
-class Level0Item : AbstractExpandableItem<Level1Item>, MultiItemEntity {
+class Level0Item : AbstractExpandableItem<MultiItemEntity>, MultiItemEntity {
     var title : String = ""
     constructor(title : String){
         this.title = title

@@ -17,6 +17,9 @@ class XmlDb private constructor(ctx: Context) {
         return pref.edit().putBoolean(key, `val`).commit()
     }
 
+    fun set(key: String,`val`: Int):Boolean{
+        return pref.edit().putInt(key,`val`).commit()
+    }
     fun get(key: String): Boolean {
         return pref.getBoolean(key, false)
     }
@@ -24,7 +27,9 @@ class XmlDb private constructor(ctx: Context) {
     fun get(key: String, defValue: String): String {
         return pref.getString(key, defValue)
     }
-
+    fun get(key: String,defValue: Int):Int{
+        return pref.getInt(key,defValue)
+    }
     companion object {
         private var sPrefs: XmlDb? = null
 

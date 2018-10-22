@@ -15,7 +15,7 @@
         android:id="@+id/tv_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="X-PE 你的专属投资大管家"
+        android:text="XPE 你的专属投资大管家"
         android:textColor="@color/gray_80"
         android:layout_marginLeft="@dimen/text_5"
         android:layout_marginRight="@dimen/text_5"

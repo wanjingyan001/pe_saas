@@ -9,4 +9,5 @@ import java.io.Serializable
 class ProjectFileInfo : Serializable {
     var name  = ""
     var file : File? = null
+    var url = ""
 }

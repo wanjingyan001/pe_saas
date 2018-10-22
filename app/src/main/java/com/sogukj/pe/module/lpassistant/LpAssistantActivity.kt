@@ -1,7 +1,6 @@
 package com.sogukj.pe.module.lpassistant
 
 import android.app.Activity
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -72,16 +71,16 @@ class LpAssistantActivity : BaseActivity() {
         lp1.name = "专利查询"
         val lp2 = LpAssisBean()
         lp2.resId = R.drawable.ic_law_nrule
-        lp2.name = "法律助手"
+        lp2.name = "法务查询"
         val lp3 = LpAssisBean()
         lp3.resId = R.drawable.ic_hot_post
-        lp3.name = "热门行业研报"
+        lp3.name = "行业研报"
         val lp4 = LpAssisBean()
         lp4.resId = R.drawable.ic_prospectus
         lp4.name = "招股书"
         val lp5 = LpAssisBean()
         lp5.resId = R.drawable.ic_recent_his
-        lp5.name = "行业近期投融资历史"
+        lp5.name = "融资事件"
         val lp6 = LpAssisBean()
         lp6.resId = R.drawable.ic_policy_express
         lp6.name = "政策速递"

@@ -4,73 +4,108 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:focusableInTouchMode="true"
     android:background="@color/gray_f7">
     <include android:id="@+id/toolbar"
              layout="@layout/commom_blue_title"/>
-    <LinearLayout
-        android:id="@+id/ll_create"
+    <include
+        android:id="@+id/ps_bottom"
+        layout="@layout/project_show_bottom"/>
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refresh"
+        android:layout_below="@id/toolbar"
+        android:layout_above="@id/ps_bottom"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:padding="@dimen/text_8">
-        <TextView
+        android:layout_height="match_parent">
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="确定"
-            android:gravity="center"
-            android:textSize="@dimen/text_size_18"
-            android:textColor="@color/white"
-            android:background="@drawable/bg_create_pro"/>
-    </LinearLayout>
-    <android.support.v4.widget.NestedScrollView
+            android:scrollbars="none">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/text_10"
+                android:paddingBottom="@dimen/text_15"
+                android:descendantFocusability="blocksDescendants"
+                android:orientation="vertical">
+                <include
+                    android:id="@+id/ll_fund"
+                    android:visibility="gone"
+                    layout="@layout/approve_fund"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_file"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    android:background="@color/white">
+                </android.support.v7.widget.RecyclerView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/text_15"
+                    android:paddingRight="@dimen/text_15"
+                    android:paddingTop="@dimen/text_10"
+                    android:paddingBottom="@dimen/text_10"
+                    android:text="审批记录"
+                    android:layout_marginTop="@dimen/text_10"
+                    android:background="@color/white"
+                    android:textSize="@dimen/text_size_14"
+                    android:textColor="@color/black_28"/>
+                <View
+                    android:id="@+id/view_file"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/text_1"
+                    android:background="@color/gray_f1"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/approve_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/text_15"
+                    android:paddingTop="@dimen/text_15"
+                    android:paddingBottom="@dimen/text_15"
+                    android:nestedScrollingEnabled="false"
+                    tools:listitem="@layout/item_approve_list"
+                    android:background="@color/white"
+                    android:paddingRight="@dimen/text_20">
+
+                </android.support.v7.widget.RecyclerView>
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <FrameLayout
+        android:id="@+id/view_recover"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
-        android:layout_above="@id/ll_create"
-        android:scrollbars="none">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/text_10"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="关联基金"
-                android:textStyle="bold"
-                android:background="@color/white"
-                android:textSize="@dimen/text_size_14"
-                android:padding="@dimen/text_15"
-                android:textColor="@color/black_28"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/text_1"
-                android:background="@color/gray_f1"/>
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_fund"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:listitem="@layout/item_link_fund"
-                android:background="@color/white">
+        android:visibility="invisible"
+        android:background="@color/gray_f1">
 
-            </android.support.v7.widget.RecyclerView>
+        <ImageView
+            android:id="@+id/iv_loading"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:layout_gravity="center"/>
 
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white">
-
-
-            </android.support.v7.widget.RecyclerView>
-
-        </LinearLayout>
-
-    </android.support.v4.widget.NestedScrollView>
-
-
-
+    </FrameLayout>
+    <FrameLayout
+        android:id="@+id/fl_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:visibility="gone"
+        android:background="@color/gray_f7">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/img_empty"/>
+    </FrameLayout>
 </RelativeLayout>

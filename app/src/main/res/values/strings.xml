@@ -39,6 +39,15 @@
         <item>MBA</item>
         <item>博士</item>
     </string-array>
+
+    <string-array name="job">
+        <item>董事长</item>
+        <item>总经理</item>
+        <item>财务总监</item>
+        <item>董秘</item>
+        <item>其他</item>
+    </string-array>
+
     <string-array name="workers">
         <item>少于50人</item>
         <item>50–150人</item>
@@ -138,9 +147,10 @@
     <string name="jump_link">还没团队? 立刻创建团队>></string>
     <string name="tips1">本产品只面向私募机构开放，因此我们需要对您提供的名片进行审核,感谢合作!</string>
     <string name="tips_under_review">审核预计需要2个工作日，我们会短信通知您结果，请耐心等待</string>
-    <string name="about_xpe">关于X-PE</string>
+    <string name="about_xpe">关于XPE</string>
     <string name="check_update">检查新版本</string>
     <string name="declare">免责声明</string>
+    <string name="safe">XPE安全白皮书</string>
     <string name="notif_setting">新消息通知设置</string>
     <string name="notif_warn">注：当PE在后台运行时，部分华为手机（例如：荣耀）存在不能接收新消息通知的问题</string>
     <string name="notif_content">1、进入"系统设置"，点击"全部设置"；\n2、点击"受保护的后台应用"；\n3、将"PE"设置为受保护。</string>
@@ -157,6 +167,7 @@
     <string name="add_fund">+添加关联基金</string>
     <string name="pro_contact">标的公司联系人</string>
     <string name="project_info">信息填写</string>
+    <string name="project_build">立项申请</string>
     <string name="project_info_title">两年一期的净利润、资产总额、净资产指标</string>
     <string name="submit">提交</string>
     <string name="refuse">退回修改</string>
@@ -164,4 +175,12 @@
     <string name="agree_lxh">同意上立项会</string>
     <string name="approve_agree">审批意见(选填)</string>
     <string name="upload_title">上传文件(选填)</string>
+    <string name="person_account">个人账户余额</string>
+    <string name="busi_account">企业账户余额</string>
+    <string name="mine_order">我的订单</string>
+    <string name="open_bill">开发票</string>
+    <string name="bill_his">开票历史</string>
+    <string name="bill_header">发票抬头管理</string>
+    <string name="electron_tips">电子发票与纸质发票具有同等法律效力，可支持报销入账</string>
+    <string name="paper_tips">电子发票与纸质发票具有同等法律效力，可支持报销入账，推荐 使用电子发票</string>
 </resources>

@@ -17,10 +17,10 @@
 
     <ImageView
         android:id="@+id/addAndRemove"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/icon_remove_function"
+        android:layout_width="@dimen/text_15"
+        android:layout_height="@dimen/text_15"
         android:visibility="gone"
+        android:src="@mipmap/icon_remove_function"
         app:layout_constraintEnd_toEndOf="@+id/funIcon"
         app:layout_constraintTop_toTopOf="@+id/funIcon" />
 

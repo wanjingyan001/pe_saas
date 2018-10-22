@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.support.v4.content.ContextCompat
-import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.TextView
@@ -16,7 +15,6 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.BaseFragment
 import com.sogukj.pe.baselibrary.utils.DateUtils
@@ -37,7 +35,6 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_location_clock.*
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.ctx
-import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -127,9 +124,7 @@ class LocationClockFragment : BaseFragment(), MyMapView.onFinishListener {
                     }
                 }
             })
-//            adapter.onItemClick = { _, position ->
-//                ProjectActivity.start(context, adapter.dataList.get(position))
-//            }
+
             recycler_view.layoutManager = LinearLayoutManager(context)
             //recycler_view.addItemDecoration(DividerItemDecoration(ctx, DividerItemDecoration.VERTICAL))
             recycler_view.adapter = adapter
