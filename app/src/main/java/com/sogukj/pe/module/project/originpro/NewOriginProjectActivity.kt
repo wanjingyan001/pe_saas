@@ -12,7 +12,9 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.RelativeLayout
 import android.widget.TextView
-import com.bigkoo.pickerview.OptionsPickerView
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener
+import com.bigkoo.pickerview.view.OptionsPickerView
 import com.bumptech.glide.Glide
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
@@ -132,10 +134,10 @@ class NewOriginProjectActivity : ToolbarActivity(), NewOriginProCallBack {
                             val experience = resources.getStringArray(R.array.job).toList()
                             val position = experience.indices.firstOrNull { experience[it].contains(tv_job_name.text) }
                                     ?: 0
-                            val pvOptions = OptionsPickerView.Builder(this@NewOriginProjectActivity,
-                                    OptionsPickerView.OnOptionsSelectListener { options1, option2, options3, v ->
+                            val pvOptions = OptionsPickerBuilder(this@NewOriginProjectActivity,
+                                    OnOptionsSelectListener { options1, option2, options3, v ->
                                         tv_job_name.text = experience[options1]
-                                    }).build()
+                                    }).build<String>()
                             pvOptions.setPicker(experience)
                             pvOptions.setSelectOptions(position)
                             pvOptions.show()
