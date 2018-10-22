@@ -30,10 +30,10 @@ class CreateBillActivity : ToolbarActivity() {
         money = intent.getFloatExtra(Extras.DATA,0f)
         orders = intent.getStringArrayListExtra(Extras.LIST)
         setBack(true)
-        setTitle("开具电子发票")
+        setTitle("开具纸质发票")
         fragments.add(ElectronBillFragment.newInstance(1,money,ll_submit,tv_submit))
         fragments.add(ElectronBillFragment.newInstance(2,money,ll_submit,tv_submit))
-        radio_group.check(R.id.rb_one)
+        radio_group.check(R.id.rb_two)
     }
 
     open fun getOrders(): MutableList<String>? {
@@ -41,12 +41,12 @@ class CreateBillActivity : ToolbarActivity() {
     }
     private fun initData() {
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.add(R.id.fl_container,fragments[1]).add(R.id.fl_container,fragments[0]).commit()
+        transaction.add(R.id.fl_container,fragments[0]).add(R.id.fl_container,fragments[1]).commit()
     }
 
     private fun bindListener() {
         radio_group.setOnCheckedChangeListener { group, checkedId ->
-            checkFragment(checkedId)
+//            checkFragment(checkedId)
         }
 
     }

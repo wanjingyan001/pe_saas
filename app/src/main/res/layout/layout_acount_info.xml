@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
     android:paddingTop="@dimen/text_10"
     android:orientation="vertical"
@@ -40,12 +41,13 @@
             android:layout_marginLeft="@dimen/text_10"
             android:text="@string/person_account"/>
         <TextView
+            android:id="@+id/tv_paccount_remain"
             style="@style/mineWalletContent"
             android:layout_toRightOf="@id/tv_account_ba_title"
             android:layout_toLeftOf="@id/iv_invoke1"
             android:layout_marginRight="@dimen/text_5"
             android:layout_marginLeft="@dimen/text_10"
-            android:text="120.00元"/>
+            tools:text="120.00元"/>
     </RelativeLayout>
 
     <View
@@ -79,12 +81,13 @@
             android:layout_marginLeft="@dimen/text_10"
             android:text="@string/busi_account"/>
         <TextView
+            android:id="@+id/tv_eaccount_remain"
             style="@style/mineWalletContent"
             android:layout_toRightOf="@id/tv_account_ba_title2"
             android:layout_toLeftOf="@id/iv_invoke2"
             android:layout_marginRight="@dimen/text_5"
             android:layout_marginLeft="@dimen/text_10"
-            android:text="1000.00元"/>
+            tools:text="1000.00元"/>
     </RelativeLayout>
 
     <View
@@ -119,12 +122,13 @@
             android:layout_marginLeft="@dimen/text_10"
             android:text="@string/mine_order"/>
         <TextView
+            android:id="@+id/tv_order_count"
             style="@style/mineWalletContent"
             android:layout_toRightOf="@id/tv_order"
             android:layout_toLeftOf="@id/iv_invoke3"
             android:layout_marginRight="@dimen/text_5"
             android:layout_marginLeft="@dimen/text_10"
-            android:text="共34个订单"/>
+            tools:text="共34个订单"/>
     </RelativeLayout>
 
 </LinearLayout>

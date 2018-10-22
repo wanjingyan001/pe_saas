@@ -18,6 +18,7 @@ class SubmitBillSucActivity : ToolbarActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_submit_success)
         Utils.setWindowStatusBarColor(this, R.color.white)
+        toolbar?.setBackgroundColor(resources.getColor(R.color.white))
         setBack(true)
         title = intent.getStringExtra(Extras.TITLE)
         setTitle(title)

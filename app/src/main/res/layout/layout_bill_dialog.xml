@@ -102,6 +102,7 @@
             android:background="@color/gray_f1"/>
 
         <LinearLayout
+            android:id="@+id/ll_duty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -126,6 +127,7 @@
         </LinearLayout>
 
         <View
+            android:id="@+id/view_duty"
             android:layout_width="match_parent"
             android:layout_height="@dimen/text_1"
             android:layout_marginLeft="@dimen/text_20"

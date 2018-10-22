@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/text_20">
+
+            <TextView
+                style="@style/text14_color28_all"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="名称"/>
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_weight="3"
+                android:layout_marginRight="@dimen/text_8"
+                tools:text = "搜股(上海)科技有限公司"
+                android:textColor="@color/black_28"
+                android:textSize="@dimen/text_size_14"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_1"
+            android:layout_marginLeft="@dimen/text_20"
+            android:layout_marginRight="@dimen/text_20"
+            android:background="@color/gray_f1"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/text_20">
+
+            <TextView
+                style="@style/text14_color28_all"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="税号"/>
+
+            <TextView
+                android:id="@+id/tv_duty"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_weight="3"
+                android:layout_marginRight="@dimen/text_8"
+                tools:text="9310 0000 MA19 8FAR 6E"
+                android:textColor="@color/black_28"
+                android:textSize="@dimen/text_size_14"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_1"
+            android:layout_marginLeft="@dimen/text_20"
+            android:layout_marginRight="@dimen/text_20"
+            android:background="@color/gray_f1"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/text_20">
+
+            <TextView
+                style="@style/text14_color28_all"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="公司地址"/>
+
+            <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_weight="3"
+                android:layout_marginRight="@dimen/text_8"
+                tools:text="上海市晋安区胡三路93号300室"
+                android:textColor="@color/black_28"
+                android:textSize="@dimen/text_size_14"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_1"
+            android:layout_marginLeft="@dimen/text_20"
+            android:layout_marginRight="@dimen/text_20"
+            android:background="@color/gray_f1"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/text_20">
+
+            <TextView
+                style="@style/text14_color28_all"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="电话号码"/>
+
+            <TextView
+                android:id="@+id/tv_phone"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_weight="3"
+                android:layout_marginRight="@dimen/text_8"
+                tools:text="13818872023"
+                android:textColor="@color/black_28"
+                android:textSize="@dimen/text_size_14"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_1"
+            android:layout_marginLeft="@dimen/text_20"
+            android:layout_marginRight="@dimen/text_20"
+            android:background="@color/gray_f1"/>
+</LinearLayout>
+
+

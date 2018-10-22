@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
     android:paddingTop="@dimen/text_10"
     android:orientation="vertical"
@@ -79,12 +80,13 @@
             android:layout_marginLeft="@dimen/text_10"
             android:text="@string/bill_his"/>
         <TextView
+            android:id="@+id/tv_his"
             style="@style/mineWalletContent"
             android:layout_toRightOf="@id/tv_account_ba_title2"
             android:layout_toLeftOf="@id/iv_invoke2"
             android:layout_marginRight="@dimen/text_5"
             android:layout_marginLeft="@dimen/text_10"
-            android:text="共3个开票历史"/>
+            tools:text="共3个开票历史"/>
     </RelativeLayout>
 
     <View
@@ -119,12 +121,13 @@
             android:layout_marginLeft="@dimen/text_10"
             android:text="@string/bill_header"/>
         <TextView
+            android:id="@+id/tv_header"
             style="@style/mineWalletContent"
             android:layout_toRightOf="@id/tv_order"
             android:layout_toLeftOf="@id/iv_invoke3"
             android:layout_marginRight="@dimen/text_5"
             android:layout_marginLeft="@dimen/text_10"
-            android:text="共2个抬头"/>
+            tools:text="共2个抬头"/>
     </RelativeLayout>
 
 </LinearLayout>

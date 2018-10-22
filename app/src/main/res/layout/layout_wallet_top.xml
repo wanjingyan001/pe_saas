@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/blue_43"
     android:orientation="horizontal"
     android:paddingBottom="@dimen/text_17"
@@ -16,17 +17,19 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tv_sentiment_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="舆情监控共15次"
+            tools:text="舆情监控共15次"
             android:textColor="@color/blue_a9"
             android:textSize="@dimen/text_size_12"/>
 
         <TextView
+            android:id="@+id/tv_sentiment_remain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/text_5"
-            android:text="剩余10个"
+            tools:text="剩余10个"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_18"/>
     </LinearLayout>
@@ -44,17 +47,19 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tv_credit_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="征信套餐共50次"
+            tools:text="征信套餐共50次"
             android:textColor="@color/blue_a9"
             android:textSize="@dimen/text_size_12"/>
 
         <TextView
+            android:id="@+id/tv_credit_remain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/text_5"
-            android:text="剩余25次"
+            tools:text="剩余25次"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_18"/>
     </LinearLayout>

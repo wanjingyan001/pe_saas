@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/gray_f1">
+    android:background="@color/gray_f7">
     <include
         android:id="@+id/toolbar"
         layout="@layout/normal_toolbar"/>
@@ -27,6 +27,7 @@
         android:paddingRight="@dimen/text_15"
         android:paddingTop="@dimen/text_10"
         android:paddingBottom="@dimen/text_10"
+        android:clickable="false"
         android:orientation="horizontal"
         android:background="@color/white"
         app:layout_constraintTop_toBottomOf="@+id/tv_top">
@@ -39,7 +40,8 @@
             android:gravity="center"
             android:paddingTop="@dimen/text_10"
             android:paddingBottom="@dimen/text_10"
-            android:checked="true"
+            android:clickable="false"
+            android:checked="false"
             android:layout_marginRight="@dimen/text_20"
             android:background="@drawable/bg_select_bill"
             android:text="电子发票"/>
@@ -52,6 +54,7 @@
             android:button="@null"
             android:gravity="center"
             android:paddingTop="@dimen/text_10"
+            android:checked="true"
             android:paddingBottom="@dimen/text_10"
             android:background="@drawable/bg_select_bill"
             android:text="纸质发票"/>

@@ -2,7 +2,10 @@ package com.sogukj.pe.module.receipt
 
 import android.app.Dialog
 import android.content.Context
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Gravity
+import android.view.View
 import android.view.WindowManager
 import android.widget.EditText
 import android.widget.ImageView
@@ -13,6 +16,7 @@ import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.execute
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.peUtils.ToastUtil
 import com.sogukj.pe.service.OtherService
@@ -43,7 +47,8 @@ class CreateBillDialog {
             val tv_address = dialog.find<TextView>(R.id.tv_address)
             val tv_detail = dialog.find<TextView>(R.id.tv_detail)
             val tv_tips = dialog.find<TextView>(R.id.tv_tips)
-
+            val ll_duty = dialog.find<LinearLayout>(R.id.ll_duty)
+            val view_duty = dialog.find<View>(R.id.view_duty)
             val iv_close = dialog.find<ImageView>(R.id.iv_close)
             val ll_submit = dialog.find<LinearLayout>(R.id.ll_submit)
             if (null != map) {
@@ -53,6 +58,13 @@ class CreateBillDialog {
                 tv_phone.text = map.get("phone") as String
                 tv_address.text = map.get("province") as String + " " + map.get("city") as String + " " + map.get("county") as String
                 tv_detail.text = map.get("address") as String
+            }
+            if (tv_duty.textStr.isNullOrEmpty()){
+                ll_duty.setVisible(false)
+                view_duty.setVisible(false)
+            }else{
+                ll_duty.setVisible(true)
+                view_duty.setVisible(true)
             }
 
             iv_close.clickWithTrigger {
@@ -78,6 +90,7 @@ class CreateBillDialog {
             }
         }
 
+        private var isClick = false
 
         fun showMoreDialog(context: Context, callBack: ShowMoreCallBack) {
             val dialog = Dialog(context, R.style.AppTheme_Dialog)
@@ -95,6 +108,70 @@ class CreateBillDialog {
             val et_explain = dialog.findViewById<EditText>(R.id.et_explain)
             val et_phoneaddress = dialog.findViewById<EditText>(R.id.et_phoneaddress)
             val et_bank = dialog.findViewById<EditText>(R.id.et_bank)
+
+            et_explain.addTextChangedListener(object : TextWatcher{
+                override fun afterTextChanged(s: Editable?) {
+                    if (et_explain.textStr.isNullOrEmpty() && et_phoneaddress.textStr.isNullOrEmpty()
+                        && et_bank.textStr.isNullOrEmpty()){
+                        tv_submit.setBackgroundResource(R.drawable.bg_create_pro_gray)
+                        isClick = false
+                    }else{
+                        tv_submit.setBackgroundResource(R.drawable.bg_create_pro)
+                        isClick = true
+                    }
+                }
+
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                }
+
+            })
+            et_phoneaddress.addTextChangedListener(object : TextWatcher{
+                override fun afterTextChanged(s: Editable?) {
+                    if (et_explain.textStr.isNullOrEmpty() && et_phoneaddress.textStr.isNullOrEmpty()
+                            && et_bank.textStr.isNullOrEmpty()){
+                        tv_submit.setBackgroundResource(R.drawable.bg_create_pro_gray)
+                        isClick = false
+                    }else{
+                        tv_submit.setBackgroundResource(R.drawable.bg_create_pro)
+                        isClick = true
+                    }
+                }
+
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                }
+
+            })
+            et_bank.addTextChangedListener(object : TextWatcher{
+                override fun afterTextChanged(s: Editable?) {
+                    if (et_explain.textStr.isNullOrEmpty() && et_phoneaddress.textStr.isNullOrEmpty()
+                            && et_bank.textStr.isNullOrEmpty()){
+                        tv_submit.setBackgroundResource(R.drawable.bg_create_pro_gray)
+                        isClick = false
+                    }else{
+                        tv_submit.setBackgroundResource(R.drawable.bg_create_pro)
+                        isClick = true
+                    }
+                }
+
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                }
+
+            })
             iv_close.clickWithTrigger {
                 if (dialog.isShowing) {
                     dialog.dismiss()
@@ -102,31 +179,37 @@ class CreateBillDialog {
             }
             ll_submit.clickWithTrigger {
                 //提交
-                if (et_explain.textStr.isNullOrEmpty() && et_phoneaddress.textStr.isNullOrEmpty() && et_bank.textStr.isNullOrEmpty()) {
-                    tv_submit.setBackgroundResource(R.drawable.bg_create_pro_gray)
-                } else {
-                    tv_submit.setBackgroundResource(R.drawable.bg_create_pro)
-                    if (!et_explain.textStr.isNullOrEmpty() && !et_phoneaddress.textStr.isNullOrEmpty() && !et_bank.textStr.isNullOrEmpty()) {
-                        if (null != callBack) {
-                            callBack.showMoreDetail(3, et_explain.textStr, et_phoneaddress.textStr, et_bank.textStr)
+                if (isClick){
+                    if (et_explain.textStr.isNullOrEmpty() && et_phoneaddress.textStr.isNullOrEmpty() && et_bank.textStr.isNullOrEmpty()) {
+
+                    } else {
+                        if (!et_explain.textStr.isNullOrEmpty() && !et_phoneaddress.textStr.isNullOrEmpty() && !et_bank.textStr.isNullOrEmpty()) {
+                            if (null != callBack) {
+                                callBack.showMoreDetail(3, et_explain.textStr, et_phoneaddress.textStr, et_bank.textStr)
+                            }
+                        }
+                        if (!et_explain.textStr.isNullOrEmpty() && et_phoneaddress.textStr.isNullOrEmpty() && et_bank.textStr.isNullOrEmpty()
+                                || !et_phoneaddress.textStr.isNullOrEmpty() && et_explain.textStr.isNullOrEmpty() && et_bank.textStr.isNullOrEmpty()
+                                || !et_bank.textStr.isNullOrEmpty() && et_explain.textStr.isNullOrEmpty() && et_phoneaddress.textStr.isNullOrEmpty()) {
+                            if (null != callBack) {
+                                callBack.showMoreDetail(1, et_explain.textStr, et_phoneaddress.textStr, et_bank.textStr)
+                            }
+                        }
+                        if (et_explain.textStr.isNullOrEmpty() && !et_phoneaddress.textStr.isNullOrEmpty() && !et_bank.textStr.isNullOrEmpty()
+                                || et_phoneaddress.textStr.isNullOrEmpty() && !et_explain.textStr.isNullOrEmpty() && !et_bank.textStr.isNullOrEmpty()
+                                || et_bank.textStr.isNullOrEmpty() && !et_explain.textStr.isNullOrEmpty() && !et_phoneaddress.textStr.isNullOrEmpty()) {
+                            if (null != callBack) {
+                                callBack.showMoreDetail(2, et_explain.textStr, et_phoneaddress.textStr, et_bank.textStr)
+                            }
                         }
                     }
-                    if (!et_explain.textStr.isNullOrEmpty() && et_phoneaddress.textStr.isNullOrEmpty() && et_bank.textStr.isNullOrEmpty()
-                            || !et_phoneaddress.textStr.isNullOrEmpty() && et_explain.textStr.isNullOrEmpty() && et_bank.textStr.isNullOrEmpty()
-                            || !et_bank.textStr.isNullOrEmpty() && et_explain.textStr.isNullOrEmpty() && et_phoneaddress.textStr.isNullOrEmpty()) {
-                        if (null != callBack) {
-                            callBack.showMoreDetail(1, et_explain.textStr, et_phoneaddress.textStr, et_bank.textStr)
-                        }
-                    }
-                    if (et_explain.textStr.isNullOrEmpty() && !et_phoneaddress.textStr.isNullOrEmpty() && !et_bank.textStr.isNullOrEmpty()
-                            || et_phoneaddress.textStr.isNullOrEmpty() && !et_explain.textStr.isNullOrEmpty() && !et_bank.textStr.isNullOrEmpty()
-                            || et_bank.textStr.isNullOrEmpty() && !et_explain.textStr.isNullOrEmpty() && !et_phoneaddress.textStr.isNullOrEmpty()) {
-                        if (null != callBack) {
-                            callBack.showMoreDetail(2, et_explain.textStr, et_phoneaddress.textStr, et_bank.textStr)
-                        }
+
+                    if (dialog.isShowing){
+                        dialog.dismiss()
                     }
                 }
             }
         }
+
     }
 }

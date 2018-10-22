@@ -6,9 +6,11 @@ import java.io.Serializable
  * Created by CH-ZH on 2018/10/18.
  */
 class InvoiceHisBean : Serializable {
-    var time = ""
-    var status = ""
+    var add_time = ""
+    var status = 1
     var type = ""
-    var company = ""
-    var coin = ""
+    var title = ""
+    var amount = ""
+    var id : Int ? = null
+    var tax_no = ""
 }

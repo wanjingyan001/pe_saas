@@ -218,7 +218,7 @@ interface OtherService {
     /**
      * 提交发票信息
      */
-    @POST("/api/Ordder/submitInvoice")
+    @POST("/api/Order/submitInvoice")
     fun submitBillDetail(@Body map: HashMap<String, Any>): Observable<Payload<Any>>
 
     /**
@@ -228,4 +228,54 @@ interface OtherService {
     @POST("/api/Order/invoiceOrderList")
     fun billOrderList(@Field("page") page: Int? = 1,
                    @Field("pageSize") pageSize: Int? = 20): Observable<Payload<List<MineReceiptBean>>>
+
+    /**
+     * 发票历史
+     */
+    @FormUrlEncoded
+    @POST("/api/Order/historyInvoice")
+    fun billHisList(@Field("page") page: Int? = 1,
+                      @Field("pageSize") pageSize: Int? = 20): Observable<Payload<List<InvoiceHisBean>>>
+
+    /**
+     * 发票详情
+     */
+    @FormUrlEncoded
+    @POST("/api/Order/invoiceInfo")
+    fun getBillDetailInfo(@Field("id") id: Int): Observable<Payload<BillDetailBean>>
+
+    /**
+     * 新增发票抬头
+     */
+    @POST("/api/Order/addInvoiceTitle")
+    fun addBillHeader(@Body map: HashMap<String, Any>): Observable<Payload<Any>>
+
+    /**
+     * 发票抬头
+     */
+    @FormUrlEncoded
+    @POST("/api/Order/getTitleList")
+    fun getBillHeaderList(@Field("page") page: Int? = 1,
+                    @Field("pageSize") pageSize: Int? = 20): Observable<Payload<List<InvoiceHisBean>>>
+
+
+    /**
+     * 我的钱包
+     */
+    @POST("/api/Pay/getwalletInfo")
+    fun getMineWalletData(): Observable<Payload<List<MineWalletBean>>>
+
+    /**
+     * 钱包明细
+     */
+    @FormUrlEncoded
+    @POST("/api/Pay/WalletDetial")
+    fun getMineWalletDetail(@Field("type") type : Int): Observable<Payload<RechargeRecordBean>>
+
+    /**
+     * 发票详情
+     */
+    @FormUrlEncoded
+    @POST("/api/Order/searchTitle")
+    fun getBillHeaderInfo(@Field("id") id: Int): Observable<Payload<BillDetailBean>>
 }

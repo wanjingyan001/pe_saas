@@ -7,12 +7,16 @@ import android.widget.TextView
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
+import com.sogukj.pe.baselibrary.Extended.execute
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.RechargeRecordBean
+import com.sogukj.pe.service.OtherService
+import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_account_balance.*
 import org.jetbrains.anko.find
 
@@ -22,8 +26,8 @@ import org.jetbrains.anko.find
  */
 class AccountBalanceActivity : BaseRefreshActivity(){
     private var title = ""
-    private var infos = ArrayList<RechargeRecordBean>()
-    lateinit var adapter : RecyclerAdapter<RechargeRecordBean>
+    private var type = 1
+    lateinit var adapter : RecyclerAdapter<RechargeRecordBean.AccountList>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_balance)
@@ -36,6 +40,7 @@ class AccountBalanceActivity : BaseRefreshActivity(){
 
     private fun initView() {
         title = intent.getStringExtra(Extras.TITLE)
+        type = intent.getIntExtra(Extras.TYPE,1)
         setBack(true)
         setTitle(title)
         rv_balance.layoutManager = LinearLayoutManager(this)
@@ -45,15 +50,51 @@ class AccountBalanceActivity : BaseRefreshActivity(){
     }
 
     private fun initData() {
-        for (i in 0 .. 10){
-            val rechargeRecordBean = RechargeRecordBean()
-            rechargeRecordBean.time = "2018年7月10日 15:12"
-            rechargeRecordBean.type = "支付宝充值金额"
-            rechargeRecordBean.coin = "560"
-            infos.add(rechargeRecordBean)
-        }
-        adapter.dataList = infos
         rv_balance.adapter = adapter
+        getAccountDatas()
+    }
+
+    private fun getAccountDatas() {
+        SoguApi.getService(application,OtherService::class.java)
+                .getMineWalletDetail(type)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+                            val recordBean = payload.payload
+                            if (null != recordBean){
+                                val list = recordBean.list
+                                tv_coin.text = recordBean.balance
+                                if (null != list && list.size > 0){
+                                    showList()
+                                    adapter.dataList.clear()
+                                    adapter.dataList.addAll(list)
+                                    adapter.notifyDataSetChanged()
+                                }else{
+                                    showEmpty()
+                                }
+                            }else{
+                                showEmpty()
+                            }
+                        }
+                        dofinishRefresh()
+                    }
+
+                    onError {
+                        it.printStackTrace()
+                        showEmpty()
+                        dofinishRefresh()
+                    }
+                }
+    }
+
+    private fun showEmpty(){
+        fl_empty.setVisible(true)
+        fl_balance.setVisible(false)
+    }
+
+    private fun showList(){
+        fl_empty.setVisible(false)
+        fl_balance.setVisible(true)
     }
 
     private fun bindListener() {
@@ -62,15 +103,18 @@ class AccountBalanceActivity : BaseRefreshActivity(){
         }
     }
 
-    inner class BalanceHolder(itemView: View) : RecyclerHolder<RechargeRecordBean>(itemView) {
+    inner class BalanceHolder(itemView: View) : RecyclerHolder<RechargeRecordBean.AccountList>(itemView) {
         val tv_time = itemView.find<TextView>(R.id.tv_time)
         val tv_type = itemView.find<TextView>(R.id.tv_type)
         val tv_coin = itemView.find<TextView>(R.id.tv_coin)
-        override fun setData(view: View, data: RechargeRecordBean, position: Int) {
+        override fun setData(view: View, data: RechargeRecordBean.AccountList, position: Int) {
             if (null == data) return
-            tv_time.text = data.time
-            tv_type.text = data.type
-            tv_coin.text = data.coin
+            tv_time.text = data.add_time
+            tv_coin.text = data.fee
+            when(data.source){
+                1 -> tv_type.text = "支付宝充值金额"
+                2 -> tv_type.text = "微信充值金额"
+            }
         }
     }
 
@@ -84,11 +128,17 @@ class AccountBalanceActivity : BaseRefreshActivity(){
     }
 
     override fun doRefresh() {
-
+        getAccountDatas()
     }
 
     override fun doLoadMore() {
 
+    }
+
+    fun dofinishRefresh() {
+        if (this::refresh.isLateinit && refresh.isRefreshing) {
+            refresh.finishRefresh()
+        }
     }
 }
 

@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/gray_f7">
     <include
         android:id="@+id/toolbar"
@@ -28,16 +29,18 @@
                  android:layout_marginTop="@dimen/text_15"
                  android:orientation="vertical">
                  <TextView
+                     android:id="@+id/tv_status"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
                      style="@style/text14_color28"
-                     android:text="纸质发票已发出"/>
+                     tools:text="纸质发票已发出"/>
                  <TextView
+                     android:id="@+id/tv_time"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
                      android:layout_marginTop="@dimen/text_8"
                      style="@style/text12_colora0"
-                     android:text="2018年7月02日 10:34"/>
+                     tools:text="2018年7月02日 10:34"/>
              </LinearLayout>
 
             <include layout="@layout/layout_accept_info"/>

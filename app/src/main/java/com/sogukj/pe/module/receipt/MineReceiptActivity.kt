@@ -194,7 +194,7 @@ class MineReceiptActivity : BaseRefreshActivity() {
         override fun setData(view: View, data: MineReceiptBean, position: Int) {
             if (null == data) return
             Log.e("TAG","type ==" + type)
-            if (data.status == 1) {
+            if (data.is_invoice == 1) {
                 iv_select.visibility = View.INVISIBLE
                 tv_title.setTextColor(resources.getColor(R.color.black_8028))
                 tv_time.setDrawable(tv_time, 0, getDrawable(R.mipmap.ic_receipt_time_pay))
@@ -221,7 +221,7 @@ class MineReceiptActivity : BaseRefreshActivity() {
             when (type) {
                 0 -> iv_select.setVisible(false)
                 1 -> {
-                    if (data.status == 1){
+                    if (data.is_invoice == 1){
                         iv_select.visibility = View.INVISIBLE
                     }else{
                         iv_select.setVisible(true)

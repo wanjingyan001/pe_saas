@@ -29,14 +29,13 @@ import kotlinx.android.synthetic.main.layout_bill_detail.*
  */
 class ElectronBillFragment : Fragment(), TextWatcher,ShowMoreCallBack {
     private var rootView : View ? = null
-    private var type : Int = 1  // 1 : 电子发票 2 : 纸质发票
     private var money = 0f
     private var mCityPickerView : CityPickerView? = null
     private var title_type : Int = 1   // 1 企业发票 2 个人发票
     private var explain  = ""
     private var phoneAddress = ""
     private var bankAccount = ""
-    private var isSubmitEnbale = false
+    private var type : Int = 2  // 1 : 电子发票 2 : 纸质发票
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         type = arguments!!.getInt("type")
@@ -127,6 +126,10 @@ class ElectronBillFragment : Fragment(), TextWatcher,ShowMoreCallBack {
         ll_submit!!.clickWithTrigger {
             //提交
             if (isSubmitEnbale){
+                if (type == 2 && !Utils.isMobile(et_phone.textStr)){
+                    getCreateBillActivity().showCustomToast(R.drawable.icon_toast_common, "请填写正确的手机号")
+                    return@clickWithTrigger
+                }
                 if (!Utils.isEmail(et_email.textStr)){
                     getCreateBillActivity().showCustomToast(R.drawable.icon_toast_common, "请填写正确的邮箱")
                     return@clickWithTrigger
@@ -190,6 +193,7 @@ class ElectronBillFragment : Fragment(), TextWatcher,ShowMoreCallBack {
     companion object {
         private var ll_submit : View? = null
         private var tv_submit : TextView ? = null
+        private var isSubmitEnbale = false
         fun newInstance(type:Int,money : Float,ll_submit:View,tv_submit:TextView):ElectronBillFragment{
             this.ll_submit = ll_submit
             this.tv_submit = tv_submit
