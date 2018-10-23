@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.normal_toolbar.*
 class AddBillHeaderActivity : ToolbarActivity(), TextWatcher {
     private var type : Int = 1   // 1 企业发票 2 个人发票
     private var bean : BillDetailBean? = null
+    private var id : Int ? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_bheader)
@@ -36,10 +37,25 @@ class AddBillHeaderActivity : ToolbarActivity(), TextWatcher {
     private fun initView() {
         setBack(true)
         bean = intent.getSerializableExtra(Extras.DATA) as BillDetailBean?
+        id = intent.getIntExtra(Extras.ID,-1)
         setTitle("发票抬头")
         toolbar_menu.text = "完成"
         toolbar_menu.setTextColor(resources.getColor(R.color.blue_3c))
         toolbar_menu.setVisible(true)
+
+        setPrimeData()
+    }
+
+    private fun setPrimeData() {
+        if (null == bean) return
+        et_title.setText(bean!!.title)
+        et_duty.setText(bean!!.tax_no)
+        if (!bean!!.address.isNullOrEmpty()){
+            et_address.setText(bean!!.address)
+        }
+        if (!bean!!.phone.isNullOrEmpty()){
+            et_number.setText(bean!!.phone)
+        }
     }
 
     private fun bindListener() {
@@ -130,6 +146,7 @@ class AddBillHeaderActivity : ToolbarActivity(), TextWatcher {
         map.put("tax_no",et_duty.textStr)
         map.put("address",et_address.textStr)
         map.put("telphone",et_number.textStr)
+        map.put("id",id!!)
         SoguApi.getService(application,OtherService::class.java)
                 .addBillHeader(map)
                 .execute {

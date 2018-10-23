@@ -19,6 +19,7 @@ import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_account_balance.*
 import org.jetbrains.anko.find
+import org.jetbrains.anko.startActivity
 
 /**
  * Created by CH-ZH on 2018/10/18.
@@ -26,7 +27,7 @@ import org.jetbrains.anko.find
  */
 class AccountBalanceActivity : BaseRefreshActivity(){
     private var title = ""
-    private var type = 1
+    private var type = 1 // 1 :个人账户 2: 企业账户
     lateinit var adapter : RecyclerAdapter<RechargeRecordBean.AccountList>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -100,6 +101,10 @@ class AccountBalanceActivity : BaseRefreshActivity(){
     private fun bindListener() {
         ll_recharge.clickWithTrigger {
             //充值
+            when(type){
+                1 -> startActivity<AccountRechargeActivity>(Extras.TITLE to "个人账户充值")
+                2 -> startActivity<AccountRechargeActivity>(Extras.TITLE to "企业账户充值")
+            }
         }
     }
 

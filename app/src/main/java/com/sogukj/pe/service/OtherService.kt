@@ -276,6 +276,6 @@ interface OtherService {
      * 发票详情
      */
     @FormUrlEncoded
-    @POST("/api/Order/searchTitle")
+    @POST("/api/Order/getTitleInfo")
     fun getBillHeaderInfo(@Field("id") id: Int): Observable<Payload<BillDetailBean>>
 }

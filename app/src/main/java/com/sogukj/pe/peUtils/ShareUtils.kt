@@ -145,7 +145,6 @@ class ShareUtils {
             }
             context.startActivity(sendIntent)
             }
-
         }
 
         private fun showSendMessage(shareTitle: String?, shareSummry: String, shareImgUrl: String, shareUrl: String?) {

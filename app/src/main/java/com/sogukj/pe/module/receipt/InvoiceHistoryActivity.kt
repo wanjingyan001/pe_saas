@@ -219,6 +219,13 @@ class InvoiceHistoryActivity : BaseRefreshActivity() {
 
                 1 -> {
                     //抬头详情
+                    val dataList = adapter.dataList
+                    if (null != dataList && dataList.size > 0){
+                        val invoiceHisBean = dataList[p]
+                        if (null != invoiceHisBean){
+                            startActivity<BillHeaderDetailActivity>(Extras.ID to invoiceHisBean.id)
+                        }
+                    }
                 }
             }
         }
