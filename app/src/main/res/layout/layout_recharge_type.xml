@@ -20,6 +20,7 @@
         android:background="@color/gray_f1"/>
 
     <RelativeLayout
+        android:id="@+id/rl_wx"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/text_20"
@@ -58,6 +59,7 @@
         android:background="@color/gray_f1"/>
 
     <RelativeLayout
+        android:id="@+id/rl_zfb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/text_20"

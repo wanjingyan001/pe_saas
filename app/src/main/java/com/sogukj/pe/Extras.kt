@@ -135,4 +135,7 @@ object Extras {
         }
         return safe_url
     }
+
+    const val WEIXIN_APP_ID = "wxf4e25190d6389f53"
+    const val WX_PAY_TYPE = "WX_PAY_TYPE"
 }

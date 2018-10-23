@@ -154,7 +154,6 @@ class ProjectApprovalActivity : ToolbarActivity(), ProjectApproveCallBack {
                     Toast.makeText(this,"请先添加立项文件在提交",Toast.LENGTH_SHORT).show()
                 }
             }
-
         }
         //添加文件
         add_file_view.addFileListener(object : View.OnClickListener {

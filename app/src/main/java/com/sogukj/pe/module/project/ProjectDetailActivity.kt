@@ -17,6 +17,7 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.Theme
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -76,6 +77,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
     private var is_business: Int? = null//非空(1=>有价值 ,2=>无价值)
     private var is_ability: Int? = null//非空(1=>有能力,2=>无能力)
     private var isHidden : Int = 0
+    private var isStartOpen = false
     private var NAVIGATION_GESTURE: String = when {
         Rom.isEmui() -> "navigationbar_is_min"
         Rom.isMiui() -> "force_fsg_nav_bar"
@@ -113,6 +115,109 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
         initView()
         initDetailsList()
         getProjectDetail(project.company_id!!)
+        getSentimentStatus(project.company_id!!)
+        bindListener()
+    }
+
+    private fun bindListener() {
+        headView.iv_button.clickWithTrigger {
+            setSentimentStatus(project.company_id!!)
+        }
+
+        headView.tv_buy.clickWithTrigger {
+            //立即购买
+            showPayDialog()
+        }
+    }
+
+    private fun showPayDialog() {
+        val dialog = MaterialDialog.Builder(context)
+                .theme(Theme.DARK)
+                .customView(R.layout.layout_show_pay, false)
+                .canceledOnTouchOutside(false)
+                .build()
+        dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
+
+    }
+
+    private fun setSentimentStatus(company_id: Int) {
+        SoguApi.getService(application,OtherService::class.java)
+                .setSentimentStatus(company_id)
+                .execute {
+                    onNext {
+                        payload ->
+                        if (payload.isOk){
+                            if (isStartOpen){
+                                showSuccessToast("关闭舆情成功")
+                                headView.iv_button.setImageResource(R.mipmap.ic_sentiment_off)
+                                headView.tv_senti_title.text = "开启舆情监控"
+                                headView.tv_senti_time.setVisible(false)
+                                headView.ll_times_buy.setVisible(false)
+                            }else{
+                                showSuccessToast("开启舆情成功")
+                                headView.iv_button.setImageResource(R.mipmap.ic_sentiment_on)
+                                headView.tv_senti_title.text = "关闭舆情监控"
+                                headView.tv_senti_time.setVisible(true)
+                                headView.ll_times_buy.setVisible(true)
+                            }
+                            isStartOpen = !isStartOpen
+                        }else{
+                            showErrorToast(payload.message)
+                        }
+                    }
+
+                    onError {
+                        it.printStackTrace()
+                        if (isStartOpen){
+                            showSuccessToast("关闭舆情失败")
+                        }else{
+                            showSuccessToast("开启舆情失败")
+                        }
+                    }
+                }
+    }
+
+    private fun getSentimentStatus(company_id: Int) {
+        SoguApi.getService(application,OtherService::class.java)
+                .getSentimentInfo(company_id)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+                            val sentimentInfoBean = payload.payload
+                            if (null != sentimentInfoBean){
+                                setSentimentData(sentimentInfoBean)
+                            }
+                        }else{
+                            showErrorToast(payload.message)
+                        }
+                    }
+
+                    onError {
+                        it.printStackTrace()
+                        showErrorToast("获取数据失败")
+                    }
+                }
+    }
+
+    private fun setSentimentData(info: SentimentInfoBean) {
+            when(info.is_open){
+                0 -> {
+                    headView.iv_button.setImageResource(R.mipmap.ic_sentiment_off)
+                    headView.tv_senti_title.text = "开启舆情监控"
+                    headView.tv_senti_time.setVisible(false)
+                    headView.ll_times_buy.setVisible(false)
+                    isStartOpen = false
+                }
+                1 -> {
+                    headView.iv_button.setImageResource(R.mipmap.ic_sentiment_on)
+                    headView.tv_senti_title.text = "关闭舆情监控"
+                    headView.tv_senti_time.setVisible(true)
+                    headView.ll_times_buy.setVisible(true)
+                    headView.tv_times.text = "剩余次数：${info.remainder}次"
+                    isStartOpen = true
+                }
+            }
     }
 
     private fun initDataWithIntent() {

@@ -6,7 +6,7 @@
  * Copyright (c) 2013年 mob.com. All rights reserved.
  */
 
-package com.sogukj.pe.module.wxapi;
+package com.sogukj.pe.wxapi;
 
 import android.content.Intent;
 import android.widget.Toast;

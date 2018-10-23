@@ -278,4 +278,26 @@ interface OtherService {
     @FormUrlEncoded
     @POST("/api/Order/getTitleInfo")
     fun getBillHeaderInfo(@Field("id") id: Int): Observable<Payload<BillDetailBean>>
+
+    /**
+     * 钱包充值
+     */
+    @FormUrlEncoded
+    @POST("/api/Pay/rechargeWallet")
+    fun getPayInfo(@Field("type") type: Int,@Field("fee") fee : String,
+                   @Field("source")source:Int): Observable<Payload<String>>
+
+    /**
+     * 舆情开启状态
+     */
+    @FormUrlEncoded
+    @POST("/api/Pay/getYuqinInfo")
+    fun getSentimentInfo(@Field("company_id") company_id: Int): Observable<Payload<SentimentInfoBean>>
+
+    /**
+     * 舆情开关
+     */
+    @FormUrlEncoded
+    @POST("/api/Pay/getYuqinOpen")
+    fun setSentimentStatus(@Field("company_id") company_id: Int): Observable<Payload<Any>>
 }

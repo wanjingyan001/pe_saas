@@ -1,4 +1,4 @@
-package com.sogukj.pe.module.wxapi
+package com.sogukj.pe.wxapi
 
 import android.content.BroadcastReceiver
 import android.content.Context
