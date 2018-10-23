@@ -86,9 +86,9 @@ android {
         checkReleaseBuilds false
     }
     dexOptions {
-        javaMaxHeapSize "4g"//越大越好
-        preDexLibraries false
         dexInProcess true
+        preDexLibraries true
+        javaMaxHeapSize "6g"//越大越好
         jumboMode = true
     }
     androidExtensions {

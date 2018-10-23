@@ -10,6 +10,7 @@ object Extras {
     val FLAG = "ext.flag"
     val FLAG2 = "ext.flag2"
     val ID = "ext.id"
+    val ID2 = "ext.id2"
     val TYPE = "ext.type"
     val TITLE = "ext.title"
     val NAME = "ext.name"
@@ -105,6 +106,7 @@ object Extras {
     const val SOURCE_PDF_HISTORY = "ext.source_pdf_history"//数据源PDF查询记录
     const val DOWNLOADED_PDF = "ext.downloaded_pdf"//已下载文件
     const val PATENT_HISTORY = "ext.patent_history"//专利查询的查看历史
+    const val APPROVE_SEARCH_HISTORY = "ext.approve_search_history"//审批查询历史
     const val IS_FIRST_LAW = "is_first_law"
     const val IS_FIRST_PATENT = "is_first_patent"
 

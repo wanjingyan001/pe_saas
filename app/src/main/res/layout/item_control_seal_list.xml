@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <CheckBox
+        android:id="@+id/sealTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:button="@null"
+        android:background="@null"
+        android:drawableLeft="@drawable/ic_cs_check"
+        android:drawablePadding="6dp"
+        android:padding="6dp"
+        android:text="管理公司印章"
+        android:textColor="@color/text_1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:text="数量"
+        android:textColor="@color/text_1" />
+
+    <LinearLayout
+        android:layout_width="120dp"
+        android:layout_height="24dp"
+        android:background="@drawable/bg_rect_gray"
+        android:gravity="center"
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/minus"
+            android:layout_width="36dp"
+            android:layout_height="24dp"
+            android:background="@drawable/bg_rect_gray"
+            android:gravity="center"
+            android:textSize="@dimen/text_size_normal"
+            android:text="-" />
+
+        <EditText
+            android:id="@+id/sealNum"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:digits="1234567890"
+            android:gravity="center"
+            android:inputType="numberSigned"
+            android:text="0"
+            android:textColor="@color/text_1"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/plus"
+            android:layout_width="36dp"
+            android:layout_height="24dp"
+            android:textSize="@dimen/text_size_normal"
+            android:background="@drawable/bg_rect_gray"
+            android:gravity="center"
+            android:text="+" />
+    </LinearLayout>
+</LinearLayout>

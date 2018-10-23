@@ -15,10 +15,11 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bigkoo.pickerview.adapter.WheelAdapter;
-import com.bigkoo.pickerview.lib.WheelView;
-import com.bigkoo.pickerview.listener.OnItemSelectedListener;
+
 import com.bigkoo.pickerview.utils.PickerViewAnimateUtil;
+import com.contrarywind.adapter.WheelAdapter;
+import com.contrarywind.listener.OnItemSelectedListener;
+import com.contrarywind.view.WheelView;
 import com.ldf.calendar.component.CalendarAttr;
 import com.ldf.calendar.component.CalendarViewAdapter;
 import com.ldf.calendar.interf.OnSelectDateListener;
@@ -84,18 +85,8 @@ public class CalendarDingDing extends View {
         mSub = rootView.findViewById(R.id.sub);
         mOK = rootView.findViewById(R.id.confirm);
         empty = rootView.findViewById(R.id.empty);
-        empty.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss(true);
-            }
-        });
-        mOK.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dismiss(false);
-            }
-        });
+        empty.setOnClickListener(v -> dismiss(true));
+        mOK.setOnClickListener(view -> dismiss(false));
 
         //时分秒
         final ArrayList<Integer> hours = new ArrayList<>();
@@ -104,12 +95,9 @@ public class CalendarDingDing extends View {
         }
         mHour.setCyclic(true);
         mHour.setAdapter(new MyAdapter(hours));
-        mHour.setOnItemSelectedListener(new OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(int index) {
-                data[3] = hours.get(index);
-                tabs.getTabAt(1).setText(getDisPlayNumber(data[3]) + ":" + getDisPlayNumber(data[4]));
-            }
+        mHour.setOnItemSelectedListener(index -> {
+            data[3] = hours.get(index);
+            tabs.getTabAt(1).setText(getDisPlayNumber(data[3]) + ":" + getDisPlayNumber(data[4]));
         });
         final ArrayList<Integer> minutes = new ArrayList<>();
         for (int i = 0; i < 60; i++) {
@@ -117,12 +105,9 @@ public class CalendarDingDing extends View {
         }
         mMinute.setCyclic(true);
         mMinute.setAdapter(new MyAdapter(minutes));
-        mMinute.setOnItemSelectedListener(new OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(int index) {
-                data[4] = minutes.get(index);
-                tabs.getTabAt(1).setText(getDisPlayNumber(data[3]) + ":" + getDisPlayNumber(data[4]));
-            }
+        mMinute.setOnItemSelectedListener(index -> {
+            data[4] = minutes.get(index);
+            tabs.getTabAt(1).setText(getDisPlayNumber(data[3]) + ":" + getDisPlayNumber(data[4]));
         });
 
         //年月日

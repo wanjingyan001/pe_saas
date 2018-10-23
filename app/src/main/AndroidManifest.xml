@@ -1363,6 +1363,13 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+        <activity android:name=".module.approve.SelectionActivity" />
+        <activity android:name=".module.approve.TestActivity" />
+        <activity android:name=".module.approve.ApproveGroupActivity" />
+        <activity android:name=".module.approve.ApproveInitiateActivity" />
+        <activity android:name=".module.approve.NewApproveListActivity" />
+        <activity android:name=".module.approve.SearchApproveActivity" />
+        <activity android:name=".module.approve.ApproveDetailActivity"></activity>
     </application>
 
 </manifest>

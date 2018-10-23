@@ -7,7 +7,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import com.bigkoo.pickerview.OptionsPickerView
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener
+import com.bigkoo.pickerview.view.OptionsPickerView
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
@@ -20,6 +22,7 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_weekly_select.*
+import org.jetbrains.anko.find
 import org.jetbrains.anko.textColor
 import java.text.SimpleDateFormat
 import java.util.*
@@ -118,9 +121,9 @@ class WeeklySelectActivity : ToolbarActivity() {
             getDepartmentData()
 
             tr_depart.setOnClickListener {
-                var pvOptions = OptionsPickerView.Builder(this@WeeklySelectActivity, OptionsPickerView.OnOptionsSelectListener { options1, option2, options3, v ->
+                var pvOptions = OptionsPickerBuilder(this@WeeklySelectActivity, OnOptionsSelectListener { options1, option2, options3, v ->
                     fillData(spinner_data.get(options1))
-                }).build()
+                }).setDecorView(window.decorView.find(android.R.id.content)).build<String>()
                 pvOptions.setPicker(spinner_data.map { it.name })
                 pvOptions.show()
             }

@@ -1,12 +1,15 @@
 package com.sogukj.pe.module.score;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.bigkoo.pickerview.OptionsPickerView;
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.sogukj.pe.R;
 
 import java.util.ArrayList;
@@ -60,25 +63,22 @@ class TextViewClickObservableAddOrMinus extends Observable<Integer> {
         @Override
         public void onClick(View v) {
             if (!isDisposed()) {
-                pvOptions = new OptionsPickerView.Builder(context, new OptionsPickerView.OnOptionsSelectListener() {
-                    @Override
-                    public void onOptionsSelect(int options1, int option2, int options3, View v) {
-                        //返回的分别是三个级别的选中位置
-                        int pro = mSelected.get(options1);
-                        bar.setProgress(pro);
-                        bar.setProgressDrawable(context.getResources().getDrawable(drawableId));
-                        if (drawableId == R.drawable.pb_min) {
-                            view.setText(-pro + "");
-                        } else {
-                            view.setText(pro + "");
-                        }
-                        view.setTextColor(Color.parseColor("#ffa0a4aa"));
-                        view.setTextSize(16);
-                        view.setBackgroundDrawable(null);
-
-                        observer.onNext(pro);
+                pvOptions = new OptionsPickerBuilder(context, (options1, option2, options3, v1) -> {
+                    //返回的分别是三个级别的选中位置
+                    int pro = mSelected.get(options1);
+                    bar.setProgress(pro);
+                    bar.setProgressDrawable(context.getResources().getDrawable(drawableId));
+                    if (drawableId == R.drawable.pb_min) {
+                        view.setText(-pro + "");
+                    } else {
+                        view.setText(pro + "");
                     }
-                }).build();
+                    view.setTextColor(Color.parseColor("#ffa0a4aa"));
+                    view.setTextSize(16);
+                    view.setBackgroundDrawable(null);
+
+                    observer.onNext(pro);
+                }).setDecorView(((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content)).build();
                 pvOptions.setPicker(mSelected);
                 pvOptions.show();
             }

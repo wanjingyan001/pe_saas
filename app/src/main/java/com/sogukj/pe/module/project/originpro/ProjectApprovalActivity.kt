@@ -10,7 +10,7 @@ import android.view.View
 import android.widget.*
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
-import com.bigkoo.pickerview.TimePickerView
+import com.bigkoo.pickerview.builder.TimePickerBuilder
 import com.bumptech.glide.Glide
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
@@ -93,13 +93,13 @@ class ProjectApprovalActivity : ToolbarActivity(), ProjectApproveCallBack {
                         startDate.set(1949, 10, 1)
                         val endDate = Calendar.getInstance()
                         endDate.set(selectedDate.get(Calendar.YEAR), selectedDate.get(Calendar.MONTH) + 1, selectedDate.get(Calendar.DAY_OF_MONTH))
-                        val timePicker = TimePickerView.Builder(this@ProjectApprovalActivity, { date, view ->
+                        val timePicker = TimePickerBuilder(this@ProjectApprovalActivity, { date, view ->
                             tv_time.text = Utils.getTime_(date)
                         })
                                 //年月日时分秒 的显示与否，不设置则默认全部显示
                                 .setType(booleanArrayOf(true, true, false, false, false, false))
                                 .setDividerColor(Color.DKGRAY)
-                                .setContentSize(21)
+                                .setContentTextSize(21)
                                 .setDate(selectedDate)
                                 .setCancelColor(resources.getColor(R.color.shareholder_text_gray))
                                 .setRangDate(startDate, endDate)

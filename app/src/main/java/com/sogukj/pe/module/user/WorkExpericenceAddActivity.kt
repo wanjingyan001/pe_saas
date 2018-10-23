@@ -5,8 +5,11 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import com.bigkoo.pickerview.OptionsPickerView
-import com.bigkoo.pickerview.TimePickerView
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder
+import com.bigkoo.pickerview.builder.TimePickerBuilder
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener
+import com.bigkoo.pickerview.view.OptionsPickerView
+import com.bigkoo.pickerview.view.TimePickerView
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.BaseActivity
@@ -21,6 +24,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_work_expericence_add.*
 import kotlinx.android.synthetic.main.layout_shareholder_toolbar.*
+import org.jetbrains.anko.find
 import java.util.*
 
 class WorkExpericenceAddActivity : BaseActivity(), View.OnClickListener {
@@ -161,31 +165,33 @@ class WorkExpericenceAddActivity : BaseActivity(), View.OnClickListener {
             }
             R.id.tv_start_date -> {
                 //入职时间
-                val timePicker = TimePickerView.Builder(this, { date, view ->
+                val timePicker = TimePickerBuilder(this, { date, view ->
                     tv_start_date.text = Utils.getTime(date)
                 })
                         //年月日时分秒 的显示与否，不设置则默认全部显示
                         .setType(booleanArrayOf(true, true, false, false, false, false))
                         .setDividerColor(Color.DKGRAY)
-                        .setContentSize(21)
+                        .setContentTextSize(21)
                         .setDate(selectedDate)
                         .setCancelColor(resources.getColor(R.color.shareholder_text_gray))
                         .setRangDate(startDate, endDate)
+                        .setDecorView(window.decorView.find(android.R.id.content))
                         .build()
                 timePicker.show()
             }
             R.id.tv_date_end -> {
                 //离职时间
-                val timePicker = TimePickerView.Builder(this, { date, view ->
+                val timePicker = TimePickerBuilder(this, { date, view ->
                     tv_date_end.text = Utils.getTime(date)
                 })
                         //年月日时分秒 的显示与否，不设置则默认全部显示
                         .setType(booleanArrayOf(true, true, false, false, false, false))
                         .setDividerColor(Color.DKGRAY)
-                        .setContentSize(21)
+                        .setContentTextSize(21)
                         .setDate(selectedDate)
                         .setCancelColor(resources.getColor(R.color.shareholder_text_gray))
                         .setRangDate(startDate, endDate)
+                        .setDecorView(window.decorView.find(android.R.id.content))
                         .build()
                 timePicker.show()
             }
@@ -196,10 +202,10 @@ class WorkExpericenceAddActivity : BaseActivity(), View.OnClickListener {
             R.id.tv_workers -> {
                 //公司规模
                 val dataList = resources.getStringArray(R.array.workers).toList()
-                val pvOptions = OptionsPickerView.Builder(this, OptionsPickerView.OnOptionsSelectListener { options1, option2, options3, v ->
+                val pvOptions = OptionsPickerBuilder(this, OnOptionsSelectListener { options1, option2, options3, v ->
                     tv_workers.text = dataList.get(options1)
                     gsgmIndex = options1
-                }).build()
+                }).setDecorView(window.decorView.find(android.R.id.content)).build<String>()
                 pvOptions.setPicker(dataList, null, null)
                 pvOptions.setSelectOptions(gsgmIndex)
                 pvOptions.show()
@@ -207,10 +213,10 @@ class WorkExpericenceAddActivity : BaseActivity(), View.OnClickListener {
             R.id.tv_nature -> {
                 //公司性质
                 val dataList = resources.getStringArray(R.array.BusinessNature).toList()
-                val pvOptions = OptionsPickerView.Builder(this, OptionsPickerView.OnOptionsSelectListener { options1, option2, options3, v ->
+                val pvOptions = OptionsPickerBuilder(this, OnOptionsSelectListener { options1, option2, options3, v ->
                     tv_nature.text = dataList.get(options1)
                     gsxzIndex = options1
-                }).build()
+                }) .setDecorView(window.decorView.find(android.R.id.content)).build<String>()
                 pvOptions.setPicker(dataList)
                 pvOptions.setSelectOptions(gsxzIndex)
                 pvOptions.show()

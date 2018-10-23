@@ -21,11 +21,11 @@ class AvoidOnResultFragment : Fragment() {
         retainInstance = true
     }
 
-    fun startForResult(intent: Intent): Observable<ActivityResultInfo> {
+    fun startForResult(requestCode: Int,intent: Intent): Observable<ActivityResultInfo> {
         val subject = PublishSubject.create<ActivityResultInfo>()
         return subject.doOnSubscribe {
-            mSubjects.put(subject.hashCode(), subject)
-            startActivityForResult(intent, subject.hashCode())
+            mSubjects.put(requestCode, subject)
+            startActivityForResult(intent, requestCode)
         }
     }
 

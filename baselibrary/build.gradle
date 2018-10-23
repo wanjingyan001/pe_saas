@@ -33,7 +33,7 @@ kapt {
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
 //    kotlin
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlin_version}"
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlin_version}"
     api "org.jetbrains.kotlin:kotlin-reflect:${kotlin_version}"
 //    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutines_core}"
     api "org.jetbrains.anko:anko:$anko_version"
@@ -93,7 +93,8 @@ dependencies {
 
 //    other
 //    api 'com.ashokvarma.android:bottom-navigation-bar:2.0.4'
-    api 'com.contrarywind:Android-PickerView:3.2.7'
+    api 'com.contrarywind:Android-PickerView:4.1.6'
+    api 'com.contrarywind:wheelview:4.0.8'
     api 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
     api 'me.leolin:ShortcutBadger:1.1.21@aar'
     api 'com.lcodecorex:tkrefreshlayout:1.0.7'

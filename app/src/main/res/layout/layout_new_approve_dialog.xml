@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="20dp"
+    android:background="@drawable/approve_bg">
+
+    <TextView
+        android:id="@+id/approval_comments_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/approval_comments"
+        android:textColor="@color/text_1"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+
+    <EditText
+        android:id="@+id/approval_comments_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/approval_input_bg"
+        android:gravity="top"
+        android:hint="@string/approval_input_hint"
+        android:lines="5"
+        app:layout_constraintTop_toBottomOf="@+id/approval_comments_title"
+        android:textColor="@color/text_1"
+        android:textSize="16sp" />
+
+
+    <LinearLayout
+        android:id="@+id/operateLayout"
+        app:layout_constraintTop_toBottomOf="@+id/approval_comments_input"
+        android:layout_width="match_parent"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

@@ -92,7 +92,9 @@
             android:layout_height="wrap_content"
             android:background="@drawable/divider_top"
             android:orientation="vertical"
-            android:visibility="gone"></LinearLayout>
+            android:visibility="gone">
+
+        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

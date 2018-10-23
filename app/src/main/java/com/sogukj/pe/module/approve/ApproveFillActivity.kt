@@ -16,7 +16,9 @@ import android.view.ViewGroup
 import android.widget.*
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
-import com.bigkoo.pickerview.OptionsPickerView
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener
+import com.bigkoo.pickerview.view.OptionsPickerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -276,7 +278,7 @@ class ApproveFillActivity : ToolbarActivity() {
         //info                  备注说明                4
         //sms              是否发短信提醒审批人      5
 //        if ((paramMap.get("reasons") == null || (paramMap.get("reasons") as String?).isNullOrEmpty()) &&
-//                (paramMap.get("sealFile") == null || (paramMap.get("sealFile") as ArrayList<CustomSealBean.ValueBean>).size == 0) &&
+//                (paramMap.get("sealFile") == null || (paramMap.get("sealFile") as ArrayList<CustomSealBean.ApproveValueBean>).size == 0) &&
 //                (paramMap.get("info") == null || (paramMap.get("info") as String?).isNullOrEmpty()) &&
 //                (paramMap.get("sms") == null || (paramMap.get("sms") as Int) == 0) &&
 //                (paramMap.get("project_id") == null)) {//project_id 选填
@@ -284,15 +286,15 @@ class ApproveFillActivity : ToolbarActivity() {
 //            return
 //        }
         //用印申请
-//        if ((paramMap.get("seal") == null || judgeSealEmpty(paramMap.get("seal") as ArrayList<CustomSealBean.ValueBean>)) &&
+//        if ((paramMap.get("seal") == null || judgeSealEmpty(paramMap.get("seal") as ArrayList<CustomSealBean.ApproveValueBean>)) &&
 //                (paramMap.get("fund_id") == null) &&
 //                (paramMap.get("reasons") == null || (paramMap.get("reasons") as String?).isNullOrEmpty()) &&
 //                (paramMap.get("info") == null || (paramMap.get("info") as String?).isNullOrEmpty()) &&
 //                (paramMap.get("manager_opinion") == null || (paramMap.get("manager_opinion") as String?).isNullOrEmpty()) &&
-//                (paramMap.get("lawyerFile") == null || (paramMap.get("lawyerFile") as ArrayList<CustomSealBean.ValueBean>).size == 0) &&
+//                (paramMap.get("lawyerFile") == null || (paramMap.get("lawyerFile") as ArrayList<CustomSealBean.ApproveValueBean>).size == 0) &&
 //                (paramMap.get("is_lawyer") == null || (paramMap.get("is_lawyer") as Int) == 0) &&
 //                (paramMap.get("sms") == null || (paramMap.get("sms") as Int) == 0) &&
-//                (paramMap.get("sealFile") == null || (paramMap.get("sealFile") as ArrayList<CustomSealBean.ValueBean>).size == 0) &&
+//                (paramMap.get("sealFile") == null || (paramMap.get("sealFile") as ArrayList<CustomSealBean.ApproveValueBean>).size == 0) &&
 //                (paramMap.get("project_name") == null) &&
 //                (paramMap.get("foreign_id") == null)) {
 //            super.onBackPressed()
@@ -689,12 +691,12 @@ class ApproveFillActivity : ToolbarActivity() {
         }
         if (map.isNotEmpty()) {
             convertView.setOnClickListener {
-                var pvOptions = OptionsPickerView.Builder(this, OptionsPickerView.OnOptionsSelectListener { options1, option2, options3, v ->
+                val pvOptions = OptionsPickerBuilder(this, OnOptionsSelectListener { options1, option2, options3, v ->
                     val tx = items.get(options1)
                     etValue.text = tx
                     val valBean = map[tx]
                     paramMap.put(bean.fields, valBean?.id)
-                }).build()
+                }) .setDecorView(window.decorView.find(android.R.id.content)).build<String>()
                 pvOptions.setPicker(items, null, null)
                 pvOptions.show()
             }

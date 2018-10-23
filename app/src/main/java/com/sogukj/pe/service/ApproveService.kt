@@ -1,6 +1,8 @@
 package com.sogukj.pe.service
 
 import com.sogukj.pe.bean.*
+import com.sogukj.pe.module.approve.baseView.viewBean.*
+import com.sogukj.pe.module.approve.baseView.viewBean.CityBean
 import io.reactivex.Observable
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -8,11 +10,12 @@ import retrofit2.http.*
 /**
  * Created by admin on 2018/5/23.
  */
-interface ApproveService{
+interface ApproveService {
     companion object {
         const val APPKEY_NAME = "appkey"
         const val APPKEY_VALUE = "d5f17cafef0829b5"
     }
+
     @POST("/api/Approve/uploadApprove")
     fun uploadApprove(@Body body: RequestBody): Observable<Payload<CustomSealBean.ValueBean>>
 
@@ -175,9 +178,8 @@ interface ApproveService{
             , @Field("template_id") template_id: String? = null): Observable<Payload<List<ApprovalBean>>>
 
 
-
     @POST("/api/Approve/showVacation")
-    fun showVacation():Observable<Payload<ArrayList<VacationBean>>>
+    fun showVacation(): Observable<Payload<ArrayList<VacationBean>>>
 
     @FormUrlEncoded
     @POST("/api/Approve/historyCity")
@@ -218,7 +220,7 @@ interface ApproveService{
     @POST("/api/Index/outCardApproveList")
     fun outCardApproveList(): Observable<Payload<ArrayList<LocationRecordBean.LocationCellBean>>>
 
-//    stamp	int		时间戳(年月日时分秒)	非空
+    //    stamp	int		时间戳(年月日时分秒)	非空
 //    place	str		地点	非空
 //    longitude	str		经度	非空
 //    latitude	str		纬度	非空
@@ -230,6 +232,169 @@ interface ApproveService{
                       @Field("place") place: String,
                       @Field("longitude") longitude: String,
                       @Field("latitude") latitude: String,
-                      @Field("sid") sid: Int ?= null,
-                      @Field("id") id: Int ?= null): Observable<Payload<Int>>
+                      @Field("sid") sid: Int? = null,
+                      @Field("id") id: Int? = null): Observable<Payload<Int>>
+
+
+    /**
+     * 审批分组布局界面
+     */
+    @POST("/api/Sptemplate/spWindow")
+    fun approveGroup(): Observable<Payload<List<ApproveGroup>>>
+
+
+    /**
+     * 显示审批
+     */
+    @FormUrlEncoded
+    @POST("api/Sptemplate/showTemplate")
+    fun showTemplate(@Field("tid") tid: Int, //模板id
+                     @Field("aid") aid: Int? = null//修改的审批id
+    ): Observable<Payload<List<ControlBean>>>
+
+
+    /**
+     * 获取审批人/抄送人
+     */
+    @FormUrlEncoded
+    @POST("api/Sptemplate/spInfo")
+    fun getApprovers(@Field("tid") tid: Int,
+                     @Field("project_id") project_id: String? = null,
+                     @Field("fund_id") fund_id: String? = null): Observable<Payload<Approvers>>
+
+
+    /**
+     * 计算时长
+     */
+    @FormUrlEncoded
+    @POST("api/Skip/calcTotalTime")
+    fun countDuration(@Field("start_time") start_time: String,//开始时间
+                      @Field("end_time") end_time: String,//结束时间
+                      @Field("scal_unit") scal_unit: String//计算方式 year=>年 month=>月 day=> 天 hour=>小时 min=>分钟 sec=>秒 work=>按工作时长计算 非空
+    ): Observable<Payload<String>>
+
+
+    /**
+     * 上传文件
+     */
+    @POST("api/Skip/uploadFile")
+    fun uploadFiles(@Body body: RequestBody): Observable<Payload<AttachmentBean>>
+
+
+    /**
+     * 请假类型
+     */
+    @POST("api/Skip/holidaysList")
+    fun holidaysList(): Observable<Payload<List<MyLeaveBean>>>
+
+    /**
+     * 新审批的选择列表
+     */
+    @FormUrlEncoded
+    @POST
+    fun selectionList(@Url url: String, @Field("fund_id") fund_id: String? = null): Observable<Payload<List<ApproveValueBean>>>
+
+
+    /**
+     * 获取省市区数据
+     */
+    @POST("/api/Skip/cityArea")
+    fun selectionCity(): Observable<Payload<List<CityBean>>>
+
+
+    /**
+     * 人员列表
+     */
+    @POST("/api/Skip/userList")
+    fun approvalUsers(): Observable<Payload<List<ApprovalUser>>>
+
+    /**
+     * 关联审批单
+     */
+    @POST("/api/Skip/relateApprove")
+    fun docAssociate(): Observable<Payload<List<Document>>>
+
+
+    /**
+     * 提交审批
+     * (参数全部使用json传递)
+     */
+    @FormUrlEncoded
+    @POST("/api/Sptemplate/subApp")
+    fun submitNewApprove(@Field("tid") tid: Int,//模板id
+                         @Field("data") data: String,//模板json
+                         @Field("sp") sp: String,//审批人
+                         @Field("cs") cs: String? = null,//抄送人
+                         @Field("jr") jr: String? = null//经办人
+    ): Observable<Payload<Any>>
+
+
+    /**
+     * 审批列表
+     */
+    @FormUrlEncoded
+    @POST("/api/Sptemplate/waitDoneApp")
+    fun getApproveList(@Field("kind") kind: Int = 4,//1=>待我审批 2=>我已审批 3=>我发起的审批 4=>抄送我的
+                       @Field("page") page: Int = 1,//页数
+                       @Field("pageSize") pageSize: Int = 20,//每页数量
+                       @Field("query") query: String? = null,//搜索标题或编号
+                       @Field("type") type: String? = null,//审批分组类型,多个逗号隔开，全部请传null
+                       @Field("tid") tid: String? = null//审批模板,多个逗号隔开，全部请传null
+    ): Observable<Payload<ApproveList>>
+
+
+    /**
+     * 显示审批
+     */
+    @FormUrlEncoded
+    @POST("/api/Sptemplate/showApp")
+    fun getApproveDetail(@Field("aid") aid: Int,//审批id
+                         @Field("is_mine") is_mine: Int? = null,//1=>是发起人，0=>审批人，主要是区分自审自批的情况
+                         @Field("type") type: Int? = null//1=>只打印同意的数据，0=>全部打印，审批记录是否显示全部
+    ): Observable<Payload<ApproveDetail>>
+
+
+    /**
+     * 提交评论
+     */
+    @FormUrlEncoded
+    @POST("/api/Sptemplate/comment")
+    fun submitComment(@Field("aid") aid: Int,//审批id
+                      @Field("content") content: String//评论内容
+    ): Observable<Payload<Any>>
+
+    /**
+     * 回复
+     */
+    @FormUrlEncoded
+    @POST("/api/Sptemplate/reply")
+    fun reply(@Field("hid") hid: Int,//审批流程id
+              @Field("comment_id") comment_id: Int,//评论id
+              @Field("content") content: String? = null//评论
+    ): Observable<Payload<Any>>
+
+    /**
+     * 审批
+     */
+    @POST("/api/Sptemplate/spResult")
+    fun doApprove(@Body body: RequestBody): Observable<Payload<Any>>
+
+    /**
+     * 撤销审批
+     */
+    @FormUrlEncoded
+    @POST("/api/Sptemplate/spCancel")
+    fun approveCancel(@Field("aid") aid: Int,//审批id
+                      @Field("content") content: String? = null//撤销理由
+    ): Observable<Payload<Any>>
+
+
+    /**
+     * 保存草稿
+     */
+    @FormUrlEncoded
+    @POST("/api/Sptemplate/saveDraft")
+    fun saveApproveDraft(@Field("tid")tid:Int,//审批id
+                         @Field("data")data:String?=null
+    ):Observable<Payload<Any>>
 }

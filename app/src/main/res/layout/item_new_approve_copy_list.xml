@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="8dp">
+
+    <com.sogukj.pe.widgets.CircleImageView
+        android:id="@+id/approverHeader"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/cs_default"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_gravity="right|bottom"
+        android:src="@drawable/cs_default"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/approverHeader"
+        app:layout_constraintEnd_toEndOf="@+id/approverHeader" />
+
+    <ImageView
+        android:id="@+id/cs_remove"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_gravity="right|top"
+        app:layout_constraintTop_toTopOf="@+id/approverHeader"
+        app:layout_constraintEnd_toEndOf="@+id/approverHeader"
+        android:visibility="gone"
+        android:src="@drawable/cs_add" />
+
+    <TextView
+        android:id="@+id/approverName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:textColor="@color/text_3"
+        android:textSize="@dimen/text_size_samll"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/approverHeader" />
+
+</android.support.constraint.ConstraintLayout>

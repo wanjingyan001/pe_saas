@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@id/star"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginStart="6dp"
+        android:background="@drawable/star"
+        app:layout_constraintBottom_toBottomOf="@+id/goOutTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/goOutTitle" />
+
+
+    <TextView
+        android:id="@+id/goOutTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="单选框"
+        android:textColor="@color/text_1"
+        android:textSize="@dimen/text_size_medium"
+        app:layout_constraintBottom_toBottomOf="@+id/goOutTv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/goOutTv" />
+
+    <TextView
+        android:id="@+id/goOutTv"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:background="@null"
+        android:drawableEnd="@drawable/ic_right"
+        android:gravity="end|center_vertical"
+        android:hint="请选择"
+        android:singleLine="true"
+        android:textColor="@color/text_1"
+        android:textSize="@dimen/text_size_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/goOutTitle"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/bg_record"
+        app:layout_constraintTop_toBottomOf="@+id/goOutTv"
+        app:layout_constraintBottom_toTopOf="@+id/dateRangeLayout"/>
+
+    <LinearLayout
+        android:id="@+id/dateRangeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/line">
+
+    </LinearLayout>
+    <TextView
+        android:id="@+id/leaveTip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_record"
+        android:gravity="center_vertical"
+        android:paddingBottom="10dp"
+        android:paddingStart="24dp"
+        android:paddingTop="10dp"
+        android:text="时长将自动计入考勤统计"
+        android:textColor="@color/text_3"
+        android:textSize="@dimen/text_size_medium"
+        app:layout_constraintTop_toBottomOf="@+id/dateRangeLayout" />
+
+</android.support.constraint.ConstraintLayout>

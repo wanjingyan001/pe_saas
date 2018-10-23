@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/controlLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/line0"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/bg_record"
+        app:layout_constraintTop_toBottomOf="@+id/controlLayout1"
+        app:layout_constraintBottom_toTopOf="@+id/lawyerTitle"/>
+
+    <TextView
+        android:id="@+id/lawyerTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="是否需要律师意见"
+        android:textColor="@color/text_1"
+        android:textSize="@dimen/text_size_medium"
+        app:layout_constraintBottom_toBottomOf="@+id/optionGroup"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/optionGroup" />
+
+    <RadioGroup
+        android:id="@+id/optionGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginEnd="24dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line0">
+
+        <RadioButton
+            android:id="@+id/yes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="是"
+            android:textColor="@color/text_1"
+            android:textSize="@dimen/text_size_medium" />
+
+        <RadioButton
+            android:id="@+id/no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="否"
+            android:textColor="@color/text_1"
+            android:textSize="@dimen/text_size_medium" />
+
+    </RadioGroup>
+    <View
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider2"
+        app:layout_constraintTop_toBottomOf="@+id/optionGroup"
+        app:layout_constraintBottom_toTopOf="@+id/controlLayout2"/>
+
+    <LinearLayout
+        android:id="@+id/controlLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/line1">
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/controlLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/bg_record"
+        app:layout_constraintTop_toBottomOf="@+id/controlLayout2">
+
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>

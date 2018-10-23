@@ -12,10 +12,10 @@ buildscript {
 }
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 27
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
     }
     lintOptions {
         abortOnError false
@@ -28,5 +28,5 @@ dependencies {
         jcenter()
         google()
     }
-    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation "com.android.support:appcompat-v7:${android_support_sdk_version}"
 }

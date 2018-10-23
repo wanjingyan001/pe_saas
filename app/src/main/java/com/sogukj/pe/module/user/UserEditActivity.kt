@@ -14,7 +14,9 @@ import android.os.Message
 import android.text.TextUtils
 import android.view.MenuItem
 import android.view.View
-import com.bigkoo.pickerview.OptionsPickerView
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener
+import com.bigkoo.pickerview.view.OptionsPickerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -45,6 +47,7 @@ import kotlinx.android.synthetic.main.activity_user_edit.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import org.jetbrains.anko.find
 import java.io.*
 
 
@@ -76,14 +79,14 @@ class UserEditActivity : ToolbarActivity() {
                 return@clickWithTrigger
             }
             val position = items.indices.firstOrNull { items[it]!!.contains(tv_depart.text) } ?: 0
-            val pvOptions = OptionsPickerView.Builder(this, OptionsPickerView.OnOptionsSelectListener { options1, option2, options3, v ->
+            val pvOptions = OptionsPickerBuilder(this, OnOptionsSelectListener { options1, option2, options3, v ->
                 val data = departList?.get(options1)
                 data?.apply {
                     user.depart_id = depart_id
                     user.depart_name = de_name
                 }
                 tv_depart.text = items.get(options1)
-            }).build()
+            }).setDecorView(window.decorView.find(android.R.id.content)).build<String>()
             pvOptions.setPicker(items)
             pvOptions.setSelectOptions(position)
             pvOptions.show()
