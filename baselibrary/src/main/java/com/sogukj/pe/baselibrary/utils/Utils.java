@@ -63,6 +63,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -1509,6 +1510,20 @@ public class Utils {
         }
         Pattern pattern = Pattern.compile("^[-\\+]?[.\\d]*$");
         return pattern.matcher(str).matches();
+    }
+
+    public static String reserveTwoDecimal(float number){
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        return decimalFormat.format(number);
+    }
+    public static String reserveTwoDecimal(double number){
+        double value = new BigDecimal(number).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
+        return String.valueOf(value);
+    }
+
+    public static double reserveTwoDecimal(double number,int count){
+        double value = new BigDecimal(number).setScale(count, BigDecimal.ROUND_DOWN).doubleValue();
+        return value;
     }
 
     public static void setBackgroundAlpha(Context mContext, float bgAlpha) {

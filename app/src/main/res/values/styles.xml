@@ -421,6 +421,11 @@
         <item name="android:textColor">@color/gray_a0</item>
     </style>
 
+    <style name="text12_color28">
+        <item name="android:textSize">@dimen/text_size_12</item>
+        <item name="android:textColor">@color/black_28</item>
+    </style>
+
     <style name="text14_color28">
         <item name="android:textSize">@dimen/text_size_14</item>
         <item name="android:textColor">@color/black_28</item>

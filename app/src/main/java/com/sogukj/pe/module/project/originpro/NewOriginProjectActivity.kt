@@ -14,7 +14,6 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener
-import com.bigkoo.pickerview.view.OptionsPickerView
 import com.bumptech.glide.Glide
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R

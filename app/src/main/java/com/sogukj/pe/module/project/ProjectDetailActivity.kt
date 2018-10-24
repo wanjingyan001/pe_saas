@@ -10,12 +10,12 @@ import android.os.Bundle
 import android.provider.Settings
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.FrameLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.bumptech.glide.Glide
@@ -129,7 +129,8 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
             showPayDialog()
         }
     }
-
+    private var isClickPer = false
+    private var isClickBus = false
     private fun showPayDialog() {
         val dialog = MaterialDialog.Builder(context)
                 .theme(Theme.DARK)
@@ -138,7 +139,272 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                 .build()
         dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
+        val iv_close = dialog.find<ImageView>(R.id.iv_close)
+        val tv_subtract = dialog.find<TextView>(R.id.tv_subtract)
+        val et_count = dialog.find<EditText>(R.id.et_count)
+        val tv_add = dialog.find<TextView>(R.id.tv_add)
+        val tv_coin = dialog.find<TextView>(R.id.tv_coin)
+        val rl_bus = dialog.find<RelativeLayout>(R.id.rl_bus)
+        val tv_bus_balance = dialog.find<TextView>(R.id.tv_bus_balance)
+        val iv_bus_select = dialog.find<ImageView>(R.id.iv_bus_select)
+        val rl_pre = dialog.find<RelativeLayout>(R.id.rl_pre)
+        val tv_per_balance = dialog.find<TextView>(R.id.tv_per_balance)
+        val iv_pre_select = dialog.find<ImageView>(R.id.iv_pre_select)
+        val rl_wx = dialog.find<RelativeLayout>(R.id.rl_wx)
+        val iv_wx_select = dialog.find<ImageView>(R.id.iv_wx_select)
+        val rl_zfb = dialog.find<RelativeLayout>(R.id.rl_zfb)
+        val iv_zfb_select = dialog.find<ImageView>(R.id.iv_zfb_select)
+        val tv_pay = dialog.find<TextView>(R.id.tv_pay)
+        var count = 1 //订单数量
+        var coin = 9.9
+        var isCheckPer = false
+        var isCheckBus = false
+        var isCheckWx = false
+        var isCheckZfb = true
+        var pay_type = 1 //1 :支付宝 2：微信 3：个人 4 ：企业
+        et_count.setSelection(et_count.textStr.length)
+        et_count.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+                if (et_count.textStr.isNullOrEmpty()){
+                    showToast("购买数量不能为空")
+                    et_count.setText("1")
+                    return
+                }
+                if (et_count.textStr.startsWith("0")){
+                    showToast("购买数量最少为一个")
+                    et_count.setText("1")
+                }
+                et_count.setSelection(et_count.textStr.length)
+                count = et_count.textStr.toInt()
+                coin = Utils.reserveTwoDecimal(9.9 * count,2)
+                tv_coin.text = "￥${coin}"
+            }
 
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+        })
+
+        iv_close.clickWithTrigger {
+            if (dialog.isShowing){
+                dialog.dismiss()
+            }
+        }
+
+        tv_subtract.clickWithTrigger {
+            //减
+            count = et_count.textStr.toInt()
+            count--
+            if (count <= 1){
+                count = 1
+            }
+            coin = Utils.reserveTwoDecimal(9.9 * count,2)
+            tv_coin.text = "￥${coin}"
+            et_count.setText(count.toString())
+            et_count.setSelection(et_count.textStr.length)
+        }
+
+        tv_add.clickWithTrigger {
+            //加
+            count++
+            coin = Utils.reserveTwoDecimal(9.9 * count,2)
+            tv_coin.text = "￥${coin}"
+            et_count.setText(count.toString())
+            et_count.setSelection(et_count.textStr.length)
+        }
+        getPerAccountInfo(tv_per_balance,iv_pre_select,false)
+        getBusAccountInfo(tv_bus_balance,iv_bus_select,false)
+        rl_bus.clickWithTrigger {
+            //企业账户
+            if (isClickBus){
+                if (!isCheckBus){
+                    isCheckBus = !isCheckBus
+                    iv_bus_select.setImageResource(R.mipmap.ic_unselect_receipt)
+                    if(isClickPer){
+                        iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
+                        isCheckPer = false
+                    }
+                    iv_wx_select.setImageResource(R.mipmap.ic_select_receipt)
+                    iv_zfb_select.setImageResource(R.mipmap.ic_select_receipt)
+                    isCheckWx = false
+                    isCheckZfb = false
+
+                    pay_type = 2
+                }
+            }
+        }
+
+        rl_pre.clickWithTrigger {
+            //个人账户
+            if (isClickPer){
+                if (!isCheckPer){
+                    isCheckPer = !isCheckPer
+                    iv_pre_select.setImageResource(R.mipmap.ic_unselect_receipt)
+                    if(isClickBus){
+                        iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
+                        isCheckBus = false
+                    }
+                    iv_wx_select.setImageResource(R.mipmap.ic_select_receipt)
+                    iv_zfb_select.setImageResource(R.mipmap.ic_select_receipt)
+                    isCheckWx = false
+                    isCheckZfb = false
+
+                    pay_type = 1
+                }
+            }
+        }
+
+        rl_wx.clickWithTrigger {
+            //微信
+            if (!isCheckWx){
+                isCheckWx = !isCheckWx
+                iv_wx_select.setImageResource(R.mipmap.ic_unselect_receipt)
+                iv_zfb_select.setImageResource(R.mipmap.ic_select_receipt)
+                if (isClickBus){
+                    iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
+                    isCheckBus = false
+                }
+                if (isCheckPer){
+                    iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
+                    isCheckPer = false
+                }
+                isCheckZfb = false
+                pay_type = 4
+            }
+        }
+
+        rl_zfb.clickWithTrigger {
+            //支付宝
+            if (!isCheckZfb){
+                isCheckZfb = !isCheckZfb
+                iv_wx_select.setImageResource(R.mipmap.ic_select_receipt)
+                iv_zfb_select.setImageResource(R.mipmap.ic_unselect_receipt)
+                if (isClickBus){
+                    iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
+                    isCheckBus = false
+                }
+                if (isCheckPer){
+                    iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
+                    isCheckPer = false
+                }
+                isCheckWx = false
+
+                pay_type = 3
+            }
+        }
+
+        tv_pay.clickWithTrigger {
+            //去支付
+            goToPay(4,count,pay_type,coin.toString(),tv_per_balance,iv_pre_select,tv_bus_balance,iv_bus_select)
+        }
+    }
+
+    private fun getBusAccountInfo(tv_bus_balance: TextView, iv_bus_select: ImageView,isRefresh : Boolean) {
+        SoguApi.getService(application,OtherService::class.java)
+                .getBussAccountInfo()
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+                            val recordBean = payload.payload
+                            if (null != recordBean){
+                                tv_bus_balance.text = "账户余额：${recordBean.balance}"
+                                if (recordBean.balance.equals("0") || recordBean.balance.equals("")){
+                                    iv_bus_select.setImageResource(R.mipmap.ic_gray_receipt)
+                                    isClickBus = false
+                                }else{
+                                    if (!isRefresh){
+                                        iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
+                                    }
+                                    isClickBus = true
+                                }
+                            }
+                        }else{
+                            showErrorToast(payload.message)
+                        }
+                    }
+
+                    onError {
+                        it.printStackTrace()
+                        showErrorToast("获取个人账号信息失败")
+                    }
+                }
+    }
+
+    private fun getPerAccountInfo(tv_per_balance: TextView, iv_pre_select: ImageView,isRefresh : Boolean) {
+        SoguApi.getService(application,OtherService::class.java)
+                .getPersonAccountInfo()
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+                            val recordBean = payload.payload
+                            if (null != recordBean){
+                                tv_per_balance.text = "账户余额：${recordBean.balance}"
+                                if (recordBean.balance.equals("0") || recordBean.balance.equals("")){
+                                    iv_pre_select.setImageResource(R.mipmap.ic_gray_receipt)
+                                    isClickPer = false
+                                }else{
+                                    if (!isRefresh){
+                                        iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
+                                    }
+                                    isClickPer = true
+                                }
+                            }
+                        }else{
+                            showErrorToast(payload.message)
+                        }
+                    }
+
+                    onError {
+                        it.printStackTrace()
+                        showErrorToast("获取个人账号信息失败")
+                    }
+                }
+    }
+
+    private fun goToPay(order_type: Int, count: Int, pay_type: Int, fee: String,
+                        tv_per_balance: TextView, iv_pre_select: ImageView,
+                        tv_bus_balance: TextView, iv_bus_select: ImageView) {
+        SoguApi.getService(application,OtherService::class.java)
+                .getAccountPayInfo(order_type,count,pay_type,fee)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+                            if (pay_type == 1 || pay_type == 2){
+                                showSuccessToast("支付成功")
+                                refreshAccountData(tv_per_balance,iv_pre_select, tv_bus_balance,iv_bus_select)
+                                getSentimentStatus(project.company_id!!)
+                            }else{
+                                if (pay_type == 3){
+                                    //支付宝
+                                }else if (pay_type == 4){
+                                    //微信
+                                }
+                            }
+                        }else{
+                            showErrorToast(payload.message)
+                        }
+                    }
+
+                    onError {
+                        it.printStackTrace()
+                        if (pay_type == 1 || pay_type == 2){
+                            showErrorToast("支付失败")
+                        }else{
+                            showErrorToast("获取订单失败")
+                        }
+                    }
+                }
+    }
+
+    private fun refreshAccountData(tv_per_balance: TextView, iv_pre_select: ImageView,
+            tv_bus_balance: TextView, iv_bus_select: ImageView) {
+        getPerAccountInfo(tv_per_balance,iv_pre_select,true)
+        getBusAccountInfo(tv_bus_balance,iv_bus_select,true)
     }
 
     private fun setSentimentStatus(company_id: Int) {
@@ -208,6 +474,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                     headView.tv_senti_time.setVisible(false)
                     headView.ll_times_buy.setVisible(false)
                     isStartOpen = false
+                    showPayDialog()
                 }
                 1 -> {
                     headView.iv_button.setImageResource(R.mipmap.ic_sentiment_on)
@@ -215,6 +482,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                     headView.tv_senti_time.setVisible(true)
                     headView.ll_times_buy.setVisible(true)
                     headView.tv_times.text = "剩余次数：${info.remainder}次"
+                    headView.tv_senti_time.text = info.expire
                     isStartOpen = true
                 }
             }
@@ -400,7 +668,6 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
         }
         detailAdapter.onItemClickListener = this
     }
-
 
     private fun initDetailHeadView() {
         headView = layoutInflater.inflate(R.layout.layout_project_header, null)

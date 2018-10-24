@@ -103,6 +103,7 @@ class ProjectApprovalActivity : ToolbarActivity(), ProjectApproveCallBack {
                                 .setDate(selectedDate)
                                 .setCancelColor(resources.getColor(R.color.shareholder_text_gray))
                                 .setRangDate(startDate, endDate)
+                                .setDecorView(window.decorView.find(android.R.id.content))
                                 .build()
                         timePicker.show()
                     }

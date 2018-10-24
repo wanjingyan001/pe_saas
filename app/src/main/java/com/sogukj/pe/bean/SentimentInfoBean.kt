@@ -8,4 +8,5 @@ import java.io.Serializable
 class SentimentInfoBean : Serializable {
     var remainder = 0
     var is_open = 0 // 1 : 开启 0 : 关闭
+    var expire = "" //过期时间
 }

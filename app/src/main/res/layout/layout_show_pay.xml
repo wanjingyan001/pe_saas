@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/text_30"
     android:layout_marginRight="@dimen/text_30"
+    android:paddingBottom="@dimen/text_10"
     android:background="@drawable/bg_sentiment_pay"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <TextView
@@ -27,13 +28,14 @@
         android:text="请购买监控额度"/>
     
     <ImageView
+        android:id="@+id/iv_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:padding="@dimen/text_10"
         android:layout_marginRight="@dimen/text_5"
-        android:src="@mipmap/ic_delete"/>
+        android:src="@mipmap/ic_pay_close"/>
     <View
         android:id="@+id/view1"
         android:layout_width="match_parent"
@@ -47,6 +49,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/text_15"
+        android:layout_marginLeft="@dimen/text_15"
+        android:layout_marginRight="@dimen/text_15"
         app:layout_constraintTop_toBottomOf="@+id/view1"
         android:orientation="horizontal">
         <TextView
@@ -80,6 +84,7 @@
                 android:layout_marginBottom="@dimen/text_5"
                 android:orientation="horizontal">
                 <TextView
+                    android:id="@+id/tv_subtract"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -88,16 +93,19 @@
                     android:textSize="@dimen/text_size_14"
                     android:textColor="@color/black_28"
                     android:text="-"/>
-                <TextView
+                <EditText
+                    android:id="@+id/et_count"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:gravity="center"
                     android:background="@drawable/bg_buy_count"
                     android:textSize="@dimen/text_size_14"
+                    android:inputType="number"
                     android:textColor="@color/black_28"
                     android:text="1"/>
                 <TextView
+                    android:id="@+id/tv_add"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"

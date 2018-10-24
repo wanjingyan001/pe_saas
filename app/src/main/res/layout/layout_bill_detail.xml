@@ -182,7 +182,7 @@
             android:layout_centerVertical="true"
             android:layout_weight="4"
             android:layout_marginRight="@dimen/text_8"
-            android:text="客运服务费"
+            android:text="软件服务费"
             android:textColor="@color/black_28"
             android:textSize="@dimen/text_size_14"/>
     </LinearLayout>

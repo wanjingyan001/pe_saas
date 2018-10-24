@@ -68,7 +68,7 @@ class MineWalletActivity : ToolbarActivity() {
                     tv_sentiment_remain.text = "剩余${it.over}个"
                 }
                 7 -> {
-                    tv_credit_count.text = "舆情监控共${it.max}次"
+                    tv_credit_count.text = "征信套餐共${it.max}次"
                     tv_credit_remain.text = "剩余${it.over}个"
                 }
             }

@@ -300,4 +300,24 @@ interface OtherService {
     @FormUrlEncoded
     @POST("/api/Pay/getYuqinOpen")
     fun setSentimentStatus(@Field("company_id") company_id: Int): Observable<Payload<Any>>
+
+    /**
+     * 个人账户信息
+     */
+    @POST("/api/Pay/getAccountPoson")
+    fun getPersonAccountInfo(): Observable<Payload<RechargeRecordBean>>
+
+    /**
+     * 企业账户信息
+     */
+    @POST("/api/Pay/getAccountBusiness")
+    fun getBussAccountInfo(): Observable<Payload<RechargeRecordBean>>
+
+    /**
+     * 账户支付
+     */
+    @FormUrlEncoded
+    @POST("/api/Pay/WalletPay")
+    fun getAccountPayInfo(@Field("order_type")order_type:Int,@Field("order_count")order_count:Int,
+                          @Field("pay_type")pay_type:Int,@Field("fee")fee:String):Observable<Payload<Any>>
 }
