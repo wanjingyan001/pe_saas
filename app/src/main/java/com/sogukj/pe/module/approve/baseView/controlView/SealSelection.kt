@@ -40,7 +40,7 @@ class SealSelection @JvmOverloads constructor(
             val values = mutableListOf<ApproveValueBean>()
             controlBean.value?.let {
                 it.forEach {
-                    val treeMap = it as LinkedTreeMap<String, Any>
+                    val treeMap = it as LinkedTreeMap<*, *>
                     val number = (treeMap["value"] as Number).toInt()
                     values.add(ApproveValueBean(name = treeMap["name"] as String, value = number))
                 }
@@ -59,7 +59,7 @@ class SealSelection @JvmOverloads constructor(
     }
 
     inner class SealHolder(itemView: View) : RecyclerHolder<ApproveValueBean>(itemView) {
-        var sealValue by Delegates.observable(0, { property, oldValue, newValue ->
+        var sealValue by Delegates.observable(0, { _, _, newValue ->
             itemView.sealTitle.isChecked = newValue > 0
         })
 

@@ -10,6 +10,7 @@ import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.module.approve.baseView.BaseControl
+import com.sogukj.pe.module.approve.baseView.viewBean.ApproveValueBean
 import com.sogukj.pe.module.approve.baseView.viewBean.MyLeaveBean
 import com.sogukj.pe.module.approve.baseView.viewBean.OptionBean
 import com.sogukj.pe.service.ApproveService
@@ -28,13 +29,14 @@ class DateRangeControl @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : BaseControl(context, attrs, defStyleAttr) {
     private var start: Long = 0
-    private var end by Delegates.observable(0L, { property, oldValue, newValue ->
-        (newValue > 0L && controlBean.is_scal!!).yes {
+    private var end :Long = 0
+    private var dateRange by Delegates.observable(0L to 0L, { property, oldValue, newValue ->
+        (newValue.first > 0L && newValue.second > 0L && controlBean.is_scal!!).yes {
             countDuration()
         }
     })
     var needAssociate: Int = -1
-    var holiday: MyLeaveBean? = null
+    var holiday: ApproveValueBean? = null
     var selectionType: OptionBean? = null
     var block: ((days: Double, unit: String) -> Unit)? = null
 
@@ -98,7 +100,7 @@ class DateRangeControl @JvmOverloads constructor(
                             showCommonToast("请先选择假期类型")
                             return@clickWithTrigger
                         }.otherWise {
-                            (holiday!!.hours.toDouble() <= 0.0).yes {
+                            (holiday!!.hours!!.toDouble() <= 0.0).yes {
                                 showCommonToast("无可用时长")
                                 return@clickWithTrigger
                             }
@@ -116,6 +118,7 @@ class DateRangeControl @JvmOverloads constructor(
                     controlBean.value?.clear()
                     controlBean.value?.add(Utils.getTime(date, formatStr))
                     start = date.time
+                    dateRange = start to end
                 } //年月日时分秒 的显示与否，不设置则默认全部显示
                         .setType(timeFormat)
                         .setDividerColor(Color.DKGRAY)
@@ -133,12 +136,23 @@ class DateRangeControl @JvmOverloads constructor(
                     showCommonToast("请先选择开始时间")
                     return@clickWithTrigger
                 }
+                val instance = Calendar.getInstance()
+                instance.time = Date(start)
+                startDate.set(instance.get(Calendar.YEAR), instance.get(Calendar.MONTH), instance.get(Calendar.DAY_OF_MONTH))
                 TimePickerBuilder(activity) { date, v ->
+                    if (date.time < start) {
+                        showErrorToast("结束时间必须大于开始时间")
+                        return@TimePickerBuilder
+                    }
                     inflate.endTimeTv.text = Utils.getTime(date, formatStr)
                     if (controlBean.value!!.size > 1)
                         controlBean.value?.removeAt(1)
                     controlBean.value?.add(Utils.getTime(date, formatStr))
-                    end = date.time
+                    inflate.endTimeTv.postDelayed({
+                        end = date.time
+                        dateRange = start to end
+                    }, 500)
+
                 } //年月日时分秒 的显示与否，不设置则默认全部显示
                         .setType(timeFormat)
                         .setDividerColor(Color.DKGRAY)
@@ -180,6 +194,8 @@ class DateRangeControl @JvmOverloads constructor(
                                     "work" -> "工作时长"
                                     else -> ""
                                 }
+                                if (controlBean.value!!.size > 2)
+                                    controlBean.value?.removeAt(2)
                                 controlBean.value?.add(it)
                                 inflate.durationTv.setText(it + unit)
                                 block?.invoke(it.toDouble(), unit)

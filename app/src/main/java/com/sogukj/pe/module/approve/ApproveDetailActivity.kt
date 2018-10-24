@@ -53,7 +53,7 @@ class ApproveDetailActivity : ToolbarActivity() {
     private val isMine by extraDelegate(Extras.FLAG, 0)
     private var tid by Delegates.notNull<Int>()//审批模板id
     private lateinit var tName: String//审批模板名
-    private lateinit var btns:List<Button>
+    private lateinit var btns: List<Button>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -131,7 +131,8 @@ class ApproveDetailActivity : ToolbarActivity() {
         relax?.let {
             val buff = StringBuffer()
             it.forEach {
-                buff.append("${it.key}: <font color='#666666'>${it.value ?: ""}</font><br/>")
+                val str = if (it.value.isNullOrEmpty()) "无" else it.value
+                buff.append("${it.key}: <font color='#666666'>$str</font><br/>")
             }
             approveInfo.text = Html.fromHtml(buff.toString())
         }
@@ -182,20 +183,24 @@ class ApproveDetailActivity : ToolbarActivity() {
                         convertView.tv_status.text = flow.getStatusStr
                         convertView.tv_time.setVisible(flow.approval_time.isNotEmpty())
                         convertView.tv_time.text = flow.approval_time
-                        when (flow.is_edit_file) {
-                            1 -> {
-                                convertView.tv_edit.setVisible(true)
-                                convertView.tv_edit.text = "文件已修改"
-                                convertView.tv_edit.backgroundResource = R.drawable.bg_tag_edit_file_1
+                        if (flow.status == 3 || flow.status == 5) {
+                            when (flow.is_edit_file) {
+                                1 -> {
+                                    convertView.tv_edit.setVisible(true)
+                                    convertView.tv_edit.text = "文件已修改"
+                                    convertView.tv_edit.backgroundResource = R.drawable.bg_tag_edit_file_1
+                                }
+                                0 -> {
+                                    convertView.tv_edit.setVisible(true)
+                                    convertView.tv_edit.text = "文件未修改"
+                                    convertView.tv_edit.backgroundResource = R.drawable.bg_tag_edit_file_0
+                                }
+                                else -> {
+                                    convertView.tv_edit.setVisible(false)
+                                }
                             }
-                            0 -> {
-                                convertView.tv_edit.setVisible(true)
-                                convertView.tv_edit.text = "文件未修改"
-                                convertView.tv_edit.backgroundResource = R.drawable.bg_tag_edit_file_0
-                            }
-                            else -> {
-                                convertView.tv_edit.setVisible(false)
-                            }
+                        } else {
+                            convertView.tv_edit.setVisible(false)
                         }
                         convertView.tv_content.setVisible(!flow.content.isNullOrEmpty())
                         convertView.tv_content.text = Html.fromHtml("意见: <font color='#666666'>${flow.content ?: ""}</font><br/>")
@@ -315,6 +320,9 @@ class ApproveDetailActivity : ToolbarActivity() {
                     when (it) {
                         1 -> {
                             operateBtn.text = "申请加急"
+                            operateBtn.clickWithTrigger {
+                                expedited()
+                            }
                         }
                         2 -> {
                             operateBtn.text = "修改"
@@ -585,6 +593,23 @@ class ApproveDetailActivity : ToolbarActivity() {
                         payload.isOk.yes {
                             showSuccessToast("撤销完成")
                             finish()
+                        }.otherWise {
+                            showErrorToast(payload.message)
+                        }
+                    }
+                }
+    }
+
+    /**
+     * 申请加急
+     */
+    private fun expedited() {
+        SoguApi.getService(application, ApproveService::class.java)
+                .expedited(approveId)
+                .execute {
+                    onNext { payload ->
+                        payload.isOk.yes {
+                            showSuccessToast("提交成功")
                         }.otherWise {
                             showErrorToast(payload.message)
                         }

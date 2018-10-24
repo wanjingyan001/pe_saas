@@ -35,7 +35,7 @@ class DepartmentControl @JvmOverloads constructor(
                 values.isNotEmpty().yes {
                     val beans = mutableListOf<ApproveValueBean>()
                     values.forEach { map ->
-                        val treeMap = map as LinkedTreeMap<String, Any>
+                        val treeMap = map as LinkedTreeMap<*, *>
                         beans.add(ApproveValueBean(name = treeMap["name"] as String,
                                 id = treeMap["id"] as String))
                     }
@@ -50,7 +50,7 @@ class DepartmentControl @JvmOverloads constructor(
             }
             inflate.departmentTv.clickWithTrigger {
                 AvoidOnResult(activity)
-                        .startForResult<SelectionActivity>(Extras.REQUESTCODE)
+                        .startForResult<SelectionActivity>(Extras.REQUESTCODE,Extras.TYPE to controlBean.skip!![0].skip_site)
                         .filter { it.resultCode == Activity.RESULT_OK }
                         .flatMap {
                             val extra = it.data.getSerializableExtra(Extras.BEAN)

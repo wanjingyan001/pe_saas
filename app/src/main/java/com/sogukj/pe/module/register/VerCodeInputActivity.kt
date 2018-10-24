@@ -39,7 +39,7 @@ import org.jetbrains.anko.ctx
 import org.jetbrains.anko.info
 import org.jetbrains.anko.startActivity
 import java.util.*
-
+@Deprecated("页面合并")
 class VerCodeInputActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

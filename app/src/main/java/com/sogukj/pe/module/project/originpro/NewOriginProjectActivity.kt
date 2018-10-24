@@ -43,6 +43,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_new_project.*
 import kotlinx.android.synthetic.main.commom_blue_title.*
 import kotlinx.android.synthetic.main.layout_pro_top.*
+import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivityForResult
 import java.util.*
 import kotlin.collections.HashMap
@@ -137,7 +138,7 @@ class NewOriginProjectActivity : ToolbarActivity(), NewOriginProCallBack {
                             val pvOptions = OptionsPickerBuilder(this@NewOriginProjectActivity,
                                     OnOptionsSelectListener { options1, option2, options3, v ->
                                         tv_job_name.text = experience[options1]
-                                    }).build<String>()
+                                    }).setDecorView(window.decorView.find(android.R.id.content)).build<String>()
                             pvOptions.setPicker(experience)
                             pvOptions.setSelectOptions(position)
                             pvOptions.show()

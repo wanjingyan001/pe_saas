@@ -2,7 +2,6 @@ package com.sogukj.pe.module.approve
 
 import android.app.Activity
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -16,7 +15,6 @@ import com.chad.library.adapter.base.entity.MultiItemEntity
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
-import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
@@ -27,7 +25,6 @@ import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_selection.*
 import kotlinx.android.synthetic.main.item_approval_selection_list.view.*
 import org.jetbrains.anko.ctx
-import org.jetbrains.anko.info
 
 class SelectionActivity : ToolbarActivity() {
     /**

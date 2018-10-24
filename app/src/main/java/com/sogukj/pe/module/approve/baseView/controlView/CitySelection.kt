@@ -1,5 +1,6 @@
 package com.sogukj.pe.module.approve.baseView.controlView
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
@@ -31,6 +32,7 @@ class CitySelection @JvmOverloads constructor(
 ) : BaseControl(context, attrs, defStyleAttr) {
     override fun getContentResId(): Int = R.layout.layout_control_city_selection
 
+    @SuppressLint("SetTextI18n")
     override fun bindContentView() {
         hasInit.yes {
             inflate.star.setVisible(isMust)
@@ -54,7 +56,6 @@ class CitySelection @JvmOverloads constructor(
                         }
                     }
                 }
-
             }
             inflate.citySelectionLayout.clickWithTrigger {
                 AvoidOnResult(activity)
@@ -82,7 +83,6 @@ class CitySelection @JvmOverloads constructor(
                             }
                         }
                     }
-
                 }
             }
         }

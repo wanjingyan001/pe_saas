@@ -1,6 +1,5 @@
 package com.sogukj.pe.module.approve.baseView
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.support.constraint.ConstraintLayout
@@ -8,19 +7,12 @@ import android.support.v4.app.FragmentActivity
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.LinearLayout
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.otherWise
-import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.yes
-import com.sogukj.pe.baselibrary.base.AvoidOnResult
 import com.sogukj.pe.baselibrary.base.BaseActivity
-import com.sogukj.pe.module.approve.baseView.controlView.*
 import com.sogukj.pe.module.approve.baseView.viewBean.ControlBean
-import com.sogukj.pe.module.main.MainActivity
-import kotlinx.android.synthetic.main.layout_control_fund_seal.view.*
 import org.jetbrains.anko.*
 
 /**

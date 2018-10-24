@@ -6,6 +6,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
+ * 跳转类型
  * Created by admin on 2018/9/27.
  */
 @IntDef({SkipType.NO_REQUEST,SkipType.SHOW_DIALOG,SkipType.CHILD_PAGE,SkipType.DATA_INPUT,SkipType.SKIP_LINK})

@@ -23,18 +23,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/approveNum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:ellipsize="end"
-        android:singleLine="true"
-        android:text="CXKAJG23452213552233"
-        android:textColor="@color/gray_80"
-        android:textSize="@dimen/text_size_10"
-        app:layout_constraintStart_toStartOf="@+id/approveType"
-        app:layout_constraintTop_toBottomOf="@+id/approveType" />
+    <!--<TextView-->
+        <!--android:id="@+id/approveNum"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:ellipsize="end"-->
+        <!--android:singleLine="true"-->
+        <!--android:text="CXKAJG23452213552233"-->
+        <!--android:textColor="@color/gray_80"-->
+        <!--android:textSize="@dimen/text_size_10"-->
+        <!--app:layout_constraintStart_toStartOf="@+id/approveType"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/approveType" />-->
 
     <TextView
         android:id="@+id/sponsor"
@@ -46,23 +46,23 @@
         android:text="发起人："
         android:textColor="@color/text_1"
         android:textSize="@dimen/text_size_samll"
-        app:layout_constraintStart_toStartOf="@+id/approveNum"
-        app:layout_constraintTop_toBottomOf="@+id/approveNum" />
+        app:layout_constraintStart_toStartOf="@+id/approveType"
+        app:layout_constraintTop_toBottomOf="@+id/approveType" />
 
-    <TextView
-        android:id="@+id/reason"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="25dp"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:text="审批事由："
-        android:textColor="@color/text_1"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/sponsor"
-        app:layout_constraintTop_toBottomOf="@+id/sponsor" />
+    <!--<TextView-->
+        <!--android:id="@+id/reason"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="8dp"-->
+        <!--android:layout_marginEnd="25dp"-->
+        <!--android:ellipsize="end"-->
+        <!--android:maxLines="2"-->
+        <!--android:text="审批事由："-->
+        <!--android:textColor="@color/text_1"-->
+        <!--android:textSize="12sp"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="@+id/sponsor"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/sponsor" />-->
 
     <TextView
         android:id="@+id/schedule"
@@ -75,5 +75,5 @@
         android:text="已审批"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/sponsor"
-        app:layout_constraintTop_toBottomOf="@+id/reason" />
+        app:layout_constraintTop_toBottomOf="@+id/sponsor" />
 </android.support.constraint.ConstraintLayout>

@@ -38,7 +38,7 @@ class FAPControl @JvmOverloads constructor(
                 values.isNotEmpty().yes {
                     val beans = mutableListOf<ApproveValueBean>()
                     values.forEach { map ->
-                        val treeMap = map as LinkedTreeMap<String, Any>
+                        val treeMap = map as LinkedTreeMap<*, *>
                         beans.add(ApproveValueBean(name = treeMap["name"] as String, id = treeMap["id"] as String))
                     }
                     controlBean.value?.clear()
@@ -70,7 +70,7 @@ class FAPControl @JvmOverloads constructor(
                     }
                     inflate.fundTv.text = it.name
                     if (block != null && refresh) {
-                        block!!.invoke(it.id, null)
+                        block?.invoke(it.id, null)
                     }
                 }
             }
@@ -106,7 +106,7 @@ class FAPControl @JvmOverloads constructor(
                         }
                         inflate.projectTv.text = it.name
                         if (block != null && refresh) {
-                            block!!.invoke(fundId, it.id)
+                            block?.invoke(fundId, it.id)
                         }
                     }
                 }

@@ -13,8 +13,7 @@
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:lines="2"
-        android:textColor="@color/text_1"
-        tools:text="经办人" />
+        android:textColor="@color/text_1" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,8 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_1"
-                android:textSize="12sp"
-                tools:text="经办人" />
+                android:textSize="12sp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -54,8 +52,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/textColorBlue"
-                    android:textSize="12sp"
-                    tools:text="待审批" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_time"
@@ -64,7 +61,7 @@
                     android:textColor="@color/text_3"
                     android:textSize="12sp"
                     android:visibility="gone"
-                    tools:text="已同意" />
+                    />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

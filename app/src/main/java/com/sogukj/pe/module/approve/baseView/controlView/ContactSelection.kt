@@ -51,13 +51,13 @@ class ContactSelection @JvmOverloads constructor(
                     inflate.contactSelectTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_right, 0)
                 }
 
-                inflate.contactSelectTv.clickWithTrigger {
+                inflate.contactSelectTv.clickWithTrigger { _ ->
                     AvoidOnResult(activity)
                             .startForResult<SelectionActivity>(Extras.REQUESTCODE,
                                     Extras.LIST to alreadySelected,
                                     Extras.FLAG to controlBean.is_multiple,
                                     Extras.TYPE to controlBean.skip!![0].skip_site)
-                            .filter { it.resultCode == Activity.RESULT_OK}
+                            .filter { it.resultCode == Activity.RESULT_OK }
                             .flatMap {
                                 val selected = it.data.getSerializableExtra(Extras.BEAN) as ArrayList<ApproveValueBean>
                                 Observable.just(selected)

@@ -14,6 +14,7 @@ import androidx.core.net.toUri
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.ifNotNull
+import com.sogukj.pe.baselibrary.Extended.otherWise
 import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.module.approve.baseView.BaseControl
 import com.sogukj.pe.module.approve.baseView.SkipType
@@ -29,6 +30,7 @@ import org.jetbrains.anko.startActivity
 class NoticText @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : BaseControl(context, attrs, defStyleAttr) {
+    val urlRegex = "[a-zA-z]+://[^\\s]*".toRegex()
     override fun getContentResId(): Int = R.layout.layout_control_notice_text
 
     override fun bindContentView() {
@@ -50,7 +52,11 @@ class NoticText @JvmOverloads constructor(
             controlBean.skip?.let {
                 if (it[0].skip_type == SkipType.SKIP_LINK) {
                     info { it[0].skip_site }
-//                    activity.startActivity(Intent(Intent.ACTION_VIEW, it[0].skip_site))
+                    urlRegex.matches(it[0].skip_site).yes {
+                        activity.startActivity(Intent(Intent.ACTION_VIEW, it[0].skip_site.toUri()))
+                    }.otherWise {
+                        showErrorToast("跳转链接错误")
+                    }
                 }
             }
         }

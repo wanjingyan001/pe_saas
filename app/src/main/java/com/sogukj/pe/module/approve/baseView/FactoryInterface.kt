@@ -1,9 +1,9 @@
 package com.sogukj.pe.module.approve.baseView
 
-import android.support.v4.app.FragmentActivity
 import com.sogukj.pe.module.approve.baseView.viewBean.ControlBean
 
 /**
+ * 工厂接口
  * Created by admin on 2018/9/27.
  */
 interface FactoryInterface {

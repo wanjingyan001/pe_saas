@@ -9,9 +9,16 @@ import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.view.View
 import com.amap.api.mapcore.util.it
+import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
+import com.chad.library.adapter.base.BaseViewHolder
+import com.chad.library.adapter.base.entity.MultiItemEntity
 import com.netease.nim.uikit.api.NimUIKit
 import com.netease.nimlib.sdk.NIMSDK
+import com.netease.nimlib.sdk.RequestCallbackWrapper
+import com.netease.nimlib.sdk.ResponseCode
+import com.netease.nimlib.sdk.msg.MessageBuilder
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum
+import com.netease.nimlib.sdk.msg.model.IMMessage
 import com.scwang.smartrefresh.layout.api.RefreshFooter
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
@@ -35,11 +42,14 @@ import kotlinx.android.synthetic.main.activity_msg_assistant.*
 import kotlinx.android.synthetic.main.item_msg_assistant.view.*
 import kotlinx.android.synthetic.main.item_msg_content.view.*
 import org.jetbrains.anko.ctx
+import org.jetbrains.anko.info
 import org.jetbrains.anko.singleLine
 
 class MsgAssistantActivity : BaseRefreshActivity() {
     private lateinit var listAdapter: RecyclerAdapter<MessageBean>
+    private lateinit var msgAdapter: MsgTypeAdapter
     private lateinit var observable: Observable<Payload<ArrayList<MessageBean>>>
+    private val account: String by extraDelegate(Extras.ID, "")
     private val type: Int by ExtrasDelegate(Extras.TYPE, 0)
     private var page = 1
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -148,6 +158,44 @@ class MsgAssistantActivity : BaseRefreshActivity() {
         }
     }
 
+
+    private fun getDataByIM() {
+        NIMSDK.getMsgService().pullMessageHistory(anchor(), 20, false)
+                .setCallback(object : RequestCallbackWrapper<List<IMMessage>>() {
+                    override fun onResult(code: Int, result: List<IMMessage>?, exception: Throwable?) {
+                        (page == 1).yes {
+                            finishRefresh()
+                        }.otherWise {
+                            finishLoadMore()
+                        }
+                        if (exception != null || code != 200) {
+                            return
+                        }
+                        result?.let {
+                            it.forEach {
+                                info { it.jsonStr }
+                            }
+
+                        }
+                    }
+                })
+    }
+
+    private var anchor: IMMessage? = null
+    private fun anchor(): IMMessage {
+        return anchor ?: MessageBuilder.createEmptyMessage(account, SessionTypeEnum.P2P, 0)
+//        msgAdapter.data.isEmpty().yes {
+//            return anchor ?: MessageBuilder.createEmptyMessage(account, SessionTypeEnum.P2P, 0)
+//        }.otherWise {
+//            val index = (page == 1).yes {
+//                0
+//            }.otherWise {
+//                msgAdapter.data.size -1
+//            }
+//            return msgAdapter.data[index]
+//        }
+    }
+
     private fun clearUnReadCount() {
         val account = when (type) {
             1 -> "58d0c67d134fbc6c"
@@ -191,6 +239,20 @@ class MsgAssistantActivity : BaseRefreshActivity() {
             view.tv_type.setVisible(false)
             view.tv_msg.text = data.contents
             view.tv_msg.singleLine = true
+        }
+    }
+
+
+    inner class MsgTypeAdapter(data: List<MultiItemEntity>) : BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder>(data) {
+
+        init {
+            addItemType(1, R.layout.item_msg_assistant_approvel)
+            addItemType(2, R.layout.item_msg_assistant_pay_history)
+            addItemType(3, R.layout.item_msg_assistant_renewal_fee)
+        }
+
+        override fun convert(helper: BaseViewHolder?, item: MultiItemEntity?) {
+
         }
     }
 }

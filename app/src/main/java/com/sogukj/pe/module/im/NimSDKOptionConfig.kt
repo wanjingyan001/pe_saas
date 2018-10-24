@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Environment
 import com.netease.nimlib.sdk.SDKOptions
 import com.netease.nimlib.sdk.StatusBarNotificationConfig
+import com.netease.nimlib.sdk.mixpush.MixPushConfig
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.module.main.MainActivity
@@ -46,6 +47,7 @@ class NimSDKOptionConfig {
             options.enableTeamMsgAck = true
             // 在线多端同步未读数
             options.sessionReadAck = true
+            options.mixPushConfig = buildMixPushConfig()
             return options
         }
 
@@ -81,6 +83,22 @@ class NimSDKOptionConfig {
                 }
             }
             return storageRootPath
+        }
+
+        private fun buildMixPushConfig(): MixPushConfig {
+            // 第三方推送配置
+            val config = MixPushConfig()
+            // 小米推送
+            config.xmAppId = "2882303761517845387"
+            config.xmAppKey = "5491784551387"
+            config.xmCertificateName = "XPEMIPUSH"
+            // 华为推送
+            config.hwCertificateName = "XPEHWPUSH"
+            // 魅族推送
+//            config.mzAppId = ""
+//            config.mzAppKey = ""
+//            config.mzCertificateName = ""
+            return config
         }
 
 //        private val messageNotifierCustomization = object : MessageNotifierCustomization {

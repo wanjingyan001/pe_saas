@@ -7,7 +7,9 @@ import android.util.Log
 import com.amap.api.mapcore.util.it
 import com.sogukj.pe.module.approve.baseView.viewBean.ControlBean
 
+@Suppress("UNCHECKED_CAST")
 /**
+ * 通过反射获取BaseControl子类的实例
  * Created by admin on 2018/9/27.
  */
 class ControlFactory constructor(val activity: FragmentActivity)  : FactoryInterface {
@@ -18,5 +20,4 @@ class ControlFactory constructor(val activity: FragmentActivity)  : FactoryInter
         control.init()
         return control as T
     }
-
 }

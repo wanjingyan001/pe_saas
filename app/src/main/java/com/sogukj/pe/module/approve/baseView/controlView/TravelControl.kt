@@ -1,5 +1,6 @@
 package com.sogukj.pe.module.approve.baseView.controlView
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
 import android.util.AttributeSet
@@ -98,10 +99,11 @@ class TravelControl @JvmOverloads constructor(
     inner class TravelAdapter(data: List<ControlBean>) : BaseQuickAdapter<ControlBean, BaseViewHolder>(R.layout.item_control_reimburse_detail, data) {
         var days = 0.0
 
+        @SuppressLint("SetTextI18n")
         override fun convert(helper: BaseViewHolder, item: ControlBean) {
-            var itemDays: Pair<Double, String> by Delegates.observable(0.0 to "", { property, oldValue, newValue ->
+            var itemDays: Pair<Double, String> by Delegates.observable(0.0 to "", { _, oldValue, newValue ->
                 days = days + newValue.first - oldValue.first
-                inflate.totalDays.text = "${days}${newValue.second} "
+                inflate.totalDays.text = "$days${newValue.second} "
             })
 
             //行程
@@ -126,7 +128,7 @@ class TravelControl @JvmOverloads constructor(
                             }
                             dateRange
                         }
-                        else -> throw Exception("")
+                        else -> throw Exception("类型错误")
                     }
                     detailItem.addView(getDividerView(1))
                     detailItem.addView(control)

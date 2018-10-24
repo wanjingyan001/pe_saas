@@ -56,7 +56,7 @@ class FundSealControl @JvmOverloads constructor(
                     values.isNotEmpty().yes {
                         val beans = mutableListOf<ApproveValueBean>()
                         values.forEach { map ->
-                            val treeMap = map as LinkedTreeMap<String, Any>
+                            val treeMap = map as LinkedTreeMap<*, *>
                             beans.add(ApproveValueBean(name = treeMap["name"] as String))
                         }
                         radio.value?.clear()

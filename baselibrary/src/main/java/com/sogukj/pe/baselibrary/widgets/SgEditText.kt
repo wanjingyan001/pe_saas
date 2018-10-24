@@ -20,6 +20,7 @@ import android.view.Gravity
 import android.view.ViewTreeObserver
 import android.widget.ImageView
 import android.widget.LinearLayout
+import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.R.id.clearInput
 import com.sogukj.pe.baselibrary.R.id.sgEdt
 import org.jetbrains.anko.*
@@ -54,6 +55,7 @@ class SgEditText @JvmOverloads constructor(
     private var sgEdt: EditText
     private var clearInput: ImageView
     private var textWatcher: AddSpaceTextWatcher
+    lateinit var block:()->Unit
 
     init {
         attrs?.let {
@@ -104,7 +106,7 @@ class SgEditText @JvmOverloads constructor(
         val params = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT)
         params.weight = 1f
         params.marginEnd = dip(12)
-        inputLayout.addView(sgEdt)
+        inputLayout.addView(sgEdt,LinearLayout.LayoutParams( LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT))
         if (showHint) {
             inputLayout.hint = hint
         }
@@ -118,8 +120,12 @@ class SgEditText @JvmOverloads constructor(
         clearInput.setVisible(false)
         clearInput.clickWithTrigger {
             sgEdt.setText("")
+            this::block.isLateinit.yes {
+                block.invoke()
+            }
         }
-        addView(clearInput)
+        val cParams =  LinearLayout.LayoutParams( LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+        addView(clearInput,cParams)
     }
 
 

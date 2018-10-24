@@ -46,21 +46,21 @@ class RadioControl @JvmOverloads constructor(
             controlBean.value?.let { values ->
                 val beans = mutableListOf<ApproveValueBean>()
                 values.forEach { map ->
-                    val treeMap = map as LinkedTreeMap<String, Any>
+                    val treeMap = map as LinkedTreeMap<*, *>
                     beans.add(ApproveValueBean(name = treeMap["name"] as String))
                 }
                 controlBean.value?.clear()
                 controlBean.value?.addAll(beans)
             }
-            radioAdapter.onItemClick = { v, position ->
+            radioAdapter.onItemClick = { _, position ->
                 controlBean.value?.clear()
                 controlBean.value?.add(radioAdapter.dataList[position])
                 radioAdapter.selectedPosition = position
             }
             ifNotNull(controlBean.value, controlBean.options) { value1, value2 ->
-                controlBean.value!!.isNotEmpty().yes {
-                    val bean = controlBean.value!![0] as ApproveValueBean
-                    radioAdapter.selectedPosition =  controlBean.options!!.map { it.name }.indexOf(bean.name)
+                value1.isNotEmpty().yes {
+                    val bean = value1[0] as ApproveValueBean
+                    radioAdapter.selectedPosition = value2.map { it.name }.indexOf(bean.name)
                 }
             }
         }

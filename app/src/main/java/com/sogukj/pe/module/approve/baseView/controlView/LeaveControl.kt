@@ -32,7 +32,7 @@ import org.jetbrains.anko.dip
 class LeaveControl @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : BaseControl(context, attrs, defStyleAttr) {
-    private lateinit var holiday: MyLeaveBean
+    private lateinit var holiday: ApproveValueBean
 
     override fun getContentResId(): Int = R.layout.layout_control_leave
 
@@ -52,7 +52,7 @@ class LeaveControl @JvmOverloads constructor(
                         val beans = mutableListOf<ApproveValueBean>()
                         values.forEach { map ->
                             val treeMap = map as LinkedTreeMap<String, Any>
-                            beans.add(ApproveValueBean(name = treeMap["name"] as String))
+                            beans.add(ApproveValueBean(name = treeMap["name"] as String,id = treeMap["id"] as String))
                         }
                         it[1].value?.clear()
                         it[1].value?.addAll(beans)
@@ -104,7 +104,7 @@ class LeaveControl @JvmOverloads constructor(
                                             dateRange.holiday = holiday
                                             inflate.leaveTypeTv.text = it.map { it.name }[which]
                                             controlBean.children!![1].value?.clear()
-                                            controlBean.children!![1].value?.add(ApproveValueBean(name = it[which].name,id = it[which].id.toString()))
+                                            controlBean.children!![1].value?.add(holiday)
                                             dialog.dismiss()
                                             true
                                         }

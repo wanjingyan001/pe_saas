@@ -1,5 +1,6 @@
 package com.sogukj.pe.module.approve
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -203,6 +204,7 @@ class SearchApproveActivity : BaseActivity() {
     }
 
     inner class ResultHolder(itemView: View) : RecyclerHolder<ApproveListBean>(itemView) {
+        @SuppressLint("SetTextI18n")
         override fun setData(view: View, data: ApproveListBean, position: Int) {
             itemView.tv_title.text = data.title + data.number
             itemView.tv_type.text = "类别:${data.temName}"

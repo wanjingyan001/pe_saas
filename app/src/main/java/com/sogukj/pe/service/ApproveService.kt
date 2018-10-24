@@ -285,7 +285,7 @@ interface ApproveService {
      * 请假类型
      */
     @POST("api/Skip/holidaysList")
-    fun holidaysList(): Observable<Payload<List<MyLeaveBean>>>
+    fun holidaysList(): Observable<Payload<List<ApproveValueBean>>>
 
     /**
      * 新审批的选择列表
@@ -397,4 +397,11 @@ interface ApproveService {
     fun saveApproveDraft(@Field("tid")tid:Int,//审批id
                          @Field("data")data:String?=null
     ):Observable<Payload<Any>>
+
+    /**
+     * 申请加急
+     */
+    @FormUrlEncoded
+    @POST("/api/Sptemplate/spUrgent")
+    fun expedited(@Field("aid")aid:Int):Observable<Payload<Any>>
 }

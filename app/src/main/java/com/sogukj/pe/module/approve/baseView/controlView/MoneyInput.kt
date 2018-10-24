@@ -39,11 +39,10 @@ class MoneyInput @JvmOverloads constructor(
                     }
                 }
             }
-            inflate.moneyEdt.onFocusChange { v, hasFocus ->
-                //                && inflate.moneyEdt.textStr != controlBean.value!![0]
+            inflate.moneyEdt.onFocusChange { _, hasFocus ->
                 if (!hasFocus && inflate.moneyEdt.textStr.isNotEmpty()) {
                     isConformRules(inflate.moneyEdt.textStr).no {
-                        showErrorToast("输入的金额有误,请重新输入")
+                        showErrorToast("输入的金额有误,请检查")
                         inflate.moneyEdt.requestFocus()
                         inflate.moneyEdt.setText("")
                     }

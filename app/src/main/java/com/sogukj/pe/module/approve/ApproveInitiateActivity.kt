@@ -252,13 +252,13 @@ class ApproveInitiateActivity : ToolbarActivity() {
                 }
             }
         }
-        if (approvers.sp.isEmpty()){
+        if (approvers.sp.isEmpty()) {
             showCommonToast("审批人不能为空")
             return
         }
         (value.isNotEmpty() && ::approvers.isLateinit).yes {
             SoguApi.getService(application, ApproveService::class.java)
-                    .submitNewApprove(tid, value.jsonStr, approvers.sp.jsonStr, approvers.cs.jsonStr, approvers.jr.jsonStr)
+                    .submitNewApprove(tid, data = value.jsonStr, sp = approvers.sp.jsonStr, cs = approvers.cs.jsonStr, jr = approvers.jr.jsonStr)
                     .execute {
                         onNext { payload ->
                             payload.isOk.yes {
@@ -272,6 +272,9 @@ class ApproveInitiateActivity : ToolbarActivity() {
                             }.otherWise {
                                 showErrorToast(payload.message)
                             }
+                        }
+                        onError {
+                            showErrorToast("审批提交失败")
                         }
                     }
         }

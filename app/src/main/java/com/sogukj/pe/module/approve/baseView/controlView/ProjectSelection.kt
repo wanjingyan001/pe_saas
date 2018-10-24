@@ -35,7 +35,7 @@ class ProjectSelection @JvmOverloads constructor(
                 values.isNotEmpty().yes {
                     val beans = mutableListOf<ApproveValueBean>()
                     values.forEach { map ->
-                        val treeMap = map as LinkedTreeMap<String, Any>
+                        val treeMap = map as LinkedTreeMap<*, *>
                         beans.add(ApproveValueBean(name = treeMap["name"] as String, id = treeMap["id"] as String))
                     }
                     controlBean.value?.clear()
@@ -47,7 +47,7 @@ class ProjectSelection @JvmOverloads constructor(
                     inflate.projectTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_right, 0)
                 }
             }
-            inflate.projectTv.clickWithTrigger {
+            inflate.projectTv.clickWithTrigger {_->
                 AvoidOnResult(activity)
                         .startForResult<SelectionActivity>(Extras.REQUESTCODE,
                                 Extras.TYPE to controlBean.skip!![0].skip_site)
@@ -60,7 +60,7 @@ class ProjectSelection @JvmOverloads constructor(
                     controlBean.value?.add(it)
                     inflate.projectTv.text = it.name
                     if (block != null && refresh) {
-                        block!!.invoke(it)
+                        block?.invoke(it)
                     }
                 }
             }

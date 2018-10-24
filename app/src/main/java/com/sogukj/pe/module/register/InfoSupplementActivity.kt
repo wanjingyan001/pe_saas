@@ -10,6 +10,7 @@ import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
+import com.sogukj.pe.baselibrary.utils.StatusBarUtil
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.MechanismInfo
@@ -36,8 +37,9 @@ class InfoSupplementActivity : ToolbarActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_info_supplement)
-        Utils.setWindowStatusBarColor(this, R.color.white)
-        toolbar?.setBackgroundColor(resources.getColor(R.color.white))
+        StatusBarUtil.setTranslucentForCoordinatorLayout(this, 0)
+        StatusBarUtil.setLightMode(this)
+        toolbar?.setBackgroundColor(resources.getColor(R.color.transparent))
         setBack(true)
         phone = intent.getStringExtra(Extras.DATA)
         mechanismInfo = intent.getParcelableExtra(Extras.DATA2)
@@ -61,6 +63,9 @@ class InfoSupplementActivity : ToolbarActivity() {
         }
         infoNextStep.clickWithTrigger {
             teamInfoSupplement()
+        }
+        invCode.clickWithTrigger {
+            startActivity<InvCodeInputActivity>(Extras.DATA to phone)
         }
         initView()
     }

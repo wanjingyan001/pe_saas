@@ -31,7 +31,7 @@ class ForeignSealControl @JvmOverloads constructor(
                         18 -> factory.createControl(ProjectSelection::class.java, it)
                         10 -> factory.createControl(AttachmentSelection::class.java, it)
                         24 -> factory.createControl(SMSNotification::class.java, it)
-                        else -> throw  Exception("")
+                        else -> throw  Exception("类型错误")
                     }
                     inflate.controlLayout.addView(getDividerView())
                     inflate.controlLayout.addView(control)

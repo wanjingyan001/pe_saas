@@ -79,7 +79,7 @@ data class ControlBean(
         val linkText: String?,//跳转文字
         val stable: String?,//跳转链接
         val extras: ExtrasBean?,
-        var value: MutableList<Any?>?,//存放值(有可能是String,obj等)
+        var value: MutableList<Any?>?,//存放值(有可能是String,obj等 obj将转为ApproveValueBean)
         val children: MutableList<ControlBean>?//套件下的子控件
 
         /**

@@ -48,7 +48,6 @@ class ReimburseControl @JvmOverloads constructor(
     override fun bindContentView() {
         hasInit.yes {
             grouplist = controlBean.children!![0]
-            //	"control": 0
             group = grouplist.children!!
             group.let {
                 detailAdapter = DetailAdapter(it)
@@ -57,7 +56,6 @@ class ReimburseControl @JvmOverloads constructor(
                 inflate.reimburseDetailList.apply {
                     layoutManager = LinearLayoutManager(activity)
                     adapter = detailAdapter
-                    //                    addItemDecoration(SpaceItemDecoration(dip(12)))
                 }
                 footer.copyDetail.clickWithTrigger { _ ->
                     val element = resetValues(it[0].copy())
@@ -75,7 +73,7 @@ class ReimburseControl @JvmOverloads constructor(
         var moneyNum = 0.0
 
         override fun convert(helper: BaseViewHolder, item: ControlBean) {
-            var itemMoney: Double by Delegates.observable(0.0, { property, oldValue, newValue ->
+            var itemMoney: Double by Delegates.observable(0.0, { _, oldValue, newValue ->
                 moneyNum = moneyNum + newValue - oldValue
                 totals.add(moneyNum)
                 totals.forEach {
@@ -111,7 +109,7 @@ class ReimburseControl @JvmOverloads constructor(
                         }
                         4 -> factory.createControl(SingSelection::class.java, it)
                         2 -> factory.createControl(MultiLineInput::class.java, it)
-                        else -> throw  Exception("")
+                        else -> throw  Exception("类型错误")
                     }
                     val view = View(activity)
                     val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dip(1))

@@ -1,10 +1,8 @@
 package com.sogukj.pe.module.approve.baseView.controlView
 
 import android.content.Context
-import android.databinding.adapters.CalendarViewBindingAdapter.setDate
 import android.graphics.Color
 import android.util.AttributeSet
-import android.view.ViewGroup
 import com.bigkoo.pickerview.builder.TimePickerBuilder
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
@@ -36,7 +34,7 @@ class DateSelection @JvmOverloads constructor(
                     inflate.dateTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_right, 0)
                 }
             }
-            inflate.dateTv.clickWithTrigger {
+            inflate.dateTv.clickWithTrigger { _ ->
                 val timeFormat = booleanArrayOf(true, true, true, true, true, true)
                 controlBean.format?.let {
                     timeFormat[0] = it.contains("yyyy")
@@ -49,7 +47,7 @@ class DateSelection @JvmOverloads constructor(
                     startDate.set(1949, 0, 1)
                     val endDate = Calendar.getInstance()
                     endDate.set(2049, 11, 31)
-                    TimePickerBuilder(activity) { date, v ->
+                    TimePickerBuilder(activity) { date, _ ->
                         inflate.dateTv.text = Utils.getTime(date, it)
                         controlBean.value?.clear()
                         controlBean.value?.add(Utils.getTime(date, it))

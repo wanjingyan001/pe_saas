@@ -19,6 +19,6 @@ data class ApproveGroup(
 
 data class Children(
 		var id: Int,// 模板id
-		var url: String,// http://pt.ll.com/icon/sp/sp1_1.png  模板logo
+		var url: String,// 模板logo
 		var name: String//  模板名
 )

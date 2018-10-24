@@ -6,6 +6,7 @@ import java.io.Serializable
  * Created by qinfei on 17/10/30.
  */
 class MessageBean : Serializable {
+
     var news_id: Int? = null//	number	消息总数
     var approval_id: Int? = null//	number	审批id
     var add_time: Int? = null//
@@ -26,11 +27,14 @@ class MessageBean : Serializable {
 
     var finishNum: Int? = null
     var waitNum: Int? = null
-    var company_id : Int ? = null
-    var floor : Int ? = null
-    var company_floor : Int ? = null
+    var company_id: Int? = null
+    var floor: Int? = null
+    var company_floor: Int? = null
     var company_name = ""
 
+    var id: Int? = null
+    var cName: String? = null
+    var subName: String? = null
 //    "finishNum": 4,
 //    "waitNum": 0
 }

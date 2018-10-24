@@ -21,7 +21,6 @@ class NumberInput @JvmOverloads constructor(
 ) : BaseControl(context, attrs, defStyleAttr) {
     private val decimalDigits: Int = 4// 小数的位数
     private val integerDigits: Int = 11// 整数的位数
-    private val nf = NumberFormat.getInstance()
 
     override fun getContentResId(): Int = R.layout.layout_control_number_edt
 
@@ -67,9 +66,8 @@ class NumberInput @JvmOverloads constructor(
                     inflate.numberEdt.hint = controlBean.placeholder
                 }
             }
-            nf.isGroupingUsed = false
             RxTextView.textChanges(inflate.numberEdt).skipInitialValue().map { input ->
-                nf.format(input.toString().trimStart().trimEnd())
+                input.toString().trimStart().trimEnd()
             }.subscribe { input ->
                 controlBean.value?.clear()
                 controlBean.value?.add(input)

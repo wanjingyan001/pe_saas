@@ -114,7 +114,7 @@ class AttachmentSelection @JvmOverloads constructor(
         override fun setData(view: View, data: AttachmentBean, position: Int) {
             view.attachTitle.text = data.name
             view.attachSize.text = data.size
-            view.attachDelete.clickWithTrigger {
+            view.attachDelete.clickWithTrigger { v->
                 controlBean.value?.let {
                     it.removeAt(position)
                     attachAdapter.dataList.removeAt(position)
@@ -123,5 +123,4 @@ class AttachmentSelection @JvmOverloads constructor(
             }
         }
     }
-
 }

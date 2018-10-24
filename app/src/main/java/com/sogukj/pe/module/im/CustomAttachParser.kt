@@ -14,6 +14,21 @@ import org.json.JSONObject
  */
 class CustomAttachParser : MsgAttachmentParser {
     override fun parse(attach: String): MsgAttachment {
+        AnkoLogger("WJY").info { "自定义消息:$attach" }
+        val obj = JSONObject(attach)
+        val type = obj.get("type") as Int
+        when (type) {
+            in 100..199 -> {
+                //审批
+            }
+            in 200..299 -> {
+                //系统
+            }
+            in 300..399 -> {
+                //点对点
+            }
+        }
+
         val attachment = ApproveAttachment()
         val bean = Gson().fromJson<MessageBean>(attach)
         attachment.messageBean = bean

@@ -13,8 +13,7 @@
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:lines="2"
-        android:textColor="@color/text_1"
-        tools:text="经办人" />
+        android:textColor="@color/text_1" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,8 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_1"
-                android:textSize="12sp"
-                tools:text="经办人" />
+                android:textSize="12sp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -54,16 +52,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/textColorBlue"
-                    android:textSize="12sp"
-                    tools:text="待审批" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/text_3"
-                    android:textSize="10sp"
-                    tools:text="已同意" />
+                    android:textSize="10sp" />
 
                 <TextView
                     android:id="@+id/tv_edit"
@@ -72,8 +68,7 @@
                     android:background="@drawable/bg_tag_edit_file_0"
                     android:gravity="center"
                     android:textColor="@color/white"
-                    android:textSize="10sp"
-                    tools:text="文件未修改" />
+                    android:textSize="10sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -83,8 +78,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
             android:textColor="@color/text_1"
-            android:textSize="12sp"
-            tools:text="1、关于投资诗襄信息科技公司的第三届第五次分组立项申请书·pdf" />
+            android:textSize="12sp" />
 
         <LinearLayout
             android:id="@+id/ll_comments"

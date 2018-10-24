@@ -111,9 +111,9 @@ data class Flow(
  *  附件
  */
 data class Attach(
-        var name: String,// login.jpg
-        var url: String,// http://prepewinner.oss-cn-hangzhou.aliyuncs.com/uploads/flow/5bb0410eca7eb.jpg?OSSAccessKeyId=dZwbJBSoG9OREtPi&Expires=1538295748&Signature=Y7W8uz42F+L04cj79eA/D39k/IM=
-        var size: String// 28.04KB
+        var name: String,
+        var url: String,
+        var size: String
 )
 
 /**

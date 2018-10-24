@@ -1,14 +1,11 @@
 package com.sogukj.pe.module.approve
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import android.widget.ImageView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
-import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import com.chad.library.adapter.base.BaseSectionQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
@@ -32,6 +29,9 @@ import org.jetbrains.anko.ctx
 import org.jetbrains.anko.info
 import org.jetbrains.anko.startActivity
 
+/**
+ * 审批分组界面
+ */
 class ApproveGroupActivity : ToolbarActivity(), View.OnClickListener {
     private lateinit var groupAdapter: ApproveGroupAdapter
     private val groups = mutableListOf<AGroup>()
@@ -53,7 +53,7 @@ class ApproveGroupActivity : ToolbarActivity(), View.OnClickListener {
         header.item_wfqd.setOnClickListener(this)
         header.item_cswd.setOnClickListener(this)
         groupAdapter.addHeaderView(header)
-        groupAdapter.setOnItemClickListener { adapter, view, position ->
+        groupAdapter.setOnItemClickListener { _, _, position ->
             val bean = groups[position].t
             startActivity<ApproveInitiateActivity>(Extras.ID to bean.id, Extras.NAME to bean.name)
         }

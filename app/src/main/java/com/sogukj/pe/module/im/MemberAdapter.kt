@@ -18,6 +18,7 @@ import com.sogukj.pe.R.id.dataList
 import com.sogukj.pe.baselibrary.utils.DiffCallBack
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.widgets.CircleImageView
+import com.sogukj.pe.widgets.UserRequestListener
 
 /**
  * Created by admin on 2018/1/25.
@@ -34,32 +35,6 @@ class MemberAdapter(val ctx: Context) : RecyclerView.Adapter<MemberAdapter.Membe
     }
 
     override fun onBindViewHolder(holder: MemberHolder, position: Int) {
-//        if (position == members.size) {
-//            holder.headImg.setImageResource(R.drawable.invalid_name3)
-//        } else if (position == members.size + 1) {
-//            holder.headImg.setImageResource(R.mipmap.invalid_name4)
-//        } else {
-//            val userBean = members[position]
-//            if (userBean.url.isNullOrEmpty()) {
-//                val ch = userBean.name.first()
-//                holder.headImg.setChar(ch)
-//            } else {
-//                Glide.with(ctx)
-//                        .load(userBean.headImage())
-//                        .listener(object : RequestListener<Drawable> {
-//                            override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-//                                return false
-//                            }
-//
-//                            override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-//                                holder.headImg.setChar(userBean.name.first())
-//                                return false
-//                            }
-//
-//                        })
-//                        .into(holder.headImg)
-//            }
-//        }
         if (isMyTeam) {
             when (position) {
                 members.size -> {
@@ -121,17 +96,7 @@ class MemberAdapter(val ctx: Context) : RecyclerView.Adapter<MemberAdapter.Membe
         } else {
             Glide.with(ctx)
                     .load(userBean.headImage())
-                    .listener(object : RequestListener<Drawable> {
-                        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                            return false
-                        }
-
-                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                            holder.headImg.setChar(userBean.name.first())
-                            return false
-                        }
-
-                    })
+                    .listener(UserRequestListener(holder.headImg,userBean.name))
                     .into(holder.headImg)
         }
     }
