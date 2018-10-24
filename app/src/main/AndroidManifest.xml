@@ -78,7 +78,6 @@
     <!--华为推送-->
 
 
-
     <application xmlns:tools="http://schemas.android.com/tools"
         android:name=".App"
         android:allowBackup="true"
@@ -156,7 +155,7 @@
         <service
             android:name="com.xiaomi.push.service.XMPushService"
             android:enabled="true"
-            android:process=":mixpush"/>
+            android:process=":mixpush" />
         <service
             android:name="com.xiaomi.push.service.XMJobService"
             android:enabled="true"
@@ -165,25 +164,26 @@
             android:process=":mixpush" />
         <!--注：此service必须在3.0.1版本以后（包括3.0.1版本）加入-->
         <service
+            android:name="com.xiaomi.mipush.sdk.PushMessageHandler"
             android:enabled="true"
-            android:exported="true"
-            android:name="com.xiaomi.mipush.sdk.PushMessageHandler" />
+            android:exported="true" />
 
-        <service android:enabled="true"
-            android:name="com.xiaomi.mipush.sdk.MessageHandleService" />
+        <service
+            android:name="com.xiaomi.mipush.sdk.MessageHandleService"
+            android:enabled="true" />
         <!--注：此service必须在2.2.5版本以后（包括2.2.5版本）加入-->
         <receiver
-            android:exported="true"
-            android:name="com.xiaomi.push.service.receivers.NetworkStatusReceiver" >
+            android:name="com.xiaomi.push.service.receivers.NetworkStatusReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
         <receiver
+            android:name="com.xiaomi.push.service.receivers.PingReceiver"
             android:exported="false"
-            android:process=":mixpush"
-            android:name="com.xiaomi.push.service.receivers.PingReceiver" >
+            android:process=":mixpush">
             <intent-filter>
                 <action android:name="com.xiaomi.push.PING_TIMER" />
             </intent-filter>
@@ -192,9 +192,9 @@
             android:name="com.netease.nimlib.mixpush.mi.MiPushReceiver"
             android:exported="true">
             <intent-filter android:priority="0x7fffffff">
-                <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE"/>
-                <action android:name="com.xiaomi.mipush.MESSAGE_ARRIVED"/>
-                <action android:name="com.xiaomi.mipush.ERROR"/>
+                <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE" />
+                <action android:name="com.xiaomi.mipush.MESSAGE_ARRIVED" />
+                <action android:name="com.xiaomi.mipush.ERROR" />
             </intent-filter>
         </receiver>
 
@@ -203,7 +203,7 @@
             android:name="com.huawei.hms.update.provider.UpdateProvider"
             android:authorities="${appId}.hms.update.provider"
             android:exported="false"
-            android:grantUriPermissions="true"/>
+            android:grantUriPermissions="true" />
         <!-- 云信华为推送消息广播 -->
         <receiver android:name="com.netease.nimlib.mixpush.hw.HWPushReceiver">
             <intent-filter android:priority="0x7fffffff">
@@ -1166,7 +1166,7 @@
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent"/>
+            android:theme="@android:style/Theme.Translucent" />
 
         <receiver android:name=".wxapi.AppRegister">
             <intent-filter>
@@ -1491,12 +1491,6 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-        <activity android:name=".module.approve.SelectionActivity" />
-        <activity android:name=".module.approve.ApproveGroupActivity" />
-        <activity android:name=".module.approve.ApproveInitiateActivity" />
-        <activity android:name=".module.approve.NewApproveListActivity" />
-        <activity android:name=".module.approve.SearchApproveActivity" />
-        <activity android:name=".module.approve.ApproveDetailActivity"></activity>
     </application>
 
 </manifest>
