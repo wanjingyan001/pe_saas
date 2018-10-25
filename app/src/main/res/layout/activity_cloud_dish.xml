@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/white_normal_toolbar"/>
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/text_40"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@color/blue_17"
+        app:tabSelectedTextColor="@color/blue_3c"
+        app:tabTextColor="@color/gray_a0"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:background="@color/white"
+        app:tabTextAppearance="@style/TabLayoutTextStyle"
+        app:tabBackground="@color/white"
+        app:tabIndicatorHeight="@dimen/text_2"
+        app:tabPaddingEnd="0dp"
+        app:tabPaddingStart="0dp"
+        app:tabMode="fixed"/>
+    <View
+        android:id="@+id/view_divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/text_0.5"
+        app:layout_constraintTop_toBottomOf="@+id/tabs"
+        android:background="@color/gray_f1"/>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_divider">
+    </android.support.v4.view.ViewPager>
+</android.support.constraint.ConstraintLayout>

@@ -4,6 +4,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.netease.nim.uikit.R;
 import com.netease.nim.uikit.business.session.actions.BaseAction;
@@ -59,12 +60,17 @@ public class ActionsPanel {
             indicator.removeAllViews();
             for (int i = 0; i < total; i++) {
                 ImageView imgCur = new ImageView(indicator.getContext());
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+                params.leftMargin = 10;
+                imgCur.setLayoutParams(params);
                 imgCur.setId(i);
                 // 判断当前页码来更新
                 if (i == current) {
-                    imgCur.setBackgroundResource(R.drawable.nim_moon_page_selected);
+//                    imgCur.setBackgroundResource(R.drawable.nim_moon_page_selected);
+                    imgCur.setBackgroundResource(R.drawable.nim_cus_page_selected);
                 } else {
-                    imgCur.setBackgroundResource(R.drawable.nim_moon_page_unselected);
+//                    imgCur.setBackgroundResource(R.drawable.nim_moon_page_unselected);
+                    imgCur.setBackgroundResource(R.drawable.nim_cus_page_unselected);
                 }
 
                 indicator.addView(imgCur);

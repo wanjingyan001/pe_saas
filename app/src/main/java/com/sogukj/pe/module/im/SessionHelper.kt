@@ -20,6 +20,7 @@ import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum
 import com.netease.nimlib.sdk.msg.model.IMMessage
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo
 import com.sogukj.pe.R
+import com.sogukj.pe.module.im.clouddish.CloudFileAction
 import com.sogukj.pe.peUtils.Store
 
 /**
@@ -84,6 +85,7 @@ object SessionHelper {
             }
             val actions = ArrayList<BaseAction>()
             actions.add(FileAction(com.netease.nim.uikit.R.drawable.im_file, R.string.select_file))
+            actions.add(CloudFileAction(com.netease.nim.uikit.R.drawable.im_cloud, R.string.cloud_file))
             p2pCustomization?.actions = actions
             p2pCustomization?.withSticker = true
             val buttons = ArrayList<SessionCustomization.OptionsButton>()
@@ -127,6 +129,7 @@ object SessionHelper {
             }
             val actions = ArrayList<BaseAction>()
             actions.add(FileAction(com.netease.nim.uikit.R.drawable.im_file, R.string.select_file))
+            actions.add(CloudFileAction(com.netease.nim.uikit.R.drawable.im_cloud, R.string.cloud_file))
             teamCustomization?.actions = actions
             teamCustomization?.withSticker = true
             val buttons = ArrayList<SessionCustomization.OptionsButton>()

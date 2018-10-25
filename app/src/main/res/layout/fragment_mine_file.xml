@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/gray_f7"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        xmlns:tools="http://schemas.android.com/tools">
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:paddingLeft="@dimen/text_15"
+                android:paddingRight="@dimen/text_15"
+                tools:listitem="@layout/item_cloud_file"/>
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+        <ImageView
+            android:id="@+id/iv_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="invisible"
+            android:src="@drawable/img_empty"/>
+        <FrameLayout
+            android:id="@+id/view_recover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible"
+            android:background="@color/gray_f1">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+                <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+                           android:id="@+id/iv_loading"
+                           android:layout_width="54dp"
+                           android:layout_height="54dp"
+                           android:layout_gravity="center" />
+            </LinearLayout>
+        </FrameLayout>
+    </FrameLayout>
+    <RelativeLayout
+        android:id="@+id/rl_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="@dimen/text_15">
+        <TextView
+            android:id="@+id/tv_comit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="确定"
+            android:textSize="@dimen/text_size_14"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/white"
+            android:paddingLeft="@dimen/text_25"
+            android:paddingRight="@dimen/text_25"
+            android:paddingTop="@dimen/text_8"
+            android:paddingBottom="@dimen/text_8"
+            android:layout_centerVertical="true"
+            android:background="@drawable/selector_sure_gray"/>
+        <TextView
+            android:id="@+id/tv_all_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已选择文件："
+            android:textColor="@color/gray_d9"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/text_size_16"/>
+        <TextView
+            android:id="@+id/tv_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray_d9"
+            android:layout_toRightOf="@+id/tv_all_title"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/text_size_16"
+            android:layout_marginLeft="@dimen/text_5"
+            android:layout_toLeftOf="@+id/tv_comit"
+            android:text="0个"/>
+    </RelativeLayout>
+</LinearLayout>

@@ -194,6 +194,7 @@ class MineReceiptActivity : BaseRefreshActivity() {
         override fun setData(view: View, data: MineReceiptBean, position: Int) {
             if (null == data) return
             Log.e("TAG","type ==" + type)
+            iv_select.isSelected = data.isSelect
             if (data.is_invoice == 1) {
                 iv_select.visibility = View.INVISIBLE
                 tv_title.setTextColor(resources.getColor(R.color.black_8028))
@@ -238,14 +239,14 @@ class MineReceiptActivity : BaseRefreshActivity() {
                     if (alreadySelected.contains(data)) {
                         alreadySelected.remove(data)
                         ordersSet.remove(data.order_no)
-                        iv_select.setImageResource(R.mipmap.ic_select_receipt)
                         totalAmount -= data.fee
                     } else {
                         alreadySelected.add(data)
                         ordersSet.add(data.order_no)
-                        iv_select.setImageResource(R.mipmap.ic_unselect_receipt)
                         totalAmount += data.fee
                     }
+                    data.isSelect = !data.isSelect
+                    iv_select.isSelected = data.isSelect
                     tv_total.text = "￥${totalAmount}"
                     if (totalAmount > 0){
                         tv_comit.setBackgroundResource(R.drawable.selector_sure)

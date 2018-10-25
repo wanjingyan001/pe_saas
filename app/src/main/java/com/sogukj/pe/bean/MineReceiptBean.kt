@@ -12,4 +12,5 @@ class MineReceiptBean : Serializable {
     var order_no = "" //订单号
     var pay_time = ""
     var count  = 0
+    var isSelect = false
 }

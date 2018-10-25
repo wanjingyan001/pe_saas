@@ -473,4 +473,5 @@
         <item name="android:textSize">@dimen/text_size_18</item>
         <item name="android:textColor">@color/black_28</item>
     </style>
+
 </resources>

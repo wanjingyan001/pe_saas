@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
                                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                                   xmlns:tools="http://schemas.android.com/tools"
                                    android:id="@id/toolbar"
                                    android:layout_width="match_parent"
                                    android:layout_height="@dimen/toolbar_height"
-                                   android:background="@color/white"
+                                   android:background="@color/colorPrimary"
                                    app:contentInsetEnd="0dp"
                                    app:contentInsetLeft="0dp"
                                    app:contentInsetRight="0dp"
@@ -22,26 +21,27 @@
         android:gravity="center"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:src="@drawable/back_chevron" />
+        android:src="@drawable/sogu_ic_back" />
 
     <TextView
         android:id="@id/toolbar_title"
-        style="@style/SoguToolbarTitleBlack"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center"
+        android:textSize="@dimen/text_size_18"
+        android:textColor="@color/white"
         android:layout_marginTop="2dp"
         android:gravity="center"
-        tools:text="首页"
         android:singleLine="true" />
-
-    <ImageView
+    <TextView
         android:id="@+id/toolbar_menu"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="right"
         android:gravity="center"
+        android:textColor="@color/white"
+        android:visibility="invisible"
+        android:text="取消"
         android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:visibility="gone" />
+        android:paddingRight="20dp"/>
 </android.support.v7.widget.Toolbar>

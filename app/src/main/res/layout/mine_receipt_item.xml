@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="@+id/tv_title"
         app:layout_constraintBottom_toBottomOf="@+id/tv_title"
         app:layout_constraintStart_toStartOf="parent"
-        android:src="@mipmap/ic_select_receipt"/>
+        android:background="@drawable/team_select_bg"/>
 
 
         <TextView
