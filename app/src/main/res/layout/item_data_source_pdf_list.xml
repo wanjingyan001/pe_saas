@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="wrap_content"
+                                             xmlns:tools="http://schemas.android.com/tools"
 
-    android:paddingBottom="10dp"
-    android:paddingTop="10dp">
+                                             android:paddingBottom="10dp"
+                                             android:paddingTop="10dp">
 
     <ImageView
         android:id="@+id/pdfIcon"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="15dp"
         android:src="@mipmap/icon_data_source_pdf"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/docTag"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,7 +38,6 @@
         android:textColor="@color/colorPrimary"
         android:textSize="@dimen/text_size_10"
         android:text="证监会"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/pdfName"
         app:layout_constraintTop_toBottomOf="@+id/pdfName" />
 
@@ -47,6 +47,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/gray_80"
         android:textSize="@dimen/text_size_10"
+        tools:text="01/09 10:32:07"
         app:layout_constraintBottom_toBottomOf="@+id/docTag"
         app:layout_constraintEnd_toEndOf="@+id/pdfName"
         app:layout_constraintTop_toTopOf="@+id/docTag" />
@@ -60,9 +61,32 @@
         android:singleLine="true"
         android:textColor="@color/text_1"
         android:textSize="@dimen/text_size_normal"
+        tools:text="专利申请权转让合同-知识产权.pdf"
         app:layout_constraintEnd_toStartOf="@+id/download"
         app:layout_constraintStart_toEndOf="@+id/pdfIcon"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="￥0.99"
+        android:textSize="@dimen/text_size_16"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/docTag"
+        app:layout_constraintStart_toStartOf="@+id/docTag"
+        android:layout_marginTop="@dimen/text_10"
+        android:textColor="@color/red_ff7"/>
 
+    <TextView
+        android:id="@+id/tv_pay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="立即购买"
+        android:textSize="@dimen/text_size_16"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/docTag"
+        app:layout_constraintEnd_toEndOf="@+id/docTime"
+        android:layout_marginTop="@dimen/text_10"
+        android:textColor="@color/red_ff7"/>
 </android.support.constraint.ConstraintLayout>

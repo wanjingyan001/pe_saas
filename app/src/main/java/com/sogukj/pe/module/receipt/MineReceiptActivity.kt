@@ -106,9 +106,17 @@ class MineReceiptActivity : BaseRefreshActivity() {
                                     adapter.dataList.addAll(datas)
                                     adapter.notifyDataSetChanged()
                                 }
+                                goneEmpty()
+                            }else{
+                                if (!isLoadMore){
+                                    showEmpty()
+                                }
                             }
                         }else{
                             showErrorToast(payload.message)
+                            if (!isLoadMore){
+                                showEmpty()
+                            }
                         }
 
                         if (isLoadMore){
@@ -125,6 +133,7 @@ class MineReceiptActivity : BaseRefreshActivity() {
                             dofinishLoadMore()
                         }else{
                             dofinishRefresh()
+                            showEmpty()
                         }
                     }
                 }
@@ -137,6 +146,15 @@ class MineReceiptActivity : BaseRefreshActivity() {
     fun goneLoadding(){
         view_recover.visibility = View.INVISIBLE
     }
+
+    fun showEmpty(){
+        fl_empty.visibility = View.VISIBLE
+    }
+
+    fun goneEmpty(){
+        fl_empty.visibility = View.INVISIBLE
+    }
+
     fun dofinishRefresh() {
         if (this::refresh.isLateinit && refresh.isRefreshing) {
             refresh.finishRefresh()

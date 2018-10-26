@@ -94,7 +94,7 @@ class BillHeaderDetailActivity : ToolbarActivity() {
     private fun bindListener() {
         toolbar_menu.clickWithTrigger {
             //编辑
-            startActivity<AddBillHeaderActivity>(Extras.DATA to billBean,Extras.DATA to id)
+            startActivity<AddBillHeaderActivity>(Extras.DATA to billBean,Extras.ID to id)
             finish()
         }
     }
