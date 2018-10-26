@@ -19,6 +19,8 @@ class SecretCloudActivity : ToolbarActivity() {
         Utils.setWindowStatusBarColor(this, R.color.white)
         toolbar?.setBackgroundColor(resources.getColor(R.color.white))
         bindListener()
+        setBack(true)
+        setTitle("加密云盘")
     }
 
     private fun bindListener() {
@@ -33,6 +35,7 @@ class SecretCloudActivity : ToolbarActivity() {
 
         view_mine_file.clickWithTrigger {
             //我的文件
+            startActivity<MineFileActivity>()
         }
 
         ll_fund_file.clickWithTrigger {

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/gray_f7">
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/normal_toolbar"/>
+    <EditText
+        android:id="@+id/et_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:hint="输入文件夹名称"
+        android:textSize="@dimen/text_size_18"
+        android:textColor="@color/black_28"
+        android:textColorHint="@color/gray_a0"
+        android:layout_marginTop="@dimen/text_30"
+        android:paddingLeft="@dimen/text_20"
+        android:paddingRight="@dimen/dp_36"
+        android:paddingTop="@dimen/text_15"
+        android:paddingBottom="@dimen/text_15"
+        android:background="@color/white"/>
+    <ImageView
+        android:id="@+id/iv_delete"
+        android:layout_width="@dimen/text_16"
+        android:layout_height="@dimen/text_16"
+        app:layout_constraintTop_toTopOf="@+id/et_input"
+        app:layout_constraintBottom_toBottomOf="@+id/et_input"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginRight="@dimen/text_20"
+        android:src="@mipmap/ic_delete"/>
+</android.support.constraint.ConstraintLayout>

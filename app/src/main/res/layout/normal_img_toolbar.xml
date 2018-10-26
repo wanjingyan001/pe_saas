@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                   android:id="@id/toolbar"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="@dimen/toolbar_height"
+                                   android:background="@color/white"
+                                   app:contentInsetEnd="0dp"
+                                   app:contentInsetLeft="0dp"
+                                   app:contentInsetRight="0dp"
+                                   app:contentInsetStart="0dp"
+                                   app:layout_scrollFlags="scroll|enterAlways"
+                                   app:popupTheme="@style/AppTheme.PopupOverlay"
+                                   app:theme="@style/AppTheme.AppBarOverlay">
+
+    <ImageView
+        android:id="@+id/toolbar_back"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:gravity="center"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:src="@drawable/back_chevron" />
+
+    <TextView
+        android:id="@id/toolbar_title"
+        style="@style/SoguToolbarTitleBlack"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginTop="2dp"
+        android:gravity="center"
+        android:singleLine="true" />
+
+    <ImageView
+        android:id="@+id/toolbar_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:src="@mipmap/ic_file_menu"
+        android:visibility="gone"
+        android:textColor="@color/black_28"
+        android:paddingLeft="@dimen/text_15"
+        android:paddingRight="@dimen/text_15"/>
+
+    <ImageView
+        android:id="@+id/toolbar_search"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:visibility="gone"
+        android:src="@mipmap/ic_file_search"
+        android:textColor="@color/black_28"
+        android:paddingLeft="@dimen/text_15"
+        android:paddingRight="@dimen/text_15"/>
+</android.support.v7.widget.Toolbar>

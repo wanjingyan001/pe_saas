@@ -87,6 +87,7 @@ fun View.setDrawable(textView : TextView ,direct : Int,drawable: Drawable){
         1 -> textView.setCompoundDrawables(null,drawable,null,null)
         2 -> textView.setCompoundDrawables(null,null,drawable,null)
         3 -> textView.setCompoundDrawables(null,null,null,drawable)
+        -1 -> textView.setCompoundDrawables(null,null,null,null)
     }
 }
 

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/text_30"
+    android:layout_marginRight="@dimen/text_30"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg_upload">
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="上传文件"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/text_15"
+        android:layout_marginLeft="@dimen/text_20"
+        style="@style/text12_colora0"/>
+
+    <TextView
+        android:id="@+id/tv_photo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="照片和视频"
+        android:paddingLeft="@dimen/text_20"
+        android:paddingTop="@dimen/text_20"
+        android:paddingBottom="@dimen/text_10"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title"
+        style="@style/text16_color28"/>
+
+    <TextView
+        android:id="@+id/tv_file"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="手机文件"
+        android:padding="@dimen/text_20"
+        app:layout_constraintTop_toBottomOf="@+id/tv_photo"
+        style="@style/text16_color28"/>
+</android.support.constraint.ConstraintLayout>

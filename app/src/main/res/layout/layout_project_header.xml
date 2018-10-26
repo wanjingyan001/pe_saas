@@ -246,7 +246,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/text_10"
         android:background="@color/red_ffe"
-        android:visibility="gone"
         android:gravity="center_vertical"
         app:layout_constraintTop_toBottomOf="@+id/ll_sen"
         android:layout_marginRight="@dimen/text_10">

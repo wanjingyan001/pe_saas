@@ -14,10 +14,12 @@ import com.sogukj.pe.App
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.execute
+import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.peUtils.ToastUtil
 import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import org.jetbrains.anko.find
+import java.util.*
 
 /**
  * Created by CH-ZH on 2018/10/24.
@@ -295,7 +297,7 @@ class PayDialog {
         }
 
         //智能文书和账户管理
-        fun showPayBookDialog(context:Context,type:Int,callBack: AllPayCallBack){
+        fun showPayBookDialog(context:Context,type:Int,callBack: AllPayCallBack,title:String,price:String,count:Int){
             val dialog = MaterialDialog.Builder(context)
                     .theme(Theme.DARK)
                     .customView(R.layout.layout_pay_book, false)
@@ -331,6 +333,10 @@ class PayDialog {
             var isCheckZfb = true
             var pay_type = 1 //1 :支付宝 2：微信 3：个人 4 ：企业
 
+            tv_time.text = Utils.getTime(Date(),"yyyy-MM-dd HH:mm:ss")
+            tv_name.text = title
+            tv_fee.text = "￥${price}"
+            tv_count.text = count.toString()
             if (type == 1){
                 tv_title1.text = "智能文书"
                 iv_pay.setImageResource(R.mipmap.ic_book_head)

@@ -472,7 +472,8 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                     headView.iv_button.setImageResource(R.mipmap.ic_sentiment_off)
                     headView.tv_senti_title.text = "开启舆情监控"
                     headView.tv_senti_time.setVisible(false)
-                    headView.ll_times_buy.setVisible(false)
+                    headView.ll_times_buy.setVisible(true)
+                    headView.tv_times.text = "剩余次数：${info.remainder}次"
                     isStartOpen = false
                     showPayDialog()
                 }
@@ -482,7 +483,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                     headView.tv_senti_time.setVisible(true)
                     headView.ll_times_buy.setVisible(true)
                     headView.tv_times.text = "剩余次数：${info.remainder}次"
-                    headView.tv_senti_time.text = info.expire
+                    headView.tv_senti_time.text = "监控到期时间${info.expire}"
                     isStartOpen = true
                 }
             }

@@ -12,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
 import android.text.TextUtils
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.edit
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -27,7 +28,10 @@ import com.sogukj.pe.baselibrary.utils.DownloadUtil
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.PdfBook
+import com.sogukj.pe.module.receipt.AllPayCallBack
+import com.sogukj.pe.module.receipt.PayDialog
 import com.sogukj.pe.service.DataSourceService
+import com.sogukj.pe.service.OtherService
 import com.sogukj.pe.widgets.indexbar.RecycleViewDivider
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_prospectus_list.*
@@ -36,7 +40,7 @@ import org.jetbrains.anko.singleLine
 import java.io.File
 
 @Route(path = ARouterPath.DocumentsListActivity)
-class DocumentsListActivity : BaseRefreshActivity() {
+class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
     companion object {
         fun start(context: Context, @DocumentType type: Int, category: Int? = null) {
             val intent = Intent(context, DocumentsListActivity::class.java)
@@ -130,6 +134,13 @@ class DocumentsListActivity : BaseRefreshActivity() {
 
             })
         }
+
+        listAdapter.setClickPayListener(object : BookListAdapter.ClickPayCallBack{
+            override fun clickPay(title: String, price: String, count: Int) {
+                PayDialog.showPayBookDialog(this@DocumentsListActivity,1,this@DocumentsListActivity,title,price,count)
+            }
+
+        })
         filterResultList.apply {
             layoutManager = LinearLayoutManager(ctx)
 //            addItemDecoration(DividerItemDecoration(ctx, DividerItemDecoration.VERTICAL))
@@ -141,6 +152,40 @@ class DocumentsListActivity : BaseRefreshActivity() {
         searchLayout.clickWithTrigger {
             PdfSearchActivity.start(this, type, category = category)
         }
+    }
+
+    override fun pay(order_type: Int, count: Int, pay_type: Int, fee: String, tv_per_balance: TextView,
+                     iv_pre_select: ImageView, tv_bus_balance: TextView, iv_bus_select: ImageView) {
+
+        SoguApi.getService(application, OtherService::class.java)
+                .getAccountPayInfo(order_type,count,pay_type,fee)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+                            if (pay_type == 1 || pay_type == 2){
+                                showSuccessToast("支付成功")
+//                                refreshAccountData(tv_per_balance,iv_pre_select, tv_bus_balance,iv_bus_select)
+                            }else{
+                                if (pay_type == 3){
+                                    //支付宝
+                                }else if (pay_type == 4){
+                                    //微信
+                                }
+                            }
+                        }else{
+                            showErrorToast(payload.message)
+                        }
+                    }
+
+                    onError {
+                        it.printStackTrace()
+                        if (pay_type == 1 || pay_type == 2){
+                            showErrorToast("支付失败")
+                        }else{
+                            showErrorToast("获取订单失败")
+                        }
+                    }
+                }
     }
 
     private fun getPdfList(searchKey: String? = null) {
