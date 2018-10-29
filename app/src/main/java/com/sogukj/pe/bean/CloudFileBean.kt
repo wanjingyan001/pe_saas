@@ -6,9 +6,8 @@ import java.io.Serializable
  * Created by CH-ZH on 2018/10/25.
  */
 class CloudFileBean : Serializable{
-    var fileImg = ""
-    var fileName = ""
-    var data = ""
-    var isFileDir = false
+    var file_name = ""
+    var create_time = ""
     var isSelect = false
+    var file_type = "" // "Folder" 表示目录
 }

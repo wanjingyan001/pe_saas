@@ -320,4 +320,16 @@ interface OtherService {
     @POST("/api/Pay/WalletPay")
     fun getAccountPayInfo(@Field("order_type")order_type:Int,@Field("order_count")order_count:Int,
                           @Field("pay_type")pay_type:Int,@Field("fee")fee:String):Observable<Payload<Any>>
+
+    /**
+     * 获取云盘文件内容
+     */
+    @GET("/api/cloud/getList")
+    fun getMineCloudDishData(@Query("file_path") file_path:String):Observable<Payload<List<CloudFileBean>>>
+
+    /**
+     * 上传文件
+     */
+    @POST("/api/cloud/uploadLocalFile")
+    fun uploadImFileToCloud(@Body body: RequestBody): Observable<Payload<Payload<Any>>>
 }

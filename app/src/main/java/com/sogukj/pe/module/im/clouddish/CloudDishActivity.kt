@@ -23,6 +23,7 @@ class CloudDishActivity : ToolbarActivity(){
     private var fragments = ArrayList<Fragment>()
     lateinit var mAdapter: PagerAdapter
     private var invokeType = 1 // 1:加密云盘按钮跳转 2：保存到云盘
+    private var path = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cloud_dish)
@@ -33,6 +34,7 @@ class CloudDishActivity : ToolbarActivity(){
 
     private fun initView() {
         invokeType = intent.getIntExtra("invokeType",1)
+        path = intent.getStringExtra("path")
         setBack(true)
         setTitle("加密云盘")
         toolbar_menu.text = "取消"
@@ -40,8 +42,8 @@ class CloudDishActivity : ToolbarActivity(){
     }
 
     private fun initData() {
-        fragments.add(CloudMineFileFragment.newInstance(1,invokeType))
-        fragments.add(CloudMineFileFragment.newInstance(2,invokeType))
+        fragments.add(CloudMineFileFragment.newInstance(1,invokeType,path,""))
+        fragments.add(CloudMineFileFragment.newInstance(2,invokeType,path,""))
         titlesInfo.forEach {
             tabs.addTab(tabs.newTab().setText(it))
         }
@@ -88,13 +90,20 @@ class CloudDishActivity : ToolbarActivity(){
     }
 
     companion object {
-        fun invoke(context : Context,invokeType:Int){
+        fun invoke(context : Context,invokeType:Int,path:String){
             val intent = Intent(context, CloudDishActivity::class.java)
             intent.putExtra("invokeType",invokeType)
+            intent.putExtra("path",path)
             if (context !is Activity){
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
             context.startActivity(intent)
+        }
+
+        fun invokeForResult(context : Activity,invokeType:Int,requestCode : Int){
+            val intent = Intent(context, CloudDishActivity::class.java)
+            intent.putExtra("invokeType",invokeType)
+            context.startActivityForResult(intent,requestCode)
         }
     }
 

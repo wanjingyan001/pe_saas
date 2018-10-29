@@ -10,13 +10,17 @@ import com.sogukj.pe.baselibrary.base.ToolbarActivity
  */
 class FileDirDetailActivity : ToolbarActivity() {
     private var invokeType = 1
+    private var path = ""
+    private var title = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_file_dir)
         setBack(true)
-        setTitle(intent.getStringExtra(Extras.TITLE))
+        title = intent.getStringExtra(Extras.TITLE)
+        setTitle(title)
         invokeType = intent.getIntExtra(Extras.TYPE,1)
+        path = intent.getStringExtra(Extras.TYPE1)
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fl_detail,CloudMineFileFragment.newInstance(1,invokeType),CloudMineFileFragment.TAG).commit()
+        transaction.replace(R.id.fl_detail,CloudMineFileFragment.newInstance(1,invokeType,path,"/${title}"),CloudMineFileFragment.TAG).commit()
     }
 }

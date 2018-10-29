@@ -28,7 +28,7 @@ class NewDirActivity : ToolbarActivity(), TextWatcher {
         setTitle("新建文件夹")
         toolbar_menu.visibility = View.VISIBLE
         toolbar_menu.text = "完成"
-        toolbar_menu.setTextColor(resources.getColor(R.color.gray_80))
+        toolbar_menu.setTextColor(resources.getColor(R.color.gray_f1))
 
         et_input.addTextChangedListener(this)
         iv_delete.clickWithTrigger {
@@ -53,7 +53,7 @@ class NewDirActivity : ToolbarActivity(), TextWatcher {
            toolbar_menu.setTextColor(resources.getColor(R.color.white))
        }else{
            iv_delete.visibility = View.INVISIBLE
-           toolbar_menu.setTextColor(resources.getColor(R.color.gray_80))
+           toolbar_menu.setTextColor(resources.getColor(R.color.gray_f1))
        }
     }
 

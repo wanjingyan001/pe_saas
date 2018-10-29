@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.netease.nim.uikit.api.NimUIKit
@@ -15,6 +16,7 @@ import com.netease.nim.uikit.business.session.viewholder.MsgViewHolderTip
 import com.netease.nimlib.sdk.NIMClient
 import com.netease.nimlib.sdk.msg.MsgService
 import com.netease.nimlib.sdk.msg.MsgServiceObserve
+import com.netease.nimlib.sdk.msg.attachment.FileAttachment
 import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum
 import com.netease.nimlib.sdk.msg.model.IMMessage
@@ -50,8 +52,10 @@ object SessionHelper {
     private fun setSessionListener() {
         val listener = object : SessionEventListener {
             override fun onCloudClicked(context: Context?, message: IMMessage?) {
+                val pathForSave = (message!!.attachment as FileAttachment).pathForSave
+                Log.e("TAG","pathForSave ==" + pathForSave)
                 //跳转到云盘
-                CloudDishActivity.invoke(context!!,2)
+                CloudDishActivity.invoke(context!!,2,pathForSave)
             }
 
             override fun onAckMsgClicked(context: Context, message: IMMessage) {

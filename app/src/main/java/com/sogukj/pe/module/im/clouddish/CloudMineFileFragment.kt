@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -13,6 +14,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
+import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.BaseRefreshFragment
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
@@ -21,6 +23,8 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.CloudFileBean
 import com.sogukj.pe.bean.CloudLevel1
 import com.sogukj.pe.bean.CloudLevel2
+import com.sogukj.pe.service.OtherService
+import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.fragment_mine_file.*
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.ctx
@@ -32,11 +36,16 @@ import org.jetbrains.anko.support.v4.startActivity
 class CloudMineFileFragment : BaseRefreshFragment() {
     private var fileInfos = ArrayList<CloudFileBean>()
     private lateinit var adapter : RecyclerAdapter<CloudFileBean>
+    private lateinit var qyAdapter: RecyclerAdapter<CloudFileBean>
     private lateinit var alreadySelected: MutableSet<CloudFileBean>
     private var busAdapter : CloudExpandableAdapter ? = null
     private var type = 1 //1 : 我的文件 2 : 企业文件
     private var invokeType = 1 // 1:加密云盘按钮跳转 2：保存到云盘
     private var fileCount = 0
+    private var path = ""
+    private var dir = ""
+    private var mineFileDir = "/我的文件"
+    private var busFileDir = "/企业文件"
     override fun initRefreshConfig(): RefreshConfig? {
         val config = RefreshConfig()
         config.loadMoreEnable = true
@@ -52,6 +61,8 @@ class CloudMineFileFragment : BaseRefreshFragment() {
         super.onCreate(savedInstanceState)
         type = arguments!!.getInt("type")
         invokeType = arguments!!.getInt("invokeType")
+        path = arguments!!.getString("path")
+        dir = arguments!!.getString("dir")
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -79,24 +90,15 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                 .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
                 .into(iv_loading)
         recycler_view.layoutManager = LinearLayoutManager(activity)
+        recycler_view.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
+        showLoadding()
+//        val bean = CloudFileBean()
+//        bean.create_time = "1222000"
+//        bean.file_name = "daadw"
+//        bean.file_type = "Folder"
+//        fileInfos.add(bean)
         when(type){
             1 -> {
-                for (i in 0 .. 15){
-                    if (i == 0){
-                        val fileBean = CloudFileBean()
-                        fileBean.data = "2017/07/06 今天 13:09 "
-                        fileBean.fileName = "WechatIM_文件夹"
-                        fileBean.isFileDir = true
-                        fileInfos.add(fileBean)
-                    }else{
-                        val fileBean = CloudFileBean()
-                        fileBean.data = "2017/07/06 今天 13:09 "
-                        fileBean.fileName = "关于投资宏大信息科技公司的….pdf${i}"
-                        fileBean.isFileDir = false
-                        fileInfos.add(fileBean)
-                    }
-                }
-                recycler_view.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
                 if (invokeType == 1){
                     adapter = RecyclerAdapter(activity!!){_adapter,parent,_ ->
                         CloudFileHolder(_adapter.getView(R.layout.item_cloud_file,parent))
@@ -106,17 +108,100 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                         SaveCloudFileHolder(_adapter.getView(R.layout.item_cloud_file,parent))
                     }
                 }
-
-                adapter.dataList.addAll(fileInfos)
+//                adapter.dataList = fileInfos
                 recycler_view.adapter = adapter
+                getMineCloudFileData()
             }
 
             2 -> {
-                setBusExpandableData()
+//                setBusExpandableData()
+                if (invokeType == 1){
+                    qyAdapter = RecyclerAdapter(activity!!){_adapter,parent,_ ->
+                        CloudFileHolder(_adapter.getView(R.layout.item_cloud_file,parent))
+                    }
+                }else{
+                    qyAdapter = RecyclerAdapter(activity!!){_adapter,parent,_ ->
+                        SaveCloudFileHolder(_adapter.getView(R.layout.item_cloud_file,parent))
+                    }
+                }
+//                qyAdapter.dataList = fileInfos
+                recycler_view.adapter = qyAdapter
+                getBusCloudFileData()
             }
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        mineFileDir = mineFileDir + dir
+        busFileDir = busFileDir + dir
+        Log.e("TAG","  mineFileDir ==" + mineFileDir + "  busFileDir ==" + busFileDir)
+    }
+    private fun getBusCloudFileData() {
+        SoguApi.getService(activity!!.application,OtherService::class.java)
+                .getMineCloudDishData(busFileDir)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+                            val datas = payload.payload
+                            if (null != datas && datas.size > 0){
+                                qyAdapter.dataList.clear()
+                                qyAdapter.dataList.addAll(datas)
+                                qyAdapter.notifyDataSetChanged()
+                                goneEmpty()
+                            }else{
+                                showEmpty()
+                            }
+                        }else{
+                            getCloudDishActivity().showErrorToast(payload.message)
+                            showEmpty()
+                        }
+                        goneLoadding()
+                    }
+
+                    onError {
+                        it.printStackTrace()
+                        getCloudDishActivity().showErrorToast("获取数据失败")
+                        goneLoadding()
+                        showEmpty()
+                    }
+                }
+    }
+
+    private fun getMineCloudFileData() {
+        SoguApi.getService(activity!!.application,OtherService::class.java)
+                .getMineCloudDishData(mineFileDir)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+                            val datas = payload.payload
+                            if (null != datas && datas.size > 0){
+                                adapter.dataList.clear()
+                                adapter.dataList.addAll(datas)
+                                adapter.notifyDataSetChanged()
+                                goneEmpty()
+                            }else{
+                                showEmpty()
+                            }
+                        }else{
+                            getCloudDishActivity().showErrorToast(payload.message)
+                            showEmpty()
+                        }
+                        goneLoadding()
+                    }
+
+                    onError {
+                        it.printStackTrace()
+                        getCloudDishActivity().showErrorToast("获取数据失败")
+                        goneLoadding()
+                        showEmpty()
+                    }
+                }
+    }
+
+    private fun getCloudDishActivity():CloudDishActivity{
+        return (activity as CloudDishActivity?)!!
+    }
     private fun setBusExpandableData() {
         val res = ArrayList<MultiItemEntity>()
         val cloudName1 = CloudLevel1("搜股(上海)科技有限公司")
@@ -159,6 +244,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
 
         tv_current.clickWithTrigger {
             //保存到当前目录
+
         }
     }
 
@@ -208,7 +294,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
         override fun setData(view: View, data: CloudFileBean, position: Int) {
             if (null == data)return
             iv_select.isSelected = data.isSelect
-            if (data.isFileDir){
+            if (data.file_type.equals("Folder")){
                 //文件夹
                 iv_select.setVisible(false)
                 file_icon.setImageResource(R.drawable.folder_zip)
@@ -216,12 +302,12 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                 iv_select.setVisible(true)
                 file_icon.setImageResource(R.drawable.icon_pdf)
             }
-            tv_summary.text = data.fileName
-            tv_time.text = data.data
+            tv_summary.text = data.file_name
+            tv_time.text = data.create_time
 
             itemView.clickWithTrigger {
-                if (data.isFileDir){
-                    startActivity<FileDirDetailActivity>(Extras.TITLE to data.fileName)
+                if (data.file_type.equals("Folder")){
+                    startActivity<FileDirDetailActivity>(Extras.TITLE to data.file_name,Extras.TYPE to invokeType,Extras.TYPE1 to path)
                 }else{
                     if (alreadySelected.contains(data)){
                         alreadySelected.remove(data)
@@ -260,18 +346,18 @@ class CloudMineFileFragment : BaseRefreshFragment() {
         override fun setData(view: View, data: CloudFileBean, position: Int) {
             if (null == data)return
             iv_select.setVisible(false)
-            if (data.isFileDir){
+            if (data.file_type.equals("Folder")){
                 //文件夹
                 file_icon.setImageResource(R.drawable.folder_zip)
             }else{
                 file_icon.setImageResource(R.drawable.icon_pdf)
             }
-            tv_summary.text = data.fileName
-            tv_time.text = data.data
+            tv_summary.text = data.file_name
+            tv_time.text = data.create_time
 
             itemView.clickWithTrigger {
-                if (data.isFileDir){
-                    startActivity<FileDirDetailActivity>(Extras.TITLE to data.fileName,Extras.TYPE to invokeType)
+                if (data.file_type.equals("Folder")){
+                    startActivity<FileDirDetailActivity>(Extras.TITLE to data.file_name,Extras.TYPE to invokeType,Extras.TYPE1 to path)
                 }
             }
         }
@@ -281,14 +367,17 @@ class CloudMineFileFragment : BaseRefreshFragment() {
     companion object {
         val TAG = CloudMineFileFragment::class.java.simpleName
         val NEW_DIR_REQUEST = 1008
-        fun newInstance(type:Int,invokeType:Int): CloudMineFileFragment {
+        fun newInstance(type:Int,invokeType:Int,path:String,dir:String): CloudMineFileFragment {
             val fragment = CloudMineFileFragment()
             val bundle = Bundle()
             bundle.putInt("type",type)
             bundle.putInt("invokeType",invokeType)
+            bundle.putString("path",path)
+            bundle.putString("dir",dir)
             fragment.arguments = bundle
             return fragment
         }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
