@@ -42,8 +42,8 @@ class CloudDishActivity : ToolbarActivity(){
     }
 
     private fun initData() {
-        fragments.add(CloudMineFileFragment.newInstance(1,invokeType,path,""))
-        fragments.add(CloudMineFileFragment.newInstance(2,invokeType,path,""))
+        fragments.add(CloudMineFileFragment.newInstance(1,invokeType,path,"/我的文件"))
+        fragments.add(CloudMineFileFragment.newInstance(2,invokeType,path,"/企业文件"))
         titlesInfo.forEach {
             tabs.addTab(tabs.newTab().setText(it))
         }

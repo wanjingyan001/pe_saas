@@ -1,5 +1,6 @@
 package com.sogukj.pe.module.im.clouddish
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -26,9 +27,13 @@ import com.sogukj.pe.bean.CloudLevel2
 import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.fragment_mine_file.*
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.startActivity
+import java.io.File
 
 /**
  * Created by CH-ZH on 2018/10/25.
@@ -44,8 +49,6 @@ class CloudMineFileFragment : BaseRefreshFragment() {
     private var fileCount = 0
     private var path = ""
     private var dir = ""
-    private var mineFileDir = "/我的文件"
-    private var busFileDir = "/企业文件"
     override fun initRefreshConfig(): RefreshConfig? {
         val config = RefreshConfig()
         config.loadMoreEnable = true
@@ -92,11 +95,6 @@ class CloudMineFileFragment : BaseRefreshFragment() {
         recycler_view.layoutManager = LinearLayoutManager(activity)
         recycler_view.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
         showLoadding()
-//        val bean = CloudFileBean()
-//        bean.create_time = "1222000"
-//        bean.file_name = "daadw"
-//        bean.file_type = "Folder"
-//        fileInfos.add(bean)
         when(type){
             1 -> {
                 if (invokeType == 1){
@@ -108,13 +106,12 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                         SaveCloudFileHolder(_adapter.getView(R.layout.item_cloud_file,parent))
                     }
                 }
-//                adapter.dataList = fileInfos
                 recycler_view.adapter = adapter
                 getMineCloudFileData()
             }
 
             2 -> {
-//                setBusExpandableData()
+                setBusExpandableData()
                 if (invokeType == 1){
                     qyAdapter = RecyclerAdapter(activity!!){_adapter,parent,_ ->
                         CloudFileHolder(_adapter.getView(R.layout.item_cloud_file,parent))
@@ -124,7 +121,6 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                         SaveCloudFileHolder(_adapter.getView(R.layout.item_cloud_file,parent))
                     }
                 }
-//                qyAdapter.dataList = fileInfos
                 recycler_view.adapter = qyAdapter
                 getBusCloudFileData()
             }
@@ -133,13 +129,11 @@ class CloudMineFileFragment : BaseRefreshFragment() {
 
     override fun onResume() {
         super.onResume()
-        mineFileDir = mineFileDir + dir
-        busFileDir = busFileDir + dir
-        Log.e("TAG","  mineFileDir ==" + mineFileDir + "  busFileDir ==" + busFileDir)
+        Log.e("TAG","  dir ==" + dir )
     }
     private fun getBusCloudFileData() {
         SoguApi.getService(activity!!.application,OtherService::class.java)
-                .getMineCloudDishData(busFileDir)
+                .getMineCloudDishData(dir)
                 .execute {
                     onNext { payload ->
                         if (payload.isOk){
@@ -170,7 +164,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
 
     private fun getMineCloudFileData() {
         SoguApi.getService(activity!!.application,OtherService::class.java)
-                .getMineCloudDishData(mineFileDir)
+                .getMineCloudDishData(dir)
                 .execute {
                     onNext { payload ->
                         if (payload.isOk){
@@ -244,6 +238,27 @@ class CloudMineFileFragment : BaseRefreshFragment() {
 
         tv_current.clickWithTrigger {
             //保存到当前目录
+            val file = File(path)
+            val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
+                    .addFormDataPart("file_name", file.name, RequestBody.create(MediaType.parse("*/*"), file))
+                    .addFormDataPart("save_file_path",dir) //1 项目文件 2审批文件
+            val body = builder.build()
+            showProgress("正在上传")
+            SoguApi.getService(getCloudDishActivity().application,OtherService::class.java)
+                    .uploadImFileToCloud(body)
+                    .execute {
+                        onNext { payload ->
+                            if (payload.isOk){
+
+                            }
+                            hideProgress()
+                        }
+
+                        onError {
+                            it.printStackTrace()
+                            hideProgress()
+                        }
+                    }
 
         }
     }
@@ -307,7 +322,8 @@ class CloudMineFileFragment : BaseRefreshFragment() {
 
             itemView.clickWithTrigger {
                 if (data.file_type.equals("Folder")){
-                    startActivity<FileDirDetailActivity>(Extras.TITLE to data.file_name,Extras.TYPE to invokeType,Extras.TYPE1 to path)
+                    startActivity<FileDirDetailActivity>(Extras.TITLE to data.file_name,Extras.TYPE to invokeType,
+                                Extras.TYPE1 to path,Extras.TYPE2 to dir)
                 }else{
                     if (alreadySelected.contains(data)){
                         alreadySelected.remove(data)
@@ -357,7 +373,8 @@ class CloudMineFileFragment : BaseRefreshFragment() {
 
             itemView.clickWithTrigger {
                 if (data.file_type.equals("Folder")){
-                    startActivity<FileDirDetailActivity>(Extras.TITLE to data.file_name,Extras.TYPE to invokeType,Extras.TYPE1 to path)
+                    startActivity<FileDirDetailActivity>(Extras.TITLE to data.file_name,Extras.TYPE to invokeType,
+                            Extras.TYPE1 to path,Extras.TYPE2 to dir)
                 }
             }
         }
@@ -382,6 +399,35 @@ class CloudMineFileFragment : BaseRefreshFragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK){
+            when(requestCode){
+                NEW_DIR_REQUEST -> {
+                    if (null != data){
+                        val dirName = data.getStringExtra(Extras.DATA)
+                        createDir(dirName)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun createDir(dirName: String?) {
+        SoguApi.getService(getCloudDishActivity().application,OtherService::class.java)
+                .createNewDir(dir,dirName!!)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+
+                        }else{
+
+                        }
+                    }
+
+                    onError {
+                        it.printStackTrace()
+                        getCloudDishActivity().showErrorToast("创建文件夹失败")
+                    }
+                }
     }
 
 }

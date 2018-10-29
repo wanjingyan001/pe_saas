@@ -105,39 +105,79 @@ class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
         listAdapter = BookListAdapter(documents, downloaded.toList(), type)
         listAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { adapter, view, position ->
             val book = documents[position]
-            PdfPreviewActivity.start(this,book, downloaded.contains(book.pdf_name))
+            if (type == DocumentType.INTELLIGENT){
+                if (book.status == 1){
+                    //已购买
+                    PdfPreviewActivity.start(this,book, downloaded.contains(book.pdf_name))
+                }else{
+                    showCommonToast("请先购买智能文书")
+                }
+            }else{
+                PdfPreviewActivity.start(this,book, downloaded.contains(book.pdf_name))
+            }
         }
         listAdapter.onItemChildClickListener = BaseQuickAdapter.OnItemChildClickListener { adapter, view, position ->
             val book = documents[position]
-            showProgress("正在下载")
-            DownloadUtil.getInstance().download(book.pdf_path.substring(0, book.pdf_path.indexOf("?")),
-                    externalCacheDir.toString(),
-                    book.pdf_name,
-                    object : DownloadUtil.OnDownloadListener {
-                override fun onDownloadSuccess(path: String) {
-                    downloaded.add(book.pdf_name)
-                    hideProgress()
-                    listAdapter.downloaded = downloaded.toList()
-                    listAdapter.notifyItemChanged(position)
-                    opedPdf(path)
-                }
+            if (type == DocumentType.INTELLIGENT){
+                if (book.status == 1){
+                    showProgress("正在下载")
+                    DownloadUtil.getInstance().download(book.pdf_path.substring(0, book.pdf_path.indexOf("?")),
+                            externalCacheDir.toString(),
+                            book.pdf_name,
+                            object : DownloadUtil.OnDownloadListener {
+                                override fun onDownloadSuccess(path: String) {
+                                    downloaded.add(book.pdf_name)
+                                    hideProgress()
+                                    listAdapter.downloaded = downloaded.toList()
+                                    listAdapter.notifyItemChanged(position)
+                                    opedPdf(path)
+                                }
 
-                override fun onDownloading(progress: Int) {
-                    progressDialog?.apply {
-                        this.progress = progress
-                    }
-                }
+                                override fun onDownloading(progress: Int) {
+                                    progressDialog?.apply {
+                                        this.progress = progress
+                                    }
+                                }
 
-                override fun onDownloadFailed() {
-                    hideProgress()
-                }
+                                override fun onDownloadFailed() {
+                                    hideProgress()
+                                }
 
-            })
+                            })
+                }else{
+                    showCommonToast("需先购买智能文书才能下载")
+                }
+            }else{
+                showProgress("正在下载")
+                DownloadUtil.getInstance().download(book.pdf_path.substring(0, book.pdf_path.indexOf("?")),
+                        externalCacheDir.toString(),
+                        book.pdf_name,
+                        object : DownloadUtil.OnDownloadListener {
+                            override fun onDownloadSuccess(path: String) {
+                                downloaded.add(book.pdf_name)
+                                hideProgress()
+                                listAdapter.downloaded = downloaded.toList()
+                                listAdapter.notifyItemChanged(position)
+                                opedPdf(path)
+                            }
+
+                            override fun onDownloading(progress: Int) {
+                                progressDialog?.apply {
+                                    this.progress = progress
+                                }
+                            }
+
+                            override fun onDownloadFailed() {
+                                hideProgress()
+                            }
+
+                        })
+            }
         }
 
         listAdapter.setClickPayListener(object : BookListAdapter.ClickPayCallBack{
-            override fun clickPay(title: String, price: String, count: Int) {
-                PayDialog.showPayBookDialog(this@DocumentsListActivity,1,this@DocumentsListActivity,title,price,count)
+            override fun clickPay(title: String, price: String, count: Int,id:String) {
+                PayDialog.showPayBookDialog(this@DocumentsListActivity,1,this@DocumentsListActivity,title,price,count,id)
             }
 
         })
@@ -153,18 +193,21 @@ class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
             PdfSearchActivity.start(this, type, category = category)
         }
     }
+    override fun pay(order_type: Int, count: Int, pay_type: Int, fee: String, tv_per_balance: TextView, iv_pre_select: ImageView,
+                     tv_bus_balance: TextView, iv_bus_select: ImageView) {
 
-    override fun pay(order_type: Int, count: Int, pay_type: Int, fee: String, tv_per_balance: TextView,
+    }
+    override fun payForOther(id:String,order_type: Int, count: Int, pay_type: Int, fee: String, tv_per_balance: TextView,
                      iv_pre_select: ImageView, tv_bus_balance: TextView, iv_bus_select: ImageView) {
 
         SoguApi.getService(application, OtherService::class.java)
-                .getAccountPayInfo(order_type,count,pay_type,fee)
+                .getAccountPayInfo(order_type,count,pay_type,fee,id)
                 .execute {
                     onNext { payload ->
                         if (payload.isOk){
                             if (pay_type == 1 || pay_type == 2){
                                 showSuccessToast("支付成功")
-//                                refreshAccountData(tv_per_balance,iv_pre_select, tv_bus_balance,iv_bus_select)
+                                PayDialog.refreshAccountData(tv_per_balance,iv_pre_select, tv_bus_balance,iv_bus_select)
                             }else{
                                 if (pay_type == 3){
                                     //支付宝

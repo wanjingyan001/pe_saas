@@ -37,7 +37,7 @@ class BookListAdapter(data: List<PdfBook>, var downloaded: List<String>, val typ
             tv_pay.clickWithTrigger {
                 //智能文书购买
                 if (null != callBack){
-                    callBack!!.clickPay(item.pdf_name,item.price,1)
+                    callBack!!.clickPay(item.pdf_name,item.price,1,item.id.toString())
                 }
             }
         }
@@ -69,6 +69,6 @@ class BookListAdapter(data: List<PdfBook>, var downloaded: List<String>, val typ
     }
 
     interface ClickPayCallBack{
-        fun clickPay(title:String,price:String,count:Int)
+        fun clickPay(title:String,price:String,count:Int,id:String)
     }
 }

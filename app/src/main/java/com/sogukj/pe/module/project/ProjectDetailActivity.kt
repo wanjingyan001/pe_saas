@@ -419,7 +419,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                                 headView.iv_button.setImageResource(R.mipmap.ic_sentiment_off)
                                 headView.tv_senti_title.text = "开启舆情监控"
                                 headView.tv_senti_time.setVisible(false)
-                                headView.ll_times_buy.setVisible(false)
+                                headView.ll_times_buy.setVisible(true)
                             }else{
                                 showSuccessToast("开启舆情成功")
                                 headView.iv_button.setImageResource(R.mipmap.ic_sentiment_on)

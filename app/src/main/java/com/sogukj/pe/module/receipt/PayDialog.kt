@@ -296,8 +296,9 @@ class PayDialog {
                     }
         }
 
+
         //智能文书和账户管理
-        fun showPayBookDialog(context:Context,type:Int,callBack: AllPayCallBack,title:String,price:String,count:Int){
+        fun showPayBookDialog(context:Context,type:Int,callBack: AllPayCallBack,title:String,price:String,count:Int,id:String){
             val dialog = MaterialDialog.Builder(context)
                     .theme(Theme.DARK)
                     .customView(R.layout.layout_pay_book, false)
@@ -435,10 +436,15 @@ class PayDialog {
                 //去支付
                 if (null != callBack){
                     if (type == 1){
-                        callBack.pay(2,count,pay_type,coin.toString(),tv_per_balance,iv_pre_select,tv_bus_balance,iv_bus_select)
+                        callBack.payForOther(id,2,count,pay_type,coin.toString(),tv_per_balance,iv_pre_select,tv_bus_balance,iv_bus_select)
                     }
                 }
             }
+        }
+
+        fun refreshAccountData(tv_per_balance: TextView, iv_pre_select: ImageView, tv_bus_balance: TextView, iv_bus_select: ImageView) {
+            getPerAccountInfo(tv_per_balance,iv_pre_select,true)
+            getBusAccountInfo(tv_bus_balance,iv_bus_select,true)
         }
     }
 }
