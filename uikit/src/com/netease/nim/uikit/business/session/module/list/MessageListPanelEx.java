@@ -11,7 +11,6 @@ import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
@@ -209,6 +208,7 @@ public class MessageListPanelEx {
 
         @Override
         public void onItemLongClick(IRecyclerView adapter, View view, int position) {
+
         }
 
         @Override
@@ -883,6 +883,9 @@ public class MessageListPanelEx {
                 // 7 forward to team
                 longClickItemForwardToTeam(selectedItem, alertDialog);
             }
+
+            longClickItemCloudDish(selectedItem, alertDialog, msgType);
+
         }
 
         private boolean enableRevokeButton(IMMessage selectedItem) {
@@ -1084,6 +1087,23 @@ public class MessageListPanelEx {
                     });
                 }
             });
+        }
+
+        private void longClickItemCloudDish(final IMMessage selectedItem, CustomAlertDialog alertDialog, MsgTypeEnum msgType) {
+            FileAttachment attachment = (FileAttachment) selectedItem.getAttachment();
+            String path = attachment.getPathForSave();
+            if(msgType == MsgTypeEnum.image || msgType == MsgTypeEnum.file || msgType == MsgTypeEnum.audio) {
+                if(null != path) {
+                    alertDialog.addItem(container.activity.getString(R.string.save_cloud), new CustomAlertDialog.onSeparateItemClickListener() {
+                        @Override
+                        public void onClick() {
+                           if(null != NimUIKitImpl.getSessionListener()) {
+                               NimUIKitImpl.getSessionListener().onCloudClicked(container.activity, selectedItem);
+                           }
+                        }
+                    });
+                }
+            }
         }
 
     }

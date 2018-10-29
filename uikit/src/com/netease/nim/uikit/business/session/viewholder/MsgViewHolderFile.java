@@ -6,10 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -21,7 +19,6 @@ import android.widget.Toast;
 
 import com.netease.nim.uikit.R;
 import com.netease.nim.uikit.api.NimUIKit;
-import com.netease.nim.uikit.common.ui.dialog.DialogMaker;
 import com.netease.nim.uikit.common.ui.recyclerview.adapter.BaseMultiItemFetchLoadAdapter;
 import com.netease.nim.uikit.common.util.file.AttachmentStore;
 import com.netease.nim.uikit.common.util.file.FileUtil;
@@ -188,8 +185,8 @@ public class MsgViewHolderFile extends MsgViewHolderBase implements View.OnClick
         layoutParams.width = (int) width;
 //        layoutParams.height = (int) height;
         fileLayout.setLayoutParams(layoutParams);
+        fileLayout.setOnLongClickListener(longClickListener);
     }
-
 
     private void updateFileStatusLabel() {
         progressBar.setVisibility(View.GONE);

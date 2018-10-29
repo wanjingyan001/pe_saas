@@ -20,6 +20,7 @@ import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum
 import com.netease.nimlib.sdk.msg.model.IMMessage
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo
 import com.sogukj.pe.R
+import com.sogukj.pe.module.im.clouddish.CloudDishActivity
 import com.sogukj.pe.module.im.clouddish.CloudFileAction
 import com.sogukj.pe.peUtils.Store
 
@@ -48,6 +49,11 @@ object SessionHelper {
 
     private fun setSessionListener() {
         val listener = object : SessionEventListener {
+            override fun onCloudClicked(context: Context?, message: IMMessage?) {
+                //跳转到云盘
+                CloudDishActivity.invoke(context!!,2)
+            }
+
             override fun onAckMsgClicked(context: Context, message: IMMessage) {
                 // 已读回执事件处理，用于群组的已读回执事件的响应，弹出消息已读详情
                 AckMsgInfoActivity.start(context, message)

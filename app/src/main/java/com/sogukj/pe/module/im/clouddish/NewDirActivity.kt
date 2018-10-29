@@ -11,9 +11,9 @@ import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
-import com.sogukj.pe.baselibrary.utils.Utils
 import kotlinx.android.synthetic.main.activity_new_dir.*
-import kotlinx.android.synthetic.main.normal_toolbar.*
+import kotlinx.android.synthetic.main.white_normal_toolbar.*
+
 
 /**
  * Created by CH-ZH on 2018/10/26.
@@ -24,8 +24,6 @@ class NewDirActivity : ToolbarActivity(), TextWatcher {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_dir)
-        Utils.setWindowStatusBarColor(this, R.color.white)
-        toolbar?.setBackgroundColor(resources.getColor(R.color.white))
         setBack(true)
         setTitle("新建文件夹")
         toolbar_menu.visibility = View.VISIBLE
@@ -52,7 +50,7 @@ class NewDirActivity : ToolbarActivity(), TextWatcher {
     override fun afterTextChanged(s: Editable?) {
        if (et_input.textStr.length > 0){
            iv_delete.visibility = View.VISIBLE
-           toolbar_menu.setTextColor(resources.getColor(R.color.blue_3c))
+           toolbar_menu.setTextColor(resources.getColor(R.color.white))
        }else{
            iv_delete.visibility = View.INVISIBLE
            toolbar_menu.setTextColor(resources.getColor(R.color.gray_80))

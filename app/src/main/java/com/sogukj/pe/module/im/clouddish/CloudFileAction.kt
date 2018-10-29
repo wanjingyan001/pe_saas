@@ -13,7 +13,7 @@ class CloudFileAction : BaseAction {
     }
 
     override fun onClick() {
-        CloudDishActivity.invoke(activity)
+        CloudDishActivity.invoke(activity,1)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
