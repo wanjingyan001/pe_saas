@@ -129,6 +129,7 @@ class SoguApi {
         val newBuilder = chain.request().newBuilder()
         user?.let {
             newBuilder.addHeader("uid", it.uid.toString())
+            newBuilder.addHeader("uids",it.uids)
         }
         if (getEnvironment() == "sr") {
             newBuilder.addHeader("key", "d5f17cafef0829b5")

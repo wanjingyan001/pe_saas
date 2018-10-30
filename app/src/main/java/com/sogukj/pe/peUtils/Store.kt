@@ -115,6 +115,7 @@ class Store private constructor() {
     }
 
     private var plResult = ArrayList<String>()
+    private var cloudResult = ArrayList<String>()
     fun savePltHis(ctx:Context,searchHis : ArrayList<String>){
         XmlDb.open(ctx).set("pl_his", GSON.toJson(searchHis.toArray()))
     }
@@ -135,6 +136,28 @@ class Store private constructor() {
 
     fun clearPlHis(ctx : Context){
         XmlDb.open(ctx).set("pl_his", "")
+    }
+
+    fun saveCloudtHis(ctx:Context,searchHis : ArrayList<String>){
+        XmlDb.open(ctx).set("cloud_his", GSON.toJson(searchHis.toArray()))
+    }
+    fun getCloudHis(ctx:Context):ArrayList<String>{
+        this.cloudResult.clear()
+        try {
+            val strJson = XmlDb.open(ctx).get("cloud_his", "")
+            if (!TextUtils.isEmpty(strJson)) {
+                val hisProjects = GSON.fromJson<Array<String>>(strJson, Array<String>::class.java)
+                this.cloudResult.addAll(Arrays.asList<String>(*hisProjects))
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return cloudResult
+    }
+
+    fun clearCloudHis(ctx : Context){
+        XmlDb.open(ctx).set("cloud_his", "")
     }
 
     private var lawcaseHis = ArrayList<LawCaseHisInfo>()

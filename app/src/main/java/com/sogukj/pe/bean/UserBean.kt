@@ -24,7 +24,7 @@ open class UserBean : Serializable {
     var address: String? = null//公司地址
     var app_token = "" //验签token
     var is_read: Int? = null//抄送人状态 ""全部，"1"已读，"2"未读
-
+    var uids : String ? = ""
 
     fun headImage(): String? {
         if (null == url) return null

@@ -100,9 +100,10 @@ class CloudDishActivity : ToolbarActivity(){
             context.startActivity(intent)
         }
 
-        fun invokeForResult(context : Activity,invokeType:Int,requestCode : Int){
+        fun invokeForResult(context : Activity,invokeType:Int,requestCode : Int,path:String){
             val intent = Intent(context, CloudDishActivity::class.java)
             intent.putExtra("invokeType",invokeType)
+            intent.putExtra("path",path)
             context.startActivityForResult(intent,requestCode)
         }
     }

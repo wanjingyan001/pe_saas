@@ -32,7 +32,18 @@
         android:layout_marginTop="2dp"
         android:gravity="center"
         android:singleLine="true" />
-
+    <TextView
+        android:id="@+id/tv_select"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_gravity="right"
+        android:paddingRight="@dimen/text_15"
+        android:paddingLeft="@dimen/text_15"
+        android:textSize="@dimen/text_16"
+        android:visibility="gone"
+        android:textColor="@color/blue_17"
+        android:text="全选"/>
     <ImageView
         android:id="@+id/toolbar_menu"
         android:layout_width="wrap_content"

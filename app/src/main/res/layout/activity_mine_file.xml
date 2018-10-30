@@ -12,9 +12,35 @@
     <include
         android:id="@+id/toolbar"
         layout="@layout/normal_img_toolbar" />
+    <RelativeLayout
+        android:id="@+id/rl_select"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        android:background="@color/white">
+        <TextView
+            android:id="@+id/tv_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="删除"
+            android:padding="@dimen/text_15"
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/gray_a0"/>
+        <TextView
+            android:id="@+id/tv_remove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="移动到"
+            android:layout_alignParentRight="true"
+            android:padding="@dimen/text_15"
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/gray_a0"/>
+    </RelativeLayout>
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refresh"
         android:layout_below="@id/toolbar"
+        android:layout_above="@+id/rl_select"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     <android.support.v4.widget.NestedScrollView
@@ -27,6 +53,7 @@
             android:descendantFocusability="blocksDescendants"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/tv_file_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="我的文件"
@@ -136,4 +163,14 @@
         android:layout_marginRight="@dimen/text_20"
         android:layout_marginBottom="@dimen/text_20"
         android:src="@mipmap/ic_upload_file"/>
+    <FrameLayout
+        android:id="@+id/fl_cover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:visibility="gone"
+        android:background="#19000000">
+
+
+    </FrameLayout>
 </RelativeLayout>

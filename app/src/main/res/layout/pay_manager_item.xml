@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingLeft="@dimen/text_15"
+    android:paddingRight="@dimen/text_15"
+    android:background="@color/white"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/iv_select"
+        android:layout_width="@dimen/text_20"
+        android:layout_height="@dimen/text_20"
+        android:layout_centerVertical="true"
+        android:background="@drawable/team_select_bg"/>
+    <TextView
+        android:id="@+id/tv_buy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="购买"
+        android:layout_alignParentRight="true"
+        android:textSize="@dimen/text_size_14"
+        android:paddingLeft="@dimen/text_12"
+        android:paddingRight="@dimen/text_12"
+        android:paddingTop="@dimen/text_5"
+        android:paddingBottom="@dimen/text_5"
+        android:layout_centerVertical="true"
+        android:background="@drawable/bg_buy"
+        android:textColor="@color/red_ff7"/>
+
+    <TextView
+        android:id="@+id/tv_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="删除"
+        android:layout_toLeftOf="@id/tv_buy"
+        android:paddingLeft="@dimen/text_12"
+        android:paddingRight="@dimen/text_12"
+        android:visibility="gone"
+        android:paddingTop="@dimen/text_5"
+        android:layout_marginRight="@dimen/text_20"
+        android:paddingBottom="@dimen/text_5"
+        android:layout_centerVertical="true"
+        style="@style/text14_colora0"
+        android:background="@drawable/bg_delete"/>
+
+    <LinearLayout
+        android:id="@+id/ll_content"
+        android:layout_toRightOf="@id/iv_select"
+        android:layout_toLeftOf="@id/tv_buy"
+        android:paddingLeft="@dimen/text_15"
+        android:paddingTop="@dimen/text_10"
+        android:paddingBottom="@dimen/text_10"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/iv_image"
+            android:layout_width="@dimen/text_50"
+            android:layout_height="@dimen/text_50"
+            android:src="@mipmap/default_head"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/text_10"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="张明"
+                style="@style/text16_color28"/>
+            <TextView
+                android:id="@+id/tv_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1882734037"
+                android:layout_marginTop="@dimen/text_5"
+                android:textSize="@dimen/text_size_12"
+                android:textColor="@color/gray_b4"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>
+

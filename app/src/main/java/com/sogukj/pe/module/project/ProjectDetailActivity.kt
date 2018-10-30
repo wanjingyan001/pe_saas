@@ -475,7 +475,6 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                     headView.ll_times_buy.setVisible(true)
                     headView.tv_times.text = "剩余次数：${info.remainder}次"
                     isStartOpen = false
-                    showPayDialog()
                 }
                 1 -> {
                     headView.iv_button.setImageResource(R.mipmap.ic_sentiment_on)
@@ -487,6 +486,9 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                     isStartOpen = true
                 }
             }
+        if (info.remainder <= 0){
+            showPayDialog()
+        }
     }
 
     private fun initDataWithIntent() {

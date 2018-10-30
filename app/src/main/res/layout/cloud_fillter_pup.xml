@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="125dp"
+    android:layout_height="90dp"
+    android:background="@drawable/add_bg"
+    android:orientation="vertical"
+    android:paddingBottom="8dp"
+    android:paddingTop="8dp">
+
+    <LinearLayout
+        android:id="@+id/ll_select"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="@dimen/text_20"
+            android:layout_height="@dimen/text_15"
+            android:layout_marginLeft="@dimen/text_20"
+            android:src="@mipmap/ic_more_select"/>
+        <TextView
+            android:id="@+id/tv_all"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="多选"
+            android:layout_marginLeft="@dimen/text_25"
+            android:textColor="#ff282828"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="125dp"
+        android:layout_height="1dp"
+        android:layout_gravity="center_horizontal"
+        android:background="#f1f1f1" />
+    <LinearLayout
+        android:id="@+id/ll_fillter"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="@dimen/text_20"
+            android:layout_height="@dimen/text_15"
+            android:layout_marginLeft="@dimen/text_20"
+            android:src="@mipmap/ic_cloud_fillter"/>
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="筛选"
+            android:layout_marginLeft="@dimen/text_25"
+            android:textColor="#282828"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -208,6 +208,7 @@ class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
                             if (pay_type == 1 || pay_type == 2){
                                 showSuccessToast("支付成功")
                                 PayDialog.refreshAccountData(tv_per_balance,iv_pre_select, tv_bus_balance,iv_bus_select)
+                                refreshIntelligentData()
                             }else{
                                 if (pay_type == 3){
                                     //支付宝
@@ -229,6 +230,14 @@ class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
                         }
                     }
                 }
+    }
+
+    /**
+     * 刷新智能文书
+     */
+    private fun refreshIntelligentData() {
+        page = 1
+        getPdfList()
     }
 
     private fun getPdfList(searchKey: String? = null) {

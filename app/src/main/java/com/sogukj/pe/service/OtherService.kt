@@ -339,4 +339,10 @@ interface OtherService {
     @FormUrlEncoded
     @POST("/api/cloud/addFolder")
     fun createNewDir(@Field("file_path")file_path:String,@Field("folder_name")folder_name:String):Observable<Payload<Any>>
+
+    /**
+     * 账户管理
+     */
+    @POST("/api/Pay/getUserList")
+    fun getManagerData():Observable<Payload<UserManagerBean>>
 }

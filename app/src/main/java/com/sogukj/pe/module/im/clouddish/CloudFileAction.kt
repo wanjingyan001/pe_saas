@@ -14,7 +14,7 @@ class CloudFileAction : BaseAction {
     }
 
     override fun onClick() {
-        CloudDishActivity.invokeForResult(activity,1,REQ_SELETE_FILE)
+        CloudDishActivity.invokeForResult(activity,1,REQ_SELETE_FILE,"")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -10,4 +10,6 @@ class CloudFileBean : Serializable{
     var create_time = ""
     var isSelect = false
     var file_type = "" // "Folder" 表示目录
+    var catalogue = "" //目录
+    var canSelect = false
 }

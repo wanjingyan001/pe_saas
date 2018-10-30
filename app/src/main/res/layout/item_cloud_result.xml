@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:padding="@dimen/text_15">
+    <ImageView
+        android:id="@+id/iv_head"
+        android:layout_width="@dimen/text_30"
+        android:layout_height="@dimen/text_30"
+        android:src="@mipmap/icon_data_source_pdf"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="@dimen/text_20"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="关于投资宏大信息科技公司的….pdf"
+            android:maxLines="1"
+            style="@style/text14_color28"
+            android:ellipsize="end"/>
+
+        <TextView
+            android:id="@+id/tv_dir"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="/搜股科技/我的文件"
+            android:maxLines="2"
+            android:layout_marginTop="@dimen/text_5"
+            style="@style/text12_color80"
+            android:ellipsize="end"/>
+    </LinearLayout>
+</LinearLayout>

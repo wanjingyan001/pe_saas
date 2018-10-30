@@ -9,10 +9,17 @@
               android:gravity="center_vertical"
               android:paddingTop="10dp">
     <ImageView
+        android:id="@+id/iv_select"
+        android:layout_width="@dimen/text_25"
+        android:layout_height="@dimen/text_25"
+        android:visibility="gone"
+        android:background="@drawable/team_select_bg"/>
+    <ImageView
         android:id="@+id/file_icon"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/text_15"
         android:layout_marginRight="10dp"
         android:src="@drawable/icon_pdf" />
 

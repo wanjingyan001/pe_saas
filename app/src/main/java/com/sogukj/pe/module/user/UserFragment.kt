@@ -60,7 +60,6 @@ import com.sogukj.pe.module.receipt.MineWalletActivity
 import com.sogukj.pe.module.register.CreateDepartmentActivity
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.MyGlideUrl
-import com.sogukj.pe.peUtils.ShareUtils
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.UserService
 import com.sogukj.service.SoguApi
@@ -122,6 +121,10 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
             } else {
                 startActivity<PayExpansionActivity>()
             }
+        }
+        tv_pay_manager.clickWithTrigger {
+            //账户付费管理
+            startActivity<PayManagerActivity>()
         }
         setting.clickWithTrigger {
             SettingActivity.start(context)

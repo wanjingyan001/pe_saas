@@ -37,10 +37,12 @@ import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
+import com.sogukj.pe.bean.CloudFileBean
 import com.sogukj.pe.bean.DepartmentBean
 import com.sogukj.pe.bean.PlListInfos
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.module.lpassistant.PolicyExpressDetailActivity
+import com.sogukj.pe.module.other.OnlinePreviewActivity
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.presenter.ImSearchCallBack
 import com.sogukj.pe.presenter.ImSearchPresenter
@@ -52,6 +54,7 @@ import kotlinx.android.synthetic.main.search_header.*
 import kotlinx.android.synthetic.main.search_his.*
 import kotlinx.android.synthetic.main.search_result.*
 import org.jetbrains.anko.ctx
+import org.jetbrains.anko.find
 
 /**
  * Created by CH-ZH on 2018/8/20.
@@ -161,6 +164,17 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
                 }else{
                     ll_empty_his.visibility = View.VISIBLE
                 }
+            }else if (3 == type){
+                cloudFileHis = Store.store.getCloudHis(this)
+                cloudFileHis!!.reverse()
+                if (null != cloudHisAdapter){
+                    cloudHisAdapter!!.notifyDataChanged()
+                }
+                if (null != cloudFileHis && cloudFileHis!!.size > 0){
+                    ll_empty_his.visibility = View.INVISIBLE
+                }else{
+                    ll_empty_his.visibility = View.VISIBLE
+                }
             }
         }
     }
@@ -183,6 +197,7 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
     lateinit var searchResult: RecyclerAdapter<MsgIndexRecord>
     private lateinit var resultAdapter: ContactAdapter
     private lateinit var plResultAdapter:RecyclerAdapter<PlListInfos>
+    private lateinit var cloudResultAdapter:RecyclerAdapter<CloudFileBean>
     private val resultData = ArrayList<UserBean>()//搜索结果
     private var searchKey = ""
     private val INTERVAL = 300 //输入间隔时间
@@ -190,10 +205,12 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
     private var searchHis : ArrayList<String> ? = null
     private var contractHis : ArrayList<UserBean> ? = null
     private var plHis : ArrayList<String>? = null
-    private var type = 0  //0:消息 1：联系人 2:政策速递
+    private var cloudFileHis : ArrayList<String> ? = null
+    private var type = 0  //0:消息 1：联系人 2:政策速递 3 : 云盘文件搜索
     private var searchAdapter:SearchAdapter? = null
     private var contractAdapter : ContractAdapter ? = null
     private var plAdapter : PlAdapter ? = null
+    private var cloudHisAdapter : CloudHisAdapter ? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_im_search)
@@ -235,6 +252,18 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
                 ll_empty_his.visibility = View.VISIBLE
             }
             initPlHisData()
+        }else if (type == 3){
+            refresh.isEnableRefresh = false
+            refresh.isEnableLoadMore = true
+            refresh.isEnableAutoLoadMore = true
+            refresh.setRefreshFooter(ClassicsFooter(this))
+            if (null != cloudFileHis && cloudFileHis!!.size > 0){
+                setResultVisibility(false)
+                ll_empty_his.visibility = View.INVISIBLE
+            }else{
+                ll_empty_his.visibility = View.VISIBLE
+            }
+            initCloudFileHisData()
         }
         if (type == 0){
             searchResult = RecyclerAdapter(this) { _adapter, parent, _ ->
@@ -244,7 +273,15 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
             initContractResult()
         }else if (type == 2){
             initLpResult()
+        }else if (type == 3){
+            initCloudFileResult()
         }
+    }
+
+    private fun initCloudFileHisData() {
+        cloudFileHis!!.reverse()
+        cloudHisAdapter = CloudHisAdapter()
+        tfl.adapter = cloudHisAdapter
     }
 
     private fun initPlHisData() {
@@ -297,6 +334,15 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
         }
     }
 
+    inner class CloudHisAdapter : TagAdapter<String>(cloudFileHis){
+        override fun getView(parent: FlowLayout?, position: Int, key: String?): View {
+            val itemView = View.inflate(this@ImSearchResultActivity,R.layout.search_his_item,null)
+            val tv_item = itemView.findViewById<TextView>(R.id.tv_item)
+            tv_item.text = key
+            return itemView
+        }
+
+    }
     private fun initContractResult() {
         resultAdapter = ContactAdapter(resultData)
         search_recycler_view.layoutManager = LinearLayoutManager(context)
@@ -309,6 +355,13 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
         }
 
     }
+
+    private fun initCloudFileResult() {
+        cloudResultAdapter = RecyclerAdapter(this){_adapter, parent, _ ->
+            CloudResultHolder(_adapter.getView(R.layout.item_cloud_result,parent))
+        }
+    }
+
     override fun onResume() {
         super.onResume()
     }
@@ -397,6 +450,12 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
             }
         }
 
+        if (type == 3){
+            cloudResultAdapter.onItemClick = {v,position ->
+                //预览页面
+                OnlinePreviewActivity.start(this,"","")
+            }
+        }
         tfl.setOnTagClickListener { view, position, parent ->
             if (type == 0){
                 if (null != searchHis && searchHis!!.size > 0){
@@ -420,6 +479,8 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
                     et_search.setText(key)
                     et_search.setSelection(key.length)
                 }
+            }else if (type == 3){
+
             }
             true
         }
@@ -520,6 +581,16 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
         }
     }
 
+    inner class CloudResultHolder(itemView:View):RecyclerHolder<CloudFileBean>(itemView){
+        val iv_head = itemView.find<ImageView>(R.id.iv_head)
+        val tv_name = itemView.find<TextView>(R.id.tv_name)
+        val tv_dir = itemView.find<TextView>(R.id.tv_dir)
+        override fun setData(view: View, data: CloudFileBean, position: Int) {
+            if (null == data)return
+
+        }
+
+    }
     inner class LpResultHolder(itemView: View) : RecyclerHolder<PlListInfos>(itemView) {
         val title1 = convertView.findViewById<TextView>(R.id.tv_title1)
         val title2 = convertView.findViewById<TextView>(R.id.tv_title2)
@@ -684,6 +755,9 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
                 presenter!!.getDepartData()
             }else if (type == 2){
                 presenter!!.getPlExpressResultData(true,query)
+            }else if (type == 3){
+                //获取云文件
+
             }
         }
     }

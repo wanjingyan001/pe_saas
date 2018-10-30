@@ -326,8 +326,6 @@ class PayDialog {
             val rl_zfb = dialog.find<RelativeLayout>(R.id.rl_zfb)
             val iv_zfb_select = dialog.find<ImageView>(R.id.iv_zfb_select)
             val tv_pay = dialog.find<TextView>(R.id.tv_pay)
-            var count = 1 //订单数量
-            var coin = 9.9
             var isCheckPer = false
             var isCheckBus = false
             var isCheckWx = false
@@ -337,7 +335,7 @@ class PayDialog {
             tv_time.text = Utils.getTime(Date(),"yyyy-MM-dd HH:mm:ss")
             tv_name.text = title
             tv_fee.text = "￥${price}"
-            tv_count.text = count.toString()
+            tv_count.text = "X${count}"
             if (type == 1){
                 tv_title1.text = "智能文书"
                 iv_pay.setImageResource(R.mipmap.ic_book_head)
@@ -345,7 +343,11 @@ class PayDialog {
                 tv_title1.text = "付费账号"
                 iv_pay.setImageResource(R.mipmap.ic_account_head)
             }
-
+            if (Utils.isInteger(price)){
+                val iPrice = price.toInt()
+                val amount = iPrice * count
+                tv_coin.text = "￥${amount}"
+            }
             getPerAccountInfo(tv_per_balance,iv_pre_select,false)
             getBusAccountInfo(tv_bus_balance,iv_bus_select,false)
             iv_close.clickWithTrigger {
@@ -436,7 +438,9 @@ class PayDialog {
                 //去支付
                 if (null != callBack){
                     if (type == 1){
-                        callBack.payForOther(id,2,count,pay_type,coin.toString(),tv_per_balance,iv_pre_select,tv_bus_balance,iv_bus_select)
+                        callBack.payForOther(id,2,count,pay_type,price,tv_per_balance,iv_pre_select,tv_bus_balance,iv_bus_select)
+                    }else{
+                        callBack.payForOther(id,1,count,pay_type,price,tv_per_balance,iv_pre_select,tv_bus_balance,iv_bus_select)
                     }
                 }
             }
