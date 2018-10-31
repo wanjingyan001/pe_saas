@@ -5,7 +5,8 @@ import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.execute
-import com.sogukj.pe.baselibrary.base.ToolbarActivity
+import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
+import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.MineWalletBean
 import com.sogukj.pe.service.OtherService
@@ -19,7 +20,7 @@ import org.jetbrains.anko.startActivity
  * Created by CH-ZH on 2018/10/17.
  * 我的钱包
  */
-class MineWalletActivity : ToolbarActivity() {
+class MineWalletActivity : BaseRefreshActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mine_wallet)
@@ -36,6 +37,15 @@ class MineWalletActivity : ToolbarActivity() {
     }
 
     private fun initData() {
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getWalletData()
+    }
+
+    private fun getWalletData() {
         SoguApi.getService(application,OtherService::class.java)
                 .getMineWalletData()
                 .execute {
@@ -46,11 +56,13 @@ class MineWalletActivity : ToolbarActivity() {
                                 setMineWalletInfos(list)
                             }
                         }
+                        dofinishRefresh()
                     }
 
                     onError {
                         it.printStackTrace()
                         showErrorToast("获取数据失败")
+                        dofinishRefresh()
                     }
                 }
     }
@@ -72,6 +84,29 @@ class MineWalletActivity : ToolbarActivity() {
                     tv_credit_remain.text = "剩余${it.over}个"
                 }
             }
+        }
+    }
+
+    override fun initRefreshConfig(): RefreshConfig? {
+        val config = RefreshConfig()
+        config.loadMoreEnable = false
+        config.autoLoadMoreEnable = false
+        config.scrollContentWhenLoaded = true
+        config.disableContentWhenRefresh = true
+        return config
+    }
+
+    override fun doRefresh() {
+        getWalletData()
+    }
+
+    override fun doLoadMore() {
+
+    }
+
+    fun dofinishRefresh() {
+        if (this::refresh.isLateinit && refresh.isRefreshing) {
+            refresh.finishRefresh()
         }
     }
 

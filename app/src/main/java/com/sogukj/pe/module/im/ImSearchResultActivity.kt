@@ -226,6 +226,7 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
         searchHis = Store.store.getSearchHis(this)
         contractHis = Store.store.getContractHis(this)
         plHis = Store.store.getPlHis(this)
+        cloudFileHis = Store.store.getCloudHis(this)
         if (type == 0){
             refresh.isEnableRefresh = false
             refresh.isEnableLoadMore = false

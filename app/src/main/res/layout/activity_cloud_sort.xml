@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/gray_f7"
+              android:orientation="vertical"
+              tools:context="com.sogukj.pe.module.lpassistant.PolicyExpressActivity">
+
+    <include layout="@layout/normal_toolbar" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider2"/>
+    <TextView
+        android:id="@+id/tv_dir"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="'我的文件'中的所有视频"
+        android:textSize="@dimen/text_size_14"
+        android:gravity="center"
+        android:paddingTop="@dimen/text_10"
+        android:paddingBottom="@dimen/text_10"
+        android:textColor="@color/gray_a0"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider2"/>
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_express"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:paddingLeft="@dimen/text_15"
+                android:paddingRight="@dimen/text_15"
+                tools:listitem="@layout/item_mine_file">
+            </android.support.v7.widget.RecyclerView>
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+        <FrameLayout
+            android:id="@+id/fl_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="暂无文件"
+                android:layout_gravity="center"
+                android:drawableTop="@mipmap/ic_empty_cloud"
+                android:textSize="@dimen/text_size_18"
+                android:textColor="@color/gray_a0"/>
+        </FrameLayout>
+        <FrameLayout
+            android:id="@+id/view_recover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible"
+            android:background="@color/gray_f1">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+                <ImageView android:id="@+id/iv_loading"
+                           android:layout_width="54dp"
+                           android:layout_height="54dp"
+                           android:layout_gravity="center" />
+            </LinearLayout>
+        </FrameLayout>
+    </android.support.constraint.ConstraintLayout>
+
+</LinearLayout>

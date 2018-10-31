@@ -50,4 +50,6 @@ object ARouterPath {
     const val DocumentsListActivity:String = "/source/intelligent"
     //征信
     const val CreditSelectActivity:String = "/credit/main"
+    //云盘
+    const val SecretCloudActivity:String = "/im/clouddish"
 }

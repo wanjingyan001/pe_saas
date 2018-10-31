@@ -325,7 +325,7 @@ interface OtherService {
      * 获取云盘文件内容
      */
     @GET("/api/cloud/getList")
-    fun getMineCloudDishData(@Query("file_path") file_path:String):Observable<Payload<List<CloudFileBean>>>
+    fun getMineCloudDishData(@Query("file_path") file_path:String,@Query("phone") phone : String):Observable<Payload<List<CloudFileBean>>>
 
     /**
      * 上传文件
@@ -338,7 +338,8 @@ interface OtherService {
      */
     @FormUrlEncoded
     @POST("/api/cloud/addFolder")
-    fun createNewDir(@Field("file_path")file_path:String,@Field("folder_name")folder_name:String):Observable<Payload<Any>>
+    fun createNewDir(@Field("file_path")file_path:String,@Field("folder_name")folder_name:String,
+                     @Query("phone") phone : String):Observable<Payload<Any>>
 
     /**
      * 账户管理

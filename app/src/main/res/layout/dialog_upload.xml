@@ -22,7 +22,7 @@
         android:id="@+id/tv_photo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="照片和视频"
+        android:text="照片"
         android:paddingLeft="@dimen/text_20"
         android:paddingTop="@dimen/text_20"
         android:paddingBottom="@dimen/text_10"

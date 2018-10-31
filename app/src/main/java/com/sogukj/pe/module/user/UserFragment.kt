@@ -52,7 +52,6 @@ import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.*
 import com.sogukj.pe.module.fileSelector.FileMainActivity
-import com.sogukj.pe.module.im.clouddish.SecretCloudActivity
 import com.sogukj.pe.module.other.PayExpansionActivity
 import com.sogukj.pe.module.project.ProjectFocusActivity
 import com.sogukj.pe.module.project.ProjectListFragment
@@ -60,6 +59,7 @@ import com.sogukj.pe.module.receipt.MineWalletActivity
 import com.sogukj.pe.module.register.CreateDepartmentActivity
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.MyGlideUrl
+import com.sogukj.pe.peUtils.ShareUtils
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.UserService
 import com.sogukj.service.SoguApi
@@ -139,27 +139,26 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
             }
         }
         share.clickWithTrigger {
-//            SoguApi.getService(baseActivity!!.application, UserService::class.java)
-//                    .getWebConfig()
-//                    .observeOn(AndroidSchedulers.mainThread())
-//                    .subscribeOn(Schedulers.io())
-//                    .subscribe({ payload ->
-//                        if (payload.isOk) {
-//                            payload?.payload?.apply {
-//                                var shareBean = CusShareBean()
-//                                shareBean.shareTitle = this.company!!
-//                                shareBean.shareContent = ""
-//                                shareBean.shareUrl = this.web_url!!
-//                                ShareUtils.share(shareBean,activity!!)
-//                            }
-//                        } else {
-//                            showCustomToast(R.drawable.icon_toast_fail, payload.message)
-//                        }
-//                    }, { e ->
-//                        Trace.e(e)
-//                        showCustomToast(R.drawable.icon_toast_fail, "获取分享链接失败")
-//                    })
-            startActivity<SecretCloudActivity>()
+            SoguApi.getService(baseActivity!!.application, UserService::class.java)
+                    .getWebConfig()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe({ payload ->
+                        if (payload.isOk) {
+                            payload?.payload?.apply {
+                                var shareBean = CusShareBean()
+                                shareBean.shareTitle = this.company!!
+                                shareBean.shareContent = ""
+                                shareBean.shareUrl = this.web_url!!
+                                ShareUtils.share(shareBean,activity!!)
+                            }
+                        } else {
+                            showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                        }
+                    }, { e ->
+                        Trace.e(e)
+                        showCustomToast(R.drawable.icon_toast_fail, "获取分享链接失败")
+                    })
         }
 
         tv_wallet.clickWithTrigger {

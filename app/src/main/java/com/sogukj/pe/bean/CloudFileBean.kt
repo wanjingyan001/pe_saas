@@ -12,4 +12,5 @@ class CloudFileBean : Serializable{
     var file_type = "" // "Folder" 表示目录
     var catalogue = "" //目录
     var canSelect = false
+    var used_bytes = "" //字节
 }

@@ -18,12 +18,14 @@ import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.BaseRefreshFragment
+import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.CloudFileBean
 import com.sogukj.pe.bean.CloudLevel1
 import com.sogukj.pe.bean.CloudLevel2
+import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.fragment_mine_file.*
@@ -133,7 +135,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
     }
     private fun getBusCloudFileData() {
         SoguApi.getService(activity!!.application,OtherService::class.java)
-                .getMineCloudDishData(dir)
+                .getMineCloudDishData(dir,Store.store.getUser(activity!!)!!.phone)
                 .execute {
                     onNext { payload ->
                         if (payload.isOk){
@@ -147,7 +149,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                                 showEmpty()
                             }
                         }else{
-                            getCloudDishActivity().showErrorToast(payload.message)
+                            getBaseActivity().showErrorToast(payload.message)
                             showEmpty()
                         }
                         goneLoadding()
@@ -155,7 +157,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
 
                     onError {
                         it.printStackTrace()
-                        getCloudDishActivity().showErrorToast("获取数据失败")
+                        getBaseActivity().showErrorToast("获取数据失败")
                         goneLoadding()
                         showEmpty()
                     }
@@ -164,7 +166,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
 
     private fun getMineCloudFileData() {
         SoguApi.getService(activity!!.application,OtherService::class.java)
-                .getMineCloudDishData(dir)
+                .getMineCloudDishData(dir,Store.store.getUser(activity!!)!!.phone)
                 .execute {
                     onNext { payload ->
                         if (payload.isOk){
@@ -178,7 +180,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                                 showEmpty()
                             }
                         }else{
-                            getCloudDishActivity().showErrorToast(payload.message)
+                            getBaseActivity().showErrorToast(payload.message)
                             showEmpty()
                         }
                         goneLoadding()
@@ -186,15 +188,15 @@ class CloudMineFileFragment : BaseRefreshFragment() {
 
                     onError {
                         it.printStackTrace()
-                        getCloudDishActivity().showErrorToast("获取数据失败")
+                        getBaseActivity().showErrorToast("获取数据失败")
                         goneLoadding()
                         showEmpty()
                     }
                 }
     }
 
-    private fun getCloudDishActivity():CloudDishActivity{
-        return (activity as CloudDishActivity?)!!
+    private fun getBaseActivity(): ToolbarActivity {
+        return (activity as ToolbarActivity?)!!
     }
     private fun setBusExpandableData() {
         val res = ArrayList<MultiItemEntity>()
@@ -233,7 +235,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
 
         tv_newdir.clickWithTrigger {
             //新建文件夹
-            NewDirActivity.invokeForResult(activity!!, NEW_DIR_REQUEST)
+            NewDirActivity.invoke(activity!!, dir)
         }
 
         tv_current.clickWithTrigger {
@@ -241,15 +243,18 @@ class CloudMineFileFragment : BaseRefreshFragment() {
             val file = File(path)
             val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
                     .addFormDataPart("file_name", file.name, RequestBody.create(MediaType.parse("*/*"), file))
-                    .addFormDataPart("save_file_path",dir) //1 项目文件 2审批文件
+                    .addFormDataPart("save_file_path",dir+"/") //1 项目文件 2审批文件
+                    .addFormDataPart("phone", Store.store.getUser(activity!!)!!.phone)
             val body = builder.build()
             showProgress("正在上传")
-            SoguApi.getService(getCloudDishActivity().application,OtherService::class.java)
+            SoguApi.getService(getBaseActivity().application,OtherService::class.java)
                     .uploadImFileToCloud(body)
                     .execute {
                         onNext { payload ->
                             if (payload.isOk){
-
+                                showSuccessToast("上传文件成功")
+                            }else{
+                                showErrorToast(payload.message)
                             }
                             hideProgress()
                         }
@@ -257,6 +262,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                         onError {
                             it.printStackTrace()
                             hideProgress()
+                            showErrorToast("上传文件失败")
                         }
                     }
 
@@ -412,8 +418,8 @@ class CloudMineFileFragment : BaseRefreshFragment() {
     }
 
     private fun createDir(dirName: String?) {
-        SoguApi.getService(getCloudDishActivity().application,OtherService::class.java)
-                .createNewDir(dir,dirName!!)
+        SoguApi.getService(getBaseActivity().application,OtherService::class.java)
+                .createNewDir(dir,dirName!!,Store.store.getUser(activity!!)!!.phone)
                 .execute {
                     onNext { payload ->
                         if (payload.isOk){
@@ -425,7 +431,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
 
                     onError {
                         it.printStackTrace()
-                        getCloudDishActivity().showErrorToast("创建文件夹失败")
+                        getBaseActivity().showErrorToast("创建文件夹失败")
                     }
                 }
     }

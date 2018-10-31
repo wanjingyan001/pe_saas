@@ -120,6 +120,7 @@ class PayManagerActivity : BaseRefreshActivity(), AllPayCallBack {
         val iv_image = itemView.find<ImageView>(R.id.iv_image)
         val tv_name = itemView.find<TextView>(R.id.tv_name)
         val tv_phone = itemView.find<TextView>(R.id.tv_phone)
+        val tv_data = itemView.find<TextView>(R.id.tv_data)
         override fun setData(view: View, data: UserManagerBean.ManagerInfo, position: Int) {
             if (null == data) return
             Glide.with(this@PayManagerActivity)

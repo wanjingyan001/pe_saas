@@ -1,6 +1,8 @@
 package com.sogukj.pe.module.im.clouddish
 
 import android.os.Bundle
+import com.alibaba.android.arouter.facade.annotation.Route
+import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
@@ -14,6 +16,7 @@ import org.jetbrains.anko.startActivity
  * Created by CH-ZH on 2018/10/25.
  * 首页加密云盘
  */
+@Route(path = ARouterPath.SecretCloudActivity)
 class SecretCloudActivity : ToolbarActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,22 +41,22 @@ class SecretCloudActivity : ToolbarActivity() {
 
         view_mine_file.clickWithTrigger {
             //我的文件
-            startActivity<MineFileActivity>(Extras.TITLE to "我的文件")
+            startActivity<MineFileActivity>(Extras.TITLE to "我的文件",Extras.DIR to "/我的文件")
         }
 
         ll_fund_file.clickWithTrigger {
             //基金文件
-            startActivity<MineFileActivity>(Extras.TITLE to "基金文件")
+            startActivity<MineFileActivity>(Extras.TITLE to "基金文件",Extras.DIR to "/基金文件")
         }
 
         ll_pro_file.clickWithTrigger {
             //项目文件
-            startActivity<MineFileActivity>(Extras.TITLE to "项目文件")
+            startActivity<MineFileActivity>(Extras.TITLE to "项目文件",Extras.DIR to "/项目文件")
         }
 
         ll_chat_file.clickWithTrigger {
             //群组文件
-            startActivity<MineFileActivity>(Extras.TITLE to "群组文件")
+            startActivity<MineFileActivity>(Extras.TITLE to "群组文件",Extras.DIR to "/群组文件")
         }
     }
 }

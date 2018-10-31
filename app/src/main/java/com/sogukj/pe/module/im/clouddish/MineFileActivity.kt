@@ -13,10 +13,7 @@ import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.PopupWindow
-import android.widget.TextView
+import android.widget.*
 import com.bumptech.glide.Glide
 import com.huantansheng.easyphotos.EasyPhotos
 import com.netease.nim.uikit.support.glide.GlideEngine
@@ -24,6 +21,7 @@ import com.sogukj.pe.BuildConfig
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
+import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
@@ -34,10 +32,19 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.CloudFileBean
 import com.sogukj.pe.module.fileSelector.FileMainActivity
 import com.sogukj.pe.module.im.ImSearchResultActivity
+import com.sogukj.pe.peUtils.FileTypeUtils
+import com.sogukj.pe.peUtils.Store
+import com.sogukj.pe.service.OtherService
+import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_mine_file.*
 import kotlinx.android.synthetic.main.normal_img_toolbar.*
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import org.jetbrains.anko.find
+import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.startActivity
+import java.io.File
 
 /**
  * Created by CH-ZH on 2018/10/26.
@@ -46,12 +53,13 @@ import org.jetbrains.anko.startActivity
 class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
     private lateinit var nameAdapter: RecyclerAdapter<CloudFileBean>
     private var infos = ArrayList<CloudFileBean>()
-    private var canSelectInfos = ArrayList<CloudFileBean>()
     private var title = ""
     private var isSelectStatus = false //是否是多选的状态
     private var scroll = 0
     private lateinit var alreadySelected: MutableSet<CloudFileBean>
     private var selectCount = 0
+    private var dir = ""
+    private var isNameSort = true //默认是名称排序
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mine_file)
@@ -64,6 +72,7 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
 
     private fun initView() {
         title = intent.getStringExtra(Extras.TITLE)
+        dir = intent.getStringExtra(Extras.DIR)
         setBack(true)
         setTitle(title)
         tv_file_title.text = title
@@ -82,26 +91,51 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
         nameAdapter = RecyclerAdapter(this) { _adapter, parent, _ ->
             NameFilterHolder(_adapter.getView(R.layout.item_mine_file, parent))
         }
-        for (i in 0..20) {
-            if (i == 0){
-                val bean = CloudFileBean()
-                bean.file_type = "Folder"
-                bean.file_name = "Chzh"
-                bean.create_time = "2017/07/06 今天 13:09"
-                infos.add(bean)
-            }else{
-                infos.add(CloudFileBean())
-            }
-        }
-        nameAdapter.dataList = infos
         rv_dynamic.adapter = nameAdapter
+        showLoadding()
+        getMineFileData()
     }
 
+    private fun getMineFileData() {
+        SoguApi.getService(application,OtherService::class.java)
+                .getMineCloudDishData(dir, Store.store.getUser(this)!!.phone)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+                            val infos = payload.payload
+                            if (null != infos && infos.size > 0){
+                                nameAdapter.dataList.clear()
+                                nameAdapter.dataList.addAll(infos)
+                                nameAdapter.notifyDataSetChanged()
+                                goneEmpty()
+                            }else{
+                                showEmpty()
+                            }
+                        }else{
+                            showErrorToast(payload.message)
+                            showEmpty()
+                        }
+                        dofinishRefresh()
+                    }
+
+                    onError {
+                        it.printStackTrace()
+                        showErrorToast("获取数据失败")
+                        showEmpty()
+                        dofinishRefresh()
+                    }
+                }
+    }
+    private var popupWindow : PopupWindow ? = null
     private fun bindListener() {
         toolbar_menu.clickWithTrigger {
-            //筛选、全选
+            //筛选、全选(无内容是隐藏全选)
             fl_cover.visibility = View.VISIBLE
-            showFillterPup()
+            if (null != nameAdapter.dataList && nameAdapter.dataList.size > 0){
+                showFillterPup()
+            }else{
+                showOnlyFitterPup()
+            }
         }
 
         toolbar_search.clickWithTrigger {
@@ -115,7 +149,7 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
         }
 
         scroll_view.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
-            Log.e("TAG", "scrollY  ==" + scrollY + "  scrollY dp ==" + Utils.px2dip(this, scrollY.toFloat()))
+//            Log.e("TAG", "scrollY  ==" + scrollY + "  scrollY dp ==" + Utils.px2dip(this, scrollY.toFloat()))
             if (isSelectStatus)return@setOnScrollChangeListener
             scroll = Utils.px2dip(this, scrollY.toFloat())
             if (scroll >= 35) {
@@ -175,13 +209,102 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
 
             }
         }
+
+        tv_sort.clickWithTrigger {
+            if (null != nameAdapter.dataList && nameAdapter.dataList.size > 0){
+                //排序
+                if (null != popupWindow && popupWindow!!.isShowing) {
+                    popupWindow!!.dismiss()
+                    fl_sort_cover.visibility = View.GONE
+                    tv_sort.setTextColor(resources.getColor(R.color.gray_a0))
+                }else{
+                    showSortPup()
+                    fl_sort_cover.visibility = View.VISIBLE
+                    tv_sort.setTextColor(resources.getColor(R.color.blue_3c))
+                }
+            }
+        }
+    }
+
+    private fun showSortPup() {
+        val contentView = View.inflate(this, R.layout.sort_pup, null)
+        val rl_time = contentView.findViewById<RelativeLayout>(R.id.rl_time)
+        val rl_name = contentView.find<RelativeLayout>(R.id.rl_name)
+        val tv_time = contentView.find<TextView>(R.id.tv_time)
+        val tv_name = contentView.find<TextView>(R.id.tv_name)
+        if (isNameSort){
+            tv_name.setTextColor(resources.getColor(R.color.blue_3c))
+            tv_time.setTextColor(resources.getColor(R.color.black_28))
+        }else{
+            tv_name.setTextColor(resources.getColor(R.color.black_28))
+            tv_time.setTextColor(resources.getColor(R.color.blue_3c))
+        }
+        popupWindow = PopupWindow(contentView,WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT)
+        popupWindow!!.isTouchable = true
+        popupWindow!!.setBackgroundDrawable(ColorDrawable(0x00000000))
+        popupWindow!!.isOutsideTouchable = true
+        popupWindow!!.setOnDismissListener {
+            fl_sort_cover.visibility = View.GONE
+            tv_sort.setTextColor(resources.getColor(R.color.gray_a0))
+        }
+        val showPos = IntArray(2)
+        tv_sort.getLocationOnScreen(showPos)
+        popupWindow!!.showAsDropDown(tv_sort, 0, 0)
+
+        rl_time.clickWithTrigger {
+            //时间排序
+            fl_sort_cover.visibility = View.GONE
+            if (popupWindow!!.isShowing) {
+                popupWindow!!.dismiss()
+            }
+            tv_sort.setTextColor(resources.getColor(R.color.gray_a0))
+            tv_sort.text = "时间排序"
+            isNameSort = false
+        }
+
+        rl_name.clickWithTrigger {
+            //名称排序
+            fl_sort_cover.visibility = View.GONE
+            if (popupWindow!!.isShowing) {
+                popupWindow!!.dismiss()
+            }
+            tv_sort.setTextColor(resources.getColor(R.color.gray_a0))
+            tv_sort.text = "名称排序"
+            isNameSort = true
+        }
+    }
+
+    private fun showOnlyFitterPup() {
+        val contentView = View.inflate(this, R.layout.only_fillter_pup, null)
+        val ll_fillter = contentView.findViewById<LinearLayout>(R.id.ll_fillter)
+        val popupWindow = PopupWindow(contentView, Utils.dip2px(this, 125f), Utils.dip2px(this, 50f), true)
+        popupWindow.isTouchable = true
+        popupWindow.setBackgroundDrawable(ColorDrawable(0x00000000))
+        popupWindow.isOutsideTouchable = true
+        popupWindow.setOnDismissListener {
+
+            fl_cover.visibility = View.GONE
+        }
+        val showPos = IntArray(2)
+        toolbar_menu.getLocationOnScreen(showPos)
+        popupWindow.showAsDropDown(toolbar_menu, 0, 0)
+
+        ll_fillter.clickWithTrigger {
+            //筛选
+            fl_cover.visibility = View.GONE
+            if (popupWindow.isShowing) {
+                popupWindow.dismiss()
+            }
+            MineFileDialog.showFillterDialog(this,title)
+        }
     }
 
     private fun showFillterPup() {
         val contentView = View.inflate(this, R.layout.cloud_fillter_pup, null)
         val ll_select = contentView.findViewById<LinearLayout>(R.id.ll_select)
         val ll_fillter = contentView.findViewById<LinearLayout>(R.id.ll_fillter)
-        val popupWindow = PopupWindow(contentView, Utils.dip2px(this, 140f), Utils.dip2px(this, 110f), true)
+
+        val popupWindow = PopupWindow(contentView, Utils.dip2px(this, 125f), Utils.dip2px(this, 90f), true)
         popupWindow.isTouchable = true
         popupWindow.setBackgroundDrawable(ColorDrawable(0x00000000))
         popupWindow.isOutsideTouchable = true
@@ -210,6 +333,7 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
             if (popupWindow.isShowing) {
                 popupWindow.dismiss()
             }
+            MineFileDialog.showFillterDialog(this,title)
         }
     }
 
@@ -258,15 +382,15 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
 
     override fun initRefreshConfig(): RefreshConfig? {
         val config = RefreshConfig()
-        config.loadMoreEnable = true
-        config.autoLoadMoreEnable = true
+        config.loadMoreEnable = false
+        config.autoLoadMoreEnable = false
         config.scrollContentWhenLoaded = true
         config.disableContentWhenRefresh = true
         return config
     }
 
     override fun doRefresh() {
-
+        getMineFileData()
     }
 
     override fun doLoadMore() {
@@ -280,6 +404,7 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
     override fun onResume() {
         super.onResume()
         hideProgress()
+        Log.e("TAG","dir ==" + dir)
     }
 
     private fun showUploadFileDialog() {
@@ -306,7 +431,7 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
         dialog.find<TextView>(R.id.tv_file)
                 .clickWithTrigger {
                     showProgress("正在读取内存文件")
-                    FileMainActivity.start(this, 9, false, GET_LOCAL_FILE)
+                    FileMainActivity.start(this, 1, false, GET_LOCAL_FILE)
                     if (dialog.isShowing) {
                         dialog.dismiss()
                     }
@@ -315,7 +440,7 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
 
     override fun newDir() {
         //新建文件夹
-        NewDirActivity.invokeForResult(this, NEW_DIR_REQUEST)
+        NewDirActivity.invoke(this, dir)
     }
 
     fun dofinishRefresh() {
@@ -341,11 +466,11 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
     }
 
     fun showEmpty() {
-        fl_empty.visibility = View.VISIBLE
+        ll_empty.visibility = View.VISIBLE
     }
 
     fun goneEmpty() {
-        fl_empty.visibility = View.INVISIBLE
+        ll_empty.visibility = View.INVISIBLE
     }
 
     inner class NameFilterHolder(itemView: View) : RecyclerHolder<CloudFileBean>(itemView) {
@@ -358,14 +483,18 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
         override fun setData(view: View, data: CloudFileBean, position: Int) {
             if (data.canSelect) {
                 iv_select.setVisible(true)
+                iv_filter.setVisible(false)
             } else {
                 iv_select.setVisible(false)
+                iv_filter.setVisible(true)
             }
             iv_select.isSelected = data.isSelect
+            tv_summary.text = data.file_name
+            tv_time.text = data.create_time
             if (data.file_type.equals("Folder")) {
                 file_icon.setImageResource(R.drawable.folder_zip)
             } else {
-                file_icon.setImageResource(R.drawable.icon_pdf)
+                file_icon.imageResource =  FileTypeUtils.getFileType(data.file_name).icon
             }
             itemView.clickWithTrigger {
                 if (data.canSelect){
@@ -393,19 +522,25 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
                 }else{
                     if (data.file_type.equals("Folder")) {
                         //文件夾
-                        startActivity<MineFileActivity>(Extras.TITLE to data.file_name)
+                        startActivity<MineFileActivity>(Extras.TITLE to data.file_name,Extras.DIR to dir+"/${data.file_name}")
                     } else {
                         //预览
-
                     }
+                }
+            }
+
+            iv_filter.clickWithTrigger {
+                if (data.file_type.equals("Folder")){
+                    MineFileDialog.showFileItemDialog(this@MineFileActivity,true,data)
+                }else{
+                    MineFileDialog.showFileItemDialog(this@MineFileActivity,false,data)
                 }
             }
         }
     }
 
     companion object {
-        val GET_LOCAL_FILE = 1001
-        val NEW_DIR_REQUEST = 1002
+        val GET_LOCAL_FILE = 1002
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -413,18 +548,56 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 GET_LOCAL_FILE -> {
-
+                    val paths = data?.getStringArrayListExtra(Extras.LIST)
+                    if (null != paths && paths.size > 0){
+                        val filePath = paths!![0]
+                        if (filePath.isNullOrEmpty()) return
+                        val file = File(filePath)
+                        if (null == file) return
+                        uploadFileToCloud(file)
+                    }
                 }
 
                 Extras.REQUESTCODE -> {
-
-                }
-
-                NEW_DIR_REQUEST -> {
+                    if (null == data) return
+                    val resultPaths = data.getStringArrayListExtra(EasyPhotos.RESULT_PATHS)
+                    val filePath = resultPaths[0]
+                    if (filePath.isNullOrEmpty()){
+                        showCommonToast("文件路径不正确")
+                    }else{
+                        uploadFileToCloud(File(filePath))
+                    }
 
                 }
             }
         }
+    }
+
+    private fun uploadFileToCloud(file:File) {
+        val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("file_name", file.name, RequestBody.create(MediaType.parse("*/*"), file))
+                .addFormDataPart("save_file_path",dir+"/")
+                .addFormDataPart("phone", Store.store.getUser(this)!!.phone)
+        val body = builder.build()
+        showProgress("正在上传")
+        SoguApi.getService(application,OtherService::class.java)
+                .uploadImFileToCloud(body)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+                            showSuccessToast("上传成功")
+                        }else{
+                            showErrorToast(payload.message)
+                        }
+                        hideProgress()
+                    }
+
+                    onError {
+                        it.printStackTrace()
+                        hideProgress()
+                        showErrorToast("上传失败")
+                    }
+                }
     }
 
 }
