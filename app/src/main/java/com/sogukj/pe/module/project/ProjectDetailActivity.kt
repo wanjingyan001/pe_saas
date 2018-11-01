@@ -155,6 +155,8 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
         val rl_zfb = dialog.find<RelativeLayout>(R.id.rl_zfb)
         val iv_zfb_select = dialog.find<ImageView>(R.id.iv_zfb_select)
         val tv_pay = dialog.find<TextView>(R.id.tv_pay)
+        val tv_bus_title = dialog.find<TextView>(R.id.tv_bus_title)
+        val tv_per_title = dialog.find<TextView>(R.id.tv_per_title)
         var count = 1 //订单数量
         var coin = 9.9
         var isCheckPer = false
@@ -217,8 +219,8 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
             et_count.setText(count.toString())
             et_count.setSelection(et_count.textStr.length)
         }
-        getPerAccountInfo(tv_per_balance,iv_pre_select,false)
-        getBusAccountInfo(tv_bus_balance,iv_bus_select,false)
+        getPerAccountInfo(tv_per_balance,iv_pre_select,tv_per_title,false)
+        getBusAccountInfo(tv_bus_balance,iv_bus_select,tv_bus_title,false)
         rl_bus.clickWithTrigger {
             //企业账户
             if (isClickBus){
@@ -300,11 +302,11 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
 
         tv_pay.clickWithTrigger {
             //去支付
-            goToPay(4,count,pay_type,coin.toString(),tv_per_balance,iv_pre_select,tv_bus_balance,iv_bus_select)
+            goToPay(4,count,pay_type,coin.toString(),tv_per_balance,iv_pre_select,tv_bus_balance,iv_bus_select,tv_per_title,tv_bus_title)
         }
     }
 
-    private fun getBusAccountInfo(tv_bus_balance: TextView, iv_bus_select: ImageView,isRefresh : Boolean) {
+    private fun getBusAccountInfo(tv_bus_balance: TextView, iv_bus_select: ImageView,tv_bus_title:TextView,isRefresh : Boolean) {
         SoguApi.getService(application,OtherService::class.java)
                 .getBussAccountInfo()
                 .execute {
@@ -315,11 +317,15 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                                 tv_bus_balance.text = "账户余额：${recordBean.balance}"
                                 if (recordBean.balance.equals("0") || recordBean.balance.equals("")){
                                     iv_bus_select.setImageResource(R.mipmap.ic_gray_receipt)
+                                    tv_bus_title.setTextColor(resources.getColor(R.color.gray_a0))
+                                    tv_bus_balance.setTextColor(resources.getColor(R.color.gray_a0))
                                     isClickBus = false
                                 }else{
                                     if (!isRefresh){
                                         iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
                                     }
+                                    tv_bus_title.setTextColor(resources.getColor(R.color.black_28))
+                                    tv_bus_balance.setTextColor(resources.getColor(R.color.gray_80))
                                     isClickBus = true
                                 }
                             }
@@ -335,7 +341,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                 }
     }
 
-    private fun getPerAccountInfo(tv_per_balance: TextView, iv_pre_select: ImageView,isRefresh : Boolean) {
+    private fun getPerAccountInfo(tv_per_balance: TextView, iv_pre_select: ImageView,tv_per_title:TextView,isRefresh : Boolean) {
         SoguApi.getService(application,OtherService::class.java)
                 .getPersonAccountInfo()
                 .execute {
@@ -346,11 +352,15 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                                 tv_per_balance.text = "账户余额：${recordBean.balance}"
                                 if (recordBean.balance.equals("0") || recordBean.balance.equals("")){
                                     iv_pre_select.setImageResource(R.mipmap.ic_gray_receipt)
+                                    tv_per_title.setTextColor(resources.getColor(R.color.gray_a0))
+                                    tv_per_balance.setTextColor(resources.getColor(R.color.gray_a0))
                                     isClickPer = false
                                 }else{
                                     if (!isRefresh){
                                         iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
                                     }
+                                    tv_per_title.setTextColor(resources.getColor(R.color.black_28))
+                                    tv_per_balance.setTextColor(resources.getColor(R.color.gray_80))
                                     isClickPer = true
                                 }
                             }
@@ -368,7 +378,8 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
 
     private fun goToPay(order_type: Int, count: Int, pay_type: Int, fee: String,
                         tv_per_balance: TextView, iv_pre_select: ImageView,
-                        tv_bus_balance: TextView, iv_bus_select: ImageView) {
+                        tv_bus_balance: TextView, iv_bus_select: ImageView,
+                        tv_per_title:TextView,tv_bus_title:TextView) {
         SoguApi.getService(application,OtherService::class.java)
                 .getAccountPayInfo(order_type,count,pay_type,fee)
                 .execute {
@@ -376,7 +387,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                         if (payload.isOk){
                             if (pay_type == 1 || pay_type == 2){
                                 showSuccessToast("支付成功")
-                                refreshAccountData(tv_per_balance,iv_pre_select, tv_bus_balance,iv_bus_select)
+                                refreshAccountData(tv_per_balance,iv_pre_select, tv_bus_balance,iv_bus_select,tv_per_title,tv_bus_title)
                                 getSentimentStatus(project.company_id!!)
                             }else{
                                 if (pay_type == 3){
@@ -402,9 +413,9 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
     }
 
     private fun refreshAccountData(tv_per_balance: TextView, iv_pre_select: ImageView,
-            tv_bus_balance: TextView, iv_bus_select: ImageView) {
-        getPerAccountInfo(tv_per_balance,iv_pre_select,true)
-        getBusAccountInfo(tv_bus_balance,iv_bus_select,true)
+            tv_bus_balance: TextView, iv_bus_select: ImageView, tv_per_title:TextView,tv_bus_title:TextView) {
+        getPerAccountInfo(tv_per_balance,iv_pre_select,tv_per_title,true)
+        getBusAccountInfo(tv_bus_balance,iv_bus_select,tv_bus_title,true)
     }
 
     private fun setSentimentStatus(company_id: Int) {

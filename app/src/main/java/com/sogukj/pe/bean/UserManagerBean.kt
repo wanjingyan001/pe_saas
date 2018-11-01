@@ -25,5 +25,6 @@ class UserManagerBean : Serializable{
         var phone = ""
         var user_id = ""
         var isSelect = false
+        var expiry_time = ""
     }
 }

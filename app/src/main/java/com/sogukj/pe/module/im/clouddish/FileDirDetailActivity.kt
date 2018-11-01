@@ -5,6 +5,8 @@ import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Utils
+import kotlinx.android.synthetic.main.white_normal_toolbar.*
+import org.jetbrains.anko.imageResource
 
 /**
  * Created by CH-ZH on 2018/10/25.
@@ -28,6 +30,8 @@ class FileDirDetailActivity : ToolbarActivity() {
         if (!isSave){
             Utils.setWindowStatusBarColor(this, R.color.white)
             toolbar?.setBackgroundColor(resources.getColor(R.color.white))
+            toolbar_back.imageResource = R.drawable.back_chevron
+            toolbar_title.setTextColor(resources.getColor(R.color.black_28))
         }
         if (title.isNullOrEmpty()){
             realDir = dir

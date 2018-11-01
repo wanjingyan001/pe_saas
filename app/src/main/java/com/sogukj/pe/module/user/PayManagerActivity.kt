@@ -133,7 +133,11 @@ class PayManagerActivity : BaseRefreshActivity(), AllPayCallBack {
             iv_select.isSelected = data.isSelect
             tv_name.text = data.name
             tv_phone.text = data.phone
-
+            if (data.expiry_time.isNullOrEmpty()){
+                tv_data.text = "到期时间：- -  - -"
+            }else{
+                tv_data.text = "到期时间：${data.expiry_time}"
+            }
             itemView.clickWithTrigger {
                 if (alreadySelected.contains(data)){
                     alreadySelected.remove(data)
@@ -159,12 +163,14 @@ class PayManagerActivity : BaseRefreshActivity(), AllPayCallBack {
     }
 
     override fun pay(order_type: Int, count: Int, pay_type: Int, fee: String, tv_per_balance: TextView,
-                     iv_pre_select: ImageView, tv_bus_balance: TextView, iv_bus_select: ImageView) {
+                     iv_pre_select: ImageView, tv_bus_balance: TextView, iv_bus_select: ImageView,
+                     tv_per_title:TextView,tv_bus_title:TextView) {
 
     }
 
     override fun payForOther(id: String, order_type: Int, count: Int, pay_type: Int, fee: String,
-                             tv_per_balance: TextView, iv_pre_select: ImageView, tv_bus_balance: TextView, iv_bus_select: ImageView) {
+                             tv_per_balance: TextView, iv_pre_select: ImageView, tv_bus_balance: TextView, iv_bus_select: ImageView,
+                             tv_per_title:TextView,tv_bus_title:TextView) {
         SoguApi.getService(application, OtherService::class.java)
                 .getAccountPayInfo(order_type,count,pay_type,fee,id)
                 .execute {
@@ -172,7 +178,8 @@ class PayManagerActivity : BaseRefreshActivity(), AllPayCallBack {
                         if (payload.isOk){
                             if (pay_type == 1 || pay_type == 2){
                                 showSuccessToast("支付成功")
-                                PayDialog.refreshAccountData(tv_per_balance,iv_pre_select, tv_bus_balance,iv_bus_select)
+                                PayDialog.refreshAccountData(tv_per_balance,iv_pre_select, tv_bus_balance,iv_bus_select,tv_per_title,tv_bus_title)
+                                doRefresh()
                             }else{
                                 if (pay_type == 3){
                                     //支付宝

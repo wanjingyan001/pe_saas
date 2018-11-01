@@ -51,6 +51,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:visibility="gone"
             android:gravity="center"
             android:orientation="vertical">
             <FrameLayout
@@ -123,15 +124,6 @@
                 android:layout_marginTop="@dimen/text_10"
                 android:text="视频"/>
         </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/text_15"
-        android:layout_marginLeft="@dimen/text_15"
-        android:layout_marginRight="@dimen/text_15"
-        android:orientation="horizontal">
         <LinearLayout
             android:id="@+id/ll_audio"
             android:layout_width="0dp"
@@ -157,7 +149,15 @@
                 android:layout_marginTop="@dimen/text_10"
                 android:text="语音"/>
         </LinearLayout>
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/text_15"
+        android:layout_marginLeft="@dimen/text_15"
+        android:layout_marginRight="@dimen/text_15"
+        android:orientation="horizontal">
         <LinearLayout
             android:id="@+id/ll_other"
             android:layout_width="0dp"
@@ -182,6 +182,28 @@
                 style="@style/text14_colora0"
                 android:layout_marginTop="@dimen/text_10"
                 android:text="其他"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <FrameLayout
+                android:layout_width="@dimen/text_60"
+                android:layout_height="@dimen/text_60"
+                android:layout_gravity="center">
+                <ImageView
+                    android:layout_width="@dimen/text_50"
+                    android:layout_height="@dimen/text_50"
+                    android:layout_gravity="center"/>
+            </FrameLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/text14_colora0"
+                android:layout_marginTop="@dimen/text_10"
+                android:text=""/>
         </LinearLayout>
 
         <LinearLayout

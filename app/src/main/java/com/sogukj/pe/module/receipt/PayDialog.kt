@@ -62,6 +62,8 @@ class PayDialog {
             val rl_zfb = dialog.find<RelativeLayout>(R.id.rl_zfb)
             val iv_zfb_select = dialog.find<ImageView>(R.id.iv_zfb_select)
             val tv_pay = dialog.find<TextView>(R.id.tv_pay)
+            val tv_bus_title = dialog.find<TextView>(R.id.tv_bus_title)
+            val tv_per_title = dialog.find<TextView>(R.id.tv_per_title)
             var coin = 9.9
             var isCheckPer = false
             var isCheckBus = false
@@ -141,8 +143,8 @@ class PayDialog {
                     count = 15000
                 }
             }
-            getPerAccountInfo(tv_per_balance,iv_pre_select,false)
-            getBusAccountInfo(tv_bus_balance,iv_bus_select,false)
+            getPerAccountInfo(tv_per_balance,iv_pre_select,tv_per_title,false)
+            getBusAccountInfo(tv_bus_balance,iv_bus_select,tv_bus_title,false)
             rl_bus.clickWithTrigger {
                 //企业账户
                 if (isClickBus){
@@ -226,7 +228,8 @@ class PayDialog {
                 //去支付
                 if (null != callBack){
                     if (type == 1){
-                        callBack.pay(3,count,pay_type,coin.toString(),tv_per_balance,iv_pre_select,tv_bus_balance,iv_bus_select)
+                        callBack.pay(3,count,pay_type,coin.toString(),tv_per_balance,
+                                iv_pre_select,tv_bus_balance,iv_bus_select,tv_per_title,tv_bus_title)
                     }
                 }
             }
@@ -234,7 +237,7 @@ class PayDialog {
 
         }
 
-        fun getBusAccountInfo(tv_bus_balance: TextView, iv_bus_select: ImageView, isRefresh: Boolean) {
+        fun getBusAccountInfo(tv_bus_balance: TextView, iv_bus_select: ImageView, tv_bus_title:TextView,isRefresh: Boolean) {
             SoguApi.getService(App.INSTANCE,OtherService::class.java)
                     .getBussAccountInfo()
                     .execute {
@@ -245,11 +248,15 @@ class PayDialog {
                                     tv_bus_balance.text = "账户余额：${recordBean.balance}"
                                     if (recordBean.balance.equals("0") || recordBean.balance.equals("")){
                                         iv_bus_select.setImageResource(R.mipmap.ic_gray_receipt)
+                                        tv_bus_title.setTextColor(context!!.resources.getColor(R.color.gray_a0))
+                                        tv_bus_balance.setTextColor(context!!.resources.getColor(R.color.gray_a0))
                                         isClickBus = false
                                     }else{
                                         if (!isRefresh){
                                             iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
                                         }
+                                        tv_bus_title.setTextColor(context!!.resources.getColor(R.color.black_28))
+                                        tv_bus_balance.setTextColor(context!!.resources.getColor(R.color.gray_80))
                                         isClickBus = true
                                     }
                                 }
@@ -265,7 +272,7 @@ class PayDialog {
                     }
         }
 
-        fun getPerAccountInfo(tv_per_balance: TextView, iv_pre_select: ImageView, isRefresh: Boolean) {
+        fun getPerAccountInfo(tv_per_balance: TextView, iv_pre_select: ImageView, tv_per_title:TextView,isRefresh: Boolean) {
             SoguApi.getService(App.INSTANCE, OtherService::class.java)
                     .getPersonAccountInfo()
                     .execute {
@@ -276,11 +283,15 @@ class PayDialog {
                                     tv_per_balance.text = "账户余额：${recordBean.balance}"
                                     if (recordBean.balance.equals("0") || recordBean.balance.equals("")){
                                         iv_pre_select.setImageResource(R.mipmap.ic_gray_receipt)
+                                        tv_per_title.setTextColor(context!!.resources.getColor(R.color.gray_a0))
+                                        tv_per_balance.setTextColor(context!!.resources.getColor(R.color.gray_a0))
                                         isClickPer = false
                                     }else{
                                         if (!isRefresh){
                                             iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
                                         }
+                                        tv_per_title.setTextColor(context!!.resources.getColor(R.color.black_28))
+                                        tv_per_balance.setTextColor(context!!.resources.getColor(R.color.gray_80))
                                         isClickPer = true
                                     }
                                 }
@@ -299,6 +310,7 @@ class PayDialog {
 
         //智能文书和账户管理
         fun showPayBookDialog(context:Context,type:Int,callBack: AllPayCallBack,title:String,price:String,count:Int,id:String){
+            this.context = context
             val dialog = MaterialDialog.Builder(context)
                     .theme(Theme.DARK)
                     .customView(R.layout.layout_pay_book, false)
@@ -326,6 +338,8 @@ class PayDialog {
             val rl_zfb = dialog.find<RelativeLayout>(R.id.rl_zfb)
             val iv_zfb_select = dialog.find<ImageView>(R.id.iv_zfb_select)
             val tv_pay = dialog.find<TextView>(R.id.tv_pay)
+            val tv_bus_title = dialog.find<TextView>(R.id.tv_bus_title)
+            val tv_per_title = dialog.find<TextView>(R.id.tv_per_title)
             var isCheckPer = false
             var isCheckBus = false
             var isCheckWx = false
@@ -348,8 +362,8 @@ class PayDialog {
                 val amount = iPrice * count
                 tv_coin.text = "￥${amount}"
             }
-            getPerAccountInfo(tv_per_balance,iv_pre_select,false)
-            getBusAccountInfo(tv_bus_balance,iv_bus_select,false)
+            getPerAccountInfo(tv_per_balance,iv_pre_select,tv_per_title,false)
+            getBusAccountInfo(tv_bus_balance,iv_bus_select,tv_bus_title,false)
             iv_close.clickWithTrigger {
                 if (dialog.isShowing){
                     dialog.dismiss()
@@ -438,17 +452,20 @@ class PayDialog {
                 //去支付
                 if (null != callBack){
                     if (type == 1){
-                        callBack.payForOther(id,2,count,pay_type,price,tv_per_balance,iv_pre_select,tv_bus_balance,iv_bus_select)
+                        callBack.payForOther(id,2,count,pay_type,price,tv_per_balance,iv_pre_select,
+                                tv_bus_balance,iv_bus_select,tv_per_title,tv_bus_title)
                     }else{
-                        callBack.payForOther(id,1,count,pay_type,price,tv_per_balance,iv_pre_select,tv_bus_balance,iv_bus_select)
+                        callBack.payForOther(id,1,count,pay_type,price,tv_per_balance,iv_pre_select,
+                                tv_bus_balance,iv_bus_select,tv_per_title,tv_bus_title)
                     }
                 }
             }
         }
 
-        fun refreshAccountData(tv_per_balance: TextView, iv_pre_select: ImageView, tv_bus_balance: TextView, iv_bus_select: ImageView) {
-            getPerAccountInfo(tv_per_balance,iv_pre_select,true)
-            getBusAccountInfo(tv_bus_balance,iv_bus_select,true)
+        fun refreshAccountData(tv_per_balance: TextView, iv_pre_select: ImageView, tv_bus_balance: TextView,
+                               iv_bus_select: ImageView,tv_per_title:TextView,tv_bus_title:TextView) {
+            getPerAccountInfo(tv_per_balance,iv_pre_select,tv_per_title,true)
+            getBusAccountInfo(tv_bus_balance,iv_bus_select,tv_bus_title,true)
         }
     }
 }

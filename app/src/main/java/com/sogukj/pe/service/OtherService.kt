@@ -354,4 +354,11 @@ interface OtherService {
     @GET("/api/cloud/getFileNews")
     fun getFileDynamicData(@Query("page") page: Int? = 1,@Query("phone") phone : String,
                            @Query("limit") limit : Int ? = 15): Observable<Payload<List<FileDynamicBean>>>
+
+    /**
+     * 文件筛选类型
+     */
+    @GET("/api/cloud/filterFileType")
+    fun getFileFillterData(@Query("page") page: Int? = 1, @Query("phone") phone : String,
+                           @Query("search") search : String,@Query("size") size : Int ? = 15): Observable<Payload<List<CloudFileBean>>>
 }
