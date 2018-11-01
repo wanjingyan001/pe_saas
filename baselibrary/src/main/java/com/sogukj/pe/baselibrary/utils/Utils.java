@@ -328,6 +328,16 @@ public class Utils {
         return format.format(new Date(time));
     }
 
+    public static long getTime(String time){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd mm:HH");
+        long timestamp = 0;
+        try {
+            timestamp = format.parse(time).getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return timestamp;
+    }
 
     public static String getTimeDate(long time) throws ParseException {
         if (IsYesterday(getYMD(new Date(time)))) {
@@ -1560,4 +1570,5 @@ public class Utils {
             overlay.clear();
         }
     }
+
 }

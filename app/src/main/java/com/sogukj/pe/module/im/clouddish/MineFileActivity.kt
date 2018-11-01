@@ -32,6 +32,7 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.CloudFileBean
 import com.sogukj.pe.module.fileSelector.FileMainActivity
 import com.sogukj.pe.module.im.ImSearchResultActivity
+import com.sogukj.pe.module.other.OnlinePreviewActivity
 import com.sogukj.pe.peUtils.FileTypeUtils
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.OtherService
@@ -45,6 +46,8 @@ import org.jetbrains.anko.find
 import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.startActivity
 import java.io.File
+import java.text.Collator
+import java.util.*
 
 /**
  * Created by CH-ZH on 2018/10/26.
@@ -52,7 +55,9 @@ import java.io.File
  */
 class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
     private lateinit var nameAdapter: RecyclerAdapter<CloudFileBean>
-    private var infos = ArrayList<CloudFileBean>()
+    private var folderInfos = ArrayList<CloudFileBean>() //文件夹相关
+    private var fileInfos = ArrayList<CloudFileBean>() //文件相关
+    private var allInfos = ArrayList<CloudFileBean>()
     private var title = ""
     private var isSelectStatus = false //是否是多选的状态
     private var scroll = 0
@@ -104,9 +109,7 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
                         if (payload.isOk){
                             val infos = payload.payload
                             if (null != infos && infos.size > 0){
-                                nameAdapter.dataList.clear()
-                                nameAdapter.dataList.addAll(infos)
-                                nameAdapter.notifyDataSetChanged()
+                                sortMineFileInfos(infos)
                                 goneEmpty()
                             }else{
                                 showEmpty()
@@ -126,6 +129,77 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
                     }
                 }
     }
+
+    private fun sortMineFileInfos(infos: List<CloudFileBean>) {
+        folderInfos.clear()
+        fileInfos.clear()
+        infos.forEach {
+            if (it.file_type.equals("Folder")){
+                folderInfos.add(it)
+            }else{
+                fileInfos.add(it)
+            }
+        }
+        if (isNameSort){
+            if (folderInfos.size > 0){
+                Collections.sort(folderInfos,object : Comparator<CloudFileBean>{
+                    override fun compare(info1: CloudFileBean?, info2: CloudFileBean?): Int {
+                        val collator = Collator.getInstance(java.util.Locale.CHINA)
+                        return collator.getCollationKey(info1!!.file_name).compareTo(collator.getCollationKey(info2!!.file_name))
+                    }
+                })
+            }
+            if (fileInfos.size > 0){
+                Collections.sort(fileInfos,object : Comparator<CloudFileBean>{
+                    override fun compare(info1: CloudFileBean?, info2: CloudFileBean?): Int {
+                        val collator = Collator.getInstance(java.util.Locale.CHINA)
+                        return collator.getCollationKey(info1!!.file_name).compareTo(collator.getCollationKey(info2!!.file_name))
+                    }
+                })
+            }
+        }else{
+            if (folderInfos.size > 0){
+                Collections.sort(folderInfos,object : Comparator<CloudFileBean>{
+                    override fun compare(o1: CloudFileBean?, o2: CloudFileBean?): Int {
+                        val time1 = Utils.getTime(o1!!.create_time)
+                        val time2 = Utils.getTime(o2!!.create_time)
+                        if (time1 > time2){
+                            return -1
+                        }else if (time1 == time2){
+                            return 0
+                        }else{
+                            return 1
+                        }
+                    }
+                })
+            }
+
+            if (fileInfos.size > 0){
+                Collections.sort(fileInfos,object : Comparator<CloudFileBean>{
+                    override fun compare(o1: CloudFileBean?, o2: CloudFileBean?): Int {
+                        val time1 = Utils.getTime(o1!!.create_time)
+                        val time2 = Utils.getTime(o2!!.create_time)
+                        if (time1 > time2){
+                            return -1
+                        }else if (time1 == time2){
+                            return 0
+                        }else{
+                            return 1
+                        }
+                    }
+                })
+            }
+        }
+
+        allInfos.clear()
+        allInfos.addAll(folderInfos)
+        allInfos.addAll(fileInfos)
+
+        nameAdapter.dataList.clear()
+        nameAdapter.dataList.addAll(allInfos)
+        nameAdapter.notifyDataSetChanged()
+    }
+
     private var popupWindow : PopupWindow ? = null
     private fun bindListener() {
         toolbar_menu.clickWithTrigger {
@@ -206,7 +280,8 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
         tv_remove.clickWithTrigger {
             //移动
             if (selectCount > 0){
-
+                startActivity<FileDirDetailActivity>(Extras.TITLE to "",Extras.TYPE to 2,
+                        Extras.TYPE1 to "",Extras.TYPE2 to dir,"isSave" to false)
             }
         }
 
@@ -403,7 +478,6 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
 
     override fun onResume() {
         super.onResume()
-        hideProgress()
         Log.e("TAG","dir ==" + dir)
     }
 
@@ -430,7 +504,7 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
                 }
         dialog.find<TextView>(R.id.tv_file)
                 .clickWithTrigger {
-                    showProgress("正在读取内存文件")
+//                    showProgress("正在读取内存文件")
                     FileMainActivity.start(this, 1, false, GET_LOCAL_FILE)
                     if (dialog.isShowing) {
                         dialog.dismiss()
@@ -440,7 +514,7 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
 
     override fun newDir() {
         //新建文件夹
-        NewDirActivity.invoke(this, dir)
+        NewDirActivity.invokeForResult(this, dir,NEW_DIR_OPO)
     }
 
     fun dofinishRefresh() {
@@ -467,10 +541,12 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
 
     fun showEmpty() {
         ll_empty.visibility = View.VISIBLE
+        rv_dynamic.visibility = View.INVISIBLE
     }
 
     fun goneEmpty() {
         ll_empty.visibility = View.INVISIBLE
+        rv_dynamic.visibility = View.VISIBLE
     }
 
     inner class NameFilterHolder(itemView: View) : RecyclerHolder<CloudFileBean>(itemView) {
@@ -525,6 +601,7 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
                         startActivity<MineFileActivity>(Extras.TITLE to data.file_name,Extras.DIR to dir+"/${data.file_name}")
                     } else {
                         //预览
+                        OnlinePreviewActivity.start(this@MineFileActivity,data.url,data.file_name,false)
                     }
                 }
             }
@@ -541,6 +618,7 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
 
     companion object {
         val GET_LOCAL_FILE = 1002
+        val NEW_DIR_OPO = 1003
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -567,7 +645,11 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
                     }else{
                         uploadFileToCloud(File(filePath))
                     }
+                }
 
+                NEW_DIR_OPO -> {
+                    //新建文件夹
+                    getMineFileData()
                 }
             }
         }
@@ -586,6 +668,7 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
                     onNext { payload ->
                         if (payload.isOk){
                             showSuccessToast("上传成功")
+                            getMineFileData()
                         }else{
                             showErrorToast(payload.message)
                         }

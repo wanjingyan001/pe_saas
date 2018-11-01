@@ -5,7 +5,10 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.*
+import android.os.Bundle
+import android.os.Environment
+import android.os.Handler
+import android.os.Message
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
@@ -53,10 +56,18 @@ class OnlinePreviewActivity : ToolbarActivity(), PlatformActionListener {
             intent.putExtra(Extras.TITLE, title)
             ctx?.startActivity(intent)
         }
+
+        fun start(ctx: Activity?, url: String, title: String,isCanShare:Boolean) {
+            val intent = Intent(ctx, OnlinePreviewActivity::class.java)
+            intent.putExtra(Extras.URL, url)
+            intent.putExtra(Extras.TITLE, title)
+            intent.putExtra("isCanShare",isCanShare)
+            ctx?.startActivity(intent)
+        }
     }
 
     var url = ""
-
+    private var isCanShare = true
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +76,7 @@ class OnlinePreviewActivity : ToolbarActivity(), PlatformActionListener {
         setBack(true)
         title = intent.getStringExtra(Extras.TITLE)
         url = intent.getStringExtra(Extras.URL)
-
+        isCanShare = intent.getBooleanExtra("isCanShare",true)
         web.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                 view.loadUrl(url)
@@ -139,7 +150,11 @@ class OnlinePreviewActivity : ToolbarActivity(), PlatformActionListener {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val flag = super.onCreateOptionsMenu(menu)
         val menuMark = menu.findItem(R.id.action_mark) as MenuItem
-        menuMark.title = "分享"
+        if (isCanShare){
+            menuMark.title = "分享"
+        }else{
+            menuMark.title = ""
+        }
         return flag
     }
 
@@ -147,7 +162,9 @@ class OnlinePreviewActivity : ToolbarActivity(), PlatformActionListener {
         when (item?.itemId) {
             R.id.action_mark -> {
 //                share()
-                cusShare()
+                if (isCanShare){
+                    cusShare()
+                }
             }
         }
         return false

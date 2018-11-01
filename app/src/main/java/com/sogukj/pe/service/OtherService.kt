@@ -331,7 +331,7 @@ interface OtherService {
      * 上传文件
      */
     @POST("/api/cloud/uploadLocalFile")
-    fun uploadImFileToCloud(@Body body: RequestBody): Observable<Payload<Payload<Any>>>
+    fun uploadImFileToCloud(@Body body: RequestBody): Observable<Payload<Any>>
 
     /**
      * 新建文件夹
@@ -346,4 +346,12 @@ interface OtherService {
      */
     @POST("/api/Pay/getUserList")
     fun getManagerData():Observable<Payload<UserManagerBean>>
+
+
+    /**
+     * 文件动态
+     */
+    @GET("/api/cloud/getFileNews")
+    fun getFileDynamicData(@Query("page") page: Int? = 1,@Query("phone") phone : String,
+                           @Query("limit") limit : Int ? = 15): Observable<Payload<List<FileDynamicBean>>>
 }

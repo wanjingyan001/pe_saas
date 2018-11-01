@@ -7,9 +7,13 @@ import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
+import com.google.gson.Gson
+import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.fromJson
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
+import com.sogukj.pe.bean.MechanismBasicInfo
 import com.sogukj.pe.module.dataSource.lawcase.adapter.PagerAdapter
 import kotlinx.android.synthetic.main.activity_cloud_dish.*
 import kotlinx.android.synthetic.main.white_normal_toolbar.*
@@ -24,6 +28,7 @@ class CloudDishActivity : ToolbarActivity(){
     lateinit var mAdapter: PagerAdapter
     private var invokeType = 1 // 1:加密云盘按钮跳转 2：保存到云盘
     private var path = ""
+    private var company = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cloud_dish)
@@ -39,11 +44,16 @@ class CloudDishActivity : ToolbarActivity(){
         setTitle("加密云盘")
         toolbar_menu.text = "取消"
         toolbar_menu.setVisible(false)
+        val companyInfo = sp.getString(Extras.SAAS_BASIC_DATA, "")
+        val detail = Gson().fromJson<MechanismBasicInfo?>(companyInfo)
+        if (null != detail){
+            company = detail.mechanism_name?:""
+        }
     }
 
     private fun initData() {
-        fragments.add(CloudMineFileFragment.newInstance(1,invokeType,path,"/我的文件"))
-        fragments.add(CloudMineFileFragment.newInstance(2,invokeType,path,"/企业文件"))
+        fragments.add(CloudMineFileFragment.newInstance(1,invokeType,path,"/我的文件",true))
+        fragments.add(CloudMineFileFragment.newInstance(2,invokeType,path,"/${company}",true))
         titlesInfo.forEach {
             tabs.addTab(tabs.newTab().setText(it))
         }

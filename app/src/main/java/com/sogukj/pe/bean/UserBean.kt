@@ -14,7 +14,7 @@ open class UserBean : Serializable {
     var memo: String = ""//备注
     var url: String? = null
     var depart_id: Int? = null//部门ID
-    var company: String? = null//所属公司
+    var company: String = ""//所属公司
     var numberOfShares: Int = 0
     var is_admin: Int = 0////0普通用户,1管理员,2超级管理员
     var user_id: Int? = null

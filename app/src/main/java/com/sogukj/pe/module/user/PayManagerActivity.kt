@@ -29,6 +29,7 @@ import org.jetbrains.anko.find
 
 /**
  * Created by CH-ZH on 2018/10/30.
+ * 账户管理
  */
 class PayManagerActivity : BaseRefreshActivity(), AllPayCallBack {
     private lateinit var adapter : RecyclerAdapter<UserManagerBean.ManagerInfo>

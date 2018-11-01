@@ -9,13 +9,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
-import android.text.Editable
 import android.text.Html
-import android.text.TextUtils
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import android.widget.TextView
 import com.afollestad.materialdialogs.MaterialDialog
@@ -27,19 +23,16 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.netease.nim.uikit.api.NimUIKit
-import com.netease.nim.uikit.business.recent.RecentContactsFragment.RECENT_TAG_STICKY
 import com.netease.nim.uikit.business.recent.TeamMemberAitHelper
 import com.netease.nim.uikit.business.uinfo.UserInfoHelper
 import com.netease.nimlib.sdk.NIMClient
 import com.netease.nimlib.sdk.Observer
 import com.netease.nimlib.sdk.RequestCallback
-import com.netease.nimlib.sdk.lucene.LuceneService
 import com.netease.nimlib.sdk.msg.MsgService
 import com.netease.nimlib.sdk.msg.MsgServiceObserve
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum
 import com.netease.nimlib.sdk.msg.model.IMMessage
 import com.netease.nimlib.sdk.msg.model.RecentContact
-import com.netease.nimlib.sdk.search.model.MsgIndexRecord
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
@@ -51,13 +44,11 @@ import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
-import com.sogukj.pe.bean.MessageIndexBean
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.module.approve.ApproveListActivity
 import com.sogukj.pe.module.im.ApproveAttachment
 import com.sogukj.pe.module.im.ImSearchResultActivity
 import com.sogukj.pe.module.other.GongGaoDetailActivity
-import com.sogukj.pe.module.other.MessageListActivity
 import com.sogukj.pe.module.other.MsgAssistantActivity
 import com.sogukj.pe.module.user.UserActivity
 import com.sogukj.pe.peUtils.MyGlideUrl
@@ -72,7 +63,6 @@ import kotlinx.android.synthetic.main.fragment_msg_center.*
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.backgroundResource
-import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.info
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.startActivity
@@ -204,7 +194,7 @@ class MainMsgFragment : BaseFragment() {
                 @SuppressLint("SetTextI18n")
                 override fun setData(view: View, data: RecentContact, position: Int) {
                     val titleName = UserInfoHelper.getUserTitleName(data.contactId, data.sessionType)
-                    tvTitle.text = data.fromNick
+                    tvTitle.text = titleName
                     topTag.setVisible(data.tag == RECENT_TAG_STICKY)
                     if (data.sessionType == SessionTypeEnum.P2P) {
                         tv_flag.visibility = View.GONE

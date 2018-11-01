@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -11,60 +11,47 @@
         android:id="@+id/iv_user"
         android:layout_width="@dimen/text_30"
         android:layout_height="@dimen/text_30"
-        app:layout_constraintStart_toStartOf="parent"
         android:src="@mipmap/ic_launch_pe_round"/>
     <TextView
-        android:id="@+id/tv_user"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="张元"
-        android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="@+id/iv_user"
-        app:layout_constraintStart_toEndOf="@+id/iv_user"
-        android:gravity="center_vertical"
-        android:layout_marginStart="@dimen/text_15"
-        style="@style/text14_color28"/>
-    <TextView
         android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="在“宏大科技投资项目组”添加了1个文件"
-        app:layout_constraintTop_toTopOf="@+id/tv_user"
+        tools:text="张元在“宏大科技投资项目组”添加了1个文件嗷嗷嗷AA哎哎哎哎哎哎AA"
         android:gravity="center_vertical"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_user"
-        app:layout_constraintStart_toEndOf="@+id/tv_user"
+        android:layout_marginLeft="@dimen/text_15"
+        android:layout_toRightOf="@id/iv_user"
         style="@style/text14_color28"/>
     <TextView
         android:id="@+id/tv_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="今天 14:34"
-        app:layout_constraintTop_toBottomOf="@+id/tv_user"
-        app:layout_constraintStart_toStartOf="@+id/tv_user"
+        android:layout_alignLeft="@id/tv_title"
+        android:layout_below="@id/tv_title"
         android:layout_marginTop="@dimen/text_2"
         style="@style/text12_colora0"/>
     <ImageView
         android:id="@+id/iv_image"
         android:layout_width="145dp"
         android:layout_height="90dp"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="@dimen/text_15"
         android:visibility="gone"
-        android:src="@mipmap/banner_ht"
-        app:layout_constraintTop_toBottomOf="@+id/tv_time"/>
+        android:layout_alignLeft="@id/tv_title"
+        android:layout_below="@id/tv_time"
+        android:src="@mipmap/banner_ht"/>
     <LinearLayout
         android:id="@+id/ll_files"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="@dimen/text_15"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_alignLeft="@id/tv_title"
+        android:layout_below="@id/tv_time"
         android:background="@drawable/bg_file_dynamic"
         android:paddingLeft="@dimen/text_15"
         android:paddingRight="@dimen/text_15"
         android:paddingTop="@dimen/text_10"
-        android:paddingBottom="@dimen/text_10"
-        app:layout_constraintTop_toBottomOf="@+id/tv_time">
+        android:paddingBottom="@dimen/text_10">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -103,4 +90,4 @@
         </RelativeLayout>
 
     </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

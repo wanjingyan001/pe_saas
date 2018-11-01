@@ -25,6 +25,7 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.CloudFileBean
 import com.sogukj.pe.bean.CloudLevel1
 import com.sogukj.pe.bean.CloudLevel2
+import com.sogukj.pe.peUtils.FileTypeUtils
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
@@ -33,6 +34,7 @@ import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.jetbrains.anko.find
+import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.startActivity
 import java.io.File
@@ -50,11 +52,12 @@ class CloudMineFileFragment : BaseRefreshFragment() {
     private var invokeType = 1 // 1:加密云盘按钮跳转 2：保存到云盘
     private var fileCount = 0
     private var path = ""
+    private var isSave  = true
     private var dir = ""
     override fun initRefreshConfig(): RefreshConfig? {
         val config = RefreshConfig()
-        config.loadMoreEnable = true
-        config.autoLoadMoreEnable = true
+        config.loadMoreEnable = false
+        config.autoLoadMoreEnable = false
         config.disableContentWhenRefresh = true
         return config
     }
@@ -68,6 +71,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
         invokeType = arguments!!.getInt("invokeType")
         path = arguments!!.getString("path")
         dir = arguments!!.getString("dir")
+        isSave = arguments!!.getBoolean("isSave",true)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -77,6 +81,11 @@ class CloudMineFileFragment : BaseRefreshFragment() {
     }
 
     private fun initData() {
+        if (isSave){
+            tv_current.text = "保存到当前目录"
+        }else{
+            tv_current.text = "移动到当前目录"
+        }
         if (invokeType == 1){
             rl_submit.setVisible(true)
             ll_save.setVisible(false)
@@ -113,7 +122,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
             }
 
             2 -> {
-                setBusExpandableData()
+//                setBusExpandableData()
                 if (invokeType == 1){
                     qyAdapter = RecyclerAdapter(activity!!){_adapter,parent,_ ->
                         CloudFileHolder(_adapter.getView(R.layout.item_cloud_file,parent))
@@ -152,13 +161,13 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                             getBaseActivity().showErrorToast(payload.message)
                             showEmpty()
                         }
-                        goneLoadding()
+                        dofinishRefresh()
                     }
 
                     onError {
                         it.printStackTrace()
                         getBaseActivity().showErrorToast("获取数据失败")
-                        goneLoadding()
+                        dofinishRefresh()
                         showEmpty()
                     }
                 }
@@ -183,13 +192,13 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                             getBaseActivity().showErrorToast(payload.message)
                             showEmpty()
                         }
-                        goneLoadding()
+                        dofinishRefresh()
                     }
 
                     onError {
                         it.printStackTrace()
                         getBaseActivity().showErrorToast("获取数据失败")
-                        goneLoadding()
+                        dofinishRefresh()
                         showEmpty()
                     }
                 }
@@ -235,54 +244,69 @@ class CloudMineFileFragment : BaseRefreshFragment() {
 
         tv_newdir.clickWithTrigger {
             //新建文件夹
-            NewDirActivity.invoke(activity!!, dir)
+            NewDirActivity.invokeForResult(this, dir,NEW_DIR_REQUEST)
         }
 
         tv_current.clickWithTrigger {
-            //保存到当前目录
-            val file = File(path)
-            val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
-                    .addFormDataPart("file_name", file.name, RequestBody.create(MediaType.parse("*/*"), file))
-                    .addFormDataPart("save_file_path",dir+"/") //1 项目文件 2审批文件
-                    .addFormDataPart("phone", Store.store.getUser(activity!!)!!.phone)
-            val body = builder.build()
-            showProgress("正在上传")
-            SoguApi.getService(getBaseActivity().application,OtherService::class.java)
-                    .uploadImFileToCloud(body)
-                    .execute {
-                        onNext { payload ->
-                            if (payload.isOk){
-                                showSuccessToast("上传文件成功")
-                            }else{
-                                showErrorToast(payload.message)
+            if (isSave){
+                //保存到当前目录
+                val file = File(path)
+                val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
+                        .addFormDataPart("file_name", file.name, RequestBody.create(MediaType.parse("*/*"), file))
+                        .addFormDataPart("save_file_path",dir+"/") //1 项目文件 2审批文件
+                        .addFormDataPart("phone", Store.store.getUser(activity!!)!!.phone)
+                val body = builder.build()
+                showProgress("正在上传")
+                SoguApi.getService(getBaseActivity().application,OtherService::class.java)
+                        .uploadImFileToCloud(body)
+                        .execute {
+                            onNext { payload ->
+                                if (payload.isOk){
+                                    showSuccessToast("上传文件成功")
+                                    doRefresh()
+                                }else{
+                                    showErrorToast(payload.message)
+                                }
+                                hideProgress()
                             }
-                            hideProgress()
-                        }
 
-                        onError {
-                            it.printStackTrace()
-                            hideProgress()
-                            showErrorToast("上传文件失败")
+                            onError {
+                                it.printStackTrace()
+                                hideProgress()
+                                showErrorToast("上传文件失败")
+                            }
                         }
-                    }
+            }else{
+                //移动到当前目录
 
+            }
         }
     }
 
     override fun doRefresh() {
-        dofinishRefresh()
+        when(type){
+            1 -> {
+                getMineCloudFileData()
+            }
+
+            2 -> {
+                getBusCloudFileData()
+            }
+        }
     }
 
     override fun doLoadMore() {
-        dofinishLoadMore()
+
     }
 
     fun showEmpty(){
         ll_empty.setVisible(true)
+        recycler_view.visibility = View.INVISIBLE
     }
 
     fun goneEmpty(){
         ll_empty.visibility = View.INVISIBLE
+        recycler_view.visibility = View.VISIBLE
     }
 
     fun showLoadding(){
@@ -321,7 +345,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                 file_icon.setImageResource(R.drawable.folder_zip)
             }else{
                 iv_select.setVisible(true)
-                file_icon.setImageResource(R.drawable.icon_pdf)
+                file_icon.imageResource = FileTypeUtils.getFileType(data.file_name).icon
             }
             tv_summary.text = data.file_name
             tv_time.text = data.create_time
@@ -329,7 +353,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
             itemView.clickWithTrigger {
                 if (data.file_type.equals("Folder")){
                     startActivity<FileDirDetailActivity>(Extras.TITLE to data.file_name,Extras.TYPE to invokeType,
-                                Extras.TYPE1 to path,Extras.TYPE2 to dir)
+                                Extras.TYPE1 to path,Extras.TYPE2 to dir,"isSave" to isSave)
                 }else{
                     if (alreadySelected.contains(data)){
                         alreadySelected.remove(data)
@@ -372,7 +396,9 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                 //文件夹
                 file_icon.setImageResource(R.drawable.folder_zip)
             }else{
-                file_icon.setImageResource(R.drawable.icon_pdf)
+                file_icon.imageResource = FileTypeUtils.getFileType(data.file_name).icon
+                tv_summary.setTextColor(resources.getColor(R.color.gray_d8))
+                tv_time.setTextColor(resources.getColor(R.color.gray_d8))
             }
             tv_summary.text = data.file_name
             tv_time.text = data.create_time
@@ -380,23 +406,23 @@ class CloudMineFileFragment : BaseRefreshFragment() {
             itemView.clickWithTrigger {
                 if (data.file_type.equals("Folder")){
                     startActivity<FileDirDetailActivity>(Extras.TITLE to data.file_name,Extras.TYPE to invokeType,
-                            Extras.TYPE1 to path,Extras.TYPE2 to dir)
+                            Extras.TYPE1 to path,Extras.TYPE2 to dir,"isSave" to isSave)
                 }
             }
         }
-
     }
 
     companion object {
         val TAG = CloudMineFileFragment::class.java.simpleName
         val NEW_DIR_REQUEST = 1008
-        fun newInstance(type:Int,invokeType:Int,path:String,dir:String): CloudMineFileFragment {
+        fun newInstance(type:Int,invokeType:Int,path:String,dir:String,isSave:Boolean): CloudMineFileFragment {
             val fragment = CloudMineFileFragment()
             val bundle = Bundle()
             bundle.putInt("type",type)
             bundle.putInt("invokeType",invokeType)
             bundle.putString("path",path)
             bundle.putString("dir",dir)
+            bundle.putBoolean("isSave",isSave)
             fragment.arguments = bundle
             return fragment
         }
@@ -408,34 +434,19 @@ class CloudMineFileFragment : BaseRefreshFragment() {
         if (resultCode == Activity.RESULT_OK){
             when(requestCode){
                 NEW_DIR_REQUEST -> {
-                    if (null != data){
-                        val dirName = data.getStringExtra(Extras.DATA)
-                        createDir(dirName)
+                    when(type){
+                        1 -> {
+                            getMineCloudFileData()
+                        }
+
+                        2 -> {
+                            getBusCloudFileData()
+                        }
                     }
                 }
             }
         }
     }
-
-    private fun createDir(dirName: String?) {
-        SoguApi.getService(getBaseActivity().application,OtherService::class.java)
-                .createNewDir(dir,dirName!!,Store.store.getUser(activity!!)!!.phone)
-                .execute {
-                    onNext { payload ->
-                        if (payload.isOk){
-
-                        }else{
-
-                        }
-                    }
-
-                    onError {
-                        it.printStackTrace()
-                        getBaseActivity().showErrorToast("创建文件夹失败")
-                    }
-                }
-    }
-
 }
 
 

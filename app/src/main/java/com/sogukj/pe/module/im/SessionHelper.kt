@@ -53,12 +53,19 @@ object SessionHelper {
         val listener = object : SessionEventListener {
             override fun onCloudClicked(context: Context?, message: IMMessage?) {
                 val path = (message!!.attachment as FileAttachment).path
-                if (path.isNullOrEmpty()){
+                val pathForSave = (message!!.attachment as FileAttachment).pathForSave
+                Log.e("TAG","path ==" + path + " pathForSave ==" + pathForSave)
+                if (path.isNullOrEmpty() && pathForSave.isNullOrEmpty()){
                     Toast.makeText(context,"文件不存在,请先下载再上传",Toast.LENGTH_SHORT).show()
                 }else{
-                    Log.e("TAG","pathForSave ==" + path)
-                    //跳转到云盘
-                    CloudDishActivity.invoke(context!!,2,path)
+                    if (!path.isNullOrEmpty()){
+                        //跳转到云盘
+                        CloudDishActivity.invoke(context!!,2,path)
+                    }else if (!pathForSave.isNullOrEmpty()){
+                        //跳转到云盘
+                        CloudDishActivity.invoke(context!!,2,pathForSave)
+                    }
+
                 }
             }
 

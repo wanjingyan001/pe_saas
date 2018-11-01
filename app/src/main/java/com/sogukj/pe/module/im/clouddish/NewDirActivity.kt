@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -58,6 +59,7 @@ class NewDirActivity : ToolbarActivity(), TextWatcher {
                     onNext { payload ->
                         if (payload.isOk){
                             showSuccessToast("新建文件夹成功")
+                            setResult(Activity.RESULT_OK)
                             finish()
                         }else{
                             showErrorToast(payload.message)
@@ -90,8 +92,16 @@ class NewDirActivity : ToolbarActivity(), TextWatcher {
     }
 
     companion object {
-        fun invokeForResult(context:Activity,requestCode:Int){
+        fun invokeForResult(context:Activity,dir:String,requestCode:Int){
             val intent = Intent(context,NewDirActivity::class.java)
+            intent.putExtra("dir",dir)
+            context.startActivityForResult(intent,requestCode)
+        }
+
+        fun invokeForResult(context:Fragment,dir:String,requestCode:Int){
+            val intent = Intent(context.activity,NewDirActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.putExtra("dir",dir)
             context.startActivityForResult(intent,requestCode)
         }
 

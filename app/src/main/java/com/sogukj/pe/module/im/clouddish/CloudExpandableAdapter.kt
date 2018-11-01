@@ -9,7 +9,6 @@ import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.bean.CloudLevel1
 import com.sogukj.pe.bean.CloudLevel2
-import org.jetbrains.anko.startActivity
 
 /**
  * Created by CH-ZH on 2018/10/25.
@@ -54,7 +53,7 @@ class CloudExpandableAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseVi
                 }
                 holder.setText(R.id.tv_size,level1Item.size)
                 holder.itemView.clickWithTrigger {
-                    mAct!!.startActivity<FileDirDetailActivity>(Extras.TITLE to level1Item.name)
+
                 }
             }
 
