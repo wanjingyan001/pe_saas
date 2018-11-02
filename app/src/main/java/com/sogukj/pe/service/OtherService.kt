@@ -361,4 +361,11 @@ interface OtherService {
     @GET("/api/cloud/filterFileType")
     fun getFileFillterData(@Query("page") page: Int? = 1, @Query("phone") phone : String,
                            @Query("search") search : String,@Query("size") size : Int ? = 15): Observable<Payload<List<CloudFileBean>>>
+
+    /**
+     * 文件搜索
+     */
+    @GET("/api/cloud/searchFileList")
+    fun getFileSearchData(@Query("page") page: Int? = 1, @Query("phone") phone : String,
+                           @Query("search") search : String,@Query("size") size : Int ? = 15): Observable<Payload<List<CloudFileBean>>>
 }

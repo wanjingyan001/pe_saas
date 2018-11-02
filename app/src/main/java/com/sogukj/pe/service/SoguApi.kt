@@ -125,6 +125,7 @@ class SoguApi {
      */
     private fun initInterceptor(context: Context) = Interceptor { chain ->
         val user = Store.store.getUser(context)
+        val timestamp = System.currentTimeMillis()
         val key = PreferenceManager.getDefaultSharedPreferences(context).getString(Extras.CompanyKey, "")
         val newBuilder = chain.request().newBuilder()
         user?.let {
@@ -148,8 +149,9 @@ class SoguApi {
                 .addHeader("version", Utils.getVersionName(context))
                 .addHeader("client", "android")
                 .addHeader("system", Build.VERSION.RELEASE)
+                .addHeader("timestamp",timestamp.toString())
                 .addHeader("sign",EncryptionUtil.getSign(EncryptionUtil.getSign(user?.let {it.app_token}
-                        + Extras.SIGN_CODE)+System.currentTimeMillis()))
+                        + Extras.SIGN_CODE)+timestamp))
                 .build()
         val response = chain.proceed(request)
         response

@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
@@ -32,6 +33,7 @@ import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum
 import com.netease.nimlib.sdk.search.model.MsgIndexRecord
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -46,7 +48,9 @@ import com.sogukj.pe.module.other.OnlinePreviewActivity
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.presenter.ImSearchCallBack
 import com.sogukj.pe.presenter.ImSearchPresenter
+import com.sogukj.pe.service.OtherService
 import com.sogukj.pe.widgets.CircleImageView
+import com.sogukj.service.SoguApi
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
 import kotlinx.android.synthetic.main.activity_im_search.*
@@ -211,6 +215,7 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
     private var contractAdapter : ContractAdapter ? = null
     private var plAdapter : PlAdapter ? = null
     private var cloudHisAdapter : CloudHisAdapter ? = null
+    private var page = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_im_search)
@@ -358,9 +363,12 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
     }
 
     private fun initCloudFileResult() {
+        search_recycler_view.layoutManager = LinearLayoutManager(context)
+        search_recycler_view.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         cloudResultAdapter = RecyclerAdapter(this){_adapter, parent, _ ->
             CloudResultHolder(_adapter.getView(R.layout.item_cloud_result,parent))
         }
+        search_recycler_view.adapter = cloudResultAdapter
     }
 
     override fun onResume() {
@@ -454,9 +462,13 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
         if (type == 3){
             cloudResultAdapter.onItemClick = {v,position ->
                 //预览页面
-                OnlinePreviewActivity.start(this,"","")
+                val fileBean = cloudResultAdapter.dataList[position]
+                if (null != fileBean){
+                    OnlinePreviewActivity.start(this,"",fileBean.file_name)
+                }
             }
         }
+
         tfl.setOnTagClickListener { view, position, parent ->
             if (type == 0){
                 if (null != searchHis && searchHis!!.size > 0){
@@ -481,7 +493,12 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
                     et_search.setSelection(key.length)
                 }
             }else if (type == 3){
-
+                if (null != cloudFileHis && cloudFileHis!!.size > 0){
+                    val key = cloudFileHis!![position]
+                    getCloudSearchData(false,key)
+                    et_search.setText(key)
+                    et_search.setSelection(key.length)
+                }
             }
             true
         }
@@ -514,19 +531,30 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
                     }
                 }
                 ll_empty_his.visibility = View.VISIBLE
+            }else if (type == 3){
+                if (null != cloudFileHis && cloudFileHis!!.size > 0){
+                    Store.store.clearCloudHis(this)
+                    cloudFileHis = Store.store.getCloudHis(this)
+                    if (null != cloudHisAdapter){
+                        cloudHisAdapter!!.notifyDataChanged()
+                    }
+                }
             }
         }
 
 
         refresh.setOnLoadMoreListener {
             doLoadMore()
-            refresh.finishLoadMore(1000)
         }
     }
 
     private fun doLoadMore() {
-        if (null != presenter){
-            presenter!!.getPlExpressResultData(false,searchKey)
+        if (type == 2){
+            if (null != presenter){
+                presenter!!.getPlExpressResultData(false,searchKey)
+            }
+        }else if (type == 3){
+            getCloudSearchData(true,searchKey)
         }
     }
 
@@ -758,8 +786,79 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
                 presenter!!.getPlExpressResultData(true,query)
             }else if (type == 3){
                 //获取云文件
-
+                getCloudSearchData(false,query)
             }
+        }
+    }
+
+    private fun getCloudSearchData(isLoadMore:Boolean,query: String) {
+        if (isLoadMore){
+            page++
+        }else{
+            page=1
+        }
+        SoguApi.getService(application,OtherService::class.java)
+                .getFileSearchData(page,Store.store.getUser(this)!!.phone,query)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+                            val infos = payload.payload
+                            if (null != infos && infos.size > 0){
+                                setEmpty(false)
+                                if (isLoadMore){
+                                    setResultVisibility(true)
+                                    cloudResultAdapter.dataList.addAll(infos)
+                                    cloudResultAdapter.notifyDataSetChanged()
+                                }else{
+                                    cloudResultAdapter.dataList.clear()
+                                    cloudResultAdapter.dataList.addAll(infos)
+                                    cloudResultAdapter.notifyDataSetChanged()
+                                    saveCloudHis()
+                                }
+                            }else{
+                                if (!isLoadMore){
+                                    setEmpty(true)
+                                }
+                            }
+                        }else{
+                            showErrorToast(payload.message)
+                        }
+                    }
+
+                    onComplete {
+                        if (isLoadMore){
+                            finishLoadMore()
+                        }
+                    }
+                    onError {
+                        it.printStackTrace()
+                        showErrorToast("获取数据失败")
+                        if (isLoadMore){
+                            finishLoadMore()
+                        }else{
+                            setEmpty(true)
+                        }
+                    }
+                }
+    }
+
+    private fun saveCloudHis() {
+        val his = Store.store.getCloudHis(this)
+        if (null != his && his.size > 0){
+            var index = 0
+            for (i in his){
+                if (searchKey.equals(i)){
+                    index ++
+                }
+            }
+            if (index == 0){
+                his.add(searchKey)
+                Store.store.saveCloudtHis(this,his)
+            }
+        }else{
+            val keys = ArrayList<String>()
+            keys.add(searchKey)
+            Store.store.saveCloudtHis(this,keys)
         }
     }
 

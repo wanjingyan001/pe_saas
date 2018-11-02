@@ -30,6 +30,7 @@ import org.jetbrains.anko.startActivity
 
 /**
  * Created by CH-ZH on 2018/10/31.
+ * 分类
  */
 class CloudFileSortActivity : BaseRefreshActivity() {
     private var dir : String = ""
