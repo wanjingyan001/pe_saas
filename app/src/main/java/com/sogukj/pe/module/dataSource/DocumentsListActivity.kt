@@ -1,6 +1,7 @@
 package com.sogukj.pe.module.dataSource
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -16,6 +17,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.edit
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alipay.sdk.app.PayTask
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.google.gson.Gson
@@ -27,6 +29,7 @@ import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
 import com.sogukj.pe.baselibrary.utils.DownloadUtil
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.bean.PayResult
 import com.sogukj.pe.bean.PdfBook
 import com.sogukj.pe.module.receipt.AllPayCallBack
 import com.sogukj.pe.module.receipt.PayDialog
@@ -34,8 +37,10 @@ import com.sogukj.pe.service.DataSourceService
 import com.sogukj.pe.service.OtherService
 import com.sogukj.pe.widgets.indexbar.RecycleViewDivider
 import com.sogukj.service.SoguApi
+import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_prospectus_list.*
 import org.jetbrains.anko.ctx
+import org.jetbrains.anko.info
 import org.jetbrains.anko.singleLine
 import java.io.File
 
@@ -176,8 +181,8 @@ class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
         }
 
         listAdapter.setClickPayListener(object : BookListAdapter.ClickPayCallBack{
-            override fun clickPay(title: String, price: String, count: Int,id:String) {
-                PayDialog.showPayBookDialog(this@DocumentsListActivity,1,this@DocumentsListActivity,title,price,count,id)
+            override fun clickPay(title: String, price: String, count: Int,id:String,book:PdfBook) {
+                PayDialog.showPayBookDialog(this@DocumentsListActivity,1,this@DocumentsListActivity,title,price,count,id,book)
             }
 
         })
@@ -195,13 +200,12 @@ class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
     }
     override fun pay(order_type: Int, count: Int, pay_type: Int, fee: String, tv_per_balance: TextView, iv_pre_select: ImageView,
                      tv_bus_balance: TextView, iv_bus_select: ImageView,
-                     tv_per_title:TextView,tv_bus_title:TextView) {
+                     tv_per_title:TextView,tv_bus_title:TextView,dialog: Dialog) {
 
     }
     override fun payForOther(id:String,order_type: Int, count: Int, pay_type: Int, fee: String, tv_per_balance: TextView,
                      iv_pre_select: ImageView, tv_bus_balance: TextView, iv_bus_select: ImageView,
-                             tv_per_title:TextView,tv_bus_title:TextView) {
-
+                             tv_per_title:TextView,tv_bus_title:TextView,dialog: Dialog,book:PdfBook) {
         SoguApi.getService(application, OtherService::class.java)
                 .getAccountPayInfo(order_type,count,pay_type,fee,id)
                 .execute {
@@ -211,9 +215,14 @@ class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
                                 showSuccessToast("支付成功")
                                 PayDialog.refreshAccountData(tv_per_balance,iv_pre_select, tv_bus_balance,iv_bus_select,tv_per_title,tv_bus_title)
                                 refreshIntelligentData()
+                                if (dialog.isShowing){
+                                    dialog.dismiss()
+                                }
+                                PdfPreviewActivity.start(this@DocumentsListActivity,book, downloaded.contains(book.pdf_name))
                             }else{
                                 if (pay_type == 3){
                                     //支付宝
+                                    sendToZfbRequest(payload.payload as String?,dialog,book)
                                 }else if (pay_type == 4){
                                     //微信
                                 }
@@ -232,6 +241,41 @@ class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
                         }
                     }
                 }
+    }
+
+    /**
+     * 支付宝支付
+     */
+    private fun sendToZfbRequest(commodityInfo: String?,dialog: Dialog,book:PdfBook) {
+        Observable.create<Map<String, String>> { e ->
+            val payTask = PayTask(this)
+            val result = payTask.payV2(commodityInfo, true)
+            e.onNext(result)
+        }.execute {
+            onNext { result ->
+                result.forEach { t, u ->
+                    info { "key:$t ==> value:$u \n" }
+                }
+                val payResult = Gson().fromJson<PayResult?>(result.jsonStr)
+                if (payResult != null) {
+                    when (payResult.resultStatus) {
+                        "9000" -> {
+                            showSuccessToast("支付成功")
+                            refreshIntelligentData()
+                            if (dialog.isShowing){
+                                dialog.dismiss()
+                            }
+                            PdfPreviewActivity.start(this@DocumentsListActivity,book, downloaded.contains(book.pdf_name))
+                        }
+                        else -> {
+                            showErrorToast(payResult.memo)
+                        }
+                    }
+                } else {
+                    showErrorToast("请求出错")
+                }
+            }
+        }
     }
 
     /**

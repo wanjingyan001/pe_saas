@@ -82,6 +82,15 @@ class InvoiceHistoryActivity : BaseRefreshActivity() {
 
     }
 
+    fun showEmpty(){
+        fl_empty.visibility = View.VISIBLE
+        rv_his.visibility = View.INVISIBLE
+    }
+
+    fun goneEmpty(){
+        fl_empty.visibility = View.INVISIBLE
+        rv_his.visibility = View.VISIBLE
+    }
     override fun onResume() {
         super.onResume()
         if (type == 1){
@@ -109,6 +118,11 @@ class InvoiceHistoryActivity : BaseRefreshActivity() {
                                     adapter.dataList.clear()
                                     adapter.dataList.addAll(infos)
                                     adapter.notifyDataSetChanged()
+                                }
+                                goneEmpty()
+                            }else{
+                                if (!isLoadMore){
+                                    showEmpty()
                                 }
                             }
                         }else{
@@ -153,6 +167,11 @@ class InvoiceHistoryActivity : BaseRefreshActivity() {
                                     adapter.dataList.clear()
                                     adapter.dataList.addAll(infos)
                                     adapter.notifyDataSetChanged()
+                                }
+                                goneEmpty()
+                            }else{
+                                if (!isLoadMore){
+                                    showEmpty()
                                 }
                             }
                         }else{

@@ -25,10 +25,19 @@
         android:paddingEnd="15dp"
         android:paddingStart="15dp"
         android:src="@mipmap/icon_pdf_download"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:paddingEnd="15dp"
+        android:paddingStart="15dp"
+        android:src="@drawable/ic_right"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <TextView
         android:id="@+id/docTag"
         android:layout_width="wrap_content"

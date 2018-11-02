@@ -13,6 +13,7 @@ class RechargeRecordBean : Serializable {
     class AccountList : Serializable{
         var fee = ""
         var add_time =""
-        var source = 1 // 1 支付宝 2 微信
+        var source = 1 // 1 支付宝 2 微信 3 支出
+        var info = ""
     }
 }

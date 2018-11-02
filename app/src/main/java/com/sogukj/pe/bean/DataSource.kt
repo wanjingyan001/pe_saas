@@ -15,7 +15,7 @@ data class PdfBook(val id: Int,
                    val date: String,
                    val cat: String? = null,
                    val share_url:String,
-                   val price : String = "",
+                   val price : String? = null,
                    val status : Int = 1) : Parcelable
 @SuppressLint("ParcelCreator")
 @Parcelize

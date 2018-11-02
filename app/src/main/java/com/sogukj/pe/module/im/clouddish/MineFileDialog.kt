@@ -1,5 +1,6 @@
 package com.sogukj.pe.module.im.clouddish
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.view.Gravity
@@ -134,7 +135,7 @@ class MineFileDialog {
 
         }
 
-        fun showFileItemDialog(context: Context,isdir : Boolean,data: CloudFileBean){
+        fun showFileItemDialog(context: Activity, isdir : Boolean, data: CloudFileBean,requestCode : Int){
             val dialog = Dialog(context, R.style.AppTheme_Dialog)
             dialog.setContentView(R.layout.dialog_file_item)
             val lay = dialog.getWindow()!!.getAttributes()
@@ -170,14 +171,10 @@ class MineFileDialog {
                 }
             }
             if (isdir){
-                tv_forward.setVisible(false)
-                view_line1.setVisible(false)
 
                 tv_copy.setVisible(false)
                 view_line2.setVisible(false)
             }else{
-                tv_forward.setVisible(true)
-                view_line1.setVisible(true)
 
                 tv_copy.setVisible(true)
                 view_line2.setVisible(true)
@@ -206,6 +203,12 @@ class MineFileDialog {
                 if (dialog.isShowing){
                     dialog.dismiss()
                 }
+                if (isdir){
+                    NewDirActivity.invokeForResult(context, data.file_path, requestCode,1,data.file_name)
+                }else{
+                    NewDirActivity.invokeForResult(context, data.file_path, requestCode,2,data.file_name)
+                }
+
             }
 
             tv_remove.clickWithTrigger {

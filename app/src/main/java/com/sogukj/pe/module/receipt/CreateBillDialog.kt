@@ -1,5 +1,6 @@
 package com.sogukj.pe.module.receipt
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.text.Editable
@@ -29,7 +30,7 @@ import org.jetbrains.anko.startActivity
  */
 class CreateBillDialog {
     companion object {
-        fun showBillDialog(context: Context, map: HashMap<String, Any>) {
+        fun showBillDialog(context: Activity, map: HashMap<String, Any>) {
             val dialog = Dialog(context, R.style.AppTheme_Dialog)
             dialog.setContentView(R.layout.dialog_create_bill)
             val lay = dialog.getWindow()!!.getAttributes()
@@ -79,6 +80,7 @@ class CreateBillDialog {
                             onNext { payload ->
                                 if (payload.isOk) {
                                     context.startActivity<SubmitBillSucActivity>(Extras.TITLE to "开具纸质发票")
+                                    context.finish()
                                 }
                             }
 

@@ -244,7 +244,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
 
         tv_newdir.clickWithTrigger {
             //新建文件夹
-            NewDirActivity.invokeForResult(this, dir,NEW_DIR_REQUEST)
+            NewDirActivity.invokeForResult(this, dir,NEW_DIR_REQUEST,0,"")
         }
 
         tv_current.clickWithTrigger {

@@ -26,7 +26,11 @@ class BookListAdapter(data: List<PdfBook>, var downloaded: List<String>, val typ
         helper.addOnClickListener(R.id.download)
         name.text = item.pdf_name
         timeTv.text = item.date
-        tv_price.text= "￥${item.price}"
+        if (item.price.isNullOrEmpty()){
+            tv_price.text= "￥0.99"
+        }else{
+            tv_price.text= "￥${item.price}"
+        }
         if (item.status == 1){
             //已购买
             tv_pay.setDrawable(tv_pay,0,mContext!!.getDrawable(R.mipmap.ic_haven_pay))
@@ -37,7 +41,11 @@ class BookListAdapter(data: List<PdfBook>, var downloaded: List<String>, val typ
             tv_pay.clickWithTrigger {
                 //智能文书购买
                 if (null != callBack){
-                    callBack!!.clickPay(item.pdf_name,item.price,1,item.id.toString())
+                    var price = "0.99"
+                    if (!item.price.isNullOrEmpty()){
+                        price = item.price!!
+                    }
+                    callBack!!.clickPay(item.pdf_name,price,1,item.id.toString(),item)
                 }
             }
         }
@@ -64,11 +72,12 @@ class BookListAdapter(data: List<PdfBook>, var downloaded: List<String>, val typ
             }
         }
     }
+
     open fun setClickPayListener(callBack : ClickPayCallBack){
         this.callBack = callBack
     }
 
     interface ClickPayCallBack{
-        fun clickPay(title:String,price:String,count:Int,id:String)
+        fun clickPay(title:String,price:String,count:Int,id:String,book:PdfBook)
     }
 }

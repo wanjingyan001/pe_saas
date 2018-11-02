@@ -475,7 +475,7 @@ class MainProjectFragment : BaseRefreshFragment() {
 
     private fun loadDangerous() {
         try {
-            Glide.with(activity!!).asGif().load(R.drawable.danger).into(dangerous)
+//            Glide.with(activity!!).asGif().load(R.drawable.danger).into(dangerous)
             Glide.with(activity!!).asGif().load(R.drawable.danger).into(cus_dangerous)
         }catch (e:Exception){
             e.printStackTrace()
@@ -483,7 +483,7 @@ class MainProjectFragment : BaseRefreshFragment() {
     }
 
     private fun setFloatButtonVisible(visible:Boolean){
-        dangerous.setVisible(visible)
+//        dangerous.setVisible(visible)
         cus_dangerous.setVisible(visible)
     }
 

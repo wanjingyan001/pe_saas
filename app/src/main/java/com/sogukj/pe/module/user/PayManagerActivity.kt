@@ -1,5 +1,6 @@
 package com.sogukj.pe.module.user
 
+import android.app.Dialog
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
@@ -8,15 +9,21 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.alipay.sdk.app.PayTask
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.gson.Gson
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.execute
+import com.sogukj.pe.baselibrary.Extended.fromJson
+import com.sogukj.pe.baselibrary.Extended.jsonStr
 import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
+import com.sogukj.pe.bean.PayResult
+import com.sogukj.pe.bean.PdfBook
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.bean.UserManagerBean
 import com.sogukj.pe.module.receipt.AllPayCallBack
@@ -24,8 +31,10 @@ import com.sogukj.pe.module.receipt.PayDialog
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
+import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_pay_manager.*
 import org.jetbrains.anko.find
+import org.jetbrains.anko.info
 
 /**
  * Created by CH-ZH on 2018/10/30.
@@ -156,7 +165,8 @@ class PayManagerActivity : BaseRefreshActivity(), AllPayCallBack {
 
             tv_buy.clickWithTrigger {
                 //购买
-                PayDialog.showPayBookDialog(this@PayManagerActivity,2,this@PayManagerActivity,userAccount,price,1,data.user_id)
+                PayDialog.showPayBookDialog(this@PayManagerActivity,2,this@PayManagerActivity,
+                        userAccount,price,1,data.user_id,null)
             }
         }
 
@@ -164,13 +174,13 @@ class PayManagerActivity : BaseRefreshActivity(), AllPayCallBack {
 
     override fun pay(order_type: Int, count: Int, pay_type: Int, fee: String, tv_per_balance: TextView,
                      iv_pre_select: ImageView, tv_bus_balance: TextView, iv_bus_select: ImageView,
-                     tv_per_title:TextView,tv_bus_title:TextView) {
+                     tv_per_title:TextView,tv_bus_title:TextView,dialog: Dialog) {
 
     }
 
     override fun payForOther(id: String, order_type: Int, count: Int, pay_type: Int, fee: String,
                              tv_per_balance: TextView, iv_pre_select: ImageView, tv_bus_balance: TextView, iv_bus_select: ImageView,
-                             tv_per_title:TextView,tv_bus_title:TextView) {
+                             tv_per_title:TextView,tv_bus_title:TextView,dialog: Dialog,book: PdfBook) {
         SoguApi.getService(application, OtherService::class.java)
                 .getAccountPayInfo(order_type,count,pay_type,fee,id)
                 .execute {
@@ -180,9 +190,14 @@ class PayManagerActivity : BaseRefreshActivity(), AllPayCallBack {
                                 showSuccessToast("支付成功")
                                 PayDialog.refreshAccountData(tv_per_balance,iv_pre_select, tv_bus_balance,iv_bus_select,tv_per_title,tv_bus_title)
                                 doRefresh()
+                                if (dialog.isShowing){
+                                    dialog.dismiss()
+                                }
                             }else{
                                 if (pay_type == 3){
                                     //支付宝
+                                    //支付宝
+                                    sendToZfbRequest(payload.payload as String?,dialog)
                                 }else if (pay_type == 4){
                                     //微信
                                 }
@@ -201,6 +216,40 @@ class PayManagerActivity : BaseRefreshActivity(), AllPayCallBack {
                         }
                     }
                 }
+    }
+
+    /**
+     * 支付宝支付
+     */
+    private fun sendToZfbRequest(commodityInfo: String?,dialog: Dialog) {
+        Observable.create<Map<String, String>> { e ->
+            val payTask = PayTask(this)
+            val result = payTask.payV2(commodityInfo, true)
+            e.onNext(result)
+        }.execute {
+            onNext { result ->
+                result.forEach { t, u ->
+                    info { "key:$t ==> value:$u \n" }
+                }
+                val payResult = Gson().fromJson<PayResult?>(result.jsonStr)
+                if (payResult != null) {
+                    when (payResult.resultStatus) {
+                        "9000" -> {
+                            showSuccessToast("支付成功")
+                            getManagerData()
+                            if (dialog.isShowing){
+                                dialog.dismiss()
+                            }
+                        }
+                        else -> {
+                            showErrorToast(payResult.memo)
+                        }
+                    }
+                } else {
+                    showErrorToast("请求出错")
+                }
+            }
+        }
     }
 
     private fun setLoadding(){
@@ -226,7 +275,7 @@ class PayManagerActivity : BaseRefreshActivity(), AllPayCallBack {
                 alreadySelected.forEach {
                     ids = it.user_id + ","
                 }
-                PayDialog.showPayBookDialog(this,2,this,userAccount,price,selectCount,ids)
+                PayDialog.showPayBookDialog(this,2,this,userAccount,price,selectCount,ids,null)
             }else{
                 showCommonToast("请至少选择一个账号")
             }

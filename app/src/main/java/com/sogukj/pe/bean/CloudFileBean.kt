@@ -13,5 +13,6 @@ class CloudFileBean : Serializable{
     var catalogue = "" //目录
     var canSelect = false
     var used_bytes = "" //字节
+    var file_path = ""
     var url = "https://18121442041:admin@ownclouds.pewinner.com/remote.php/webdav/我的文件/我的文件1.png?downloadStartSecret=eaIxJKYzQnh"
 }

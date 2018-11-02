@@ -26,12 +26,16 @@ import kotlinx.android.synthetic.main.white_normal_toolbar.*
  */
 class NewDirActivity : ToolbarActivity(), TextWatcher {
     private var dir = ""
+    private var type = 0 //0 新建文件夹 1 重命名文件夹 2 重命名文件
+    private var content = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_dir)
         setBack(true)
-        setTitle("新建文件夹")
         dir = intent.getStringExtra("dir")
+        type = intent.getIntExtra("type",0)
+        content = intent.getStringExtra("content")
+        setFormatInfo()
         toolbar_menu.visibility = View.VISIBLE
         toolbar_menu.text = "完成"
         toolbar_menu.setTextColor(resources.getColor(R.color.gray_f1))
@@ -44,10 +48,52 @@ class NewDirActivity : ToolbarActivity(), TextWatcher {
 
         toolbar_menu.clickWithTrigger {
             if (!et_input.textStr.isNullOrEmpty()){
-                //新建文件夹
-                createNewDir(et_input.textStr)
+                modifiData(et_input.textStr)
+
             }else{
-                showCommonToast("文件夹名称不能为空")
+                when(type){
+                    0,1 ->  showCommonToast("文件夹名称不能为空")
+                    2 -> showCommonToast("文件名称不能为空")
+                }
+
+            }
+        }
+    }
+
+    private fun modifiData(content: String) {
+        when(type){
+            0 -> {
+                //新建文件夹
+                createNewDir(content)
+            }
+            1 -> {
+                //修改文件夹名
+            }
+            2 -> {
+                //修改文件名
+            }
+        }
+    }
+
+    private fun setFormatInfo() {
+        when(type){
+            0 -> {
+                setTitle("新建文件夹")
+                et_input.setHint("输入文件夹名")
+            }
+
+            1 -> {
+                setTitle("修改文件夹名")
+                et_input.setHint("输入文件夹名")
+                et_input.setText(content)
+                et_input.setSelection(content.length)
+            }
+
+            2 -> {
+                setTitle("修改文件名")
+                et_input.setHint("输入文件名")
+                et_input.setText(content)
+                et_input.setSelection(content.length)
             }
         }
     }
@@ -92,22 +138,27 @@ class NewDirActivity : ToolbarActivity(), TextWatcher {
     }
 
     companion object {
-        fun invokeForResult(context:Activity,dir:String,requestCode:Int){
+        fun invokeForResult(context:Activity,dir:String,requestCode:Int,type:Int,content:String){
             val intent = Intent(context,NewDirActivity::class.java)
             intent.putExtra("dir",dir)
+            intent.putExtra("type",type)
+            intent.putExtra("content",content)
             context.startActivityForResult(intent,requestCode)
         }
 
-        fun invokeForResult(context:Fragment,dir:String,requestCode:Int){
+        fun invokeForResult(context:Fragment,dir:String,requestCode:Int,type:Int,content:String){
             val intent = Intent(context.activity,NewDirActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.putExtra("dir",dir)
+            intent.putExtra("type",type)
+            intent.putExtra("content",content)
             context.startActivityForResult(intent,requestCode)
         }
 
-        fun invoke(context: Context,dir:String){
+        fun invoke(context: Context,dir:String,type:Int,content:String){
             val intent = Intent(context,NewDirActivity::class.java)
             intent.putExtra("dir",dir)
+            intent.putExtra("type",type)
+            intent.putExtra("content",content)
             if (context !is Activity){
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }

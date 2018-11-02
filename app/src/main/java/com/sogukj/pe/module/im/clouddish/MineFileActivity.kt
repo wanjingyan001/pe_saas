@@ -58,6 +58,7 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
     private var folderInfos = ArrayList<CloudFileBean>() //文件夹相关
     private var fileInfos = ArrayList<CloudFileBean>() //文件相关
     private var allInfos = ArrayList<CloudFileBean>()
+    private var primeInfos = ArrayList<CloudFileBean>()
     private var title = ""
     private var isSelectStatus = false //是否是多选的状态
     private var scroll = 0
@@ -109,6 +110,7 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
                         if (payload.isOk){
                             val infos = payload.payload
                             if (null != infos && infos.size > 0){
+                                primeInfos = infos as ArrayList<CloudFileBean>
                                 sortMineFileInfos(infos)
                                 goneEmpty()
                             }else{
@@ -335,6 +337,10 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
             tv_sort.setTextColor(resources.getColor(R.color.gray_a0))
             tv_sort.text = "时间排序"
             isNameSort = false
+
+            if (null != primeInfos){
+                sortMineFileInfos(primeInfos)
+            }
         }
 
         rl_name.clickWithTrigger {
@@ -346,6 +352,9 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
             tv_sort.setTextColor(resources.getColor(R.color.gray_a0))
             tv_sort.text = "名称排序"
             isNameSort = true
+            if (null != primeInfos){
+                sortMineFileInfos(primeInfos)
+            }
         }
     }
 
@@ -514,7 +523,7 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
 
     override fun newDir() {
         //新建文件夹
-        NewDirActivity.invokeForResult(this, dir,NEW_DIR_OPO)
+        NewDirActivity.invokeForResult(this, dir,NEW_DIR_OPO,0,"")
     }
 
     fun dofinishRefresh() {
@@ -608,9 +617,9 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
 
             iv_filter.clickWithTrigger {
                 if (data.file_type.equals("Folder")){
-                    MineFileDialog.showFileItemDialog(this@MineFileActivity,true,data)
+                    MineFileDialog.showFileItemDialog(this@MineFileActivity,true,data,MODIFI_DIR)
                 }else{
-                    MineFileDialog.showFileItemDialog(this@MineFileActivity,false,data)
+                    MineFileDialog.showFileItemDialog(this@MineFileActivity,false,data,MODIFI_FILE)
                 }
             }
         }
@@ -619,6 +628,8 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
     companion object {
         val GET_LOCAL_FILE = 1002
         val NEW_DIR_OPO = 1003
+        val MODIFI_DIR = 1004
+        val MODIFI_FILE = 1005
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -649,6 +660,10 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
 
                 NEW_DIR_OPO -> {
                     //新建文件夹
+                    getMineFileData()
+                }
+
+                MODIFI_DIR,MODIFI_FILE -> {
                     getMineFileData()
                 }
             }

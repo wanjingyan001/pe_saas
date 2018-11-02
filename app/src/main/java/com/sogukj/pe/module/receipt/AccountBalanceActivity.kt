@@ -122,10 +122,7 @@ class AccountBalanceActivity : BaseRefreshActivity(){
             if (null == data) return
             tv_time.text = data.add_time
             tv_coin.text = data.fee
-            when(data.source){
-                1 -> tv_type.text = "支付宝充值金额"
-                2 -> tv_type.text = "微信充值金额"
-            }
+            tv_type.text = data.info
         }
     }
 

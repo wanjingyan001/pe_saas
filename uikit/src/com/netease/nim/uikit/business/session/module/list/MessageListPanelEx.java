@@ -1090,9 +1090,9 @@ public class MessageListPanelEx {
         }
 
         private void longClickItemCloudDish(final IMMessage selectedItem, CustomAlertDialog alertDialog, MsgTypeEnum msgType) {
-            FileAttachment attachment = (FileAttachment) selectedItem.getAttachment();
-            String path = attachment.getPathForSave();
             if(msgType == MsgTypeEnum.image || msgType == MsgTypeEnum.file || msgType == MsgTypeEnum.audio) {
+                FileAttachment attachment = (FileAttachment) selectedItem.getAttachment();
+                String path = attachment.getPathForSave();
                 if(null != path) {
                     alertDialog.addItem(container.activity.getString(R.string.save_cloud), new CustomAlertDialog.onSeparateItemClickListener() {
                         @Override

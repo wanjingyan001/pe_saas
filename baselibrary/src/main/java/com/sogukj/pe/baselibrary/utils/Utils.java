@@ -114,6 +114,7 @@ public class Utils {
 
 
     public static void closeInput(Context context, View view) {
+        if(null == view) return;
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         boolean isOpen = imm.isActive();
         if (isOpen) {
@@ -122,22 +123,26 @@ public class Utils {
     }
 
     public static void forceCloseInput(Context context,View view){
+        if(null == view) return;
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
     public static void showInput(Context context, View view) {
+        if(null == view) return;
         view.requestFocus();
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInputFromInputMethod(view.getWindowToken(), InputMethodManager.SHOW_FORCED);
     }
 
     public static void toggleSoftInput(Context context, View view) {
+        if(null == view) return;
         view.requestFocus();
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
     }
 
     public static void showSoftInputFromWindow(Context activity, EditText editText) {
+        if(null == editText) return;
         editText.setFocusable(true);
         editText.setFocusableInTouchMode(true);
         editText.requestFocus();

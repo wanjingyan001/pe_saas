@@ -15,6 +15,7 @@ import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.bean.PdfBook
 import com.sogukj.pe.peUtils.ToastUtil
 import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
@@ -69,7 +70,7 @@ class PayDialog {
             var isCheckBus = false
             var isCheckWx = false
             var isCheckZfb = true
-            var pay_type = 1 //1 :支付宝 2：微信 3：个人 4 ：企业
+            var pay_type = 3 //1 :个人 2：企业 3：支付宝 4 ：微信
             var selectCombo = 1 // 默认套餐一
             var count = 100
             if (type == 1){
@@ -229,7 +230,7 @@ class PayDialog {
                 if (null != callBack){
                     if (type == 1){
                         callBack.pay(3,count,pay_type,coin.toString(),tv_per_balance,
-                                iv_pre_select,tv_bus_balance,iv_bus_select,tv_per_title,tv_bus_title)
+                                iv_pre_select,tv_bus_balance,iv_bus_select,tv_per_title,tv_bus_title,dialog)
                     }
                 }
             }
@@ -309,7 +310,7 @@ class PayDialog {
 
 
         //智能文书和账户管理
-        fun showPayBookDialog(context:Context,type:Int,callBack: AllPayCallBack,title:String,price:String,count:Int,id:String){
+        fun showPayBookDialog(context:Context, type:Int, callBack: AllPayCallBack, title:String, price:String, count:Int, id:String, book: PdfBook?){
             this.context = context
             val dialog = MaterialDialog.Builder(context)
                     .theme(Theme.DARK)
@@ -344,7 +345,7 @@ class PayDialog {
             var isCheckBus = false
             var isCheckWx = false
             var isCheckZfb = true
-            var pay_type = 1 //1 :支付宝 2：微信 3：个人 4 ：企业
+            var pay_type = 3 //1 :个人 2：企业 3：支付宝 4 ：微信
 
             tv_time.text = Utils.getTime(Date(),"yyyy-MM-dd HH:mm:ss")
             tv_name.text = title
@@ -361,6 +362,8 @@ class PayDialog {
                 val iPrice = price.toInt()
                 val amount = iPrice * count
                 tv_coin.text = "￥${amount}"
+            }else{
+                tv_coin.text = "￥${price}"
             }
             getPerAccountInfo(tv_per_balance,iv_pre_select,tv_per_title,false)
             getBusAccountInfo(tv_bus_balance,iv_bus_select,tv_bus_title,false)
@@ -453,10 +456,10 @@ class PayDialog {
                 if (null != callBack){
                     if (type == 1){
                         callBack.payForOther(id,2,count,pay_type,price,tv_per_balance,iv_pre_select,
-                                tv_bus_balance,iv_bus_select,tv_per_title,tv_bus_title)
+                                tv_bus_balance,iv_bus_select,tv_per_title,tv_bus_title,dialog,book!!)
                     }else{
                         callBack.payForOther(id,1,count,pay_type,price,tv_per_balance,iv_pre_select,
-                                tv_bus_balance,iv_bus_select,tv_per_title,tv_bus_title)
+                                tv_bus_balance,iv_bus_select,tv_per_title,tv_bus_title,dialog,book!!)
                     }
                 }
             }

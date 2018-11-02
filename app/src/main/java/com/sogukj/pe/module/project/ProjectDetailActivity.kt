@@ -2,6 +2,7 @@ package com.sogukj.pe.module.project
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -18,9 +19,11 @@ import android.view.View
 import android.widget.*
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
+import com.alipay.sdk.app.PayTask
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.google.gson.Gson
 import com.netease.nim.uikit.api.NimUIKit
 import com.netease.nimlib.sdk.NIMClient
 import com.netease.nimlib.sdk.RequestCallback
@@ -58,6 +61,7 @@ import com.sogukj.pe.service.NewService
 import com.sogukj.pe.service.OtherService
 import com.sogukj.pe.widgets.DividerGridItemDecoration
 import com.sogukj.service.SoguApi
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_project_detail.*
@@ -131,32 +135,33 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
     }
     private var isClickPer = false
     private var isClickBus = false
+    private var dialog : Dialog? = null
     private fun showPayDialog() {
-        val dialog = MaterialDialog.Builder(context)
+        dialog = MaterialDialog.Builder(context)
                 .theme(Theme.DARK)
                 .customView(R.layout.layout_show_pay, false)
                 .canceledOnTouchOutside(false)
                 .build()
-        dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.show()
-        val iv_close = dialog.find<ImageView>(R.id.iv_close)
-        val tv_subtract = dialog.find<TextView>(R.id.tv_subtract)
-        val et_count = dialog.find<EditText>(R.id.et_count)
-        val tv_add = dialog.find<TextView>(R.id.tv_add)
-        val tv_coin = dialog.find<TextView>(R.id.tv_coin)
-        val rl_bus = dialog.find<RelativeLayout>(R.id.rl_bus)
-        val tv_bus_balance = dialog.find<TextView>(R.id.tv_bus_balance)
-        val iv_bus_select = dialog.find<ImageView>(R.id.iv_bus_select)
-        val rl_pre = dialog.find<RelativeLayout>(R.id.rl_pre)
-        val tv_per_balance = dialog.find<TextView>(R.id.tv_per_balance)
-        val iv_pre_select = dialog.find<ImageView>(R.id.iv_pre_select)
-        val rl_wx = dialog.find<RelativeLayout>(R.id.rl_wx)
-        val iv_wx_select = dialog.find<ImageView>(R.id.iv_wx_select)
-        val rl_zfb = dialog.find<RelativeLayout>(R.id.rl_zfb)
-        val iv_zfb_select = dialog.find<ImageView>(R.id.iv_zfb_select)
-        val tv_pay = dialog.find<TextView>(R.id.tv_pay)
-        val tv_bus_title = dialog.find<TextView>(R.id.tv_bus_title)
-        val tv_per_title = dialog.find<TextView>(R.id.tv_per_title)
+        dialog!!.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog!!.show()
+        val iv_close = dialog!!.find<ImageView>(R.id.iv_close)
+        val tv_subtract = dialog!!.find<TextView>(R.id.tv_subtract)
+        val et_count = dialog!!.find<EditText>(R.id.et_count)
+        val tv_add = dialog!!.find<TextView>(R.id.tv_add)
+        val tv_coin = dialog!!.find<TextView>(R.id.tv_coin)
+        val rl_bus = dialog!!.find<RelativeLayout>(R.id.rl_bus)
+        val tv_bus_balance = dialog!!.find<TextView>(R.id.tv_bus_balance)
+        val iv_bus_select = dialog!!.find<ImageView>(R.id.iv_bus_select)
+        val rl_pre = dialog!!.find<RelativeLayout>(R.id.rl_pre)
+        val tv_per_balance = dialog!!.find<TextView>(R.id.tv_per_balance)
+        val iv_pre_select = dialog!!.find<ImageView>(R.id.iv_pre_select)
+        val rl_wx = dialog!!.find<RelativeLayout>(R.id.rl_wx)
+        val iv_wx_select = dialog!!.find<ImageView>(R.id.iv_wx_select)
+        val rl_zfb = dialog!!.find<RelativeLayout>(R.id.rl_zfb)
+        val iv_zfb_select = dialog!!.find<ImageView>(R.id.iv_zfb_select)
+        val tv_pay = dialog!!.find<TextView>(R.id.tv_pay)
+        val tv_bus_title = dialog!!.find<TextView>(R.id.tv_bus_title)
+        val tv_per_title = dialog!!.find<TextView>(R.id.tv_per_title)
         var count = 1 //订单数量
         var coin = 9.9
         var isCheckPer = false
@@ -193,8 +198,8 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
         })
 
         iv_close.clickWithTrigger {
-            if (dialog.isShowing){
-                dialog.dismiss()
+            if (dialog!!.isShowing){
+                dialog!!.dismiss()
             }
         }
 
@@ -376,6 +381,11 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                 }
     }
 
+    private fun gonePayDialog(){
+        if (null != dialog && dialog!!.isShowing){
+            dialog!!.dismiss()
+        }
+    }
     private fun goToPay(order_type: Int, count: Int, pay_type: Int, fee: String,
                         tv_per_balance: TextView, iv_pre_select: ImageView,
                         tv_bus_balance: TextView, iv_bus_select: ImageView,
@@ -389,9 +399,11 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                                 showSuccessToast("支付成功")
                                 refreshAccountData(tv_per_balance,iv_pre_select, tv_bus_balance,iv_bus_select,tv_per_title,tv_bus_title)
                                 getSentimentStatus(project.company_id!!)
+                                gonePayDialog()
                             }else{
                                 if (pay_type == 3){
                                     //支付宝
+                                    sendToZfbRequest(payload.payload as String?)
                                 }else if (pay_type == 4){
                                     //微信
                                 }
@@ -410,6 +422,38 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                         }
                     }
                 }
+    }
+
+    /**
+     * 支付宝支付
+     */
+    private fun sendToZfbRequest(commodityInfo: String?) {
+        Observable.create<Map<String, String>> { e ->
+            val payTask = PayTask(this)
+            val result = payTask.payV2(commodityInfo, true)
+            e.onNext(result)
+        }.execute {
+            onNext { result ->
+                result.forEach { t, u ->
+                    info { "key:$t ==> value:$u \n" }
+                }
+                val payResult = Gson().fromJson<PayResult?>(result.jsonStr)
+                if (payResult != null) {
+                    when (payResult.resultStatus) {
+                        "9000" -> {
+                            showSuccessToast("支付成功")
+                            getSentimentStatus(project.company_id!!)
+                            gonePayDialog()
+                        }
+                        else -> {
+                            showErrorToast(payResult.memo)
+                        }
+                    }
+                } else {
+                    showErrorToast("请求出错")
+                }
+            }
+        }
     }
 
     private fun refreshAccountData(tv_per_balance: TextView, iv_pre_select: ImageView,

@@ -1,5 +1,7 @@
 package com.sogukj.pe.module.im.clouddish
 
+import android.app.Activity
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
@@ -150,13 +152,29 @@ class CloudFileSortActivity : BaseRefreshActivity() {
 
             iv_filter.clickWithTrigger {
                 if (data.file_type.equals("Folder")){
-                    MineFileDialog.showFileItemDialog(this@CloudFileSortActivity,true,data)
+                    MineFileDialog.showFileItemDialog(this@CloudFileSortActivity,true,data,MODIFI_DIR)
                 }else{
-                    MineFileDialog.showFileItemDialog(this@CloudFileSortActivity,false,data)
+                    MineFileDialog.showFileItemDialog(this@CloudFileSortActivity,false,data,MODIFI_FILE)
                 }
             }
         }
 
+    }
+
+    companion object {
+        val MODIFI_DIR = 1001
+        val MODIFI_FILE = 1002
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK){
+            when(requestCode){
+                MODIFI_DIR,MODIFI_FILE -> {
+                    getCloudSortData(false)
+                }
+            }
+        }
     }
 
     private fun bindListener() {
