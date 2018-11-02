@@ -1,22 +1,13 @@
 package com.netease.nim.uikit.common.util.file;
 
-import android.app.Activity;
-import android.app.Application;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.pm.ActivityInfo;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 
-import com.nbsp.materialfilepicker.utils.FileTypeUtils;
 import com.netease.nim.uikit.R;
 import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nim.uikit.common.util.string.StringUtil;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -139,6 +130,7 @@ public class FileUtil {
                 }
             }
         }
+        Log.e("TAG","filePath ==" + filePath + "    value ==" + value);
         return value;
     }
 

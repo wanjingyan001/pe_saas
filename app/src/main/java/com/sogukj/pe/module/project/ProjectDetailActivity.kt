@@ -80,7 +80,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
 
     private var is_business: Int? = null//非空(1=>有价值 ,2=>无价值)
     private var is_ability: Int? = null//非空(1=>有能力,2=>无能力)
-    private var isHidden : Int = 0
+    private var isHidden: Int = 0
     private var isStartOpen = false
     private var NAVIGATION_GESTURE: String = when {
         Rom.isEmui() -> "navigationbar_is_min"
@@ -133,9 +133,10 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
             showPayDialog()
         }
     }
+
     private var isClickPer = false
     private var isClickBus = false
-    private var dialog : Dialog? = null
+    private var dialog: Dialog? = null
     private fun showPayDialog() {
         dialog = MaterialDialog.Builder(context)
                 .theme(Theme.DARK)
@@ -170,20 +171,20 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
         var isCheckZfb = true
         var pay_type = 1 //1 :支付宝 2：微信 3：个人 4 ：企业
         et_count.setSelection(et_count.textStr.length)
-        et_count.addTextChangedListener(object : TextWatcher{
+        et_count.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                if (et_count.textStr.isNullOrEmpty()){
+                if (et_count.textStr.isNullOrEmpty()) {
                     showCommonToast("购买数量不能为空")
                     et_count.setText("1")
                     return
                 }
-                if (et_count.textStr.startsWith("0")){
+                if (et_count.textStr.startsWith("0")) {
                     showCommonToast("购买数量最少为一个")
                     et_count.setText("1")
                 }
                 et_count.setSelection(et_count.textStr.length)
                 count = et_count.textStr.toInt()
-                coin = Utils.reserveTwoDecimal(9.9 * count,2)
+                coin = Utils.reserveTwoDecimal(9.9 * count, 2)
                 tv_coin.text = "￥${coin}"
             }
 
@@ -198,7 +199,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
         })
 
         iv_close.clickWithTrigger {
-            if (dialog!!.isShowing){
+            if (dialog!!.isShowing) {
                 dialog!!.dismiss()
             }
         }
@@ -207,10 +208,10 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
             //减
             count = et_count.textStr.toInt()
             count--
-            if (count <= 1){
+            if (count <= 1) {
                 count = 1
             }
-            coin = Utils.reserveTwoDecimal(9.9 * count,2)
+            coin = Utils.reserveTwoDecimal(9.9 * count, 2)
             tv_coin.text = "￥${coin}"
             et_count.setText(count.toString())
             et_count.setSelection(et_count.textStr.length)
@@ -219,20 +220,20 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
         tv_add.clickWithTrigger {
             //加
             count++
-            coin = Utils.reserveTwoDecimal(9.9 * count,2)
+            coin = Utils.reserveTwoDecimal(9.9 * count, 2)
             tv_coin.text = "￥${coin}"
             et_count.setText(count.toString())
             et_count.setSelection(et_count.textStr.length)
         }
-        getPerAccountInfo(tv_per_balance,iv_pre_select,tv_per_title,false)
-        getBusAccountInfo(tv_bus_balance,iv_bus_select,tv_bus_title,false)
+        getPerAccountInfo(tv_per_balance, iv_pre_select, tv_per_title, false, coin)
+        getBusAccountInfo(tv_bus_balance, iv_bus_select, tv_bus_title, false, coin)
         rl_bus.clickWithTrigger {
             //企业账户
-            if (isClickBus){
-                if (!isCheckBus){
+            if (isClickBus) {
+                if (!isCheckBus) {
                     isCheckBus = !isCheckBus
                     iv_bus_select.setImageResource(R.mipmap.ic_unselect_receipt)
-                    if(isClickPer){
+                    if (isClickPer) {
                         iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
                         isCheckPer = false
                     }
@@ -248,11 +249,11 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
 
         rl_pre.clickWithTrigger {
             //个人账户
-            if (isClickPer){
-                if (!isCheckPer){
+            if (isClickPer) {
+                if (!isCheckPer) {
                     isCheckPer = !isCheckPer
                     iv_pre_select.setImageResource(R.mipmap.ic_unselect_receipt)
-                    if(isClickBus){
+                    if (isClickBus) {
                         iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
                         isCheckBus = false
                     }
@@ -268,15 +269,15 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
 
         rl_wx.clickWithTrigger {
             //微信
-            if (!isCheckWx){
+            if (!isCheckWx) {
                 isCheckWx = !isCheckWx
                 iv_wx_select.setImageResource(R.mipmap.ic_unselect_receipt)
                 iv_zfb_select.setImageResource(R.mipmap.ic_select_receipt)
-                if (isClickBus){
+                if (isClickBus) {
                     iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
                     isCheckBus = false
                 }
-                if (isCheckPer){
+                if (isCheckPer) {
                     iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
                     isCheckPer = false
                 }
@@ -287,15 +288,15 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
 
         rl_zfb.clickWithTrigger {
             //支付宝
-            if (!isCheckZfb){
+            if (!isCheckZfb) {
                 isCheckZfb = !isCheckZfb
                 iv_wx_select.setImageResource(R.mipmap.ic_select_receipt)
                 iv_zfb_select.setImageResource(R.mipmap.ic_unselect_receipt)
-                if (isClickBus){
+                if (isClickBus) {
                     iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
                     isCheckBus = false
                 }
-                if (isCheckPer){
+                if (isCheckPer) {
                     iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
                     isCheckPer = false
                 }
@@ -307,34 +308,42 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
 
         tv_pay.clickWithTrigger {
             //去支付
-            goToPay(4,count,pay_type,coin.toString(),tv_per_balance,iv_pre_select,tv_bus_balance,iv_bus_select,tv_per_title,tv_bus_title)
+            goToPay(4, count, pay_type, coin.toString(), tv_per_balance, iv_pre_select, tv_bus_balance, iv_bus_select, tv_per_title, tv_bus_title, coin)
         }
     }
 
-    private fun getBusAccountInfo(tv_bus_balance: TextView, iv_bus_select: ImageView,tv_bus_title:TextView,isRefresh : Boolean) {
-        SoguApi.getService(application,OtherService::class.java)
+    private fun getBusAccountInfo(tv_bus_balance: TextView, iv_bus_select: ImageView,
+                                  tv_bus_title: TextView, isRefresh: Boolean, coin: Double) {
+        SoguApi.getService(application, OtherService::class.java)
                 .getBussAccountInfo()
                 .execute {
                     onNext { payload ->
-                        if (payload.isOk){
+                        if (payload.isOk) {
                             val recordBean = payload.payload
-                            if (null != recordBean){
+                            if (null != recordBean) {
                                 tv_bus_balance.text = "账户余额：${recordBean.balance}"
-                                if (recordBean.balance.equals("0") || recordBean.balance.equals("")){
+                                if (coin > recordBean.balance.toDouble()) {
                                     iv_bus_select.setImageResource(R.mipmap.ic_gray_receipt)
                                     tv_bus_title.setTextColor(resources.getColor(R.color.gray_a0))
                                     tv_bus_balance.setTextColor(resources.getColor(R.color.gray_a0))
                                     isClickBus = false
-                                }else{
-                                    if (!isRefresh){
-                                        iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
+                                } else {
+                                    if (recordBean.balance.equals("0") || recordBean.balance.equals("")) {
+                                        iv_bus_select.setImageResource(R.mipmap.ic_gray_receipt)
+                                        tv_bus_title.setTextColor(resources.getColor(R.color.gray_a0))
+                                        tv_bus_balance.setTextColor(resources.getColor(R.color.gray_a0))
+                                        isClickBus = false
+                                    } else {
+                                        if (!isRefresh) {
+                                            iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
+                                        }
+                                        tv_bus_title.setTextColor(resources.getColor(R.color.black_28))
+                                        tv_bus_balance.setTextColor(resources.getColor(R.color.gray_80))
+                                        isClickBus = true
                                     }
-                                    tv_bus_title.setTextColor(resources.getColor(R.color.black_28))
-                                    tv_bus_balance.setTextColor(resources.getColor(R.color.gray_80))
-                                    isClickBus = true
                                 }
                             }
-                        }else{
+                        } else {
                             showErrorToast(payload.message)
                         }
                     }
@@ -346,30 +355,38 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                 }
     }
 
-    private fun getPerAccountInfo(tv_per_balance: TextView, iv_pre_select: ImageView,tv_per_title:TextView,isRefresh : Boolean) {
-        SoguApi.getService(application,OtherService::class.java)
+    private fun getPerAccountInfo(tv_per_balance: TextView, iv_pre_select: ImageView,
+                                  tv_per_title: TextView, isRefresh: Boolean, coin: Double) {
+        SoguApi.getService(application, OtherService::class.java)
                 .getPersonAccountInfo()
                 .execute {
                     onNext { payload ->
-                        if (payload.isOk){
+                        if (payload.isOk) {
                             val recordBean = payload.payload
-                            if (null != recordBean){
+                            if (null != recordBean) {
                                 tv_per_balance.text = "账户余额：${recordBean.balance}"
-                                if (recordBean.balance.equals("0") || recordBean.balance.equals("")){
+                                if (coin > recordBean.balance.toDouble()) {
                                     iv_pre_select.setImageResource(R.mipmap.ic_gray_receipt)
                                     tv_per_title.setTextColor(resources.getColor(R.color.gray_a0))
                                     tv_per_balance.setTextColor(resources.getColor(R.color.gray_a0))
                                     isClickPer = false
-                                }else{
-                                    if (!isRefresh){
-                                        iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
+                                } else {
+                                    if (recordBean.balance.equals("0") || recordBean.balance.equals("")) {
+                                        iv_pre_select.setImageResource(R.mipmap.ic_gray_receipt)
+                                        tv_per_title.setTextColor(resources.getColor(R.color.gray_a0))
+                                        tv_per_balance.setTextColor(resources.getColor(R.color.gray_a0))
+                                        isClickPer = false
+                                    } else {
+                                        if (!isRefresh) {
+                                            iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
+                                        }
+                                        tv_per_title.setTextColor(resources.getColor(R.color.black_28))
+                                        tv_per_balance.setTextColor(resources.getColor(R.color.gray_80))
+                                        isClickPer = true
                                     }
-                                    tv_per_title.setTextColor(resources.getColor(R.color.black_28))
-                                    tv_per_balance.setTextColor(resources.getColor(R.color.gray_80))
-                                    isClickPer = true
                                 }
                             }
-                        }else{
+                        } else {
                             showErrorToast(payload.message)
                         }
                     }
@@ -381,43 +398,44 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                 }
     }
 
-    private fun gonePayDialog(){
-        if (null != dialog && dialog!!.isShowing){
+    private fun gonePayDialog() {
+        if (null != dialog && dialog!!.isShowing) {
             dialog!!.dismiss()
         }
     }
+
     private fun goToPay(order_type: Int, count: Int, pay_type: Int, fee: String,
                         tv_per_balance: TextView, iv_pre_select: ImageView,
                         tv_bus_balance: TextView, iv_bus_select: ImageView,
-                        tv_per_title:TextView,tv_bus_title:TextView) {
-        SoguApi.getService(application,OtherService::class.java)
-                .getAccountPayInfo(order_type,count,pay_type,fee)
+                        tv_per_title: TextView, tv_bus_title: TextView, coin: Double) {
+        SoguApi.getService(application, OtherService::class.java)
+                .getAccountPayInfo(order_type, count, pay_type, fee)
                 .execute {
                     onNext { payload ->
-                        if (payload.isOk){
-                            if (pay_type == 1 || pay_type == 2){
+                        if (payload.isOk) {
+                            if (pay_type == 1 || pay_type == 2) {
                                 showSuccessToast("支付成功")
-                                refreshAccountData(tv_per_balance,iv_pre_select, tv_bus_balance,iv_bus_select,tv_per_title,tv_bus_title)
+                                refreshAccountData(tv_per_balance, iv_pre_select, tv_bus_balance, iv_bus_select, tv_per_title, tv_bus_title, coin)
                                 getSentimentStatus(project.company_id!!)
                                 gonePayDialog()
-                            }else{
-                                if (pay_type == 3){
+                            } else {
+                                if (pay_type == 3) {
                                     //支付宝
                                     sendToZfbRequest(payload.payload as String?)
-                                }else if (pay_type == 4){
+                                } else if (pay_type == 4) {
                                     //微信
                                 }
                             }
-                        }else{
+                        } else {
                             showErrorToast(payload.message)
                         }
                     }
 
                     onError {
                         it.printStackTrace()
-                        if (pay_type == 1 || pay_type == 2){
+                        if (pay_type == 1 || pay_type == 2) {
                             showErrorToast("支付失败")
-                        }else{
+                        } else {
                             showErrorToast("获取订单失败")
                         }
                     }
@@ -457,25 +475,24 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
     }
 
     private fun refreshAccountData(tv_per_balance: TextView, iv_pre_select: ImageView,
-            tv_bus_balance: TextView, iv_bus_select: ImageView, tv_per_title:TextView,tv_bus_title:TextView) {
-        getPerAccountInfo(tv_per_balance,iv_pre_select,tv_per_title,true)
-        getBusAccountInfo(tv_bus_balance,iv_bus_select,tv_bus_title,true)
+                                   tv_bus_balance: TextView, iv_bus_select: ImageView, tv_per_title: TextView, tv_bus_title: TextView, coin: Double) {
+        getPerAccountInfo(tv_per_balance, iv_pre_select, tv_per_title, true, coin)
+        getBusAccountInfo(tv_bus_balance, iv_bus_select, tv_bus_title, true, coin)
     }
 
     private fun setSentimentStatus(company_id: Int) {
-        SoguApi.getService(application,OtherService::class.java)
+        SoguApi.getService(application, OtherService::class.java)
                 .setSentimentStatus(company_id)
                 .execute {
-                    onNext {
-                        payload ->
-                        if (payload.isOk){
-                            if (isStartOpen){
+                    onNext { payload ->
+                        if (payload.isOk) {
+                            if (isStartOpen) {
                                 showSuccessToast("关闭舆情成功")
                                 headView.iv_button.setImageResource(R.mipmap.ic_sentiment_off)
                                 headView.tv_senti_title.text = "开启舆情监控"
                                 headView.tv_senti_time.setVisible(false)
                                 headView.ll_times_buy.setVisible(true)
-                            }else{
+                            } else {
                                 showSuccessToast("开启舆情成功")
                                 headView.iv_button.setImageResource(R.mipmap.ic_sentiment_on)
                                 headView.tv_senti_title.text = "关闭舆情监控"
@@ -483,16 +500,16 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                                 headView.ll_times_buy.setVisible(true)
                             }
                             isStartOpen = !isStartOpen
-                        }else{
+                        } else {
                             showErrorToast(payload.message)
                         }
                     }
 
                     onError {
                         it.printStackTrace()
-                        if (isStartOpen){
+                        if (isStartOpen) {
                             showSuccessToast("关闭舆情失败")
-                        }else{
+                        } else {
                             showSuccessToast("开启舆情失败")
                         }
                     }
@@ -500,16 +517,16 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
     }
 
     private fun getSentimentStatus(company_id: Int) {
-        SoguApi.getService(application,OtherService::class.java)
+        SoguApi.getService(application, OtherService::class.java)
                 .getSentimentInfo(company_id)
                 .execute {
                     onNext { payload ->
-                        if (payload.isOk){
+                        if (payload.isOk) {
                             val sentimentInfoBean = payload.payload
-                            if (null != sentimentInfoBean){
+                            if (null != sentimentInfoBean) {
                                 setSentimentData(sentimentInfoBean)
                             }
-                        }else{
+                        } else {
                             showErrorToast(payload.message)
                         }
                     }
@@ -522,26 +539,26 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
     }
 
     private fun setSentimentData(info: SentimentInfoBean) {
-            when(info.is_open){
-                0 -> {
-                    headView.iv_button.setImageResource(R.mipmap.ic_sentiment_off)
-                    headView.tv_senti_title.text = "开启舆情监控"
-                    headView.tv_senti_time.setVisible(false)
-                    headView.ll_times_buy.setVisible(true)
-                    headView.tv_times.text = "剩余次数：${info.remainder}次"
-                    isStartOpen = false
-                }
-                1 -> {
-                    headView.iv_button.setImageResource(R.mipmap.ic_sentiment_on)
-                    headView.tv_senti_title.text = "关闭舆情监控"
-                    headView.tv_senti_time.setVisible(true)
-                    headView.ll_times_buy.setVisible(true)
-                    headView.tv_times.text = "剩余次数：${info.remainder}次"
-                    headView.tv_senti_time.text = "监控到期时间${info.expire}"
-                    isStartOpen = true
-                }
+        when (info.is_open) {
+            0 -> {
+                headView.iv_button.setImageResource(R.mipmap.ic_sentiment_off)
+                headView.tv_senti_title.text = "开启舆情监控"
+                headView.tv_senti_time.setVisible(false)
+                headView.ll_times_buy.setVisible(true)
+                headView.tv_times.text = "剩余次数：${info.remainder}次"
+                isStartOpen = false
             }
-        if (info.remainder <= 0){
+            1 -> {
+                headView.iv_button.setImageResource(R.mipmap.ic_sentiment_on)
+                headView.tv_senti_title.text = "关闭舆情监控"
+                headView.tv_senti_time.setVisible(true)
+                headView.ll_times_buy.setVisible(true)
+                headView.tv_times.text = "剩余次数：${info.remainder}次"
+                headView.tv_senti_time.text = "监控到期时间${info.expire}"
+                isStartOpen = true
+            }
+        }
+        if (info.remainder <= 0) {
             showPayDialog()
         }
     }
@@ -604,12 +621,12 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
         } else {
             proj_stage.visibility = View.VISIBLE
         }
-        if (isHidden == 1){
+        if (isHidden == 1) {
             //隐藏
             proj_stage.visibility = View.INVISIBLE
             edit.visibility = View.GONE
             history.visibility = View.GONE
-        }else{
+        } else {
             when (type) {
                 ProjectListFragment.TYPE_DY -> {
                     proj_stage.text = "储 备"
@@ -1032,8 +1049,9 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
         }
         dialog.show()
     }
+
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
-        if (!isClickEnable(200)){
+        if (!isClickEnable(200)) {
             Toast.makeText(this, "请勿重复点击", Toast.LENGTH_SHORT).show()
             return
         }
@@ -1116,7 +1134,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                 }
             }
 
-        // 跟踪记录,尽调数据,投决数据,投后管理数据
+            // 跟踪记录,尽调数据,投决数据,投后管理数据
             55 -> RecordTraceActivity.start(this@ProjectDetailActivity, project)//跟踪记录
             56 -> ManagerActivity.start(this@ProjectDetailActivity, project, 1, "尽调数据")//尽调数据
             57 -> ManagerActivity.start(this@ProjectDetailActivity, project, 8, "投决数据")//投决数据
@@ -1129,16 +1147,16 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
             61 -> FinanceListActivity.start(this@ProjectDetailActivity, project)
 
 //            62 -> IncomeCurveActivity.start(this@ProjectDetailActivity, project)//收益曲线
-            62 ->  startActivity<NewOriginProjectActivity>(Extras.DATA to project) //新建项目
-            63 ->  startActivity<ProjectApprovalShowActivity>(Extras.DATA to project,Extras.FLAG to detailSmallBean.floor) //立项申请
-            64 ->  startActivity<ProjectUploadShowActivity>(Extras.DATA to project,Extras.FLAG to detailSmallBean.floor) //预审会
-            65 -> startActivity<OtherProjectShowActivity>(Extras.DATA to project,Extras.FLAG to detailSmallBean.floor,
+            62 -> startActivity<NewOriginProjectActivity>(Extras.DATA to project) //新建项目
+            63 -> startActivity<ProjectApprovalShowActivity>(Extras.DATA to project, Extras.FLAG to detailSmallBean.floor) //立项申请
+            64 -> startActivity<ProjectUploadShowActivity>(Extras.DATA to project, Extras.FLAG to detailSmallBean.floor) //预审会
+            65 -> startActivity<OtherProjectShowActivity>(Extras.DATA to project, Extras.FLAG to detailSmallBean.floor,
                     Extras.TITLE to "投决会") //投决会
-            66 -> startActivity<OtherProjectShowActivity>(Extras.DATA to project,Extras.FLAG to detailSmallBean.floor,
+            66 -> startActivity<OtherProjectShowActivity>(Extras.DATA to project, Extras.FLAG to detailSmallBean.floor,
                     Extras.TITLE to "签约付款")//签约付款
-            67 -> startActivity<OtherProjectShowActivity>(Extras.DATA to project,Extras.FLAG to detailSmallBean.floor,
+            67 -> startActivity<OtherProjectShowActivity>(Extras.DATA to project, Extras.FLAG to detailSmallBean.floor,
                     Extras.TITLE to "投后管理")//投后管理
-            68 -> startActivity<OtherProjectShowActivity>(Extras.DATA to project,Extras.FLAG to detailSmallBean.floor,
+            68 -> startActivity<OtherProjectShowActivity>(Extras.DATA to project, Extras.FLAG to detailSmallBean.floor,
                     Extras.TITLE to "退出管理")//退出
         }
     }

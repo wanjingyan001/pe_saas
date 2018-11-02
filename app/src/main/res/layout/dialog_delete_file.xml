@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/text_40"
+    android:layout_marginRight="@dimen/text_40"
+    android:paddingLeft="@dimen/text_20"
+    android:paddingTop="@dimen/text_15"
+    android:paddingRight="@dimen/text_15"
+    android:paddingBottom="@dimen/text_5"
+    android:background="@drawable/bg_delete_dialog"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/text12_colora0"
+        android:text="删除此文件夹？"/>
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/text16_color28"
+        android:layout_marginTop="@dimen/text_10"
+        android:text="文件夹及文件夹下的所有文件将被彻底删除"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/text_10">
+
+        <TextView
+            android:id="@+id/tv_sure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="确定"
+            android:padding="@dimen/text_10"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/text_size_14"
+            android:textColor="@color/blue_3c"/>
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="取消"
+            android:padding="@dimen/text_10"
+            android:layout_toLeftOf="@+id/tv_sure"
+            android:layout_marginRight="@dimen/text_35"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/text_size_14"
+            android:textColor="@color/blue_3c"/>
+    </RelativeLayout>
+</LinearLayout>

@@ -225,5 +225,39 @@ class MineFileDialog {
                 }
             }
         }
+
+        fun showDeleteFileDialog(context:Context,isdir : Boolean){
+            val dialog = Dialog(context, R.style.AppTheme_Dialog)
+            dialog.setContentView(R.layout.dialog_delete_file)
+            val lay = dialog.getWindow()!!.getAttributes()
+            lay.height = WindowManager.LayoutParams.WRAP_CONTENT
+            lay.width = WindowManager.LayoutParams.MATCH_PARENT
+            lay.gravity = Gravity.BOTTOM
+            dialog.getWindow()!!.setAttributes(lay)
+            dialog.show()
+
+            val tv_title = dialog.find<TextView>(R.id.tv_title)
+            val tv_content = dialog.find<TextView>(R.id.tv_content)
+            val tv_sure = dialog.find<TextView>(R.id.tv_sure)
+            val tv_cancel = dialog.find<TextView>(R.id.tv_cancel)
+            if (isdir){
+                tv_title.setVisible(true)
+                tv_title.text = "删除此文件夹？"
+                tv_content.text = "文件夹及文件夹下的所有文件将被彻底删除"
+            }else{
+                tv_title.setVisible(false)
+                tv_content.text = "请确认要彻底删除该文件吗？"
+            }
+
+            tv_sure.clickWithTrigger {
+                //删除文件、文件夹
+            }
+
+            tv_cancel.clickWithTrigger {
+                if (dialog.isShowing){
+                    dialog.dismiss()
+                }
+            }
+        }
     }
 }

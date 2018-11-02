@@ -73,18 +73,21 @@ class PayDialog {
             var pay_type = 3 //1 :个人 2：企业 3：支付宝 4 ：微信
             var selectCombo = 1 // 默认套餐一
             var count = 100
+            var realPrice = 0
             if (type == 1){
                 ll_buy.visibility = View.VISIBLE
                 ll_credit.visibility = View.INVISIBLE
                 tv_title1.text = "征信已达上限"
                 tv_title2.text = "请购买征信套餐"
                 tv_coin.text="￥999"
+                realPrice = 999
             }else{
                 ll_buy.visibility = View.INVISIBLE
                 ll_credit.visibility = View.VISIBLE
                 tv_title1.text = "需要购买账号套餐才"
                 tv_title2.text = "能使用相应权限"
                 tv_coin.text="￥99"
+                realPrice = 99
             }
 
             iv_close.clickWithTrigger {
@@ -103,6 +106,7 @@ class PayDialog {
                     selectCombo = 1
                     tv_coin.text="￥999"
                     count = 100
+                    realPrice = 999
                 }
             }
 
@@ -116,6 +120,7 @@ class PayDialog {
                     ll_combo4.setBackgroundResource(R.drawable.bg_credit_normal)
                     tv_coin.text="￥8800"
                     count = 1000
+                    realPrice = 8800
                 }
             }
 
@@ -129,6 +134,7 @@ class PayDialog {
                     ll_combo4.setBackgroundResource(R.drawable.bg_credit_normal)
                     tv_coin.text="￥48000"
                     count = 7000
+                    realPrice = 48000
                 }
             }
 
@@ -142,10 +148,11 @@ class PayDialog {
                     ll_combo4.setBackgroundResource(R.drawable.bg_credit)
                     tv_coin.text="￥98000"
                     count = 15000
+                    realPrice = 98000
                 }
             }
-            getPerAccountInfo(tv_per_balance,iv_pre_select,tv_per_title,false)
-            getBusAccountInfo(tv_bus_balance,iv_bus_select,tv_bus_title,false)
+            getPerAccountInfo(tv_per_balance,iv_pre_select,tv_per_title,false,realPrice.toString())
+            getBusAccountInfo(tv_bus_balance,iv_bus_select,tv_bus_title,false,realPrice.toString())
             rl_bus.clickWithTrigger {
                 //企业账户
                 if (isClickBus){
@@ -238,7 +245,7 @@ class PayDialog {
 
         }
 
-        fun getBusAccountInfo(tv_bus_balance: TextView, iv_bus_select: ImageView, tv_bus_title:TextView,isRefresh: Boolean) {
+        fun getBusAccountInfo(tv_bus_balance: TextView, iv_bus_select: ImageView, tv_bus_title:TextView,isRefresh: Boolean,realPrice:String) {
             SoguApi.getService(App.INSTANCE,OtherService::class.java)
                     .getBussAccountInfo()
                     .execute {
@@ -247,18 +254,25 @@ class PayDialog {
                                 val recordBean = payload.payload
                                 if (null != recordBean){
                                     tv_bus_balance.text = "账户余额：${recordBean.balance}"
-                                    if (recordBean.balance.equals("0") || recordBean.balance.equals("")){
+                                    if (realPrice.toFloat() > recordBean.balance.toFloat()){
                                         iv_bus_select.setImageResource(R.mipmap.ic_gray_receipt)
                                         tv_bus_title.setTextColor(context!!.resources.getColor(R.color.gray_a0))
                                         tv_bus_balance.setTextColor(context!!.resources.getColor(R.color.gray_a0))
                                         isClickBus = false
                                     }else{
-                                        if (!isRefresh){
-                                            iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
+                                        if (recordBean.balance.equals("0") || recordBean.balance.equals("")){
+                                            iv_bus_select.setImageResource(R.mipmap.ic_gray_receipt)
+                                            tv_bus_title.setTextColor(context!!.resources.getColor(R.color.gray_a0))
+                                            tv_bus_balance.setTextColor(context!!.resources.getColor(R.color.gray_a0))
+                                            isClickBus = false
+                                        }else{
+                                            if (!isRefresh){
+                                                iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
+                                            }
+                                            tv_bus_title.setTextColor(context!!.resources.getColor(R.color.black_28))
+                                            tv_bus_balance.setTextColor(context!!.resources.getColor(R.color.gray_80))
+                                            isClickBus = true
                                         }
-                                        tv_bus_title.setTextColor(context!!.resources.getColor(R.color.black_28))
-                                        tv_bus_balance.setTextColor(context!!.resources.getColor(R.color.gray_80))
-                                        isClickBus = true
                                     }
                                 }
                             }else{
@@ -273,7 +287,8 @@ class PayDialog {
                     }
         }
 
-        fun getPerAccountInfo(tv_per_balance: TextView, iv_pre_select: ImageView, tv_per_title:TextView,isRefresh: Boolean) {
+        fun getPerAccountInfo(tv_per_balance: TextView, iv_pre_select: ImageView, tv_per_title:TextView,isRefresh: Boolean,
+                              realPrice:String) {
             SoguApi.getService(App.INSTANCE, OtherService::class.java)
                     .getPersonAccountInfo()
                     .execute {
@@ -282,18 +297,25 @@ class PayDialog {
                                 val recordBean = payload.payload
                                 if (null != recordBean){
                                     tv_per_balance.text = "账户余额：${recordBean.balance}"
-                                    if (recordBean.balance.equals("0") || recordBean.balance.equals("")){
+                                    if (realPrice.toFloat() > recordBean.balance.toFloat()){
                                         iv_pre_select.setImageResource(R.mipmap.ic_gray_receipt)
                                         tv_per_title.setTextColor(context!!.resources.getColor(R.color.gray_a0))
                                         tv_per_balance.setTextColor(context!!.resources.getColor(R.color.gray_a0))
                                         isClickPer = false
                                     }else{
-                                        if (!isRefresh){
-                                            iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
+                                        if (recordBean.balance.equals("0") || recordBean.balance.equals("")){
+                                            iv_pre_select.setImageResource(R.mipmap.ic_gray_receipt)
+                                            tv_per_title.setTextColor(context!!.resources.getColor(R.color.gray_a0))
+                                            tv_per_balance.setTextColor(context!!.resources.getColor(R.color.gray_a0))
+                                            isClickPer = false
+                                        }else{
+                                            if (!isRefresh){
+                                                iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
+                                            }
+                                            tv_per_title.setTextColor(context!!.resources.getColor(R.color.black_28))
+                                            tv_per_balance.setTextColor(context!!.resources.getColor(R.color.gray_80))
+                                            isClickPer = true
                                         }
-                                        tv_per_title.setTextColor(context!!.resources.getColor(R.color.black_28))
-                                        tv_per_balance.setTextColor(context!!.resources.getColor(R.color.gray_80))
-                                        isClickPer = true
                                     }
                                 }
                             }else{
@@ -358,15 +380,18 @@ class PayDialog {
                 tv_title1.text = "付费账号"
                 iv_pay.setImageResource(R.mipmap.ic_account_head)
             }
+            var realPrice = price
             if (Utils.isInteger(price)){
                 val iPrice = price.toInt()
                 val amount = iPrice * count
                 tv_coin.text = "￥${amount}"
+                realPrice = amount.toString()
             }else{
                 tv_coin.text = "￥${price}"
+                realPrice = price
             }
-            getPerAccountInfo(tv_per_balance,iv_pre_select,tv_per_title,false)
-            getBusAccountInfo(tv_bus_balance,iv_bus_select,tv_bus_title,false)
+            getPerAccountInfo(tv_per_balance,iv_pre_select,tv_per_title,false,realPrice)
+            getBusAccountInfo(tv_bus_balance,iv_bus_select,tv_bus_title,false,realPrice)
             iv_close.clickWithTrigger {
                 if (dialog.isShowing){
                     dialog.dismiss()
@@ -465,10 +490,5 @@ class PayDialog {
             }
         }
 
-        fun refreshAccountData(tv_per_balance: TextView, iv_pre_select: ImageView, tv_bus_balance: TextView,
-                               iv_bus_select: ImageView,tv_per_title:TextView,tv_bus_title:TextView) {
-            getPerAccountInfo(tv_per_balance,iv_pre_select,tv_per_title,true)
-            getBusAccountInfo(tv_bus_balance,iv_bus_select,tv_bus_title,true)
-        }
     }
 }

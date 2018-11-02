@@ -368,4 +368,10 @@ interface OtherService {
     @GET("/api/cloud/searchFileList")
     fun getFileSearchData(@Query("page") page: Int? = 1, @Query("phone") phone : String,
                            @Query("search") search : String,@Query("size") size : Int ? = 15): Observable<Payload<List<CloudFileBean>>>
+
+    /**
+     * 文件夹/文件删除
+     */
+    @GET("/api/cloud/deleteFolder")
+    fun deleteCloudFile(@Query("file_path") file_path: String, @Query("phone") phone : String):Observable<Payload<Any>>
 }

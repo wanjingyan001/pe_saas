@@ -7,11 +7,14 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.support.v4.content.FileProvider
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -29,7 +32,7 @@ import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
 import com.sogukj.pe.baselibrary.utils.DownloadUtil
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Utils
-import com.sogukj.pe.bean.PayResult
+import com.sogukj.pe.bean.PayResultInfo
 import com.sogukj.pe.bean.PdfBook
 import com.sogukj.pe.module.receipt.AllPayCallBack
 import com.sogukj.pe.module.receipt.PayDialog
@@ -37,16 +40,15 @@ import com.sogukj.pe.service.DataSourceService
 import com.sogukj.pe.service.OtherService
 import com.sogukj.pe.widgets.indexbar.RecycleViewDivider
 import com.sogukj.service.SoguApi
-import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_prospectus_list.*
 import org.jetbrains.anko.ctx
-import org.jetbrains.anko.info
 import org.jetbrains.anko.singleLine
 import java.io.File
 
 @Route(path = ARouterPath.DocumentsListActivity)
 class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
     companion object {
+        val SDK_PAY_FLAG = 1001
         fun start(context: Context, @DocumentType type: Int, category: Int? = null) {
             val intent = Intent(context, DocumentsListActivity::class.java)
             intent.putExtra(Extras.TYPE, type)
@@ -61,6 +63,43 @@ class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
     private lateinit var listAdapter: BookListAdapter
     private val documents = ArrayList<PdfBook>()
     private val downloaded = mutableSetOf<String>()//已下载文件的名称的缓存,用于处理下载按钮是否显示
+    private var book : PdfBook ? = null
+    private var dialog : Dialog? = null
+    private var mHandler : Handler = object : Handler(){
+        override fun handleMessage(msg: Message?) {
+            super.handleMessage(msg)
+            when(msg!!.what){
+                SDK_PAY_FLAG -> {
+                    val payResult = PayResultInfo(msg.obj as Map<String, String>)
+                    /**
+                    对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
+                     */
+                    val resultInfo = payResult.getResult()// 同步返回需要验证的信息
+                    val resultStatus = payResult.getResultStatus()
+                    Log.e("TAG"," resultStatus ===" + resultStatus)
+                    // 判断resultStatus 为9000则代表支付成功
+                    if (TextUtils.equals(resultStatus, "9000")) {
+                        // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
+                        showSuccessToast("支付成功")
+                        refreshIntelligentData()
+                        if (null != dialog && dialog!!.isShowing){
+                            dialog!!.dismiss()
+                        }
+                        PdfPreviewActivity.start(this@DocumentsListActivity,book!!, downloaded.contains(book!!.pdf_name))
+                    } else if (TextUtils.equals(resultStatus, "6001")) {
+                        showErrorToast("支付已取消")
+                    } else {
+                        // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
+                        showErrorToast("支付失败")
+                    }
+                }
+                else -> {
+
+                }
+            }
+
+        }
+    }
     @SuppressLint("WrongConstant")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -205,7 +244,7 @@ class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
     }
     override fun payForOther(id:String,order_type: Int, count: Int, pay_type: Int, fee: String, tv_per_balance: TextView,
                      iv_pre_select: ImageView, tv_bus_balance: TextView, iv_bus_select: ImageView,
-                             tv_per_title:TextView,tv_bus_title:TextView,dialog: Dialog,book:PdfBook) {
+                             tv_per_title:TextView,tv_bus_title:TextView,dialog: Dialog,book:PdfBook?) {
         SoguApi.getService(application, OtherService::class.java)
                 .getAccountPayInfo(order_type,count,pay_type,fee,id)
                 .execute {
@@ -213,16 +252,15 @@ class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
                         if (payload.isOk){
                             if (pay_type == 1 || pay_type == 2){
                                 showSuccessToast("支付成功")
-                                PayDialog.refreshAccountData(tv_per_balance,iv_pre_select, tv_bus_balance,iv_bus_select,tv_per_title,tv_bus_title)
                                 refreshIntelligentData()
                                 if (dialog.isShowing){
                                     dialog.dismiss()
                                 }
-                                PdfPreviewActivity.start(this@DocumentsListActivity,book, downloaded.contains(book.pdf_name))
+                                PdfPreviewActivity.start(this@DocumentsListActivity,book!!, downloaded.contains(book.pdf_name))
                             }else{
                                 if (pay_type == 3){
                                     //支付宝
-                                    sendToZfbRequest(payload.payload as String?,dialog,book)
+                                    sendToZfbRequest(payload.payload as String?,dialog,book!!)
                                 }else if (pay_type == 4){
                                     //微信
                                 }
@@ -247,35 +285,19 @@ class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
      * 支付宝支付
      */
     private fun sendToZfbRequest(commodityInfo: String?,dialog: Dialog,book:PdfBook) {
-        Observable.create<Map<String, String>> { e ->
-            val payTask = PayTask(this)
-            val result = payTask.payV2(commodityInfo, true)
-            e.onNext(result)
-        }.execute {
-            onNext { result ->
-                result.forEach { t, u ->
-                    info { "key:$t ==> value:$u \n" }
-                }
-                val payResult = Gson().fromJson<PayResult?>(result.jsonStr)
-                if (payResult != null) {
-                    when (payResult.resultStatus) {
-                        "9000" -> {
-                            showSuccessToast("支付成功")
-                            refreshIntelligentData()
-                            if (dialog.isShowing){
-                                dialog.dismiss()
-                            }
-                            PdfPreviewActivity.start(this@DocumentsListActivity,book, downloaded.contains(book.pdf_name))
-                        }
-                        else -> {
-                            showErrorToast(payResult.memo)
-                        }
-                    }
-                } else {
-                    showErrorToast("请求出错")
-                }
-            }
+        this.book = book
+        this.dialog = dialog
+        val payRunnable = Runnable {
+            val alipay = PayTask(this)
+            val result = alipay.payV2(commodityInfo, true)
+            Log.e("TAG", "  result ===" + result.toString())
+            val msg = Message()
+            msg.what = SDK_PAY_FLAG
+            msg.obj = result
+            mHandler.sendMessage(msg)
         }
+        val payThread = Thread(payRunnable)
+        payThread.start()
     }
 
     /**

@@ -146,7 +146,7 @@ class CloudFileSortActivity : BaseRefreshActivity() {
                     startActivity<MineFileActivity>(Extras.TITLE to data.file_name,Extras.DIR to dir+"/${data.file_name}")
                 } else {
                     //预览
-                    OnlinePreviewActivity.start(this@CloudFileSortActivity,data.url,data.file_name,false)
+                    OnlinePreviewActivity.start(this@CloudFileSortActivity,data.preview_url,data.file_name,false)
                 }
             }
 

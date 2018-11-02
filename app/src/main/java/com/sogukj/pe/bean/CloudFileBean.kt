@@ -14,5 +14,5 @@ class CloudFileBean : Serializable{
     var canSelect = false
     var used_bytes = "" //字节
     var file_path = ""
-    var url = "https://18121442041:admin@ownclouds.pewinner.com/remote.php/webdav/我的文件/我的文件1.png?downloadStartSecret=eaIxJKYzQnh"
+    var preview_url = "http://kuaizhangkuaixunyuyin.oss-cn-hangzhou.aliyuncs.com/photo/Android/6499ba1b-3f5e-4903-a4a5-5a17bf4d2aea.jpg"
 }

@@ -610,7 +610,7 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
                         startActivity<MineFileActivity>(Extras.TITLE to data.file_name,Extras.DIR to dir+"/${data.file_name}")
                     } else {
                         //预览
-                        OnlinePreviewActivity.start(this@MineFileActivity,data.url,data.file_name,false)
+                        OnlinePreviewActivity.start(this@MineFileActivity,data.preview_url,data.file_name,false)
                     }
                 }
             }
