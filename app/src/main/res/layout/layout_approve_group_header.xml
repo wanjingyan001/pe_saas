@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/approveGroupHeader"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -7,45 +8,50 @@
     android:orientation="horizontal"
     android:padding="10dp">
 
-    <FrameLayout
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/item_dwsp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:gravity="center"
+        android:padding="5dp">
 
-        <LinearLayout
-            android:id="@+id/item_dwsp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="5dp">
+        <com.sogukj.pe.widgets.CircleImageView
+            android:id="@+id/icon_dwsp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="5dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_approve_dwsp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <com.sogukj.pe.widgets.CircleImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_margin="5dp"
-                android:src="@drawable/ic_approve_dwsp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="待我审批"
-                android:textColor="@color/text_1"
-                android:textSize="12sp" />
-        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="待我审批"
+            android:textColor="@color/text_1"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/icon_dwsp" />
 
         <ImageView
             android:id="@+id/point"
             android:layout_width="6dp"
             android:layout_height="6dp"
-            android:layout_gravity="right|top"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/red_point" />
-    </FrameLayout>
+            android:src="@drawable/red_point"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@+id/icon_dwsp"
+            app:layout_constraintTop_toTopOf="@+id/icon_dwsp" />
+    </android.support.constraint.ConstraintLayout>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/item_wysp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -55,20 +61,39 @@
         android:padding="5dp">
 
         <com.sogukj.pe.widgets.CircleImageView
+            android:id="@+id/icon_wysp"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_margin="5dp"
-            android:src="@drawable/ic_approve_wysp" />
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_approve_wysp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
             android:text="我已审批"
             android:textColor="@color/text_1"
-            android:textSize="12sp" />
-    </LinearLayout>
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/icon_wysp" />
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <ImageView
+            android:id="@+id/point1"
+            android:layout_width="6dp"
+            android:layout_height="6dp"
+            android:src="@drawable/red_point"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@+id/icon_wysp"
+            app:layout_constraintTop_toTopOf="@+id/icon_wysp" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/item_wfqd"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -78,20 +103,40 @@
         android:padding="5dp">
 
         <com.sogukj.pe.widgets.CircleImageView
+            android:id="@+id/icon_wfqd"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_margin="5dp"
-            android:src="@drawable/ic_approve_wfqd" />
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_approve_wfqd"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
             android:text="我发起的"
             android:textColor="@color/text_1"
-            android:textSize="12sp" />
-    </LinearLayout>
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/icon_wfqd" />
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <ImageView
+            android:id="@+id/point2"
+            android:layout_width="6dp"
+            android:layout_height="6dp"
+            android:src="@drawable/red_point"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@+id/icon_wfqd"
+            app:layout_constraintTop_toTopOf="@+id/icon_wfqd" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/item_cswd"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -101,17 +146,37 @@
         android:padding="5dp">
 
         <com.sogukj.pe.widgets.CircleImageView
+            android:id="@+id/icon_cswd"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_margin="5dp"
-            android:src="@drawable/ic_approve_cswd" />
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_approve_cswd"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
             android:text="抄送我的"
             android:textColor="@color/text_1"
-            android:textSize="12sp" />
-    </LinearLayout>
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/icon_cswd" />
+
+        <ImageView
+            android:id="@+id/point3"
+            android:layout_width="6dp"
+            android:layout_height="6dp"
+            android:src="@drawable/red_point"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@+id/icon_cswd"
+            app:layout_constraintTop_toTopOf="@+id/icon_cswd" />
+
+    </android.support.constraint.ConstraintLayout>
 
 </LinearLayout>

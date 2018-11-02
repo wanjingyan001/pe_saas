@@ -9,6 +9,7 @@ import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.setVisible
+import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.StatusBarUtil
 import com.sogukj.pe.baselibrary.utils.Trace
@@ -93,7 +94,7 @@ class InfoSupplementActivity : ToolbarActivity() {
                                 user_id = it.user_id.toString()
                                 sp.edit { putString(Extras.CompanyKey, it.key) }
                                 sp.edit { putString(Extras.CompanyName, organNameEdt.getInput()) }
-                                sp.edit { putString(Extras.UserName,mNameEdt.getInput()) }
+                                sp.edit { putString(Extras.UserName, mNameEdt.getInput()) }
                                 when (type) {
                                     1 -> login(phone, user_id!!.toInt())
                                     2, 3 -> {
@@ -136,7 +137,15 @@ class InfoSupplementActivity : ToolbarActivity() {
 
     private fun login(phone: String, userId: Int) {
         showProgress("正在获取数据...")
-        SoguApi.getService(application, RegisterService::class.java).getUserBean(phone, userId)
+        var source: String? = null
+        var unique: String? = null
+        sp.getString(Extras.THIRDLOGIN, "").apply {
+            isNotEmpty().yes {
+                source = split("_")[0]
+                unique = split("_")[1]
+            }
+        }
+        SoguApi.getService(application, RegisterService::class.java).getUserBean(phone, userId, source, unique)
                 .execute {
                     onNext { payload ->
                         if (payload.isOk) {

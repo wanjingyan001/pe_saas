@@ -168,12 +168,12 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
         et_count.addTextChangedListener(object : TextWatcher{
             override fun afterTextChanged(s: Editable?) {
                 if (et_count.textStr.isNullOrEmpty()){
-                    showToast("购买数量不能为空")
+                    showCommonToast("购买数量不能为空")
                     et_count.setText("1")
                     return
                 }
                 if (et_count.textStr.startsWith("0")){
-                    showToast("购买数量最少为一个")
+                    showCommonToast("购买数量最少为一个")
                     et_count.setText("1")
                 }
                 et_count.setSelection(et_count.textStr.length)

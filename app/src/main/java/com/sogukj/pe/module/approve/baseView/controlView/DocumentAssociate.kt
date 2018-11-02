@@ -25,32 +25,35 @@ import kotlinx.android.synthetic.main.layout_control_document_associate.view.*
 class DocumentAssociate @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : BaseControl(context, attrs, defStyleAttr) {
-    override fun getContentResId(): Int  = R.layout.layout_control_document_associate
+    override fun getContentResId(): Int = R.layout.layout_control_document_associate
 
     override fun bindContentView() {
         hasInit.yes {
             inflate.star.setVisible(isMust)
             inflate.associateTitle.text = controlBean.name
-            controlBean.value?.let {values->
+            controlBean.value?.let { values ->
                 values.isNotEmpty().yes {
                     val beans = mutableListOf<ApproveValueBean>()
                     values.forEach { map ->
                         val treeMap = map as LinkedTreeMap<*, *>
-                        beans.add(ApproveValueBean(name = treeMap["name"] as String,
+                        beans.add(ApproveValueBean(name = "",
+                                title = treeMap["title"] as String,
+                                number = treeMap["number"] as String,
+                                add_time = treeMap["add_time"] as String,
                                 id = treeMap["id"] as String))
                     }
                     controlBean.value?.clear()
                     controlBean.value?.addAll(beans)
-                    inflate.associateTv.text = beans.joinToString(","){ it.name }
+                    inflate.associateTv.text = beans.joinToString(",") { "${it.title}${it.number}" }
                     inflate.associateTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
                 }.otherWise {
                     inflate.associateTv.hint = controlBean.placeholder
-                    inflate.associateTv.setCompoundDrawablesWithIntrinsicBounds(0, 0,  R.drawable.ic_right, 0)
+                    inflate.associateTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_right, 0)
                 }
             }
             inflate.associateTv.clickWithTrigger {
                 AvoidOnResult(activity)
-                        .startForResult<SelectionActivity>(Extras.REQUESTCODE)
+                        .startForResult<SelectionActivity>(Extras.REQUESTCODE, Extras.TYPE to controlBean.skip!![0].skip_site)
                         .filter { it.resultCode == Activity.RESULT_OK }
                         .flatMap {
                             val extra = it.data.getSerializableExtra(Extras.BEAN)

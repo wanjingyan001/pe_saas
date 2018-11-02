@@ -36,6 +36,7 @@ import java.util.*
 /**
  * Created by qinfei on 17/7/18.
  */
+@Deprecated("已废弃")
 class LoginActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

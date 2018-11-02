@@ -142,7 +142,7 @@ class AccountRechargeActivity : ToolbarActivity(), TextWatcher {
         //调起微信支付,如果b等于false说明订单中的参数或者签名错误
         val b = api!!.sendReq(req)
         if (!b) {
-            showToast("订单生成错误")
+            showErrorToast("订单生成错误")
         }
         Log.e("TAG", "sendReq返回值=" + b)
     }
@@ -150,14 +150,14 @@ class AccountRechargeActivity : ToolbarActivity(), TextWatcher {
     private fun inspectWx(): Boolean {
         val sIsWXAppInstalledAndSupported = api!!.isWXAppInstalled() && api!!.isWXAppSupportAPI()
         if (!sIsWXAppInstalledAndSupported) {
-            showToast("您未安装微信")
+            showCommonToast("您未安装微信")
             return false
         } else {
             val isPaySupported = api!!.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT
             if (isPaySupported) {
                 return true
             } else {
-                showToast("您微信版本过低，不支持支付。")
+                showCommonToast("您微信版本过低，不支持支付。")
                 return false
             }
         }

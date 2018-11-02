@@ -33,7 +33,7 @@ import com.sogukj.pe.module.im.NimDemoLocationProvider
 import com.sogukj.pe.module.im.NimSDKOptionConfig
 import com.sogukj.pe.module.im.SessionHelper
 import com.sogukj.pe.module.news.NewsDetailActivity
-import com.sogukj.pe.module.register.PhoneInputActivity
+import com.sogukj.pe.module.register.LoginActivity
 import com.sogukj.pe.module.weekly.PersonalWeeklyActivity
 import com.sogukj.pe.peExtended.defaultIc
 import com.sogukj.pe.peExtended.getEnvironment
@@ -257,7 +257,7 @@ class App : MultiDexApplication() {
                         IMLogout()
                         Store.store.clearUser(this)
                         ActivityHelper.exit(this)
-                        val intent = Intent(this, PhoneInputActivity::class.java)
+                        val intent = Intent(this, LoginActivity::class.java)
                         intent.putExtra(Extras.FLAG, statusCode)
                         intent.addFlags(FLAG_ACTIVITY_NEW_TASK)
                         startActivity(intent)

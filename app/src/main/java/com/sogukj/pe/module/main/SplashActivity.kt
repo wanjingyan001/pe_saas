@@ -12,10 +12,9 @@ import com.sogukj.pe.baselibrary.Extended.jsonStr
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.StatusBarUtil
 import com.sogukj.pe.baselibrary.utils.Utils
-import com.sogukj.pe.module.register.PhoneInputActivity
+import com.sogukj.pe.module.register.LoginActivity
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.Store
-import com.sogukj.pe.service.OtherService
 import com.sogukj.pe.service.RegisterService
 import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -60,7 +59,7 @@ class SplashActivity : BaseActivity() {
                 if (sp.getBoolean(Extras.isFirstEnter,true)) {
                     startActivity<GuideActivity>()
                 }else{
-                    startActivity<PhoneInputActivity>()
+                    startActivity<LoginActivity>()
                 }
 //                LoginActivity.start(this)
                 finish()

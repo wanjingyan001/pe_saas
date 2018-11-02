@@ -9,7 +9,7 @@ import com.sogukj.pe.Consts
 import com.sogukj.pe.Extras
 import com.sogukj.pe.baselibrary.utils.EncryptionUtil
 import com.sogukj.pe.baselibrary.utils.Utils
-import com.sogukj.pe.module.register.PhoneInputActivity
+import com.sogukj.pe.module.register.LoginActivity
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peExtended.getIntEnvironment
 import com.sogukj.pe.peUtils.Store
@@ -130,6 +130,9 @@ class SoguApi {
         user?.let {
             newBuilder.addHeader("uid", it.uid.toString())
             newBuilder.addHeader("uids",it.uids)
+            it.table_token?.let {
+                newBuilder.addHeader("table_token",it)
+            }
         }
         if (getEnvironment() == "sr") {
             newBuilder.addHeader("key", "d5f17cafef0829b5")
@@ -166,7 +169,7 @@ class SoguApi {
     }
     fun exitUser(){
         Store.store.clearUser(context)
-        context.startActivity<PhoneInputActivity>()
+        context.startActivity<LoginActivity>()
     }
     companion object {
         private var TAG = SoguApi::class.java.simpleName

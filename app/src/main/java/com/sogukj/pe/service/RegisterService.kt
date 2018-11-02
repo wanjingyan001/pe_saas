@@ -139,20 +139,31 @@ interface RegisterService {
      */
     @FormUrlEncoded
     @POST("/api/Saas/get_menu")
-    fun getUserBean(@Field("phone")phone:String,
-                    @Field("user_id")user_id:Int):Observable<Payload<UserBean>>
+    fun getUserBean(@Field("phone") phone: String,
+                    @Field("user_id") user_id: Int,
+                    @Field("source") source: String? = null,
+                    @Field("unique") unique: String? = null): Observable<Payload<UserBean>>
 
     /**
      * 获取基础资料信息
      */
     @FormUrlEncoded
     @POST("/api/Saas/get_basic_data")
-    fun getBasicInfo(@Field("key")key:String):Observable<Payload<MechanismBasicInfo>>
+    fun getBasicInfo(@Field("key") key: String): Observable<Payload<MechanismBasicInfo>>
 
     /**
      * 登录后告知服务端,服务端会推送一条IM消息,用来使消息列表不为空
      */
     @POST("api/Saas/pushMsg")
     fun NoticeService(): Observable<Payload<Any>>
+
+
+    /**
+     * 判断是否绑定过第三方登录
+     */
+    @FormUrlEncoded
+    @POST("api/Saas/threePartyLogin")
+    fun checkThirdBinding(@Field("source") source: String,
+                          @Field("unique") unique: String): Observable<Payload<CheckThird>>
 }
 

@@ -137,14 +137,14 @@ class NewDstCityActivity : ToolbarActivity(),DstCityCallBack {
 
     private fun setChoseData(holder: ViewHolder?) {
         if(null != choseCitys && choseCitys.size > 0) {
-            holder!!.setVisible(R.id.empty_chosen,true);
+            holder!!.setVisible(R.id.empty_chosen,true)
         }else{
-            holder!!.setVisible(R.id.empty_chosen,false);
+            holder!!.setVisible(R.id.empty_chosen,false)
         }
 
         val gv_chose = holder.getView<GridView>(R.id.chosenGrid)
-        choseAdapter!!.setData(choseCitys)
-        gv_chose.setAdapter(choseAdapter)
+        choseAdapter!!.data = choseCitys
+        gv_chose.adapter = choseAdapter
         choseAdapter!!.notifyDataSetChanged()
 
         gv_chose.setOnItemClickListener { parent, view, position, id ->
@@ -182,8 +182,8 @@ class NewDstCityActivity : ToolbarActivity(),DstCityCallBack {
         }
 
         val gv_his = holder.getView<GridView>(R.id.historyGrid)
-        hisAdapter!!.setData(hisCityData)
-        gv_his.setAdapter(hisAdapter)
+        hisAdapter!!.data = hisCityData
+        gv_his.adapter = hisAdapter
         hisAdapter!!.notifyDataSetChanged()
 
         gv_his.setOnItemClickListener { parent, view, position, id ->
@@ -256,7 +256,7 @@ class NewDstCityActivity : ToolbarActivity(),DstCityCallBack {
         val payload = cityAreaBean.payload
         var names = ArrayList<String>()
         if (null != payload && payload.size > 0){
-            for (area in payload!!){
+            for (area in payload){
                 val citys = area.city
                 if (null != citys && citys.size > 0){
                     for (info in citys){
@@ -268,7 +268,7 @@ class NewDstCityActivity : ToolbarActivity(),DstCityCallBack {
 
         for (name in names){
             var cityBean = CityBean()
-            cityBean.setCity(name)
+            cityBean.city = name
             mDatas.add(cityBean)
         }
 
@@ -298,7 +298,7 @@ class NewDstCityActivity : ToolbarActivity(),DstCityCallBack {
     private fun bindListener() {
         toolbar_menu.setOnClickListener {
             //置顶
-            rv.scrollToPosition(0);
+            rv.scrollToPosition(0)
         }
 
         mAdapter!!.setOnCityItemClickListener { city, position ->

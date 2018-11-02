@@ -72,7 +72,7 @@ public class NewCityAdapter extends RecyclerView.Adapter<NewCityAdapter.ViewHold
         View content;
         public ViewHolder(View itemView) {
             super(itemView);
-            tvCity = (TextView) itemView.findViewById(R.id.city);
+            tvCity = itemView.findViewById(R.id.city);
             content = itemView.findViewById(R.id.root);
         }
     }

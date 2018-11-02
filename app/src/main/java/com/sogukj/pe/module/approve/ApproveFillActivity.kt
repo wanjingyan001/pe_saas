@@ -1101,10 +1101,6 @@ class ApproveFillActivity : ToolbarActivity() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
     private fun add11(bean: CustomSealBean) {
         //time_range
         var nameList = bean.name?.split(",") as ArrayList<String>

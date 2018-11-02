@@ -265,7 +265,7 @@ class SealApproveActivity : ToolbarActivity() {
                 3 -> {
                     btn.text = "重新发起"
                     btn.setOnClickListener {
-                        ApproveFillActivity.start(context, true, paramType!!, paramId!!, paramTitle!!, 1)
+                        ApproveFillActivity.start(context, true, paramType!!, paramId!!, paramTitle, 1)
                         finish()
                     }
                 }
@@ -508,7 +508,7 @@ class SealApproveActivity : ToolbarActivity() {
         }
         part3.visibility = View.VISIBLE
         val inflater = LayoutInflater.from(this)
-        segments?.forEach { v ->
+        segments.forEach { v ->
             val convertView = inflater.inflate(R.layout.item_approve_seal_segment, null)
             ll_segments.addView(convertView)
 
@@ -558,7 +558,7 @@ class SealApproveActivity : ToolbarActivity() {
         }
         part2.visibility = View.VISIBLE
         val inflater = LayoutInflater.from(this)
-        approveList?.forEach { v ->
+        approveList.forEach { v ->
             val convertView = inflater.inflate(R.layout.item_approve_seal_approver, null)
             ll_approvers.addView(convertView)
 
@@ -571,9 +571,9 @@ class SealApproveActivity : ToolbarActivity() {
             val tvContent = convertView.findViewById<TextView>(R.id.tv_content) as TextView
             val llComments = convertView.findViewById<LinearLayout>(R.id.ll_comments) as LinearLayout
 
-            if (v?.status == 3 || v?.status == 5) {
+            if (v.status == 3 || v.status == 5) {
                 tvEdit.visibility = View.VISIBLE
-                if (v?.is_edit_file == 1) {
+                if (v.is_edit_file == 1) {
                     tvEdit.text = "文件已修改"
                     tvEdit.setBackgroundResource(R.drawable.bg_tag_edit_file_1)
                 } else {
@@ -737,7 +737,7 @@ class SealApproveActivity : ToolbarActivity() {
         part1.visibility = View.VISIBLE
         ll_files.removeAllViews()
         val inflater = LayoutInflater.from(this)
-        file_list?.forEachWithIndex { i, v ->
+        file_list.forEachWithIndex { i, v ->
             val view = inflater.inflate(R.layout.item_file_single, null) as TextView
             view.text = "${i + 1}、${v.file_name}"
             ll_files.addView(view)

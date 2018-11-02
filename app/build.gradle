@@ -12,7 +12,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         multiDexEnabled true
         versionCode 35
-        versionName "4.3.1"
+        versionName "4.3.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             // 设置支持的SO库架构
@@ -282,6 +282,7 @@ dependencies {
     //    ARouter阿里路由
     implementation "com.alibaba:arouter-api:${arouter_version}"
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation 'com.android.support:support-v4:27.1.1'
     kapt "com.alibaba:arouter-compiler:${arouter_annotation_version}"
     // Room
     implementation "android.arch.persistence.room:runtime:${android_architecture_components}"
@@ -297,5 +298,8 @@ dependencies {
 kotlin {
     experimental {
         coroutines "enable"
+    }
+    androidExtensions {
+        experimental = true
     }
 }

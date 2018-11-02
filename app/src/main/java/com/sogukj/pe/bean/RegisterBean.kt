@@ -96,3 +96,9 @@ data class MechanismBasicInfo(val mechanism_name: String?,
 @Parcelize
 data class MainBottomBar(val id: Int,
                          val name: String) : Parcelable
+
+/**
+ * 检测第三方登录
+ */
+data class CheckThird(val band: Int,
+                      val user_info: UserBean? = null)

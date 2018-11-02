@@ -23,7 +23,7 @@ class ProjectSelection @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : BaseControl(context, attrs, defStyleAttr) {
     var block: ((value: ApproveValueBean) -> Unit)? = null
-    val refresh by lazy { controlBean.is_fresh ?: false }
+    val refresh by lazy { controlBean.is_fresh == true }
 
     override fun getContentResId(): Int = R.layout.layout_control_project_selection
 

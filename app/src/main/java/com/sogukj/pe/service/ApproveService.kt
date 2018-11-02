@@ -259,6 +259,7 @@ interface ApproveService {
     @FormUrlEncoded
     @POST("api/Sptemplate/spInfo")
     fun getApprovers(@Field("tid") tid: Int,
+                     @Field("aid") aid: Int? = null,
                      @Field("project_id") project_id: String? = null,
                      @Field("fund_id") fund_id: String? = null): Observable<Payload<Approvers>>
 
@@ -330,6 +331,19 @@ interface ApproveService {
 
 
     /**
+     * 修改审批
+     */
+    @FormUrlEncoded
+    @POST("/api/Sptemplate/spEdit")
+    fun modifyApprove(@Field("aid") aid: Int,//审批id
+                      @Field("data") data: String,//模板json
+                      @Field("sp") sp: String,//审批人
+                      @Field("cs") cs: String? = null,//抄送人
+                      @Field("jr") jr: String? = null//经办人
+    ): Observable<Payload<Any>>
+
+
+    /**
      * 审批列表
      */
     @FormUrlEncoded
@@ -394,14 +408,51 @@ interface ApproveService {
      */
     @FormUrlEncoded
     @POST("/api/Sptemplate/saveDraft")
-    fun saveApproveDraft(@Field("tid")tid:Int,//审批id
-                         @Field("data")data:String?=null
-    ):Observable<Payload<Any>>
+    fun saveApproveDraft(@Field("tid") tid: Int,//审批id
+                         @Field("data") data: String? = null
+    ): Observable<Payload<Any>>
 
     /**
      * 申请加急
      */
     @FormUrlEncoded
     @POST("/api/Sptemplate/spUrgent")
-    fun expedited(@Field("aid")aid:Int):Observable<Payload<Any>>
+    fun expedited(@Field("aid") aid: Int): Observable<Payload<Any>>
+
+
+    /**
+     * 完成用印|签字完成
+     */
+    @FormUrlEncoded
+    @POST("/api/Sptemplate/spOver")
+    fun approveOver(@Field("aid") aid: Int): Observable<Payload<Any>>
+
+    /**
+     *  待我审批|我已审批|我发起的审批|抄送我的 的数量
+     */
+    @POST("/api/Sptemplate/waitDoneAppNum")
+    fun newApproveListNum(): Observable<Payload<NewApproveNum>>
+
+
+    /**
+     *   一键复制（第一次请求）获取最近一次的审批的Id
+     */
+    @FormUrlEncoded
+    @POST("/api/Sptemplate/getLastApprove")
+    fun getLastApproveID(@Field("tid") tid: Int): Observable<Payload<LastApproveBean>>
+
+    /**
+     * 一键复制（第二次请求）获取详情
+     */
+    @FormUrlEncoded
+    @POST("/api/Sptemplate/getPrevInfo")
+    fun getLastApproveDetail(@Field("sid")sid:Int):Observable<Payload<List<ControlBean>>>
+
+
+    /**
+     * 导出用印单
+     */
+    @FormUrlEncoded
+    @POST("/api/Sptemplate/deriveWps")
+    fun deriveWps(@Field("aid")aid:Int):Observable<Payload<ApprovalForm>>
 }

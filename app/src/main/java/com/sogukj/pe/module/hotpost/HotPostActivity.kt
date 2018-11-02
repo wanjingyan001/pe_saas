@@ -9,14 +9,19 @@ import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import com.bumptech.glide.Glide
+import com.google.android.flexbox.FlexboxLayoutManager
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.otherWise
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
+import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
+import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.HotPostInfo
 import com.sogukj.pe.module.dataSource.DocumentType
 import com.sogukj.pe.module.dataSource.DocumentsListActivity
@@ -24,6 +29,8 @@ import com.sogukj.pe.module.dataSource.HotPostAdapter
 import com.sogukj.pe.service.DataSourceService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_hot_post.*
+import kotlinx.android.synthetic.main.item_hot_industry_tag.view.*
+import org.jetbrains.anko.ctx
 
 /**
  * Created by CH-ZH on 2018/9/6.
@@ -40,6 +47,7 @@ class HotPostActivity : BaseRefreshActivity() {
         setBack(true)
         initView()
         initData()
+
     }
 
     private fun initView() {

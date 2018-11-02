@@ -240,7 +240,7 @@ class SignApproveActivity : ToolbarActivity() {
                 fos.close()
                 SoguApi.getService(application,ApproveService::class.java)
                         .approveSign(MultipartBody.Builder().setType(MultipartBody.FORM)
-                                .addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("*/*"), file))
+                                .addFormDataPart("file", file.name, RequestBody.create(MediaType.parse("*/*"), file))
                                 .addFormDataPart("approval_id", paramId.toString())
                                 .addFormDataPart("type", "${type}")
                                 .build())
@@ -497,7 +497,7 @@ class SignApproveActivity : ToolbarActivity() {
         }
         part3.visibility = View.VISIBLE
         val inflater = LayoutInflater.from(this)
-        segments?.forEach { v ->
+        segments.forEach { v ->
             val convertView = inflater.inflate(R.layout.item_approve_sign_segment, null)
             ll_segments.addView(convertView)
 
@@ -551,7 +551,7 @@ class SignApproveActivity : ToolbarActivity() {
         }
         part2.visibility = View.VISIBLE
         val inflater = LayoutInflater.from(this)
-        approveList?.forEach { v ->
+        approveList.forEach { v ->
             val convertView = inflater.inflate(R.layout.item_approve_sign_approver, null)
             ll_approvers.addView(convertView)
 
@@ -602,7 +602,7 @@ class SignApproveActivity : ToolbarActivity() {
         }
         part1.visibility = View.VISIBLE
         ll_files.removeAllViews()
-        file_list?.forEachWithIndex { i, v ->
+        file_list.forEachWithIndex { i, v ->
             val view = inflater.inflate(R.layout.item_file_single, null) as TextView
             view.text = "${i + 1}、${v.file_name}"
             ll_files.addView(view)

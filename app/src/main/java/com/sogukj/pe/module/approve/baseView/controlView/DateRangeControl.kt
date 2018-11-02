@@ -1,5 +1,6 @@
 package com.sogukj.pe.module.approve.baseView.controlView
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
@@ -29,7 +30,7 @@ class DateRangeControl @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : BaseControl(context, attrs, defStyleAttr) {
     private var start: Long = 0
-    private var end :Long = 0
+    private var end: Long = 0
     private var dateRange by Delegates.observable(0L to 0L, { property, oldValue, newValue ->
         (newValue.first > 0L && newValue.second > 0L && controlBean.is_scal!!).yes {
             countDuration()
@@ -38,7 +39,7 @@ class DateRangeControl @JvmOverloads constructor(
     var needAssociate: Int = -1
     var holiday: ApproveValueBean? = null
     var selectionType: OptionBean? = null
-    var block: ((days: Double, unit: String) -> Unit)? = null
+    var block: ((days: Double, unit: String?) -> Unit)? = null
 
     override fun getContentResId(): Int = R.layout.layout_control_date_range
 
@@ -173,6 +174,7 @@ class DateRangeControl @JvmOverloads constructor(
     }
 
 
+    @SuppressLint("SetTextI18n")
     private fun countDuration() {
         val s_unit = when (needAssociate) {
             2 -> selectionType!!.scal_unit!!
@@ -183,22 +185,21 @@ class DateRangeControl @JvmOverloads constructor(
                 .execute {
                     onNext { payload ->
                         payload.isOk.yes {
-                            payload.payload?.let {
+                            payload.payload?.let { days ->
                                 val unit = when (controlBean.scal_unit!!) {
                                     "year" -> "年"
                                     "month" -> "月"
                                     "day" -> "天"
-                                    "hour" -> "小时"
-                                    "min" -> "分钟"
-                                    "sec" -> "秒"
-                                    "work" -> "工作时长"
+                                    "hour", "min", "sec", "work" -> "小时"
                                     else -> ""
                                 }
                                 if (controlBean.value!!.size > 2)
                                     controlBean.value?.removeAt(2)
-                                controlBean.value?.add(it)
-                                inflate.durationTv.setText(it + unit)
-                                block?.invoke(it.toDouble(), unit)
+                                controlBean.value?.add(days)
+                                inflate.durationTv.setText(days + unit)
+                                block?.let {
+                                    it.invoke(days.toDouble(), unit)
+                                }
                                 inflate.durationTv.isClickable = false
                             }
                         }.otherWise {

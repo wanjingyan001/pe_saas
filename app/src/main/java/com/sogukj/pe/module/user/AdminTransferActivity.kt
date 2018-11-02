@@ -4,31 +4,24 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.graphics.drawable.Drawable
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v7.widget.LinearLayoutManager
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.edit
-import anet.channel.util.Utils.context
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
-import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.sogukj.pe.App
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.ActivityHelper
@@ -38,12 +31,11 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.module.register.OrganViewModel
-import com.sogukj.pe.module.register.PhoneInputActivity
+import com.sogukj.pe.module.register.LoginActivity
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.UserService
 import com.sogukj.pe.widgets.CircleImageView
 import com.sogukj.service.SoguApi
-import io.reactivex.Maybe
 import kotlinx.android.synthetic.main.activity_admin_transfer.*
 import kotlinx.coroutines.experimental.runBlocking
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
@@ -146,7 +138,7 @@ class AdminTransferActivity : ToolbarActivity() {
                             App.INSTANCE.IMLogout()
                             Store.store.clearUser(App.INSTANCE)
                             ActivityHelper.exit(this@AdminTransferActivity)
-                            val intent = Intent(App.INSTANCE, PhoneInputActivity::class.java)
+                            val intent = Intent(App.INSTANCE, LoginActivity::class.java)
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                             startActivity(intent)
                         } else {

@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="20dp"
-    android:background="@drawable/approve_bg">
+    android:background="@drawable/approve_bg"
+    tools:ignore="MissingPrefix">
 
     <TextView
         android:id="@+id/approval_comments_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:text="@string/approval_comments"
         android:textColor="@color/text_1"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
     <EditText
@@ -27,19 +28,83 @@
         android:background="@drawable/approval_input_bg"
         android:gravity="top"
         android:hint="@string/approval_input_hint"
-        android:lines="5"
-        app:layout_constraintTop_toBottomOf="@+id/approval_comments_title"
+        android:lines="3"
         android:textColor="@color/text_1"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/approval_comments_title" />
+
+
+    <TextView
+        android:id="@+id/commentAttachment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="上传文件(选填)"
+        android:textColor="@color/text_1"
+        android:visibility="gone"
+        android:textSize="@dimen/text_size_medium"
+        app:layout_constraintTop_toBottomOf="@+id/approval_comments_input" />
+
+
+    <TextView
+        android:id="@+id/fileName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="8dp"
+        android:drawablePadding="8dp"
+        android:drawableStart="@drawable/ic_type_file"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:textColor="@color/text_1"
+        android:textSize="@dimen/text_size_samll"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/deleteFile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/commentAttachment" />
+
+    <ImageView
+        android:id="@+id/deleteFile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="6dp"
+        android:paddingEnd="12dp"
+        android:paddingStart="12dp"
+        android:visibility="gone"
+        android:paddingTop="6dp"
+        android:src="@mipmap/icon_delete_file"
+        app:layout_constraintBottom_toBottomOf="@+id/fileName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/fileName" />
+
+    <TextView
+        android:id="@+id/addAttachment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:paddingEnd="20dp"
+        android:paddingStart="20dp"
+        android:visibility="gone"
+        android:paddingTop="8dp"
+        android:text="+添加文件"
+        android:textColor="@color/text_3"
+        android:textSize="@dimen/text_size_medium"
+        app:corners_radius="21dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fileName"
+        app:stroke_color="#F1F1F1"
+        app:stroke_width="1dp" />
 
 
     <LinearLayout
         android:id="@+id/operateLayout"
-        app:layout_constraintTop_toBottomOf="@+id/approval_comments_input"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:orientation="horizontal"
-        android:layout_height="wrap_content">
+        app:layout_constraintTop_toBottomOf="@+id/addAttachment">
 
     </LinearLayout>
 

@@ -23,6 +23,7 @@ open class UserBean : Serializable {
     var accid: String? = null//网易云id
     var address: String? = null//公司地址
     var app_token = "" //验签token
+    var table_token:String?=null
     var is_read: Int? = null//抄送人状态 ""全部，"1"已读，"2"未读
     var uids : String ? = ""
 

@@ -265,7 +265,7 @@ class LeaveBusinessApproveActivity : ToolbarActivity() {
                 3 -> {
                     btn.text = "重新发起"
                     btn.setOnClickListener {
-                        ApproveFillActivity.start(context, true, paramType!!, paramId!!, paramTitle!!)
+                        ApproveFillActivity.start(context, true, paramType!!, paramId!!, paramTitle)
                         finish()
                     }
                 }

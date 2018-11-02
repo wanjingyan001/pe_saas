@@ -25,7 +25,7 @@ import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.utils.XmlDb
 import com.sogukj.pe.bean.MechanismBasicInfo
 import com.sogukj.pe.database.Injection
-import com.sogukj.pe.module.register.PhoneInputActivity
+import com.sogukj.pe.module.register.LoginActivity
 import com.sogukj.pe.module.register.UploadBasicInfoActivity
 import com.sogukj.pe.peUtils.Store
 import kotlinx.android.synthetic.main.activity_setting.*
@@ -82,7 +82,7 @@ class SettingActivity : BaseActivity() {
                 IMLogout()
                 Store.store.clearUser(this)
                 ActivityHelper.exit(App.INSTANCE)
-                startActivity<PhoneInputActivity>()
+                startActivity<LoginActivity>()
                 doAsync {
                     Injection.provideFunctionSource(this@SettingActivity).delete()
                 }

@@ -145,7 +145,7 @@ class MainHomeFragment : BaseFragment() {
             val path = mainFunIcon.address + mainFunIcon.port
             //fragment中使用路由调用startActivityForResult回调将在Activity中
             val bundle = Bundle()
-            bundle.putInt(Extras.DATA, local_sp!!)
+            bundle.putInt(Extras.DATA, local_sp ?: 0)
             bundle.putInt(Extras.FLAG, Extras.ROUTH_FLAG)
             ARouter.getInstance().build(path)
                     .with(bundle)

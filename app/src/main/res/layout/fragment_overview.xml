@@ -1,0 +1,244 @@
+<com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/refresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_record"
+    tools:context="com.sogukj.pe.module.project.overview.OverviewFragment">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/overviewLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/icon_overview_layout_bg"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/overviewLayoutTitle"
+                    style="@style/overviewLayoutTitleStyle"
+                    android:text="项目总览" />
+
+                <ImageView
+                    android:id="@+id/line"
+                    style="@style/overviewLayoutLineStyle" />
+
+                <include
+                    android:id="@+id/projectInfoLayout"
+                    layout="@layout/item_project_overview_layout" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/peopleStateLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:paddingBottom="12dp"
+                android:background="@mipmap/bg_people_state_layout"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/layoutTitle2"
+                    style="@style/overviewLayoutTitleStyle"
+                    android:text="人员负责情况一览" />
+
+                <ImageView
+                    android:id="@+id/line2"
+                    style="@style/overviewLayoutLineStyle" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/peopleStateList"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_weight="1"
+                    android:nestedScrollingEnabled="false">
+
+                </android.support.v7.widget.RecyclerView>
+
+                <TextView
+                    android:id="@+id/showMore"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+
+                    android:gravity="center"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:text="查看更多>" />
+
+            </LinearLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/newProjectLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:paddingBottom="12dp"
+                android:background="@mipmap/bg_new_project_layout"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/layoutTitle3"
+                    style="@style/overviewLayoutTitleStyle"
+                    android:text="新增项目动向"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/newProjectNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:text="本周新增入库项目："
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_size_medium"
+                    app:layout_constraintBottom_toBottomOf="@+id/line3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/line3"
+                    style="@style/overviewLayoutLineStyle"
+                    app:layout_constraintTop_toBottomOf="@+id/layoutTitle3" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/dynamicList"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginStart="15dp"
+                    android:nestedScrollingEnabled="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/line3">
+
+
+                </android.support.v7.widget.RecyclerView>
+
+                <TextView
+                    android:id="@+id/showMore2"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:text="查看更多>"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_goneMarginBottom="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/dynamicList" />
+
+            </android.support.constraint.ConstraintLayout>
+
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/weeklyWorkLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:paddingBottom="12dp"
+                android:background="@mipmap/bg_new_project_layout"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/layoutTitle4"
+                    style="@style/overviewLayoutTitleStyle"
+                    android:text="本周项目工作动向"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/line4"
+                    style="@style/overviewLayoutLineStyle"
+                    app:layout_constraintTop_toBottomOf="@+id/layoutTitle4" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/weeklyWorkList"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginStart="15dp"
+                    android:nestedScrollingEnabled="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/line4">
+
+
+                </android.support.v7.widget.RecyclerView>
+
+                <TextView
+                    android:id="@+id/showMore3"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:text="查看更多>"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_goneMarginBottom="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/weeklyWorkList" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/opinionRang"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="12dp"
+                android:layout_marginTop="5dp"
+                android:background="@mipmap/bg_weekly_lyrical_layout">
+
+                <TextView
+                    android:id="@+id/layoutTitle5"
+                    style="@style/overviewLayoutTitleStyle"
+                    android:text="本周舆情发生数排行"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/line5"
+                    style="@style/overviewLayoutLineStyle"
+                    app:layout_constraintTop_toBottomOf="@+id/layoutTitle5"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/weeklyOpinionList"
+                    android:layout_width="0dp"
+                    app:layout_constraintStart_toStartOf="@+id/line5"
+                    app:layout_constraintEnd_toEndOf="@+id/line5"
+                    app:layout_constraintTop_toBottomOf="@+id/line5"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginStart="5dp"
+                    android:nestedScrollingEnabled="false">
+
+
+                </android.support.v7.widget.RecyclerView>
+
+                <TextView
+                    android:id="@+id/showMore4"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:paddingBottom="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/weeklyOpinionList"
+                    android:paddingTop="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_goneMarginBottom="10dp"
+                    android:text="查看更多>" />
+
+            </android.support.constraint.ConstraintLayout>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</com.scwang.smartrefresh.layout.SmartRefreshLayout>
+

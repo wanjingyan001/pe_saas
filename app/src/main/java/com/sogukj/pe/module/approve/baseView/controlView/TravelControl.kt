@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 import com.amap.api.mapcore.util.it
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
+import com.jakewharton.rxbinding2.widget.RxTextView
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.otherWise
@@ -20,10 +21,12 @@ import com.sogukj.pe.module.approve.baseView.BaseControl
 import com.sogukj.pe.module.approve.baseView.ControlFactory
 import com.sogukj.pe.module.approve.baseView.viewBean.ControlBean
 import kotlinx.android.synthetic.main.layout_control_reimburse_list_footer.view.*
+import kotlinx.android.synthetic.main.layout_control_singline_edt.view.*
 import kotlinx.android.synthetic.main.layout_control_travel.view.*
 import org.jetbrains.anko.backgroundColorResource
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.info
+import org.jetbrains.anko.sdk25.coroutines.textChangedListener
 import kotlin.properties.Delegates
 
 /**
@@ -48,6 +51,12 @@ class TravelControl @JvmOverloads constructor(
                 }.otherWise {
                     inflate.travelReasonEdt.hint = groupList[0].placeholder
                 }
+                RxTextView.textChanges(inflate.travelReasonEdt).skipInitialValue().map { input ->
+                    input.toString().trimStart().trimEnd()
+                }.subscribe { input ->
+                    it.clear()
+                    it.add(input)
+                }
             }
             //行程行情列表
             val group = groupList[1].children!!
@@ -69,8 +78,8 @@ class TravelControl @JvmOverloads constructor(
             }
             //出差总天数
             groupList[3].let {
-                inflate.totalDays.setVisible(it.is_show ?: true)
-                inflate.totalDaysTitle.setVisible(it.is_show ?: true)
+                inflate.totalDays.setVisible(it.is_show != false)
+                inflate.totalDaysTitle.setVisible(it.is_show != false)
                 it.value?.let { value ->
                     value.isNotEmpty().yes {
                         inflate.totalDays.text = value[0] as String
@@ -104,12 +113,19 @@ class TravelControl @JvmOverloads constructor(
             var itemDays: Pair<Double, String> by Delegates.observable(0.0 to "", { _, oldValue, newValue ->
                 days = days + newValue.first - oldValue.first
                 inflate.totalDays.text = "$days${newValue.second} "
+                controlBean.children!![3].value?.let {
+                    it.isNotEmpty().yes {
+                        it[0] = "$days${newValue.second}"
+                    }.otherWise {
+                        it.add("$days${newValue.second}")
+                    }
+                }
             })
 
             //行程
             val detailItem = helper.getView<LinearLayout>(R.id.detailsItem)
             val delete = helper.getView<ImageView>(R.id.deleteItem)
-            delete.setVisible(item.is_delete ?: false)
+            delete.setVisible(item.is_delete == true)
             val factory = ControlFactory(activity)
             item.children?.let {
                 it.forEach {
@@ -124,7 +140,7 @@ class TravelControl @JvmOverloads constructor(
                         22 -> {
                             val dateRange = factory.createControl(DateRangeControl::class.java, it)
                             (dateRange as DateRangeControl).block = { days, unit ->
-                                itemDays = days to unit
+                                itemDays = days to (unit ?: "")
                             }
                             dateRange
                         }
@@ -133,6 +149,10 @@ class TravelControl @JvmOverloads constructor(
                     detailItem.addView(getDividerView(1))
                     detailItem.addView(control)
                 }
+            }
+            delete.clickWithTrigger {
+                controlBean.children!![1].children!!.removeAt(helper.adapterPosition)
+                travelAdapter.notifyItemRemoved(helper.adapterPosition)
             }
         }
     }

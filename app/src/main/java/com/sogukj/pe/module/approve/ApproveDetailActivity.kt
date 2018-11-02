@@ -1,31 +1,39 @@
 package com.sogukj.pe.module.approve
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.text.Html
 import android.text.TextUtils
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
+import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
 import com.github.gcacace.signaturepad.views.SignaturePad
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
+import com.sogukj.pe.baselibrary.base.AvoidOnResult
+import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.module.approve.baseView.viewBean.*
+import com.sogukj.pe.module.fileSelector.FileMainActivity
 import com.sogukj.pe.peUtils.FileUtil
 import com.sogukj.pe.peUtils.MyGlideUrl
 import com.sogukj.pe.peUtils.PdfUtil
@@ -33,10 +41,13 @@ import com.sogukj.pe.service.ApproveService
 import com.sogukj.pe.widgets.CircleImageView
 import com.sogukj.pe.widgets.UserRequestListener
 import com.sogukj.service.SoguApi
+import io.reactivex.Observable
 import io.reactivex.internal.util.HalfSerializer.onNext
 import kotlinx.android.synthetic.main.activity_approve_detail.*
 import kotlinx.android.synthetic.main.item_approve_seal_approver.view.*
+import kotlinx.android.synthetic.main.item_control_attach_selection.view.*
 import kotlinx.android.synthetic.main.item_new_approve_copy_list.view.*
+import kotlinx.android.synthetic.main.item_rate.view.*
 import kotlinx.android.synthetic.main.seal_approve_part1.*
 import kotlinx.android.synthetic.main.seal_approve_part1.view.*
 import kotlinx.android.synthetic.main.seal_approve_part2.view.*
@@ -183,6 +194,8 @@ class ApproveDetailActivity : ToolbarActivity() {
                         convertView.tv_status.text = flow.getStatusStr
                         convertView.tv_time.setVisible(flow.approval_time.isNotEmpty())
                         convertView.tv_time.text = flow.approval_time
+                        convertView.singLayout.setVisible(flow.sign_img.isNotEmpty())
+                        convertView.infoLayout.setVisible(flow.sign_img.isEmpty())
                         if (flow.status == 3 || flow.status == 5) {
                             when (flow.is_edit_file) {
                                 1 -> {
@@ -205,6 +218,11 @@ class ApproveDetailActivity : ToolbarActivity() {
                         convertView.tv_content.setVisible(!flow.content.isNullOrEmpty())
                         convertView.tv_content.text = Html.fromHtml("意见: <font color='#666666'>${flow.content ?: ""}</font><br/>")
                         convertView.ll_comments.setVisible(!flow.comment.isNullOrEmpty())
+                        flow.sign_img.isNotEmpty().yes {
+                            Glide.with(this)
+                                    .load(flow.sign_img)
+                                    .into(convertView.iv_sign)
+                        }
                         flow.comment?.let { com ->
                             convertView.ll_comments.removeAllViews()
                             com.forEach {
@@ -278,6 +296,7 @@ class ApproveDetailActivity : ToolbarActivity() {
                     layoutManager = GridLayoutManager(this@ApproveDetailActivity, 6)
                     adapter = copyAdapter
                 }
+                copyAdapter.notifyDataSetChanged()
             }
         }
     }
@@ -353,10 +372,16 @@ class ApproveDetailActivity : ToolbarActivity() {
                         }
                         6 -> {
                             operateBtn.text = "导出审批单"
+                            operateBtn.clickWithTrigger {
+                                deriveFile()
+                            }
                         }
                         7 -> {
                             //原用印完成
                             operateBtn.text = "审批完成"
+                            operateBtn.clickWithTrigger {
+                                approveOver()
+                            }
                         }
                         8 -> {
                             operateBtn.text = "确认意见并签字"
@@ -531,27 +556,98 @@ class ApproveDetailActivity : ToolbarActivity() {
                 .build()
         val operateBtns = inflate.find<LinearLayout>(R.id.operateLayout)
         val contentEdt = inflate.find<EditText>(R.id.approval_comments_input)
+        val commentAttachment = inflate.find<TextView>(R.id.commentAttachment)
+        val fileName = inflate.find<TextView>(R.id.fileName)
+        val deleteFile = inflate.find<ImageView>(R.id.deleteFile)
+        val addAttachment = inflate.find<TextView>(R.id.addAttachment)
+        var filePath: String? = null
         button.let {
             it.isNotEmpty().yes {
                 it.forEach {
-                    val operateBtn = TextView(this)
-                    val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f)
-                    params.rightMargin = dip(10)
-                    operateBtn.setPadding(0, dip(12), 0, dip(12))
-                    operateBtn.layoutParams = params
-                    operateBtn.setBackgroundResource(R.drawable.bg_btn_blue1)
-                    operateBtn.textColor = resources.getColor(R.color.white)
-                    operateBtn.text = it.value
-                    operateBtn.textSize = 16f
-                    operateBtn.gravity = Gravity.CENTER
-                    operateBtns.addView(operateBtn)
-                    operateBtn.clickWithTrigger { _ ->
-                        doApprove(it.key, contentEdt.textStr)
+                    if (it.value.contains("上传")) {
+                        //上传附件
+                        commentAttachment.setVisible(true)
+                        addAttachment.setVisible(true)
+                        commentAttachment.text = it.value
+                        addAttachment.clickWithTrigger {
+                            showProgress("正在读取内存文件")
+                            AvoidOnResult(this)
+                                    .startForResult<FileMainActivity>(Extras.REQUESTCODE,
+                                            Extras.TYPE to true,
+                                            Extras.FLAG to true,
+                                            Extras.DATA to 1)
+                                    .filter { it.resultCode == Activity.RESULT_OK }
+                                    .flatMap {
+                                        val path = it.data.getStringExtra(Extras.DATA)
+                                        Observable.just(path)
+                                    }.subscribe { path ->
+                                hideProgress()
+                                fileName.setVisible(true)
+                                deleteFile.setVisible(true)
+                                filePath = path
+                                fileName.text = java.io.File(path).name
+                            }
+                        }
+                        deleteFile.clickWithTrigger {
+                            filePath = null
+                            fileName.setVisible(false)
+                            deleteFile.setVisible(false)
+                        }
+                    } else {
+                        //同意,不同意
+                        val operateBtn = TextView(this)
+                        val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f)
+                        params.rightMargin = dip(10)
+                        operateBtn.setPadding(0, dip(12), 0, dip(12))
+                        operateBtn.layoutParams = params
+                        if (it.value == "同意") {
+                            operateBtn.setBackgroundResource(R.drawable.bg_btn_blue1)
+                            operateBtn.textColor = resources.getColor(R.color.white)
+                        } else {
+                            operateBtn.setBackgroundResource(R.drawable.bg_rect_blue)
+                            operateBtn.textColor = resources.getColor(R.color.colorPrimary)
+                        }
+                        operateBtn.text = it.value
+                        operateBtn.textSize = 16f
+                        operateBtn.gravity = Gravity.CENTER
+                        operateBtns.addView(operateBtn)
+                        operateBtn.clickWithTrigger { _ ->
+                            dialog.dismiss()
+                            val file = if (filePath == null) null else java.io.File(filePath)
+                            showConfirmDialog(it, contentEdt.textStr, file = file)
+                        }
                     }
                 }
             }
         }
         dialog.show()
+    }
+
+
+    private fun showConfirmDialog(btn: Button, content: String? = null, file: java.io.File? = null) {
+        val title = "是否确认${btn.value}审批？"
+        val build = MaterialDialog.Builder(this)
+                .theme(Theme.LIGHT)
+                .customView(R.layout.layout_confirm_approve, false)
+                .canceledOnTouchOutside(false)
+                .build()
+        build.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val titleTv = build.find<TextView>(R.id.confirm_title)
+        val cancel = build.find<TextView>(R.id.cancel_comment)
+        val confirm = build.find<TextView>(R.id.confirm_comment)
+        titleTv.text = title
+        cancel.setOnClickListener {
+            if (build.isShowing) {
+                build.dismiss()
+            }
+        }
+        confirm.setOnClickListener {
+            if (build.isShowing) {
+                build.dismiss()
+            }
+            doApprove(btn.key, content, file)
+        }
+        build.show()
     }
 
     /**
@@ -564,7 +660,6 @@ class ApproveDetailActivity : ToolbarActivity() {
         content?.let {
             builder.addFormDataPart("content", it)
         }
-        //todo 签字传文件对象,其他传附件地址
         file?.let {
             builder.addFormDataPart("file", it.name, RequestBody.create(MediaType.parse(""), it))
         }
@@ -609,8 +704,67 @@ class ApproveDetailActivity : ToolbarActivity() {
                 .execute {
                     onNext { payload ->
                         payload.isOk.yes {
-                            showSuccessToast("提交成功")
+                            showSuccessToast("加急成功")
                         }.otherWise {
+                            showErrorToast(payload.message)
+                        }
+                    }
+                }
+    }
+
+    /**
+     * 完成用印|签字完成
+     */
+    private fun approveOver() {
+        SoguApi.getService(application, ApproveService::class.java)
+                .approveOver(approveId)
+                .execute {
+                    onNext { payload ->
+                        payload.isOk.yes {
+                            showSuccessToast("审批完成")
+                        }.otherWise {
+                            showErrorToast(payload.message)
+                        }
+                    }
+                }
+    }
+
+    /**
+     * 上传文件
+     */
+    private fun uploadFiles(file: java.io.File, block: (bean: ApproveValueBean) -> Unit) {
+        SoguApi.getService(application, ApproveService::class.java)
+                .uploadFiles(MultipartBody.Builder().setType(MultipartBody.FORM)
+                        .addFormDataPart("file", file.name, RequestBody.create(MediaType.parse("*/*"), file))
+                        .build())
+                .execute {
+                    onNext { payload ->
+                        payload.isOk.yes {
+                            showSuccessToast("上传成功")
+                            payload.payload?.let {
+                                block.invoke(ApproveValueBean(name = it.name, url = it.url, size = it.size))
+                            }
+                        }.otherWise {
+                            showErrorToast("上传失败")
+                        }
+                    }
+                    onError {
+                        showErrorToast("上传失败")
+                    }
+                }
+    }
+
+    private fun deriveFile() {
+        SoguApi.getService(application, ApproveService::class.java)
+                .deriveWps(approveId)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk) {
+                            val bean = payload.payload
+                            bean?.let {
+                                PdfUtil.loadPdf(this@ApproveDetailActivity, it.url, it.name)
+                            }
+                        } else {
                             showErrorToast(payload.message)
                         }
                     }

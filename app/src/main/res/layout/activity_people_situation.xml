@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.sogukj.pe.module.project.overview.PeopleSituationActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <com.sogukj.pe.baselibrary.widgets.PagerIndicator
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:pi_disableTensileSlidingBlock="true"
+        android:background="?attr/colorPrimary"
+        app:pi_bottomLineHeight="4dp"
+        app:pi_allowWidthFull="true"
+        app:pi_slidingBlock="@drawable/image_sliding_block">
+
+    </com.sogukj.pe.baselibrary.widgets.PagerIndicator>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/contentPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v4.view.ViewPager>
+
+</LinearLayout>

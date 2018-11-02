@@ -52,7 +52,7 @@ open class RecyclerAdapter<T>(val context: Context, val creator: (RecyclerAdapte
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, type: Int): RecyclerHolder<T> {
-        return creator(this, parent, type)
+        return  creator(this, parent, type)
     }
 
 
@@ -134,6 +134,14 @@ open class RecyclerAdapter<T>(val context: Context, val creator: (RecyclerAdapte
 
     fun isSelected(position: Int): Boolean {
         return selectedItems.contains(Integer.valueOf(position))
+    }
+
+    fun getSelectedBean(): Collection<T> {
+        val selected = mutableSetOf<T>()
+        selectedItems.forEach {
+            selected.add(dataList[it])
+        }
+        return selected
     }
 
     /**

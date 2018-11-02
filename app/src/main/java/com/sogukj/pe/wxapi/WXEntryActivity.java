@@ -9,47 +9,133 @@
 package com.sogukj.pe.wxapi;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
+
+import com.sogukj.pe.peUtils.MobLogin;
+import com.tencent.mm.opensdk.modelbase.BaseReq;
+import com.tencent.mm.opensdk.modelbase.BaseResp;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+
+import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 import cn.sharesdk.wechat.utils.WXAppExtendObject;
 import cn.sharesdk.wechat.utils.WXMediaMessage;
 import cn.sharesdk.wechat.utils.WechatHandlerActivity;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
-/** 微信客户端回调activity示例 */
-public class WXEntryActivity extends WechatHandlerActivity {
+/**
+ * 微信客户端回调activity示例
+ */
+public class WXEntryActivity extends WechatHandlerActivity implements IWXAPIEventHandler {
+    private IWXAPI wxapi;
+    private Retrofit retrofit;
 
-	/**
-	 * 处理微信发出的向第三方应用请求app message
-	 * <p>
-	 * 在微信客户端中的聊天页面有“添加工具”，可以将本应用的图标添加到其中
-	 * 此后点击图标，下面的代码会被执行。Demo仅仅只是打开自己而已，但你可
-	 * 做点其他的事情，包括根本不打开任何页面
-	 */
-	@Override
-	public void onGetMessageFromWXReq(WXMediaMessage msg) {
-		if (msg != null) {
-			Intent iLaunchMyself = getPackageManager().getLaunchIntentForPackage(getPackageName());
-			startActivity(iLaunchMyself);
-		}
-	}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        wxapi = WXAPIFactory.createWXAPI(this, MobLogin.WeChatID, false);
+        wxapi.handleIntent(getIntent(), this);
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .readTimeout(15, TimeUnit.SECONDS)
+                .connectTimeout(15, TimeUnit.SECONDS)
+                .build();
+        retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.weixin.qq.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .client(client)
+                .build();
+    }
 
-	/**
-	 * 处理微信向第三方应用发起的消息
-	 * <p>
-	 * 此处用来接收从微信发送过来的消息，比方说本demo在wechatpage里面分享
-	 * 应用时可以不分享应用文件，而分享一段应用的自定义信息。接受方的微信
-	 * 客户端会通过这个方法，将这个信息发送回接收方手机上的本demo中，当作
-	 * 回调。
-	 * <p>
-	 * 本Demo只是将信息展示出来，但你可做点其他的事情，而不仅仅只是Toast
-	 */
-	@Override
-	public void onShowMessageFromWXReq(WXMediaMessage msg) {
-		if (msg != null && msg.mediaObject != null
-				&& (msg.mediaObject instanceof WXAppExtendObject)) {
-			WXAppExtendObject obj = (WXAppExtendObject) msg.mediaObject;
-			Toast.makeText(this, obj.extInfo, Toast.LENGTH_SHORT).show();
-		}
-	}
+    /**
+     * 处理微信发出的向第三方应用请求app message
+     * <p>
+     * 在微信客户端中的聊天页面有“添加工具”，可以将本应用的图标添加到其中
+     * 此后点击图标，下面的代码会被执行。Demo仅仅只是打开自己而已，但你可
+     * 做点其他的事情，包括根本不打开任何页面
+     */
+    @Override
+    public void onGetMessageFromWXReq(WXMediaMessage msg) {
+        if (msg != null) {
+            Intent iLaunchMyself = getPackageManager().getLaunchIntentForPackage(getPackageName());
+            startActivity(iLaunchMyself);
+        }
+    }
 
+    /**
+     * 处理微信向第三方应用发起的消息
+     * <p>
+     * 此处用来接收从微信发送过来的消息，比方说本demo在wechatpage里面分享
+     * 应用时可以不分享应用文件，而分享一段应用的自定义信息。接受方的微信
+     * 客户端会通过这个方法，将这个信息发送回接收方手机上的本demo中，当作
+     * 回调。
+     * <p>
+     * 本Demo只是将信息展示出来，但你可做点其他的事情，而不仅仅只是Toast
+     */
+    @Override
+    public void onShowMessageFromWXReq(WXMediaMessage msg) {
+        if (msg != null && msg.mediaObject != null
+                && (msg.mediaObject instanceof WXAppExtendObject)) {
+            WXAppExtendObject obj = (WXAppExtendObject) msg.mediaObject;
+            Toast.makeText(this, obj.extInfo, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onReq(BaseReq baseReq) {
+
+        Log.d("WJY", "openId:" + baseReq.openId);
+        Log.d("WJY", "openId:" + baseReq.transaction);
+    }
+
+    @Override
+    public void onResp(BaseResp baseResp) {
+        Log.d("WJY", "code:" + baseResp.errCode);
+        Log.d("WJY", "codeStr:" + baseResp.errStr);
+        Log.d("WJY", "checkArgs:" + baseResp.checkArgs());
+        Log.d("WJY", "openId:" + baseResp.openId);
+        if (baseResp.errCode == BaseResp.ErrCode.ERR_OK){
+            String code = ((SendAuth.Resp) baseResp).code;
+            getAccessToken(code);
+        }
+    }
+
+    private void getAccessToken(String code) {
+        //获取授权
+
+        HashMap<String, String> map = new HashMap<>();
+        map.put("appid", MobLogin.WeChatID);
+        map.put("secret", "a944e9f0a24b496e3f8af997d160209c");
+        map.put("code", code);
+        map.put("grant_type", "authorization_code");
+        retrofit.create(WXService.class).getAccountToken(map)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(wxAccToken -> {
+                    Log.d("WJY", "access_token:" + wxAccToken.getAccess_token());
+                    Log.d("WJY", "expires_in:" + wxAccToken.getExpires_in());
+                    Log.d("WJY", "refresh_token:" + wxAccToken.getRefresh_token());
+                    Log.d("WJY", "openid:" + wxAccToken.getOpenid());
+                    Log.d("WJY", "scope:" + wxAccToken.getScope());
+                    Log.d("WJY", "unionid:" + wxAccToken.getUnionid());
+                }, throwable -> throwable.printStackTrace(System.out));
+
+    }
 }

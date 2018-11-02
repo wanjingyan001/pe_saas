@@ -12,10 +12,7 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.execute
-import com.sogukj.pe.baselibrary.Extended.jsonStr
-import com.sogukj.pe.baselibrary.Extended.otherWise
-import com.sogukj.pe.baselibrary.Extended.yes
+import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.module.approve.baseView.viewBean.AGroup
@@ -83,6 +80,30 @@ class ApproveGroupActivity : ToolbarActivity(), View.OnClickListener {
                         showEmptyView { getApproveGroup() }
                     }
                 }
+    }
+
+    private fun newApproveListNum() {
+        SoguApi.getService(application, ApproveService::class.java)
+                .newApproveListNum()
+                .execute {
+                    onNext { payload ->
+                        payload.isOk.yes {
+                            payload.payload?.let {
+                                header.point.setVisible(it.waitMe != 0)
+                                header.point1.setVisible(it.overMe != 0)
+                                header.point2.setVisible(it.happenMe != 0)
+                                header.point3.setVisible(it.copyMe != 0)
+                            }
+                        }.otherWise {
+                            showErrorToast(payload.message)
+                        }
+                    }
+                }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        newApproveListNum()
     }
 
     override fun onClick(v: View) {

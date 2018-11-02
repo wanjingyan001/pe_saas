@@ -1,6 +1,5 @@
 package com.sogukj.pe.module.main
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.view.PagerAdapter
 import android.view.View
@@ -11,7 +10,7 @@ import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.StatusBarUtil
-import com.sogukj.pe.module.register.PhoneInputActivity
+import com.sogukj.pe.module.register.LoginActivity
 import kotlinx.android.synthetic.main.activity_guide.*
 import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.startActivity
@@ -37,7 +36,7 @@ class GuideActivity : BaseActivity() {
         }
         guideViewPager.toNextPage = {
             sp.edit { putBoolean(Extras.isFirstEnter, false) }
-            startActivity<PhoneInputActivity>()
+            startActivity<LoginActivity>()
             finish()
         }
     }

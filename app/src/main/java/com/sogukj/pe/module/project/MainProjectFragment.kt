@@ -28,6 +28,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.BaseFragment
 import com.sogukj.pe.baselibrary.base.BaseRefreshFragment
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
@@ -37,6 +38,7 @@ import com.sogukj.pe.baselibrary.widgets.ArrayPagerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.ProjectBean
+import com.sogukj.pe.module.project.overview.OverviewFragment
 import com.sogukj.pe.module.user.UserActivity
 import com.sogukj.pe.peUtils.MyGlideUrl
 import com.sogukj.pe.peUtils.Store
@@ -306,6 +308,7 @@ class MainProjectFragment : BaseRefreshFragment() {
 
             override fun onTabSelected(tab: TabLayout.Tab) {
                 view_pager?.currentItem = tab.position
+                setFloatButtonVisible(tab.position != 0)
             }
 
         })
@@ -359,21 +362,30 @@ class MainProjectFragment : BaseRefreshFragment() {
                 .subscribe({ payload ->
                     if (payload.isOk) {
                         fragments = ArrayList<BaseFragment>()
-                        payload?.payload?.forEach {
+                        payload?.payload?.forEachIndexed {index, it ->
                             mTypeList.add(it.type!!)
                             mTypeMap.put(it.type!!, it.name!!)
-                            fragments.add(ProjectListFragment.newInstance(it.type!!, false))
+                            if (index == 0){
+                                fragments.add(OverviewFragment())
+                            }else{
+                                fragments.add(ProjectListFragment.newInstance(it.type!!, false))
+                            }
                             var tab = tabs.newTab().setText(it.name!!)
                             tabs.addTab(tab)
 
-                            Thread {
-                                var target = Glide.with(ctx).load(it.icon).downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)//FutureTarget<File>
-                                var imageFile = target.get()//File
-                                activity?.runOnUiThread {
-                                    tab.icon = BitmapDrawable(resources, imageFile.path)
-                                    //icon.setImageDrawable(BitmapDrawable(resources, imageFile.path))
-                                }
-                            }.start()
+                            try {
+                                Thread {
+                                    var target = Glide.with(ctx).load(it.icon).downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)//FutureTarget<File>
+                                    var imageFile = target.get()//File
+                                    activity?.runOnUiThread {
+                                        tab.icon = BitmapDrawable(resources, imageFile.path)
+                                        //icon.setImageDrawable(BitmapDrawable(resources, imageFile.path))
+                                    }
+                                }.start()
+                            }catch (e:Exception){
+                                e.printStackTrace()
+                            }
+
                         }
                         var adapter = ArrayPagerAdapter(childFragmentManager, fragments.toTypedArray())
                         view_pager.adapter = adapter
@@ -462,8 +474,21 @@ class MainProjectFragment : BaseRefreshFragment() {
     }
 
     private fun loadDangerous() {
-        Glide.with(activity!!).asGif().load(R.drawable.danger).into(dangerous)
-        Glide.with(activity!!).asGif().load(R.drawable.danger).into(cus_dangerous)
+        try {
+            Glide.with(activity!!).asGif().load(R.drawable.danger).into(dangerous)
+            Glide.with(activity!!).asGif().load(R.drawable.danger).into(cus_dangerous)
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+    }
+
+    private fun setFloatButtonVisible(visible:Boolean){
+        dangerous.setVisible(visible)
+        cus_dangerous.setVisible(visible)
+    }
+
+    fun selectTab(index :Int){
+        view_pager.currentItem = index
     }
 
     override fun doRefresh() {
@@ -489,7 +514,9 @@ class MainProjectFragment : BaseRefreshFragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 0x543) {
             if (this::fragments.isLateinit) {
-                (fragments[view_pager.currentItem] as ProjectListFragment).request()
+                if (fragments[view_pager.currentItem] is ProjectListFragment){
+                    (fragments[view_pager.currentItem] as ProjectListFragment).request()
+                }
             }
         } else if (requestCode == 0x789) {
             loadHead()

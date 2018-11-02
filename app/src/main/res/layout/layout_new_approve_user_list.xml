@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:drawablePadding="8dp"
+        android:drawablePadding="6dp"
         android:drawableStart="@drawable/star"
         android:paddingBottom="12dp"
         android:paddingStart="6dp"

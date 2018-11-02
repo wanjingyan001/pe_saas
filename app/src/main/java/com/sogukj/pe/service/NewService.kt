@@ -22,7 +22,7 @@ interface NewService {
                  , @Field("fuzzyQuery") fuzzyQuery: String? = null)
             : Observable<Payload<ArrayList<NewsBean>>>
 
-//    @Headers(value = "Domain-Name: homeFunction")
+    //    @Headers(value = "Domain-Name: homeFunction")
     @FormUrlEncoded
     @POST("/api/news/focusCompanyLists")
     fun listProject(@Field("offset") offset: Int
@@ -32,6 +32,7 @@ interface NewService {
                     , @Field("sort") sort: Int? = null
                     , @Field("fuzzyQuery") fuzzyQuery: String? = null
                     , @Field("id") id: Int? = null
+                    , @Field("principal_id") principal_id: Int? = null
                     , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE): Observable<Payload<List<ProjectBean>>>
 
     @FormUrlEncoded

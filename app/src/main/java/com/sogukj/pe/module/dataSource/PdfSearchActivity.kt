@@ -42,7 +42,6 @@ class PdfSearchActivity : BaseActivity() {
     }
 
     private val type: Int by extraDelegate(Extras.TYPE, -1)
-    private val category: Int? by extraDelegate(Extras.TYPE1, null)
     private var page = 1
     private lateinit var listAdapter: BookListAdapter
     private val documents = ArrayList<PdfBook>()
@@ -202,7 +201,7 @@ class PdfSearchActivity : BaseActivity() {
     @SuppressLint("WrongConstant")
     private fun getPdfList(searchKey: String? = null) {
         SoguApi.getService(application, DataSourceService::class.java)
-                .getSourceBookList(page = page, keywords = searchKey, type = type, category = category)
+                .getSourceBookList(page = page, keywords = searchKey, type = type)
                 .execute {
                     onNext { payload ->
                         payload.isOk.yes {

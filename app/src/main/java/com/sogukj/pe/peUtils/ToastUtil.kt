@@ -1,6 +1,9 @@
 package com.sogukj.pe.peUtils
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.support.annotation.DrawableRes
 import android.view.Gravity
 import android.view.View
@@ -8,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.sogukj.pe.baselibrary.R
+import com.sogukj.pe.baselibrary.utils.RSBlurUtils
 import com.sogukj.pe.baselibrary.utils.Utils
 
 /**
@@ -33,6 +37,10 @@ class ToastUtil {
             if (toastView == null) {
                 toastView = Toast(context)
             }
+//            val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.bg_custom_toast).copy(Bitmap.Config.ARGB_8888, true)
+//            inflate.background = BitmapDrawable(context.resources,
+//                    RSBlurUtils.blurBitmap(bitmap,
+//                            context.applicationContext))
             toastView?.let {
                 it.setGravity(Gravity.CENTER_VERTICAL, 0, -50)
                 it.duration = Toast.LENGTH_SHORT

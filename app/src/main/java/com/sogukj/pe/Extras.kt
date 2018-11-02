@@ -110,6 +110,8 @@ object Extras {
     const val IS_FIRST_LAW = "is_first_law"
     const val IS_FIRST_PATENT = "is_first_patent"
 
+    const val THIRDLOGIN = "ext.third_login_account"
+
     val TYPE_LEVEL_0 = 0
     val TYPE_LEVEL_1 = 1
     val TYPE_FILE = 2

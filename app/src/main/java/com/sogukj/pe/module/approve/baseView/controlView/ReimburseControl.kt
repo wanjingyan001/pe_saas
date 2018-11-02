@@ -91,7 +91,7 @@ class ReimburseControl @JvmOverloads constructor(
             //"报销明细"的控件组(包含提示文字,金额输入,报销类型选择,费用明细填写)
             val detailItem = helper.getView<LinearLayout>(R.id.detailsItem)
             val delete = helper.getView<ImageView>(R.id.deleteItem)
-            delete.setVisible(item.is_delete ?: false)
+            delete.setVisible(item.is_delete == true)
             val factory = ControlFactory(activity)
             item.children?.let {
                 it.forEach {
@@ -119,7 +119,10 @@ class ReimburseControl @JvmOverloads constructor(
                     detailItem.addView(control)
                 }
             }
+            delete.clickWithTrigger {
+                group.removeAt(helper.adapterPosition)
+                detailAdapter.notifyItemRemoved(helper.adapterPosition)
+            }
         }
-
     }
 }

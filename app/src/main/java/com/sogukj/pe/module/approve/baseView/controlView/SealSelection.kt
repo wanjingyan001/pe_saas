@@ -16,6 +16,8 @@ import com.sogukj.pe.module.approve.baseView.BaseControl
 import com.sogukj.pe.module.approve.baseView.viewBean.ApproveValueBean
 import kotlinx.android.synthetic.main.item_control_seal_list.view.*
 import kotlinx.android.synthetic.main.layout_control_seal_selection.view.*
+import org.jetbrains.anko.sdk25.coroutines.onCheckedChange
+import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.sdk25.coroutines.textChangedListener
 import kotlin.properties.Delegates
 
@@ -41,7 +43,7 @@ class SealSelection @JvmOverloads constructor(
             controlBean.value?.let {
                 it.forEach {
                     val treeMap = it as LinkedTreeMap<*, *>
-                    val number = (treeMap["value"] as Number).toInt()
+                    val number = ((treeMap["value"] as? Number) ?: 0).toInt()
                     values.add(ApproveValueBean(name = treeMap["name"] as String, value = number))
                 }
             }
@@ -68,6 +70,15 @@ class SealSelection @JvmOverloads constructor(
             view.sealTitle.text = data.name
             view.sealTitle.isChecked = data.value != 0
             view.sealNum.setText(sealValue.toString())
+            view.sealTitle.onCheckedChange { _, isChecked ->
+                isChecked.no {
+                    sealValue = 0
+                }.otherWise {
+                    sealValue = 1
+                }
+                view.sealNum.setText(sealValue.toString())
+            }
+
             view.sealNum.textChangedListener {
                 onTextChanged { _, _, _, _ ->
                     val num = view.sealNum.textStr
@@ -77,7 +88,7 @@ class SealSelection @JvmOverloads constructor(
                     }
                 }
             }
-            view.minus.clickWithTrigger {
+            view.minus.onClick {
                 (sealValue > 0).yes {
                     sealValue--
                     view.sealNum.setText(sealValue.toString())
@@ -86,7 +97,7 @@ class SealSelection @JvmOverloads constructor(
                     view.sealNum.setText(sealValue.toString())
                 }
             }
-            view.plus.clickWithTrigger {
+            view.plus.onClick {
                 sealValue++
                 view.sealNum.setText(sealValue.toString())
             }

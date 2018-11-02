@@ -129,6 +129,15 @@ fun <T1, T2> ifNotNull(value1: T1?, value2: T2?, bothNotNull: (T1, T2) -> (Unit)
     }
 }
 
+fun <T1, T2> ifNotNullReturnBlo(value1: T1?, value2: T2?, bothNotNull: (T1, T2) -> (Unit)):Boolean {
+    return if (value1 != null && value2 != null) {
+        bothNotNull(value1, value2)
+        true
+    }else{
+        false
+    }
+}
+
 fun Context.isWifi(): Boolean {
     val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     val activeNetInfo = connectivityManager.activeNetworkInfo

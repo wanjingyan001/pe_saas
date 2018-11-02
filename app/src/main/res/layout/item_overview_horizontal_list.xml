@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:paddingStart="14dp"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/numTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="16"
+        android:textColor="@color/text_5"
+        android:textSize="@dimen/text_size_26"
+        app:layout_constraintEnd_toStartOf="@+id/unitTv"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/unitTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:layout_marginStart="4dp"
+        app:layout_constraintEnd_toStartOf="@+id/line"
+        android:layout_marginEnd="14dp"
+        android:text="个"
+        android:textColor="@color/text_5"
+        android:textSize="@dimen/text_size_samll"
+        app:layout_constraintBottom_toBottomOf="@+id/numTv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/numTv" />
+
+    <TextView
+        android:id="@+id/typeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="调研"
+        android:textColor="@color/text_3"
+        android:textSize="@dimen/text_size_samll"
+        app:layout_constraintEnd_toEndOf="@+id/unitTv"
+        app:layout_constraintStart_toStartOf="@+id/numTv"
+        app:layout_constraintTop_toBottomOf="@+id/numTv" />
+
+    <ImageView
+        android:id="@+id/line"
+        android:layout_width="1px"
+        android:layout_height="0dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginTop="3dp"
+        android:background="@color/divider2"
+        app:layout_constraintBottom_toBottomOf="@+id/typeName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/numTv" />
+
+
+</android.support.constraint.ConstraintLayout>

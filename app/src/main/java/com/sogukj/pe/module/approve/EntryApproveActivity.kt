@@ -44,7 +44,7 @@ class EntryApproveActivity : ToolbarActivity(){
         setBack(true)
         title = "审批"
         toolbar?.clickWithTrigger {
-            startActivity<ApproveGroupActivity>()
+            startActivity<ApproveGroupActivity>(Extras.DATA to intent.getIntExtra(Extras.DATA, 0))
         }
         ll_custom.removeAllViews()
         doRequest()

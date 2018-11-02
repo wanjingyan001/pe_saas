@@ -25,7 +25,10 @@ data class ApproveValueBean(val name: String,
                             var value: Int? = null,
                             var scal_unit: String? = null,
                             val hours: String? = null,
-                            val status: Int? = null) : Serializable
+                            val status: Int? = null,
+                            val title: String? = null,
+                            val number: String? = null,
+                            val add_time: String? = null) : Serializable
 
 /**
  * 审批人/抄送人/经办人
@@ -138,4 +141,12 @@ data class ApproveListBean(
         var url: String,// http://prepewinner.oss-cn-hangzhou.aliyuncs.com/uploads/headimg/5ae18f59c9193.jpg?OSSAccessKeyId=dZwbJBSoG9OREtPi&Expires=1538990127&Signature=wUIbHIvqrA5etiK9VE8iKcdz4LM%3D
         var temName: String,// 审批模版一
         var handle: Boolean//  true=>待经办  false=>不显示任何标志
+)
+
+
+data class NewApproveNum(
+        var waitMe: Int,// 待我审批
+        var overMe: Int,// 我已审批
+        var happenMe: Int,// 我发起的
+        var copyMe: Int// 抄送我的
 )

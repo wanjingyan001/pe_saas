@@ -9,11 +9,16 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.google.gson.internal.LinkedHashTreeMap
+import com.google.gson.internal.LinkedTreeMap
 import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Consts
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
+import com.sogukj.pe.baselibrary.Extended.execute
+import com.sogukj.pe.baselibrary.Extended.otherWise
+import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.utils.XmlDb
@@ -23,6 +28,8 @@ import com.sogukj.pe.bean.LpAssisBean
 import com.sogukj.pe.module.dataSource.*
 import com.sogukj.pe.module.dataSource.lawcase.LowCaseHisActivity
 import com.sogukj.pe.module.hotpost.HotPostActivity
+import com.sogukj.pe.service.DataSourceService
+import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_la_assistant.*
 import kotlinx.android.synthetic.main.commom_title.*
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
@@ -105,7 +112,7 @@ class LpAssistantActivity : BaseActivity() {
                 val icon = itemView.find<ImageView>(R.id.iv_assis)
                 val name = itemView.find<TextView>(R.id.tv_name)
                 override fun setData(view: View, data: LpAssisBean, position: Int) {
-                    if (null != data.resId){
+                    if (null != data.resId) {
                         icon.setImageResource(data.resId!!)
                     }
                     name.text = data.name
@@ -118,24 +125,30 @@ class LpAssistantActivity : BaseActivity() {
         lpaAdapter.onItemClick = { v: View, position: Int ->
             when (position) {
                 0 -> {
-                    if (sp.getBoolean(Extras.IS_FIRST_PATENT,true)) {
+                    if (sp.getBoolean(Extras.IS_FIRST_PATENT, true)) {
                         startActivity<PatentSearchActivity>(Extras.DATA to 0)
-                    }else{
+                    } else {
                         startActivity<PatentDataActivity>()
                     }
                 }
                 1 -> {
                     //法律助手
-                    if (!XmlDb.open(this).get(Extras.IS_FIRST_LAW)){
+                    if (!XmlDb.open(this).get(Extras.IS_FIRST_LAW)) {
                         startActivity<PatentSearchActivity>(Extras.DATA to 1)
-                    }else{
+                    } else {
                         startActivity<LowCaseHisActivity>()
                     }
                 }
 
                 2 -> {
                     //热门行业研报
-                    HotPostActivity.invoke(this)
+                    isHasSelectedIndustry { is_select ->
+                        when (is_select) {
+                            0 -> startActivity<IndustrySubActivity>(Extras.TYPE to is_select)
+                            1 -> startActivity<DocumentsListActivity>(
+                                    Extras.TYPE to DocumentType.INDUSTRY_REPORTS)
+                        }
+                    }
                 }
                 3 -> {
                     //招股书
@@ -157,10 +170,29 @@ class LpAssistantActivity : BaseActivity() {
         }
     }
 
+
+    private fun isHasSelectedIndustry(block: (is_select: Int) -> Unit) {
+        SoguApi.getService(application, DataSourceService::class.java)
+                .isFirstCome()
+                .execute {
+                    onNext { payload ->
+                        payload.isOk.yes {
+                            payload.payload?.let {
+                                it as LinkedTreeMap<*, *>
+                                val flag = it["is_select"] as Double
+                                block.invoke(flag.toInt())
+                            }
+                        }.otherWise {
+                            showErrorToast(payload.message)
+                        }
+                    }
+                }
+    }
+
     companion object {
-        fun invoke(context: Context){
+        fun invoke(context: Context) {
             var intent = Intent(context, LpAssistantActivity::class.java)
-            if (context !is Activity){
+            if (context !is Activity) {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
             context.startActivity(intent)

@@ -24,14 +24,14 @@ class FAPControl @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : BaseControl(context, attrs, defStyleAttr) {
     var block: ((fundId: String?, projectId: String?) -> Unit)? = null
-    val refresh by lazy { controlBean.is_fresh ?: false }
+    val refresh by lazy { controlBean.is_fresh == true }
 
     override fun getContentResId(): Int = R.layout.layout_control_fund_and_project
 
     override fun bindContentView() {
         hasInit.yes {
-            inflate.star1.setVisible(controlBean.is_must_fund ?: true)
-            inflate.star2.setVisible(controlBean.is_must_pro ?: false)
+            inflate.star1.setVisible(controlBean.is_must_fund != false)
+            inflate.star2.setVisible(controlBean.is_must_pro == true)
 
             inflate.fundSelectionTitle.text = controlBean.name1
             controlBean.value?.let { values ->

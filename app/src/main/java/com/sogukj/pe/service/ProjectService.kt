@@ -126,4 +126,38 @@ interface ProjectService {
     @FormUrlEncoded
     @POST("/api/StockInfo/equityRatio")
     fun equityRatio(@Field("company_id") company_id: Int): Observable<Payload<EquityStructureBean>>
+
+    /**
+     * 项目总览
+     */
+    @POST("api/Userfont/getAllProject")
+    fun getAllProjectOverview():Observable<Payload<List<Company>>>
+
+    /**
+     * 项目负责人下的项目数量
+     */
+    @FormUrlEncoded
+    @POST("api/Userfont/getPrincipal")
+    fun getPrincipal(@Field("more")more:Int = 0):Observable<Payload<List<UserProjectInfo>>>
+
+    /**
+     *  本周内的新增项目
+     */
+    @FormUrlEncoded
+    @POST("api/Userfont/newCompanyAdd")
+    fun newCompanyAdd(@Field("more")more:Int = 0):Observable<Payload<ProjectAdd>>
+
+    /**
+     * 本周内项目动向
+     */
+    @FormUrlEncoded
+    @POST("api/Userfont/companyTrends")
+    fun companyTrends(@Field("more")more:Int = 0):Observable<Payload<ProjectAdd>>
+
+    /**
+     * 本周舆情发生数排行
+     */
+    @FormUrlEncoded
+    @POST("api/Userfont/companyNewsRank")
+    fun  companyNewsRank(@Field("more")more:Int = 0):Observable<Payload<List<Opinion>>>
 }

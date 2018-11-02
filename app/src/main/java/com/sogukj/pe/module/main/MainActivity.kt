@@ -50,7 +50,7 @@ import com.sogukj.pe.database.Injection
 import com.sogukj.pe.module.fund.FundMainFragment
 import com.sogukj.pe.module.news.NewsDetailActivity
 import com.sogukj.pe.module.project.MainProjectFragment
-import com.sogukj.pe.module.register.PhoneInputActivity
+import com.sogukj.pe.module.register.LoginActivity
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.FileUtil
 import com.sogukj.pe.peUtils.Store
@@ -90,7 +90,7 @@ class MainActivity : BaseActivity() {
     //    "消息", "通讯录", "基金"
     private val modules = arrayListOf(MainBottomBar(1, "消息"),
             MainBottomBar(2, "通讯录"),
-            MainBottomBar(3, "首页"),
+            MainBottomBar(3, "工作台"),
             MainBottomBar(4, "项目"),
             MainBottomBar(5, "基金"))
     private var items = ArrayList<BottomNavigationItem>()
@@ -145,14 +145,14 @@ class MainActivity : BaseActivity() {
     }
 
     private fun saveConfigApprove() {
-        SoguApi.getService(application,OtherService::class.java)
+        SoguApi.getService(application, OtherService::class.java)
                 .configApprove()
                 .execute {
                     onNext { payload ->
-                        if (payload.isOk){
+                        if (payload.isOk) {
                             val jsonObject = payload.payload
                             val hidden = jsonObject!!.get("hidden").asInt
-                            Store.store.saveApproveConfig(this@MainActivity,hidden)
+                            Store.store.saveApproveConfig(this@MainActivity, hidden)
                         }
                     }
 
@@ -209,15 +209,15 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initBottomNavBar() {
-        val mainItem0 = BottomNavigationItem(R.drawable.ic_qb_sel12, "首页").setInactiveIconResource(R.drawable.ic_qb_nor2).initNavTextColor()
+        val mainItem0 = BottomNavigationItem(R.drawable.ic_qb_sel12, "工作台").setInactiveIconResource(R.drawable.ic_qb_nor2).initNavTextColor()
         val msgItem = BottomNavigationItem(R.drawable.ic_qb_sel11, "消息").setInactiveIconResource(R.drawable.ic_qb_nor).initNavTextColor()
         val contactItem = BottomNavigationItem(R.drawable.ic_qb_sel15, "通讯录").setInactiveIconResource(R.drawable.ic_qb_nor1).initNavTextColor()
-        val mainItem = BottomNavigationItem(R.drawable.ic_qb_selnull, "首页").setInactiveIconResource(R.drawable.ic_qb_nor2).initNavTextColor1()
+        val mainItem = BottomNavigationItem(R.drawable.ic_qb_selnull, "工作台").setInactiveIconResource(R.drawable.ic_qb_nor2).initNavTextColor1()
         val projectItem = BottomNavigationItem(R.drawable.ic_tab_main_proj_11, "项目").setInactiveIconResource(R.drawable.ic_tab_main_proj_0).initNavTextColor()
         val fundItem = BottomNavigationItem(R.drawable.ic_main_fund22, "基金").setInactiveIconResource(R.drawable.ic_main_fund).initNavTextColor()
         modules.forEach {
             when (it.name) {
-                "首页" -> {
+                "工作台", "首页" -> {
                     if (modules.size.rem(2) == 0) {
                         items.add(mainItem0)
                     } else {
@@ -287,7 +287,7 @@ class MainActivity : BaseActivity() {
 
         manager = supportFragmentManager
         fragments.forEach {
-            manager.beginTransaction().add(R.id.container, it).commit()
+            manager.beginTransaction().add(R.id.container, it, it::class.java.simpleName).commit()
         }
     }
 
@@ -340,7 +340,7 @@ class MainActivity : BaseActivity() {
     override fun onStart() {
         super.onStart()
         if (!Store.store.checkLogin(this)) {
-            startActivity<PhoneInputActivity>()
+            startActivity<LoginActivity>()
         }
     }
 

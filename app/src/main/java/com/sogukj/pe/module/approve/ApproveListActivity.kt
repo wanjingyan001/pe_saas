@@ -94,10 +94,10 @@ class ApproveListActivity : BaseRefreshActivity(), TabLayout.OnTabSelectedListen
             iv_filter.visibility = View.GONE
 
             val linearLayout = tab_title.getChildAt(0) as LinearLayout
-            linearLayout.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE)
-            linearLayout.setDividerDrawable(ContextCompat.getDrawable(this,
-                    R.drawable.tab_divider))
-            linearLayout.setDividerPadding(Utils.dpToPx(context, 15))
+            linearLayout.showDividers = LinearLayout.SHOW_DIVIDER_MIDDLE
+            linearLayout.dividerDrawable = ContextCompat.getDrawable(this,
+                    R.drawable.tab_divider)
+            linearLayout.dividerPadding = Utils.dpToPx(context, 15)
         } else {
             tab_title.visibility = View.GONE
         }

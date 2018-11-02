@@ -23,7 +23,6 @@ import com.sogukj.pe.baselibrary.utils.XmlDb
 import com.sogukj.pe.baselibrary.widgets.SingleEditLayout
 import com.sogukj.pe.bean.MechanismInfo
 import com.sogukj.pe.interf.ReviewStatus
-import com.sogukj.pe.module.main.LoginActivity
 import com.sogukj.pe.module.main.MainActivity
 import com.sogukj.pe.peUtils.LoginTimer
 import com.sogukj.pe.peUtils.Store

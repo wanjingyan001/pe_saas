@@ -202,7 +202,8 @@ class MainMsgFragment : BaseFragment() {
                         when (value) {
                             3 -> tvTitleMsg.text = Html.fromHtml("<font color='#a0a4aa'>[已读]</font>${data.content}")
                             4 -> tvTitleMsg.text = Html.fromHtml("<font color='#1787fb'>[未读]</font>${data.content}")
-                            else -> tvTitleMsg.text = if (data.content == "欢迎登录系统") "" else data.content
+                            else -> tvTitleMsg.text = if (data.content == "欢迎使用系统消息助手" ||
+                                    data.content == "欢迎使用审批消息助手") "" else data.content
                         }
                         if (data.content == "[自定义消息]") {
                             val attachment = data.attachment as ApproveAttachment
@@ -290,7 +291,8 @@ class MainMsgFragment : BaseFragment() {
                         }
                     } else {
                         tvNum.backgroundResource = R.drawable.bg_tag_num
-                        if (data.content == "欢迎登录系统" || data.unreadCount <= 0) {
+                        if (data.content == "欢迎使用系统消息助手" ||
+                                data.content == "欢迎使用审批消息助手" || data.unreadCount <= 0) {
                             tvNum.visibility = View.INVISIBLE
                         } else {
                             tvNum.visibility = View.VISIBLE
@@ -463,9 +465,9 @@ class MainMsgFragment : BaseFragment() {
         NIMClient.getService(MsgService::class.java).queryRecentContacts().setCallback(object : RequestCallback<MutableList<RecentContact>> {
             override fun onSuccess(p0: MutableList<RecentContact>?) {
                 p0?.let {
-                    it.forEach { item ->
-                        AnkoLogger("WJY").info { item.jsonStr }
-                    }
+                    //                    it.forEach { item ->
+//                        AnkoLogger("WJY").info { "IM消息列表:" + item.jsonStr }
+//                    }
                     recentList.addAll(it)
                 }
                 val list = recentList.toList()
@@ -538,9 +540,6 @@ class MainMsgFragment : BaseFragment() {
     }
     //监听在线消息中是否有@我
     private val messageReceiverObserver = Observer<List<IMMessage>> { imMessages ->
-        imMessages.forEach {
-           AnkoLogger("WJY").info { "新消息:${it.jsonStr}" }
-        }
         if (imMessages != null) {
             for (imMessage in imMessages) {
                 if (!TeamMemberAitHelper.isAitMessage(imMessage)) {
@@ -560,46 +559,44 @@ class MainMsgFragment : BaseFragment() {
     private val cacheMessages = HashMap<String, Set<IMMessage>>()
 
     private fun onRecentContactChanged(recentContacts: List<RecentContact>) {
-        recentContacts.forEach {
-            AnkoLogger("WJY").info { "recentContacts:${it.jsonStr}" }
-        }
-        var index: Int
-        for (r in recentContacts) {
-            index = adapter.dataList.indices.firstOrNull {
-                r.contactId == adapter.dataList[it].contactId && r.sessionType == adapter.dataList[it].sessionType
-            }
-                    ?: -1
-            if (index >= 0) {
-                adapter.dataList.removeAt(index)
-            }
+        handler.postDelayed({
+            var index: Int
+            for (r in recentContacts) {
+                index = adapter.dataList.indices.firstOrNull {
+                    r.contactId == adapter.dataList[it].contactId && r.sessionType == adapter.dataList[it].sessionType
+                }
+                        ?: -1
+                if (index >= 0) {
+                    adapter.dataList.removeAt(index)
+                }
 
-            adapter.dataList.add(r)
-            if (r.sessionType == SessionTypeEnum.Team && cacheMessages[r.contactId] != null) {
-                TeamMemberAitHelper.setRecentContactAited(r, cacheMessages[r.contactId])
+                adapter.dataList.add(r)
+                if (r.sessionType == SessionTypeEnum.Team && cacheMessages[r.contactId] != null) {
+                    TeamMemberAitHelper.setRecentContactAited(r, cacheMessages[r.contactId])
+                }
             }
-        }
-        cacheMessages.clear()
-        if (adapter.dataList.size > 1) {
-            Collections.sort(adapter.dataList) { o1, o2 ->
-                if (o1.contactId == "58d0c67d134fbc6c" || o1.contactId == "50a0500b1773be39") {
-                    return@sort -1
+            cacheMessages.clear()
+            if (adapter.dataList.size > 1) {
+                Collections.sort(adapter.dataList) { o1, o2 ->
+                    if (o1.contactId == "58d0c67d134fbc6c" || o1.contactId == "50a0500b1773be39") {
+                        return@sort -1
+                    }
+                    if (o2.contactId == "58d0c67d134fbc6c" || o2.contactId == "50a0500b1773be39") {
+                        return@sort 1
+                    }
+                    if (o1.contactId == "58d0c67d134fbc6c" && o2.contactId == "50a0500b1773be39") {
+                        return@sort -1
+                    }
+                    if (o2.contactId == "58d0c67d134fbc6c" && o1.contactId == "50a0500b1773be39") {
+                        return@sort 1
+                    }
+                    val time = o1.time - o2.time
+                    return@sort if (time == 0L) 0 else if (time > 0) -1 else 1
                 }
-                if (o2.contactId == "58d0c67d134fbc6c" || o2.contactId == "50a0500b1773be39") {
-                    return@sort 1
-                }
-                if (o1.contactId == "58d0c67d134fbc6c" && o2.contactId == "50a0500b1773be39") {
-                    return@sort -1
-                }
-                if (o2.contactId == "58d0c67d134fbc6c" && o1.contactId == "50a0500b1773be39") {
-                    return@sort 1
-                }
-                val time = o1.time - o2.time
-                return@sort if (time == 0L) 0 else if (time > 0) -1 else 1
             }
-        }
-        adapter.dataList.distinct()
-        adapter.notifyDataSetChanged()
-
+            adapter.dataList.distinct()
+            adapter.notifyDataSetChanged()
+        }, 500)
     }
 
     override fun onDestroyView() {

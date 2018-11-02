@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:background="@drawable/bg_item_hot_industry_tag">
+
+
+    <TextView
+        android:id="@+id/tagName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/hot_industry_tag_color"
+        android:textSize="@dimen/text_size_medium"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/selectedIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:src="@mipmap/icon_hot_industry_tag_selected"
+        app:layout_constraintBottom_toBottomOf="@+id/tagName"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+        app:layout_constraintStart_toEndOf="@+id/tagName"
+        app:layout_constraintTop_toTopOf="@+id/tagName" />
+
+
+</android.support.constraint.ConstraintLayout>

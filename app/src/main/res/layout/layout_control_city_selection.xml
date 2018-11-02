@@ -57,7 +57,7 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_weight="1"
-        android:gravity="end"
+        android:gravity="end|center_vertical"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/cityTv"
@@ -75,6 +75,7 @@
             android:paddingLeft="3dp"
             android:paddingRight="3dp"
             android:paddingTop="2dp"
+            android:visibility="gone"
             android:textColor="#ff1787fb"
             android:textSize="12sp" />
 
@@ -88,6 +89,7 @@
             android:paddingLeft="3dp"
             android:paddingRight="3dp"
             android:paddingTop="2dp"
+            android:visibility="gone"
             android:textColor="#ff1787fb"
             android:textSize="12sp" />
 
@@ -100,6 +102,7 @@
             android:paddingLeft="3dp"
             android:paddingRight="3dp"
             android:paddingTop="2dp"
+            android:visibility="gone"
             android:textColor="#ff1787fb"
             android:textSize="12sp" />
 

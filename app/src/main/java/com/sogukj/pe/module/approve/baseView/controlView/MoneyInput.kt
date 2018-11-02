@@ -48,7 +48,7 @@ class MoneyInput @JvmOverloads constructor(
                     }
                 }
             }
-            inflate.moneyCapitalTv.setVisible(controlBean.is_show ?: false)
+            inflate.moneyCapitalTv.setVisible(controlBean.is_show == true)
             controlBean.is_show?.yes {
                 inflate.moneyEdt.textChangedListener {
                     afterTextChanged {

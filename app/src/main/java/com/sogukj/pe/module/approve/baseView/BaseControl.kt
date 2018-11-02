@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
+import com.amap.api.mapcore.util.it
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.otherWise
 import com.sogukj.pe.baselibrary.Extended.yes
@@ -29,7 +30,7 @@ abstract class BaseControl @JvmOverloads constructor(
     protected abstract fun bindContentView()
     protected lateinit var inflate: View
     protected val hasInit: Boolean by lazy { ::controlBean.isLateinit }
-    protected val isMust: Boolean by lazy { hasInit.yes { controlBean.is_must ?: false }.otherWise { false } }
+    protected val isMust: Boolean by lazy { hasInit.yes { controlBean.is_must != false }.otherWise { false } }
 
     fun init() {
         inflate = LayoutInflater.from(context).inflate(getContentResId(), null)
@@ -68,20 +69,31 @@ abstract class BaseControl @JvmOverloads constructor(
         return controlBean
     }
 
-
-    fun getBean(): Boolean {
+    //todo 还需要增加判断
+    fun getBean(controlBean: ControlBean): List<Boolean>{
+        val checkValue = mutableListOf<Boolean>()
         controlBean.children?.forEach { bean ->
-            bean.value?.let {
-                it.isEmpty().yes {
-                    showErrorToast(when (bean.control) {
-                        1, 2, 3, 9 -> "${bean.name}为必填项"
-                        else -> "${bean.name}为必选项"
-                    })
-                    return false
+            if (bean.is_must!=null){
+                bean.is_must.yes {
+                    bean.value?.let {
+                        it.isEmpty().yes {
+                            showErrorToast(when (bean.control) {
+                                1, 2, 3, 9 -> "${bean.name}为必填项"
+                                else -> "${bean.name}为必选项"
+                            })
+                            checkValue.add(false)
+                        }.otherWise {
+                            checkValue.add(true)
+                        }
+                    }
+                }.otherWise {
+                    checkValue.add(true)
                 }
+            }else{
+                checkValue.addAll( getBean(bean))
             }
         }
-        return true
+        return checkValue
     }
 
     protected fun getDividerView(height: Int = 10): View {

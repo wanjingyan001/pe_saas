@@ -1,11 +1,16 @@
 package com.sogukj.pe.module.approve
 
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -27,6 +32,7 @@ import com.sogukj.pe.baselibrary.base.AvoidOnResult
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
+import com.sogukj.pe.bean.LastApproveBean
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.module.approve.baseView.BaseControl
 import com.sogukj.pe.module.approve.baseView.ControlFactory
@@ -36,13 +42,18 @@ import com.sogukj.pe.module.approve.baseView.viewBean.ControlBean
 import com.sogukj.pe.module.approve.baseView.viewBean.User
 import com.sogukj.pe.module.main.ContactsActivity
 import com.sogukj.pe.service.ApproveService
+import com.sogukj.pe.service.Payload
 import com.sogukj.pe.widgets.ApproverItemDecoration
 import com.sogukj.pe.widgets.CircleImageView
+import com.sogukj.pe.widgets.UserRequestListener
 import com.sogukj.service.SoguApi
+import io.reactivex.Observable
+import io.reactivex.internal.util.HalfSerializer.onNext
 import kotlinx.android.synthetic.main.activity_approve_initiate.*
 import kotlinx.android.synthetic.main.item_new_approver_list.view.*
 import kotlinx.android.synthetic.main.layout_new_approve_user_list.view.*
 import org.jetbrains.anko.*
+import org.jetbrains.anko.sdk25.coroutines.onClick
 
 class ApproveInitiateActivity : ToolbarActivity() {
     private val tid: Int by extraDelegate(Extras.ID, 0)//模板id
@@ -59,6 +70,9 @@ class ApproveInitiateActivity : ToolbarActivity() {
     private lateinit var copyAdapter: CopyPeoAdapter
     private lateinit var userLayout: View
     private lateinit var phoneSelection: PhoneSelection
+
+    override val menuId: Int
+        get() = R.menu.menu_new_approve_copy
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,6 +110,8 @@ class ApproveInitiateActivity : ToolbarActivity() {
             ContactsActivity.startWithDefault(this, users, false, false, defaultIDs, Extras.REQUESTCODE)
         }
         showTemplate()
+
+        commitApprove.text = if (aid != null) "修改" else "提交"
         commitApprove.clickWithTrigger {
             submitApproval()
         }
@@ -109,90 +125,95 @@ class ApproveInitiateActivity : ToolbarActivity() {
                 .showTemplate(tid, aid)
                 .execute {
                     onNext { payload ->
-                        payload.isOk.yes {
-                            payload.payload?.let {
-                                it.forEach {
-                                    info { it.jsonStr }
-                                    val factory = ControlFactory(this@ApproveInitiateActivity)
-                                    val control = when (it.control) {
-                                        1 -> factory.createControl(SingLineInput::class.java, it)
-                                        2 -> factory.createControl(MultiLineInput::class.java, it)
-                                        3 -> factory.createControl(NumberInput::class.java, it)
-                                        4 -> factory.createControl(SingSelection::class.java, it)
-                                        5 -> factory.createControl(MultiSelection::class.java, it)
-                                        6 -> factory.createControl(DateSelection::class.java, it)
-                                        7 -> {
-                                            phoneSelection = factory.createControl(PhoneSelection::class.java, it) as PhoneSelection
-                                            phoneSelection
-                                        }
-                                        8 -> factory.createControl(NoticText::class.java, it)
-                                        9 -> factory.createControl(MoneyInput::class.java, it)
-                                        10 -> factory.createControl(AttachmentSelection::class.java, it)
-                                        11 -> factory.createControl(ContactSelection::class.java, it)
-                                        12 -> factory.createControl(DepartmentControl::class.java, it)
-                                    //13当前地点暂时不做
-                                        14 -> factory.createControl(DocumentAssociate::class.java, it)
-                                        15 -> factory.createControl(SealSelection::class.java, it)
-                                        16 -> factory.createControl(RadioControl::class.java, it)
-                                        17 -> factory.createControl(CheckBoxControl::class.java, it)
-                                        18 -> {
-                                            val project = factory.createControl(ProjectSelection::class.java, it)
-                                            (project as ProjectSelection).block = { value ->
-                                                getApprovers(projectId = value.id)
-                                            }
-                                            project
-                                        }
-                                        19 -> {
-                                            val fund = factory.createControl(FundSelection::class.java, it)
-                                            (fund as FundSelection).block = {
-                                                getApprovers(fundId = it.id)
-                                            }
-                                            fund
-                                        }
-                                        20 -> factory.createControl(ForeignControl::class.java, it)
-                                        21 -> {
-                                            val fap = factory.createControl(FAPControl::class.java, it)
-                                            (fap as FAPControl).block = { v1, v2 ->
-                                                getApprovers(fundId = v1, projectId = v2)
-                                            }
-                                            fap
-                                        }
-                                        22 -> factory.createControl(DateRangeControl::class.java, it)
-                                        24 -> factory.createControl(SMSNotification::class.java, it)
-                                        25 -> factory.createControl(CitySelection::class.java, it)
-                                        -1 -> factory.createControl(LeaveControl::class.java, it)
-                                        -2 -> factory.createControl(TravelControl::class.java, it)
-                                        -3 -> factory.createControl(GoOutControl::class.java, it)
-                                        -21 -> {
-                                            val fs = factory.createControl(FundSealControl::class.java, it)
-                                            (fs as FundSealControl).block = { v1, v2 ->
-                                                getApprovers(fundId = v1, projectId = v2)
-                                            }
-                                            fs
-                                        }
-                                        -22 -> factory.createControl(CompanySealControl::class.java, it)
-                                        -23 -> factory.createControl(ForeignSealControl::class.java, it)
-                                        -41 -> factory.createControl(ReimburseControl::class.java, it)
-                                        else -> return@forEach
-                                    }
-                                    val view = View(ctx)
-                                    val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dip(10))
-                                    view.layoutParams = lp
-                                    controlLayout.addView(view)
-                                    controlLayout.addView(control)
-                                }
-                                (controlLayout.childCount > 0).yes {
-                                    controlLayout.removeViewAt(0)
-                                }
-                            }
-                        }.otherWise {
-                            showErrorToast(payload.message)
-                        }
+                        initApproveControl(payload)
                     }
                     onComplete {
                         getApprovers()
                     }
                 }
+    }
+
+    private fun initApproveControl(payload: Payload<List<ControlBean>>) {
+        payload.isOk.yes {
+            payload.payload?.let {
+                controlLayout.removeAllViews()
+                it.forEach {
+                    info { it.jsonStr }
+                    val factory = ControlFactory(this@ApproveInitiateActivity)
+                    val control = when (it.control) {
+                        1 -> factory.createControl(SingLineInput::class.java, it)
+                        2 -> factory.createControl(MultiLineInput::class.java, it)
+                        3 -> factory.createControl(NumberInput::class.java, it)
+                        4 -> factory.createControl(SingSelection::class.java, it)
+                        5 -> factory.createControl(MultiSelection::class.java, it)
+                        6 -> factory.createControl(DateSelection::class.java, it)
+                        7 -> {
+                            phoneSelection = factory.createControl(PhoneSelection::class.java, it) as PhoneSelection
+                            phoneSelection
+                        }
+                        8 -> factory.createControl(NoticText::class.java, it)
+                        9 -> factory.createControl(MoneyInput::class.java, it)
+                        10 -> factory.createControl(AttachmentSelection::class.java, it)
+                        11 -> factory.createControl(ContactSelection::class.java, it)
+                        12 -> factory.createControl(DepartmentControl::class.java, it)
+                    //13当前地点暂时不做
+                        14 -> factory.createControl(DocumentAssociate::class.java, it)
+                        15 -> factory.createControl(SealSelection::class.java, it)
+                        16 -> factory.createControl(RadioControl::class.java, it)
+                        17 -> factory.createControl(CheckBoxControl::class.java, it)
+                        18 -> {
+                            val project = factory.createControl(ProjectSelection::class.java, it)
+                            (project as ProjectSelection).block = { value ->
+                                getApprovers(projectId = value.id)
+                            }
+                            project
+                        }
+                        19 -> {
+                            val fund = factory.createControl(FundSelection::class.java, it)
+                            (fund as FundSelection).block = {
+                                getApprovers(fundId = it.id)
+                            }
+                            fund
+                        }
+                        20 -> factory.createControl(ForeignControl::class.java, it)
+                        21 -> {
+                            val fap = factory.createControl(FAPControl::class.java, it)
+                            (fap as FAPControl).block = { v1, v2 ->
+                                getApprovers(fundId = v1, projectId = v2)
+                            }
+                            fap
+                        }
+                        22 -> factory.createControl(DateRangeControl::class.java, it)
+                        24 -> factory.createControl(SMSNotification::class.java, it)
+                        25 -> factory.createControl(CitySelection::class.java, it)
+                        -1 -> factory.createControl(LeaveControl::class.java, it)
+                        -2 -> factory.createControl(TravelControl::class.java, it)
+                        -3 -> factory.createControl(GoOutControl::class.java, it)
+                        -21 -> {
+                            val fs = factory.createControl(FundSealControl::class.java, it)
+                            (fs as FundSealControl).block = { v1, v2 ->
+                                getApprovers(fundId = v1, projectId = v2)
+                            }
+                            fs
+                        }
+                        -22 -> factory.createControl(CompanySealControl::class.java, it)
+                        -23 -> factory.createControl(ForeignSealControl::class.java, it)
+                        -41 -> factory.createControl(ReimburseControl::class.java, it)
+                        else -> return@forEach
+                    }
+                    val view = View(ctx)
+                    val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dip(10))
+                    view.layoutParams = lp
+                    controlLayout.addView(view)
+                    controlLayout.addView(control)
+                }
+                (controlLayout.childCount > 0).yes {
+                    controlLayout.removeViewAt(0)
+                }
+            }
+        }.otherWise {
+            showErrorToast(payload.message)
+        }
     }
 
     private lateinit var approvers: Approvers
@@ -201,7 +222,7 @@ class ApproveInitiateActivity : ToolbarActivity() {
      */
     private fun getApprovers(fundId: String? = null, projectId: String? = null) {
         SoguApi.getService(application, ApproveService::class.java)
-                .getApprovers(tid, fund_id = fundId, project_id = projectId)
+                .getApprovers(tid, aid, fund_id = fundId, project_id = projectId)
                 .execute {
                     onSubscribe {
                         val view = View(this@ApproveInitiateActivity)
@@ -212,6 +233,7 @@ class ApproveInitiateActivity : ToolbarActivity() {
                         contentLayout.removeView(userLayout)
                         contentLayout.addView(view)
                         contentLayout.addView(userLayout)
+                        approverAdapter.selectedItems.clear()
                     }
                     onNext { payload ->
                         payload.isOk.yes {
@@ -219,11 +241,10 @@ class ApproveInitiateActivity : ToolbarActivity() {
                                 approvers = it
                                 val sizes = it.sp.map { it.users.size }
                                 val users = it.sp.flatMap { it.users }
-                                approverAdapter.refreshData(users)
                                 sizes.isNotEmpty().yes {
                                     userLayout.approverList.addItemDecoration(ApproverItemDecoration(ctx, sizes))
                                 }
-
+                                approverAdapter.refreshData(users)
                                 copyAdapter.defaultCS = it.cs.def.split(",")
                                 copyPeos.clear()
                                 copyPeos.addAll(it.cs.users)
@@ -241,48 +262,63 @@ class ApproveInitiateActivity : ToolbarActivity() {
      */
     private fun submitApproval() {
         val value = mutableListOf<ControlBean>()
+        val checkValue = mutableListOf<Boolean>()
         (0 until controlLayout.childCount).forEach {
             val view = controlLayout.getChildAt(it)
             if (view is BaseControl) {
                 info {
                     view.controlBean.jsonStr
                 }
-                getBean(view).yes {
+                val checks = getBean(view)
+                checks.any { !it }.no {
                     value.add(view.controlBean)
                 }
+                checkValue.addAll(checks)
             }
         }
+
         if (approvers.sp.isEmpty()) {
             showCommonToast("审批人不能为空")
             return
         }
-        (value.isNotEmpty() && ::approvers.isLateinit).yes {
-            SoguApi.getService(application, ApproveService::class.java)
-                    .submitNewApprove(tid, data = value.jsonStr, sp = approvers.sp.jsonStr, cs = approvers.cs.jsonStr, jr = approvers.jr.jsonStr)
-                    .execute {
-                        onNext { payload ->
-                            payload.isOk.yes {
-                                showSuccessToast("审批提交成功")
-                                if (aid != null) {
-                                    finish()
-                                } else {
-                                    setResult(Extras.RESULTCODE)
-                                    finish()
-                                }
-                            }.otherWise {
-                                showErrorToast(payload.message)
-                            }
+        (checkValue.none { !it } && value.isNotEmpty() && ::approvers.isLateinit).yes {
+            val service = SoguApi.getService(application, ApproveService::class.java)
+            val observable = if (aid != null) {
+                service.modifyApprove(aid!!, data = value.jsonStr, sp = approvers.sp.jsonStr, cs = approvers.cs.jsonStr, jr = approvers.jr.jsonStr)
+            } else {
+                service.submitNewApprove(tid, data = value.jsonStr, sp = approvers.sp.jsonStr, cs = approvers.cs.jsonStr, jr = approvers.jr.jsonStr)
+            }
+            observable.execute {
+                onNext { payload ->
+                    payload.isOk.yes {
+                        if (aid == null) {
+                            showSuccessToast("审批提交成功")
+                            finish()
+                        } else {
+                            showSuccessToast("审批修改成功")
+                            setResult(Extras.RESULTCODE)
+                            finish()
                         }
-                        onError {
-                            showErrorToast("审批提交失败")
-                        }
+                    }.otherWise {
+                        showErrorToast(payload.message)
                     }
+                }
+                onError {
+                    if (aid == null) {
+                        showErrorToast("审批提交失败")
+                    } else {
+                        showErrorToast("审批修改失败")
+                    }
+                }
+            }
         }
     }
 
 
-    private fun getBean(view: BaseControl): Boolean {
+    private fun getBean(view: BaseControl): List<Boolean> {
+        val checkValue = mutableListOf<Boolean>()
         (view.controlBean.control > 0).yes {
+            //控件的判断
             view.controlBean.is_must?.yes {
                 view.controlBean.value?.let {
                     it.isEmpty().yes {
@@ -293,14 +329,43 @@ class ApproveInitiateActivity : ToolbarActivity() {
                             is MoneyInput -> "${view.controlBean.name}为必填项"
                             else -> "${view.controlBean.name}为必选项"
                         })
-                        return false
+                        checkValue.add(false)
+                    }.otherWise {
+                        checkValue.add(true)
                     }
                 }
             }
         }.otherWise {
-            return view.getBean()
+            //套件的判断
+            checkValue.addAll(view.getBean(view.controlBean))
         }
-        return true
+        return checkValue
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.copyApprove -> {
+                SoguApi.getService(application, ApproveService::class.java)
+                        .getLastApproveID(tid)
+                        .execute {
+                            onNext { payload ->
+                                payload.isOk.yes {
+                                    payload.payload?.let {
+                                        showCopyDialog(it) {
+                                            it.sid?.let {
+                                                getLastApproveDetail(it)
+                                            }
+                                        }.show()
+                                    }
+                                }.otherWise {
+                                    showErrorToast(payload.message)
+                                }
+                            }
+                        }
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -343,16 +408,21 @@ class ApproveInitiateActivity : ToolbarActivity() {
                 }
             }
         }
-        valueNotEmpty.isNotEmpty().yes {
-            initDialog {
-                views.forEach {
-                    info { it.jsonStr }
-                }
-                saveApproveDraft(views.jsonStr)
-            }.show()
-        }.otherWise {
+        if (aid != null) {
             super.onBackPressed()
+        } else {
+            valueNotEmpty.isNotEmpty().yes {
+                initDialog {
+                    views.forEach {
+                        info { it.jsonStr }
+                    }
+                    saveApproveDraft(views.jsonStr)
+                }.show()
+            }.otherWise {
+                super.onBackPressed()
+            }
         }
+
     }
 
 
@@ -398,21 +468,49 @@ class ApproveInitiateActivity : ToolbarActivity() {
     }
 
 
+    private fun showCopyDialog(lastBean: LastApproveBean, block: () -> Unit): MaterialDialog {
+        val mDialog = MaterialDialog.Builder(this)
+                .theme(Theme.LIGHT)
+                .canceledOnTouchOutside(true)
+                .customView(R.layout.dialog_yongyin, false).build()
+        val content = mDialog.find<TextView>(R.id.content)
+        val cancel = mDialog.find<Button>(R.id.cancel)
+        val yes = mDialog.find<Button>(R.id.yes)
+        val spannable1 = SpannableString("是否将上次${lastBean.name}填写内容一键复制填写")
+        lastBean.name?.let {
+            spannable1.setSpan(ForegroundColorSpan(Color.parseColor("#808080")), 5, 5 + it.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+        }
+        content.text = spannable1
+        cancel.onClick {
+            mDialog.dismiss()
+        }
+        yes.onClick {
+            mDialog.dismiss()
+            block.invoke()
+        }
+        return mDialog
+    }
+
+    private fun getLastApproveDetail(sid: Int) {
+        SoguApi.getService(application, ApproveService::class.java)
+                .getLastApproveDetail(sid)
+                .execute {
+                    onNext { payload ->
+                        initApproveControl(payload)
+                    }
+                    onComplete {
+                        getApprovers()
+                    }
+                }
+    }
+
+
     inner class ApproverHolder(itemView: View) : RecyclerHolder<User>(itemView) {
         override fun setData(view: View, data: User, position: Int) {
+//            view.itemDec.setVisible(approverAdapter.selectedItems.contains(position))
             Glide.with(this@ApproveInitiateActivity)
                     .load(data.url)
-                    .listener(object : RequestListener<Drawable> {
-                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                            val ch = data.name.first()
-                            view.approverHeader.setChar(ch)
-                            return false
-                        }
-
-                        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                            return false
-                        }
-                    }).into(view.approverHeader)
+                    .listener(UserRequestListener(view.approverHeader,data.name)).into(view.approverHeader)
             view.approverName.text = data.name
         }
     }

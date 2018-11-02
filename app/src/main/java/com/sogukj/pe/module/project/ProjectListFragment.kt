@@ -14,12 +14,14 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.checkEmpty
+import com.sogukj.pe.baselibrary.Extended.extraDelegate
 import com.sogukj.pe.baselibrary.base.BaseFragment
 import com.sogukj.pe.baselibrary.utils.CharacterParser
 import com.sogukj.pe.baselibrary.utils.Trace
@@ -51,6 +53,7 @@ class ProjectListFragment : BaseFragment(), SupportEmptyView {
         get() = R.layout.fragment_list_project
     lateinit var adapter: RecyclerAdapter<ProjectBean>
     var type: Int? = null
+    private val principalId by extraDelegate(Extras.ID, 0)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         type = arguments?.getInt(Extras.TYPE)
@@ -227,9 +230,14 @@ class ProjectListFragment : BaseFragment(), SupportEmptyView {
 
     fun doRequest() {
         val user = Store.store.getUser(baseActivity!!)
-        SoguApi.getService(baseActivity!!.application, NewService::class.java)
-                .listProject(offset = offset, type = type, uid = user!!.uid)
-                .observeOn(AndroidSchedulers.mainThread())
+        val observable = if (principalId != 0) {
+                    SoguApi.getService(baseActivity!!.application, NewService::class.java)
+                            .listProject(offset = offset, type = type, uid = user!!.uid, principal_id = principalId)
+                } else {
+                    SoguApi.getService(baseActivity!!.application, NewService::class.java)
+                            .listProject(offset = offset, type = type, uid = user!!.uid)
+                }
+        observable.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ payload ->
                     if (payload.isOk) {
@@ -268,11 +276,14 @@ class ProjectListFragment : BaseFragment(), SupportEmptyView {
         const val TYPE_DY = 6
         const val TYPE_TC = 7
 
-        fun newInstance(type: Int, isFocus: Boolean): ProjectListFragment {
+        fun newInstance(type: Int, isFocus: Boolean, principalId: Int? = null): ProjectListFragment {
             val fragment = ProjectListFragment()
             val intent = Bundle()
             intent.putInt(Extras.TYPE, type)
             intent.putBoolean(Extras.FLAG, isFocus)
+            principalId?.let {
+                intent.putInt(Extras.ID, it)
+            }
             fragment.arguments = intent
             return fragment
         }

@@ -10,6 +10,7 @@ import com.google.gson.internal.LinkedTreeMap
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
+import com.sogukj.pe.baselibrary.Extended.otherWise
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.base.AvoidOnResult
@@ -41,18 +42,23 @@ class CitySelection @JvmOverloads constructor(
                 values.isNotEmpty().yes {
                     val beans = mutableListOf<ApproveValueBean>()
                     values.forEach { map ->
-                        val treeMap = map as LinkedTreeMap<String, Any>
+                        val treeMap = map as LinkedTreeMap<*, *>
                         beans.add(ApproveValueBean(name = treeMap["name"] as String,
                                 id = treeMap["id"] as String))
                     }
                     controlBean.value?.clear()
                     controlBean.value?.addAll(beans)
-                    inflate.cityTv.text = "${beans.size}个"
-                    beans.forEachIndexed { index, valueBean ->
-                        if (index < 3) {
-                            val textView = cities.getChildAt(index) as TextView
-                            textView.setVisible(true)
-                            textView.text = valueBean.name
+                    if (beans.size == 1) {
+                        inflate.cityTv.text = beans[0].name
+                    }else{
+                        inflate.cityTv.text = "${beans.size}个"
+                        inflate.cities.setVisible(true)
+                        beans.forEachIndexed { index, valueBean ->
+                            if (index < 3) {
+                                val textView = inflate.cities.getChildAt(index) as TextView
+                                textView.setVisible(true)
+                                textView.text = valueBean.name
+                            }
                         }
                     }
                 }
@@ -70,17 +76,19 @@ class CitySelection @JvmOverloads constructor(
                     values.isNotEmpty().yes {
                         controlBean.value?.clear()
                         controlBean.value?.addAll(values)
-                        inflate.cityTv.text = "${values.size}个"
-
-                        (0 until inflate.cities.childCount).forEach {
-                            val textView = inflate.cities.getChildAt(it) as TextView
-                            if (it < values.size) {
-                                inflate.cities.setVisible(true)
-                                textView.text = values[it].name
-                            } else {
-                                inflate.cities.setVisible(false)
-                                textView.setVisible(false)
+                        controlBean.is_multiple?.yes {
+                            inflate.cityTv.text = "${values.size}个"
+                            (0 until inflate.cities.childCount).forEach {
+                                val textView = inflate.cities.getChildAt(it) as TextView
+                                if (it < values.size) {
+                                    inflate.cities.setVisible(true)
+                                    textView.text = values[it].name
+                                } else {
+                                    textView.setVisible(false)
+                                }
                             }
+                        }?.otherWise {
+                            inflate.cityTv.text = values[0].name
                         }
                     }
                 }

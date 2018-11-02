@@ -138,7 +138,15 @@ class CreateDepartmentActivity : ToolbarActivity() {
 
     private fun login(phone: String) {
         showProgress("正在获取数据...")
-        SoguApi.getService(application, RegisterService::class.java).getUserBean(phone,sp.getInt(Extras.SaasUserId,0))
+        var source: String? = null
+        var unique: String? = null
+        sp.getString(Extras.THIRDLOGIN, "").apply {
+            isNotEmpty().yes {
+                source = split("_")[0]
+                unique = split("_")[1]
+            }
+        }
+        SoguApi.getService(application, RegisterService::class.java).getUserBean(phone,sp.getInt(Extras.SaasUserId,0),source, unique)
                 .execute {
                     onNext { payload ->
                         if (payload.isOk) {

@@ -1,5 +1,6 @@
 package com.sogukj.pe.module.approve
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -50,8 +51,8 @@ class SelectionActivity : ToolbarActivity() {
     /**
      * 成员adapter
      */
-    private lateinit var userAdapter:UserAdapter
-    private val users by lazy { mutableListOf<MultiItemEntity>()  }
+    private lateinit var userAdapter: UserAdapter
+    private val users by lazy { mutableListOf<MultiItemEntity>() }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_selection)
@@ -76,6 +77,7 @@ class SelectionActivity : ToolbarActivity() {
                     addItemDecoration(DividerItemDecoration(ctx, DividerItemDecoration.VERTICAL))
                 }
             }
+
             else -> {
                 when (skipSite.toInt()) {
                     1 -> {
@@ -99,6 +101,7 @@ class SelectionActivity : ToolbarActivity() {
                         title = "请选择部门"
                     }
                     12 -> {
+                        requestUrl = "/api/Skip/relateApprove"
                         title = "请选择审批单"
                     }
                     else -> throw ClassCastException("类型错误")
@@ -151,7 +154,7 @@ class SelectionActivity : ToolbarActivity() {
                                     payload.isOk.yes {
                                         payload.payload?.let {
                                             val list = mutableListOf<MultiItemEntity>()
-                                            it.forEach { city->
+                                            it.forEach { city ->
                                                 city.children.forEach {
                                                     city.addSubItem(it)
                                                 }
@@ -175,7 +178,7 @@ class SelectionActivity : ToolbarActivity() {
                                     payload.isOk.yes {
                                         payload.payload?.let {
                                             val list = mutableListOf<MultiItemEntity>()
-                                            it.forEach { dep->
+                                            it.forEach { dep ->
                                                 dep.children.forEach {
                                                     dep.addSubItem(it)
                                                 }
@@ -191,22 +194,6 @@ class SelectionActivity : ToolbarActivity() {
                                 }
                             }
                 }
-                12 -> {
-                    SoguApi.getService(application,ApproveService::class.java)
-                            .docAssociate()
-                            .execute {
-                                onNext { payload ->
-                                    payload.isOk.yes {
-                                        payload.payload?.let {
-                                            listAdapter.refreshData(it)
-                                        }
-                                    }.otherWise {
-                                        showErrorToast(payload.message)
-                                    }
-                                }
-                            }
-                }
-
             }
         }
     }
@@ -229,7 +216,7 @@ class SelectionActivity : ToolbarActivity() {
                     super.onBackPressed()
                 }
             }
-            9 ->{
+            9 -> {
                 multiple.yes {
                     val list = ArrayList<ApproveValueBean>()
                     val map1 = userAdapter.selected.map {
@@ -256,11 +243,14 @@ class SelectionActivity : ToolbarActivity() {
      * 项目,基金,外资,基金项目关联,部门
      */
     inner class ListHolder(itemView: View) : RecyclerHolder<Any>(itemView) {
+        @SuppressLint("SetTextI18n")
         override fun setData(view: View, data: Any, position: Int) {
             if (data is ApproveValueBean) {
-                view.itemTv.text = data.name
-            }else if (data is Document){
-                view.itemTv.text = data.title
+                ifNotNullReturnBlo(data.title, data.number) { v1, v2 ->
+                    view.itemTv.text = v1 + v2
+                }.no {
+                    view.itemTv.text = data.name
+                }
             }
         }
     }
@@ -329,6 +319,7 @@ class SelectionActivity : ToolbarActivity() {
      */
     inner class UserAdapter(data: List<MultiItemEntity>) : BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder>(data) {
         val selected = mutableListOf<MultiItemEntity>()
+
         init {
             addItemType(1, R.layout.item_approval_user_dep)
             addItemType(2, R.layout.item_approval_user)
@@ -356,6 +347,7 @@ class SelectionActivity : ToolbarActivity() {
                     Glide.with(this@SelectionActivity)
                             .load(item.url)
                             .into(header)
+                    holder.getView<ImageView>(R.id.selectIcon).setVisible(multiple)
                     holder.itemView.clickWithTrigger {
                         multiple.yes {
                             selected.contains(item).yes {

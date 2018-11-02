@@ -5,6 +5,10 @@ import android.app.ProgressDialog
 import android.content.*
 import android.content.res.Configuration
 import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.os.Handler
@@ -15,6 +19,7 @@ import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -25,14 +30,13 @@ import com.noober.background.BackgroundLibrary
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.R
+import com.sogukj.pe.baselibrary.utils.RSBlurUtils
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.snackbar.Prompt
 import com.sogukj.pe.baselibrary.widgets.snackbar.TSnackbar
 import com.umeng.message.PushAgent
 import kotlinx.android.synthetic.main.layout_network_error.*
-import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.find
-import org.jetbrains.anko.imageResource
+import org.jetbrains.anko.*
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import kotlin.properties.Delegates
@@ -59,9 +63,11 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger {
         ActivityHelper.add(this)
         PushAgent.getInstance(this).onAppStart()
         initEmptyView()
+
         inflate = layoutInflater.inflate(R.layout.layout_custom_toast, null)
         iconImg = inflate.find(R.id.toast_icon)
         tv = inflate.find(R.id.toast_tv)
+
         Utils.setCustomDensity(this, application)
         filter = IntentFilter()
         filter.addAction("android.net.conn.CONNECTIVITY_CHANGE")
@@ -135,7 +141,7 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger {
         }
     }
 
-    protected fun showEmptyView(block:()->Unit) {
+    protected fun showEmptyView(block: () -> Unit) {
         layout?.let {
             it.visibility = View.VISIBLE
             it.find<TextView>(R.id.resetRefresh).clickWithTrigger {
@@ -173,22 +179,22 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger {
         super.onDestroy()
     }
 
-
-    private var toast: Toast? = null
-    fun showToast(text: CharSequence?) {
-        //文件上传未完成，界面销毁
-        if (context !is Activity) {
-            return
-        }
-        if (toast == null) {
-            toast = Toast.makeText(this,
-                    text?.toString(),
-                    Toast.LENGTH_SHORT)
-        } else {
-            toast!!.setText(text)
-        }
-        toast!!.show()
-    }
+//
+//    private var toast: Toast? = null
+//    fun showToast(text: CharSequence?) {
+//        //文件上传未完成，界面销毁
+//        if (context !is Activity) {
+//            return
+//        }
+//        if (toast == null) {
+//            toast = Toast.makeText(this,
+//                    text?.toString(),
+//                    Toast.LENGTH_SHORT)
+//        } else {
+//            toast!!.setText(text)
+//        }
+//        toast!!.show()
+//    }
 
     fun ToastError(e: Throwable) {
         val str = when (e) {
@@ -210,11 +216,14 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger {
         tv.maxWidth = screenWidth / 3
         tv.text = text
         if (toastView == null) {
-            toastView = Toast(this)
+            toastView = Toast(context)
+
         }
+//        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.bg_custom_toast).copy(Bitmap.Config.ARGB_8888, true)
+//        inflate.background = BitmapDrawable(resources,RSBlurUtils.blurBitmap(bitmap,application))
         toastView?.let {
-            it.setGravity(Gravity.CENTER_VERTICAL, 0, -50)
             it.duration = Toast.LENGTH_SHORT
+            it.setGravity(Gravity.CENTER_VERTICAL, 0, -50)
             it.view = inflate
             it.show()
         }
@@ -253,16 +262,15 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger {
     }
 
 
-    fun showDesignSnack(text: CharSequence) {
-        val viewGroup = findViewById<View>(android.R.id.content).rootView as ViewGroup
-        Snackbar.make(viewGroup, text, Snackbar.LENGTH_SHORT).show()
-    }
+//    fun showDesignSnack(text: CharSequence) {
+//        val viewGroup = findViewById<View>(android.R.id.content).rootView as ViewGroup
+//        Snackbar.make(viewGroup, text, Snackbar.LENGTH_SHORT).show()
+//    }
 
     override fun getResources(): Resources {
         val res = super.getResources()
         val config = Configuration()
         config.setToDefaults()
-//        createConfigurationContext(config)
         res.updateConfiguration(config, res.displayMetrics)
         return super.getResources()
     }

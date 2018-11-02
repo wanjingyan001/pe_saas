@@ -15,7 +15,7 @@ class HotPostInfo : Serializable, MultiItemEntity {
         val footer = 3
     }
 
-    public fun setType(type:Int){
+    public fun setType(type: Int) {
         itemType = type
     }
 
@@ -24,4 +24,5 @@ class HotPostInfo : Serializable, MultiItemEntity {
     var icon: String? = null
     var name: String = ""
     var id: Int = 0
+    val select: Int? = null
 }

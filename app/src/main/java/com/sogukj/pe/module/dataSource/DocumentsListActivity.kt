@@ -244,7 +244,7 @@ class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
 
     private fun getPdfList(searchKey: String? = null) {
         SoguApi.getService(application, DataSourceService::class.java)
-                .getSourceBookList(page = page, keywords = searchKey, type = type, category = category)
+                .getSourceBookList(page = page, keywords = searchKey, type = type)
                 .execute {
                     onNext { payload ->
                         payload.isOk.yes {
