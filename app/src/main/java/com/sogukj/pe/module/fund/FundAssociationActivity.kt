@@ -7,14 +7,16 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.TextView
-import com.amap.api.mapcore.util.it
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.FundAssociationBean
+import com.sogukj.pe.bean.PdfBook
+import com.sogukj.pe.module.dataSource.PdfPreviewActivity
 import com.sogukj.pe.service.FundService
 import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -82,6 +84,11 @@ class FundAssociationActivity : ToolbarActivity() {
         }
 
         doRequest()
+
+        ll_export.clickWithTrigger {
+            //导出报告
+            PdfPreviewActivity.start(this, PdfBook(0,"","","","","","",1),false)
+        }
     }
 
     private fun doRequest() {

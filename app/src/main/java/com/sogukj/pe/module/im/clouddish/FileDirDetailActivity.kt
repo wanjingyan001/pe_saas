@@ -5,6 +5,7 @@ import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.bean.BatchRemoveBean
 import kotlinx.android.synthetic.main.white_normal_toolbar.*
 import org.jetbrains.anko.imageResource
 
@@ -17,7 +18,10 @@ class FileDirDetailActivity : ToolbarActivity() {
     private var title = ""
     private var dir = ""
     private var isSave = true
-    private  var realDir = ""
+    private var realDir = ""
+    private var fileName = ""
+    private var previousPath = ""
+    private var batchPath : BatchRemoveBean ? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_file_dir)
@@ -27,6 +31,9 @@ class FileDirDetailActivity : ToolbarActivity() {
         path = intent.getStringExtra(Extras.TYPE1)
         dir = intent.getStringExtra(Extras.TYPE2)
         isSave = intent.getBooleanExtra("isSave",true)
+        fileName = intent.getStringExtra("fileName")
+        previousPath = intent.getStringExtra("previousPath")
+        batchPath = intent.getSerializableExtra("batchPath") as BatchRemoveBean?
         if (!isSave){
             Utils.setWindowStatusBarColor(this, R.color.white)
             toolbar?.setBackgroundColor(resources.getColor(R.color.white))
@@ -52,6 +59,7 @@ class FileDirDetailActivity : ToolbarActivity() {
             setTitle(title)
         }
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fl_detail,CloudMineFileFragment.newInstance(1,invokeType,path,realDir,isSave),CloudMineFileFragment.TAG).commit()
+        transaction.replace(R.id.fl_detail,CloudMineFileFragment.newInstance(1,invokeType,path,realDir,
+                isSave,false,false,fileName,previousPath,batchPath!!),CloudMineFileFragment.TAG).commit()
     }
 }

@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import com.netease.nim.uikit.common.util.file.FileUtil
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.execute
@@ -18,8 +19,6 @@ import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_new_dir.*
 import kotlinx.android.synthetic.main.white_normal_toolbar.*
-
-
 /**
  * Created by CH-ZH on 2018/10/26.
  * 新建文件夹
@@ -28,6 +27,8 @@ class NewDirActivity : ToolbarActivity(), TextWatcher {
     private var dir = ""
     private var type = 0 //0 新建文件夹 1 重命名文件夹 2 重命名文件
     private var content = ""
+    private var fileName = ""//不带后缀的文件名
+    private var extentsionName = "" //后缀名
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_dir)
@@ -66,13 +67,37 @@ class NewDirActivity : ToolbarActivity(), TextWatcher {
                 //新建文件夹
                 createNewDir(content)
             }
-            1 -> {
-                //修改文件夹名
-            }
-            2 -> {
-                //修改文件名
+            1,2 -> {
+                //修改文件名,修改文件夹名
+                var realContent = content
+                if (extentsionName.isNullOrEmpty()){
+                    realContent = content
+                }else{
+                    realContent = content + ".${extentsionName}"
+                }
+                modifiFileDirName(realContent)
             }
         }
+    }
+
+    private fun modifiFileDirName(newContent: String) {
+        SoguApi.getService(application,OtherService::class.java)
+                .cloudFileRemoveOrRename(dir+"/${content}",dir+"/${newContent}",Store.store.getUser(this)!!.phone)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+                            showErrorToast("重命名成功")
+                            setResult(Activity.RESULT_OK)
+                            finish()
+                        }else{
+                            showErrorToast(payload.message)
+                        }
+                    }
+                    onError {
+                        it.printStackTrace()
+                        showErrorToast("重命名失败")
+                    }
+                }
     }
 
     private fun setFormatInfo() {
@@ -92,8 +117,15 @@ class NewDirActivity : ToolbarActivity(), TextWatcher {
             2 -> {
                 setTitle("修改文件名")
                 et_input.setHint("输入文件名")
-                et_input.setText(content)
-                et_input.setSelection(content.length)
+                if (FileUtil.hasExtentsion(content)){
+                    fileName = FileUtil.getFileNameNoEx(content)
+                    extentsionName = FileUtil.getExtensionName(content)
+                    et_input.setText(fileName)
+                    et_input.setSelection(fileName.length)
+                }else{
+                    et_input.setText(content)
+                    et_input.setSelection(content.length)
+                }
             }
         }
     }

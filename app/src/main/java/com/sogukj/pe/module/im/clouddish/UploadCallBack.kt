@@ -6,4 +6,5 @@ package com.sogukj.pe.module.im.clouddish
 interface UploadCallBack {
     fun uploadFile()
     fun newDir()
+    fun deleteFile()
 }

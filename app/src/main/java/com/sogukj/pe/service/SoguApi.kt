@@ -5,10 +5,17 @@ import android.app.Application
 import android.content.Context
 import android.os.Build
 import android.preference.PreferenceManager
+import com.netease.nim.uikit.api.NimUIKit
+import com.netease.nimlib.sdk.NIMClient
+import com.netease.nimlib.sdk.auth.AuthService
+import com.sogukj.pe.App
 import com.sogukj.pe.Consts
 import com.sogukj.pe.Extras
+import com.sogukj.pe.baselibrary.base.ActivityHelper
 import com.sogukj.pe.baselibrary.utils.EncryptionUtil
 import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.baselibrary.utils.XmlDb
+import com.sogukj.pe.database.Injection
 import com.sogukj.pe.module.register.LoginActivity
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peExtended.getIntEnvironment
@@ -18,8 +25,11 @@ import com.sogukj.pe.service.socket.DzhInterceptor
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
+import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -154,25 +164,45 @@ class SoguApi {
                         + Extras.SIGN_CODE)+timestamp))
                 .build()
         val response = chain.proceed(request)
-        response
-//        val mediaType = response.body()!!.contentType()
-//        val content = response.body()!!.string()
-//        val jsonObject = JSONObject(content)
-//        try {
-//            val msgNo = jsonObject.getString("msgNo")
-//            if (msgNo.equals("1001")){
-//                //签名过期
-//                exitUser()
-//            }
-//        }catch (e:Exception){
-//            e.printStackTrace()
-//        }
-//        response.newBuilder().body(ResponseBody.create(mediaType,content)).build()
+        val mediaType = response.body()!!.contentType()
+        val content = response.body()!!.string()
+        val jsonObject = JSONObject(content)
+        try {
+            val msgNo = jsonObject.getString("msgNo")
+            if (msgNo.equals("1001")){
+                //签名过期
+                exitUser()
+            }
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+        response.newBuilder().body(ResponseBody.create(mediaType,content)).build()
     }
+
     fun exitUser(){
         Store.store.clearUser(context)
+        RetrofitUrlManager.getInstance().removeGlobalDomain()
+        Store.store.setRootUrl(context,"")
+        App.INSTANCE.resetPush(false)
+        IMLogout()
+        ActivityHelper.exit(App.INSTANCE)
+        doAsync {
+            Injection.provideFunctionSource(context).delete()
+        }
         context.startActivity<LoginActivity>()
     }
+
+    /**
+     * 网易云信IM注销
+     */
+    private fun IMLogout() {
+        val xmlDb = XmlDb.open(context)
+        xmlDb.set(Extras.NIMACCOUNT, "")
+        xmlDb.set(Extras.NIMTOKEN, "")
+        NimUIKit.logout()
+        NIMClient.getService(AuthService::class.java).logout()
+    }
+
     companion object {
         private var TAG = SoguApi::class.java.simpleName
 

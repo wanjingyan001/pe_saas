@@ -374,4 +374,40 @@ interface OtherService {
      */
     @GET("/api/cloud/deleteFolder")
     fun deleteCloudFile(@Query("file_path") file_path: String, @Query("phone") phone : String):Observable<Payload<Any>>
+
+    /**
+     * 文件夹/文件批量删除
+     */
+    @FormUrlEncoded
+    @POST("/api/cloud/multipleDeleteFolder")
+    fun deleteBatchCloudFile(@Field("file_path") file_path: String, @Field("phone") phone : String):Observable<Payload<Any>>
+    /**
+     * 文件/文件夹移动，重命名
+     */
+    @FormUrlEncoded
+    @POST("/api/cloud/moveFolder")
+    fun cloudFileRemoveOrRename(@Field("file_path")file_path:String,@Field("new_file_path")new_file_path:String,
+                     @Field("phone") phone : String):Observable<Payload<Any>>
+
+    /**
+     * 文件复制
+     */
+    @FormUrlEncoded
+    @POST("/api/cloud/copyFolder")
+    fun copyCloudFile(@Field("file_path")file_path:String,@Field("new_file_path")new_file_path:String,
+                                @Field("phone") phone : String,@Field("file_name") file_name : String):Observable<Payload<Any>>
+
+
+    /**
+     * 获取文件预览路径
+     */
+    @GET("/api/cloud/getPreviewFilePath")
+    fun getFilePreviewPath(@Query("file_path") file_path: String, @Query("phone") phone : String):Observable<Payload<JsonObject>>
+
+    /**
+     * 文件夹/文件批量移动
+     */
+    @FormUrlEncoded
+    @POST("/api/cloud/multipleMoveFolder")
+    fun removeBatchCloudFile(@Field("file_path") file_path: String, @Field("phone") phone : String):Observable<Payload<Any>>
 }

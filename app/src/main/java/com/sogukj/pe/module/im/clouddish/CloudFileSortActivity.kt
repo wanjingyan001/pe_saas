@@ -34,7 +34,7 @@ import org.jetbrains.anko.startActivity
  * Created by CH-ZH on 2018/10/31.
  * 分类
  */
-class CloudFileSortActivity : BaseRefreshActivity() {
+class CloudFileSortActivity : BaseRefreshActivity(),UploadCallBack {
     private var dir : String = ""
     private var sort : String = ""
     private lateinit var adapter : RecyclerAdapter<CloudFileBean>
@@ -152,9 +152,9 @@ class CloudFileSortActivity : BaseRefreshActivity() {
 
             iv_filter.clickWithTrigger {
                 if (data.file_type.equals("Folder")){
-                    MineFileDialog.showFileItemDialog(this@CloudFileSortActivity,true,data,MODIFI_DIR)
+                    MineFileDialog.showFileItemDialog(this@CloudFileSortActivity,true,data,MODIFI_DIR,dir,this@CloudFileSortActivity)
                 }else{
-                    MineFileDialog.showFileItemDialog(this@CloudFileSortActivity,false,data,MODIFI_FILE)
+                    MineFileDialog.showFileItemDialog(this@CloudFileSortActivity,false,data,MODIFI_FILE,dir,this@CloudFileSortActivity)
                 }
             }
         }
@@ -197,6 +197,18 @@ class CloudFileSortActivity : BaseRefreshActivity() {
     private fun goneEmpty(){
         fl_empty.visibility = View.INVISIBLE
         rv_express.visibility = View.VISIBLE
+    }
+
+    override fun uploadFile() {
+
+    }
+
+    override fun newDir() {
+
+    }
+
+    override fun deleteFile() {
+        getCloudSortData(false)
     }
 
     override fun initRefreshConfig(): RefreshConfig?{

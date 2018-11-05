@@ -29,6 +29,7 @@ import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
+import com.sogukj.pe.bean.BatchRemoveBean
 import com.sogukj.pe.bean.CloudFileBean
 import com.sogukj.pe.module.fileSelector.FileMainActivity
 import com.sogukj.pe.module.im.ImSearchResultActivity
@@ -275,15 +276,28 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
         tv_delete.clickWithTrigger {
             //删除
             if (selectCount > 0){
-
+                var filePath = ""
+                alreadySelected.forEach {
+                    filePath += dir+"/${it.file_name};?"
+                }
+                deleteBatchFile(filePath)
+                showProgress("正在删除...")
             }
         }
 
         tv_remove.clickWithTrigger {
             //移动
             if (selectCount > 0){
+                var batchPath = BatchRemoveBean()
+                batchPath.path = dir
+                var names = ArrayList<String>()
+                alreadySelected.forEach {
+                    names.add(it.file_name)
+                }
+                batchPath.names = names
                 startActivity<FileDirDetailActivity>(Extras.TITLE to "",Extras.TYPE to 2,
-                        Extras.TYPE1 to "",Extras.TYPE2 to dir,"isSave" to false)
+                        Extras.TYPE1 to "",Extras.TYPE2 to dir,"isSave" to false,
+                        "fileName" to "","previousPath" to "","batchPath" to batchPath)
             }
         }
 
@@ -301,6 +315,31 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
                 }
             }
         }
+    }
+
+    /**
+     * 批量删除文件或文件夹
+     */
+    private fun deleteBatchFile(filePath: String) {
+        SoguApi.getService(application,OtherService::class.java)
+                .deleteBatchCloudFile(filePath,Store.store.getUser(this)!!.phone)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+                            showSuccessToast("删除成功")
+                        }else{
+                            showErrorToast(payload.message)
+                        }
+                        hideProgress()
+                        getMineFileData()
+                    }
+
+                    onError {
+                        it.printStackTrace()
+                        showErrorToast("删除失败")
+                        hideProgress()
+                    }
+                }
     }
 
     private fun showSortPup() {
@@ -485,6 +524,10 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
         showUploadFileDialog()
     }
 
+    override fun deleteFile() {
+        getMineFileData()
+    }
+
     override fun onResume() {
         super.onResume()
         Log.e("TAG","dir ==" + dir)
@@ -610,19 +653,43 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
                         startActivity<MineFileActivity>(Extras.TITLE to data.file_name,Extras.DIR to dir+"/${data.file_name}")
                     } else {
                         //预览
-                        OnlinePreviewActivity.start(this@MineFileActivity,data.preview_url,data.file_name,false)
+                        getFilePreviewPath(dir+"/${data.file_name}",data.file_name)
                     }
                 }
             }
 
             iv_filter.clickWithTrigger {
                 if (data.file_type.equals("Folder")){
-                    MineFileDialog.showFileItemDialog(this@MineFileActivity,true,data,MODIFI_DIR)
+                    MineFileDialog.showFileItemDialog(this@MineFileActivity,true,data,MODIFI_DIR,dir,this@MineFileActivity)
                 }else{
-                    MineFileDialog.showFileItemDialog(this@MineFileActivity,false,data,MODIFI_FILE)
+                    MineFileDialog.showFileItemDialog(this@MineFileActivity,false,data,MODIFI_FILE,dir,this@MineFileActivity)
                 }
             }
         }
+    }
+
+    private fun getFilePreviewPath(filePath: String,fileName:String) {
+        SoguApi.getService(application,OtherService::class.java)
+                .getFilePreviewPath(filePath,Store.store.getUser(this)!!.phone)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+                            val jsonObject = payload.payload
+                            jsonObject?.let {
+                                val previewUrl = it.get("preview_url").asString
+                                previewUrl
+                                OnlinePreviewActivity.start(this@MineFileActivity,previewUrl,fileName,false)
+                            }
+                        }else{
+                            showErrorToast(payload.message)
+                        }
+                    }
+
+                    onError {
+                        it.printStackTrace()
+                        showErrorToast("获取预览路径失败")
+                    }
+                }
     }
 
     companion object {

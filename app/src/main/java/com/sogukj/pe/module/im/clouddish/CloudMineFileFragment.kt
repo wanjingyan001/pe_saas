@@ -23,6 +23,7 @@ import com.sogukj.pe.baselibrary.utils.DownloadUtil
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
+import com.sogukj.pe.bean.BatchRemoveBean
 import com.sogukj.pe.bean.CloudFileBean
 import com.sogukj.pe.bean.CloudLevel1
 import com.sogukj.pe.bean.CloudLevel2
@@ -51,11 +52,16 @@ class CloudMineFileFragment : BaseRefreshFragment() {
     private var filePaths = ArrayList<String>()
     private var busAdapter: CloudExpandableAdapter? = null
     private var type = 1 //1 : 我的文件 2 : 企业文件
-    private var invokeType = 1 // 1:加密云盘按钮跳转 2：保存到云盘
+    private var invokeType = 1 // 1:IM云盘按钮跳转 2：保存到云盘
     private var fileCount = 0
     private var path = ""
-    private var isSave = true
+    private var isSave = true //是否是保存
     private var dir = ""
+    private var isBusi = true //是否是一级企业目录
+    private var previousPath = "" //文件复制(移动)前的目录
+    private var fileName = "" //要复制(移动)的文件名
+    private var isCopy = false //是否是复制
+    private var batchPath : BatchRemoveBean ? = null
     override fun initRefreshConfig(): RefreshConfig? {
         val config = RefreshConfig()
         config.loadMoreEnable = false
@@ -74,6 +80,11 @@ class CloudMineFileFragment : BaseRefreshFragment() {
         path = arguments!!.getString("path")
         dir = arguments!!.getString("dir")
         isSave = arguments!!.getBoolean("isSave", true)
+        isBusi = arguments!!.getBoolean("isBusi",true)
+        isCopy = arguments!!.getBoolean("isCopy",false)
+        fileName = arguments!!.getString("fileName")
+        previousPath = arguments!!.getString("previousPath")
+        batchPath = arguments!!.getSerializable("batchPath") as BatchRemoveBean?
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -97,7 +108,12 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                 ll_save.setVisible(true)
             } else {
                 rl_submit.setVisible(false)
-                ll_save.setVisible(false)
+                if (isBusi){
+                    ll_save.setVisible(false)
+                }else{
+                    ll_save.setVisible(true)
+                }
+
             }
         }
         alreadySelected = ArrayList<CloudFileBean>().toMutableSet()
@@ -255,36 +271,115 @@ class CloudMineFileFragment : BaseRefreshFragment() {
 
         tv_current.clickWithTrigger {
             if (isSave) {
-                //保存到当前目录
-                val file = File(path)
-                val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
-                        .addFormDataPart("file_name", file.name, RequestBody.create(MediaType.parse("*/*"), file))
-                        .addFormDataPart("save_file_path", dir + "/") //1 项目文件 2审批文件
-                        .addFormDataPart("phone", Store.store.getUser(activity!!)!!.phone)
-                val body = builder.build()
-                showProgress("正在上传")
-                SoguApi.getService(getBaseActivity().application, OtherService::class.java)
-                        .uploadImFileToCloud(body)
-                        .execute {
-                            onNext { payload ->
-                                if (payload.isOk) {
-                                    showSuccessToast("上传文件成功")
-                                    doRefresh()
-                                } else {
-                                    showErrorToast(payload.message)
+                if (isCopy){
+                    //复制到当前目录
+                    showProgress("正在保存")
+                    SoguApi.getService(getBaseActivity().application,OtherService::class.java)
+                            .copyCloudFile(previousPath,dir,Store.store.getUser(activity!!)!!.phone,fileName)
+                            .execute {
+                                onNext { payload ->
+                                    if (payload.isOk){
+                                        showSuccessToast("保存成功")
+                                        activity!!.finish()
+                                    }else{
+                                        showErrorToast(payload.message)
+                                    }
+                                    hideProgress()
                                 }
-                                hideProgress()
-                            }
 
-                            onError {
-                                it.printStackTrace()
-                                hideProgress()
-                                showErrorToast("上传文件失败")
+                                onError {
+                                    hideProgress()
+                                    showErrorToast("保存失败")
+                                }
                             }
-                        }
+                }else{
+                    //保存到当前目录
+                    val file = File(path)
+                    val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
+                            .addFormDataPart("file_name", file.name, RequestBody.create(MediaType.parse("*/*"), file))
+                            .addFormDataPart("save_file_path", dir + "/") //1 项目文件 2审批文件
+                            .addFormDataPart("phone", Store.store.getUser(activity!!)!!.phone)
+                    val body = builder.build()
+                    showProgress("正在上传")
+                    SoguApi.getService(getBaseActivity().application, OtherService::class.java)
+                            .uploadImFileToCloud(body)
+                            .execute {
+                                onNext { payload ->
+                                    if (payload.isOk) {
+                                        showSuccessToast("上传文件成功")
+                                        doRefresh()
+                                    } else {
+                                        showErrorToast(payload.message)
+                                    }
+                                    hideProgress()
+                                }
+
+                                onError {
+                                    it.printStackTrace()
+                                    hideProgress()
+                                    showErrorToast("上传文件失败")
+                                }
+                            }
+                }
             } else {
                 //移动到当前目录
+                showProgress("正在移动")
+                if (null != batchPath && null != batchPath!!.path && null != batchPath!!.names && batchPath!!.names!!.size > 0){
+                    //批量移动
+                    val path = batchPath!!.path
+                    val names = batchPath!!.names
+                    var filePath = ""
+                    var beforePath = ""
+                    var afterPath = ""
+                    names?.forEach {
+                        val path1 = path + "/${it}"
+                        val path2 = dir + "/${it}"
+                        beforePath += path+";?"
+                        afterPath += path2+";?"
+                    }
+                    filePath = beforePath+":::"+afterPath
+                    SoguApi.getService(getBaseActivity().application,OtherService::class.java)
+                            .removeBatchCloudFile(filePath,Store.store.getUser(activity!!)!!.phone)
+                            .execute {
+                                onNext {payload ->
+                                    if (payload.isOk){
+                                        showSuccessToast("移动成功")
+                                        activity!!.finish()
+                                    }else{
+                                        showErrorToast(payload.message)
+                                    }
+                                    hideProgress()
+                                }
 
+                                onError {
+                                    it.printStackTrace()
+                                    showErrorToast("移动失败")
+                                    hideProgress()
+                                }
+                            }
+                }else{
+                    val filePath = previousPath + "/${fileName}"
+                    val new_file_path = dir + "/${fileName}"
+                    SoguApi.getService(getBaseActivity().application,OtherService::class.java)
+                            .cloudFileRemoveOrRename(filePath,new_file_path,Store.store.getUser(activity!!)!!.phone)
+                            .execute {
+                                onNext { payload ->
+                                    if (payload.isOk){
+                                        showSuccessToast("移动成功")
+                                        activity!!.finish()
+                                    }else{
+                                        showErrorToast(payload.message)
+                                    }
+                                    hideProgress()
+                                }
+
+                                onError {
+                                    it.printStackTrace()
+                                    showErrorToast("移动失败")
+                                    hideProgress()
+                                }
+                            }
+                }
             }
         }
     }
@@ -390,7 +485,8 @@ class CloudMineFileFragment : BaseRefreshFragment() {
             itemView.clickWithTrigger {
                 if (data.file_type.equals("Folder")) {
                     startActivity<FileDirDetailActivity>(Extras.TITLE to data.file_name, Extras.TYPE to invokeType,
-                            Extras.TYPE1 to path, Extras.TYPE2 to dir, "isSave" to isSave)
+                            Extras.TYPE1 to path, Extras.TYPE2 to dir, "isSave" to isSave,
+                            "fileName" to "","previousPath" to "","batchPath" to BatchRemoveBean())
                 } else {
                     if (alreadySelected.contains(data)) {
                         alreadySelected.remove(data)
@@ -443,7 +539,8 @@ class CloudMineFileFragment : BaseRefreshFragment() {
             itemView.clickWithTrigger {
                 if (data.file_type.equals("Folder")) {
                     startActivity<FileDirDetailActivity>(Extras.TITLE to data.file_name, Extras.TYPE to invokeType,
-                            Extras.TYPE1 to path, Extras.TYPE2 to dir, "isSave" to isSave)
+                            Extras.TYPE1 to path, Extras.TYPE2 to dir, "isSave" to isSave,
+                            "fileName" to "","previousPath" to "","batchPath" to BatchRemoveBean())
                 }
             }
         }
@@ -452,7 +549,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
     companion object {
         val TAG = CloudMineFileFragment::class.java.simpleName
         val NEW_DIR_REQUEST = 1008
-        fun newInstance(type: Int, invokeType: Int, path: String, dir: String, isSave: Boolean): CloudMineFileFragment {
+        fun newInstance(type: Int, invokeType: Int, path: String, dir: String, isSave: Boolean,isBusi : Boolean): CloudMineFileFragment {
             val fragment = CloudMineFileFragment()
             val bundle = Bundle()
             bundle.putInt("type", type)
@@ -460,6 +557,25 @@ class CloudMineFileFragment : BaseRefreshFragment() {
             bundle.putString("path", path)
             bundle.putString("dir", dir)
             bundle.putBoolean("isSave", isSave)
+            bundle.putBoolean("isBusi",isBusi)
+            fragment.arguments = bundle
+            return fragment
+        }
+
+        fun newInstance(type: Int, invokeType: Int, path: String, dir: String, isSave: Boolean,
+                        isBusi : Boolean,isCopy:Boolean,fileName:String,previousPath:String,batchPath: BatchRemoveBean): CloudMineFileFragment {
+            val fragment = CloudMineFileFragment()
+            val bundle = Bundle()
+            bundle.putInt("type", type)
+            bundle.putInt("invokeType", invokeType)
+            bundle.putString("path", path)
+            bundle.putString("dir", dir)
+            bundle.putBoolean("isSave", isSave)
+            bundle.putBoolean("isBusi",isBusi)
+            bundle.putBoolean("isCopy",isCopy)
+            bundle.putString("fileName",fileName)
+            bundle.putString("previousPath",previousPath)
+            bundle.putSerializable("batchPath",batchPath)
             fragment.arguments = bundle
             return fragment
         }

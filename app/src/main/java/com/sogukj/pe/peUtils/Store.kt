@@ -30,6 +30,10 @@ class Store private constructor() {
         XmlDb.open(ctx).set("uToken", token)
     }
 
+    fun setRootUrl(ctx:Context,rootUrl:String){
+        XmlDb.open(ctx).set(Extras.HTTPURL,"")
+    }
+
     private val resultNews = LinkedList<String>()
     fun newsSearch(ctx: Context): Collection<String> {
         this.resultNews.clear()

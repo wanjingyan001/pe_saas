@@ -1,14 +1,9 @@
 package com.sogukj.pe.baselibrary.base
 
-import android.app.Activity
 import android.app.ProgressDialog
 import android.content.*
 import android.content.res.Configuration
 import android.content.res.Resources
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.os.Handler
@@ -16,10 +11,8 @@ import android.preference.PreferenceManager
 import android.support.annotation.DrawableRes
 import android.support.constraint.ConstraintLayout
 import android.support.design.widget.CoordinatorLayout
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.Gravity
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -30,16 +23,15 @@ import com.noober.background.BackgroundLibrary
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.R
-import com.sogukj.pe.baselibrary.utils.RSBlurUtils
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.snackbar.Prompt
 import com.sogukj.pe.baselibrary.widgets.snackbar.TSnackbar
 import com.umeng.message.PushAgent
-import kotlinx.android.synthetic.main.layout_network_error.*
-import org.jetbrains.anko.*
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.find
+import org.jetbrains.anko.imageResource
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
-import kotlin.properties.Delegates
 
 
 /**

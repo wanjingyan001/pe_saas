@@ -13,6 +13,7 @@ import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.fromJson
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
+import com.sogukj.pe.bean.BatchRemoveBean
 import com.sogukj.pe.bean.MechanismBasicInfo
 import com.sogukj.pe.module.dataSource.lawcase.adapter.PagerAdapter
 import kotlinx.android.synthetic.main.activity_cloud_dish.*
@@ -29,6 +30,9 @@ class CloudDishActivity : ToolbarActivity(){
     private var invokeType = 1 // 1:加密云盘按钮跳转 2：保存到云盘
     private var path = ""
     private var company = ""
+    private var previousPath = "" //文件复制前的目录
+    private var fileName = "" //要复制的文件名
+    private var isCopy = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cloud_dish)
@@ -40,6 +44,9 @@ class CloudDishActivity : ToolbarActivity(){
     private fun initView() {
         invokeType = intent.getIntExtra("invokeType",1)
         path = intent.getStringExtra("path")
+        isCopy = intent.getBooleanExtra("isCopy",false)
+        previousPath = intent.getStringExtra("previousPath")
+        fileName = intent.getStringExtra("fileName")
         setBack(true)
         setTitle("加密云盘")
         toolbar_menu.text = "取消"
@@ -49,11 +56,19 @@ class CloudDishActivity : ToolbarActivity(){
         if (null != detail){
             company = detail.mechanism_name?:""
         }
+        if (null == previousPath){
+            previousPath = ""
+        }
+        if (null == fileName){
+            fileName = ""
+        }
     }
 
     private fun initData() {
-        fragments.add(CloudMineFileFragment.newInstance(1,invokeType,path,"/我的文件",true))
-        fragments.add(CloudMineFileFragment.newInstance(2,invokeType,path,"/${company}",true))
+        fragments.add(CloudMineFileFragment.newInstance(1,invokeType,path,"/我的文件",
+                true,false,isCopy,fileName,previousPath,BatchRemoveBean()))
+        fragments.add(CloudMineFileFragment.newInstance(2,invokeType,path,"/${company}",
+                true,true,isCopy,fileName,previousPath,BatchRemoveBean()))
         titlesInfo.forEach {
             tabs.addTab(tabs.newTab().setText(it))
         }
@@ -115,6 +130,19 @@ class CloudDishActivity : ToolbarActivity(){
             intent.putExtra("invokeType",invokeType)
             intent.putExtra("path",path)
             context.startActivityForResult(intent,requestCode)
+        }
+
+        fun invoke(context : Context,invokeType:Int,path:String,isCopy:Boolean,fileName:String,previousPath:String){
+            val intent = Intent(context, CloudDishActivity::class.java)
+            intent.putExtra("invokeType",invokeType)
+            intent.putExtra("path",path)
+            intent.putExtra("isCopy",isCopy)
+            intent.putExtra("fileName",fileName)
+            intent.putExtra("previousPath",previousPath)
+            if (context !is Activity){
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            context.startActivity(intent)
         }
     }
 

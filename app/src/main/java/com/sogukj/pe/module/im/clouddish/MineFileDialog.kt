@@ -9,12 +9,20 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.sogukj.pe.App
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
+import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.setVisible
+import com.sogukj.pe.baselibrary.base.BaseActivity
+import com.sogukj.pe.bean.BatchRemoveBean
 import com.sogukj.pe.bean.CloudFileBean
 import com.sogukj.pe.peUtils.FileTypeUtils
+import com.sogukj.pe.peUtils.Store
+import com.sogukj.pe.peUtils.ToastUtil
+import com.sogukj.pe.service.OtherService
+import com.sogukj.service.SoguApi
 import org.jetbrains.anko.find
 import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.startActivity
@@ -132,10 +140,9 @@ class MineFileDialog {
                     dialog.dismiss()
                 }
             }
-
         }
 
-        fun showFileItemDialog(context: Activity, isdir : Boolean, data: CloudFileBean,requestCode : Int){
+        fun showFileItemDialog(context: Activity, isdir : Boolean, data: CloudFileBean,requestCode : Int,previousPath:String,callBack: UploadCallBack){
             val dialog = Dialog(context, R.style.AppTheme_Dialog)
             dialog.setContentView(R.layout.dialog_file_item)
             val lay = dialog.getWindow()!!.getAttributes()
@@ -196,6 +203,7 @@ class MineFileDialog {
                 if (dialog.isShowing){
                     dialog.dismiss()
                 }
+                CloudDishActivity.invoke(context,2,"",true,data.file_name,previousPath)
             }
 
             tv_rename.clickWithTrigger {
@@ -204,9 +212,9 @@ class MineFileDialog {
                     dialog.dismiss()
                 }
                 if (isdir){
-                    NewDirActivity.invokeForResult(context, data.file_path, requestCode,1,data.file_name)
+                    NewDirActivity.invokeForResult(context, previousPath, requestCode,1,data.file_name)
                 }else{
-                    NewDirActivity.invokeForResult(context, data.file_path, requestCode,2,data.file_name)
+                    NewDirActivity.invokeForResult(context, previousPath, requestCode,2,data.file_name)
                 }
 
             }
@@ -216,6 +224,9 @@ class MineFileDialog {
                 if (dialog.isShowing){
                     dialog.dismiss()
                 }
+                context.startActivity<FileDirDetailActivity>(Extras.TITLE to "",Extras.TYPE to 2,
+                        Extras.TYPE1 to "",Extras.TYPE2 to "/我的文件","isSave" to false,
+                        "fileName" to data.file_name,"previousPath" to previousPath,"batchPath" to  BatchRemoveBean())
             }
 
             tv_delete.clickWithTrigger {
@@ -223,16 +234,17 @@ class MineFileDialog {
                 if (dialog.isShowing){
                     dialog.dismiss()
                 }
+                showDeleteFileDialog(context,isdir,previousPath,data.file_name,callBack)
             }
         }
 
-        fun showDeleteFileDialog(context:Context,isdir : Boolean){
+        fun showDeleteFileDialog(context:Context,isdir : Boolean,previousPath:String,fileName : String,callBack: UploadCallBack){
             val dialog = Dialog(context, R.style.AppTheme_Dialog)
             dialog.setContentView(R.layout.dialog_delete_file)
             val lay = dialog.getWindow()!!.getAttributes()
             lay.height = WindowManager.LayoutParams.WRAP_CONTENT
             lay.width = WindowManager.LayoutParams.MATCH_PARENT
-            lay.gravity = Gravity.BOTTOM
+            lay.gravity = Gravity.CENTER
             dialog.getWindow()!!.setAttributes(lay)
             dialog.show()
 
@@ -251,6 +263,31 @@ class MineFileDialog {
 
             tv_sure.clickWithTrigger {
                 //删除文件、文件夹
+                if (dialog.isShowing){
+                    dialog.dismiss()
+                }
+                (context as BaseActivity).showProgress("正在删除...")
+                SoguApi.getService(App.INSTANCE,OtherService::class.java)
+                        .deleteCloudFile(previousPath+"/${fileName}", Store.store.getUser(context)!!.phone)
+                        .execute {
+                            onNext { payload ->
+                                if (payload.isOk){
+                                    if (null != callBack){
+                                        callBack.deleteFile()
+                                    }
+                                    ToastUtil.showSuccessToast("删除成功",context)
+                                }else{
+                                    ToastUtil.showErrorToast(payload.message,context)
+                                }
+                                (context as BaseActivity).hideProgress()
+                            }
+
+                            onError {
+                                it.printStackTrace()
+                                ToastUtil.showErrorToast("删除失败",context)
+                                (context as BaseActivity).hideProgress()
+                            }
+                        }
             }
 
             tv_cancel.clickWithTrigger {
@@ -259,5 +296,6 @@ class MineFileDialog {
                 }
             }
         }
+
     }
 }

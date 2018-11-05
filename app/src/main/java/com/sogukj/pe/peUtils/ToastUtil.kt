@@ -1,9 +1,6 @@
 package com.sogukj.pe.peUtils
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
 import android.support.annotation.DrawableRes
 import android.view.Gravity
 import android.view.View
@@ -11,7 +8,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.sogukj.pe.baselibrary.R
-import com.sogukj.pe.baselibrary.utils.RSBlurUtils
 import com.sogukj.pe.baselibrary.utils.Utils
 
 /**
@@ -22,6 +18,14 @@ class ToastUtil {
         private var toastView: Toast? = null
         fun showSuccessToast(text: CharSequence?,context: Context) {
             showCustomToast(R.drawable.icon_toast_success, text,context)
+        }
+
+        fun showErrorToast(text: CharSequence?,context: Context){
+            showCustomToast(R.drawable.icon_toast_fail, text,context)
+        }
+
+        fun showWarnToast(text: CharSequence?,context: Context){
+            showCustomToast(R.drawable.icon_toast_common, text,context)
         }
         fun showCustomToast(@DrawableRes resId: Int?, text: CharSequence?,context:Context) {
             var inflate = View.inflate(context,R.layout.layout_custom_toast, null)

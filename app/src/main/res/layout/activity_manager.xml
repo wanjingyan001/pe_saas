@@ -10,7 +10,8 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
@@ -31,4 +32,19 @@
             android:visibility="gone" />
     </FrameLayout>
 
+    <LinearLayout
+        android:id="@+id/ll_export"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:padding="@dimen/text_8">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_create_pro"
+            android:gravity="center"
+            android:text="导出报告"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_18"/>
+    </LinearLayout>
 </LinearLayout>
