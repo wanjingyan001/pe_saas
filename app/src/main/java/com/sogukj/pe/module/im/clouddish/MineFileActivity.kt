@@ -593,12 +593,12 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
 
     fun showEmpty() {
         ll_empty.visibility = View.VISIBLE
-        rv_dynamic.visibility = View.INVISIBLE
+        cons_layout.visibility = View.INVISIBLE
     }
 
     fun goneEmpty() {
         ll_empty.visibility = View.INVISIBLE
-        rv_dynamic.visibility = View.VISIBLE
+        cons_layout.visibility = View.VISIBLE
     }
 
     inner class NameFilterHolder(itemView: View) : RecyclerHolder<CloudFileBean>(itemView) {

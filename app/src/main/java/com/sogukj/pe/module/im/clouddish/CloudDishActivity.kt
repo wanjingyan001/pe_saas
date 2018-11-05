@@ -56,12 +56,6 @@ class CloudDishActivity : ToolbarActivity(){
         if (null != detail){
             company = detail.mechanism_name?:""
         }
-        if (null == previousPath){
-            previousPath = ""
-        }
-        if (null == fileName){
-            fileName = ""
-        }
     }
 
     private fun initData() {
@@ -115,20 +109,13 @@ class CloudDishActivity : ToolbarActivity(){
     }
 
     companion object {
-        fun invoke(context : Context,invokeType:Int,path:String){
+        fun invokeForResult(context : Activity,invokeType:Int,requestCode : Int,path:String,isCopy:Boolean,fileName:String,previousPath:String){
             val intent = Intent(context, CloudDishActivity::class.java)
             intent.putExtra("invokeType",invokeType)
             intent.putExtra("path",path)
-            if (context !is Activity){
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            }
-            context.startActivity(intent)
-        }
-
-        fun invokeForResult(context : Activity,invokeType:Int,requestCode : Int,path:String){
-            val intent = Intent(context, CloudDishActivity::class.java)
-            intent.putExtra("invokeType",invokeType)
-            intent.putExtra("path",path)
+            intent.putExtra("isCopy",isCopy)
+            intent.putExtra("fileName",fileName)
+            intent.putExtra("previousPath",previousPath)
             context.startActivityForResult(intent,requestCode)
         }
 

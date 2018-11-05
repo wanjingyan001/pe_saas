@@ -486,7 +486,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                 if (data.file_type.equals("Folder")) {
                     startActivity<FileDirDetailActivity>(Extras.TITLE to data.file_name, Extras.TYPE to invokeType,
                             Extras.TYPE1 to path, Extras.TYPE2 to dir, "isSave" to isSave,
-                            "fileName" to "","previousPath" to "","batchPath" to BatchRemoveBean())
+                            "fileName" to fileName,"previousPath" to previousPath,"batchPath" to BatchRemoveBean())
                 } else {
                     if (alreadySelected.contains(data)) {
                         alreadySelected.remove(data)
@@ -528,6 +528,8 @@ class CloudMineFileFragment : BaseRefreshFragment() {
             if (data.file_type.equals("Folder")) {
                 //文件夹
                 file_icon.setImageResource(R.drawable.folder_zip)
+                tv_summary.setTextColor(resources.getColor(R.color.black_28))
+                tv_time.setTextColor(resources.getColor(R.color.gray_a0))
             } else {
                 file_icon.imageResource = FileTypeUtils.getFileType(data.file_name).icon
                 tv_summary.setTextColor(resources.getColor(R.color.gray_d8))
@@ -540,7 +542,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                 if (data.file_type.equals("Folder")) {
                     startActivity<FileDirDetailActivity>(Extras.TITLE to data.file_name, Extras.TYPE to invokeType,
                             Extras.TYPE1 to path, Extras.TYPE2 to dir, "isSave" to isSave,
-                            "fileName" to "","previousPath" to "","batchPath" to BatchRemoveBean())
+                            "fileName" to fileName,"previousPath" to previousPath,"batchPath" to BatchRemoveBean())
                 }
             }
         }
@@ -549,18 +551,6 @@ class CloudMineFileFragment : BaseRefreshFragment() {
     companion object {
         val TAG = CloudMineFileFragment::class.java.simpleName
         val NEW_DIR_REQUEST = 1008
-        fun newInstance(type: Int, invokeType: Int, path: String, dir: String, isSave: Boolean,isBusi : Boolean): CloudMineFileFragment {
-            val fragment = CloudMineFileFragment()
-            val bundle = Bundle()
-            bundle.putInt("type", type)
-            bundle.putInt("invokeType", invokeType)
-            bundle.putString("path", path)
-            bundle.putString("dir", dir)
-            bundle.putBoolean("isSave", isSave)
-            bundle.putBoolean("isBusi",isBusi)
-            fragment.arguments = bundle
-            return fragment
-        }
 
         fun newInstance(type: Int, invokeType: Int, path: String, dir: String, isSave: Boolean,
                         isBusi : Boolean,isCopy:Boolean,fileName:String,previousPath:String,batchPath: BatchRemoveBean): CloudMineFileFragment {

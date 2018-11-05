@@ -21,7 +21,7 @@ class CloudFileAction : BaseAction {
     }
 
     override fun onClick() {
-        CloudDishActivity.invokeForResult(activity,1,makeRequestCode(RequestCode.GET_LOCAL_FILE),"")
+        CloudDishActivity.invokeForResult(activity,1,makeRequestCode(RequestCode.GET_LOCAL_FILE),"",false,"","")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

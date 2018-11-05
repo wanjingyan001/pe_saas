@@ -61,10 +61,10 @@ object SessionHelper {
                 }else{
                     if (!path.isNullOrEmpty()){
                         //跳转到云盘
-                        CloudDishActivity.invoke(context!!,2,path)
+                        CloudDishActivity.invoke(context!!,2,path,false,"","")
                     }else if (!pathForSave.isNullOrEmpty()){
                         //跳转到云盘
-                        CloudDishActivity.invoke(context!!,2,pathForSave+".${extension}")
+                        CloudDishActivity.invoke(context!!,2,pathForSave+".${extension}",false,"","")
                     }
 
                 }

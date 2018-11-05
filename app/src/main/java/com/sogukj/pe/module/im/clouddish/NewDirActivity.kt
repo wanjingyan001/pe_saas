@@ -62,6 +62,7 @@ class NewDirActivity : ToolbarActivity(), TextWatcher {
     }
 
     private fun modifiData(content: String) {
+        showProgress("加载中")
         when(type){
             0 -> {
                 //新建文件夹
@@ -86,16 +87,18 @@ class NewDirActivity : ToolbarActivity(), TextWatcher {
                 .execute {
                     onNext { payload ->
                         if (payload.isOk){
-                            showErrorToast("重命名成功")
+                            showSuccessToast("重命名成功")
                             setResult(Activity.RESULT_OK)
                             finish()
                         }else{
                             showErrorToast(payload.message)
                         }
+                        hideProgress()
                     }
                     onError {
                         it.printStackTrace()
                         showErrorToast("重命名失败")
+                        hideProgress()
                     }
                 }
     }
@@ -142,11 +145,13 @@ class NewDirActivity : ToolbarActivity(), TextWatcher {
                         }else{
                             showErrorToast(payload.message)
                         }
+                        hideProgress()
                     }
 
                     onError {
                         it.printStackTrace()
                         showErrorToast("新建文件夹失败")
+                        hideProgress()
                     }
                 }
     }

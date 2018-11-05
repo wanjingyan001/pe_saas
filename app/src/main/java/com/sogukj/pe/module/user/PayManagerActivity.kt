@@ -230,7 +230,6 @@ class PayManagerActivity : BaseRefreshActivity(), AllPayCallBack {
                             }else{
                                 if (pay_type == 3){
                                     //支付宝
-                                    //支付宝
                                     sendToZfbRequest(payload.payload as String?,dialog)
                                 }else if (pay_type == 4){
                                     //微信

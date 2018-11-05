@@ -236,7 +236,8 @@ class PayDialog {
                 //去支付
                 if (null != callBack){
                     if (type == 1){
-                        callBack.pay(3,count,pay_type,coin.toString(),tv_per_balance,
+                        //购买征信
+                        callBack.pay(3,count,pay_type,realPrice.toString(),tv_per_balance,
                                 iv_pre_select,tv_bus_balance,iv_bus_select,tv_per_title,tv_bus_title,dialog)
                     }
                 }
@@ -329,7 +330,6 @@ class PayDialog {
                         }
                     }
         }
-
 
         //智能文书和账户管理
         fun showPayBookDialog(context:Context, type:Int, callBack: AllPayCallBack, title:String, price:String, count:Int, id:String, book: PdfBook?){
