@@ -258,7 +258,7 @@
                     android:drawableRight="@drawable/ic_right"
                     android:gravity="start|center_vertical"
                     android:padding="18dp"
-                    android:text="套餐购买"
+                    android:text="套餐付费"
                     android:textColor="@color/black_28"/>
 
                 <View
@@ -278,7 +278,7 @@
                     android:drawableRight="@drawable/ic_right"
                     android:gravity="start|center_vertical"
                     android:padding="18dp"
-                    android:text="账号付费管理"
+                    android:text="账号付费"
                     android:textColor="@color/black_28"/>
 
                 <View

@@ -7,11 +7,18 @@
     <include
         android:id="@+id/toolbar"
         layout="@layout/white_normal_toolbar"/>
+    <View
+        android:id="@+id/view_divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/text_1"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:background="@color/gray_f1"/>
     <FrameLayout
         android:id="@+id/fl_detail"
         android:layout_width="match_parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/view_divider"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/gray_f7"
         android:layout_height="0dp">
 
     </FrameLayout>

@@ -3,6 +3,8 @@ package com.sogukj.pe.module.receipt
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
+import android.support.v4.content.LocalBroadcastManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Gravity
@@ -80,6 +82,7 @@ class CreateBillDialog {
                             onNext { payload ->
                                 if (payload.isOk) {
                                     context.startActivity<SubmitBillSucActivity>(Extras.TITLE to "开具纸质发票")
+                                    LocalBroadcastManager.getInstance(context).sendBroadcast(Intent(MineReceiptActivity.REFRESH_ACTION))
                                     context.finish()
                                 }
                             }

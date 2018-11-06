@@ -25,11 +25,9 @@ import com.sogukj.pe.service.socket.DzhInterceptor
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
-import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -164,19 +162,20 @@ class SoguApi {
                         + Extras.SIGN_CODE)+timestamp))
                 .build()
         val response = chain.proceed(request)
-        val mediaType = response.body()!!.contentType()
-        val content = response.body()!!.string()
-        val jsonObject = JSONObject(content)
-        try {
-            val msgNo = jsonObject.getString("msgNo")
-            if (msgNo.equals("1001")){
-                //签名过期
-                exitUser()
-            }
-        }catch (e:Exception){
-            e.printStackTrace()
-        }
-        response.newBuilder().body(ResponseBody.create(mediaType,content)).build()
+        response
+//        val mediaType = response.body()!!.contentType()
+//        val content = response.body()!!.string()
+//        val jsonObject = JSONObject(content)
+//        try {
+//            val msgNo = jsonObject.getString("msgNo")
+//            if (msgNo.equals("1001") || msgNo.equals("1002")){
+//                //签名过期
+//                exitUser()
+//            }
+//        }catch (e:Exception){
+//            e.printStackTrace()
+//        }
+//        response.newBuilder().body(ResponseBody.create(mediaType,content)).build()
     }
 
     fun exitUser(){

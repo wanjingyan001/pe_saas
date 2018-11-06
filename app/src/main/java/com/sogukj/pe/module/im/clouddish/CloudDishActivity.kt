@@ -60,9 +60,9 @@ class CloudDishActivity : ToolbarActivity(){
 
     private fun initData() {
         fragments.add(CloudMineFileFragment.newInstance(1,invokeType,path,"/我的文件",
-                true,false,isCopy,fileName,previousPath,BatchRemoveBean()))
+                true,false,isCopy,fileName,previousPath,BatchRemoveBean(),false))
         fragments.add(CloudMineFileFragment.newInstance(2,invokeType,path,"/${company}",
-                true,true,isCopy,fileName,previousPath,BatchRemoveBean()))
+                true,true,isCopy,fileName,previousPath,BatchRemoveBean(),false))
         titlesInfo.forEach {
             tabs.addTab(tabs.newTab().setText(it))
         }

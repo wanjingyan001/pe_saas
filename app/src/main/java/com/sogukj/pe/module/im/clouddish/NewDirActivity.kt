@@ -29,6 +29,7 @@ class NewDirActivity : ToolbarActivity(), TextWatcher {
     private var content = ""
     private var fileName = ""//不带后缀的文件名
     private var extentsionName = "" //后缀名
+    private var realContent = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_dir)
@@ -50,7 +51,6 @@ class NewDirActivity : ToolbarActivity(), TextWatcher {
         toolbar_menu.clickWithTrigger {
             if (!et_input.textStr.isNullOrEmpty()){
                 modifiData(et_input.textStr)
-
             }else{
                 when(type){
                     0,1 ->  showCommonToast("文件夹名称不能为空")
@@ -70,6 +70,10 @@ class NewDirActivity : ToolbarActivity(), TextWatcher {
             }
             1,2 -> {
                 //修改文件名,修改文件夹名
+                if (realContent.equals(content)){
+                    finish()
+                    return
+                }
                 var realContent = content
                 if (extentsionName.isNullOrEmpty()){
                     realContent = content
@@ -125,9 +129,11 @@ class NewDirActivity : ToolbarActivity(), TextWatcher {
                     extentsionName = FileUtil.getExtensionName(content)
                     et_input.setText(fileName)
                     et_input.setSelection(fileName.length)
+                    realContent = fileName
                 }else{
                     et_input.setText(content)
                     et_input.setSelection(content.length)
+                    realContent = content
                 }
             }
         }

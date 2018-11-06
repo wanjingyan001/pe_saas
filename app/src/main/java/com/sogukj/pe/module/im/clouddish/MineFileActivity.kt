@@ -2,10 +2,14 @@ package com.sogukj.pe.module.im.clouddish
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.widget.NestedScrollView
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -16,6 +20,7 @@ import android.view.WindowManager
 import android.widget.*
 import com.bumptech.glide.Glide
 import com.huantansheng.easyphotos.EasyPhotos
+import com.netease.nim.uikit.common.util.file.FileUtil
 import com.netease.nim.uikit.support.glide.GlideEngine
 import com.sogukj.pe.BuildConfig
 import com.sogukj.pe.Extras
@@ -92,8 +97,25 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
                 .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
                 .into(iv_loading)
         alreadySelected = ArrayList<CloudFileBean>().toMutableSet()
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, IntentFilter(ACTION_STATE))
     }
 
+    val receiver : BroadcastReceiver = object : BroadcastReceiver(){
+        override fun onReceive(context: Context?, intent: Intent?) {
+            getMineFileData()
+            reviewStatus()
+        }
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        try {
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+        }catch (e : Exception){
+            e.printStackTrace()
+        }
+    }
     private fun initData() {
         nameAdapter = RecyclerAdapter(this) { _adapter, parent, _ ->
             NameFilterHolder(_adapter.getView(R.layout.item_mine_file, parent))
@@ -274,14 +296,18 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
             }
         }
         tv_delete.clickWithTrigger {
-            //删除
+            //批量删除
             if (selectCount > 0){
                 var filePath = ""
+                var isDir = false
                 alreadySelected.forEach {
                     filePath += dir+"/${it.file_name};?"
+                    if ("Folder".equals(it.file_type)){
+                        isDir = true
+                    }
                 }
-                deleteBatchFile(filePath)
-                showProgress("正在删除...")
+                val realPath = FileUtil.getDeleteFilePath(filePath)
+                MineFileDialog.showDeleteBatchFileDialog(this,isDir,realPath,this)
             }
         }
 
@@ -296,7 +322,7 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
                 }
                 batchPath.names = names
                 startActivity<FileDirDetailActivity>(Extras.TITLE to "",Extras.TYPE to 2,
-                        Extras.TYPE1 to "",Extras.TYPE2 to dir,"isSave" to false,
+                        Extras.TYPE1 to "",Extras.TYPE2 to "/我的文件","isSave" to false,"isCopy" to false,"isRemove" to true,
                         "fileName" to "","previousPath" to "","batchPath" to batchPath)
             }
         }
@@ -317,31 +343,34 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
         }
     }
 
-    /**
-     * 批量删除文件或文件夹
-     */
-    private fun deleteBatchFile(filePath: String) {
-        SoguApi.getService(application,OtherService::class.java)
-                .deleteBatchCloudFile(filePath,Store.store.getUser(this)!!.phone)
-                .execute {
-                    onNext { payload ->
-                        if (payload.isOk){
-                            showSuccessToast("删除成功")
-                        }else{
-                            showErrorToast(payload.message)
-                        }
-                        hideProgress()
-                        getMineFileData()
-                    }
-
-                    onError {
-                        it.printStackTrace()
-                        showErrorToast("删除失败")
-                        hideProgress()
-                    }
+    private fun reviewStatus(){
+        if (isSelectStatus){
+            nameAdapter.dataList.forEach {
+                it.canSelect = false
+                it.isSelect = false
+            }
+            nameAdapter.notifyDataSetChanged()
+            isSelectStatus = false
+            iv_upload.setVisible(true)
+            rl_select.setVisible(false)
+            tv_select.setVisible(false)
+            toolbar_menu.setVisible(true)
+            setTitle(title)
+            if (scroll >= 35) {
+                toolbar_title.visibility = View.VISIBLE
+                if (scroll >= 90) {
+                    toolbar_search.visibility = View.VISIBLE
+                } else {
+                    toolbar_search.visibility = View.GONE
                 }
+            } else {
+                toolbar_title.visibility = View.INVISIBLE
+                toolbar_search.visibility = View.GONE
+            }
+            alreadySelected.clear()
+            selectCount = 0
+        }
     }
-
     private fun showSortPup() {
         val contentView = View.inflate(this, R.layout.sort_pup, null)
         val rl_time = contentView.findViewById<RelativeLayout>(R.id.rl_time)
@@ -513,7 +542,9 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
     }
 
     override fun doRefresh() {
-        getMineFileData()
+        if (!isSelectStatus){
+            getMineFileData()
+        }
     }
 
     override fun doLoadMore() {
@@ -526,6 +557,12 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
 
     override fun deleteFile() {
         getMineFileData()
+    }
+
+    override fun batchDeleteFile() {
+       //批量删除成功
+        getMineFileData()
+        reviewStatus()
     }
 
     override fun onResume() {
@@ -697,6 +734,7 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
         val NEW_DIR_OPO = 1003
         val MODIFI_DIR = 1004
         val MODIFI_FILE = 1005
+        val ACTION_STATE = "action_state"
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

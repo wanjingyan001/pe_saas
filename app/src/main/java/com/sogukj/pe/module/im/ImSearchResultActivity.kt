@@ -45,6 +45,7 @@ import com.sogukj.pe.bean.PlListInfos
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.module.lpassistant.PolicyExpressDetailActivity
 import com.sogukj.pe.module.other.OnlinePreviewActivity
+import com.sogukj.pe.peUtils.FileTypeUtils
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.presenter.ImSearchCallBack
 import com.sogukj.pe.presenter.ImSearchPresenter
@@ -59,6 +60,7 @@ import kotlinx.android.synthetic.main.search_his.*
 import kotlinx.android.synthetic.main.search_result.*
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.find
+import org.jetbrains.anko.imageResource
 
 /**
  * Created by CH-ZH on 2018/8/20.
@@ -464,7 +466,8 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
                 //预览页面
                 val fileBean = cloudResultAdapter.dataList[position]
                 if (null != fileBean){
-                    OnlinePreviewActivity.start(this,"",fileBean.file_name)
+                    //预览
+                    OnlinePreviewActivity.start(this,fileBean.preview_url,fileBean.file_name,false)
                 }
             }
         }
@@ -616,7 +619,9 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
         val tv_dir = itemView.find<TextView>(R.id.tv_dir)
         override fun setData(view: View, data: CloudFileBean, position: Int) {
             if (null == data)return
-
+            iv_head.imageResource = FileTypeUtils.getFileType(data.file_name).icon
+            tv_name.text = data.file_name
+            tv_dir.text = data.file_path
         }
 
     }

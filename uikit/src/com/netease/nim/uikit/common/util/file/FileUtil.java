@@ -61,6 +61,21 @@ public class FileUtil {
         return filename;
     }
 
+    /**
+     * 获取批量删除的path
+     * @param filename
+     * @return
+     */
+    public static String getDeleteFilePath(String filename){
+        if ((filename != null) && (filename.length() > 0)) {
+            int dot = filename.lastIndexOf(';');
+            if ((dot > -1) && (dot < (filename.length()))) {
+                return filename.substring(0, dot);
+            }
+        }
+        return filename;
+    }
+
     public static String getMimeType(String filePath) {
         if (TextUtils.isEmpty(filePath)) {
             return "";

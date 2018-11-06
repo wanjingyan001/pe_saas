@@ -1,8 +1,13 @@
 package com.sogukj.pe.module.receipt
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.View
@@ -73,8 +78,17 @@ class MineReceiptActivity : BaseRefreshActivity() {
                 .asGif()
                 .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
                 .into(iv_loading)
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, IntentFilter(REFRESH_ACTION))
     }
+    val receiver : BroadcastReceiver = object : BroadcastReceiver(){
+        override fun onReceive(context: Context?, intent: Intent?) {
+            getBillOrderDatas(false)
+        }
 
+    }
+    companion object {
+        val REFRESH_ACTION = "refresh_action"
+    }
     private fun initData() {
 
         adapter = RecyclerAdapter(this) { _adapter, parent, _ ->

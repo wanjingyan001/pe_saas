@@ -70,8 +70,21 @@ class MineWalletActivity : BaseRefreshActivity() {
     private fun setMineWalletInfos(list: List<MineWalletBean>) {
         list.forEach {
             when(it.type){
-                1 -> tv_paccount_remain.text = "${it.balance}元"
-                2 -> tv_eaccount_remain.text = "${it.balance}元"
+                1 -> {
+                    if (Utils.isDouble(it.balance)){
+                        tv_paccount_remain.text = "${Utils.reserveTwoDecimal(it.balance.toDouble())}元"
+                    }else{
+                        tv_paccount_remain.text = "${it.balance}元"
+                    }
+
+                }
+                2 -> {
+                    if (Utils.isDouble(it.balance)){
+                        tv_eaccount_remain.text = "${Utils.reserveTwoDecimal(it.balance.toDouble())}元"
+                    }else{
+                        tv_eaccount_remain.text = "${it.balance}元"
+                    }
+                }
                 3 -> tv_order_count.text = "共${it.order_count}个订单"
                 4 -> tv_his.text = "共${it.invoice_count}个开票历史"
                 5 -> tv_header.text = "共${it.title_count}个抬头"

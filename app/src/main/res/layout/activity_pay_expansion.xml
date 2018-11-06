@@ -125,8 +125,30 @@
             app:layout_constraintStart_toStartOf="@+id/line1" />
 
     </android.support.constraint.ConstraintLayout>
-
-
+    <LinearLayout
+        android:id="@+id/ll_warn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/headerDetail"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/text_20"
+        android:paddingRight="@dimen/text_20"
+        android:paddingTop="@dimen/text_10"
+        android:visibility="gone"
+        android:paddingBottom="@dimen/text_10"
+        android:background="@color/red_ffe">
+        <ImageView
+            android:layout_width="@dimen/text_30"
+            android:layout_height="@dimen/text_30"
+            android:src="@mipmap/ic_pay_warn"/>
+        <TextView
+            android:id="@+id/tv_warn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_10"
+            android:text="您的套餐将于2018年9月30日到期，为了团队的正常工作，请尽快续费。"/>
+    </LinearLayout>
     <android.support.constraint.ConstraintLayout
         android:id="@+id/bottomLayout"
         android:layout_width="match_parent"
@@ -216,7 +238,112 @@
                 android:nestedScrollingEnabled="false">
 
             </android.support.v7.widget.RecyclerView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:gravity="bottom"
+                android:paddingStart="20dp"
+                android:textSize="@dimen/text_size_20"
+                android:textColor="@color/text_1"
+                android:visibility="gone"
+                android:text="舆情监控套餐"
+                android:paddingBottom="10dp"
+                android:background="@color/white" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_20"
+                android:layout_marginRight="@dimen/text_20"
+                android:padding="@dimen/text_15"
+                android:visibility="gone"
+                android:background="@drawable/bg_price_shape">
+                <TextView
+                    android:id="@+id/tv1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/text14_color28"
+                    android:layout_marginTop="@dimen/text_3"
+                    android:text="增加舆情监控上限"/>
+                <TextView
+                    android:id="@+id/tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv1"
+                    style="@style/text12_colora0"
+                    android:layout_marginTop="@dimen/text_3"
+                    android:text="有效期：自购买之日起一个月内有效"/>
+                <TextView
+                    android:id="@+id/tv_coin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_18"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@color/red_f85"
+                    android:text="￥9.9"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_20"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/text_15"
+                android:layout_marginRight="@dimen/text_20">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/text14_color28"
+                    android:layout_marginLeft="@dimen/text_10"
+                    android:layout_centerVertical="true"
+                    android:text="购买数量"/>
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/tv_subtract"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/text_20"
+                        android:paddingRight="@dimen/text_20"
+                        android:paddingTop="@dimen/text_10"
+                        android:paddingBottom="@dimen/text_10"
+                        android:background="@drawable/bg_subtract_shape"
+                        android:textSize="@dimen/text_size_14"
+                        android:textColor="@color/black_28"
+                        android:text="-"/>
+                    <EditText
+                        android:id="@+id/et_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingTop="@dimen/text_10"
+                        android:paddingBottom="@dimen/text_10"
+                        android:paddingLeft="@dimen/text_35"
+                        android:paddingRight="@dimen/text_35"
+                        android:background="@drawable/bg_buy_count"
+                        android:textSize="@dimen/text_size_14"
+                        android:inputType="number"
+                        android:textColor="@color/black_28"
+                        android:text="1"/>
+                    <TextView
+                        android:id="@+id/tv_add"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textSize="@dimen/text_size_14"
+                        android:textColor="@color/black_28"
+                        android:paddingLeft="@dimen/text_20"
+                        android:paddingRight="@dimen/text_20"
+                        android:paddingTop="@dimen/text_10"
+                        android:paddingBottom="@dimen/text_10"
+                        android:background="@drawable/bg_add_shape"
+                        android:text="+"/>
+                </LinearLayout>
+            </RelativeLayout>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="56dp"

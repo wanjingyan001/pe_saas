@@ -294,7 +294,6 @@ class App : MultiDexApplication() {
         NIMClient.getService(AuthService::class.java).logout()
     }
 
-
     companion object {
         lateinit var INSTANCE: App
     }

@@ -11,17 +11,17 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:background="@color/gray_f7"
         xmlns:tools="http://schemas.android.com/tools">
 
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:id="@+id/refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white">
+            android:layout_height="match_parent">
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:paddingLeft="@dimen/text_15"
                 android:paddingRight="@dimen/text_15"
@@ -34,6 +34,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:visibility="invisible"
+            android:background="@color/gray_f7"
             android:gravity="center">
             <ImageView
                 android:layout_width="75dp"

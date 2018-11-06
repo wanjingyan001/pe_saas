@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
@@ -12,6 +13,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.entity.MultiItemEntity
+import com.netease.nim.uikit.common.util.file.FileUtil
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
@@ -61,6 +63,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
     private var previousPath = "" //文件复制(移动)前的目录
     private var fileName = "" //要复制(移动)的文件名
     private var isCopy = false //是否是复制
+    private var isRemove = false
     private var batchPath : BatchRemoveBean ? = null
     override fun initRefreshConfig(): RefreshConfig? {
         val config = RefreshConfig()
@@ -82,6 +85,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
         isSave = arguments!!.getBoolean("isSave", true)
         isBusi = arguments!!.getBoolean("isBusi",true)
         isCopy = arguments!!.getBoolean("isCopy",false)
+        isRemove = arguments!!.getBoolean("isRemove",false)
         fileName = arguments!!.getString("fileName")
         previousPath = arguments!!.getString("previousPath")
         batchPath = arguments!!.getSerializable("batchPath") as BatchRemoveBean?
@@ -286,7 +290,6 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                                     }
                                     hideProgress()
                                 }
-
                                 onError {
                                     hideProgress()
                                     showErrorToast("保存失败")
@@ -307,43 +310,44 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                                 onNext { payload ->
                                     if (payload.isOk) {
                                         showSuccessToast("上传文件成功")
-                                        doRefresh()
                                     } else {
                                         showErrorToast(payload.message)
                                     }
                                     hideProgress()
+                                    activity!!.finish()
                                 }
 
                                 onError {
                                     it.printStackTrace()
                                     hideProgress()
                                     showErrorToast("上传文件失败")
+                                    activity!!.finish()
                                 }
                             }
                 }
             } else {
-                //移动到当前目录
+                //批量移动
                 showProgress("正在移动")
                 if (null != batchPath && null != batchPath!!.path && null != batchPath!!.names && batchPath!!.names!!.size > 0){
                     //批量移动
                     val path = batchPath!!.path
                     val names = batchPath!!.names
                     var filePath = ""
-                    var beforePath = ""
-                    var afterPath = ""
+                    var realFilePath = ""
                     names?.forEach {
                         val path1 = path + "/${it}"
                         val path2 = dir + "/${it}"
-                        beforePath += path+";?"
-                        afterPath += path2+";?"
+                        val endPath = path1 + ":::" + path2
+                        filePath += endPath+";?"
                     }
-                    filePath = beforePath+":::"+afterPath
+                    realFilePath = FileUtil.getDeleteFilePath(filePath)
                     SoguApi.getService(getBaseActivity().application,OtherService::class.java)
-                            .removeBatchCloudFile(filePath,Store.store.getUser(activity!!)!!.phone)
+                            .removeBatchCloudFile(realFilePath,Store.store.getUser(activity!!)!!.phone)
                             .execute {
                                 onNext {payload ->
                                     if (payload.isOk){
                                         showSuccessToast("移动成功")
+                                        setRemoveSuccessBrocast()
                                         activity!!.finish()
                                     }else{
                                         showErrorToast(payload.message)
@@ -366,6 +370,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                                 onNext { payload ->
                                     if (payload.isOk){
                                         showSuccessToast("移动成功")
+                                        setRemoveSuccessBrocast()
                                         activity!!.finish()
                                     }else{
                                         showErrorToast(payload.message)
@@ -382,6 +387,12 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                 }
             }
         }
+    }
+
+    private fun setRemoveSuccessBrocast() {
+        val intent = Intent()
+        intent.setAction(MineFileActivity.ACTION_STATE)
+        LocalBroadcastManager.getInstance(activity!!).sendBroadcast(intent)
     }
 
     private fun downloadCloudFile(bean: CloudFileBean) {
@@ -485,8 +496,8 @@ class CloudMineFileFragment : BaseRefreshFragment() {
             itemView.clickWithTrigger {
                 if (data.file_type.equals("Folder")) {
                     startActivity<FileDirDetailActivity>(Extras.TITLE to data.file_name, Extras.TYPE to invokeType,
-                            Extras.TYPE1 to path, Extras.TYPE2 to dir, "isSave" to isSave,
-                            "fileName" to fileName,"previousPath" to previousPath,"batchPath" to BatchRemoveBean())
+                            Extras.TYPE1 to path, Extras.TYPE2 to dir, "isSave" to isSave,"isCopy" to isCopy,"isRemove" to isRemove,
+                            "fileName" to fileName,"previousPath" to previousPath,"batchPath" to batchPath!!)
                 } else {
                     if (alreadySelected.contains(data)) {
                         alreadySelected.remove(data)
@@ -539,10 +550,16 @@ class CloudMineFileFragment : BaseRefreshFragment() {
             tv_time.text = data.create_time
 
             itemView.clickWithTrigger {
-                if (data.file_type.equals("Folder")) {
+                if (data.file_type.equals("Folder")){
                     startActivity<FileDirDetailActivity>(Extras.TITLE to data.file_name, Extras.TYPE to invokeType,
-                            Extras.TYPE1 to path, Extras.TYPE2 to dir, "isSave" to isSave,
-                            "fileName" to fileName,"previousPath" to previousPath,"batchPath" to BatchRemoveBean())
+                            Extras.TYPE1 to path, Extras.TYPE2 to dir, "isSave" to isSave,"isCopy" to isCopy,"isRemove" to isRemove,
+                            "fileName" to fileName,"previousPath" to previousPath,"batchPath" to batchPath!!)
+                    if(isRemove){
+                        activity!!.finish()
+                    }
+                    if (invokeType == 2 && isSave){
+                        activity!!.finish()
+                    }
                 }
             }
         }
@@ -553,7 +570,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
         val NEW_DIR_REQUEST = 1008
 
         fun newInstance(type: Int, invokeType: Int, path: String, dir: String, isSave: Boolean,
-                        isBusi : Boolean,isCopy:Boolean,fileName:String,previousPath:String,batchPath: BatchRemoveBean): CloudMineFileFragment {
+                        isBusi : Boolean,isCopy:Boolean,fileName:String,previousPath:String,batchPath: BatchRemoveBean,isRemove:Boolean): CloudMineFileFragment {
             val fragment = CloudMineFileFragment()
             val bundle = Bundle()
             bundle.putInt("type", type)
@@ -566,6 +583,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
             bundle.putString("fileName",fileName)
             bundle.putString("previousPath",previousPath)
             bundle.putSerializable("batchPath",batchPath)
+            bundle.putBoolean("isRemove",isRemove)
             fragment.arguments = bundle
             return fragment
         }

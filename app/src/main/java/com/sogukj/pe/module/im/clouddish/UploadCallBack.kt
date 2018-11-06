@@ -7,4 +7,5 @@ interface UploadCallBack {
     fun uploadFile()
     fun newDir()
     fun deleteFile()
+    fun batchDeleteFile()
 }

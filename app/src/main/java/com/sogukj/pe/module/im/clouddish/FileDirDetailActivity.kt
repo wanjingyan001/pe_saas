@@ -21,6 +21,8 @@ class FileDirDetailActivity : ToolbarActivity() {
     private var realDir = ""
     private var fileName = ""
     private var previousPath = ""
+    private var isCopy = false
+    private var isRemove = false
     private var batchPath : BatchRemoveBean ? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +33,8 @@ class FileDirDetailActivity : ToolbarActivity() {
         path = intent.getStringExtra(Extras.TYPE1)
         dir = intent.getStringExtra(Extras.TYPE2)
         isSave = intent.getBooleanExtra("isSave",true)
+        isCopy = intent.getBooleanExtra("isCopy",false)
+        isRemove = intent.getBooleanExtra("isRemove",false)
         fileName = intent.getStringExtra("fileName")
         previousPath = intent.getStringExtra("previousPath")
         batchPath = intent.getSerializableExtra("batchPath") as BatchRemoveBean?
@@ -60,6 +64,6 @@ class FileDirDetailActivity : ToolbarActivity() {
         }
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fl_detail,CloudMineFileFragment.newInstance(1,invokeType,path,realDir,
-                isSave,false,false,fileName,previousPath,batchPath!!),CloudMineFileFragment.TAG).commit()
+                isSave,false,isCopy,fileName,previousPath,batchPath!!,isRemove),CloudMineFileFragment.TAG).commit()
     }
 }

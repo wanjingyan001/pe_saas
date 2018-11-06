@@ -211,6 +211,10 @@ class CloudFileSortActivity : BaseRefreshActivity(),UploadCallBack {
         getCloudSortData(false)
     }
 
+    override fun batchDeleteFile() {
+
+    }
+
     override fun initRefreshConfig(): RefreshConfig?{
         val config = RefreshConfig()
         config.loadMoreEnable = true

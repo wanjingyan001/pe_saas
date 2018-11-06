@@ -225,7 +225,7 @@ class MineFileDialog {
                     dialog.dismiss()
                 }
                 context.startActivity<FileDirDetailActivity>(Extras.TITLE to "",Extras.TYPE to 2,
-                        Extras.TYPE1 to "",Extras.TYPE2 to "/我的文件","isSave" to false,
+                        Extras.TYPE1 to "",Extras.TYPE2 to "/我的文件","isSave" to false,"isCopy" to false,"isRemove" to true,
                         "fileName" to data.file_name,"previousPath" to previousPath,"batchPath" to  BatchRemoveBean())
             }
 
@@ -297,5 +297,66 @@ class MineFileDialog {
             }
         }
 
+        /**
+         * 批量删除
+         */
+        fun showDeleteBatchFileDialog(context:Context,isdir : Boolean,batchPath:String,callBack: UploadCallBack){
+            val dialog = Dialog(context, R.style.AppTheme_Dialog)
+            dialog.setContentView(R.layout.dialog_delete_file)
+            val lay = dialog.getWindow()!!.getAttributes()
+            lay.height = WindowManager.LayoutParams.WRAP_CONTENT
+            lay.width = WindowManager.LayoutParams.MATCH_PARENT
+            lay.gravity = Gravity.CENTER
+            dialog.getWindow()!!.setAttributes(lay)
+            dialog.show()
+
+            val tv_title = dialog.find<TextView>(R.id.tv_title)
+            val tv_content = dialog.find<TextView>(R.id.tv_content)
+            val tv_sure = dialog.find<TextView>(R.id.tv_sure)
+            val tv_cancel = dialog.find<TextView>(R.id.tv_cancel)
+            if (isdir){
+                tv_title.setVisible(true)
+                tv_title.text = "删除此文件夹？"
+                tv_content.text = "文件夹及文件夹下的所有文件将被彻底删除"
+            }else{
+                tv_title.setVisible(false)
+                tv_content.text = "请确认要彻底删除该文件吗？"
+            }
+
+            tv_sure.clickWithTrigger {
+                //删除文件、文件夹
+                if (dialog.isShowing){
+                    dialog.dismiss()
+                }
+                (context as BaseActivity).showProgress("正在删除...")
+                SoguApi.getService(App.INSTANCE,OtherService::class.java)
+                        .deleteBatchCloudFile(batchPath,Store.store.getUser(context)!!.phone)
+                        .execute {
+                            onNext { payload ->
+                                if (payload.isOk){
+                                    ToastUtil.showSuccessToast("删除成功",context)
+                                    if (null != callBack){
+                                        callBack.batchDeleteFile()
+                                    }
+                                }else{
+                                    ToastUtil.showErrorToast(payload.message,context)
+                                }
+                                (context as BaseActivity).hideProgress()
+                            }
+
+                            onError {
+                                it.printStackTrace()
+                                ToastUtil.showErrorToast("删除失败",context)
+                                (context as BaseActivity).hideProgress()
+                            }
+                        }
+            }
+
+            tv_cancel.clickWithTrigger {
+                if (dialog.isShowing){
+                    dialog.dismiss()
+                }
+            }
+        }
     }
 }
