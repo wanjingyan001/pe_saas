@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.gson.Gson
 import com.sogukj.pe.ARouterPath
+import com.sogukj.pe.Consts
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
@@ -18,6 +19,7 @@ import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_secret_cloud.*
+import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import org.jetbrains.anko.startActivity
 
 /**
@@ -38,6 +40,7 @@ class SecretCloudActivity : ToolbarActivity() {
         if (null != detail){
             company = detail.mechanism_name?:""
         }
+        RetrofitUrlManager.getInstance().putDomain("CloudPath", Consts.CLOUD_HOST)
         bindListener()
         setBack(true)
         setTitle("加密云盘")

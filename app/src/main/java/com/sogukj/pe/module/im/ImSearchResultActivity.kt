@@ -32,6 +32,7 @@ import com.netease.nim.uikit.business.uinfo.UserInfoHelper
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum
 import com.netease.nimlib.sdk.search.model.MsgIndexRecord
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
+import com.sogukj.pe.Consts
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.setVisible
@@ -58,6 +59,7 @@ import kotlinx.android.synthetic.main.activity_im_search.*
 import kotlinx.android.synthetic.main.search_header.*
 import kotlinx.android.synthetic.main.search_his.*
 import kotlinx.android.synthetic.main.search_result.*
+import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.find
 import org.jetbrains.anko.imageResource
@@ -222,6 +224,7 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_im_search)
         Utils.setWindowStatusBarColor(this, R.color.white)
+        RetrofitUrlManager.getInstance().putDomain("CloudPath", Consts.CLOUD_HOST)
         initData()
         bindListener()
     }
@@ -467,7 +470,7 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
                 val fileBean = cloudResultAdapter.dataList[position]
                 if (null != fileBean){
                     //预览
-                    OnlinePreviewActivity.start(this,fileBean.preview_url,fileBean.file_name,false)
+                    getFilePreviewPath(fileBean.file_path,fileBean.file_name)
                 }
             }
         }
@@ -559,6 +562,30 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
         }else if (type == 3){
             getCloudSearchData(true,searchKey)
         }
+    }
+
+    private fun getFilePreviewPath(filePath: String,fileName:String) {
+        SoguApi.getService(application,OtherService::class.java)
+                .getFilePreviewPath(filePath,Store.store.getUser(this)!!.phone)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+                            val jsonObject = payload.payload
+                            jsonObject?.let {
+                                val previewUrl = it.get("preview_url").asString
+                                previewUrl
+                                OnlinePreviewActivity.start(this@ImSearchResultActivity,previewUrl,fileName,false)
+                            }
+                        }else{
+                            showErrorToast(payload.message)
+                        }
+                    }
+
+                    onError {
+                        it.printStackTrace()
+                        showErrorToast("获取预览路径失败")
+                    }
+                }
     }
 
     inner class SearchResultHolder(itemView: View) : RecyclerHolder<MsgIndexRecord>(itemView) {

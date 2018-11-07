@@ -370,11 +370,15 @@ class MainHomeFragment : BaseFragment() {
                         }
                     } else
                         showCustomToast(R.drawable.icon_toast_fail, payload.message)
-                    pb.visibility = View.GONE
+                    if (null != pb){
+                        pb.visibility = View.GONE
+                    }
                 }, { e ->
                     Trace.e(e)
                     ToastError(e)
-                    pb.visibility = View.GONE
+                    if (null != pb){
+                        pb.visibility = View.GONE
+                    }
                     if (adapter.datas.size == 0) {
                         iv_empty.visibility = View.VISIBLE
                         if (page == 1) {
@@ -397,7 +401,9 @@ class MainHomeFragment : BaseFragment() {
                         }
                     }
                 }, {
-                    pb.visibility = View.GONE
+                    if (null != pb){
+                        pb.visibility = View.GONE
+                    }
                     if (adapter.datas.size == 0) {
                         iv_empty.visibility = View.VISIBLE
                         if (page == 1) {

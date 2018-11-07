@@ -9,7 +9,6 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.google.gson.internal.LinkedHashTreeMap
 import com.google.gson.internal.LinkedTreeMap
 import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Consts
@@ -27,7 +26,6 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.LpAssisBean
 import com.sogukj.pe.module.dataSource.*
 import com.sogukj.pe.module.dataSource.lawcase.LowCaseHisActivity
-import com.sogukj.pe.module.hotpost.HotPostActivity
 import com.sogukj.pe.service.DataSourceService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_la_assistant.*

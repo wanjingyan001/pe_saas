@@ -2,13 +2,11 @@ package com.sogukj.pe.module.project.overview
 
 import android.annotation.SuppressLint
 import android.graphics.Color
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
 import android.view.View
-import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
@@ -23,7 +21,6 @@ import com.sogukj.pe.service.NewService
 import com.sogukj.pe.service.ProjectService
 import com.sogukj.pe.widgets.UserRequestListener
 import com.sogukj.service.SoguApi
-import io.reactivex.internal.util.HalfSerializer.onNext
 import kotlinx.android.synthetic.main.activity_more_info.*
 import kotlinx.android.synthetic.main.item_opinion_info.view.*
 import kotlinx.android.synthetic.main.item_overview_dynamic.view.*
@@ -31,7 +28,6 @@ import kotlinx.android.synthetic.main.item_overview_horizontal_list.view.*
 import kotlinx.android.synthetic.main.item_project_overview_layout.view.*
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.textColor
 
 class MoreInfoActivity : BaseRefreshActivity() {
@@ -206,19 +202,30 @@ class MoreInfoActivity : BaseRefreshActivity() {
         var showSubscript = false
         @SuppressLint("SetTextI18n")
         override fun setData(view: View, data: Any, position: Int) {
+            if (null == data)return
             data as NewPro
-            view.projectName.text = data.cname
+            if (!data.cname.isNullOrEmpty()){
+                view.projectName.text = data.cname
+            }
             if (showSubscript) {
-                view.projectTime.text = data.update_time
+                if (!data.update_time.isNullOrEmpty()){
+                    view.projectTime.text = data.update_time
+                }
                 view.subscript.setVisible(true)
                 view.subscriptTv.setVisible(true)
-                view.subscriptTv.text = data.status
+                if (!data.status.isNullOrEmpty()){
+                    view.subscriptTv.text = data.status
+                }
             } else {
-                view.projectTime.text = "添加时间：${data.add_time}"
+                if (!data.add_time.isNullOrEmpty()){
+                    view.projectTime.text = "添加时间：${data.add_time}"
+                }
                 view.subscript.setVisible(false)
                 view.subscriptTv.setVisible(false)
             }
-            view.userName.text = data.name
+            if (!data.name.isNullOrEmpty()){
+                view.userName.text = data.name
+            }
             data.name.isNotEmpty().yes {
                 Glide.with(ctx).load(data.url).listener(UserRequestListener(view.userHeader, data.name)).into(view.userHeader)
             }

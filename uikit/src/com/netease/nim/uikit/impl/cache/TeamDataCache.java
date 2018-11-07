@@ -41,8 +41,9 @@ public class TeamDataCache {
         LogUtil.i(UIKitLogTag.TEAM_CACHE, "start build TeamDataCache");
 
         addOrUpdateTeam(teams);
-
-        LogUtil.i(UIKitLogTag.TEAM_CACHE, "build TeamDataCache completed, team count = " + teams.size());
+        if(null != teams) {
+            LogUtil.i(UIKitLogTag.TEAM_CACHE, "build TeamDataCache completed, team count = " + teams.size());
+        }
     }
 
     public void clear() {

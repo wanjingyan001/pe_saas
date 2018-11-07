@@ -114,6 +114,7 @@ object SessionHelper {
             val infoBtn = object : SessionCustomization.OptionsButton() {
                 override fun onClick(context: Context?, view: View?, sessionId: String?) {
                     NimUIKit.getUserInfoProvider().getUserInfoAsync(sessionId) { success, result, code ->
+                        if (result !is NimUserInfo) return@getUserInfoAsync
                         val info = result as NimUserInfo
                         val uid = info.extensionMap["uid"].toString().toInt()
                         PersonalInfoActivity.start(context, uid)

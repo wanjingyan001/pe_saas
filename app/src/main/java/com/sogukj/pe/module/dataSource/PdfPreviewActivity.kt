@@ -20,16 +20,11 @@ import com.sogukj.pe.baselibrary.Extended.jsonStr
 import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.DownloadUtil
-import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.CusShareBean
 import com.sogukj.pe.bean.PdfBook
 import com.sogukj.pe.peUtils.BASE64Encoder
 import com.sogukj.pe.peUtils.ShareUtils
-import com.sogukj.pe.service.FundService
-import com.sogukj.service.SoguApi
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_pdf_preview.*
 import java.io.File
 import java.io.UnsupportedEncodingException
@@ -131,6 +126,7 @@ class PdfPreviewActivity : ToolbarActivity() {
 
 
     private fun download() {
+        if (pdfBean.pdf_path.isNullOrEmpty()) return
         showProgress("正在下载")
         val newUrl = pdfBean.pdf_path.substring(0, pdfBean.pdf_path.indexOf("?"))
         DownloadUtil.getInstance().download(newUrl, externalCacheDir.toString(), pdfBean.pdf_name, object : DownloadUtil.OnDownloadListener {

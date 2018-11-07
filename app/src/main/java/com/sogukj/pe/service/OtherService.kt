@@ -324,18 +324,21 @@ interface OtherService {
     /**
      * 获取云盘文件内容
      */
+    @Headers(value = "Domain-Name: CloudPath")
     @GET("/api/cloud/getList")
     fun getMineCloudDishData(@Query("file_path") file_path:String,@Query("phone") phone : String):Observable<Payload<List<CloudFileBean>>>
 
     /**
      * 上传文件
      */
+    @Headers(value = "Domain-Name: CloudPath")
     @POST("/api/cloud/uploadLocalFile")
     fun uploadImFileToCloud(@Body body: RequestBody): Observable<Payload<Any>>
 
     /**
      * 新建文件夹
      */
+    @Headers(value = "Domain-Name: CloudPath")
     @FormUrlEncoded
     @POST("/api/cloud/addFolder")
     fun createNewDir(@Field("file_path")file_path:String,@Field("folder_name")folder_name:String,
@@ -351,6 +354,7 @@ interface OtherService {
     /**
      * 文件动态
      */
+    @Headers(value = "Domain-Name: CloudPath")
     @GET("/api/cloud/getFileNews")
     fun getFileDynamicData(@Query("page") page: Int? = 1,@Query("phone") phone : String,
                            @Query("limit") limit : Int ? = 15): Observable<Payload<List<FileDynamicBean>>>
@@ -358,6 +362,7 @@ interface OtherService {
     /**
      * 文件筛选类型
      */
+    @Headers(value = "Domain-Name: CloudPath")
     @GET("/api/cloud/filterFileType")
     fun getFileFillterData(@Query("page") page: Int? = 1, @Query("phone") phone : String,
                            @Query("search") search : String,@Query("size") size : Int ? = 15): Observable<Payload<List<CloudFileBean>>>
@@ -365,6 +370,7 @@ interface OtherService {
     /**
      * 文件搜索
      */
+    @Headers(value = "Domain-Name: CloudPath")
     @GET("/api/cloud/searchFileList")
     fun getFileSearchData(@Query("page") page: Int? = 1, @Query("phone") phone : String,
                            @Query("search") search : String,@Query("size") size : Int ? = 15): Observable<Payload<List<CloudFileBean>>>
@@ -372,18 +378,22 @@ interface OtherService {
     /**
      * 文件夹/文件删除
      */
+    @Headers(value = "Domain-Name: CloudPath")
     @GET("/api/cloud/deleteFolder")
     fun deleteCloudFile(@Query("file_path") file_path: String, @Query("phone") phone : String):Observable<Payload<Any>>
 
     /**
      * 文件夹/文件批量删除
      */
+    @Headers(value = "Domain-Name: CloudPath")
     @FormUrlEncoded
     @POST("/api/cloud/multipleDeleteFolder")
     fun deleteBatchCloudFile(@Field("file_path") file_path: String, @Field("phone") phone : String):Observable<Payload<Any>>
+
     /**
      * 文件/文件夹移动，重命名
      */
+    @Headers(value = "Domain-Name: CloudPath")
     @FormUrlEncoded
     @POST("/api/cloud/moveFolder")
     fun cloudFileRemoveOrRename(@Field("file_path")file_path:String,@Field("new_file_path")new_file_path:String,
@@ -392,6 +402,7 @@ interface OtherService {
     /**
      * 文件复制
      */
+    @Headers(value = "Domain-Name: CloudPath")
     @FormUrlEncoded
     @POST("/api/cloud/copyFolder")
     fun copyCloudFile(@Field("file_path")file_path:String,@Field("new_file_path")new_file_path:String,
@@ -401,12 +412,14 @@ interface OtherService {
     /**
      * 获取文件预览路径
      */
+    @Headers(value = "Domain-Name: CloudPath")
     @GET("/api/cloud/getPreviewFilePath")
     fun getFilePreviewPath(@Query("file_path") file_path: String, @Query("phone") phone : String):Observable<Payload<JsonObject>>
 
     /**
      * 文件夹/文件批量移动
      */
+    @Headers(value = "Domain-Name: CloudPath")
     @FormUrlEncoded
     @POST("/api/cloud/multipleMoveFolder")
     fun removeBatchCloudFile(@Field("file_path") file_path: String, @Field("phone") phone : String):Observable<Payload<Any>>

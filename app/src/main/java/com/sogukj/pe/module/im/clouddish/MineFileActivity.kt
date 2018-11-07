@@ -23,6 +23,7 @@ import com.huantansheng.easyphotos.EasyPhotos
 import com.netease.nim.uikit.common.util.file.FileUtil
 import com.netease.nim.uikit.support.glide.GlideEngine
 import com.sogukj.pe.BuildConfig
+import com.sogukj.pe.Consts
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
@@ -45,6 +46,7 @@ import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_mine_file.*
 import kotlinx.android.synthetic.main.normal_img_toolbar.*
+import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -97,6 +99,7 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
                 .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
                 .into(iv_loading)
         alreadySelected = ArrayList<CloudFileBean>().toMutableSet()
+        RetrofitUrlManager.getInstance().putDomain("CloudPath", Consts.CLOUD_HOST)
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver, IntentFilter(ACTION_STATE))
     }
 
