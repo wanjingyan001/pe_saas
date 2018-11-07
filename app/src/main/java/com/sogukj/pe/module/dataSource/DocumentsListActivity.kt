@@ -37,7 +37,6 @@ import com.sogukj.pe.bean.PdfBook
 import com.sogukj.pe.module.receipt.AllPayCallBack
 import com.sogukj.pe.module.receipt.PayDialog
 import com.sogukj.pe.service.DataSourceService
-import com.sogukj.pe.service.OtherService
 import com.sogukj.pe.widgets.indexbar.RecycleViewDivider
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_prospectus_list.*
@@ -245,7 +244,7 @@ class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
     override fun payForOther(id:String,order_type: Int, count: Int, pay_type: Int, fee: String, tv_per_balance: TextView,
                      iv_pre_select: ImageView, tv_bus_balance: TextView, iv_bus_select: ImageView,
                              tv_per_title:TextView,tv_bus_title:TextView,dialog: Dialog,book:PdfBook?) {
-        SoguApi.getService(application, OtherService::class.java)
+        SoguApi.getStaticHttp(application)
                 .getAccountPayInfo(order_type,count,pay_type,fee,id)
                 .execute {
                     onNext { payload ->

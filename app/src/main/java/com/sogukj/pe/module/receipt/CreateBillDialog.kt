@@ -22,7 +22,6 @@ import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.peUtils.ToastUtil
-import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
@@ -76,7 +75,7 @@ class CreateBillDialog {
                 }
             }
             ll_submit.clickWithTrigger {
-                SoguApi.getService(App.INSTANCE, OtherService::class.java)
+                SoguApi.getStaticHttp(App.INSTANCE)
                         .submitBillDetail(map)
                         .execute {
                             onNext { payload ->

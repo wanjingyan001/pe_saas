@@ -61,7 +61,6 @@ class CloudDishActivity : ToolbarActivity(){
         if (null != detail){
             company = detail.mechanism_name?:""
         }
-        RetrofitUrlManager.getInstance().putDomain("CloudPath", Consts.CLOUD_HOST)
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver, IntentFilter(CLOUDDISH_ACTION))
     }
 

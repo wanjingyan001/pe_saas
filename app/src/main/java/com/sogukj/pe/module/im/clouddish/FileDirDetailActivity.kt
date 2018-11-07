@@ -45,7 +45,6 @@ class FileDirDetailActivity : ToolbarActivity() {
         fileName = intent.getStringExtra("fileName")
         previousPath = intent.getStringExtra("previousPath")
         batchPath = intent.getSerializableExtra("batchPath") as BatchRemoveBean?
-        RetrofitUrlManager.getInstance().putDomain("CloudPath", Consts.CLOUD_HOST)
         if (!isSave){
             Utils.setWindowStatusBarColor(this, R.color.white)
             toolbar?.setBackgroundColor(resources.getColor(R.color.white))

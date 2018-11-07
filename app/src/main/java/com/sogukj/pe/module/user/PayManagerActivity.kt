@@ -31,7 +31,6 @@ import com.sogukj.pe.module.dataSource.DocumentsListActivity
 import com.sogukj.pe.module.receipt.AllPayCallBack
 import com.sogukj.pe.module.receipt.PayDialog
 import com.sogukj.pe.peUtils.Store
-import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_pay_manager.*
 import org.jetbrains.anko.find
@@ -116,7 +115,7 @@ class PayManagerActivity : BaseRefreshActivity(), AllPayCallBack {
     }
 
     private fun getManagerData() {
-        SoguApi.getService(application,OtherService::class.java)
+        SoguApi.getStaticHttp(application)
                 .getManagerData()
                 .execute {
                     onNext { payload ->
@@ -216,7 +215,7 @@ class PayManagerActivity : BaseRefreshActivity(), AllPayCallBack {
     override fun payForOther(id: String, order_type: Int, count: Int, pay_type: Int, fee: String,
                              tv_per_balance: TextView, iv_pre_select: ImageView, tv_bus_balance: TextView, iv_bus_select: ImageView,
                              tv_per_title:TextView,tv_bus_title:TextView,dialog: Dialog,book: PdfBook?) {
-        SoguApi.getService(application, OtherService::class.java)
+        SoguApi.getStaticHttp(application)
                 .getAccountPayInfo(order_type,count,pay_type,fee,id)
                 .execute {
                     onNext { payload ->

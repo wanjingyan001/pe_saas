@@ -314,7 +314,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
 
     private fun getBusAccountInfo(tv_bus_balance: TextView, iv_bus_select: ImageView,
                                   tv_bus_title: TextView, isRefresh: Boolean, coin: Double) {
-        SoguApi.getService(application, OtherService::class.java)
+        SoguApi.getStaticHttp(application)
                 .getBussAccountInfo()
                 .execute {
                     onNext { payload ->
@@ -357,7 +357,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
 
     private fun getPerAccountInfo(tv_per_balance: TextView, iv_pre_select: ImageView,
                                   tv_per_title: TextView, isRefresh: Boolean, coin: Double) {
-        SoguApi.getService(application, OtherService::class.java)
+        SoguApi.getStaticHttp(application)
                 .getPersonAccountInfo()
                 .execute {
                     onNext { payload ->
@@ -408,7 +408,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                         tv_per_balance: TextView, iv_pre_select: ImageView,
                         tv_bus_balance: TextView, iv_bus_select: ImageView,
                         tv_per_title: TextView, tv_bus_title: TextView, coin: Double) {
-        SoguApi.getService(application, OtherService::class.java)
+        SoguApi.getStaticHttp(application)
                 .getAccountPayInfo(order_type, count, pay_type, fee)
                 .execute {
                     onNext { payload ->
@@ -481,7 +481,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
     }
 
     private fun setSentimentStatus(company_id: Int) {
-        SoguApi.getService(application, OtherService::class.java)
+        SoguApi.getStaticHttp(application)
                 .setSentimentStatus(company_id)
                 .execute {
                     onNext { payload ->
@@ -517,7 +517,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
     }
 
     private fun getSentimentStatus(company_id: Int) {
-        SoguApi.getService(application, OtherService::class.java)
+        SoguApi.getStaticHttp(application)
                 .getSentimentInfo(company_id)
                 .execute {
                     onNext { payload ->

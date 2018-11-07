@@ -19,6 +19,7 @@ import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peExtended.getIntEnvironment
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.DzhHttpUtils
+import com.sogukj.pe.service.StaticHttpUtils
 import com.sogukj.pe.service.socket.DzhInterceptor
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import okhttp3.Interceptor
@@ -37,13 +38,14 @@ class SoguApi {
     private var retrofit: Retrofit
     private val environment = getIntEnvironment()
     private val dzhHttp : DzhHttpUtils
+    private val staticHttp : StaticHttpUtils
     private constructor(context: Application) {
         this.context = context
 //        val client = OkHttpClient.Builder()
         val client = RetrofitUrlManager.getInstance().with(OkHttpClient.Builder())
                 .addInterceptor(initLogInterceptor())
                 .addInterceptor(initInterceptor(context))
-                .retryOnConnectionFailure(true)
+                .retryOnConnectionFailure(false)
                 .readTimeout(15, TimeUnit.SECONDS)
                 .connectTimeout(15, TimeUnit.SECONDS)
                 .build()
@@ -87,6 +89,14 @@ class SoguApi {
                 .build()
 
         dzhHttp = dzhRetrofit.create(DzhHttpUtils::class.java)
+
+        val statusRetrifit = Retrofit.Builder()
+                .baseUrl(getHost())
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .client(getStatusClient())
+                .build()
+        staticHttp = statusRetrifit.create(StaticHttpUtils::class.java)
     }
 
     private fun getDzhClient(): OkHttpClient? {
@@ -94,6 +104,16 @@ class SoguApi {
                 .addInterceptor(DzhInterceptor.newInstance(context))
                 .readTimeout(100, TimeUnit.SECONDS)
                 .connectTimeout(100,TimeUnit.SECONDS)
+                .build()
+    }
+
+    private fun getStatusClient():OkHttpClient?{
+        return OkHttpClient.Builder()
+                .addInterceptor(initLogInterceptor())
+                .addInterceptor(initInterceptor(context))
+                .retryOnConnectionFailure(true)
+                .readTimeout(100, TimeUnit.SECONDS)
+                .connectTimeout(100, TimeUnit.SECONDS)
                 .build()
     }
 
@@ -207,11 +227,19 @@ class SoguApi {
         fun <T> getService(ctx: Application, service: Class<T>): T {
             return getApi(ctx).getService(service)
         }
+
         fun getDzhHttp(ctx: Application?):DzhHttpUtils{
             if (null == ctx){
                 throw NullPointerException("context can't be null")
             }
             return getApi(ctx).dzhHttp
+        }
+
+        fun getStaticHttp(ctx: Application?):StaticHttpUtils{
+            if (null == ctx){
+                throw NullPointerException("context can't be null")
+            }
+            return getApi(ctx).staticHttp
         }
     }
 }

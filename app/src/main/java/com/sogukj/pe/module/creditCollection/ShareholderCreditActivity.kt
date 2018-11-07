@@ -33,7 +33,6 @@ import com.sogukj.pe.module.dataSource.DocumentsListActivity
 import com.sogukj.pe.module.receipt.AllPayCallBack
 import com.sogukj.pe.module.receipt.PayDialog
 import com.sogukj.pe.service.CreditService
-import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -173,7 +172,7 @@ class ShareholderCreditActivity : BaseActivity(), View.OnClickListener, AllPayCa
     override fun pay(order_type: Int, count: Int, pay_type: Int, fee: String, tv_per_balance: TextView,
                      iv_pre_select: ImageView, tv_bus_balance: TextView, iv_bus_select: ImageView, tv_per_title: TextView,
                      tv_bus_title: TextView, dialog: Dialog) {
-        SoguApi.getService(application, OtherService::class.java)
+        SoguApi.getStaticHttp(application)
                 .getAccountPayInfo(order_type,count,pay_type,fee)
                 .execute {
                     onNext { payload ->
@@ -236,7 +235,7 @@ class ShareholderCreditActivity : BaseActivity(), View.OnClickListener, AllPayCa
      * 获取征信个数
      */
     private fun getCreditTimes() {
-        SoguApi.getService(application, OtherService::class.java)
+        SoguApi.getStaticHttp(application)
                 .getMineWalletData()
                 .execute {
                     onNext { payload ->

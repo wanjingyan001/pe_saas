@@ -21,7 +21,6 @@ import com.sogukj.pe.bean.PayResultInfo
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.module.dataSource.DocumentsListActivity
 import com.sogukj.pe.peUtils.Store
-import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import com.tencent.mm.sdk.constants.Build
 import com.tencent.mm.sdk.modelpay.PayReq
@@ -137,7 +136,7 @@ class AccountRechargeActivity : ToolbarActivity(), TextWatcher {
     }
 
     private fun getPayOrderInfo() {
-        SoguApi.getService(application,OtherService::class.java)
+        SoguApi.getStaticHttp(application)
                 .getPayInfo(type,et_recharge.textStr,rechargeType)
                 .execute {
                     onNext { payload ->

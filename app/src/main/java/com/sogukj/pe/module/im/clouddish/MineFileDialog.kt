@@ -21,7 +21,6 @@ import com.sogukj.pe.bean.CloudFileBean
 import com.sogukj.pe.peUtils.FileTypeUtils
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.peUtils.ToastUtil
-import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import org.jetbrains.anko.find
 import org.jetbrains.anko.imageResource
@@ -267,7 +266,7 @@ class MineFileDialog {
                     dialog.dismiss()
                 }
                 (context as BaseActivity).showProgress("正在删除...")
-                SoguApi.getService(App.INSTANCE,OtherService::class.java)
+                SoguApi.getStaticHttp(App.INSTANCE)
                         .deleteCloudFile(previousPath+"/${fileName}", Store.store.getUser(context)!!.phone)
                         .execute {
                             onNext { payload ->
@@ -329,7 +328,7 @@ class MineFileDialog {
                     dialog.dismiss()
                 }
                 (context as BaseActivity).showProgress("正在删除...")
-                SoguApi.getService(App.INSTANCE,OtherService::class.java)
+                SoguApi.getStaticHttp(App.INSTANCE)
                         .deleteBatchCloudFile(batchPath,Store.store.getUser(context)!!.phone)
                         .execute {
                             onNext { payload ->

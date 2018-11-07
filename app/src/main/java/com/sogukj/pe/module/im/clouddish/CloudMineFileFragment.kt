@@ -32,7 +32,6 @@ import com.sogukj.pe.bean.CloudLevel2
 import com.sogukj.pe.module.im.clouddish.FileDirDetailActivity.Companion.FILEDIR_ACTION
 import com.sogukj.pe.peUtils.FileTypeUtils
 import com.sogukj.pe.peUtils.Store
-import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.fragment_mine_file.*
 import okhttp3.MediaType
@@ -167,7 +166,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
     }
 
     private fun getBusCloudFileData() {
-        SoguApi.getService(activity!!.application, OtherService::class.java)
+        SoguApi.getStaticHttp(activity!!.application)
                 .getMineCloudDishData(dir, Store.store.getUser(activity!!)!!.phone)
                 .execute {
                     onNext { payload ->
@@ -198,7 +197,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
     }
 
     private fun getMineCloudFileData() {
-        SoguApi.getService(activity!!.application, OtherService::class.java)
+        SoguApi.getStaticHttp(activity!!.application)
                 .getMineCloudDishData(dir, Store.store.getUser(activity!!)!!.phone)
                 .execute {
                     onNext { payload ->
@@ -279,7 +278,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                 if (isCopy){
                     //复制到当前目录
                     showProgress("正在保存")
-                    SoguApi.getService(getBaseActivity().application,OtherService::class.java)
+                    SoguApi.getStaticHttp(getBaseActivity().application)
                             .copyCloudFile(previousPath,dir,Store.store.getUser(activity!!)!!.phone,fileName)
                             .execute {
                                 onNext { payload ->
@@ -306,7 +305,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                             .addFormDataPart("phone", Store.store.getUser(activity!!)!!.phone)
                     val body = builder.build()
                     showProgress("正在上传")
-                    SoguApi.getService(getBaseActivity().application, OtherService::class.java)
+                    SoguApi.getStaticHttp(getBaseActivity().application)
                             .uploadImFileToCloud(body)
                             .execute {
                                 onNext { payload ->
@@ -343,7 +342,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                         filePath += endPath+";?"
                     }
                     realFilePath = FileUtil.getDeleteFilePath(filePath)
-                    SoguApi.getService(getBaseActivity().application,OtherService::class.java)
+                    SoguApi.getStaticHttp(getBaseActivity().application)
                             .removeBatchCloudFile(realFilePath,Store.store.getUser(activity!!)!!.phone)
                             .execute {
                                 onNext {payload ->
@@ -366,7 +365,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                 }else{
                     val filePath = previousPath + "/${fileName}"
                     val new_file_path = dir + "/${fileName}"
-                    SoguApi.getService(getBaseActivity().application,OtherService::class.java)
+                    SoguApi.getStaticHttp(getBaseActivity().application)
                             .cloudFileRemoveOrRename(filePath,new_file_path,Store.store.getUser(activity!!)!!.phone)
                             .execute {
                                 onNext { payload ->

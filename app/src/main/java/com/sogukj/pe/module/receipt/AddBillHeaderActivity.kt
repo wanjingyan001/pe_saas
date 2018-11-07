@@ -12,7 +12,6 @@ import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.BillDetailBean
-import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.layout_add_content.*
 import kotlinx.android.synthetic.main.normal_toolbar.*
@@ -183,7 +182,7 @@ class AddBillHeaderActivity : ToolbarActivity(), TextWatcher {
         map.put("id",id!!)
         map.put("bank",et_bank.textStr)
         map.put("account",et_account.textStr)
-        SoguApi.getService(application,OtherService::class.java)
+        SoguApi.getStaticHttp(application)
                 .addBillHeader(map)
                 .execute {
                     onNext {

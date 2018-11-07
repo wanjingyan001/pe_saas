@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.execute
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -24,7 +25,6 @@ import com.sogukj.pe.bean.FileDynamicBean
 import com.sogukj.pe.peUtils.FileTypeUtils
 import com.sogukj.pe.peUtils.FileUtil
 import com.sogukj.pe.peUtils.Store
-import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_file_dynamic.*
 import org.jetbrains.anko.find
@@ -80,7 +80,7 @@ class FileDynamicActivity : BaseRefreshActivity(){
         }else{
             page = 1
         }
-        SoguApi.getService(application,OtherService::class.java)
+        SoguApi.getStaticHttp(application)
                 .getFileDynamicData(page, Store.store.getUser(this)!!.phone)
                 .execute {
                     onNext { payload ->
@@ -148,7 +148,12 @@ class FileDynamicActivity : BaseRefreshActivity(){
             tv_time.text = data.add_time
             iv_file.imageResource = FileTypeUtils.getFileType(data.filename).icon
             tv_name.text = data.filename
-            tv_size.text = FileUtil.formatFileSize(data.size.toLong(), FileUtil.SizeUnit.Auto)
+            if (data.size.isNullOrEmpty()){
+                ll_files.setVisible(false)
+            }else{
+                ll_files.setVisible(true)
+                tv_size.text = FileUtil.formatFileSize(data.size.toLong(), FileUtil.SizeUnit.Auto)
+            }
             val title = SpannableString( data.display_name + data.show)
             title.setSpan(StyleSpan(android.graphics.Typeface.BOLD),0,data.display_name.length,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             tv_title.text = title

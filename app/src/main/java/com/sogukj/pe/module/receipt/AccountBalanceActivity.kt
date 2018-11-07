@@ -18,7 +18,6 @@ import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.RechargeRecordBean
-import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_account_balance.*
 import org.jetbrains.anko.find
@@ -58,7 +57,7 @@ class AccountBalanceActivity : BaseRefreshActivity(){
     }
 
     private fun getAccountDatas() {
-        SoguApi.getService(application,OtherService::class.java)
+        SoguApi.getStaticHttp(application)
                 .getMineWalletDetail(type)
                 .execute {
                     onNext { payload ->

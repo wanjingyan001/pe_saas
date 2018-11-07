@@ -9,7 +9,6 @@ import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.BillDetailBean
 import com.sogukj.pe.bean.InvoiceHisBean
-import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_bill_detail.*
 import kotlinx.android.synthetic.main.layout_accept_info.*
@@ -39,7 +38,7 @@ class BillDetailActivity : ToolbarActivity() {
     }
 
     private fun initData() {
-        SoguApi.getService(application,OtherService::class.java)
+        SoguApi.getStaticHttp(application)
                 .getBillDetailInfo(id!!)
                 .execute {
                     onNext { payload ->

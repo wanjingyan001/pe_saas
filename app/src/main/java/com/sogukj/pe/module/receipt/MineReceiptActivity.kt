@@ -26,7 +26,6 @@ import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.MineReceiptBean
-import com.sogukj.pe.service.OtherService
 import com.sogukj.pe.widgets.indexbar.RecycleViewDivider
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_mine_receipt.*
@@ -113,7 +112,7 @@ class MineReceiptActivity : BaseRefreshActivity() {
         }else{
             page = 1
         }
-        SoguApi.getService(application,OtherService::class.java)
+        SoguApi.getStaticHttp(application)
                 .billOrderList(page)
                 .execute {
                     onNext { payload ->

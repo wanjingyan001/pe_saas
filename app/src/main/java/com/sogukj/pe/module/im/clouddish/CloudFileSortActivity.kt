@@ -10,7 +10,6 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.sogukj.pe.Consts
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
@@ -24,10 +23,8 @@ import com.sogukj.pe.bean.CloudFileBean
 import com.sogukj.pe.module.other.OnlinePreviewActivity
 import com.sogukj.pe.peUtils.FileTypeUtils
 import com.sogukj.pe.peUtils.Store
-import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_cloud_sort.*
-import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import org.jetbrains.anko.find
 import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.startActivity
@@ -64,7 +61,6 @@ class CloudFileSortActivity : BaseRefreshActivity(),UploadCallBack {
         type = intent.getStringExtra(Extras.TYPE)
         rv_express.layoutManager = LinearLayoutManager(this)
         rv_express.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-        RetrofitUrlManager.getInstance().putDomain("CloudPath", Consts.CLOUD_HOST)
     }
 
     private fun initData() {
@@ -83,7 +79,7 @@ class CloudFileSortActivity : BaseRefreshActivity(),UploadCallBack {
         }else{
             page = 1
         }
-        SoguApi.getService(application,OtherService::class.java)
+        SoguApi.getStaticHttp(application)
                 .getFileFillterData(page, Store.store.getUser(this)!!.phone,type)
                 .execute {
                     onNext { payload ->

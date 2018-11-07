@@ -9,7 +9,6 @@ import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.MineWalletBean
-import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.layout_acount_info.*
 import kotlinx.android.synthetic.main.layout_bill_info.*
@@ -46,7 +45,7 @@ class MineWalletActivity : BaseRefreshActivity() {
     }
 
     private fun getWalletData() {
-        SoguApi.getService(application,OtherService::class.java)
+        SoguApi.getStaticHttp(application)
                 .getMineWalletData()
                 .execute {
                     onNext { payload ->

@@ -4,7 +4,6 @@ import android.os.Bundle
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.gson.Gson
 import com.sogukj.pe.ARouterPath
-import com.sogukj.pe.Consts
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
@@ -16,12 +15,9 @@ import com.sogukj.pe.bean.FileDynamicBean
 import com.sogukj.pe.bean.MechanismBasicInfo
 import com.sogukj.pe.module.im.ImSearchResultActivity
 import com.sogukj.pe.peUtils.Store
-import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_secret_cloud.*
-import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import org.jetbrains.anko.startActivity
-
 /**
  * Created by CH-ZH on 2018/10/25.
  * 首页加密云盘
@@ -40,7 +36,6 @@ class SecretCloudActivity : ToolbarActivity() {
         if (null != detail){
             company = detail.mechanism_name?:""
         }
-        RetrofitUrlManager.getInstance().putDomain("CloudPath", Consts.CLOUD_HOST)
         bindListener()
         setBack(true)
         setTitle("加密云盘")
@@ -48,7 +43,7 @@ class SecretCloudActivity : ToolbarActivity() {
     }
 
     private fun getDynamicData() {
-        SoguApi.getService(application, OtherService::class.java)
+        SoguApi.getStaticHttp(application)
                 .getFileDynamicData(1, Store.store.getUser(this)!!.phone)
                 .execute {
                     onNext { payload ->

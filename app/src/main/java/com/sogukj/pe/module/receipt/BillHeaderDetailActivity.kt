@@ -9,7 +9,6 @@ import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.BillDetailBean
-import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.layout_head_content.*
 import kotlinx.android.synthetic.main.normal_toolbar.*
@@ -42,7 +41,7 @@ class BillHeaderDetailActivity : ToolbarActivity() {
     }
 
     private fun initData() {
-        SoguApi.getService(application,OtherService::class.java)
+        SoguApi.getStaticHttp(application)
                 .getBillHeaderInfo(id!!)
                 .execute {
                     onNext { payload ->

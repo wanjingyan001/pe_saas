@@ -9,18 +9,15 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import com.netease.nim.uikit.common.util.file.FileUtil
-import com.sogukj.pe.Consts
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.peUtils.Store
-import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_new_dir.*
 import kotlinx.android.synthetic.main.white_normal_toolbar.*
-import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 
 /**
  * Created by CH-ZH on 2018/10/26.
@@ -44,7 +41,6 @@ class NewDirActivity : ToolbarActivity(), TextWatcher {
         toolbar_menu.visibility = View.VISIBLE
         toolbar_menu.text = "完成"
         toolbar_menu.setTextColor(resources.getColor(R.color.gray_f1))
-        RetrofitUrlManager.getInstance().putDomain("CloudPath", Consts.CLOUD_HOST)
         et_input.addTextChangedListener(this)
         iv_delete.clickWithTrigger {
             et_input.setText("")
@@ -89,7 +85,7 @@ class NewDirActivity : ToolbarActivity(), TextWatcher {
     }
 
     private fun modifiFileDirName(newContent: String) {
-        SoguApi.getService(application,OtherService::class.java)
+        SoguApi.getStaticHttp(application)
                 .cloudFileRemoveOrRename(dir+"/${content}",dir+"/${newContent}",Store.store.getUser(this)!!.phone)
                 .execute {
                     onNext { payload ->
@@ -144,7 +140,7 @@ class NewDirActivity : ToolbarActivity(), TextWatcher {
     }
 
     private fun createNewDir(content: String) {
-        SoguApi.getService(application,OtherService::class.java)
+        SoguApi.getStaticHttp(application)
                 .createNewDir(dir,content, Store.store.getUser(this)!!.phone)
                 .execute {
                     onNext { payload ->

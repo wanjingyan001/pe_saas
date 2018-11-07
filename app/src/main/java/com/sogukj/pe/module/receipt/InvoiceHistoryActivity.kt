@@ -17,7 +17,6 @@ import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.InvoiceHisBean
-import com.sogukj.pe.service.OtherService
 import com.sogukj.pe.widgets.indexbar.RecycleViewDivider
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_invoice_his.*
@@ -104,7 +103,7 @@ class InvoiceHistoryActivity : BaseRefreshActivity() {
         }else{
             page = 1
         }
-        SoguApi.getService(application,OtherService::class.java)
+        SoguApi.getStaticHttp(application)
                 .getBillHeaderList(page)
                 .execute {
                     onNext {payload ->
@@ -153,7 +152,7 @@ class InvoiceHistoryActivity : BaseRefreshActivity() {
         }else{
             page = 1
         }
-        SoguApi.getService(application,OtherService::class.java)
+        SoguApi.getStaticHttp(application)
                 .billHisList(page)
                 .execute {
                     onNext { payload ->

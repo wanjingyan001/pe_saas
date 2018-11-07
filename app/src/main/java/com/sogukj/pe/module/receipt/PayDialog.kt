@@ -17,7 +17,6 @@ import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.PdfBook
 import com.sogukj.pe.peUtils.ToastUtil
-import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import org.jetbrains.anko.find
 import java.util.*
@@ -247,7 +246,7 @@ class PayDialog {
         }
 
         fun getBusAccountInfo(tv_bus_balance: TextView, iv_bus_select: ImageView, tv_bus_title:TextView,isRefresh: Boolean,realPrice:String) {
-            SoguApi.getService(App.INSTANCE,OtherService::class.java)
+            SoguApi.getStaticHttp(App.INSTANCE)
                     .getBussAccountInfo()
                     .execute {
                         onNext { payload ->
@@ -290,7 +289,7 @@ class PayDialog {
 
         fun getPerAccountInfo(tv_per_balance: TextView, iv_pre_select: ImageView, tv_per_title:TextView,isRefresh: Boolean,
                               realPrice:String) {
-            SoguApi.getService(App.INSTANCE, OtherService::class.java)
+            SoguApi.getStaticHttp(App.INSTANCE)
                     .getPersonAccountInfo()
                     .execute {
                         onNext { payload ->
