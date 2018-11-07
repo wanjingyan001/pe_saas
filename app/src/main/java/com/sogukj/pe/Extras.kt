@@ -142,4 +142,5 @@ object Extras {
     const val WX_PAY_TYPE = "WX_PAY_TYPE"
     val SORT = "ext.sort"
     val DIR = "ext.dir"
+    val PATH = "ext.path"
 }

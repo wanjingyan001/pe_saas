@@ -40,6 +40,31 @@ class SecretCloudActivity : ToolbarActivity() {
         setBack(true)
         setTitle("加密云盘")
         getDynamicData()
+        getMemoryData()
+    }
+
+    private fun getMemoryData() {
+        SoguApi.getStaticHttp(application)
+                .getDirMemoryData("/我的文件",Store.store.getUser(this)!!.phone)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+                            val jsonObject = payload.payload
+                            if (null != jsonObject){
+                                val total = jsonObject.get("total").asString
+                                val used = jsonObject.get("used").asString
+                                tv_file.text = "${used}/${total}"
+                            }
+                        }else{
+                            showErrorToast(payload.message)
+                        }
+                    }
+                    onError {
+                        it.printStackTrace()
+                        showErrorToast("获取数据失败")
+                    }
+                }
+
     }
 
     private fun getDynamicData() {

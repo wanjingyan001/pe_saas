@@ -446,7 +446,7 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
             if (popupWindow.isShowing) {
                 popupWindow.dismiss()
             }
-            MineFileDialog.showFillterDialog(this,title)
+            MineFileDialog.showFillterDialog(this,title,dir)
         }
     }
 
@@ -484,7 +484,7 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
             if (popupWindow.isShowing) {
                 popupWindow.dismiss()
             }
-            MineFileDialog.showFillterDialog(this,title)
+            MineFileDialog.showFillterDialog(this,title,dir)
         }
     }
 

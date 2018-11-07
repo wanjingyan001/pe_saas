@@ -279,7 +279,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                     //复制到当前目录
                     showProgress("正在保存")
                     SoguApi.getStaticHttp(getBaseActivity().application)
-                            .copyCloudFile(previousPath,dir,Store.store.getUser(activity!!)!!.phone,fileName)
+                            .copyCloudFile(previousPath+"/",dir+"/",Store.store.getUser(activity!!)!!.phone,fileName)
                             .execute {
                                 onNext { payload ->
                                     if (payload.isOk){

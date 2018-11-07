@@ -22,6 +22,7 @@ import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.FileDynamicBean
+import com.sogukj.pe.module.other.OnlinePreviewActivity
 import com.sogukj.pe.peUtils.FileTypeUtils
 import com.sogukj.pe.peUtils.FileUtil
 import com.sogukj.pe.peUtils.Store
@@ -130,8 +131,41 @@ class FileDynamicActivity : BaseRefreshActivity(){
     private fun bindListener() {
         adapter.onItemClick = {v,p ->
             //预览
-
+            val dataList = adapter.dataList
+            if (null != dataList && dataList.size > 0){
+                val dynamicBean = dataList[p]
+                if (null != dynamicBean){
+                    if (null != dynamicBean.size){
+                        //预览
+                        getFilePreviewPath(dynamicBean.fullpath,dynamicBean.filename)
+                    }
+                }
+            }
         }
+    }
+
+    private fun getFilePreviewPath(filePath: String,fileName:String) {
+        SoguApi.getStaticHttp(application)
+                .getFilePreviewPath(filePath,Store.store.getUser(this)!!.phone)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+                            val jsonObject = payload.payload
+                            jsonObject?.let {
+                                val previewUrl = it.get("preview_url").asString
+                                previewUrl
+                                OnlinePreviewActivity.start(this@FileDynamicActivity,previewUrl,fileName,false)
+                            }
+                        }else{
+                            showErrorToast(payload.message)
+                        }
+                    }
+
+                    onError {
+                        it.printStackTrace()
+                        showErrorToast("获取预览路径失败")
+                    }
+                }
     }
 
     inner class FileDynamicHolder(itemView: View) : RecyclerHolder<FileDynamicBean>(itemView) {

@@ -72,7 +72,7 @@ class MineFileDialog {
             }
         }
 
-        fun showFillterDialog(context: Context,dir:String){
+        fun showFillterDialog(context: Context,dir:String,filePath:String){
             val dialog = Dialog(context, R.style.AppTheme_Dialog)
             dialog.setContentView(R.layout.dialog_show_fillter)
             val lay = dialog.getWindow()!!.getAttributes()
@@ -92,14 +92,16 @@ class MineFileDialog {
 
             ll_doc.clickWithTrigger {
                 //文档
-                context.startActivity<CloudFileSortActivity>(Extras.TITLE to dir,Extras.SORT to "文档",Extras.TYPE to "application")
+                context.startActivity<CloudFileSortActivity>(Extras.TITLE to dir,Extras.SORT to "文档",
+                        Extras.TYPE to "application",Extras.PATH to filePath)
                 if (dialog.isShowing){
                     dialog.dismiss()
                 }
             }
             ll_zip.clickWithTrigger {
                 //压缩包
-                context.startActivity<CloudFileSortActivity>(Extras.TITLE to dir,Extras.SORT to "压缩包",Extras.TYPE to "application")
+                context.startActivity<CloudFileSortActivity>(Extras.TITLE to dir,Extras.SORT to "压缩包",
+                        Extras.TYPE to "application",Extras.PATH to filePath)
                 if (dialog.isShowing){
                     dialog.dismiss()
                 }
@@ -107,21 +109,24 @@ class MineFileDialog {
 
             ll_pic.clickWithTrigger {
                 //图片
-                context.startActivity<CloudFileSortActivity>(Extras.TITLE to dir,Extras.SORT to "图片",Extras.TYPE to "image")
+                context.startActivity<CloudFileSortActivity>(Extras.TITLE to dir,Extras.SORT to "图片",
+                        Extras.TYPE to "image",Extras.PATH to filePath)
                 if (dialog.isShowing){
                     dialog.dismiss()
                 }
             }
             ll_video.clickWithTrigger {
                 //视频
-                context.startActivity<CloudFileSortActivity>(Extras.TITLE to dir,Extras.SORT to "视频",Extras.TYPE to "audio")
+                context.startActivity<CloudFileSortActivity>(Extras.TITLE to dir,Extras.SORT to "视频",
+                        Extras.TYPE to "audio",Extras.PATH to filePath)
                 if (dialog.isShowing){
                     dialog.dismiss()
                 }
             }
             ll_audio.clickWithTrigger {
                 //音频
-                context.startActivity<CloudFileSortActivity>(Extras.TITLE to dir,Extras.SORT to "音频",Extras.TYPE to "video")
+                context.startActivity<CloudFileSortActivity>(Extras.TITLE to dir,Extras.SORT to "音频",
+                        Extras.TYPE to "video",Extras.PATH to filePath)
                 if (dialog.isShowing){
                     dialog.dismiss()
                 }
@@ -129,7 +134,8 @@ class MineFileDialog {
 
             ll_other.clickWithTrigger {
                 //其他
-                context.startActivity<CloudFileSortActivity>(Extras.TITLE to dir,Extras.SORT to "其他文件",Extras.TYPE to "other")
+                context.startActivity<CloudFileSortActivity>(Extras.TITLE to dir,Extras.SORT to "其他文件",
+                        Extras.TYPE to "other",Extras.PATH to filePath)
                 if (dialog.isShowing){
                     dialog.dismiss()
                 }

@@ -39,6 +39,7 @@ class CloudFileSortActivity : BaseRefreshActivity(),UploadCallBack {
     private lateinit var adapter : RecyclerAdapter<CloudFileBean>
     private var page = 1
     private var type = ""
+    private var filePath = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cloud_sort)
@@ -59,6 +60,7 @@ class CloudFileSortActivity : BaseRefreshActivity(),UploadCallBack {
         dir = intent.getStringExtra(Extras.TITLE)
         sort = intent.getStringExtra(Extras.SORT)
         type = intent.getStringExtra(Extras.TYPE)
+        filePath = intent.getStringExtra(Extras.PATH)
         rv_express.layoutManager = LinearLayoutManager(this)
         rv_express.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
     }
@@ -80,7 +82,7 @@ class CloudFileSortActivity : BaseRefreshActivity(),UploadCallBack {
             page = 1
         }
         SoguApi.getStaticHttp(application)
-                .getFileFillterData(page, Store.store.getUser(this)!!.phone,type)
+                .getFileFillterData(page, Store.store.getUser(this)!!.phone,type,filePath)
                 .execute {
                     onNext { payload ->
                         if (payload.isOk){

@@ -466,7 +466,16 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
                 val fileBean = cloudResultAdapter.dataList[position]
                 if (null != fileBean){
                     //预览
-                    getFilePreviewPath(fileBean.file_path,fileBean.file_name)
+                    var realPath = ""
+                    if (!fileBean.file_path.isNullOrEmpty()){
+                        if (fileBean.file_path.startsWith("/")){
+                            realPath = fileBean.file_path
+                        }else{
+                            realPath = "/"+fileBean.file_path
+                        }
+                        getFilePreviewPath(realPath,fileBean.file_name)
+                    }
+
                 }
             }
         }

@@ -155,7 +155,8 @@ interface StaticHttpUtils {
      */
     @GET("/api/cloud/filterFileType")
     fun getFileFillterData(@Query("page") page: Int? = 1, @Query("phone") phone : String,
-                           @Query("search") search : String, @Query("size") size : Int ? = 15): Observable<Payload<List<CloudFileBean>>>
+                           @Query("search") search : String, @Query("file_path")file_path:String
+                           , @Query("size") size : Int ? = 15): Observable<Payload<List<CloudFileBean>>>
 
     /**
      * 文件搜索
@@ -206,4 +207,10 @@ interface StaticHttpUtils {
     @FormUrlEncoded
     @POST("/api/cloud/multipleMoveFolder")
     fun removeBatchCloudFile(@Field("file_path") file_path: String, @Field("phone") phone : String): Observable<Payload<Any>>
+
+    /**
+     * 获取个人文件容量与已使用量
+     */
+    @GET("/api/cloud/getSelfFileCapacity")
+    fun getDirMemoryData(@Query("file_path") file_path: String, @Query("phone") phone : String): Observable<Payload<JsonObject>>
 }
