@@ -162,7 +162,7 @@ class ElectronBillFragment : Fragment(), TextWatcher,ShowMoreCallBack {
 
         ll_more.clickWithTrigger {
             //更多信息
-            CreateBillDialog.showMoreDialog(activity!!,this)
+            CreateBillDialog.showMoreDialog(activity!!,this,explain,phoneAddress,bankAccount)
         }
     }
     private fun getCreateBillActivity():CreateBillActivity{

@@ -122,6 +122,7 @@ class NewDirActivity : ToolbarActivity(), TextWatcher {
                 et_input.setHint("输入文件夹名")
                 et_input.setText(content)
                 et_input.setSelection(content.length)
+                realContent = content
             }
 
             2 -> {

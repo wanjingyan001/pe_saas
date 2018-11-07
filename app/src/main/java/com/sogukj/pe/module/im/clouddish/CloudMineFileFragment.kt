@@ -29,6 +29,7 @@ import com.sogukj.pe.bean.BatchRemoveBean
 import com.sogukj.pe.bean.CloudFileBean
 import com.sogukj.pe.bean.CloudLevel1
 import com.sogukj.pe.bean.CloudLevel2
+import com.sogukj.pe.module.im.clouddish.FileDirDetailActivity.Companion.FILEDIR_ACTION
 import com.sogukj.pe.peUtils.FileTypeUtils
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.OtherService
@@ -284,7 +285,8 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                                 onNext { payload ->
                                     if (payload.isOk){
                                         showSuccessToast("保存成功")
-                                        activity!!.finish()
+                                        setFinishBrocast()
+                                        cloudDishFinish()
                                     }else{
                                         showErrorToast(payload.message)
                                     }
@@ -310,18 +312,18 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                                 onNext { payload ->
                                     if (payload.isOk) {
                                         showSuccessToast("上传文件成功")
+                                        setFinishBrocast()
+                                        cloudDishFinish()
                                     } else {
                                         showErrorToast(payload.message)
                                     }
                                     hideProgress()
-                                    activity!!.finish()
                                 }
 
                                 onError {
                                     it.printStackTrace()
                                     hideProgress()
                                     showErrorToast("上传文件失败")
-                                    activity!!.finish()
                                 }
                             }
                 }
@@ -348,7 +350,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                                     if (payload.isOk){
                                         showSuccessToast("移动成功")
                                         setRemoveSuccessBrocast()
-                                        activity!!.finish()
+                                        setFinishBrocast()
                                     }else{
                                         showErrorToast(payload.message)
                                     }
@@ -371,7 +373,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                                     if (payload.isOk){
                                         showSuccessToast("移动成功")
                                         setRemoveSuccessBrocast()
-                                        activity!!.finish()
+                                        setFinishBrocast()
                                     }else{
                                         showErrorToast(payload.message)
                                     }
@@ -395,6 +397,17 @@ class CloudMineFileFragment : BaseRefreshFragment() {
         LocalBroadcastManager.getInstance(activity!!).sendBroadcast(intent)
     }
 
+    private fun setFinishBrocast(){
+        val intent = Intent()
+        intent.setAction(FILEDIR_ACTION)
+        LocalBroadcastManager.getInstance(activity!!).sendBroadcast(intent)
+    }
+
+    private fun cloudDishFinish(){
+        val intent = Intent()
+        intent.setAction(CloudDishActivity.CLOUDDISH_ACTION)
+        LocalBroadcastManager.getInstance(activity!!).sendBroadcast(intent)
+    }
     private fun downloadCloudFile(bean: CloudFileBean) {
         DownloadUtil.getInstance().download(bean.preview_url.substring(0, bean.preview_url.indexOf("?")),
                 activity!!.externalCacheDir.toString(),
@@ -554,12 +567,12 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                     startActivity<FileDirDetailActivity>(Extras.TITLE to data.file_name, Extras.TYPE to invokeType,
                             Extras.TYPE1 to path, Extras.TYPE2 to dir, "isSave" to isSave,"isCopy" to isCopy,"isRemove" to isRemove,
                             "fileName" to fileName,"previousPath" to previousPath,"batchPath" to batchPath!!)
-                    if(isRemove){
-                        activity!!.finish()
-                    }
-                    if (invokeType == 2 && isSave){
-                        activity!!.finish()
-                    }
+//                    if(isRemove){
+//                        activity!!.finish()
+//                    }
+//                    if (invokeType == 2 && isSave){
+//                        activity!!.finish()
+//                    }
                 }
             }
         }

@@ -1,11 +1,14 @@
 package com.sogukj.pe.module.im.clouddish
 
 import android.app.Activity
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
+import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.view.ViewPager
 import com.google.gson.Gson
 import com.sogukj.pe.Consts
@@ -59,6 +62,14 @@ class CloudDishActivity : ToolbarActivity(){
             company = detail.mechanism_name?:""
         }
         RetrofitUrlManager.getInstance().putDomain("CloudPath", Consts.CLOUD_HOST)
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, IntentFilter(CLOUDDISH_ACTION))
+    }
+
+    val receiver : BroadcastReceiver = object : BroadcastReceiver(){
+        override fun onReceive(context: Context?, intent: Intent?) {
+            finish()
+        }
+
     }
 
     private fun initData() {
@@ -112,6 +123,7 @@ class CloudDishActivity : ToolbarActivity(){
     }
 
     companion object {
+        val CLOUDDISH_ACTION = "clouddish_action"
         fun invokeForResult(context : Activity,invokeType:Int,requestCode : Int,path:String,isCopy:Boolean,fileName:String,previousPath:String){
             val intent = Intent(context, CloudDishActivity::class.java)
             intent.putExtra("invokeType",invokeType)
@@ -138,5 +150,14 @@ class CloudDishActivity : ToolbarActivity(){
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        try {
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver)
+        }catch (e : Exception){
+            e.printStackTrace()
+        }
     }
 }

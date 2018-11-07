@@ -17,6 +17,7 @@ import org.jetbrains.anko.startActivity
 
 /**
  * Created by CH-ZH on 2018/10/22.
+ * 抬头详情
  */
 class BillHeaderDetailActivity : ToolbarActivity() {
     private var id : Int ? = null
@@ -65,7 +66,7 @@ class BillHeaderDetailActivity : ToolbarActivity() {
         tv_title.text = bean.title
         tv_duty.text = bean.tax_no
         tv_address.text = bean.address
-        tv_phone.text = bean.phone
+        tv_phone.text = bean.telphone
         if (bean.tax_no.isNullOrEmpty()){
             ll_duty.setVisible(false)
             view_duty.setVisible(false)
@@ -82,7 +83,7 @@ class BillHeaderDetailActivity : ToolbarActivity() {
             view_address.setVisible(true)
         }
 
-        if (bean.phone.isNullOrEmpty()){
+        if (bean.telphone.isNullOrEmpty()){
             ll_phone.setVisible(false)
             view_phone.setVisible(false)
         }else{

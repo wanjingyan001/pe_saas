@@ -34,4 +34,8 @@ class BillDetailBean : Serializable {
     var city = ""
     var county = ""
     var address = ""
+    var telphone = ""
+    var bank = ""
+    var account = ""
+    var type = 1
 }

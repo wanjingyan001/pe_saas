@@ -114,7 +114,7 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
     override fun onDestroy() {
         super.onDestroy()
         try {
-            LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver)
         }catch (e : Exception){
             e.printStackTrace()
         }

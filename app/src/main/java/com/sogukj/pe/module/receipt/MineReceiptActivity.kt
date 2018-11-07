@@ -99,6 +99,14 @@ class MineReceiptActivity : BaseRefreshActivity() {
         getBillOrderDatas(false)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        try {
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver)
+        }catch (e : Exception){
+            e.printStackTrace()
+        }
+    }
     private fun getBillOrderDatas(isLoadMore : Boolean) {
         if (isLoadMore){
             page++

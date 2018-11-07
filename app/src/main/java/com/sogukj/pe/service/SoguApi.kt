@@ -3,19 +3,17 @@ package com.sogukj.service
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.preference.PreferenceManager
 import com.netease.nim.uikit.api.NimUIKit
 import com.netease.nimlib.sdk.NIMClient
 import com.netease.nimlib.sdk.auth.AuthService
-import com.sogukj.pe.App
 import com.sogukj.pe.Consts
 import com.sogukj.pe.Extras
-import com.sogukj.pe.baselibrary.base.ActivityHelper
 import com.sogukj.pe.baselibrary.utils.EncryptionUtil
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.utils.XmlDb
-import com.sogukj.pe.database.Injection
 import com.sogukj.pe.module.register.LoginActivity
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peExtended.getIntEnvironment
@@ -26,8 +24,6 @@ import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.startActivity
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -47,7 +43,7 @@ class SoguApi {
         val client = RetrofitUrlManager.getInstance().with(OkHttpClient.Builder())
                 .addInterceptor(initLogInterceptor())
                 .addInterceptor(initInterceptor(context))
-                .retryOnConnectionFailure(false)
+                .retryOnConnectionFailure(true)
                 .readTimeout(15, TimeUnit.SECONDS)
                 .connectTimeout(15, TimeUnit.SECONDS)
                 .build()
@@ -180,15 +176,9 @@ class SoguApi {
 
     fun exitUser(){
         Store.store.clearUser(context)
-        RetrofitUrlManager.getInstance().removeGlobalDomain()
-        Store.store.setRootUrl(context,"")
-        App.INSTANCE.resetPush(false)
-        IMLogout()
-        ActivityHelper.exit(App.INSTANCE)
-        doAsync {
-            Injection.provideFunctionSource(context).delete()
-        }
-        context.startActivity<LoginActivity>()
+        val intent = Intent(context, LoginActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        context.startActivity(intent)
     }
 
     /**

@@ -97,7 +97,7 @@ class CreateBillDialog {
 
         private var isClick = false
 
-        fun showMoreDialog(context: Context, callBack: ShowMoreCallBack) {
+        fun showMoreDialog(context: Context, callBack: ShowMoreCallBack,explain:String,phoneaddress:String,bank:String) {
             val dialog = Dialog(context, R.style.AppTheme_Dialog)
             dialog.setContentView(R.layout.dialog_show_more)
             val lay = dialog.getWindow()!!.getAttributes()
@@ -113,7 +113,16 @@ class CreateBillDialog {
             val et_explain = dialog.findViewById<EditText>(R.id.et_explain)
             val et_phoneaddress = dialog.findViewById<EditText>(R.id.et_phoneaddress)
             val et_bank = dialog.findViewById<EditText>(R.id.et_bank)
-
+            if (!explain.isNullOrEmpty()){
+                et_explain.setText(explain)
+                et_explain.setSelection(explain.length)
+            }
+            if (!phoneaddress.isNullOrEmpty()){
+                et_phoneaddress.setText(phoneaddress)
+            }
+            if (!bank.isNullOrEmpty()){
+                et_bank.setText(bank)
+            }
             et_explain.addTextChangedListener(object : TextWatcher{
                 override fun afterTextChanged(s: Editable?) {
                     if (et_explain.textStr.isNullOrEmpty() && et_phoneaddress.textStr.isNullOrEmpty()

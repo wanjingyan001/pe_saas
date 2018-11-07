@@ -1,6 +1,11 @@
 package com.sogukj.pe.module.im.clouddish
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
+import android.support.v4.content.LocalBroadcastManager
 import com.sogukj.pe.Consts
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
@@ -68,5 +73,31 @@ class FileDirDetailActivity : ToolbarActivity() {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fl_detail,CloudMineFileFragment.newInstance(1,invokeType,path,realDir,
                 isSave,false,isCopy,fileName,previousPath,batchPath!!,isRemove),CloudMineFileFragment.TAG).commit()
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, IntentFilter(FILEDIR_ACTION))
+    }
+
+    val receiver : BroadcastReceiver = object : BroadcastReceiver(){
+        override fun onReceive(context: Context?, intent: Intent?) {
+            finish()
+        }
+
+    }
+
+    companion object {
+        val FILEDIR_ACTION = "filedir_action"
+    }
+    override fun onResume() {
+        super.onResume()
+//        Log.e("TAG","FileDirDetailActivity -- realDir ==" + realDir)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        try {
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver)
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
     }
 }

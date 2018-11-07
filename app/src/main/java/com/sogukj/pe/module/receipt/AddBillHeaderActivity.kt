@@ -48,13 +48,47 @@ class AddBillHeaderActivity : ToolbarActivity(), TextWatcher {
 
     private fun setPrimeData() {
         if (null == bean) return
+        if (bean!!.type == 1){
+            //公司
+            iv_company.setImageResource(R.mipmap.ic_unselect_receipt)
+            iv_personal.setImageResource(R.mipmap.ic_select_receipt)
+            type = 1
+            ll_other.setVisible(true)
+        }else{
+            //个人
+            iv_company.setImageResource(R.mipmap.ic_select_receipt)
+            iv_personal.setImageResource(R.mipmap.ic_unselect_receipt)
+            type = 2
+            ll_other.setVisible(false)
+        }
         et_title.setText(bean!!.title)
+        if (!bean!!.title.isNullOrEmpty()){
+            et_title.setSelection(bean!!.title.length)
+        }
         et_duty.setText(bean!!.tax_no)
         if (!bean!!.address.isNullOrEmpty()){
+            //公司地址
             et_address.setText(bean!!.address)
         }
+        if (!bean!!.telphone.isNullOrEmpty()){
+            //电话号码
+            et_number.setText(bean!!.telphone)
+        }
+        if (!bean!!.bank.isNullOrEmpty()){
+            //开户银行
+            et_bank.setText(bean!!.bank)
+        }
+        if (!bean!!.account.isNullOrEmpty()){
+            //银行账户
+            et_account.setText(bean!!.account)
+        }
         if (!bean!!.phone.isNullOrEmpty()){
-            et_number.setText(bean!!.phone)
+            //手机号
+            et_phone.setText(bean!!.phone)
+        }
+        if (!bean!!.email.isNullOrEmpty()){
+            //邮箱
+            et_email.setText(bean!!.email)
         }
     }
 
@@ -147,6 +181,8 @@ class AddBillHeaderActivity : ToolbarActivity(), TextWatcher {
         map.put("address",et_address.textStr)
         map.put("telphone",et_number.textStr)
         map.put("id",id!!)
+        map.put("bank",et_bank.textStr)
+        map.put("account",et_account.textStr)
         SoguApi.getService(application,OtherService::class.java)
                 .addBillHeader(map)
                 .execute {
