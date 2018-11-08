@@ -12,6 +12,7 @@ import com.bigkoo.pickerview.view.OptionsPickerView
 import com.bigkoo.pickerview.view.TimePickerView
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.ifNotNull
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -30,6 +31,8 @@ import java.util.*
 class WorkExpericenceAddActivity : BaseActivity(), View.OnClickListener {
     private var workEducationBean: WorkEducationBean? = null
     var industry: Industry.Children = Industry().Children()
+    var startTime: Date? = null
+    var endTime: Date? = null
 
     companion object {
         fun start(ctx: Activity?) {
@@ -166,7 +169,16 @@ class WorkExpericenceAddActivity : BaseActivity(), View.OnClickListener {
             R.id.tv_start_date -> {
                 //入职时间
                 val timePicker = TimePickerBuilder(this, { date, view ->
-                    tv_start_date.text = Utils.getTime(date)
+                    startTime = date
+                    if (startTime != null && endTime != null) {
+                        if (startTime!!.time > endTime!!.time) {
+                            showErrorToast("入职时间不能大于离职时间")
+                        } else {
+                            tv_start_date.text = Utils.getTime(date)
+                        }
+                    } else {
+                        tv_start_date.text = Utils.getTime(date)
+                    }
                 })
                         //年月日时分秒 的显示与否，不设置则默认全部显示
                         .setType(booleanArrayOf(true, true, false, false, false, false))
@@ -182,7 +194,15 @@ class WorkExpericenceAddActivity : BaseActivity(), View.OnClickListener {
             R.id.tv_date_end -> {
                 //离职时间
                 val timePicker = TimePickerBuilder(this, { date, view ->
-                    tv_date_end.text = Utils.getTime(date)
+                    endTime = date
+                    ifNotNull(startTime, endTime) { v1, v2 ->
+                        if (v1.time > v2.time) {
+                            showErrorToast("入职时间不能大于离职时间")
+                            return@ifNotNull
+                        } else {
+                            tv_date_end.text = Utils.getTime(date)
+                        }
+                    }
                 })
                         //年月日时分秒 的显示与否，不设置则默认全部显示
                         .setType(booleanArrayOf(true, true, false, false, false, false))

@@ -38,7 +38,6 @@ class InvestSearchActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_invest_search)
         Utils.setWindowStatusBarColor(this, R.color.white)
-
         searchAdapter = RecyclerAdapter(this) { _adapter, parent, _ ->
             ResultHolder(_adapter.getView(R.layout.item_investment_event_list, parent))
         }

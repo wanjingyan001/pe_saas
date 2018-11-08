@@ -25,6 +25,7 @@ import com.sogukj.pe.bean.Opinion
 import com.sogukj.pe.bean.UserProjectInfo
 import com.sogukj.pe.module.project.MainProjectFragment
 import com.sogukj.pe.module.project.ProjectDetailActivity
+import com.sogukj.pe.module.project.ProjectNewsActivity
 import com.sogukj.pe.service.NewService
 import com.sogukj.pe.service.ProjectService
 import com.sogukj.pe.widgets.UserRequestListener
@@ -108,6 +109,12 @@ class OverviewFragment : BaseFragment() {
         initOpinion()
     }
 
+    override fun onResume() {
+        super.onResume()
+        getData()
+
+    }
+
 
     private fun initRefresh() {
         refresh.isEnableRefresh = true
@@ -115,7 +122,16 @@ class OverviewFragment : BaseFragment() {
         refresh.setRefreshHeader(ClassicsHeader(ctx))
         refresh.setOnRefreshListener {
             refresh.finishRefresh(2000)
+            getData()
         }
+    }
+
+    private fun getData() {
+        getAllProjectOverview()
+        getPrincipal()
+        newCompanyAdd()
+        companyTrends()
+        companyNewsRank()
     }
 
     private fun initOverview() {
@@ -132,7 +148,6 @@ class OverviewFragment : BaseFragment() {
             adapter = overviewAdapter
             addItemDecoration(DividerItemDecoration(ctx, DividerItemDecoration.HORIZONTAL))
         }
-        getAllProjectOverview()
     }
 
 
@@ -164,7 +179,6 @@ class OverviewFragment : BaseFragment() {
         showMore.clickWithTrigger {
             startActivity<MoreInfoActivity>(Extras.TYPE to 1)
         }
-        getPrincipal()
     }
 
     private fun getPrincipal() {
@@ -203,7 +217,6 @@ class OverviewFragment : BaseFragment() {
         showMore2.clickWithTrigger {
             startActivity<MoreInfoActivity>(Extras.TYPE to 2)
         }
-        newCompanyAdd()
     }
 
     private fun newCompanyAdd() {
@@ -248,7 +261,6 @@ class OverviewFragment : BaseFragment() {
         showMore3.clickWithTrigger {
             startActivity<MoreInfoActivity>(Extras.TYPE to 3)
         }
-        companyTrends()
     }
 
     private fun companyTrends() {
@@ -279,10 +291,13 @@ class OverviewFragment : BaseFragment() {
             adapter = opinionAdapter
             addItemDecoration(DividerItemDecoration(ctx, DividerItemDecoration.VERTICAL))
         }
+        opinionAdapter.onItemClick = {v,p->
+            val opinion = opinionAdapter.dataList[p]
+            ProjectNewsActivity.start(baseActivity!!, "企业舆情", 2, opinion.company_id)
+        }
         showMore4.clickWithTrigger {
             startActivity<MoreInfoActivity>(Extras.TYPE to 4)
         }
-        companyNewsRank()
     }
 
     private fun companyNewsRank() {
@@ -389,7 +404,11 @@ class OverviewFragment : BaseFragment() {
                 view.subscriptTv.setVisible(false)
             }
             view.userName.text = data.name
-            Glide.with(ctx).load(data.url).listener(UserRequestListener(view.userHeader, data.name)).into(view.userHeader)
+            data.name?.let {
+                it.isNotEmpty().yes {
+                    Glide.with(ctx).load(data.url).listener(UserRequestListener(view.userHeader, it)).into(view.userHeader)
+                }
+            }
         }
     }
 

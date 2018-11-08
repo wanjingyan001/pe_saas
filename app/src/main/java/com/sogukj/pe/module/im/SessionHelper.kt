@@ -24,6 +24,7 @@ import com.netease.nimlib.sdk.uinfo.model.NimUserInfo
 import com.sogukj.pe.R
 import com.sogukj.pe.module.im.clouddish.CloudDishActivity
 import com.sogukj.pe.module.im.clouddish.CloudFileAction
+import com.sogukj.pe.module.im.msg_viewholder.*
 import com.sogukj.pe.peUtils.Store
 
 /**
@@ -46,7 +47,10 @@ object SessionHelper {
         NimUIKit.setCommonP2PSessionCustomization(getP2pCustomization())
         NimUIKit.setCommonTeamSessionCustomization(getTeamCustomization())
         NimUIKit.registerTipMsgViewHolder(MsgViewHolderTip::class.java)
+
         NimUIKit.registerMsgItemViewHolder(ApproveAttachment::class.java, MsgViewHolderApprove::class.java)
+        NimUIKit.registerMsgItemViewHolder(SystemAttachment::class.java, MsgViewHolderSystem::class.java)
+        NimUIKit.registerMsgItemViewHolder(ProcessAttachment::class.java, MsgViewHolderProcess::class.java)
     }
 
     private fun setSessionListener() {

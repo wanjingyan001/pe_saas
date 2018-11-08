@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:id="@+id/user_main"
-              xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/divider2"
-              android:fitsSystemWindows="true"
-              android:gravity="center_horizontal"
-              android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/user_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/divider2"
+    android:fitsSystemWindows="true"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@id/toolbar"
@@ -31,7 +31,7 @@
             android:gravity="center"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:src="@drawable/sogu_ic_back"/>
+            android:src="@drawable/sogu_ic_back" />
 
         <TextView
             android:id="@id/toolbar_title"
@@ -42,7 +42,7 @@
             android:layout_marginTop="2dp"
             android:gravity="center"
             android:singleLine="true"
-            tools:text="个人中心"/>
+            tools:text="个人中心" />
 
         <ImageView
             android:id="@+id/toolbar_menu"
@@ -52,7 +52,7 @@
             android:gravity="center"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:src="@drawable/ic_business_card"/>
+            android:src="@drawable/ic_business_card" />
     </android.support.v7.widget.Toolbar>
 
     <ScrollView
@@ -78,7 +78,7 @@
                 <com.sogukj.pe.widgets.CircleImageView
                     android:id="@+id/iv_user"
                     android:layout_width="60dp"
-                    android:layout_height="60dp"/>
+                    android:layout_height="60dp" />
 
 
                 <LinearLayout
@@ -119,7 +119,7 @@
                             android:layout_height="@dimen/text_18"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="@dimen/text_5"
-                            android:src="@mipmap/ic_unfocus_wx"/>
+                            android:src="@mipmap/icon_wx_unfocus" />
                     </LinearLayout>
 
                     <TextView
@@ -137,54 +137,54 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_right"/>
+                    android:src="@drawable/ic_right" />
             </LinearLayout>
+
             <RelativeLayout
                 android:id="@+id/rl_bind"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/orange_ff"
-                android:paddingLeft="@dimen/text_20"
-                android:paddingRight="@dimen/text_15"
+                android:paddingBottom="@dimen/text_10"
+                android:paddingStart="@dimen/text_20"
+                android:paddingEnd="@dimen/text_15"
                 android:visibility="gone"
-                android:paddingTop="@dimen/text_10"
-                android:paddingBottom="@dimen/text_10">
+                android:paddingTop="@dimen/text_10">
+
                 <TextView
                     android:id="@+id/tv_bind"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/orange_e9"
-                    android:textSize="@dimen/text_size_12"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:padding="@dimen/text_6"
                     android:background="@drawable/bg_bind"
-                    android:text="去绑定"/>
+                    android:padding="@dimen/text_6"
+                    android:text="去绑定"
+                    android:textColor="@color/orange_e9"
+                    android:textSize="@dimen/text_size_12" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_toLeftOf="@+id/tv_bind"
-                    android:textColor="@color/orange_e9"
-                    android:textSize="@dimen/text_size_12"
-                    android:gravity="center_vertical"
-                    android:layout_marginRight="@dimen/text_10"
                     android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/text_10"
+                    android:layout_toLeftOf="@+id/tv_bind"
+                    android:gravity="center_vertical"
                     android:lineSpacingExtra="@dimen/text_3"
-                    android:text="@string/bind_info"/>
+                    android:text="@string/bind_info"
+                    android:textColor="@color/orange_e9"
+                    android:textSize="@dimen/text_size_12" />
             </RelativeLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="8dp"
-                android:background="@color/divider2"/>
+
 
             <LinearLayout
                 android:id="@+id/focus_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/selector_user_item"
+                android:background="#FFF8E9"
                 android:orientation="horizontal"
-                android:padding="20dp">
+                android:padding="20dp"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -192,7 +192,7 @@
                     android:layout_gravity="center_vertical"
                     android:text="我关注的公司"
                     android:textColor="@color/text_1"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tv_6"
@@ -219,12 +219,12 @@
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="12dp"
-                android:background="@color/divider2"/>
+            <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--android:layout_marginRight="12dp"-->
+                <!--android:background="@color/divider2" />-->
 
             <HorizontalScrollView
                 android:layout_width="match_parent"

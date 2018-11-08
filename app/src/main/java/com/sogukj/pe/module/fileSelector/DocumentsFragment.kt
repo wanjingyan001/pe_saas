@@ -216,7 +216,11 @@ class DocumentsFragment : BasePageFragment(), View.OnClickListener {
         } else if (start > files.size || end < 0) {
             mutableListOf()
         } else {
-            files.slice(IntRange(start, end)).toMutableList()
+            if (files.size>start && files.size>end) {
+                files.slice(IntRange(start, end)).toMutableList()
+            }else{
+                mutableListOf()
+            }
         }
     }
 

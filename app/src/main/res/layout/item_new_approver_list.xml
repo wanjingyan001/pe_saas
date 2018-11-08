@@ -14,16 +14,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/itemDec"
-        android:src="@drawable/jt"
-        app:layout_constraintTop_toTopOf="@+id/approverHeader"
-        app:layout_constraintBottom_toBottomOf="@+id/approverHeader"
-        app:layout_constraintStart_toEndOf="@+id/approverHeader"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="wrap_content"
-        android:visibility="gone"
-        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/approverName"

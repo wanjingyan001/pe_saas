@@ -71,6 +71,7 @@ class FundSealControl @JvmOverloads constructor(
                             beans.isNotEmpty().yes {
                                 beans as MutableList<ApproveValueBean>
                                 button.isChecked = optionBean.name == beans[0].name
+                                inflate.controlLayout2.setVisible(beans[0].name == "是")
                             }
                         }
                     }
@@ -79,6 +80,8 @@ class FundSealControl @JvmOverloads constructor(
                             R.id.yes -> inflate.controlLayout2.setVisible(true)
                             R.id.no -> inflate.controlLayout2.setVisible(false)
                         }
+                        radio.value?.clear()
+                        radio.value?.add(ApproveValueBean(name = if (checkedId == R.id.yes) "是" else "否"))
                     }
                 }
             }
@@ -104,8 +107,8 @@ class FundSealControl @JvmOverloads constructor(
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        (0 until  inflate.controlLayout2.childCount).forEach {
-            if (inflate.controlLayout2.getChildAt(it) is PhoneSelection){
+        (0 until inflate.controlLayout2.childCount).forEach {
+            if (inflate.controlLayout2.getChildAt(it) is PhoneSelection) {
                 (inflate.controlLayout2.getChildAt(it) as PhoneSelection).onActivityResult(requestCode, resultCode, data)
             }
         }

@@ -44,6 +44,7 @@ import com.sogukj.pe.bean.NewsBean
 import com.sogukj.pe.database.FunctionViewModel
 import com.sogukj.pe.database.Injection
 import com.sogukj.pe.database.MainFunIcon
+import com.sogukj.pe.module.approve.ApproveDetailActivity
 import com.sogukj.pe.module.approve.LeaveBusinessApproveActivity
 import com.sogukj.pe.module.approve.SealApproveActivity
 import com.sogukj.pe.module.approve.SignApproveActivity
@@ -68,6 +69,7 @@ import org.jetbrains.anko.find
 import org.jetbrains.anko.info
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.find
+import org.jetbrains.anko.support.v4.startActivity
 import java.net.UnknownHostException
 import java.util.*
 import kotlin.collections.ArrayList
@@ -620,25 +622,27 @@ class MainHomeFragment : BaseFragment() {
                     MessageListActivity.start(baseActivity, bean)
                 }
                 holder.ll_content?.setOnClickListener {
-                    val is_mine = if (data.status == -1 || data.status == 4) 1 else 2
-                    if (data.type == 2) {
-                        //SealApproveActivity.start(context, data, is_mine)
-                        val intent = Intent(context, SealApproveActivity::class.java)
-                        intent.putExtra("is_mine", is_mine)
-                        intent.putExtra(Extras.DATA, data)
-                        startActivityForResult(intent, SHENPI)
-                    } else if (data.type == 3) {
-                        //SignApproveActivity.start(context, data, is_mine)
-                        val intent = Intent(context, SignApproveActivity::class.java)
-                        intent.putExtra(Extras.DATA, data)
-                        intent.putExtra("is_mine", is_mine)
-                        startActivityForResult(intent, SHENPI)
-                    } else if (data.type == 1) {
-                        val intent = Intent(context, LeaveBusinessApproveActivity::class.java)
-                        intent.putExtra(Extras.DATA, data)
-                        intent.putExtra("is_mine", is_mine)
-                        startActivityForResult(intent, SHENPI)
-                    }
+                    val isMine = if (data.status == -1 || data.status == 4) 1 else 0
+                    startActivity<ApproveDetailActivity>(Extras.ID to data.approval_id!!,
+                            Extras.FLAG to isMine)
+//                    if (data.type == 2) {
+//                        //SealApproveActivity.start(context, data, isMine)
+//                        val intent = Intent(context, SealApproveActivity::class.java)
+//                        intent.putExtra("isMine", isMine)
+//                        intent.putExtra(Extras.DATA, data)
+//                        startActivityForResult(intent, SHENPI)
+//                    } else if (data.type == 3) {
+//                        //SignApproveActivity.start(context, data, isMine)
+//                        val intent = Intent(context, SignApproveActivity::class.java)
+//                        intent.putExtra(Extras.DATA, data)
+//                        intent.putExtra("isMine", isMine)
+//                        startActivityForResult(intent, SHENPI)
+//                    } else if (data.type == 1) {
+//                        val intent = Intent(context, LeaveBusinessApproveActivity::class.java)
+//                        intent.putExtra(Extras.DATA, data)
+//                        intent.putExtra("isMine", isMine)
+//                        startActivityForResult(intent, SHENPI)
+//                    }
                 }
 
                 container.addView(convertView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)

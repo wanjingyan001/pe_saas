@@ -25,7 +25,7 @@ data class ApproveValueBean(val name: String,
                             var value: Int? = null,
                             var scal_unit: String? = null,
                             val hours: String? = null,
-                            val status: Int? = null,
+                            val status: String? = null,
                             val title: String? = null,
                             val number: String? = null,
                             val add_time: String? = null) : Serializable

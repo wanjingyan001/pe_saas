@@ -1,13 +1,11 @@
 package com.sogukj.pe.service
 
 import android.support.annotation.IntRange
+import com.google.gson.internal.LinkedTreeMap
 import com.sogukj.pe.bean.*
 import io.reactivex.Observable
 import okhttp3.RequestBody
-import retrofit2.http.Body
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
 
 /**
  * Created by admin on 2018/5/22.
@@ -165,4 +163,27 @@ interface UserService {
             @Field("idStr") idStr: String? = null,//把被操作的用户id用逗号拼接,当flag=2时,非空
             @Field("id") id: Int? = null//被操作的用户id,当flag=3或4时,非空
     ): Observable<Payload<List<UserBean>>>
+
+    /**
+     * 获取微信二维码
+     */
+    @Headers(value = "Domain-Name: WX")
+    @POST("/wx/Wxapis/bindQr")
+    fun getWxQRurl(): Observable<Payload<Any>>
+
+    /**
+     * 获取微信绑定状态
+     */
+    @Headers(value = "Domain-Name: WX")
+    @POST("/wx/Wxapis/isBindQr ")
+    fun getBindingStatus():Observable<Payload<WXBind>>
+
+    /**
+     * 绑定更新接口
+     */
+    @Headers(value = "Domain-Name: WX")
+    @FormUrlEncoded
+    @POST("/wx/Wxapis/updateBindQr ")
+    fun updateBindingStatus(@Field("openid")openid:String):Observable<Payload<Any>>
+
 }

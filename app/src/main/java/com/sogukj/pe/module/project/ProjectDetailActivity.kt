@@ -452,7 +452,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
             e.onNext(result)
         }.execute {
             onNext { result ->
-                result.forEach { t, u ->
+                result.iterator().forEach { (t, u) ->
                     info { "key:$t ==> value:$u \n" }
                 }
                 val payResult = Gson().fromJson<PayResult?>(result.jsonStr)

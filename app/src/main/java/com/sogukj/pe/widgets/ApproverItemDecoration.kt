@@ -10,7 +10,7 @@ import android.util.Log
 import android.view.View
 import com.amap.api.mapcore.util.it
 import com.sogukj.pe.R
-import com.sogukj.pe.R.id.list
+import com.sogukj.pe.R.id.*
 import com.sogukj.pe.baselibrary.Extended.otherWise
 import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -19,7 +19,7 @@ import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.find
 import org.jetbrains.anko.info
 import kotlin.reflect.jvm.internal.impl.load.java.lazy.ContextKt.child
-import com.sogukj.pe.R.id.view
+import com.sogukj.pe.baselibrary.Extended.no
 
 
 /**
@@ -31,7 +31,6 @@ class ApproverItemDecoration constructor(val context: Context, val sizes: List<I
     private val mPaint = Paint()
     private var bitmap: Bitmap?
     private var list: List<Int>
-//    private var mDraw: Drawable?
 
     init {
         list = if (sizes.isNotEmpty()) {
@@ -47,28 +46,20 @@ class ApproverItemDecoration constructor(val context: Context, val sizes: List<I
         }
         AnkoLogger("WJY").info { list }
         mPaint.isAntiAlias = true
-        bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.jt)
-
-
-//       val a = context.obtainStyledAttributes(intArrayOf(R.drawable.jt))
-//        mDraw = a.getDrawable(0)
-//        a.recycle()
+        bitmap = BitmapFactory.decodeResource(context.resources, R.mipmap.icon_approve_jt)
     }
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         super.getItemOffsets(outRect, view, parent, state)
         val position = (view.layoutParams as RecyclerView.LayoutParams).viewLayoutPosition
         if (position > -1) {
-            list.forEach {
-                Log.d("WJY", it.toString())
-                if (parent.getChildAdapterPosition(view) == it) {
-                    Log.d("WJY", "===>" + parent.getChildAdapterPosition(view).toString())
-                    outRect.set(0, 0,  Utils.dpToPx(parent.context, 20), 0)
-//
+            if (list.contains(parent.getChildAdapterPosition(view))) {
+                Log.d("WJY", "===>${parent.getChildAdapterPosition(view)}===>$position")
+                (outRect.right == 0).yes {
+                    outRect.set(0, 0, Utils.dpToPx(parent.context, 10), 0)
                 }
             }
         }
-
     }
 
     override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
@@ -79,9 +70,12 @@ class ApproverItemDecoration constructor(val context: Context, val sizes: List<I
                 val params = parent.layoutParams as ConstraintLayout.LayoutParams
                 val header = view.find<CircleImageView>(R.id.approverHeader)
                 val index = parent.getChildAdapterPosition(view)
+                Log.d("WJY", "itemWidth:${view.width}-->imgWidth:${header.width}--->${bitmap.width}")
                 if (list.contains(index)) {
                     val left = view.right + params.rightMargin
-                    c.drawBitmap(bitmap, left.toFloat() + Utils.dpToPx(parent.context, 5), (header.height - bitmap.height).toFloat(), mPaint)
+                    val fl = ((view.width - header.width) * 2 - bitmap.width) / 2.toFloat()
+                    c.drawBitmap(bitmap, view.right + fl, (header.height - bitmap.height).toFloat(), mPaint)
+//                    + Utils.dpToPx(parent.context, 5)
                 }
             }
         }

@@ -63,6 +63,7 @@
         android:padding="5dp"
         android:textColor="@color/text_1"
         android:textSize="14sp"
+        android:maxLength="200"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/blueBlocks"
         app:layout_constraintTop_toTopOf="@+id/weeklyTv" />

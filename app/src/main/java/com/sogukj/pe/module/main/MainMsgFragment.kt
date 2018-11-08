@@ -36,7 +36,6 @@ import com.netease.nimlib.sdk.msg.model.RecentContact
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.jsonStr
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.base.BaseFragment
@@ -46,8 +45,11 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.module.approve.ApproveListActivity
-import com.sogukj.pe.module.im.ApproveAttachment
+import com.sogukj.pe.module.im.msg_viewholder.ApproveAttachment
+import com.sogukj.pe.module.im.msg_viewholder.CustomAttachment
 import com.sogukj.pe.module.im.ImSearchResultActivity
+import com.sogukj.pe.module.im.msg_viewholder.ProcessAttachment
+import com.sogukj.pe.module.im.msg_viewholder.SystemAttachment
 import com.sogukj.pe.module.other.GongGaoDetailActivity
 import com.sogukj.pe.module.other.MsgAssistantActivity
 import com.sogukj.pe.module.user.UserActivity
@@ -61,7 +63,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_msg_center.*
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
-import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.backgroundResource
 import org.jetbrains.anko.info
 import org.jetbrains.anko.support.v4.ctx
@@ -206,8 +207,20 @@ class MainMsgFragment : BaseFragment() {
                                     data.content == "欢迎使用审批消息助手") "" else data.content
                         }
                         if (data.content == "[自定义消息]") {
-                            val attachment = data.attachment as ApproveAttachment
-                            tvTitleMsg.text = attachment.messageBean.type_name
+                            val attachment = data.attachment as? CustomAttachment
+                            attachment?.let {
+                                when(attachment){
+                                    is ApproveAttachment ->{
+                                        tvTitleMsg.text = attachment.messageBean.title
+                                    }
+                                    is SystemAttachment ->{
+                                        tvTitleMsg.text = attachment.systemBean.title
+                                    }
+                                    is ProcessAttachment ->{
+                                        tvTitleMsg.text = attachment.bean.title
+                                    }
+                                }
+                            }
                         }
                         val userInfo = NimUIKit.getUserInfoProvider().getUserInfo(data.contactId)
                         userInfo?.let {

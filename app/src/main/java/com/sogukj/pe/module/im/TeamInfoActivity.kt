@@ -197,14 +197,16 @@ class TeamInfoActivity : BaseActivity(), View.OnClickListener, SwitchButton.OnCh
             result.forEach {
                 val info = it as NimUserInfo
                 println(info.extensionMap.jsonStr)
-                val uid = info.extensionMap["uid"].toString().toInt()
-                val user = UserBean()
-                user.uid = uid
-                user.name = info.name
-                user.user_id = uid
-                user.url = info.avatar
-                user.accid = info.account
-                teamMembers.add(user)
+                if (info.extensionMap.isNotEmpty()) {
+                    val uid = info.extensionMap["uid"].toString().toInt()
+                    val user = UserBean()
+                    user.uid = uid
+                    user.name = info.name
+                    user.user_id = uid
+                    user.url = info.avatar
+                    user.accid = info.account
+                    teamMembers.add(user)
+                }
             }
             adapter.refreshData(teamMembers)
             team_number.text = "${teamMembers.size}人"
@@ -441,7 +443,7 @@ class TeamInfoActivity : BaseActivity(), View.OnClickListener, SwitchButton.OnCh
                     val newMembers = data.getSerializableExtra(Extras.LIST2) as ArrayList<UserBean>
                     adapter.refreshData(newMembers)
                     val removes = mutableListOf<UserBean>()
-                    teamMembers.forEach { user->
+                    teamMembers.forEach { user ->
                         if (newMembers.find { it.uid == user.uid } == null) {
                             removes.add(user)
                         }

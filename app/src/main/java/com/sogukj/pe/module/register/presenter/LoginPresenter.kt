@@ -3,7 +3,9 @@ package com.sogukj.pe.module.register.presenter
 import android.app.Application
 import android.preference.PreferenceManager
 import android.text.TextUtils.split
+import androidx.core.content.edit
 import com.alibaba.android.arouter.utils.MapUtils.isNotEmpty
+import com.amap.api.mapcore.util.it
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R.id.mGetCode
 import com.sogukj.pe.R.id.mVerCodeInput
@@ -52,7 +54,6 @@ class LoginPresenter constructor(val application: Application) {
                                 loginView?.verificationCodeSuccess(it)
                             }
                         }.otherWise {
-                            ToastUtil.showCustomToast(R.drawable.icon_toast_fail, "验证码错误", application)
                             loginView?.verificationCodeFail()
                         }
                     }
@@ -83,6 +84,9 @@ class LoginPresenter constructor(val application: Application) {
                         }.otherWise {
                             ToastUtil.showCustomToast(R.drawable.icon_toast_fail, payload.message, application)
                         }
+                    }
+                    onComplete {
+                        sp.edit { putString(Extras.THIRDLOGIN, "") }
                     }
                 }
     }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
 import android.view.Gravity
+import android.view.MenuItem
 import android.view.View
 import androidx.core.view.get
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -41,6 +42,8 @@ class InvestmentActivity : BaseRefreshActivity() {
     private var page = 1
     private var fIndustryId: Int? = null//投资分类id
     private var fYear: Int? = null//投资年份
+    override val menuId: Int
+        get() = R.menu.menu_investment_search
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +67,7 @@ class InvestmentActivity : BaseRefreshActivity() {
             secondaryAdapter.selectedPosition = -1
             fIndustryId = primaryAdapter.dataList[position].id
             filterConditionTv.setVisible(true)
-            filterConditionTv.text =  primaryAdapter.dataList[position].category_name
+            filterConditionTv.text = primaryAdapter.dataList[position].category_name
             primaryAdapter.dataList[position].child?.let {
                 secondaryAdapter.refreshData(it)
             }
@@ -72,7 +75,7 @@ class InvestmentActivity : BaseRefreshActivity() {
         secondaryAdapter.onItemClick = { v, position ->
             secondaryAdapter.selectedPosition = position
             filterConditionTv.setVisible(true)
-            filterConditionTv.text =  secondaryAdapter.dataList[position].category_name
+            filterConditionTv.text = secondaryAdapter.dataList[position].category_name
             fIndustryId = secondaryAdapter.dataList[position].id
         }
 
@@ -96,7 +99,7 @@ class InvestmentActivity : BaseRefreshActivity() {
         initListener()
     }
 
-    private fun initListener(){
+    private fun initListener() {
         filterCondition.clickWithTrigger {
             drawer.openDrawer(Gravity.START)
             primaryOption[0].performClick()
@@ -114,9 +117,6 @@ class InvestmentActivity : BaseRefreshActivity() {
             page = 1
             getInvestList()
             drawer.closeDrawers()
-        }
-        searchLayout.clickWithTrigger {
-            startActivity<InvestSearchActivity>()
         }
         filterConditionTv.clickWithTrigger {
             filterConditionTv.text = ""
@@ -197,6 +197,15 @@ class InvestmentActivity : BaseRefreshActivity() {
                 }
     }
 
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.search -> {
+                startActivity<InvestSearchActivity>()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
     inner class ResultHolder(itemView: View) : RecyclerHolder<InvestmentEvent>(itemView) {
         override fun setData(view: View, data: InvestmentEvent, position: Int) {

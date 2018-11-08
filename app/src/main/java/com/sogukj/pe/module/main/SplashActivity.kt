@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.FrameLayout
 import androidx.core.content.edit
+import com.sogukj.pe.Consts
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.execute
@@ -46,6 +47,9 @@ class SplashActivity : BaseActivity() {
         val params = splash_bg.layoutParams as FrameLayout.LayoutParams
         params.setMargins(0, 0, 0, Utils.dpToPx(this, 40))
         splash_bg.layoutParams = params
+        //todo 之后要移除
+        RetrofitUrlManager.getInstance().putDomain("WX", Consts.DEV_HTTP_HOST)
+
         saveDzhToken()
         getCompanyInfo()
     }

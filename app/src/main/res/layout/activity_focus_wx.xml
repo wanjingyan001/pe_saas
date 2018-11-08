@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/parentLayout"
+    tools:context="com.sogukj.pe.module.user.FocusWXActivity"
+    tools:ignore="MissingPrefix">
+
+    <include layout="@layout/toolbar" />
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:paddingBottom="48dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:id="@+id/largeTitle"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="34dp"
+                android:gravity="center"
+                android:text="关注“搜股XPE助手”公众号重要消息不错过"
+                android:textColor="@color/text_1"
+                android:textSize="@dimen/text_size_21"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/function1Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:text="方法1 扫码关注"
+                android:textColor="@color/text_1"
+                android:textSize="@dimen/text_size_medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/largeTitle" />
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="1dp"
+                android:layout_marginEnd="12dp"
+                android:background="@color/text_3"
+                app:layout_constraintBottom_toBottomOf="@+id/function1Title"
+                app:layout_constraintEnd_toStartOf="@+id/function1Title"
+                app:layout_constraintTop_toTopOf="@+id/function1Title" />
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="12dp"
+                android:background="@color/text_3"
+                app:layout_constraintBottom_toBottomOf="@+id/function1Title"
+                app:layout_constraintStart_toEndOf="@+id/function1Title"
+                app:layout_constraintTop_toTopOf="@+id/function1Title" />
+
+            <ImageView
+                android:id="@+id/QRCodeImg"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_border_divider2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/function1Title" />
+
+
+            <TextView
+                android:id="@+id/function2Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:text="方法2 搜索关注"
+                android:textColor="@color/text_1"
+                android:textSize="@dimen/text_size_medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/QRCodeImg" />
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="1dp"
+                android:layout_marginEnd="12dp"
+                android:background="@color/text_3"
+                app:layout_constraintBottom_toBottomOf="@+id/function2Title"
+                app:layout_constraintEnd_toStartOf="@+id/function2Title"
+                app:layout_constraintTop_toTopOf="@+id/function2Title" />
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="12dp"
+                android:background="@color/text_3"
+                app:layout_constraintBottom_toBottomOf="@+id/function2Title"
+                app:layout_constraintStart_toEndOf="@+id/function2Title"
+                app:layout_constraintTop_toTopOf="@+id/function2Title" />
+
+
+            <ImageView
+                android:id="@+id/img1"
+                android:layout_width="137dp"
+                android:layout_height="244dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="24dp"
+                android:src="@mipmap/icon_wx_binding_1"
+                app:layout_constraintEnd_toStartOf="@+id/img2"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/function2Title" />
+
+            <ImageView
+                android:id="@+id/img2"
+                android:layout_width="137dp"
+                android:layout_height="244dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/img1"
+                android:src="@mipmap/icon_wx_binding_2"
+                app:layout_constraintTop_toBottomOf="@+id/function2Title" />
+
+
+            <TextView
+                android:id="@+id/step1_index"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_medium"
+                app:layout_constraintStart_toStartOf="@+id/img1"
+                app:layout_constraintTop_toBottomOf="@+id/img1"
+                app:shape="rectangle"
+                app:solid_color="#696969" />
+
+            <TextView
+                android:id="@+id/step1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:textColor="@color/colorPrimary"
+                android:text="保存二维码到相册"
+                app:layout_constraintBottom_toBottomOf="@+id/step1_index"
+                app:layout_constraintStart_toEndOf="@+id/step1_index"
+                app:layout_constraintTop_toTopOf="@+id/step1_index" />
+
+
+            <TextView
+                android:id="@+id/step2_index"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:text="2"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_medium"
+                app:layout_constraintStart_toStartOf="@+id/step1_index"
+                app:layout_constraintTop_toBottomOf="@+id/step1_index"
+                app:shape="rectangle"
+                app:solid_color="#696969" />
+
+            <TextView
+                android:id="@+id/step2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:textColor="@color/text_1"
+                android:text="打开微信>右上角“+”>“扫一扫"
+                app:layout_constraintBottom_toBottomOf="@+id/step2_index"
+                app:layout_constraintStart_toEndOf="@+id/step2_index"
+                app:layout_constraintTop_toTopOf="@+id/step2_index" />
+
+
+
+            <TextView
+                android:id="@+id/step3_index"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:text="3"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_medium"
+                app:layout_constraintStart_toStartOf="@+id/step2_index"
+                app:layout_constraintTop_toBottomOf="@+id/step2_index"
+                app:shape="rectangle"
+                app:solid_color="#696969" />
+
+            <TextView
+                android:id="@+id/step3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:textColor="@color/text_1"
+                android:text="选择相册中的二维码"
+                app:layout_constraintBottom_toBottomOf="@+id/step3_index"
+                app:layout_constraintStart_toEndOf="@+id/step3_index"
+                app:layout_constraintTop_toTopOf="@+id/step3_index" />
+
+            <TextView
+                android:id="@+id/step4_index"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:text="4"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_medium"
+                app:layout_constraintStart_toStartOf="@+id/step3_index"
+                app:layout_constraintTop_toBottomOf="@+id/step3_index"
+                app:shape="rectangle"
+                app:solid_color="#696969" />
+
+            <TextView
+                android:id="@+id/step4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:textColor="@color/text_1"
+                android:text="关注微信号"
+                app:layout_constraintBottom_toBottomOf="@+id/step4_index"
+                app:layout_constraintStart_toEndOf="@+id/step4_index"
+                app:layout_constraintTop_toTopOf="@+id/step4_index" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>
+</LinearLayout>

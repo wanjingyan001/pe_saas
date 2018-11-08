@@ -277,7 +277,7 @@ class MainProjectFragment : BaseRefreshFragment() {
 //            }
             var intent = Intent(context, ProjectAddActivity::class.java)
             intent.putExtra(Extras.TYPE, "ADD")
-            intent.putExtra(Extras.TITLE, mTypeMap.get(mTypeList.get(0)))
+            intent.putExtra(Extras.TITLE, mTypeMap[mTypeList[1]])
             startActivityForResult(intent, 0x543)
         }
         fb_search.setOnClickListener {

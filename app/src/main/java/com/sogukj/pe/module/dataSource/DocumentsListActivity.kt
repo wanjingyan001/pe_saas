@@ -14,6 +14,8 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
 import android.text.TextUtils
+import android.view.Menu
+import android.view.MenuItem
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
@@ -39,9 +41,12 @@ import com.sogukj.pe.module.receipt.PayDialog
 import com.sogukj.pe.service.DataSourceService
 import com.sogukj.pe.widgets.indexbar.RecycleViewDivider
 import com.sogukj.service.SoguApi
+import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_prospectus_list.*
 import org.jetbrains.anko.ctx
+import org.jetbrains.anko.info
 import org.jetbrains.anko.singleLine
+import org.jetbrains.anko.startActivityForResult
 import java.io.File
 
 @Route(path = ARouterPath.DocumentsListActivity)
@@ -64,7 +69,8 @@ class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
     private val downloaded = mutableSetOf<String>()//已下载文件的名称的缓存,用于处理下载按钮是否显示
     private var book : PdfBook ? = null
     private var dialog : Dialog? = null
-    private var mHandler : Handler = object : Handler(){
+    private var mHandler : Handler = @SuppressLint("HandlerLeak")
+    object : Handler(){
         override fun handleMessage(msg: Message?) {
             super.handleMessage(msg)
             when(msg!!.what){
@@ -99,6 +105,9 @@ class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
 
         }
     }
+    override val menuId: Int
+        get() = R.menu.menu_select_industry
+
     @SuppressLint("WrongConstant")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -130,7 +139,7 @@ class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
                 titleTv.maxEms = 9
                 titleTv.singleLine = true
                 titleTv.ellipsize = TextUtils.TruncateAt.END
-                title = name
+                title = name.isNullOrEmpty().yes { "行业研报" }.otherWise { name }
                 intelligentHeader.setVisible(false)
                 filterCondition.setVisible(false)
                 drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
@@ -148,21 +157,21 @@ class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
         listAdapter = BookListAdapter(documents, downloaded.toList(), type)
         listAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { adapter, view, position ->
             val book = documents[position]
-            if (type == DocumentType.INTELLIGENT){
-                if (book.status == 1){
+            if (type == DocumentType.INTELLIGENT) {
+                if (book.status == 1) {
                     //已购买
-                    PdfPreviewActivity.start(this,book, downloaded.contains(book.pdf_name))
-                }else{
+                    PdfPreviewActivity.start(this, book, downloaded.contains(book.pdf_name))
+                } else {
                     showCommonToast("请先购买智能文书")
                 }
-            }else{
-                PdfPreviewActivity.start(this,book, downloaded.contains(book.pdf_name))
+            } else {
+                PdfPreviewActivity.start(this, book, downloaded.contains(book.pdf_name))
             }
         }
         listAdapter.onItemChildClickListener = BaseQuickAdapter.OnItemChildClickListener { adapter, view, position ->
             val book = documents[position]
-            if (type == DocumentType.INTELLIGENT){
-                if (book.status == 1){
+            if (type == DocumentType.INTELLIGENT) {
+                if (book.status == 1) {
                     showProgress("正在下载")
                     DownloadUtil.getInstance().download(book.pdf_path.substring(0, book.pdf_path.indexOf("?")),
                             externalCacheDir.toString(),
@@ -187,10 +196,10 @@ class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
                                 }
 
                             })
-                }else{
+                } else {
                     showCommonToast("需先购买智能文书才能下载")
                 }
-            }else{
+            } else {
                 showProgress("正在下载")
                 DownloadUtil.getInstance().download(book.pdf_path.substring(0, book.pdf_path.indexOf("?")),
                         externalCacheDir.toString(),
@@ -218,24 +227,22 @@ class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
             }
         }
 
-        listAdapter.setClickPayListener(object : BookListAdapter.ClickPayCallBack{
-            override fun clickPay(title: String, price: String, count: Int,id:String,book:PdfBook) {
-                PayDialog.showPayBookDialog(this@DocumentsListActivity,1,this@DocumentsListActivity,title,price,count,id,book)
+        listAdapter.setClickPayListener(object : BookListAdapter.ClickPayCallBack {
+            override fun clickPay(title: String, price: String, count: Int, id: String, book: PdfBook) {
+                PayDialog.showPayBookDialog(this@DocumentsListActivity, 1, this@DocumentsListActivity, title, price, count, id, book)
             }
 
         })
         filterResultList.apply {
             layoutManager = LinearLayoutManager(ctx)
 //            addItemDecoration(DividerItemDecoration(ctx, DividerItemDecoration.VERTICAL))
-            addItemDecoration(RecycleViewDivider(ctx,LinearLayoutManager.VERTICAL))
+            addItemDecoration(RecycleViewDivider(ctx, LinearLayoutManager.VERTICAL))
             adapter = listAdapter
         }
         setLoadding()
         getPdfList()
-        searchLayout.clickWithTrigger {
-            PdfSearchActivity.start(this, type, category = category)
-        }
     }
+
     override fun pay(order_type: Int, count: Int, pay_type: Int, fee: String, tv_per_balance: TextView, iv_pre_select: ImageView,
                      tv_bus_balance: TextView, iv_bus_select: ImageView,
                      tv_per_title:TextView,tv_bus_title:TextView,dialog: Dialog) {
@@ -322,7 +329,6 @@ class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
                                 filterResultTv.text = Html.fromHtml(getString(R.string.tv_title_result_search2, (payload.total as Double).toInt()))
                             }
                         }.otherWise {
-//                            showErrorToast(payload.message)
                             if (page > 1){
                                 showErrorToast("已经全部加载完成")
                             }
@@ -384,6 +390,33 @@ class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
         return config
     }
 
+//
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        if (type == DocumentType.INDUSTRY_REPORTS) {
+//            menuInflater.inflate(menuId, menu)
+//        }
+//        return super.onCreateOptionsMenu(menu)
+//    }
+
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        menu.clear()
+        menuInflater.inflate(menuId, menu)
+        menu.findItem(R.id.industrySelect).isVisible = type == DocumentType.INDUSTRY_REPORTS
+        return super.onPrepareOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.industrySelect -> {
+                startActivityForResult<IndustrySubActivity>(Extras.REQUESTCODE)
+            }
+            R.id.search -> {
+                PdfSearchActivity.start(this, type, category = category)
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     override fun onPause() {
         super.onPause()
         downloaded.isNotEmpty().yes {
@@ -391,14 +424,21 @@ class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
         }
     }
 
-    fun setLoadding(){
-        if (null != view_recover){
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == Extras.REQUESTCODE) {
+            getPdfList()
+        }
+    }
+
+    fun setLoadding() {
+        if (null != view_recover) {
             view_recover.visibility = View.VISIBLE
         }
     }
 
-    fun goneLoadding(){
-        if (null != view_recover){
+    fun goneLoadding() {
+        if (null != view_recover) {
             view_recover.visibility = View.INVISIBLE
         }
     }

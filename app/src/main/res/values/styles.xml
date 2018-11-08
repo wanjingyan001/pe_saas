@@ -490,14 +490,15 @@
         <item name="android:textSize">@dimen/text_size_normal</item>
         <item name="android:layout_marginTop">15dp</item>
         <item name="android:layout_marginStart">22dp</item>
+        <item name="android:layout_marginEnd">22dp</item>
     </style>
 
     <style name="overviewLayoutLineStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
         <item name="android:layout_marginTop">12dp</item>
-        <item name="android:layout_marginStart">15dp</item>
-        <item name="android:layout_marginEnd">15dp</item>
+        <item name="android:layout_marginStart">22dp</item>
+        <item name="android:layout_marginEnd">22dp</item>
         <item name="android:background">@color/divider2</item>
     </style>
 

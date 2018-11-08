@@ -71,25 +71,28 @@
 
         <ImageView
             android:id="@+id/approvalImg"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="30dp"
+            android:layout_marginTop="14dp"
+            android:scaleType="centerInside"
             android:src="@mipmap/icon_msg_assis_approvel"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/secondTitle"
             app:layout_constraintTop_toBottomOf="@+id/secondTitle" />
 
         <TextView
             android:id="@+id/approvalTip"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="25dp"
             android:layout_marginTop="8dp"
+            android:gravity="start"
             android:text="李宁的用印申请，已等待3个小时；\n在手机或电脑上快速处理审批！"
             android:textColor="@color/text_3"
             android:textSize="@dimen/text_size_samll"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/approvalImg"
             app:layout_constraintStart_toStartOf="@+id/approvalImg"
             app:layout_constraintTop_toBottomOf="@+id/approvalImg" />
 

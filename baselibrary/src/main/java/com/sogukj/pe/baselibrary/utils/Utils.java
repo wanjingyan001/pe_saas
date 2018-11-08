@@ -344,6 +344,17 @@ public class Utils {
         return timestamp;
     }
 
+    public static long getTime(String time,String formatStr){
+        SimpleDateFormat format = new SimpleDateFormat(formatStr);
+        long timestamp = 0;
+        try {
+            timestamp = format.parse(time).getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return timestamp;
+    }
+
     public static String getTimeDate(long time) throws ParseException {
         if (IsYesterday(getYMD(new Date(time)))) {
             return "昨天";
@@ -728,7 +739,7 @@ public class Utils {
                         return null;
                     } else {
                         Toast.makeText(context, "只能输入汉字,英文，数字和标点符号", Toast.LENGTH_SHORT).show();
-                        return null;
+                        return "";
                     }
                 }
             }

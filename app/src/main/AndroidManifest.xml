@@ -167,7 +167,6 @@
             android:name="com.xiaomi.mipush.sdk.PushMessageHandler"
             android:enabled="true"
             android:exported="true" />
-
         <service
             android:name="com.xiaomi.mipush.sdk.MessageHandleService"
             android:enabled="true" />
@@ -213,6 +212,7 @@
                 <action android:name="com.huawei.android.push.intent.CLICK" />
                 <action android:name="com.huawei.intent.action.PUSH_STATE" />
             </intent-filter>
+
             <meta-data
                 android:name="CS_cloud_ablitity"
                 android:value="successRateAnalytics" />
@@ -221,6 +221,7 @@
         <!-- 兼容性广播 -->
         <receiver android:name="com.huawei.hms.support.api.push.PushEventReceiver">
             <intent-filter>
+
                 <!-- 接收通道发来的通知栏消息，兼容老版本Push -->
                 <action android:name="com.huawei.intent.action.PUSH" />
             </intent-filter>
@@ -229,7 +230,6 @@
         <meta-data
             android:name="com.huawei.hms.client.appid"
             android:value="100369205" />
-
 
         <!-- 网易云信IM配置结束 -->
 
@@ -671,14 +671,12 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
 
-
         <!-- 基金 -->
         <activity
             android:name=".module.fund.FundAccountActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-
         <activity
             android:name=".module.fund.FundDetailActivity"
             android:configChanges="orientation|screenSize"
@@ -1162,7 +1160,6 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
@@ -1386,19 +1383,16 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-
         <activity
             android:name=".module.project.originpro.ProjectApprovalActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-
         <activity
             android:name=".module.project.originpro.ProjectApprovalShowActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-
         <activity
             android:name=".module.project.originpro.ProjectUploadActivity"
             android:configChanges="orientation|screenSize"
@@ -1419,13 +1413,11 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-
         <activity
             android:name=".module.project.originpro.SelectTimeActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-
         <activity
             android:name=".module.project.originpro.SelectFundActivity"
             android:configChanges="orientation|screenSize"
@@ -1436,61 +1428,51 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-
         <activity
             android:name=".module.receipt.MineReceiptActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-
         <activity
             android:name=".module.receipt.MineWalletActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-
         <activity
             android:name=".module.receipt.AccountBalanceActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-
         <activity
             android:name=".module.receipt.InvoiceHistoryActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-
         <activity
             android:name=".module.receipt.CreateBillActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-
         <activity
             android:name=".module.receipt.BillDetailActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-
         <activity
             android:name=".module.receipt.SubmitBillSucActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-
         <activity
             android:name=".module.receipt.AddBillHeaderActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-
         <activity
             android:name=".module.receipt.BillHeaderDetailActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-
         <activity
             android:name=".module.receipt.AccountRechargeActivity"
             android:configChanges="orientation|screenSize"
@@ -1498,19 +1480,17 @@
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity android:name=".module.dataSource.IndustrySubActivity" />
         <activity android:name=".module.project.overview.MoreInfoActivity" />
-        <activity android:name=".module.project.overview.PeopleSituationActivity"></activity>
+        <activity android:name=".module.project.overview.PeopleSituationActivity" />
         <activity
             android:name=".module.receipt.RecordDetailActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-
         <activity
             android:name=".module.im.clouddish.CloudDishActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-
         <activity
             android:name=".module.im.clouddish.FileDirDetailActivity"
             android:configChanges="orientation|screenSize"
@@ -1521,36 +1501,36 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-
         <activity
             android:name=".module.im.clouddish.FileDynamicActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-
         <activity
             android:name=".module.im.clouddish.MineFileActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-
         <activity
             android:name=".module.im.clouddish.NewDirActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysVisible" />
-
         <activity
             android:name=".module.user.PayManagerActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-
         <activity
             android:name=".module.im.clouddish.CloudFileSortActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+        <activity
+            android:name=".module.user.FocusWXActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
     </application>
 
 </manifest>
