@@ -1,6 +1,10 @@
 package com.sogukj.pe.module.receipt
 
+import android.graphics.Color
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.execute
@@ -70,7 +74,6 @@ class BillDetailActivity : ToolbarActivity() {
         tv_company.text = detailBean.title
         tv_duty.text = detailBean.tax_no
         tv_content.text = detailBean.content
-        tv_coin.text = detailBean.amount
         tv_accept_time.text = detailBean.add_time
 
         if (detailBean.tax_no.isNullOrEmpty()){
@@ -80,6 +83,10 @@ class BillDetailActivity : ToolbarActivity() {
             ll_duty.setVisible(true)
             view_duty.setVisible(true)
         }
+        val spannable = SpannableString(detailBean.amount+"元")
+        spannable.setSpan(ForegroundColorSpan(Color.parseColor("#F7B62B")),0,
+                detailBean.amount.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        tv_coin.text = spannable
     }
 
 }

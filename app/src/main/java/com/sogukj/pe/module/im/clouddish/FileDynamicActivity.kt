@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.execute
@@ -73,6 +74,7 @@ class FileDynamicActivity : BaseRefreshActivity(){
         adapter.dataList.clear()
         adapter.dataList.addAll(infos)
         rv_dynamic.adapter = adapter
+        getDynamicData(false)
     }
 
     private fun getDynamicData(isLoadMore: Boolean) {
@@ -137,35 +139,11 @@ class FileDynamicActivity : BaseRefreshActivity(){
                 if (null != dynamicBean){
                     if (null != dynamicBean.size){
                         //预览
-                        getFilePreviewPath(dynamicBean.fullpath,dynamicBean.filename)
+                        OnlinePreviewActivity.start(this@FileDynamicActivity,dynamicBean.preview_url,dynamicBean.filename,false)
                     }
                 }
             }
         }
-    }
-
-    private fun getFilePreviewPath(filePath: String,fileName:String) {
-        SoguApi.getStaticHttp(application)
-                .getFilePreviewPath(filePath,Store.store.getUser(this)!!.phone)
-                .execute {
-                    onNext { payload ->
-                        if (payload.isOk){
-                            val jsonObject = payload.payload
-                            jsonObject?.let {
-                                val previewUrl = it.get("preview_url").asString
-                                previewUrl
-                                OnlinePreviewActivity.start(this@FileDynamicActivity,previewUrl,fileName,false)
-                            }
-                        }else{
-                            showErrorToast(payload.message)
-                        }
-                    }
-
-                    onError {
-                        it.printStackTrace()
-                        showErrorToast("获取预览路径失败")
-                    }
-                }
     }
 
     inner class FileDynamicHolder(itemView: View) : RecyclerHolder<FileDynamicBean>(itemView) {
@@ -182,15 +160,22 @@ class FileDynamicActivity : BaseRefreshActivity(){
             tv_time.text = data.add_time
             iv_file.imageResource = FileTypeUtils.getFileType(data.filename).icon
             tv_name.text = data.filename
-            if (data.size.isNullOrEmpty()){
+            if (data.is_delete == 2){
                 ll_files.setVisible(false)
             }else{
                 ll_files.setVisible(true)
-                tv_size.text = FileUtil.formatFileSize(data.size.toLong(), FileUtil.SizeUnit.Auto)
+                if (!data.size.isNullOrEmpty()){
+                    tv_size.text = FileUtil.formatFileSize(data.size.toLong(), FileUtil.SizeUnit.Auto)
+                }
             }
             val title = SpannableString( data.display_name + data.show)
             title.setSpan(StyleSpan(android.graphics.Typeface.BOLD),0,data.display_name.length,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             tv_title.text = title
+            if (!data.user_head.isNullOrEmpty()){
+                Glide.with(this@FileDynamicActivity).load(data.user_head).apply(RequestOptions.circleCropTransform()
+                        .placeholder(R.mipmap.banner_ht)
+                        .error(R.mipmap.banner_ht)).into(iv_user)
+            }
         }
 
     }

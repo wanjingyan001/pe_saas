@@ -1,5 +1,7 @@
 package com.sogukj.pe.module.receipt
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.Editable
@@ -8,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.setVisible
@@ -19,6 +22,7 @@ import com.sogukj.pe.baselibrary.widgets.citypicker.OnCityItemClickListener
 import com.sogukj.pe.baselibrary.widgets.citypicker.bean.CityBean
 import com.sogukj.pe.baselibrary.widgets.citypicker.bean.DistrictBean
 import com.sogukj.pe.baselibrary.widgets.citypicker.bean.ProvinceBean
+import com.sogukj.pe.bean.SearchReceiptBean
 import kotlinx.android.synthetic.main.fragment_eletron_bill.*
 import kotlinx.android.synthetic.main.layout_accept_type.*
 import kotlinx.android.synthetic.main.layout_bill_detail.*
@@ -92,17 +96,14 @@ class ElectronBillFragment : Fragment(), TextWatcher,ShowMoreCallBack {
     }
 
     private fun bindListener() {
-        et_header.addTextChangedListener(this)
+        tv_header.clickWithTrigger {
+            BillHeadSearchActivity.invokeForResult(this,BILL_SEARCH,tv_header.textStr)
+        }
         et_duty.addTextChangedListener(this)
         et_accept.addTextChangedListener(this)
         et_phone.addTextChangedListener(this)
         et_detail.addTextChangedListener(this)
         et_email.addTextChangedListener(this)
-
-        iv_delete.clickWithTrigger {
-            et_header.setText("")
-            iv_delete.setVisible(false)
-        }
 
         ll_city.clickWithTrigger {
             //所在地区
@@ -165,6 +166,7 @@ class ElectronBillFragment : Fragment(), TextWatcher,ShowMoreCallBack {
             CreateBillDialog.showMoreDialog(activity!!,this,explain,phoneAddress,bankAccount)
         }
     }
+
     private fun getCreateBillActivity():CreateBillActivity{
         return activity as CreateBillActivity
     }
@@ -173,7 +175,7 @@ class ElectronBillFragment : Fragment(), TextWatcher,ShowMoreCallBack {
         map.put("type",type)
         map.put("email",et_email.textStr)
         map.put("title_type",title_type)
-        map.put("title",et_header.textStr)
+        map.put("title",tv_header.textStr)
         map.put("amount",money)
         map.put("content",tv_content.textStr)
         map.put("tax_no",et_duty.textStr)
@@ -194,6 +196,7 @@ class ElectronBillFragment : Fragment(), TextWatcher,ShowMoreCallBack {
         private var ll_submit : View? = null
         private var tv_submit : TextView ? = null
         private var isSubmitEnbale = false
+        val BILL_SEARCH = 1002
         fun newInstance(type:Int,money : Float,ll_submit:View,tv_submit:TextView):ElectronBillFragment{
             this.ll_submit = ll_submit
             this.tv_submit = tv_submit
@@ -214,16 +217,23 @@ class ElectronBillFragment : Fragment(), TextWatcher,ShowMoreCallBack {
     }
 
     override fun afterTextChanged(s: Editable?) {
-        if (et_header.textStr.length > 0){
-            iv_delete.setVisible(true)
-        }else{
-            iv_delete.setVisible(false)
-        }
+        setCommitButtonStatus()
+    }
 
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+    }
+
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+    }
+
+    private fun setCommitButtonStatus(){
+        if (null == tv_submit) return
         if (type == 1){
             //电子发票
-            if (!et_header.textStr.isNullOrEmpty() && !tv_content.textStr.isNullOrEmpty() && !tv_coin.textStr.isNullOrEmpty()
-            && !et_email.textStr.isNullOrEmpty()){
+            if (!tv_header.textStr.isNullOrEmpty() && !tv_content.textStr.isNullOrEmpty() && !tv_coin.textStr.isNullOrEmpty()
+                    && !et_email.textStr.isNullOrEmpty()){
                 if (title_type == 1){
                     if (!et_duty.textStr.isNullOrEmpty()){
                         tv_submit?.let {
@@ -250,7 +260,7 @@ class ElectronBillFragment : Fragment(), TextWatcher,ShowMoreCallBack {
             }
         }else if (type == 2){
             //纸质发票
-            if (!et_header.textStr.isNullOrEmpty() && !tv_content.textStr.isNullOrEmpty() && !tv_coin.textStr.isNullOrEmpty()
+            if (!tv_header.textStr.isNullOrEmpty() && !tv_content.textStr.isNullOrEmpty() && !tv_coin.textStr.isNullOrEmpty()
                     && !et_email.textStr.isNullOrEmpty() && !et_accept.textStr.isNullOrEmpty()&&!et_phone.textStr.isNullOrEmpty()
                     && !tv_province.textStr.isNullOrEmpty() && !tv_city.textStr.isNullOrEmpty() && !tv_district.textStr.isNullOrEmpty()
                     && !et_detail.textStr.isNullOrEmpty()){
@@ -281,11 +291,20 @@ class ElectronBillFragment : Fragment(), TextWatcher,ShowMoreCallBack {
         }
     }
 
-    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-    }
-
-    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK){
+            when(requestCode){
+                BILL_SEARCH -> {
+                    if (null != data){
+                        val receiptBean = data.getSerializableExtra(Extras.DATA) as SearchReceiptBean
+                        if (null != receiptBean){
+                            tv_header.text = receiptBean.title
+                            et_duty.setText(receiptBean.tax_no)
+                        }
+                    }
+                }
+            }
+        }
     }
 }

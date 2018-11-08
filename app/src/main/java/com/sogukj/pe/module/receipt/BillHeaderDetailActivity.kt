@@ -21,6 +21,7 @@ import org.jetbrains.anko.startActivity
 class BillHeaderDetailActivity : ToolbarActivity() {
     private var id : Int ? = null
     private var billBean : BillDetailBean ? = null
+    private var type : Int = 1   // 1 企业发票 2 个人发票
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_header_detail)
@@ -49,6 +50,7 @@ class BillHeaderDetailActivity : ToolbarActivity() {
                             val bean = payload.payload
                             billBean = bean
                             bean?.let {
+                                type = bean.type
                                 setDetailData(bean)
                             }
                         }
@@ -65,7 +67,28 @@ class BillHeaderDetailActivity : ToolbarActivity() {
         tv_title.text = bean.title
         tv_duty.text = bean.tax_no
         tv_address.text = bean.address
-        tv_phone.text = bean.telphone
+        if (type == 1){
+            tv_phone_tips.text = "电话号码"
+            tv_phone.text = bean.telphone
+            if (bean.telphone.isNullOrEmpty()){
+                ll_phone.setVisible(false)
+                view_phone.setVisible(false)
+            }else{
+                ll_phone.setVisible(true)
+                view_phone.setVisible(true)
+            }
+        }else{
+            tv_phone_tips.text = "手机号"
+            tv_phone.text = bean.phone
+            if (bean.phone.isNullOrEmpty()){
+                ll_phone.setVisible(false)
+                view_phone.setVisible(false)
+            }else{
+                ll_phone.setVisible(true)
+                view_phone.setVisible(true)
+            }
+        }
+
         if (bean.tax_no.isNullOrEmpty()){
             ll_duty.setVisible(false)
             view_duty.setVisible(false)
@@ -82,13 +105,6 @@ class BillHeaderDetailActivity : ToolbarActivity() {
             view_address.setVisible(true)
         }
 
-        if (bean.telphone.isNullOrEmpty()){
-            ll_phone.setVisible(false)
-            view_phone.setVisible(false)
-        }else{
-            ll_phone.setVisible(true)
-            view_phone.setVisible(true)
-        }
     }
 
     private fun bindListener() {

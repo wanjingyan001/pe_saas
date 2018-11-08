@@ -294,7 +294,7 @@ class ProjectAddActivity : ToolbarActivity() {
                             if (permission != PackageManager.PERMISSION_GRANTED) {
                                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CALL_PHONE), 0x001)
                             } else {
-                                SoguApi.getService(application, OtherService::class.java).getPayType()
+                                SoguApi.getStaticHttp(application).getPayType()
                                         .execute {
                                             onNext { payload ->
                                                 if (payload.isOk) {

@@ -71,7 +71,7 @@ class MineWalletActivity : BaseRefreshActivity() {
             when(it.type){
                 1 -> {
                     if (Utils.isDouble(it.balance)){
-                        tv_paccount_remain.text = "${Utils.reserveTwoDecimal(it.balance.toDouble())}元"
+                        tv_paccount_remain.text = "${Utils.reserveDecimal(it.balance.toDouble())}元"
                     }else{
                         tv_paccount_remain.text = "${it.balance}元"
                     }
@@ -79,7 +79,7 @@ class MineWalletActivity : BaseRefreshActivity() {
                 }
                 2 -> {
                     if (Utils.isDouble(it.balance)){
-                        tv_eaccount_remain.text = "${Utils.reserveTwoDecimal(it.balance.toDouble())}元"
+                        tv_eaccount_remain.text = "${Utils.reserveDecimal(it.balance.toDouble())}元"
                     }else{
                         tv_eaccount_remain.text = "${it.balance}元"
                     }

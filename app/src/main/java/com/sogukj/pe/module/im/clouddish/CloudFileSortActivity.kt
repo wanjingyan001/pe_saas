@@ -10,10 +10,12 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.netease.nim.uikit.common.util.file.FileUtil
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.execute
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -135,11 +137,21 @@ class CloudFileSortActivity : BaseRefreshActivity(),UploadCallBack {
         override fun setData(view: View, data: CloudFileBean, position: Int) {
             if (null == data) return
             tv_summary.text = data.file_name
-            tv_time.text = data.create_time
+            if (Utils.getTimeYmd(System.currentTimeMillis()).equals(Utils.getTimeYmd(Utils.getTime(data.create_time)))){
+                tv_time.text = "今天 ${Utils.getTimeHm(Utils.getTime(data.create_time))}"
+            }else{
+                tv_time.text = data.create_time
+            }
             if (data.file_type.equals("Folder")) {
                 file_icon.setImageResource(R.drawable.folder_zip)
             } else {
                 file_icon.imageResource =  FileTypeUtils.getFileType(data.file_name).icon
+                if (data.used_bytes.isNullOrEmpty()){
+                    tv_fileSize.setVisible(false)
+                }else{
+                    tv_fileSize.setVisible(true)
+                    tv_fileSize.text = FileUtil.formatFileSize(data.used_bytes.toLong(), FileUtil.SizeUnit.Auto)
+                }
             }
             itemView.clickWithTrigger {
                 if (data.file_type.equals("Folder")) {

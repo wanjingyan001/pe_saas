@@ -61,7 +61,6 @@ class NewDirActivity : ToolbarActivity(), TextWatcher {
     }
 
     private fun modifiData(content: String) {
-        showProgress("加载中")
         when(type){
             0 -> {
                 //新建文件夹
@@ -85,6 +84,7 @@ class NewDirActivity : ToolbarActivity(), TextWatcher {
     }
 
     private fun modifiFileDirName(newContent: String) {
+        showProgress("加载中")
         SoguApi.getStaticHttp(application)
                 .cloudFileRemoveOrRename(dir+"/${content}",dir+"/${newContent}",Store.store.getUser(this)!!.phone)
                 .execute {
@@ -140,6 +140,7 @@ class NewDirActivity : ToolbarActivity(), TextWatcher {
     }
 
     private fun createNewDir(content: String) {
+        showProgress("加载中")
         SoguApi.getStaticHttp(application)
                 .createNewDir(dir,content, Store.store.getUser(this)!!.phone)
                 .execute {

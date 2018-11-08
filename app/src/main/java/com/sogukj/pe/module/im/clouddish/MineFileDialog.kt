@@ -9,6 +9,7 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.netease.nim.uikit.common.util.file.FileUtil
 import com.sogukj.pe.App
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
@@ -180,10 +181,15 @@ class MineFileDialog {
                     file_icon.setImageResource(R.drawable.folder_zip)
                 } else {
                     file_icon.imageResource =  FileTypeUtils.getFileType(data.file_name).icon
+                    if (data.used_bytes.isNullOrEmpty()){
+                        tv_fileSize.setVisible(false)
+                    }else{
+                        tv_fileSize.setVisible(true)
+                        tv_fileSize.text = FileUtil.formatFileSize(data.used_bytes.toLong(), FileUtil.SizeUnit.Auto)
+                    }
                 }
             }
             if (isdir){
-
                 tv_copy.setVisible(false)
                 view_line2.setVisible(false)
             }else{

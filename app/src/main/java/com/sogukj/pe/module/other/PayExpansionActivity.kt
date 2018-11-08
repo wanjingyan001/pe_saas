@@ -91,7 +91,7 @@ class PayExpansionActivity : BaseActivity() {
     private var disInfo: List<Discount>? = null
 
     private fun getPayPackageInfo() {
-        SoguApi.getService(application, OtherService::class.java).getPayType()
+        SoguApi.getStaticHttp(application).getPayType()
                 .execute {
                     onNext { payload ->
                         if (payload.isOk) {

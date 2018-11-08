@@ -1,5 +1,6 @@
 package com.sogukj.pe.module.receipt
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.sogukj.pe.Extras
@@ -69,4 +70,7 @@ class CreateBillActivity : ToolbarActivity() {
         transaction.commit()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+    }
 }

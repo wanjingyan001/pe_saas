@@ -136,6 +136,8 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
 
     private var isClickPer = false
     private var isClickBus = false
+    private var perBalance = "" //个人账户余额
+    private var busBalance = "" //企业账户余额
     private var dialog: Dialog? = null
     private fun showPayDialog() {
         dialog = MaterialDialog.Builder(context)
@@ -186,6 +188,34 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                 count = et_count.textStr.toInt()
                 coin = Utils.reserveTwoDecimal(9.9 * count, 2)
                 tv_coin.text = "￥${coin}"
+
+                if (coin > perBalance.toDouble()) {
+                    iv_pre_select.setImageResource(R.mipmap.ic_gray_receipt)
+                    tv_per_title.setTextColor(resources.getColor(R.color.gray_a0))
+                    tv_per_balance.setTextColor(resources.getColor(R.color.gray_a0))
+                    isClickPer = false
+                }else{
+                    if (!isCheckPer){
+                        iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
+                    }
+                    tv_per_title.setTextColor(resources.getColor(R.color.black_28))
+                    tv_per_balance.setTextColor(resources.getColor(R.color.gray_80))
+                    isClickPer = true
+                }
+
+                if (coin > busBalance.toDouble()) {
+                    iv_bus_select.setImageResource(R.mipmap.ic_gray_receipt)
+                    tv_bus_title.setTextColor(resources.getColor(R.color.gray_a0))
+                    tv_bus_balance.setTextColor(resources.getColor(R.color.gray_a0))
+                    isClickBus = false
+                }else{
+                    if (!isCheckBus){
+                        iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
+                    }
+                    tv_bus_title.setTextColor(resources.getColor(R.color.black_28))
+                    tv_bus_balance.setTextColor(resources.getColor(R.color.gray_80))
+                    isClickBus = true
+                }
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -204,7 +234,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
             }
         }
 
-        tv_subtract.clickWithTrigger {
+        tv_subtract.setOnClickListener{
             //减
             count = et_count.textStr.toInt()
             count--
@@ -215,15 +245,71 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
             tv_coin.text = "￥${coin}"
             et_count.setText(count.toString())
             et_count.setSelection(et_count.textStr.length)
+
+            if (coin > perBalance.toDouble()) {
+                iv_pre_select.setImageResource(R.mipmap.ic_gray_receipt)
+                tv_per_title.setTextColor(resources.getColor(R.color.gray_a0))
+                tv_per_balance.setTextColor(resources.getColor(R.color.gray_a0))
+                isClickPer = false
+            }else{
+                if (!isCheckPer){
+                    iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
+                }
+                tv_per_title.setTextColor(resources.getColor(R.color.black_28))
+                tv_per_balance.setTextColor(resources.getColor(R.color.gray_80))
+                isClickPer = true
+            }
+
+            if (coin > busBalance.toDouble()) {
+                iv_bus_select.setImageResource(R.mipmap.ic_gray_receipt)
+                tv_bus_title.setTextColor(resources.getColor(R.color.gray_a0))
+                tv_bus_balance.setTextColor(resources.getColor(R.color.gray_a0))
+                isClickBus = false
+            }else{
+                if (!isCheckBus){
+                    iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
+                }
+                tv_bus_title.setTextColor(resources.getColor(R.color.black_28))
+                tv_bus_balance.setTextColor(resources.getColor(R.color.gray_80))
+                isClickBus = true
+            }
         }
 
-        tv_add.clickWithTrigger {
+        tv_add.setOnClickListener {
             //加
             count++
             coin = Utils.reserveTwoDecimal(9.9 * count, 2)
             tv_coin.text = "￥${coin}"
             et_count.setText(count.toString())
             et_count.setSelection(et_count.textStr.length)
+
+            if (coin > perBalance.toDouble()) {
+                iv_pre_select.setImageResource(R.mipmap.ic_gray_receipt)
+                tv_per_title.setTextColor(resources.getColor(R.color.gray_a0))
+                tv_per_balance.setTextColor(resources.getColor(R.color.gray_a0))
+                isClickPer = false
+            }else{
+                if (!isCheckPer){
+                    iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
+                }
+                tv_per_title.setTextColor(resources.getColor(R.color.black_28))
+                tv_per_balance.setTextColor(resources.getColor(R.color.gray_80))
+                isClickPer = true
+            }
+
+            if (coin > busBalance.toDouble()) {
+                iv_bus_select.setImageResource(R.mipmap.ic_gray_receipt)
+                tv_bus_title.setTextColor(resources.getColor(R.color.gray_a0))
+                tv_bus_balance.setTextColor(resources.getColor(R.color.gray_a0))
+                isClickBus = false
+            }else{
+                if (!isCheckBus){
+                    iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
+                }
+                tv_bus_title.setTextColor(resources.getColor(R.color.black_28))
+                tv_bus_balance.setTextColor(resources.getColor(R.color.gray_80))
+                isClickBus = true
+            }
         }
         getPerAccountInfo(tv_per_balance, iv_pre_select, tv_per_title, false, coin)
         getBusAccountInfo(tv_bus_balance, iv_bus_select, tv_bus_title, false, coin)
@@ -321,6 +407,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                         if (payload.isOk) {
                             val recordBean = payload.payload
                             if (null != recordBean) {
+                                busBalance = recordBean.balance
                                 tv_bus_balance.text = "账户余额：${recordBean.balance}"
                                 if (coin > recordBean.balance.toDouble()) {
                                     iv_bus_select.setImageResource(R.mipmap.ic_gray_receipt)
@@ -364,6 +451,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                         if (payload.isOk) {
                             val recordBean = payload.payload
                             if (null != recordBean) {
+                                perBalance = recordBean.balance
                                 tv_per_balance.text = "账户余额：${recordBean.balance}"
                                 if (coin > recordBean.balance.toDouble()) {
                                     iv_pre_select.setImageResource(R.mipmap.ic_gray_receipt)

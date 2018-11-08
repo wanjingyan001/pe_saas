@@ -70,7 +70,7 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
     private lateinit var alreadySelected: MutableSet<CloudFileBean>
     private var selectCount = 0
     private var dir = ""
-    private var isNameSort = true //默认是名称排序
+    private var isNameSort = false //默认是时间排序
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mine_file)
@@ -654,11 +654,21 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
             }
             iv_select.isSelected = data.isSelect
             tv_summary.text = data.file_name
-            tv_time.text = data.create_time
+            if (Utils.getTimeYmd(System.currentTimeMillis()).equals(Utils.getTimeYmd(Utils.getTime(data.create_time)))){
+                tv_time.text = "今天 ${Utils.getTimeHm(Utils.getTime(data.create_time))}"
+            }else{
+                tv_time.text = data.create_time
+            }
             if (data.file_type.equals("Folder")) {
                 file_icon.setImageResource(R.drawable.folder_zip)
             } else {
                 file_icon.imageResource =  FileTypeUtils.getFileType(data.file_name).icon
+                if (data.used_bytes.isNullOrEmpty()){
+                    tv_fileSize.setVisible(false)
+                }else{
+                    tv_fileSize.setVisible(true)
+                    tv_fileSize.text = FileUtil.formatFileSize(data.used_bytes.toLong(),FileUtil.SizeUnit.Auto)
+                }
             }
             itemView.clickWithTrigger {
                 if (data.canSelect){

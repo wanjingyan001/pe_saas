@@ -466,16 +466,7 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
                 val fileBean = cloudResultAdapter.dataList[position]
                 if (null != fileBean){
                     //预览
-                    var realPath = ""
-                    if (!fileBean.file_path.isNullOrEmpty()){
-                        if (fileBean.file_path.startsWith("/")){
-                            realPath = fileBean.file_path
-                        }else{
-                            realPath = "/"+fileBean.file_path
-                        }
-                        getFilePreviewPath(realPath,fileBean.file_name)
-                    }
-
+                    OnlinePreviewActivity.start(this@ImSearchResultActivity,fileBean.preview_url,fileBean.file_name,false)
                 }
             }
         }
@@ -567,30 +558,6 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
         }else if (type == 3){
             getCloudSearchData(true,searchKey)
         }
-    }
-
-    private fun getFilePreviewPath(filePath: String,fileName:String) {
-        SoguApi.getStaticHttp(application)
-                .getFilePreviewPath(filePath,Store.store.getUser(this)!!.phone)
-                .execute {
-                    onNext { payload ->
-                        if (payload.isOk){
-                            val jsonObject = payload.payload
-                            jsonObject?.let {
-                                val previewUrl = it.get("preview_url").asString
-                                previewUrl
-                                OnlinePreviewActivity.start(this@ImSearchResultActivity,previewUrl,fileName,false)
-                            }
-                        }else{
-                            showErrorToast(payload.message)
-                        }
-                    }
-
-                    onError {
-                        it.printStackTrace()
-                        showErrorToast("获取预览路径失败")
-                    }
-                }
     }
 
     inner class SearchResultHolder(itemView: View) : RecyclerHolder<MsgIndexRecord>(itemView) {

@@ -107,16 +107,14 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:src="@mipmap/ic_delete"
-                android:visibility="invisible"/>
+                android:visibility="gone"/>
 
-            <EditText
-                android:id="@+id/et_header"
+            <TextView
+                android:id="@+id/tv_header"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/text_8"
-                android:layout_toLeftOf="@id/iv_delete"
-                android:background="@null"
                 android:textColor="@color/black_28"
                 android:textSize="@dimen/text_size_14"/>
         </RelativeLayout>

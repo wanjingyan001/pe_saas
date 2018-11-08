@@ -13,6 +13,7 @@ import com.netease.nim.uikit.api.model.session.SessionEventListener
 import com.netease.nim.uikit.api.wrapper.NimMessageRevokeObserver
 import com.netease.nim.uikit.business.session.actions.BaseAction
 import com.netease.nim.uikit.business.session.viewholder.MsgViewHolderTip
+import com.netease.nim.uikit.common.util.file.FileUtil
 import com.netease.nimlib.sdk.NIMClient
 import com.netease.nimlib.sdk.msg.MsgService
 import com.netease.nimlib.sdk.msg.MsgServiceObserve
@@ -25,6 +26,7 @@ import com.sogukj.pe.R
 import com.sogukj.pe.module.im.clouddish.CloudDishActivity
 import com.sogukj.pe.module.im.clouddish.CloudFileAction
 import com.sogukj.pe.peUtils.Store
+import java.io.File
 
 /**
  * Created by admin on 2018/1/25.
@@ -55,16 +57,31 @@ object SessionHelper {
                 val path = (message!!.attachment as FileAttachment).path
                 val pathForSave = (message!!.attachment as FileAttachment).pathForSave
                 val extension = (message!!.attachment as FileAttachment).getExtension()
-                Log.e("TAG","path ==" + path + " pathForSave ==" + pathForSave + "  extension ==" + extension)
+                val fileName = (message!!.attachment as FileAttachment).displayName
+                Log.e("TAG","path ==" + path + " pathForSave ==" + pathForSave + "  extension ==" + extension + "  fileName ==" + fileName)
                 if (path.isNullOrEmpty() && pathForSave.isNullOrEmpty()){
                     Toast.makeText(context,"文件不存在,请先下载再上传",Toast.LENGTH_SHORT).show()
                 }else{
                     if (!path.isNullOrEmpty()){
                         //跳转到云盘
-                        CloudDishActivity.invoke(context!!,2,path,false,"","")
+                        val file1 = File(path)
+                        if (FileUtil.hasExtentsion(file1.name)){
+                            CloudDishActivity.invoke(context!!,2,path,false,fileName,"")
+                        }else{
+                            if (!extension.isNullOrEmpty()){
+                                CloudDishActivity.invoke(context!!,2,path+".${extension}",false,fileName,"")
+                            }
+                        }
                     }else if (!pathForSave.isNullOrEmpty()){
                         //跳转到云盘
-                        CloudDishActivity.invoke(context!!,2,pathForSave+".${extension}",false,"","")
+                        val file2 = File(pathForSave)
+                        if (FileUtil.hasExtentsion(file2.name)){
+                            CloudDishActivity.invoke(context!!,2,pathForSave,false,fileName,"")
+                        }else{
+                            if (!extension.isNullOrEmpty()){
+                                CloudDishActivity.invoke(context!!,2,pathForSave+".${extension}",false,fileName,"")
+                            }
+                        }
                     }
 
                 }

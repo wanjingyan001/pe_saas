@@ -230,11 +230,13 @@ class MineReceiptActivity : BaseRefreshActivity() {
         val tv_time = itemView.find<TextView>(R.id.tv_time)
         val tv_amount = itemView.find<TextView>(R.id.tv_amount)
         val tv_coin = itemView.find<TextView>(R.id.tv_coin)
+        val tv_tips = itemView.find<TextView>(R.id.tv_tips)
         override fun setData(view: View, data: MineReceiptBean, position: Int) {
             if (null == data) return
             Log.e("TAG","type ==" + type)
             iv_select.isSelected = data.isSelect
             if (data.is_invoice == 1) {
+                tv_tips.setVisible(true)
                 iv_select.visibility = View.INVISIBLE
                 tv_title.setTextColor(resources.getColor(R.color.black_8028))
                 tv_time.setDrawable(tv_time, 0, getDrawable(R.mipmap.ic_receipt_time_pay))
@@ -246,6 +248,7 @@ class MineReceiptActivity : BaseRefreshActivity() {
                 tv_coin.setTextColor(resources.getColor(R.color.black_8028))
                 tv_coin.setDrawable(tv_coin, 0, getDrawable(R.drawable.selector_normal_coin_pay))
             } else {
+                tv_tips.setVisible(false)
                 iv_select.visibility = View.VISIBLE
                 tv_title.setTextColor(resources.getColor(R.color.black_28))
                 tv_time.setDrawable(tv_time, 0, getDrawable(R.mipmap.ic_receipt_time))
@@ -278,11 +281,11 @@ class MineReceiptActivity : BaseRefreshActivity() {
                     if (alreadySelected.contains(data)) {
                         alreadySelected.remove(data)
                         ordersSet.remove(data.order_no)
-                        totalAmount -= data.fee
+                        totalAmount = Utils.floatSubtract(totalAmount,data.fee)
                     } else {
                         alreadySelected.add(data)
                         ordersSet.add(data.order_no)
-                        totalAmount += data.fee
+                        totalAmount = Utils.floatAddFloat(totalAmount,data.fee)
                     }
                     data.isSelect = !data.isSelect
                     iv_select.isSelected = data.isSelect

@@ -32,6 +32,8 @@ class FileDynamicBean : Serializable {
     var size = ""
     var storage = ""
     var add_time = ""
-    var is_delete : Int ? =null
+    var is_delete = 1 // 2:删除
     var fullpath = ""
+    var preview_url = ""
+    var user_head = ""
 }

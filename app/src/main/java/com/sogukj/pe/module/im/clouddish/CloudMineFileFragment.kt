@@ -23,6 +23,7 @@ import com.sogukj.pe.baselibrary.base.BaseRefreshFragment
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.DownloadUtil
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
+import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.BatchRemoveBean
@@ -300,7 +301,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                     //保存到当前目录
                     val file = File(path)
                     val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
-                            .addFormDataPart("file_name", file.name, RequestBody.create(MediaType.parse("*/*"), file))
+                            .addFormDataPart("file_name", fileName, RequestBody.create(MediaType.parse("*/*"), file))
                             .addFormDataPart("save_file_path", dir + "/") //1 项目文件 2审批文件
                             .addFormDataPart("phone", Store.store.getUser(activity!!)!!.phone)
                     val body = builder.build()
@@ -501,10 +502,19 @@ class CloudMineFileFragment : BaseRefreshFragment() {
             } else {
                 iv_select.setVisible(true)
                 file_icon.imageResource = FileTypeUtils.getFileType(data.file_name).icon
+                if (data.used_bytes.isNullOrEmpty()){
+                    tv_fileSize.setVisible(false)
+                }else{
+                    tv_fileSize.setVisible(true)
+                    tv_fileSize.text = FileUtil.formatFileSize(data.used_bytes.toLong(),FileUtil.SizeUnit.Auto)
+                }
             }
             tv_summary.text = data.file_name
-            tv_time.text = data.create_time
-
+            if (Utils.getTimeYmd(System.currentTimeMillis()).equals(Utils.getTimeYmd(Utils.getTime(data.create_time)))){
+                tv_time.text = "今天 ${Utils.getTimeHm(Utils.getTime(data.create_time))}"
+            }else{
+                tv_time.text = data.create_time
+            }
             itemView.clickWithTrigger {
                 if (data.file_type.equals("Folder")) {
                     startActivity<FileDirDetailActivity>(Extras.TITLE to data.file_name, Extras.TYPE to invokeType,
@@ -553,14 +563,25 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                 file_icon.setImageResource(R.drawable.folder_zip)
                 tv_summary.setTextColor(resources.getColor(R.color.black_28))
                 tv_time.setTextColor(resources.getColor(R.color.gray_a0))
+                tv_fileSize.setTextColor(resources.getColor(R.color.gray_a0))
             } else {
                 file_icon.imageResource = FileTypeUtils.getFileType(data.file_name).icon
                 tv_summary.setTextColor(resources.getColor(R.color.gray_d8))
                 tv_time.setTextColor(resources.getColor(R.color.gray_d8))
+                tv_fileSize.setTextColor(resources.getColor(R.color.gray_d8))
+                if (data.used_bytes.isNullOrEmpty()){
+                    tv_fileSize.setVisible(false)
+                }else{
+                    tv_fileSize.setVisible(true)
+                    tv_fileSize.text = FileUtil.formatFileSize(data.used_bytes.toLong(),FileUtil.SizeUnit.Auto)
+                }
             }
             tv_summary.text = data.file_name
-            tv_time.text = data.create_time
-
+            if (Utils.getTimeYmd(System.currentTimeMillis()).equals(Utils.getTimeYmd(Utils.getTime(data.create_time)))){
+                tv_time.text = "今天 ${Utils.getTimeHm(Utils.getTime(data.create_time))}"
+            }else{
+                tv_time.text = data.create_time
+            }
             itemView.clickWithTrigger {
                 if (data.file_type.equals("Folder")){
                     startActivity<FileDirDetailActivity>(Extras.TITLE to data.file_name, Extras.TYPE to invokeType,

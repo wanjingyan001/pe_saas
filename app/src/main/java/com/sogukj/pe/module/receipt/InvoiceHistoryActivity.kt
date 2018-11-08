@@ -11,6 +11,7 @@ import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.execute
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -272,10 +273,18 @@ class InvoiceHistoryActivity : BaseRefreshActivity() {
     inner class HeaderHisHolder(itemView : View):RecyclerHolder<InvoiceHisBean>(itemView){
         val tv_name = itemView.find<TextView>(R.id.tv_name)
         val tv_duty = itemView.find<TextView>(R.id.tv_duty)
+        val view_devider = itemView.find<View>(R.id.view)
         override fun setData(view: View, data: InvoiceHisBean, position: Int) {
             if (null == data) return
             tv_name.text = data.title
-            tv_duty.text = data.tax_no
+            tv_duty.text = "税号：${data.tax_no}"
+            if (data.tax_no.isNullOrEmpty()){
+                tv_duty.setVisible(false)
+                view_devider.setVisible(false)
+            }else{
+                tv_duty.setVisible(true)
+                view_devider.setVisible(true)
+            }
         }
 
     }

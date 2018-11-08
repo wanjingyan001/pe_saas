@@ -213,4 +213,18 @@ interface StaticHttpUtils {
      */
     @GET("/api/cloud/getSelfFileCapacity")
     fun getDirMemoryData(@Query("file_path") file_path: String, @Query("phone") phone : String): Observable<Payload<JsonObject>>
+
+    /**
+     * 发票抬头信息匹配
+     */
+    @FormUrlEncoded
+    @POST("/api/Order/searchTitle")
+    fun searchReceiptTitle(@Field("search") search : String,@Field("page") page:Int,
+                            @Field("pageSize") pageSize : Int = 15):Observable<Payload<List<SearchReceiptBean>>>
+
+    /**
+     * 获取付费套餐
+     */
+    @POST("/api/Pay/payBillCombo")
+    fun getPayType(): Observable<Payload<List<PackageBean>>>
 }

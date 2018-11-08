@@ -334,7 +334,7 @@ public class Utils {
     }
 
     public static long getTime(String time){
-        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd mm:HH");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         long timestamp = 0;
         try {
             timestamp = format.parse(time).getTime();
@@ -342,6 +342,18 @@ public class Utils {
             e.printStackTrace();
         }
         return timestamp;
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    public static String getTimeYmd(long time) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+        return format.format(new Date(time));
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    public static String getTimeHm(long time) {
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+        return format.format(new Date(time));
     }
 
     public static String getTimeDate(long time) throws ParseException {
@@ -1527,7 +1539,7 @@ public class Utils {
         return pattern.matcher(str).matches();
     }
 
-    public static String reserveTwoDecimal(float number){
+    public static String reserveDecimal(double number){
         DecimalFormat decimalFormat = new DecimalFormat("0.00");
         return decimalFormat.format(number);
     }
@@ -1576,4 +1588,15 @@ public class Utils {
         }
     }
 
+    public static float floatAddFloat(float f1,float f2){
+        BigDecimal bigDecimal1 = new BigDecimal(String.valueOf(f1));
+        BigDecimal bigDecimal2 = new BigDecimal(String.valueOf(f2));
+        return bigDecimal1.add(bigDecimal2).floatValue();
+    }
+
+    public static float floatSubtract(float f1,float f2){
+        BigDecimal bigDecimal1 = new BigDecimal(String.valueOf(f1));
+        BigDecimal bigDecimal2 = new BigDecimal(String.valueOf(f2));
+        return bigDecimal1.subtract(bigDecimal2).floatValue();
+    }
 }

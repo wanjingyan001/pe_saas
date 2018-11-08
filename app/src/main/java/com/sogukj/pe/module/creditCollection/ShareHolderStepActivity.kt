@@ -10,7 +10,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
 import android.view.Gravity
 import android.view.View
 import android.widget.EditText
@@ -29,11 +28,9 @@ import com.sogukj.pe.module.approve.ListSelectorActivity
 import com.sogukj.pe.peExtended.hasCreditListActivity
 import com.sogukj.pe.peExtended.removeStep1
 import com.sogukj.pe.service.CreditService
-import com.sogukj.pe.service.OtherService
 import com.sogukj.pe.widgets.IOSPopwindow
 import com.sogukj.pe.widgets.PayView
 import com.sogukj.service.SoguApi
-import com.taobao.accs.ACCSManager.mContext
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_share_holder_step.*
@@ -198,7 +195,7 @@ class ShareHolderStepActivity : ToolbarActivity(), View.OnClickListener {
                                         if (permission != PackageManager.PERMISSION_GRANTED) {
                                             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CALL_PHONE), 0x001)
                                         } else {
-                                            SoguApi.getService(application, OtherService::class.java).getPayType()
+                                            SoguApi.getStaticHttp(application).getPayType()
                                                     .execute {
                                                         onNext {payload ->
                                                             if (payload.isOk) {

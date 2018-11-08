@@ -126,6 +126,7 @@
             android:padding="@dimen/text_20">
 
             <TextView
+                android:id="@+id/tv_phone_tips"
                 style="@style/text16_color80_all"
                 android:layout_weight="1"
                 android:gravity="left"
