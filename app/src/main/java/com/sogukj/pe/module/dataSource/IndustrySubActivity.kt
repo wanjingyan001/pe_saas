@@ -23,7 +23,7 @@ import org.jetbrains.anko.startActivity
 
 class IndustrySubActivity : ToolbarActivity() {
     private lateinit var tagAdapter: RecyclerAdapter<HotPostInfo>
-    private val type: Int by extraDelegate(Extras.TYPE, 0)
+    private val type: Int by extraDelegate(Extras.TYPE, -1)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,10 +90,10 @@ class IndustrySubActivity : ToolbarActivity() {
                         payload.isOk.yes {
                             showSuccessToast("提交成功")
                             when (type) {
-                                0 -> {
+                                -1-> {
                                     setResult(Extras.RESULTCODE)
                                 }
-                                1 -> {
+                                else -> {
                                     startActivity<DocumentsListActivity>(
                                             Extras.TYPE to DocumentType.INDUSTRY_REPORTS)
                                 }

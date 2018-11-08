@@ -48,8 +48,7 @@ class NewApproveListActivity : BaseRefreshActivity() {
         listAdapter.onItemClick = { v, position ->
             val bean = listAdapter.dataList[position]
             startActivity<ApproveDetailActivity>(Extras.ID to bean.approval_id,
-                    Extras.FLAG to if (bean.uid == mine!!.uid) 1 else 0,
-                    Extras.TYPE to kind)
+                    Extras.FLAG to if (bean.uid == mine!!.uid) 1 else 0)
         }
         approveList.apply {
             layoutManager = LinearLayoutManager(ctx)

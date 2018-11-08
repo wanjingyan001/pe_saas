@@ -2,11 +2,13 @@ package com.sogukj.pe.module.project.overview
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
 import android.view.View
+import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
@@ -17,17 +19,21 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.*
 import com.sogukj.pe.module.project.ProjectDetailActivity
+import com.sogukj.pe.module.project.ProjectNewsActivity
 import com.sogukj.pe.service.NewService
 import com.sogukj.pe.service.ProjectService
 import com.sogukj.pe.widgets.UserRequestListener
 import com.sogukj.service.SoguApi
+import io.reactivex.internal.util.HalfSerializer.onNext
 import kotlinx.android.synthetic.main.activity_more_info.*
 import kotlinx.android.synthetic.main.item_opinion_info.view.*
 import kotlinx.android.synthetic.main.item_overview_dynamic.view.*
 import kotlinx.android.synthetic.main.item_overview_horizontal_list.view.*
 import kotlinx.android.synthetic.main.item_project_overview_layout.view.*
 import org.jetbrains.anko.ctx
+import org.jetbrains.anko.info
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.textColor
 
 class MoreInfoActivity : BaseRefreshActivity() {
@@ -223,11 +229,11 @@ class MoreInfoActivity : BaseRefreshActivity() {
                 view.subscript.setVisible(false)
                 view.subscriptTv.setVisible(false)
             }
-            if (!data.name.isNullOrEmpty()){
-                view.userName.text = data.name
-            }
-            data.name.isNotEmpty().yes {
-                Glide.with(ctx).load(data.url).listener(UserRequestListener(view.userHeader, data.name)).into(view.userHeader)
+            view.userName.text = data.name
+            data.name?.let {
+                it.isNotEmpty().yes {
+                    Glide.with(ctx).load(data.url).listener(UserRequestListener(view.userHeader, it)).into(view.userHeader)
+                }
             }
             view.clickWithTrigger {
                 getSingleDetail(data.id)
@@ -242,14 +248,16 @@ class MoreInfoActivity : BaseRefreshActivity() {
         @SuppressLint("SetTextI18n")
         override fun setData(view: View, data: Any, position: Int) {
             data as Opinion
-            if (position > 3) {
+            if (position > 2) {
                 view.indexTv.background = null
                 view.indexTv.textColor = resources.getColor(R.color.text_1)
             }
             view.indexTv.text = "${position + 1}"
             view.infoTile.text = data.name
             view.infoNumberTv.text = "${data.total}条舆情"
-
+            view.clickWithTrigger {
+                ProjectNewsActivity.start(this@MoreInfoActivity, "企业舆情", 2, data.company_id)
+            }
 
         }
     }

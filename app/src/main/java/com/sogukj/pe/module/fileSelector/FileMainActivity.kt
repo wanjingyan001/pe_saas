@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.view.KeyEvent
+import android.view.ViewGroup
 import android.widget.AdapterView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
@@ -20,6 +21,7 @@ import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.module.partyBuild.PartyUploadActivity
 import com.sogukj.pe.peUtils.FileUtil
 import kotlinx.android.synthetic.main.activity_file_main.*
+import org.jetbrains.anko.info
 import java.io.File
 import kotlin.properties.Delegates
 
@@ -30,6 +32,7 @@ class FileMainActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     var isForResult: Boolean = false////是否需要返回选择的文件
     private val comDocFragment by lazy { CommonDocumentsFragment() }
     private val allFileFragment by lazy { AllFileFragment() }
+    private lateinit var pageAdapter: FilePageAdapter
 
     @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -90,10 +93,12 @@ class FileMainActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         }
     }
 
+
     override fun onResume() {
         super.onResume()
-        val fragments = listOf(comDocFragment,allFileFragment)
-        file_pager.adapter = FilePageAdapter(supportFragmentManager, fragments)
+        val fragments = listOf(comDocFragment, allFileFragment)
+        pageAdapter = FilePageAdapter(supportFragmentManager, fragments)
+        file_pager.adapter = pageAdapter
         file_pager.addOnPageChangeListener(this)
     }
 
@@ -112,7 +117,7 @@ class FileMainActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         val intent = Intent()
         if (requestCode == PartyUploadActivity.SELECTFILE) {
             intent.putExtra(Extras.DATA, file)
-        }else {
+        } else {
             intent.putExtra(Extras.DATA, file.path)
         }
         setResult(Activity.RESULT_OK, intent)
@@ -129,19 +134,24 @@ class FileMainActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                     .negativeText("取消")
                     .onPositive { dialog, _ ->
                         dialog.dismiss()
-                        if (comDocFragment.isVisible) {
-                            val item = comDocFragment.pagerAdapter.getCurrentItem()
-                            item.deleteFile(selectedFile)
-                        }
-                        if (allFileFragment.isVisible) {
-                            selectedFile.forEach {
-                                if (it.exists()) {
-                                    //通知列表刷新
-                                    it.delete()
-                                }
+                        when (pageAdapter.getCurrentItem()) {
+                            is CommonDocumentsFragment -> {
+                                val item = comDocFragment.pagerAdapter.getCurrentItem()
+                                item.deleteFile(selectedFile)
                             }
-                            val fragment = allFileFragment.childFragmentManager.findFragmentById(R.id.contentLayout) as StorageFileFragment
-                            fragment.changeData()
+                            is AllFileFragment -> {
+                                selectedFile.forEach {
+                                    if (it.exists()) {
+                                        //通知列表刷新
+                                        it.delete()
+                                    }
+                                }
+                                val fragment = allFileFragment.childFragmentManager.findFragmentById(R.id.contentLayout) as StorageFileFragment
+                                fragment.changeData()
+                            }
+                            else -> {
+                                info { "数据错误" }
+                            }
                         }
                         selectedFile.clear()
                         showSelectedInfo()
@@ -177,10 +187,16 @@ class FileMainActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     }
 
     inner class FilePageAdapter(fm: FragmentManager, val fragments: List<Fragment>) : FragmentPagerAdapter(fm) {
+        private lateinit var currentFragment: Fragment
         override fun getItem(position: Int): Fragment = fragments[position]
 
         override fun getCount(): Int = fragments.size
+        override fun setPrimaryItem(container: ViewGroup, position: Int, obj: Any) {
+            currentFragment = obj as Fragment
+            super.setPrimaryItem(container, position, obj)
+        }
 
+        fun getCurrentItem() = currentFragment
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -209,6 +225,7 @@ class FileMainActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             intent.putExtra(Extras.TYPE, true)
             context.startActivityForResult(intent, requestCode)
         }
+
         @JvmStatic
         fun start(context: Context) {
             val intent = Intent(context, FileMainActivity::class.java)

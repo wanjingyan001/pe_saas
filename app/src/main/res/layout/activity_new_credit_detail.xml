@@ -233,7 +233,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:paddingTop="4dp"
-                        android:text="1.近期首日稳定性、长期收入稳定性 取值0-1，数值越大稳定性越差。"
+                        android:text="1.近期收入稳定性、长期收入稳定性 取值0-1，数值越大稳定性越差。"
                         android:textColor="@color/shareholder_text_gray"
                         android:textSize="@dimen/text_size_medium"
                         app:layout_constraintEnd_toEndOf="parent"

@@ -17,7 +17,8 @@ interface DataSourceService {
     /**
      * 投资事件
      */
-    @Headers(value = "Domain-Name: DataSource")
+    //todo 发布时要把注释取消
+//    @Headers(value = "Domain-Name: DataSource")
     @FormUrlEncoded
     @POST("/api/Datasource/investList")
     fun getInvestList(@Field("industry_id") industryId: Int? = null,
@@ -29,7 +30,8 @@ interface DataSourceService {
     /**
      * 获取投资分类(投资事件的筛选条件1)
      */
-    @Headers(value = "Domain-Name: DataSource")
+    //todo 发布时要把注释取消
+//    @Headers(value = "Domain-Name: DataSource")
     @POST("/api/Datasource/invest_category")
     fun getInvestCategory(): Observable<Payload<List<InvestCategory>>>
 
@@ -37,6 +39,7 @@ interface DataSourceService {
     /**
      * 获取数据源各类型文书
      */
+    //todo 发布时要把注释取消
 //    @Headers(value = "Domain-Name: DataSource")
     @FormUrlEncoded
     @POST("/api/Datasource/industryReport")
@@ -119,6 +122,7 @@ interface DataSourceService {
     /**
      * 热门行业研报选择标签
      */
+    //todo 发布时要把注释取消
 //    @Headers(value = "Domain-Name: DataSource")
     @POST("api/Datasource/selectTag")
     fun getAllTag(): Observable<Payload<List<HotPostInfo>>>
@@ -126,6 +130,7 @@ interface DataSourceService {
     /**
      * 热门行业研报提交标签
      */
+    //todo 发布时要把注释取消
     //    @Headers(value = "Domain-Name: DataSource")
     @FormUrlEncoded
     @POST("api/Datasource/subTag")
@@ -134,6 +139,7 @@ interface DataSourceService {
     /**
      * 热门行业研报—是否提交过
      */
+    //todo 发布时要把注释取消
     //    @Headers(value = "Domain-Name: DataSource")
     @POST("api/Datasource/isFirstCome")
     fun isFirstCome():Observable<Payload<Any>>

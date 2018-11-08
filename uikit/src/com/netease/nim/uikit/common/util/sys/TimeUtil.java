@@ -353,17 +353,20 @@ public class TimeUtil {
         if (seconds < 1)
             seconds = 1;
         int hour = seconds / (60 * 60);
-        if (hour != 0) {
+        int day = seconds / (60 * 60 * 24);
+        if (day > 0) {
+            sb.append(day).append("天");
+            return sb.toString();
+        }
+        if (hour > 0) {
             sb.append(hour).append("小时");
+            return sb.toString();
         }
-        int minute = (seconds - 60 * 60 * hour) / 60;
-        if (minute != 0) {
+        int minute = seconds / 60;
+        if (minute > 0) {
             sb.append(minute).append("分");
+            return sb.toString();
         }
-        int second = (seconds - 60 * 60 * hour - 60 * minute);
-        if (second != 0) {
-            sb.append(second).append("秒");
-        }
-        return sb.toString();
+        return "";
     }
 }

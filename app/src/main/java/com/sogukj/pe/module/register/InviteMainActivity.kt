@@ -10,6 +10,7 @@ import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.execute
+import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.Contact
@@ -45,7 +46,9 @@ class InviteMainActivity : ToolbarActivity() {
             startActivity<InviteByPhoneActivity>(Extras.DATA to inviteCode)
         }
         header.find<View>(R.id.addByShareLayout).clickWithTrigger {
-            startActivity<InviteByCodeActivity>(Extras.DATA to inviteCode, Extras.DATA2 to invitePath)
+            this::invitePath.isInitialized.yes {
+                startActivity<InviteByCodeActivity>(Extras.DATA to inviteCode, Extras.DATA2 to invitePath)
+            }
         }
         header.find<View>(R.id.addByPCLayout).clickWithTrigger {
             startActivity<InviteByPcActivity>()

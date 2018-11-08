@@ -26,7 +26,7 @@ import org.jetbrains.anko.find
 class PeopleSituationActivity : ToolbarActivity(), ViewPager.OnPageChangeListener {
     lateinit var fragments: ArrayList<BaseFragment>
     private val principalId by extraDelegate(Extras.ID, 0)
-    private val name by extraDelegate(Extras.NAME,"")
+    private val name by extraDelegate(Extras.NAME, "")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,9 +45,9 @@ class PeopleSituationActivity : ToolbarActivity(), ViewPager.OnPageChangeListene
                         payload.isOk.yes {
                             fragments = ArrayList()
                             val titles = mutableListOf<String>()
-                            payload.payload?.filter { it.name != "总览" }?.forEach {
-                                titles.add(it.name!!)
-                                fragments.add(ProjectListFragment.newInstance(it.type!!, false, principalId))
+                            payload.payload?.filter { it.name != "总览" }?.forEachIndexed { index, stageBean ->
+                                titles.add(stageBean.name!!)
+                                fragments.add(ProjectListFragment.newInstance(stageBean.type!!, (index == 0).yes { true }.otherWise { false }, principalId))
                             }
                             initViewpager(fragments, titles)
                         }.otherWise {

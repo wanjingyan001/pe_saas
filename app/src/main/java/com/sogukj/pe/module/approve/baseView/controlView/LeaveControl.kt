@@ -47,15 +47,28 @@ class LeaveControl @JvmOverloads constructor(
             controlBean.children?.let {
                 inflate.leaveTitle.text = it[0].name
                 inflate.leaveTypeTitle.text = it[1].name
+                /**
+                 * 时间选择初始化
+                 */
+                dateRange = ControlFactory(activity).createControl(DateRangeControl::class.java, it[3]) as DateRangeControl
+                dateRange.needAssociate = 1
+                val view = View(activity)
+                val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dip(10))
+                view.layoutParams = lp
+                inflate.timeSelection.addView(view)
+                inflate.timeSelection.addView(dateRange)
+
                 it[1].value?.let { values ->
                     values.isNotEmpty().yes {
                         val beans = mutableListOf<ApproveValueBean>()
                         values.forEach { map ->
-                            val treeMap = map as LinkedTreeMap<String, Any>
-                            beans.add(ApproveValueBean(name = treeMap["name"] as String,id = treeMap["id"] as String))
+                            val treeMap = map as LinkedTreeMap<*, *>
+                            beans.add(ApproveValueBean(name = treeMap["name"] as String,id = treeMap["id"] as String,
+                                    hours = treeMap["hours"].toString(),status = treeMap["status"].toString()))
                         }
                         it[1].value?.clear()
                         it[1].value?.addAll(beans)
+                        dateRange.holiday = beans[0]
                         inflate.leaveTypeTv.text = beans[0].name
                         inflate.leaveTypeTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
                     }.otherWise {
@@ -68,16 +81,7 @@ class LeaveControl @JvmOverloads constructor(
                 }
                 initJumpLink(inflate.myLeave, it[2].name ?: "", it[2].linkText ?: "")
                 inflate.leaveTip.text = it[4].name
-                /**
-                 * 时间选择初始化
-                 */
-                dateRange = ControlFactory(activity).createControl(DateRangeControl::class.java, it[3]) as DateRangeControl
-                dateRange.needAssociate = 1
-                val view = View(activity)
-                val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dip(10))
-                view.layoutParams = lp
-                inflate.timeSelection.addView(view)
-                inflate.timeSelection.addView(dateRange)
+
             }
         }
     }
@@ -94,7 +98,7 @@ class LeaveControl @JvmOverloads constructor(
                                 MaterialDialog.Builder(activity)
                                         .theme(Theme.LIGHT)
                                         .items(it.map {
-                                            "${it.name}(" + when (it.status) {
+                                            "${it.name}(" + when (it.status?.toInt()) {
                                                 0 -> "已申请"
                                                 else -> "剩余"
                                             } + "${it.hours}小时)"

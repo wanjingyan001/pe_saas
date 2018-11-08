@@ -10,7 +10,6 @@
         android:id="@+id/indexTv"
         android:layout_width="18dp"
         android:layout_height="18dp"
-        android:layout_marginStart="5dp"
         android:gravity="center"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_medium"

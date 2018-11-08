@@ -42,11 +42,11 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.google.gson.Gson
+import com.google.gson.internal.LinkedTreeMap
+import com.sogukj.pe.Consts
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
-import com.sogukj.pe.baselibrary.Extended.fromJson
-import com.sogukj.pe.baselibrary.Extended.setVisible
+import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.ToolbarFragment
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -58,6 +58,7 @@ import com.sogukj.pe.module.project.ProjectListFragment
 import com.sogukj.pe.module.receipt.MineWalletActivity
 import com.sogukj.pe.module.register.CreateDepartmentActivity
 import com.sogukj.pe.peExtended.getEnvironment
+import com.sogukj.pe.peUtils.MobLogin
 import com.sogukj.pe.peUtils.MyGlideUrl
 import com.sogukj.pe.peUtils.ShareUtils
 import com.sogukj.pe.peUtils.Store
@@ -66,6 +67,9 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_user.*
+import me.jessyan.retrofiturlmanager.RetrofitUrlManager
+import org.jetbrains.anko.imageResource
+import org.jetbrains.anko.info
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
@@ -109,8 +113,8 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
         }
         documentManagement.clickWithTrigger {
             baseActivity?.showProgress("正在读取内存文件")
-            startActivity<FileMainActivity>(Extras.DATA to  9,
-                    Extras.FLAG to false,Extras.TYPE to false)
+            startActivity<FileMainActivity>(Extras.DATA to 9,
+                    Extras.FLAG to false, Extras.TYPE to false)
         }
         payPackageLayout.clickWithTrigger {
             val permission = ActivityCompat.checkSelfPermission(ctx, Manifest.permission.READ_PHONE_STATE)
@@ -138,6 +142,17 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
                 CardActivity.start(activity, it)
             }
         }
+        tv_bind.clickWithTrigger {
+            bindingStatus?.let {
+                if (it.is_sync == 0) {
+                    MobLogin.WeChatLogin(ctx) { openId ->
+                        updateBindingStatus(openId)
+                    }
+                } else {
+                    getWxUrl()
+                }
+            }
+        }
         share.clickWithTrigger {
             SoguApi.getService(baseActivity!!.application, UserService::class.java)
                     .getWebConfig()
@@ -150,7 +165,7 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
                                 shareBean.shareTitle = this.company!!
                                 shareBean.shareContent = ""
                                 shareBean.shareUrl = this.web_url!!
-                                ShareUtils.share(shareBean,activity!!)
+                                ShareUtils.share(shareBean, activity!!)
                             }
                         } else {
                             showCustomToast(R.drawable.icon_toast_fail, payload.message)
@@ -162,7 +177,7 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
         }
 
         tv_wallet.clickWithTrigger {
-             startActivity<MineWalletActivity>()
+            startActivity<MineWalletActivity>()
         }
 
         val user = Store.store.getUser(ctx)
@@ -332,10 +347,10 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
                     if (payload.isOk) {
                         payload.payload?.let {
                             loadStage(it.xm!!)
-                            it.gz?.let {
-                                tv_6.text = it.count.toString()
-                                //point.visibility = if (it.red == null || it.red == 0) View.GONE else View.VISIBLE
-                            }
+//                            it.gz?.let {
+//                                tv_6.text = it.count.toString()
+                            //point.visibility = if (it.red == null || it.red == 0) View.GONE else View.VISIBLE
+//                            }
                         }
                     } else {
                         showCustomToast(R.drawable.icon_toast_fail, payload.message)
@@ -399,7 +414,15 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
 
     override fun onResume() {
         super.onResume()
+        getBindingStatus()
         val user = Store.store.getUser(ctx)
+        user?.let {
+            tv_bind.text = it.openId.isNullOrEmpty().yes {
+                "去绑定"
+            }.otherWise {
+                "去关注"
+            }
+        }
         if (null != user?.uid) {
             SoguApi.getService(baseActivity!!.application, UserService::class.java)
                     .userInfo(user.uid!!)
@@ -426,6 +449,7 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
         if (null == user) return
         tv_name?.text = user.name
         tv_position?.text = user.position
+
         if (!TextUtils.isEmpty(user.email))
             tv_mail?.text = user.email
         if (user.url != null && !TextUtils.isEmpty(user.url)) {
@@ -452,6 +476,63 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
         }
     }
 
+    private fun getWxUrl() {
+        SoguApi.getService(baseActivity!!.application, UserService::class.java)
+                .getWxQRurl()
+                .execute {
+                    onNext { payload ->
+                        payload.isOk.yes {
+                            payload.payload?.let {
+                                it as LinkedTreeMap<*, *>
+                                startActivity<FocusWXActivity>(Extras.URL to it["url"] as String)
+                            }
+                        }.otherWise {
+                            showErrorToast(payload.message)
+                        }
+                    }
+                }
+    }
+
+    private var bindingStatus: WXBind? = null
+    private fun getBindingStatus() {
+        SoguApi.getService(baseActivity!!.application, UserService::class.java)
+                .getBindingStatus()
+                .execute {
+                    onNext { payload ->
+                        payload.isOk.yes {
+                            payload.payload?.let {
+                                bindingStatus = it
+                                if (it.subscribe == 1) {
+                                    rl_bind.setVisible(false)
+                                    iv_foucs.imageResource = R.mipmap.icon_wx_focus
+                                } else {
+                                    rl_bind.setVisible(true)
+                                    tv_bind.text = if (it.is_sync == 1) "去关注" else "去绑定"
+                                    iv_foucs.imageResource = if (it.is_sync == 1) R.mipmap.icon_wx_focus else  R.mipmap.icon_wx_unfocus
+                                }
+                            }
+                        }.otherWise {
+                            showErrorToast(payload.message)
+                        }
+                    }
+                }
+    }
+
+
+    private fun updateBindingStatus(openId: String) {
+        SoguApi.getService(baseActivity!!.application, UserService::class.java)
+                .updateBindingStatus(openId)
+                .execute {
+                    onNext { payload ->
+                        payload.isOk.yes {
+                            info { payload.payload }
+                        }.otherWise {
+                            showErrorToast(payload.message)
+                        }
+                    }
+                }
+
+    }
 
 
     override fun onStop() {

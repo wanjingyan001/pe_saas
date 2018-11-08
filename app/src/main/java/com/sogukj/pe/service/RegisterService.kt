@@ -161,6 +161,7 @@ interface RegisterService {
     /**
      * 判断是否绑定过第三方登录
      */
+    @Headers(value = "Domain-Name: WX")
     @FormUrlEncoded
     @POST("api/Saas/threePartyLogin")
     fun checkThirdBinding(@Field("source") source: String,

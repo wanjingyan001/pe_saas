@@ -69,7 +69,6 @@ abstract class BaseControl @JvmOverloads constructor(
         return controlBean
     }
 
-    //todo 还需要增加判断
     fun getBean(controlBean: ControlBean): List<Boolean>{
         val checkValue = mutableListOf<Boolean>()
         controlBean.children?.forEach { bean ->

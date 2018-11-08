@@ -1,11 +1,15 @@
 package com.sogukj.pe.bean
 
+import com.chad.library.adapter.base.entity.MultiItemEntity
 import java.io.Serializable
 
 /**
  * Created by qinfei on 17/10/30.
  */
-class MessageBean : Serializable {
+class MessageBean : Serializable, MultiItemEntity {
+    override fun getItemType(): Int {
+        return 1
+    }
 
     var news_id: Int? = null//	number	消息总数
     var approval_id: Int? = null//	number	审批id

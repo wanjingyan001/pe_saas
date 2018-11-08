@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.util.Log
+import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
@@ -15,7 +16,9 @@ import com.google.gson.Gson
 import com.sogukj.pe.Extras
 import com.sogukj.pe.Extras.SCHEDULE_DRAFT
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.ifNotNull
 import com.sogukj.pe.baselibrary.Extended.noSpace
+import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -34,6 +37,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_modify_task.*
 import org.jetbrains.anko.find
+import org.jetbrains.anko.sdk25.coroutines.textChangedListener
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -196,6 +200,15 @@ class ModifyTaskActivity : ToolbarActivity(), View.OnClickListener, AddPersonLis
         startTime.setOnClickListener(this)
         deadline.setOnClickListener(this)
         remind.setOnClickListener(this)
+        missionDetails.textChangedListener {
+            onTextChanged { charSequence, s, b, c ->
+                if (missionDetails.textStr.isNotEmpty()){
+                    missionDetails.gravity = Gravity.START
+                }else{
+                    missionDetails.gravity = Gravity.END
+                }
+            }
+        }
         xmlDb = XmlDb.open(application)
         startDD = CalendarDingDing(context)
         deadDD = CalendarDingDing(context)
@@ -205,7 +218,7 @@ class ModifyTaskActivity : ToolbarActivity(), View.OnClickListener, AddPersonLis
     var seconds: Int? = null
     fun doRequest() {
         data_id?.let {
-            SoguApi.getService(application,CalendarService::class.java)
+            SoguApi.getService(application, CalendarService::class.java)
                     .showEditTask(it)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
@@ -276,7 +289,7 @@ class ModifyTaskActivity : ToolbarActivity(), View.OnClickListener, AddPersonLis
             showCustomToast(R.drawable.icon_toast_common, "开始时间不能大于结束时间")
             return
         }
-        SoguApi.getService(application,CalendarService::class.java)
+        SoguApi.getService(application, CalendarService::class.java)
                 .aeCalendarInfo(getReqBean())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -403,7 +416,15 @@ class ModifyTaskActivity : ToolbarActivity(), View.OnClickListener, AddPersonLis
                 startDD.show(2, selectedDate) { date ->
                     if (date != null) {
                         start = date
-                        startTime.text = Utils.getTime(date, "MM月dd日 E HH:mm")
+                        if (start != null && endTime != null) {
+                            if (endTime!!.time < start!!.time) {
+                                showErrorToast("开始时间不能大于结束时间")
+                            } else {
+                                startTime.text = Utils.getTime(date, "MM月dd日 E HH:mm")
+                            }
+                        }else{
+                            startTime.text = Utils.getTime(date, "MM月dd日 E HH:mm")
+                        }
                     }
                 }
             }
@@ -417,7 +438,14 @@ class ModifyTaskActivity : ToolbarActivity(), View.OnClickListener, AddPersonLis
                 deadDD.show(2, selectedDate) { date ->
                     if (date != null) {
                         endTime = date
-                        deadline.text = Utils.getTime(date, "MM月dd日 E HH:mm")
+                        ifNotNull(start, endTime) { v1, v2 ->
+                            if (v2.time < v1.time) {
+                                showErrorToast("开始时间不能大于结束时间")
+                                return@ifNotNull
+                            } else {
+                                deadline.text = Utils.getTime(date, "MM月dd日 E HH:mm")
+                            }
+                        }
                     }
                 }
             }

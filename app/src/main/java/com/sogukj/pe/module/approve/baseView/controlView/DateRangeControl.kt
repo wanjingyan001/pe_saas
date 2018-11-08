@@ -19,6 +19,7 @@ import com.sogukj.service.SoguApi
 import io.reactivex.internal.util.HalfSerializer.onNext
 import kotlinx.android.synthetic.main.layout_control_date_range.view.*
 import org.jetbrains.anko.find
+import org.jetbrains.anko.info
 import java.util.*
 import kotlin.properties.Delegates
 
@@ -31,14 +32,14 @@ class DateRangeControl @JvmOverloads constructor(
 ) : BaseControl(context, attrs, defStyleAttr) {
     private var start: Long = 0
     private var end: Long = 0
-    private var dateRange by Delegates.observable(0L to 0L, { property, oldValue, newValue ->
+    private var dateRange by Delegates.observable(0L to 0L, { _, _, newValue ->
         (newValue.first > 0L && newValue.second > 0L && controlBean.is_scal!!).yes {
             countDuration()
         }
     })
     var needAssociate: Int = -1
     var holiday: ApproveValueBean? = null
-    var selectionType: OptionBean? = null
+    var selectionType: ApproveValueBean? = null
     var block: ((days: Double, unit: String?) -> Unit)? = null
 
     override fun getContentResId(): Int = R.layout.layout_control_date_range
@@ -49,11 +50,23 @@ class DateRangeControl @JvmOverloads constructor(
             inflate.startTimeTitle.text = controlBean.name1
             inflate.endTimeTitle.text = controlBean.name2
             inflate.durationTitle.text = controlBean.name3
+            val timeFormat = booleanArrayOf(true, true, true, true, true, true)
+            var formatStr = "yyyy-MM-dd HH:mm:ss"
+            controlBean.format?.let {
+                timeFormat[0] = it.contains("yyyy")
+                timeFormat[1] = it.contains("MM")
+                timeFormat[2] = it.contains("dd")
+                timeFormat[3] = (it.contains("HH") || it.contains("hh"))
+                timeFormat[4] = it.contains("mm")
+                timeFormat[5] = it.contains("ss")
+                formatStr = it
+            }
             controlBean.value?.let {
                 it as MutableList<String>
                 it.isNotEmpty().yes {
                     it[0].isNotEmpty().yes {
                         inflate.startTimeTv.text = it[0]
+                        start = Utils.getTime(it[0],formatStr)
                         inflate.startTimeTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
                     }.otherWise {
                         inflate.startTimeTv.hint = controlBean.placeholder
@@ -61,6 +74,7 @@ class DateRangeControl @JvmOverloads constructor(
                     }
                     it[1].isNotEmpty().yes {
                         inflate.endTimeTv.text = it[1]
+                        end = Utils.getTime(it[1],formatStr)
                         inflate.endTimeTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
                     }.otherWise {
                         inflate.endTimeTv.hint = controlBean.placeholder
@@ -78,17 +92,6 @@ class DateRangeControl @JvmOverloads constructor(
             }
             inflate.durationTv.isClickable = !controlBean.is_scal!!
 
-            val timeFormat = booleanArrayOf(true, true, true, true, true, true)
-            var formatStr = "yyyy-MM-dd HH:mm:ss"
-            controlBean.format?.let {
-                timeFormat[0] = it.contains("yyyy")
-                timeFormat[1] = it.contains("MM")
-                timeFormat[2] = it.contains("dd")
-                timeFormat[3] = (it.contains("HH") || it.contains("hh"))
-                timeFormat[4] = it.contains("mm")
-                timeFormat[5] = it.contains("ss")
-                formatStr = it
-            }
             val startDate = Calendar.getInstance()
             startDate.set(1949, 1, 1)
             val endDate = Calendar.getInstance()
@@ -114,10 +117,12 @@ class DateRangeControl @JvmOverloads constructor(
                         }
                     }
                 }
-                TimePickerBuilder(activity) { date, v ->
+                TimePickerBuilder(activity) { date, _ ->
                     inflate.startTimeTv.text = Utils.getTime(date, formatStr)
-                    controlBean.value?.clear()
-                    controlBean.value?.add(Utils.getTime(date, formatStr))
+                    if ((controlBean.value!!.size > 1)) {
+                        controlBean.value?.removeAt(0)
+                    }
+                    controlBean.value?.add(0, Utils.getTime(date, formatStr))
                     start = date.time
                     dateRange = start to end
                 } //年月日时分秒 的显示与否，不设置则默认全部显示
@@ -140,7 +145,7 @@ class DateRangeControl @JvmOverloads constructor(
                 val instance = Calendar.getInstance()
                 instance.time = Date(start)
                 startDate.set(instance.get(Calendar.YEAR), instance.get(Calendar.MONTH), instance.get(Calendar.DAY_OF_MONTH))
-                TimePickerBuilder(activity) { date, v ->
+                TimePickerBuilder(activity) { date, _ ->
                     if (date.time < start) {
                         showErrorToast("结束时间必须大于开始时间")
                         return@TimePickerBuilder
@@ -148,7 +153,7 @@ class DateRangeControl @JvmOverloads constructor(
                     inflate.endTimeTv.text = Utils.getTime(date, formatStr)
                     if (controlBean.value!!.size > 1)
                         controlBean.value?.removeAt(1)
-                    controlBean.value?.add(Utils.getTime(date, formatStr))
+                    controlBean.value?.add(1, Utils.getTime(date, formatStr))
                     inflate.endTimeTv.postDelayed({
                         end = date.time
                         dateRange = start to end
@@ -197,10 +202,9 @@ class DateRangeControl @JvmOverloads constructor(
                                     controlBean.value?.removeAt(2)
                                 controlBean.value?.add(days)
                                 inflate.durationTv.setText(days + unit)
-                                block?.let {
-                                    it.invoke(days.toDouble(), unit)
-                                }
+                                block?.invoke(days.toDouble(), unit)
                                 inflate.durationTv.isClickable = false
+                                info { controlBean.value.jsonStr }
                             }
                         }.otherWise {
                             inflate.durationTv.setText("点击重新计算")

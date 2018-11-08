@@ -28,7 +28,7 @@ import kotlin.properties.Delegates
 class GoOutControl @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : BaseControl(context, attrs, defStyleAttr) {
-    private var selectionType: OptionBean by Delegates.observable(OptionBean(name = "", scal_unit = ""), { property, oldValue, newValue ->
+    private var selectionType: ApproveValueBean by Delegates.observable(ApproveValueBean(name = "", scal_unit = ""), { property, oldValue, newValue ->
            newValue.name.isNotEmpty().yes {
                controlBean.children!![0].value?.let {
                    it.clear()
@@ -45,6 +45,17 @@ class GoOutControl @JvmOverloads constructor(
         hasInit.yes {
             inflate.star.setVisible(isMust)
             controlBean.children?.let {
+                /**
+                 * 时间选择初始化
+                 */
+                dateRange = ControlFactory(activity).createControl(DateRangeControl::class.java, it[1]) as DateRangeControl
+                dateRange.needAssociate = 2
+                val view = View(activity)
+                val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dip(10))
+                view.layoutParams = lp
+                inflate.dateRangeLayout.addView(view)
+                inflate.dateRangeLayout.addView(dateRange)
+
                 inflate.goOutTitle.text = it[0].name
                 it[0].value?.let { values ->
                     values.isNotEmpty().yes {
@@ -55,6 +66,7 @@ class GoOutControl @JvmOverloads constructor(
                         }
                         it[0].value?.clear()
                         it[0].value?.addAll(beans)
+                        dateRange.selectionType = beans[0]
                         inflate.goOutTv.text = beans[0].name
                         inflate.goOutTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
                     }.otherWise {
@@ -68,7 +80,7 @@ class GoOutControl @JvmOverloads constructor(
                                 .theme(Theme.LIGHT)
                                 .items(opt.map { it.name })
                                 .itemsCallbackSingleChoice(opt.map { it.name }.indexOf(inflate.goOutTv.text)) { dialog, itemView, which, text ->
-                                    selectionType = opt[which]
+                                    selectionType =ApproveValueBean(name = opt[which].name,scal_unit = opt[which].scal_unit)
                                     inflate.goOutTv.text = opt[which].name
                                     true
                                 }
@@ -77,17 +89,6 @@ class GoOutControl @JvmOverloads constructor(
                     }
                 }
                 inflate.leaveTip.text = it[2].name
-
-                /**
-                 * 时间选择初始化
-                 */
-                dateRange = ControlFactory(activity).createControl(DateRangeControl::class.java, it[1]) as DateRangeControl
-                dateRange.needAssociate = 2
-                val view = View(activity)
-                val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dip(10))
-                view.layoutParams = lp
-                inflate.dateRangeLayout.addView(view)
-                inflate.dateRangeLayout.addView(dateRange)
             }
         }
     }

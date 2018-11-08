@@ -69,7 +69,6 @@ class ApproveInitiateActivity : ToolbarActivity() {
     private val copyPeos = mutableListOf<User>()
     private lateinit var copyAdapter: CopyPeoAdapter
     private lateinit var userLayout: View
-    private lateinit var phoneSelection: PhoneSelection
 
     override val menuId: Int
         get() = R.menu.menu_new_approve_copy
@@ -147,10 +146,7 @@ class ApproveInitiateActivity : ToolbarActivity() {
                         4 -> factory.createControl(SingSelection::class.java, it)
                         5 -> factory.createControl(MultiSelection::class.java, it)
                         6 -> factory.createControl(DateSelection::class.java, it)
-                        7 -> {
-                            phoneSelection = factory.createControl(PhoneSelection::class.java, it) as PhoneSelection
-                            phoneSelection
-                        }
+                        7 -> factory.createControl(PhoneSelection::class.java, it)
                         8 -> factory.createControl(NoticText::class.java, it)
                         9 -> factory.createControl(MoneyInput::class.java, it)
                         10 -> factory.createControl(AttachmentSelection::class.java, it)
@@ -217,6 +213,8 @@ class ApproveInitiateActivity : ToolbarActivity() {
     }
 
     private lateinit var approvers: Approvers
+    private lateinit var decoration: ApproverItemDecoration
+
     /**
      * 获取审批人
      */
@@ -241,8 +239,9 @@ class ApproveInitiateActivity : ToolbarActivity() {
                                 approvers = it
                                 val sizes = it.sp.map { it.users.size }
                                 val users = it.sp.flatMap { it.users }
-                                sizes.isNotEmpty().yes {
-                                    userLayout.approverList.addItemDecoration(ApproverItemDecoration(ctx, sizes))
+                                (userLayout.approverList.itemDecorationCount == 0 && sizes.isNotEmpty()).yes {
+                                    decoration = ApproverItemDecoration(ctx, sizes)
+                                    userLayout.approverList.addItemDecoration(decoration)
                                 }
                                 approverAdapter.refreshData(users)
                                 copyAdapter.defaultCS = it.cs.def.split(",")
@@ -381,7 +380,13 @@ class ApproveInitiateActivity : ToolbarActivity() {
 
         if (requestCode == Extras.REQUESTCODE && resultCode == Extras.RESULTCODE && data != null) {
             val users = data.getSerializableExtra(Extras.DATA) as ArrayList<UserBean>
-            val newCopy = users.map { User(name = it.name, id = it.uid.toString(), url = it.url ?: "") }
+            val newCopy = users.map { User(name = it.name, id = it.uid.toString(), url = it.url ?: "") }.toMutableList()
+            val def = approvers.cs.def.split(",")
+            def.forEachIndexed { index, defId ->
+                val find = newCopy.find { it.id == defId }
+                newCopy.remove(find!!)
+                newCopy.add(index, find)
+            }
             copyPeos.clear()
             copyPeos.addAll(newCopy)
             approvers.cs.users.clear()
@@ -510,7 +515,7 @@ class ApproveInitiateActivity : ToolbarActivity() {
 //            view.itemDec.setVisible(approverAdapter.selectedItems.contains(position))
             Glide.with(this@ApproveInitiateActivity)
                     .load(data.url)
-                    .listener(UserRequestListener(view.approverHeader,data.name)).into(view.approverHeader)
+                    .listener(UserRequestListener(view.approverHeader, data.name)).into(view.approverHeader)
             view.approverName.text = data.name
         }
     }
@@ -526,6 +531,7 @@ class ApproveInitiateActivity : ToolbarActivity() {
             if (position == users.size) {
                 holder.header.setImageResource(R.drawable.invalid_name3)
                 holder.name.text = "添加"
+                holder.remove.setVisible(false)
                 holder.itemView.setOnClickListener { v ->
                     if (null != onItemClick) {
                         onItemClick!!(v, position)
@@ -559,9 +565,11 @@ class ApproveInitiateActivity : ToolbarActivity() {
                 }
                 if (holder.remove.visibility == View.VISIBLE) {
                     holder.itemView.setOnClickListener {
-                        approvers.cs.users.removeAt(position)
-                        copyPeos.removeAt(position)
-                        notifyItemRemoved(position)
+                        (approvers.cs.users.size > position).yes {
+                            approvers.cs.users.removeAt(position)
+                            copyPeos.removeAt(position)
+                            notifyItemRemoved(position)
+                        }
                     }
                 }
             }

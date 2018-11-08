@@ -142,16 +142,8 @@ class LoginActivity : BaseActivity(), LoginView {
                                         startActivity<PhoneBindingActivity>(Extras.ID to unique)
                                     }
                                     1 -> {
-                                        it.user_info?.let { user ->
-                                            Store.store.setUser(this@LoginActivity, user)
-                                            ifNotNull(user.accid, user.token, { accid, token ->
-                                                IMLogin(accid, token)
-                                            })
-                                            sp.getString(Extras.CompanyKey, "").let {
-                                                it.isNotEmpty().yes {
-                                                    loginPresenter.getCompanyInfo(it)
-                                                }
-                                            }
+                                        it.user_info?.let {
+                                            judgeLoginProcess(it)
                                         }
                                     }
                                     else -> {
@@ -186,6 +178,10 @@ class LoginActivity : BaseActivity(), LoginView {
     }
 
     override fun verificationCodeSuccess(result: RegisterVerResult) {
+        judgeLoginProcess(result)
+    }
+
+    private fun judgeLoginProcess(result: RegisterVerResult) {
         result.let {
             it.domain_name?.let {
                 if (it.isNotEmpty()) {
@@ -242,7 +238,6 @@ class LoginActivity : BaseActivity(), LoginView {
                     }
                 }
             }
-
         }
     }
 

@@ -101,4 +101,4 @@ data class MainBottomBar(val id: Int,
  * 检测第三方登录
  */
 data class CheckThird(val band: Int,
-                      val user_info: UserBean? = null)
+                      val user_info: RegisterVerResult? = null)

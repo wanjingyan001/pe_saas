@@ -64,8 +64,11 @@ public class ProgressView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         int height = getHeight() * percent / 100;
-        canvas.drawRect(0, 0, getWidth(), height, mProgessPaint);
-        canvas.drawRect(0, height, getWidth(), getHeight(), mBlurPaint);
+//        canvas.drawRect(0, 0, getWidth(), height, mProgessPaint);
+//        canvas.drawRect(0, height, getWidth(), getHeight(), mBlurPaint);
+
+        canvas.drawRect(0, getHeight(), getWidth(), 0, mBlurPaint);
+        canvas.drawRect(0, getHeight(), getWidth(), getHeight() - height, mProgessPaint);
     }
 
     private int percent = 0;

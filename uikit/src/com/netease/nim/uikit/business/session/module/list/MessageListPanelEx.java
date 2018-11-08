@@ -552,7 +552,7 @@ public class MessageListPanelEx {
         public MessageLoader(IMMessage anchor, boolean remote) {
             this.anchor = anchor;
             this.remote = remote;
-			//            if (remote) {
+            //            if (remote) {
 //                loadFromRemote();
 //            } else {
 //                if (anchor == null) {
@@ -561,10 +561,10 @@ public class MessageListPanelEx {
 //                    loadAnchorContext(); // 加载指定anchor的上下文
 //                }
 //            }
-            isFirstChat = sp.getBoolean(container.account+"SAAS_IM",true);
+            isFirstChat = sp.getBoolean(container.account + "SAAS_IM", true);
             if (isFirstChat) {
                 loadFromRemote();
-            }else {
+            } else {
                 if (anchor == null) {
                     if (remote) {
                         loadFromLocal(QueryDirectionEnum.QUERY_OLD);
@@ -593,6 +593,7 @@ public class MessageListPanelEx {
                 }
 
                 if (messages != null) {
+                    sp.edit().putBoolean(container.account + "SAAS_IM", false).apply();
                     onMessageLoaded(messages);
                 }
             }
@@ -619,7 +620,7 @@ public class MessageListPanelEx {
                 return;
             }
             this.direction = direction;
-            NIMClient.getService(MsgService.class).queryMessageListEx(anchor(), direction, loadMsgCount, true)
+            NIMClient.getService(MsgService.class).queryMessageListEx(anchor(), direction, loadMsgCount, false)
                     .setCallback(callback);
         }
 
@@ -879,7 +880,7 @@ public class MessageListPanelEx {
 
             if (!NimUIKitImpl.getMsgForwardFilter().shouldIgnore(selectedItem) && !recordOnly) {
                 // 6 forward to person
-                longClickItemForwardToPerson(selectedItem, alertDialog);
+//                longClickItemForwardToPerson(selectedItem, alertDialog);
                 // 7 forward to team
                 longClickItemForwardToTeam(selectedItem, alertDialog);
             }
@@ -1090,16 +1091,16 @@ public class MessageListPanelEx {
         }
 
         private void longClickItemCloudDish(final IMMessage selectedItem, CustomAlertDialog alertDialog, MsgTypeEnum msgType) {
-            if(msgType == MsgTypeEnum.image || msgType == MsgTypeEnum.file || msgType == MsgTypeEnum.audio) {
+            if (msgType == MsgTypeEnum.image || msgType == MsgTypeEnum.file || msgType == MsgTypeEnum.audio) {
                 FileAttachment attachment = (FileAttachment) selectedItem.getAttachment();
                 String path = attachment.getPathForSave();
-                if(null != path) {
+                if (null != path) {
                     alertDialog.addItem(container.activity.getString(R.string.save_cloud), new CustomAlertDialog.onSeparateItemClickListener() {
                         @Override
                         public void onClick() {
-                           if(null != NimUIKitImpl.getSessionListener()) {
-                               NimUIKitImpl.getSessionListener().onCloudClicked(container.activity, selectedItem);
-                           }
+                            if (null != NimUIKitImpl.getSessionListener()) {
+                                NimUIKitImpl.getSessionListener().onCloudClicked(container.activity, selectedItem);
+                            }
                         }
                     });
                 }

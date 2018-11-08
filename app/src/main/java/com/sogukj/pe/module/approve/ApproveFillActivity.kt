@@ -217,7 +217,7 @@ class ApproveFillActivity : ToolbarActivity() {
     override fun onPause() {
         super.onPause()
         hideProgress()
-        Utils.closeInput(this,editText)
+//        Utils.closeInput(this,editText)
     }
 
     override fun onBackPressed() {

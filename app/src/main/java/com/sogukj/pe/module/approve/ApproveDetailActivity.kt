@@ -22,6 +22,8 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.github.gcacace.signaturepad.views.SignaturePad
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
@@ -59,7 +61,7 @@ import java.io.FileOutputStream
 import kotlin.properties.Delegates
 
 class ApproveDetailActivity : ToolbarActivity() {
-    private val kind by extraDelegate(Extras.TYPE, 4)
+//    private val kind by extraDelegate(Extras.TYPE, 4)
     private val approveId by extraDelegate(Extras.ID, 0)
     private val isMine by extraDelegate(Extras.FLAG, 0)
     private var tid by Delegates.notNull<Int>()//审批模板id
@@ -111,6 +113,7 @@ class ApproveDetailActivity : ToolbarActivity() {
         tName = fixation.tName
         Glide.with(this)
                 .load(fixation.url)
+                .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))
                 .listener(UserRequestListener(applicantHeader, fixation.name))
                 .into(applicantHeader)
         applicantName.text = fixation.name
@@ -188,6 +191,7 @@ class ApproveDetailActivity : ToolbarActivity() {
                         val convertView = layoutInflater.inflate(R.layout.item_approve_seal_approver, null)
                         convertView.tv_position.text = flow.position
                         Glide.with(this).load(flow.url)
+                                .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))
                                 .listener(UserRequestListener(convertView.iv_user, flow.name))
                                 .into(convertView.iv_user)
                         convertView.tv_name.text = flow.name
@@ -264,6 +268,7 @@ class ApproveDetailActivity : ToolbarActivity() {
                     segmentItem.tv_time.text = handler.approval_time
                     Glide.with(this)
                             .load(handler.url)
+                            .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))
                             .listener(UserRequestListener(segmentItem.iv_user, handler.name))
                             .into(segmentItem.iv_user)
                 }
@@ -284,7 +289,9 @@ class ApproveDetailActivity : ToolbarActivity() {
                 val copyAdapter = RecyclerAdapter<Copier>(this) { _adapter, parent, _ ->
                     object : RecyclerHolder<Copier>(_adapter.getView(R.layout.item_new_approve_copy_list, parent)) {
                         override fun setData(view: View, data: Copier, position: Int) {
-                            Glide.with(this@ApproveDetailActivity).load(data.url)
+                            Glide.with(this@ApproveDetailActivity)
+                                    .load(data.url)
+                                    .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))
                                     .listener(UserRequestListener(view.approverHeader, data.name))
                                     .into(view.approverHeader)
                             view.approverName.text = data.name
@@ -434,6 +441,7 @@ class ApproveDetailActivity : ToolbarActivity() {
         tvComment.text = Html.fromHtml(buff.toString())
         Glide.with(this)
                 .load(MyGlideUrl(data.url))
+                .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))
                 .listener(UserRequestListener(ivUser, data.name))
                 .into(ivUser)
         convertView.setOnClickListener {
