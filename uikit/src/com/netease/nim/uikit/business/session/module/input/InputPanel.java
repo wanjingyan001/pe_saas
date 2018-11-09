@@ -861,6 +861,12 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
             }
         }
     }
+    public void sendCloudFile(List<String> filePaths){
+        for (BaseAction action : actions) {
+            action.sendCloudFile(filePaths);
+        }
+
+    }
 
     public void switchRobotMode(boolean isRobot) {
         isRobotSession = isRobot;

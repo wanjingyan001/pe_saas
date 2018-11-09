@@ -52,6 +52,27 @@ class CloudFileAction : BaseAction {
         }
     }
 
+    override fun sendCloudFile(paths: MutableList<String>?) {
+        paths!!.forEach {
+            val file = File(it)
+            var message : IMMessage
+            //图片类型
+            if (FileUtil.getFileType(it) != null) {
+                //图片类型
+                if (container != null && container.sessionType == SessionTypeEnum.ChatRoom) {
+                    message = ChatRoomMessageBuilder.createChatRoomImageMessage(account, file, file.name)
+                }else{
+                    message = MessageBuilder.createImageMessage(account, sessionType, file, file.name)
+                }
+            } else {
+                //文件类型
+                message = MessageBuilder.createFileMessage(account,
+                        sessionType, file, file.name)
+            }
+            sendMessage(message)
+        }
+    }
+
     companion object {
         val REQ_SELETE_FILE = 1002
     }

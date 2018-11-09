@@ -65,6 +65,7 @@ public class ChatRoomMessageFragment extends TFragment implements ModuleProxy {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
     }
 
     @Override

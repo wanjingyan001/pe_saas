@@ -214,4 +214,10 @@ interface OtherService {
      */
     @POST("/api/index/getxieyiurl")
     fun getAboutPage():Observable<Payload<AboutPageBean>>
+
+    /**
+     * 账户管理
+     */
+    @POST("/api/Pay/getUserList")
+    fun getManagerData(): Observable<Payload<UserManagerBean>>
 }

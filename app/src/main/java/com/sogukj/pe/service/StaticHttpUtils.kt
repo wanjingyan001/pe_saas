@@ -137,13 +137,6 @@ interface StaticHttpUtils {
                      @Query("phone") phone : String): Observable<Payload<Any>>
 
     /**
-     * 账户管理
-     */
-    @POST("/api/Pay/getUserList")
-    fun getManagerData(): Observable<Payload<UserManagerBean>>
-
-
-    /**
      * 文件动态
      */
     @GET("/api/cloud/getFileNews")

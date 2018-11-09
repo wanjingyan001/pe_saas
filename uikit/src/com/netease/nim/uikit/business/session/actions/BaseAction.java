@@ -8,6 +8,7 @@ import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Action基类。<br>
@@ -64,6 +65,9 @@ public abstract class BaseAction implements Serializable {
         // default: empty
     }
 
+    public void sendCloudFile(List<String> filePaths){
+
+    }
     protected void sendMessage(IMMessage message) {
         container.proxy.sendMessage(message);
     }

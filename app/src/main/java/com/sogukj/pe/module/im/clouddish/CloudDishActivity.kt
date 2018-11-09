@@ -11,7 +11,6 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.view.ViewPager
 import com.google.gson.Gson
-import com.sogukj.pe.Consts
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.fromJson
@@ -22,7 +21,6 @@ import com.sogukj.pe.bean.MechanismBasicInfo
 import com.sogukj.pe.module.dataSource.lawcase.adapter.PagerAdapter
 import kotlinx.android.synthetic.main.activity_cloud_dish.*
 import kotlinx.android.synthetic.main.white_normal_toolbar.*
-import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 
 /**
  * Created by CH-ZH on 2018/10/25.
@@ -68,7 +66,6 @@ class CloudDishActivity : ToolbarActivity(){
         override fun onReceive(context: Context?, intent: Intent?) {
             finish()
         }
-
     }
 
     private fun initData() {

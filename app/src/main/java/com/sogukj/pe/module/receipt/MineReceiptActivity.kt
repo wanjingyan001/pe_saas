@@ -81,6 +81,19 @@ class MineReceiptActivity : BaseRefreshActivity() {
     }
     val receiver : BroadcastReceiver = object : BroadcastReceiver(){
         override fun onReceive(context: Context?, intent: Intent?) {
+            if (type == 0) {
+                rl_submit.setVisible(false)
+                toolbar_menu.setVisible(true)
+                toolbar_menu.text = "开发票"
+            } else if (type == 1) {
+                rl_submit.setVisible(true)
+                toolbar_menu.setVisible(false)
+            }
+            alreadySelected.clear()
+            ordersSet.clear()
+            totalAmount = 0.0f
+            tv_total.text = "￥${totalAmount}"
+            tv_comit.setBackgroundResource(R.drawable.selector_sure_gray)
             getBillOrderDatas(false)
         }
 

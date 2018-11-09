@@ -31,6 +31,7 @@ import com.sogukj.pe.module.dataSource.DocumentsListActivity
 import com.sogukj.pe.module.receipt.AllPayCallBack
 import com.sogukj.pe.module.receipt.PayDialog
 import com.sogukj.pe.peUtils.Store
+import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_pay_manager.*
 import org.jetbrains.anko.find
@@ -115,7 +116,7 @@ class PayManagerActivity : BaseRefreshActivity(), AllPayCallBack {
     }
 
     private fun getManagerData() {
-        SoguApi.getStaticHttp(application)
+        SoguApi.getService(application,OtherService::class.java)
                 .getManagerData()
                 .execute {
                     onNext { payload ->

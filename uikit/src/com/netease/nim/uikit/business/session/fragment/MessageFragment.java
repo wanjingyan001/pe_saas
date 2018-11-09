@@ -1,6 +1,9 @@
 package com.netease.nim.uikit.business.session.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
@@ -10,6 +13,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -75,7 +79,7 @@ public class MessageFragment extends TFragment implements ModuleProxy {
     private SessionCustomization customization;
 
     protected static final String TAG = "MessageActivity";
-
+    public static final String SEND_CLOUD_FILE = "send_cloud_file";
     // 聊天对象
     protected String sessionId; // p2p对方Account或者群id
 
@@ -117,8 +121,23 @@ public class MessageFragment extends TFragment implements ModuleProxy {
         if(!XmlDb.Companion.open(getActivity()).get("more_guide_flag")) {
             showMoreGuidePop();
         }
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver,new IntentFilter(SEND_CLOUD_FILE));
     }
 
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(null != intent) {
+                ArrayList<String> filePaths = intent.getStringArrayListExtra("filePaths");
+                sendCloudFile(filePaths);
+            }
+        }
+    };
+
+    public void sendCloudFile(List<String> filePaths){
+        inputPanel.sendCloudFile(filePaths);
+
+    }
     public void showMoreGuidePop() {
         View contentView = View.inflate(getActivity(),R.layout.layout_im_guide,null);
         popupWindow = new PopupWindow(contentView,
@@ -208,6 +227,11 @@ public class MessageFragment extends TFragment implements ModuleProxy {
         }
         if (aitManager != null) {
             aitManager.reset();
+        }
+        try {
+            LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(receiver);
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 

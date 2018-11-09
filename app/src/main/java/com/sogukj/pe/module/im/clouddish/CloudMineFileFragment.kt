@@ -13,6 +13,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.entity.MultiItemEntity
+import com.netease.nim.uikit.business.session.fragment.MessageFragment.SEND_CLOUD_FILE
 import com.netease.nim.uikit.common.util.file.FileUtil
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
@@ -433,10 +434,20 @@ class CloudMineFileFragment : BaseRefreshFragment() {
     }
 
     private fun sendFilePathToIm(filePaths: ArrayList<String>) {
-        val intent = Intent()
-        intent.putStringArrayListExtra(Extras.DATA, filePaths)
-        activity!!.setResult(Activity.RESULT_OK, intent)
-        activity!!.finish()
+        if (activity is CloudDishActivity){
+            val intent = Intent()
+            intent.putStringArrayListExtra(Extras.DATA, filePaths)
+            activity!!.setResult(Activity.RESULT_OK, intent)
+            activity!!.finish()
+        }else{
+            val intent = Intent()
+            intent.setAction(SEND_CLOUD_FILE)
+            intent.putStringArrayListExtra("filePaths",filePaths)
+            LocalBroadcastManager.getInstance(activity!!).sendBroadcast(intent)
+            setFinishBrocast()
+            cloudDishFinish()
+        }
+
     }
 
     override fun doRefresh() {
