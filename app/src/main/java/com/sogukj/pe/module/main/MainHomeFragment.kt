@@ -45,9 +45,6 @@ import com.sogukj.pe.database.FunctionViewModel
 import com.sogukj.pe.database.Injection
 import com.sogukj.pe.database.MainFunIcon
 import com.sogukj.pe.module.approve.ApproveDetailActivity
-import com.sogukj.pe.module.approve.LeaveBusinessApproveActivity
-import com.sogukj.pe.module.approve.SealApproveActivity
-import com.sogukj.pe.module.approve.SignApproveActivity
 import com.sogukj.pe.module.news.MainNewsActivity
 import com.sogukj.pe.module.news.NewsDetailActivity
 import com.sogukj.pe.module.other.MessageListActivity
@@ -230,8 +227,10 @@ class MainHomeFragment : BaseFragment() {
         val user = Store.store.getUser(baseActivity!!)
         var header = toolbar_back.getChildAt(0) as CircleImageView
         if (user?.url.isNullOrEmpty()) {
-            val ch = user?.name?.first()
-            header.setChar(ch)
+            if (!user?.name.isNullOrEmpty()){
+                val ch = user?.name?.first()
+                header.setChar(ch)
+            }
         } else {
             Glide.with(ctx)
                     .load(MyGlideUrl(user?.url))
@@ -242,8 +241,10 @@ class MainHomeFragment : BaseFragment() {
                         }
 
                         override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                            val ch = user?.name?.first()
-                            header.setChar(ch)
+                            if (!user?.name.isNullOrEmpty()){
+                                val ch = user?.name?.first()
+                                header.setChar(ch)
+                            }
                             return true
                         }
                     })

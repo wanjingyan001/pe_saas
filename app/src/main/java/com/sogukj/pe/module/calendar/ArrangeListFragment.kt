@@ -15,7 +15,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
 import com.scwang.smartrefresh.layout.api.RefreshFooter
 import com.scwang.smartrefresh.layout.api.RefreshHeader
@@ -42,7 +41,6 @@ import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.backgroundResource
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.ctx
-import org.jetbrains.anko.support.v4.sp
 
 
 /**
@@ -139,12 +137,13 @@ class ArrangeListFragment : BaseRefreshFragment() {
     }
 
     private fun doRequest() {
-        Glide.with(this)
-                .asGif()
-                .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
-                .into(iv_loading)
-        iv_loading?.visibility = View.VISIBLE
-
+        if (null != iv_loading){
+            Glide.with(this)
+                    .asGif()
+                    .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
+                    .into(iv_loading)
+            iv_loading?.visibility = View.VISIBLE
+        }
         SoguApi.getService(baseActivity!!.application, CalendarService::class.java)
                 .getWeeklyWorkList(ArrangeReqBean(flag = 1, offset = offset))
                 .observeOn(AndroidSchedulers.mainThread())
@@ -159,10 +158,14 @@ class ArrangeListFragment : BaseRefreshFragment() {
                         arrangeAdapter.notifyDataSetChanged()
                     }
                 }, { e ->
-                    iv_loading.setVisible(false)
+                    if (null != iv_loading){
+                        iv_loading.setVisible(false)
+                    }
                     Trace.e(e)
                 }, {
-                    iv_loading.setVisible(false)
+                    if (null != iv_loading){
+                        iv_loading.setVisible(false)
+                    }
                     if (isRefresh) {
                         refresh.finishRefresh()
                         isRefresh = false

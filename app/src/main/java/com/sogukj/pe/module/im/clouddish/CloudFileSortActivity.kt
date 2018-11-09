@@ -148,6 +148,7 @@ class CloudFileSortActivity : BaseRefreshActivity(),UploadCallBack {
             }
             if (data.file_type.equals("Folder")) {
                 file_icon.setImageResource(R.drawable.folder_zip)
+                tv_fileSize.setVisible(false)
             } else {
                 file_icon.imageResource =  FileTypeUtils.getFileType(data.file_name).icon
                 if (data.used_bytes.isNullOrEmpty()){

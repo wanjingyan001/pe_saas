@@ -229,7 +229,9 @@ class OverviewFragment : BaseFragment() {
                                 val str = "本周新增入库项目：${it.count}个"
                                 val spa = SpannableString(str)
                                 spa.setSpan(AbsoluteSizeSpan(24, true), 9, str.length - 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                                newProjectNumber.text = spa
+                                if (null != newProjectNumber){
+                                    newProjectNumber.text = spa
+                                }
                                 dynamicAdapter.refreshData(it.list)
                             }
                         }.otherWise {

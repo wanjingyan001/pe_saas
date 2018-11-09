@@ -14,6 +14,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.WindowManager
 import android.webkit.WebChromeClient
+import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.TextView
@@ -83,6 +84,11 @@ class OnlinePreviewActivity : ToolbarActivity(), PlatformActionListener {
                 return true
             }
 
+            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+                view!!.loadUrl(request!!.url.toString())
+                return true
+            }
+
             override fun onPageFinished(view: WebView, url: String) {
                 super.onPageFinished(view, url)
             }
@@ -101,7 +107,7 @@ class OnlinePreviewActivity : ToolbarActivity(), PlatformActionListener {
         settings.setBuiltInZoomControls(true)
         //不显示webview缩放按钮
         settings.setDisplayZoomControls(false)
-
+        settings.domStorageEnabled = true
         web.setWebChromeClient(WebChromeClient())
 
         var map = HashMap<String, String>()

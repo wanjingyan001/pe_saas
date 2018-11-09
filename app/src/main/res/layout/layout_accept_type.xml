@@ -15,7 +15,7 @@
         android:paddingBottom="@dimen/text_10"
         android:paddingStart="@dimen/text_15"
         android:paddingTop="@dimen/text_10"
-        android:text="接收方式"/>
+        android:text="接收方式(必填)"/>
     <LinearLayout
         android:id="@+id/ll_accept"
         android:layout_width="match_parent"

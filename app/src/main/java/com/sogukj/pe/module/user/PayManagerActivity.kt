@@ -292,7 +292,7 @@ class PayManagerActivity : BaseRefreshActivity(), AllPayCallBack {
                 alreadySelected.forEach {
                     ids = it.user_id + ","
                 }
-                PayDialog.showPayBookDialog(this,2,this,userAccount,price,selectCount,ids,null)
+                PayDialog.showPayBookDialog(this,2,this,userAccount,price,selectCount,ids,PdfBook(0,"","","","","","",1))
             }else{
                 showCommonToast("请至少选择一个账号")
             }

@@ -10,7 +10,6 @@ import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.execute
-import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.Contact
@@ -19,12 +18,13 @@ import com.sogukj.pe.peExtended.firstLetter
 import com.sogukj.pe.service.RegisterService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_invite_main.*
-import org.jetbrains.anko.*
+import org.jetbrains.anko.find
+import org.jetbrains.anko.startActivity
 
 class InviteMainActivity : ToolbarActivity() {
     private lateinit var mAdapter: InviteAdapter
     private var inviteCode: String? = null
-    private lateinit var invitePath: String
+    private var invitePath: String ? = null
     private lateinit var header: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,9 +46,9 @@ class InviteMainActivity : ToolbarActivity() {
             startActivity<InviteByPhoneActivity>(Extras.DATA to inviteCode)
         }
         header.find<View>(R.id.addByShareLayout).clickWithTrigger {
-            this::invitePath.isInitialized.yes {
-                startActivity<InviteByCodeActivity>(Extras.DATA to inviteCode, Extras.DATA2 to invitePath)
-            }
+           if (null != invitePath){
+               startActivity<InviteByCodeActivity>(Extras.DATA to inviteCode, Extras.DATA2 to invitePath)
+           }
         }
         header.find<View>(R.id.addByPCLayout).clickWithTrigger {
             startActivity<InviteByPcActivity>()

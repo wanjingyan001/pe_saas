@@ -510,6 +510,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                 //文件夹
                 iv_select.setVisible(false)
                 file_icon.setImageResource(R.drawable.folder_zip)
+                tv_fileSize.setVisible(false)
             } else {
                 iv_select.setVisible(true)
                 file_icon.imageResource = FileTypeUtils.getFileType(data.file_name).icon
@@ -575,6 +576,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                 tv_summary.setTextColor(resources.getColor(R.color.black_28))
                 tv_time.setTextColor(resources.getColor(R.color.gray_a0))
                 tv_fileSize.setTextColor(resources.getColor(R.color.gray_a0))
+                tv_fileSize.setVisible(false)
             } else {
                 file_icon.imageResource = FileTypeUtils.getFileType(data.file_name).icon
                 tv_summary.setTextColor(resources.getColor(R.color.gray_d8))

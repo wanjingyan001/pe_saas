@@ -43,7 +43,6 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.google.gson.Gson
 import com.google.gson.internal.LinkedTreeMap
-import com.sogukj.pe.Consts
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
@@ -67,7 +66,6 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_user.*
-import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.info
 import org.jetbrains.anko.support.v4.ctx
@@ -503,10 +501,14 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
                             payload.payload?.let {
                                 bindingStatus = it
                                 if (it.subscribe == 1) {
-                                    rl_bind.setVisible(false)
+                                    if (null != rl_bind){
+                                        rl_bind.setVisible(false)
+                                    }
                                     iv_foucs.imageResource = R.mipmap.icon_wx_focus
                                 } else {
-                                    rl_bind.setVisible(true)
+                                    if (null != rl_bind){
+                                        rl_bind.setVisible(true)
+                                    }
                                     tv_bind.text = if (it.is_sync == 1) "去关注" else "去绑定"
                                     iv_foucs.imageResource = if (it.is_sync == 1) R.mipmap.icon_wx_focus else R.mipmap.icon_wx_unfocus
                                 }

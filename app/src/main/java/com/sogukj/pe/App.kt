@@ -40,6 +40,7 @@ import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.UserService
 import com.sogukj.service.SoguApi
+import com.tencent.bugly.crashreport.CrashReport
 import com.umeng.commonsdk.UMConfigure
 import com.umeng.message.IUmengRegisterCallback
 import com.umeng.message.MsgConstant
@@ -71,7 +72,7 @@ class App : MultiDexApplication() {
                 ARouter.openDebug()
             }
             ARouter.init(INSTANCE)
-//            CrashReport.initCrashReport(INSTANCE, "49fb9e37b7", BuildConfig.DEBUG)
+            CrashReport.initCrashReport(INSTANCE, "49fb9e37b7", BuildConfig.DEBUG)
             SgDatabase.getInstance(INSTANCE)
             MobSDK.init(INSTANCE, "214eaf8217e6c", "c1ddfcaa333020a5a06812bc745d508c")
             //友盟初始化

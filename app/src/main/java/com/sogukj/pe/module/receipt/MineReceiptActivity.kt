@@ -45,6 +45,7 @@ class MineReceiptActivity : BaseRefreshActivity() {
     private var totalAmount = 0f
     private var type = 0  //0 不可选择  1 可以选择
     private var page = 1
+    private var originType = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mine_receipt)
@@ -59,6 +60,7 @@ class MineReceiptActivity : BaseRefreshActivity() {
 
     private fun initView() {
         type = intent.getIntExtra(Extras.TYPE, -1)
+        originType = type
         rv_express.layoutManager = LinearLayoutManager(this)
         rv_express.addItemDecoration(RecycleViewDivider(this, LinearLayoutManager.VERTICAL,
                 Utils.dip2px(this, 10f), Color.parseColor("#f7f9fc")))
@@ -81,11 +83,11 @@ class MineReceiptActivity : BaseRefreshActivity() {
     }
     val receiver : BroadcastReceiver = object : BroadcastReceiver(){
         override fun onReceive(context: Context?, intent: Intent?) {
-            if (type == 0) {
+            if (originType == 0) {
                 rl_submit.setVisible(false)
                 toolbar_menu.setVisible(true)
                 toolbar_menu.text = "开发票"
-            } else if (type == 1) {
+            } else if (originType == 1) {
                 rl_submit.setVisible(true)
                 toolbar_menu.setVisible(false)
             }

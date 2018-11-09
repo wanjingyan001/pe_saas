@@ -63,8 +63,10 @@ class FundMainFragment : BaseFragment(), View.OnClickListener {
 //        }
         var header = toolbar_back.getChildAt(0) as CircleImageView
         if (user?.url.isNullOrEmpty()) {
-            val ch = user?.name?.first()
-            header.setChar(ch)
+            if (!user?.name.isNullOrEmpty()){
+                val ch = user?.name?.first()
+                header.setChar(ch)
+            }
         } else {
             Glide.with(ctx)
                     .load(MyGlideUrl(user?.url))
@@ -75,8 +77,10 @@ class FundMainFragment : BaseFragment(), View.OnClickListener {
                         }
 
                         override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                            val ch = user?.name?.first()
-                            header.setChar(ch)
+                            if (!user?.name.isNullOrEmpty()){
+                                val ch = user?.name?.first()
+                                header.setChar(ch)
+                            }
                             return true
                         }
                     })
