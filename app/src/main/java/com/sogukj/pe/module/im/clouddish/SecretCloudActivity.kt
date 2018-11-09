@@ -39,6 +39,11 @@ class SecretCloudActivity : ToolbarActivity() {
         bindListener()
         setBack(true)
         setTitle("加密云盘")
+
+    }
+
+    override fun onResume() {
+        super.onResume()
         getDynamicData()
         getMemoryData()
     }

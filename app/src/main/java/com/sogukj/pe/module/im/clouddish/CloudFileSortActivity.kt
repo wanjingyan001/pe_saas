@@ -74,6 +74,10 @@ class CloudFileSortActivity : BaseRefreshActivity(),UploadCallBack {
         }
         rv_express.adapter = adapter
         showLoadding()
+    }
+
+    override fun onResume() {
+        super.onResume()
         getCloudSortData(false)
     }
 
@@ -156,7 +160,7 @@ class CloudFileSortActivity : BaseRefreshActivity(),UploadCallBack {
             itemView.clickWithTrigger {
                 if (data.file_type.equals("Folder")) {
                     //文件夾
-                    startActivity<MineFileActivity>(Extras.TITLE to data.file_name,Extras.DIR to dir+"/${data.file_name}")
+                    startActivity<MineFileActivity>(Extras.TITLE to data.file_name,Extras.DIR to filePath+"/${data.file_name}")
                 } else {
                     //预览
                     OnlinePreviewActivity.start(this@CloudFileSortActivity,data.preview_url,data.file_name,false)
@@ -165,9 +169,9 @@ class CloudFileSortActivity : BaseRefreshActivity(),UploadCallBack {
 
             iv_filter.clickWithTrigger {
                 if (data.file_type.equals("Folder")){
-                    MineFileDialog.showFileItemDialog(this@CloudFileSortActivity,true,data,MODIFI_DIR,dir,this@CloudFileSortActivity)
+                    MineFileDialog.showFileItemDialog(this@CloudFileSortActivity,true,data,MODIFI_DIR,filePath,this@CloudFileSortActivity)
                 }else{
-                    MineFileDialog.showFileItemDialog(this@CloudFileSortActivity,false,data,MODIFI_FILE,dir,this@CloudFileSortActivity)
+                    MineFileDialog.showFileItemDialog(this@CloudFileSortActivity,false,data,MODIFI_FILE,filePath,this@CloudFileSortActivity)
                 }
             }
         }
