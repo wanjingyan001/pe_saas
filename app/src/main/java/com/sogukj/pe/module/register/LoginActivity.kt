@@ -11,6 +11,7 @@ import com.netease.nim.uikit.api.NimUIKit
 import com.netease.nimlib.sdk.RequestCallback
 import com.netease.nimlib.sdk.StatusCode
 import com.netease.nimlib.sdk.auth.LoginInfo
+import com.sogukj.pe.Consts
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
@@ -38,6 +39,7 @@ import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_phone_input.*
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import org.jetbrains.anko.*
+import org.jetbrains.anko.sdk25.coroutines.textChangedListener
 import java.util.*
 
 /**
@@ -52,6 +54,7 @@ class LoginActivity : BaseActivity(), LoginView {
         StatusBarUtil.setTranslucentForCoordinatorLayout(this, 0)
         StatusBarUtil.setLightMode(this)
         loginPresenter.loginView = this
+        RetrofitUrlManager.getInstance().putDomain("Register",Consts.DEV_HTTP_HOST)
         val inputList = ArrayList<Observable<CharSequence>>()
         inputList.add(RxTextView.textChanges(phoneEdt.getEditText()))
         inputList.add(RxTextView.textChanges(mVerCodeInput))
@@ -72,17 +75,16 @@ class LoginActivity : BaseActivity(), LoginView {
             }
         }
         QQLogin.clickWithTrigger {
-            MobLogin.QQLogin(this) {
+            MobLogin.QQLogin(this, {
                 sp.edit { putString(Extras.THIRDLOGIN, "qq_$it") }
                 checkThirdBinding("qq", it)
-
-            }
+            }, { showCommonToast("已取消QQ登录") }, { showErrorToast("QQ登录失败") })
         }
         WeChatLogin.clickWithTrigger {
-            MobLogin.WeChatLogin(this) {
+            MobLogin.WeChatLogin(this, {
                 sp.edit { putString(Extras.THIRDLOGIN, "wechat_$it") }
                 checkThirdBinding("wechat", it)
-            }
+            }, { showCommonToast("已取消微信登录") }, { showErrorToast("微信登录失败") })
         }
         phoneEdt.block = {
             mVerCodeInput.setText("")

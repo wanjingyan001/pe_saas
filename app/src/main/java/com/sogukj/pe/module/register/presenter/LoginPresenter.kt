@@ -20,6 +20,7 @@ import com.sogukj.pe.service.RegisterService
 import com.sogukj.service.SoguApi
 import io.reactivex.internal.util.HalfSerializer.onNext
 import io.reactivex.plugins.RxJavaPlugins.onSubscribe
+import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import java.util.*
 
 /**
@@ -54,10 +55,12 @@ class LoginPresenter constructor(val application: Application) {
                                 loginView?.verificationCodeSuccess(it)
                             }
                         }.otherWise {
+                            RetrofitUrlManager.getInstance().clearAllDomain()
                             loginView?.verificationCodeFail()
                         }
                     }
                     onError {
+                        RetrofitUrlManager.getInstance().clearAllDomain()
                         loginView?.verificationCodeFail()
                     }
                 }
@@ -82,8 +85,12 @@ class LoginPresenter constructor(val application: Application) {
                                 loginView?.getUserBean(it)
                             }
                         }.otherWise {
+                            RetrofitUrlManager.getInstance().clearAllDomain()
                             ToastUtil.showCustomToast(R.drawable.icon_toast_fail, payload.message, application)
                         }
+                    }
+                    onError {
+                        RetrofitUrlManager.getInstance().clearAllDomain()
                     }
                     onComplete {
                         sp.edit { putString(Extras.THIRDLOGIN, "") }

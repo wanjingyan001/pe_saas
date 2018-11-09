@@ -145,9 +145,9 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
         tv_bind.clickWithTrigger {
             bindingStatus?.let {
                 if (it.is_sync == 0) {
-                    MobLogin.WeChatLogin(ctx) { openId ->
+                    MobLogin.WeChatLogin(ctx, { openId ->
                         updateBindingStatus(openId)
-                    }
+                    },  { showCommonToast("已取消微信绑定") }, { showErrorToast("微信绑定失败") })
                 } else {
                     getWxUrl()
                 }
@@ -508,7 +508,7 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
                                 } else {
                                     rl_bind.setVisible(true)
                                     tv_bind.text = if (it.is_sync == 1) "去关注" else "去绑定"
-                                    iv_foucs.imageResource = if (it.is_sync == 1) R.mipmap.icon_wx_focus else  R.mipmap.icon_wx_unfocus
+                                    iv_foucs.imageResource = if (it.is_sync == 1) R.mipmap.icon_wx_focus else R.mipmap.icon_wx_unfocus
                                 }
                             }
                         }.otherWise {

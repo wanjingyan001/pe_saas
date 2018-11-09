@@ -24,7 +24,7 @@ class MobLogin {
     companion object : AnkoLogger {
         const val WeChatID = "wxda5922908a178f1c"
 
-        fun QQLogin(context: Context, block: (account: String) -> Unit) {
+        fun QQLogin(context: Context, block: (account: String) -> Unit, cancel: (() -> Unit)? = null, fail: (() -> Unit)? = null) {
             val platform = ShareSDK.getPlatform(QQ.NAME)
             platform.platformActionListener = object : PlatformActionListener {
                 override fun onComplete(p0: Platform, p1: Int, p2: HashMap<String, Any>) {
@@ -36,11 +36,11 @@ class MobLogin {
                 }
 
                 override fun onCancel(p0: Platform, p1: Int) {
-                    ToastUtil.showCustomToast(R.drawable.icon_toast_common, "已取消QQ登录", context)
+                    cancel?.invoke()
                 }
 
                 override fun onError(p0: Platform, p1: Int, p2: Throwable) {
-                    ToastUtil.showCustomToast(R.drawable.icon_toast_fail, "QQ登录失败", context)
+                    fail?.invoke()
                 }
 
             }
@@ -53,7 +53,7 @@ class MobLogin {
         }
 
 
-        fun WeChatLogin(context: Context, block: (account: String) -> Unit) {
+        fun WeChatLogin(context: Context, block: (account: String) -> Unit, cancel: (() -> Unit)? = null, fail: (() -> Unit)? = null) {
             //MobSDK的微信登录
             val wechat = ShareSDK.getPlatform(Wechat.NAME)
             wechat.platformActionListener = object : PlatformActionListener {
@@ -67,10 +67,12 @@ class MobLogin {
                 }
 
                 override fun onCancel(p0: Platform?, p1: Int) {
+                    cancel?.invoke()
                     ToastUtil.showCustomToast(R.drawable.icon_toast_common, "已取消微信登录", context)
                 }
 
                 override fun onError(p0: Platform?, p1: Int, p2: Throwable?) {
+                    fail?.invoke()
                     ToastUtil.showCustomToast(R.drawable.icon_toast_fail, "微信登录失败", context)
                 }
 
