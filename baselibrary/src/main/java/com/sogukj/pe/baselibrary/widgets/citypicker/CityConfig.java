@@ -79,17 +79,17 @@ public class CityConfig {
     /**
      * 第一次默认的显示省份，一般配合定位，使用
      */
-    private String defaultProvinceName = "浙江";
+    private String defaultProvinceName = "北京";
 
     /**
      * 第一次默认得显示城市，一般配合定位，使用
      */
-    private String defaultCityName = "杭州";
+    private String defaultCityName = "北京市";
 
     /**
      * 第一次默认得显示，一般配合定位，使用
      */
-    private String defaultDistrict = "滨江区";
+    private String defaultDistrict = "东城区";
 
     /**
      * 自定义的item布局

@@ -108,6 +108,9 @@ class ElectronBillFragment : Fragment(), TextWatcher,ShowMoreCallBack {
         ll_city.clickWithTrigger {
             //所在地区
             val config = CityConfig.Builder().title("选择城市").build()
+            config.defaultProvinceName = tv_province.textStr
+            config.defaultCityName = tv_city.textStr
+            config.defaultDistrict = tv_district.textStr
             mCityPickerView!!.setConfig(config)
             mCityPickerView!!.setOnCityItemClickListener(object : OnCityItemClickListener(){
                 override fun onSelected(province: ProvinceBean?, city: CityBean?, district: DistrictBean?) {
