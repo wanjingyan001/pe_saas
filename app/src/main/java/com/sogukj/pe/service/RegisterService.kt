@@ -14,6 +14,7 @@ interface RegisterService {
     /**
      * 提交手机号,发送验证码
      */
+    @Headers(value = "Domain-Name: Register")
     @FormUrlEncoded
     @POST("/api/Saas/send_saas_code")
     fun sendVerCode(@Field("phone") phone: String): Observable<Payload<Any>>
@@ -21,6 +22,7 @@ interface RegisterService {
     /**
      * 验证短信验证码
      */
+    @Headers(value = "Domain-Name: Register")
     @FormUrlEncoded
     @POST("/api/Saas/verify_saas_code")
     fun verifyCode(@Field("phone") phone: String,
@@ -29,6 +31,7 @@ interface RegisterService {
     /**
      * 邀请码验证
      */
+    @Headers(value = "Domain-Name: Register")
     @FormUrlEncoded
     @POST("/api/Saas/get_check_code")
     fun inviteCode(@Field("phone") phone: String,
@@ -37,6 +40,7 @@ interface RegisterService {
     /**
      * 团队信息补充
      */
+    @Headers(value = "Domain-Name: Register")
     @POST("/api/Saas/get_info_sup")
     fun teamInfoSupplement(@Body req: TeamInfoSupplementReq): Observable<Payload<JoinTeamResult>>
 
@@ -44,6 +48,7 @@ interface RegisterService {
     /**
      * 上传名片
      */
+    @Headers(value = "Domain-Name: Register")
     @POST("/api/Saas/uploadCard")
     fun uploadCard(@Body reqBean: RequestBody): Observable<Payload<String>>
 
@@ -60,6 +65,7 @@ interface RegisterService {
      * 通过手机号邀请
      *
      */
+    @Headers(value = "Domain-Name: Register")
     @FormUrlEncoded
     @POST("/api/Saas/send_add_code")
     fun inviteByPhone(@Field("phone") phone: String,
@@ -69,6 +75,7 @@ interface RegisterService {
     /**
      * 审核失败后 机构信息查询
      */
+    @Headers(value = "Domain-Name: Register")
     @FormUrlEncoded
     @POST("/api/Saas/get_mechanism_info")
     fun getMechanismInfo(@Field("user_id") user_id: Int): Observable<Payload<MechanismInfo>>

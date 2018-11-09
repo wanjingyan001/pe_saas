@@ -2,10 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parentLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/parentLayout"
     tools:context="com.sogukj.pe.module.user.FocusWXActivity"
     tools:ignore="MissingPrefix">
 
@@ -17,9 +17,9 @@
         android:layout_height="match_parent">
 
         <android.support.constraint.ConstraintLayout
-            android:paddingBottom="48dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingBottom="48dp">
 
 
             <TextView
@@ -126,9 +126,9 @@
                 android:layout_height="244dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="24dp"
+                android:src="@mipmap/icon_wx_binding_2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/img1"
-                android:src="@mipmap/icon_wx_binding_2"
                 app:layout_constraintTop_toBottomOf="@+id/function2Title" />
 
 
@@ -151,8 +151,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="14dp"
-                android:textColor="@color/colorPrimary"
                 android:text="保存二维码到相册"
+                android:textColor="@color/colorPrimary"
                 app:layout_constraintBottom_toBottomOf="@+id/step1_index"
                 app:layout_constraintStart_toEndOf="@+id/step1_index"
                 app:layout_constraintTop_toTopOf="@+id/step1_index" />
@@ -177,12 +177,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="14dp"
-                android:textColor="@color/text_1"
                 android:text="打开微信>右上角“+”>“扫一扫"
+                android:textColor="@color/text_1"
                 app:layout_constraintBottom_toBottomOf="@+id/step2_index"
                 app:layout_constraintStart_toEndOf="@+id/step2_index"
                 app:layout_constraintTop_toTopOf="@+id/step2_index" />
-
 
 
             <TextView
@@ -204,8 +203,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="14dp"
-                android:textColor="@color/text_1"
                 android:text="选择相册中的二维码"
+                android:textColor="@color/text_1"
                 app:layout_constraintBottom_toBottomOf="@+id/step3_index"
                 app:layout_constraintStart_toEndOf="@+id/step3_index"
                 app:layout_constraintTop_toTopOf="@+id/step3_index" />
@@ -229,11 +228,37 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="14dp"
+                android:text="长按图片,识别图中的二维码"
                 android:textColor="@color/text_1"
-                android:text="关注微信号"
                 app:layout_constraintBottom_toBottomOf="@+id/step4_index"
                 app:layout_constraintStart_toEndOf="@+id/step4_index"
                 app:layout_constraintTop_toTopOf="@+id/step4_index" />
+
+
+            <TextView
+                android:id="@+id/step5_index"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:text="5"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_medium"
+                app:layout_constraintStart_toStartOf="@+id/step4_index"
+                app:layout_constraintTop_toBottomOf="@+id/step4_index"
+                app:shape="rectangle"
+                app:solid_color="#696969" />
+
+            <TextView
+                android:id="@+id/step5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:text="关注公众号"
+                android:textColor="@color/text_1"
+                app:layout_constraintBottom_toBottomOf="@+id/step5_index"
+                app:layout_constraintStart_toEndOf="@+id/step5_index"
+                app:layout_constraintTop_toTopOf="@+id/step5_index" />
 
         </android.support.constraint.ConstraintLayout>
 

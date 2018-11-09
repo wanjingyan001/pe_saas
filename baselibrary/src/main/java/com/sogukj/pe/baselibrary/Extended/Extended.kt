@@ -51,6 +51,9 @@ fun View.setOnClickFastListener(listener: OnClickFastListener.(v: View) -> Unit)
     }
 }
 
+val String?.withOutEmpty:String
+get() = (this.isNullOrBlank() || this == "null").yes { "无" }.otherWise { this!! }
+
 fun <T> List<T>?.isNullOrEmpty(): Boolean = this == null || this.isEmpty()
 /**
  * 判断EditText的text是否不为空

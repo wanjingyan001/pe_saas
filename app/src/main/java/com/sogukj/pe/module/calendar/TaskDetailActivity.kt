@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.withOutEmpty
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
@@ -170,13 +171,13 @@ class TaskDetailActivity : ToolbarActivity(), CommentListener, View.OnClickListe
                                 delete.visibility = View.VISIBLE
                             }
                             it.info?.let {
-                                taskNumber.text = TextStrSplice("任务编号: ${it.number}", 5)
-                                arrangeTime.text = TextStrSplice("安排时间: ${it.timing}", 5)
-                                taskPublisher.text = TextStrSplice("任务发布者: ${it.publisher}", 6)
-                                related_project.text = TextStrSplice("关联项目: ${it.cName}", 5)
-                                taskExecutive.text = TextStrSplice("任务执行者: ${it.executor}", 6)
-                                taskCcPerson.text = TextStrSplice("抄送人: ${it.watcher}", 4)
-                                taskDetail.text = TextStrSplice("任务详情: ${it.info}", 5)
+                                taskNumber.text = TextStrSplice("任务编号: ${it.number.withOutEmpty}", 5)
+                                arrangeTime.text = TextStrSplice("安排时间: ${it.timing.withOutEmpty}", 5)
+                                taskPublisher.text = TextStrSplice("任务发布者: ${it.publisher.withOutEmpty}", 6)
+                                related_project.text = TextStrSplice("关联项目: ${it.cName.withOutEmpty}", 5)
+                                taskExecutive.text = TextStrSplice("任务执行者: ${it.executor.withOutEmpty}", 6)
+                                taskCcPerson.text = TextStrSplice("抄送人: ${it.watcher.withOutEmpty}", 4)
+                                taskDetail.text = TextStrSplice("任务详情: ${it.info.withOutEmpty}", 5)
                             }
                             it.record?.let {
                                 adapter.dataList.addAll(it)
@@ -214,13 +215,13 @@ class TaskDetailActivity : ToolbarActivity(), CommentListener, View.OnClickListe
                                 delete.visibility = View.VISIBLE
                             }
                             it.info?.let {
-                                taskNumber.text = TextStrSplice("日程编号: ${it.number}", 5)
-                                arrangeTime.text = TextStrSplice("安排时间: ${it.timing}", 5)
-                                taskPublisher.text = TextStrSplice("日程发布者: ${it.publisher}", 6)
-                                related_project.text = TextStrSplice("关联项目: ${it.cName}", 5)
-                                taskExecutive.text = TextStrSplice("日程执行者: ${it.executor}", 6)
+                                taskNumber.text = TextStrSplice("日程编号: ${it.number.withOutEmpty}", 5)
+                                arrangeTime.text = TextStrSplice("安排时间: ${it.timing.withOutEmpty}", 5)
+                                taskPublisher.text = TextStrSplice("日程发布者: ${it.publisher.withOutEmpty}", 6)
+                                related_project.text = TextStrSplice("关联项目: ${it.cName.withOutEmpty}", 5)
+                                taskExecutive.text = TextStrSplice("日程执行者: ${it.executor.withOutEmpty}", 6)
                                 taskCcPerson.visibility = View.GONE
-                                taskDetail.text = TextStrSplice("日程详情: ${it.info}", 5)
+                                taskDetail.text = TextStrSplice("日程详情: ${it.info.withOutEmpty}", 5)
                             }
                         }
                     } else {
