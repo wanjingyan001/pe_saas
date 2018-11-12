@@ -22,6 +22,7 @@ import com.sogukj.pe.module.register.LoginActivity
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peExtended.getIntEnvironment
 import com.sogukj.pe.peUtils.Store
+import com.sogukj.pe.peUtils.ToastUtil
 import com.sogukj.pe.service.DzhHttpUtils
 import com.sogukj.pe.service.StaticHttpUtils
 import com.sogukj.pe.service.socket.DzhInterceptor
@@ -45,8 +46,9 @@ class SoguApi {
     private val context: Application
     private var retrofit: Retrofit
     private val environment = getIntEnvironment()
-    private val dzhHttp : DzhHttpUtils
-    private val staticHttp : StaticHttpUtils
+    private val dzhHttp: DzhHttpUtils
+    private val staticHttp: StaticHttpUtils
+
     private constructor(context: Application) {
         this.context = context
 //        val client = OkHttpClient.Builder()
@@ -84,8 +86,8 @@ class SoguApi {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(client)
                 .build()
-        val newBaseUrl =  PreferenceManager.getDefaultSharedPreferences(context).getString(Extras.HTTPURL, "")
-        if (newBaseUrl.isNotEmpty()){
+        val newBaseUrl = PreferenceManager.getDefaultSharedPreferences(context).getString(Extras.HTTPURL, "")
+        if (newBaseUrl.isNotEmpty()) {
             RetrofitUrlManager.getInstance().setGlobalDomain(newBaseUrl)
         }
 
@@ -111,11 +113,11 @@ class SoguApi {
         return OkHttpClient.Builder()
                 .addInterceptor(DzhInterceptor.newInstance(context))
                 .readTimeout(100, TimeUnit.SECONDS)
-                .connectTimeout(100,TimeUnit.SECONDS)
+                .connectTimeout(100, TimeUnit.SECONDS)
                 .build()
     }
 
-    private fun getStatusClient():OkHttpClient?{
+    private fun getStatusClient(): OkHttpClient? {
         return OkHttpClient.Builder()
                 .addInterceptor(initLogInterceptor())
                 .addInterceptor(initInterceptor(context))
@@ -125,9 +127,9 @@ class SoguApi {
                 .build()
     }
 
-    private fun getHost():String{
+    private fun getHost(): String {
         var host = Consts.HTTP_HOST
-        when(environment){
+        when (environment) {
             0 -> {
                 //dev
                 host = Consts.DEV_HTTP_HOST
@@ -139,6 +141,7 @@ class SoguApi {
         }
         return host
     }
+
     private fun <T> getService(service: Class<T>): T {
         return retrofit.create(service)
     }
@@ -162,14 +165,14 @@ class SoguApi {
         val newBuilder = chain.request().newBuilder()
         user?.let {
             newBuilder.addHeader("uid", it.uid.toString())
-            newBuilder.addHeader("uids",it.uids)
+            newBuilder.addHeader("uids", it.uids)
             it.table_token?.let {
-                newBuilder.addHeader("table_token",it)
+                newBuilder.addHeader("table_token", it)
             }
         }
         if (getEnvironment() == "sr") {
             newBuilder.addHeader("key", "d5f17cafef0829b5")
-        }else{
+        } else {
             key.isNotEmpty().takeIf {
                 newBuilder.addHeader("key", key)
                 return@takeIf true
@@ -181,40 +184,46 @@ class SoguApi {
                 .addHeader("version", Utils.getVersionName(context))
                 .addHeader("client", "android")
                 .addHeader("system", Build.VERSION.RELEASE)
-                .addHeader("timestamp",timestamp.toString())
-                .addHeader("sign",EncryptionUtil.getSign(EncryptionUtil.getSign(user?.let {it.app_token}
-                        + Extras.SIGN_CODE)+timestamp))
+                .addHeader("timestamp", timestamp.toString())
+                .addHeader("sign", EncryptionUtil.getSign(EncryptionUtil.getSign(user?.let { it.app_token }
+                        + Extras.SIGN_CODE) + timestamp))
                 .build()
 //        val response = chain.proceed(request)
 //        response
+        val headers = request.headers()
+        headers.names().forEachIndexed { index, s ->
+            Log.e("OkHttp", "name:$s===>value:${headers.get(s)}")
+        }
         val response = chain.proceed(request)
         val mediaType = response.body()!!.contentType()
         val content = response.body()!!.string()
         try {
             val jsonObject = JSONObject(content)
             val msgNo = jsonObject.getString("msgNo")
-            if (msgNo == "1001"){
+            if (msgNo == "1001") {
+                ToastUtil.showErrorToast("签名过期,请重新登录",context)
                 //签名过期
                 exitUser()
             }
-        }catch (e:Exception){
-            Log.e("OkHttp",content)
+        } catch (e: Exception) {
+            Log.e("OkHttp", content)
             e.printStackTrace()
         }
-        response.newBuilder().body(ResponseBody.create(mediaType,content)).build()
+        response.newBuilder().body(ResponseBody.create(mediaType, content)).build()
     }
 
-    fun exitUser(){
+    fun exitUser() {
+        context.startActivity<LoginActivity>()
         Store.store.clearUser(context)
         RetrofitUrlManager.getInstance().removeGlobalDomain()
-        Store.store.setRootUrl(context,"")
+        Store.store.setRootUrl(context, "")
         App.INSTANCE.resetPush(false)
         IMLogout()
         ActivityHelper.exit(App.INSTANCE)
         doAsync {
             Injection.provideFunctionSource(context).delete()
         }
-        context.startActivity<LoginActivity>()
+
     }
 
     /**
@@ -244,15 +253,15 @@ class SoguApi {
             return getApi(ctx).getService(service)
         }
 
-        fun getDzhHttp(ctx: Application?):DzhHttpUtils{
-            if (null == ctx){
+        fun getDzhHttp(ctx: Application?): DzhHttpUtils {
+            if (null == ctx) {
                 throw NullPointerException("context can't be null")
             }
             return getApi(ctx).dzhHttp
         }
 
-        fun getStaticHttp(ctx: Application?):StaticHttpUtils{
-            if (null == ctx){
+        fun getStaticHttp(ctx: Application?): StaticHttpUtils {
+            if (null == ctx) {
                 throw NullPointerException("context can't be null")
             }
             return getApi(ctx).staticHttp

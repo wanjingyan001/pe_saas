@@ -17,6 +17,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.view.get
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.amap.api.mapcore.util.it
@@ -341,21 +342,25 @@ class ApproveInitiateActivity : ToolbarActivity() {
         return checkValue
     }
 
-
+    private var dialog:MaterialDialog?=null
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.copyApprove -> {
+                mMenu.findItem(R.id.copyApprove).isCheckable = false
                 SoguApi.getService(application, ApproveService::class.java)
                         .getLastApproveID(tid)
                         .execute {
                             onNext { payload ->
                                 payload.isOk.yes {
                                     payload.payload?.let {
-                                        showCopyDialog(it) {
-                                            it.sid?.let {
-                                                getLastApproveDetail(it)
+                                        if (dialog == null){
+                                            dialog = showCopyDialog(it) {
+                                                it.sid?.let {
+                                                    getLastApproveDetail(it)
+                                                }
                                             }
-                                        }.show()
+                                            dialog?.show()
+                                        }
                                     }
                                 }.otherWise {
                                     showErrorToast(payload.message)
@@ -477,6 +482,9 @@ class ApproveInitiateActivity : ToolbarActivity() {
         val mDialog = MaterialDialog.Builder(this)
                 .theme(Theme.LIGHT)
                 .canceledOnTouchOutside(true)
+                .dismissListener {
+                    dialog = null
+                }
                 .customView(R.layout.dialog_yongyin, false).build()
         val content = mDialog.find<TextView>(R.id.content)
         val cancel = mDialog.find<Button>(R.id.cancel)

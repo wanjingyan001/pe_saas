@@ -102,8 +102,7 @@
                             android:layout_marginRight="15dp"
                             android:textColor="@color/text_1"
                             android:textSize="18sp"
-                            android:textStyle="bold"
-                            tools:text="Name"/>
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/tv_position"
@@ -111,8 +110,9 @@
                             android:layout_height="wrap_content"
                             android:background="@drawable/bg_director_position"
                             android:textColor="@color/text_3"
-                            android:textSize="14sp"
-                            tools:text="13000000000"/>
+                            android:maxLength="7"
+                            android:ellipsize="end"
+                            android:textSize="14sp" />
                         <ImageView
                             android:id="@+id/iv_foucs"
                             android:layout_width="@dimen/text_18"
@@ -130,8 +130,7 @@
                         android:layout_marginTop="5dp"
                         android:layout_toRightOf="@id/iv_user"
                         android:textColor="@color/text_3"
-                        android:textSize="14sp"
-                        tools:text="13000000000"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <ImageView
@@ -181,10 +180,10 @@
                 android:id="@+id/focus_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#FFF8E9"
+                android:background="@drawable/selector_user_item"
                 android:orientation="horizontal"
-                android:padding="20dp"
-                android:visibility="gone">
+                android:padding="12dp"
+               >
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -219,12 +218,12 @@
 
             </LinearLayout>
 
-            <!--<View-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="1dp"-->
-                <!--android:layout_marginLeft="20dp"-->
-                <!--android:layout_marginRight="12dp"-->
-                <!--android:background="@color/divider2" />-->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="12dp"
+                android:background="@color/divider2" />
 
             <HorizontalScrollView
                 android:layout_width="match_parent"

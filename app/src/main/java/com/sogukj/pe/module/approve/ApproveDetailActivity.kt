@@ -114,6 +114,7 @@ class ApproveDetailActivity : ToolbarActivity() {
         Glide.with(this)
                 .load(fixation.url)
                 .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))
+                .thumbnail(0.1f)
                 .listener(UserRequestListener(applicantHeader, fixation.name))
                 .into(applicantHeader)
         applicantName.text = fixation.name
@@ -192,6 +193,7 @@ class ApproveDetailActivity : ToolbarActivity() {
                         convertView.tv_position.text = flow.position
                         Glide.with(this).load(flow.url)
                                 .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))
+                                .thumbnail(0.1f)
                                 .listener(UserRequestListener(convertView.iv_user, flow.name))
                                 .into(convertView.iv_user)
                         convertView.tv_name.text = flow.name
@@ -269,6 +271,7 @@ class ApproveDetailActivity : ToolbarActivity() {
                     Glide.with(this)
                             .load(handler.url)
                             .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))
+                            .thumbnail(0.1f)
                             .listener(UserRequestListener(segmentItem.iv_user, handler.name))
                             .into(segmentItem.iv_user)
                 }
@@ -292,6 +295,7 @@ class ApproveDetailActivity : ToolbarActivity() {
                             Glide.with(this@ApproveDetailActivity)
                                     .load(data.url)
                                     .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))
+                                    .thumbnail(0.1f)
                                     .listener(UserRequestListener(view.approverHeader, data.name))
                                     .into(view.approverHeader)
                             view.approverName.text = data.name
@@ -393,9 +397,9 @@ class ApproveDetailActivity : ToolbarActivity() {
                         8 -> {
                             operateBtn.text = "确认意见并签字"
                             operateBtn.clickWithTrigger { _ ->
-                                initSignatureDialog { file ->
-                                    doApprove(type = it, file = file)
-                                }.show()
+                                info { btns.jsonStr }
+                                initApproveDialog(btns,true)
+
                             }
                         }
                         9 -> {
@@ -441,6 +445,7 @@ class ApproveDetailActivity : ToolbarActivity() {
         tvComment.text = Html.fromHtml(buff.toString())
         Glide.with(this)
                 .load(MyGlideUrl(data.url))
+                .thumbnail(0.1f)
                 .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))
                 .listener(UserRequestListener(ivUser, data.name))
                 .into(ivUser)
@@ -555,7 +560,7 @@ class ApproveDetailActivity : ToolbarActivity() {
     /**
      * 审批dialog(按钮由接口返回,可能是"同意","不同意"等等)
      */
-    private fun initApproveDialog(button: List<Button>) {
+    private fun initApproveDialog(button: List<Button>,isSignature:Boolean = false) {
         val inflate = LayoutInflater.from(this).inflate(R.layout.layout_new_approve_dialog, null)
         val dialog = MaterialDialog.Builder(this)
                 .theme(Theme.LIGHT)
@@ -621,8 +626,14 @@ class ApproveDetailActivity : ToolbarActivity() {
                         operateBtns.addView(operateBtn)
                         operateBtn.clickWithTrigger { _ ->
                             dialog.dismiss()
-                            val file = if (filePath == null) null else java.io.File(filePath)
-                            showConfirmDialog(it, contentEdt.textStr, file = file)
+                            if (isSignature){
+                                initSignatureDialog { file ->
+                                    doApprove(type = it.key,content = contentEdt.textStr, file = file)
+                                }.show()
+                            }else{
+                                val file = if (filePath == null) null else java.io.File(filePath)
+                                showConfirmDialog(it, contentEdt.textStr, file = file)
+                            }
                         }
                     }
                 }

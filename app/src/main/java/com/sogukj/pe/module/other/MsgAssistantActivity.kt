@@ -254,12 +254,13 @@ class MsgAssistantActivity : BaseRefreshActivity() {
                     item as NewApprovePush
                     helper.setText(R.id.secondTitle, "今天还有1个审批单待你处理")
                     val l = System.currentTimeMillis() - (item.pushTime * 1000)
-                    if (item.title.contains(item.subName)){
+                    val timeForShow = TimeUtil.getElapseTimeForShow(l.toInt())
+                    if (item.title.contains(item.subName)) {
                         helper.setText(R.id.approvalTip,
-                                "${item.title}，已等待${TimeUtil.getElapseTimeForShow(l.toInt())}；\n在手机或电脑上快速处理审批！")
-                    }else{
+                                "${item.title}${timeForShow.isEmpty().yes { "" }.otherWise { " ，已等待$timeForShow" }}；\n在手机或电脑上快速处理审批！")
+                    } else {
                         helper.setText(R.id.approvalTip,
-                                "${item.subName}的${item.title}，已等待${TimeUtil.getElapseTimeForShow(l.toInt())}；\n在手机或电脑上快速处理审批！")
+                                "${item.subName}的${item.title}${timeForShow.isEmpty().yes { "" }.otherWise { " ，已等待$timeForShow" }}；\n在手机或电脑上快速处理审批！")
                     }
                     helper.setText(R.id.msgTime, Utils.formatDingDate(Utils.getTime(System.currentTimeMillis(), "yyyy-MM-dd HH:mm")))
                 }
@@ -287,10 +288,10 @@ class MsgAssistantActivity : BaseRefreshActivity() {
                 }
                 6 -> {
                     item as NewProjectProcess
-                    if (item.title.contains(item.subName)){
+                    if (item.title.contains(item.subName)) {
                         helper.setText(R.id.approvalTip,
                                 "${item.title}；\n在手机或电脑上快速处理审批！")
-                    }else{
+                    } else {
                         helper.setText(R.id.approvalTip,
                                 "${item.subName}的${item.title}；\n在手机或电脑上快速处理审批！")
                     }

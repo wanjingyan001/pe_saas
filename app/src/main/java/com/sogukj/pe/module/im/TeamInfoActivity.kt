@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.View
@@ -194,26 +195,17 @@ class TeamInfoActivity : BaseActivity(), View.OnClickListener, SwitchButton.OnCh
         NimUIKit.getUserInfoProvider().getUserInfoAsync(accounts) { success, result, code ->
             teamMembers.clear()
             result.forEach {
-                if (null != it && it is NimUserInfo){
-                    val info = it as NimUserInfo
-                    if (null != info.extensionMap) {
-                        println(info.extensionMap.jsonStr)
-                        var uid = -1
-                        val extensionUid = info.extensionMap["uid"]
-                        if (null != extensionUid){
-                            val uidStr = info.extensionMap["uid"].toString()
-                            if (Utils.isInteger(uidStr)){
-                                uid = uidStr.toInt()
-                            }
-                        }
-                        val user = UserBean()
-                        user.uid = uid
-                        user.name = info.name
-                        user.user_id = uid
-                        user.url = info.avatar
-                        user.accid = info.account
-                        teamMembers.add(user)
-                    }
+                val info = it as NimUserInfo
+                println(info.extensionMap.jsonStr)
+                if (info.extensionMap.isNotEmpty() && info.extensionMap["uid"] != null) {
+                    val uid = info.extensionMap["uid"].toString().toInt()
+                    val user = UserBean()
+                    user.uid = uid
+                    user.name = info.name
+                    user.user_id = uid
+                    user.url = info.avatar
+                    user.accid = info.account
+                    teamMembers.add(user)
                 }
             }
             adapter.refreshData(teamMembers)

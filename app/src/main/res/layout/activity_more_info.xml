@@ -14,13 +14,35 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/moreInfoList"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingStart="15dp">
+            android:layout_height="match_parent">
 
-        </android.support.v7.widget.RecyclerView>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/moreInfoList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="15dp">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <ImageView
+                android:id="@+id/emptyImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:src="@drawable/img_empty" />
+
+            <ImageView
+                android:id="@+id/iv_loading"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:layout_gravity="center" />
+
+        </FrameLayout>
+
+
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 </LinearLayout>

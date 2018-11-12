@@ -56,6 +56,7 @@ interface RegisterService {
     /**
      * 获取邀请码接口
      */
+    @Headers(value = "Domain-Name: Register")
     @FormUrlEncoded
     @POST("/api/Saas/get_code")
     fun getInviteCode(@Field("key") key: String): Observable<Payload<InviteCode>>
@@ -83,6 +84,7 @@ interface RegisterService {
     /**
      * 基础资料上传
      */
+    @Headers(value = "Domain-Name: Register")
     @FormUrlEncoded
     @POST("/api/Saas/basic_data_upload")
     fun uploadBasicInfo(@Field("key") key: String,
@@ -94,6 +96,7 @@ interface RegisterService {
     /**
      * 上传logo
      */
+    @Headers(value = "Domain-Name: Register")
     @POST("/api/Saas/addlogo")
     fun uploadLogo(@Body reqBean: RequestBody): Observable<Payload<String>>
 

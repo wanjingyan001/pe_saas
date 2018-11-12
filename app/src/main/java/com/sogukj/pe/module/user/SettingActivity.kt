@@ -16,9 +16,7 @@ import com.netease.nimlib.sdk.auth.AuthService
 import com.sogukj.pe.App
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
-import com.sogukj.pe.baselibrary.Extended.fromJson
-import com.sogukj.pe.baselibrary.Extended.setVisible
+import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.ActivityHelper
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -96,11 +94,14 @@ class SettingActivity : BaseActivity() {
             user?.let {
                 val company = sp.getString(Extras.SAAS_BASIC_DATA, "")
                 val detail = Gson().fromJson<MechanismBasicInfo?>(company)
-                detail?.mechanism_name?.let {
+                detail?.mechanism_name.isNullOrEmpty().yes {
+                    showErrorToast("机构名称未找到,请联系客服")
+                }.otherWise {
                     startActivity<UploadBasicInfoActivity>(Extras.NAME to it,
                             Extras.CODE to user.phone,
                             Extras.FLAG to true)
                 }
+
             }
         }
         checkUpdate.clickWithTrigger {

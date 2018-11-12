@@ -2,6 +2,7 @@ package com.sogukj.pe.module.project.overview
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
@@ -76,6 +77,10 @@ class MoreInfoActivity : BaseRefreshActivity() {
             adapter = infoAdapter
             addItemDecoration(DividerItemDecoration(this@MoreInfoActivity, DividerItemDecoration.VERTICAL))
         }
+        Glide.with(ctx)
+                .asGif()
+                .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
+                .into(iv_loading)
         doRequest()
     }
 
@@ -120,6 +125,10 @@ class MoreInfoActivity : BaseRefreshActivity() {
                 }.otherWise {
                     showErrorToast(payload.message)
                 }
+            }
+            onComplete {
+                emptyImg.setVisible(infoAdapter.dataList.isEmpty())
+                iv_loading.setVisible(false)
             }
         }
     }
@@ -208,22 +217,22 @@ class MoreInfoActivity : BaseRefreshActivity() {
         var showSubscript = false
         @SuppressLint("SetTextI18n")
         override fun setData(view: View, data: Any, position: Int) {
-            if (null == data)return
+            if (null == data) return
             data as NewPro
-            if (!data.cname.isNullOrEmpty()){
+            if (!data.cname.isNullOrEmpty()) {
                 view.projectName.text = data.cname
             }
             if (showSubscript) {
-                if (!data.update_time.isNullOrEmpty()){
+                if (!data.update_time.isNullOrEmpty()) {
                     view.projectTime.text = data.update_time
                 }
                 view.subscript.setVisible(true)
                 view.subscriptTv.setVisible(true)
-                if (!data.status.isNullOrEmpty()){
+                if (!data.status.isNullOrEmpty()) {
                     view.subscriptTv.text = data.status
                 }
             } else {
-                if (!data.add_time.isNullOrEmpty()){
+                if (!data.add_time.isNullOrEmpty()) {
                     view.projectTime.text = "添加时间：${data.add_time}"
                 }
                 view.subscript.setVisible(false)

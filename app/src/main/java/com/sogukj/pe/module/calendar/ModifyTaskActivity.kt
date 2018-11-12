@@ -202,9 +202,9 @@ class ModifyTaskActivity : ToolbarActivity(), View.OnClickListener, AddPersonLis
         remind.setOnClickListener(this)
         missionDetails.textChangedListener {
             onTextChanged { charSequence, s, b, c ->
-                if (missionDetails.textStr.isNotEmpty()){
+                if (missionDetails.textStr.isNotEmpty()) {
                     missionDetails.gravity = Gravity.START
-                }else{
+                } else {
                     missionDetails.gravity = Gravity.END
                 }
             }
@@ -375,8 +375,13 @@ class ModifyTaskActivity : ToolbarActivity(), View.OnClickListener, AddPersonLis
     lateinit var startDD: CalendarDingDing
     lateinit var deadDD: CalendarDingDing
 
-    var start: Date? = null
-    var endTime: Date? = null
+    var start: Date? by Delegates.observable(null, { property, oldValue, newValue ->
+
+    })
+    var endTime: Date? by Delegates.observable(null, { property, oldValue, newValue ->
+
+    })
+
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.selectType -> {
@@ -422,7 +427,7 @@ class ModifyTaskActivity : ToolbarActivity(), View.OnClickListener, AddPersonLis
                             } else {
                                 startTime.text = Utils.getTime(date, "MM月dd日 E HH:mm")
                             }
-                        }else{
+                        } else {
                             startTime.text = Utils.getTime(date, "MM月dd日 E HH:mm")
                         }
                     }

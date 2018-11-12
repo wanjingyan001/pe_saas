@@ -5,6 +5,7 @@ import android.os.AsyncTask.execute
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.core.content.edit
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -34,7 +35,7 @@ import java.io.File
 
 class UploadBasicInfoActivity : ToolbarActivity() {
     private var cardPath: String = ""
-    private lateinit var mechanismName: String
+    private  var mechanismName: String?=null
     private lateinit var key: String
     private lateinit var phone: String
     private val flag: Boolean by extraDelegate(Extras.FLAG, false)
@@ -51,7 +52,7 @@ class UploadBasicInfoActivity : ToolbarActivity() {
         mechanismName = intent.getStringExtra(Extras.NAME)
         phone = intent.getStringExtra(Extras.CODE)
         supportInvalidateOptionsMenu()
-        mechanismNameEdt.text = mechanismName
+        mechanismNameEdt.text = mechanismName?:"无"
         logoLayout.clickWithTrigger {
             EasyPhotos.createAlbum(this, true, GlideEngine.getInstance())
                     .setFileProviderAuthority(BuildConfig.FILEPROVIDER)
@@ -99,7 +100,7 @@ class UploadBasicInfoActivity : ToolbarActivity() {
                             }
                         } else {
                             cardPath = ""
-                            showTopSnackBar(payload.message)
+                            showErrorToast("${payload.message},只接受jpg,png,jpeg,gif类型的图片")
                             Glide.with(ctx)
                                     .load(cardPath)
                                     .into(mCompanyLogo)
@@ -161,7 +162,7 @@ class UploadBasicInfoActivity : ToolbarActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_next_step, R.id.action_save -> {
-                if (cardPath.isNotEmpty() && mechanismName.isNotEmpty()) {
+                if (cardPath.isNotEmpty() && mechanismName?.isNotEmpty() == true) {
                     uploadInfo()
                 } else {
                     showTopSnackBar("请完善资料")

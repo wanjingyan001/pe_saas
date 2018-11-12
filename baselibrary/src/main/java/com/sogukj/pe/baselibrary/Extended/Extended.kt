@@ -52,7 +52,7 @@ fun View.setOnClickFastListener(listener: OnClickFastListener.(v: View) -> Unit)
 }
 
 val String?.withOutEmpty:String
-get() = (this.isNullOrBlank() || this == "null").yes { "无" }.otherWise { this!! }
+get() = (this.isNullOrBlank() || this == "null").yes { "--" }.otherWise { this!! }
 
 fun <T> List<T>?.isNullOrEmpty(): Boolean = this == null || this.isEmpty()
 /**
