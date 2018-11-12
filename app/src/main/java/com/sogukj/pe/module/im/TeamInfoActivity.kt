@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.View
@@ -196,8 +195,8 @@ class TeamInfoActivity : BaseActivity(), View.OnClickListener, SwitchButton.OnCh
             teamMembers.clear()
             result.forEach {
                 val info = it as NimUserInfo
-                println(info.extensionMap.jsonStr)
-                if (info.extensionMap.isNotEmpty() && info.extensionMap["uid"] != null) {
+                if (null != info.extensionMap && info.extensionMap.isNotEmpty() && info.extensionMap["uid"] != null) {
+                    println(info.extensionMap.jsonStr)
                     val uid = info.extensionMap["uid"].toString().toInt()
                     val user = UserBean()
                     user.uid = uid

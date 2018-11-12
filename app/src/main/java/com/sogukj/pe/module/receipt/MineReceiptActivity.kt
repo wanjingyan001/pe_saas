@@ -42,7 +42,7 @@ class MineReceiptActivity : BaseRefreshActivity() {
     private lateinit var adapter: RecyclerAdapter<MineReceiptBean>
     private lateinit var alreadySelected: MutableSet<MineReceiptBean>
     private lateinit var ordersSet : MutableSet<String>
-    private var totalAmount = 0f
+    private var totalAmount = "0.00"
     private var type = 0  //0 不可选择  1 可以选择
     private var page = 1
     private var originType = 0
@@ -93,7 +93,7 @@ class MineReceiptActivity : BaseRefreshActivity() {
             }
             alreadySelected.clear()
             ordersSet.clear()
-            totalAmount = 0.0f
+            totalAmount = "0.00"
             tv_total.text = "￥${totalAmount}"
             tv_comit.setBackgroundResource(R.drawable.selector_sure_gray)
             getBillOrderDatas(false)
@@ -208,7 +208,7 @@ class MineReceiptActivity : BaseRefreshActivity() {
     private fun bindListener() {
         tv_comit.clickWithTrigger {
             //确定
-            if (totalAmount != 0f){
+            if (totalAmount.toFloat() != 0f){
                 startActivity<CreateBillActivity>(Extras.DATA to totalAmount,Extras.LIST to ordersSet.toMutableList())
             }
         }
@@ -232,7 +232,11 @@ class MineReceiptActivity : BaseRefreshActivity() {
     }
 
     override fun doRefresh() {
-        getBillOrderDatas(false)
+        if (type == 0){
+            getBillOrderDatas(false)
+        }else{
+            dofinishRefresh()
+        }
     }
 
     override fun doLoadMore() {
@@ -246,6 +250,7 @@ class MineReceiptActivity : BaseRefreshActivity() {
         val tv_amount = itemView.find<TextView>(R.id.tv_amount)
         val tv_coin = itemView.find<TextView>(R.id.tv_coin)
         val tv_tips = itemView.find<TextView>(R.id.tv_tips)
+        val tv_pay_status = itemView.find<TextView>(R.id.tv_pay_status)
         override fun setData(view: View, data: MineReceiptBean, position: Int) {
             if (null == data) return
             Log.e("TAG","type ==" + type)
@@ -290,22 +295,23 @@ class MineReceiptActivity : BaseRefreshActivity() {
             tv_title.text = data.type
             tv_time.text = data.pay_time
             tv_amount.text = "数量：${data.count}"
-            tv_coin.text = "支付金额：${data.fee}"
-            if (type == 1){
+            tv_coin.text = "支付金额：${data.price}"
+            tv_pay_status.text = data.pay_source
+            if (type == 1 && data.is_invoice != 1){
                 itemView.setOnClickListener {
                     if (alreadySelected.contains(data)) {
                         alreadySelected.remove(data)
                         ordersSet.remove(data.order_no)
-                        totalAmount = Utils.floatSubtract(totalAmount,data.fee)
+                        totalAmount = Utils.stringSubtract(totalAmount,data.price)
                     } else {
                         alreadySelected.add(data)
                         ordersSet.add(data.order_no)
-                        totalAmount = Utils.floatAddFloat(totalAmount,data.fee)
+                        totalAmount = Utils.stringAdd(totalAmount,data.price)
                     }
                     data.isSelect = !data.isSelect
                     iv_select.isSelected = data.isSelect
                     tv_total.text = "￥${totalAmount}"
-                    if (totalAmount > 0){
+                    if (totalAmount.toFloat() > 0){
                         tv_comit.setBackgroundResource(R.drawable.selector_sure)
                     }else{
                         tv_comit.setBackgroundResource(R.drawable.selector_sure_gray)
@@ -313,6 +319,12 @@ class MineReceiptActivity : BaseRefreshActivity() {
                 }
             }
 
+            if (type == 0){
+                itemView.clickWithTrigger {
+                    RecordDetailActivity.invoke(this@MineReceiptActivity,data.pay_time,data.type,data.count,
+                            data.fee,data.price,data.invoice_type)
+                }
+            }
         }
 
     }

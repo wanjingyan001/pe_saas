@@ -107,6 +107,7 @@ class ElectronBillFragment : Fragment(), TextWatcher,ShowMoreCallBack {
 
         ll_city.clickWithTrigger {
             //所在地区
+            Utils.forceCloseInput(activity,et_accept)
             val config = CityConfig.Builder().title("选择城市").build()
             config.defaultProvinceName = tv_province.textStr
             config.defaultCityName = tv_city.textStr

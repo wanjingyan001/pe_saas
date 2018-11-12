@@ -1621,4 +1621,17 @@ public class Utils {
         BigDecimal bigDecimal2 = new BigDecimal(String.valueOf(f2));
         return bigDecimal1.subtract(bigDecimal2).floatValue();
     }
+
+    public static String stringAdd(String s1,String s2){
+        BigDecimal bigDecimal1 = new BigDecimal(s1);
+        BigDecimal bigDecimal2 = new BigDecimal(s2);
+        String floatValue = bigDecimal1.add(bigDecimal2).toString();
+        return floatValue;
+    }
+
+    public static String stringSubtract(String s1,String s2){
+        BigDecimal bigDecimal1 = new BigDecimal(s1);
+        BigDecimal bigDecimal2 = new BigDecimal(s2);
+        return bigDecimal1.subtract(bigDecimal2).toString();
+    }
 }

@@ -106,6 +106,14 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                 ctx.startActivityForResult(intent, 0x001)
             }
         }
+
+        fun start(ctx: Fragment, project: ProjectBean, type: Int, position: Int) {
+            val intent = Intent(ctx.activity, ProjectDetailActivity::class.java)
+            intent.putExtra(Extras.DATA, project)
+            intent.putExtra(Extras.TYPE, type)
+            intent.putExtra(Extras.CODE, position)
+            ctx.startActivityForResult(intent, 0x001)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

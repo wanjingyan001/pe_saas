@@ -22,7 +22,7 @@ interface StaticHttpUtils {
     @FormUrlEncoded
     @POST("/api/Order/invoiceOrderList")
     fun billOrderList(@Field("page") page: Int? = 1,
-                      @Field("pageSize") pageSize: Int? = 20): Observable<Payload<List<MineReceiptBean>>>
+                      @Field("pageSize") pageSize: Int? = 15): Observable<Payload<List<MineReceiptBean>>>
 
     /**
      * 发票历史
@@ -30,7 +30,7 @@ interface StaticHttpUtils {
     @FormUrlEncoded
     @POST("/api/Order/historyInvoice")
     fun billHisList(@Field("page") page: Int? = 1,
-                    @Field("pageSize") pageSize: Int? = 20): Observable<Payload<List<InvoiceHisBean>>>
+                    @Field("pageSize") pageSize: Int? = 15): Observable<Payload<List<InvoiceHisBean>>>
 
     /**
      * 发票详情
@@ -51,7 +51,7 @@ interface StaticHttpUtils {
     @FormUrlEncoded
     @POST("/api/Order/getTitleList")
     fun getBillHeaderList(@Field("page") page: Int? = 1,
-                          @Field("pageSize") pageSize: Int? = 20): Observable<Payload<List<InvoiceHisBean>>>
+                          @Field("pageSize") pageSize: Int? = 15): Observable<Payload<List<InvoiceHisBean>>>
 
 
     /**
@@ -220,4 +220,5 @@ interface StaticHttpUtils {
      */
     @POST("/api/Pay/payBillCombo")
     fun getPayType(): Observable<Payload<List<PackageBean>>>
+
 }

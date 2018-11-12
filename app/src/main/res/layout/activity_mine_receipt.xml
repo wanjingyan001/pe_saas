@@ -111,6 +111,6 @@
             android:textSize="@dimen/text_size_16"
             android:layout_marginLeft="@dimen/text_5"
             android:layout_toLeftOf="@+id/tv_comit"
-            android:text="￥0"/>
+            android:text="￥0.00"/>
     </RelativeLayout>
 </LinearLayout>

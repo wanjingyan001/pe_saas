@@ -143,4 +143,5 @@ object Extras {
     val SORT = "ext.sort"
     val DIR = "ext.dir"
     val PATH = "ext.path"
+    val SHARE = "ext.share"
 }

@@ -36,26 +36,48 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        android:ellipsize="end"
         android:gravity="center_vertical"
-        android:maxLines="2"
-        android:visibility="gone"
-        android:textColor="@color/gray_a0"
-        android:textSize="@dimen/text_size_16"
-        android:text="已开发票"/>
-        <TextView
-            android:id="@+id/tv_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/text_10"
-            android:drawableLeft="@mipmap/ic_receipt_time"
-            android:drawablePadding="@dimen/text_8"
-            android:gravity="center_vertical"
+        android:drawablePadding="@dimen/text_10"
+        android:drawableRight="@drawable/ic_right"
+        android:textColor="@color/yellow_f7b"
+        android:textSize="@dimen/text_size_14"
+        android:text="已完成"/>
+        <RelativeLayout
+            android:id="@+id/rl_time"
+            android:layout_marginTop="@dimen/text_12"
             app:layout_constraintTop_toBottomOf="@+id/tv_title"
             app:layout_constraintStart_toStartOf="@+id/tv_title"
-            android:text="2018年09月27日 09:34"
-            android:textColor="@color/gray_a0"
-            android:textSize="@dimen/text_size_14"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_pay_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:drawablePadding="@dimen/text_10"
+                android:layout_marginRight="@dimen/text_8"
+                android:drawableLeft="@mipmap/ic_pay_status"
+                android:textColor="@color/gray_a0"
+                android:textSize="@dimen/text_size_14"
+                tools:text="个人钱包支付"/>
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/ic_receipt_time"
+                android:drawablePadding="@dimen/text_8"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical|left"
+                android:text="10-19 09:34"
+                android:textColor="@color/gray_a0"
+                android:layout_toLeftOf="@id/tv_pay_status"
+                android:textSize="@dimen/text_size_14"/>
+        </RelativeLayout>
+
 
         <TextView
             android:id="@+id/tv_amount"
@@ -66,7 +88,7 @@
             android:drawablePadding="@dimen/text_10"
             android:gravity="center_vertical"
             android:layout_marginLeft="@dimen/text_2"
-            app:layout_constraintTop_toBottomOf="@+id/tv_time"
+            app:layout_constraintTop_toBottomOf="@+id/rl_time"
             app:layout_constraintStart_toStartOf="@+id/tv_title"
             android:text="数量：3个"
             android:textColor="@color/black_28"

@@ -22,6 +22,7 @@
             android:layout_marginLeft="@dimen/text_20"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/tv_company"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -34,6 +35,7 @@
                 android:layout_marginTop="@dimen/text_10"
                 android:orientation="horizontal">
                 <TextView
+                    android:id="@+id/tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
@@ -46,6 +48,7 @@
                     android:background="@color/white"/>
 
                 <TextView
+                    android:id="@+id/tv_account"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/text_8"
@@ -72,6 +75,7 @@
         android:layout_marginRight="@dimen/text_15"
         android:background="@color/gray_f1"/>
     <TextView
+        android:id="@+id/tv_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/text_20"
@@ -90,7 +94,7 @@
             android:id="@+id/iv_pay"
             android:layout_width="@dimen/text_60"
             android:layout_height="@dimen/text_60"
-            android:src="@mipmap/ic_book_head"/>
+            android:src="@mipmap/ic_credit_head"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -109,7 +113,7 @@
                     android:layout_alignParentRight="true"
                     style="@style/text14_color28"/>
                 <TextView
-                    android:id="@+id/tv_name"
+                    android:id="@+id/tv_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/text14_color28"
@@ -157,6 +161,7 @@
         android:paddingTop="@dimen/text_15"
         android:paddingBottom="@dimen/text_15">
         <TextView
+            android:id="@+id/tv_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="￥999"

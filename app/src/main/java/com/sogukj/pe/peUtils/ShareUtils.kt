@@ -258,14 +258,16 @@ class ShareUtils {
         }
 
         override fun onCancel(platform: Platform, i: Int) {
-            mHandler.sendEmptyMessage(7)
+            if (platform.name != QQ.NAME){
+                mHandler.sendEmptyMessage(7)
+            }
         }
 
         var mHandler: Handler = object : Handler() {
             override fun handleMessage(msg: Message) {
                 when (msg.what) {
                     1 -> showCustomToast(R.drawable.icon_toast_success, "朋友圈分享成功", context!!)
-                    2 -> showCustomToast(R.drawable.icon_toast_success, "微信分享成功", context!!)
+//                    2 -> showCustomToast(R.drawable.icon_toast_success, "微信分享成功", context!!)
                     3 -> showCustomToast(R.drawable.icon_toast_success, "新浪微博分享成功", context!!)
                     4 -> showCustomToast(R.drawable.icon_toast_success, "QQ分享成功", context!!)
                     5 -> showCustomToast(R.drawable.icon_toast_success, "QQ空间分享成功", context!!)

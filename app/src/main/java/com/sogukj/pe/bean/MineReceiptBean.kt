@@ -6,11 +6,14 @@ import java.io.Serializable
  * Created by CH-ZH on 2018/10/17.
  */
 class MineReceiptBean : Serializable {
-    var fee = 0f  //支付金额
+    var fee = ""  //单价
     var is_invoice = 0 //1:已开 0:未开
     var type = "" //标题
     var order_no = "" //订单号
     var pay_time = ""
     var count  = 0
     var isSelect = false
+    var pay_source = "" //支付方式
+    var invoice_type = 1  // 1:舆情监控 2：征信付费 3：账号付费 4：智能文书付费
+    var price = ""//总价
 }

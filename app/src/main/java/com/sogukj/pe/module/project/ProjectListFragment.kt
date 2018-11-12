@@ -14,7 +14,6 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
-import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
@@ -73,7 +72,7 @@ class ProjectListFragment : BaseFragment(), SupportEmptyView {
             } else {
                 type
             }
-            ProjectDetailActivity.start(ctx, project, t ?: 0, p)
+            ProjectDetailActivity.start(this, project, t ?: 0, p)
             XmlDb.open(ctx).set(Extras.TYPE, type.toString())
         }
         val layoutManager = LinearLayoutManager(baseActivity)
@@ -275,7 +274,6 @@ class ProjectListFragment : BaseFragment(), SupportEmptyView {
         const val TYPE_GZ = 3
         const val TYPE_DY = 6
         const val TYPE_TC = 7
-
         fun newInstance(type: Int, isFocus: Boolean, principalId: Int? = null): ProjectListFragment {
             val fragment = ProjectListFragment()
             val intent = Bundle()

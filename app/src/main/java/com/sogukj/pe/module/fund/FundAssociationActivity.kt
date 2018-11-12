@@ -10,6 +10,7 @@ import android.widget.TextView
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
+import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
@@ -18,6 +19,7 @@ import com.sogukj.pe.bean.FundAssociationBean
 import com.sogukj.pe.bean.PdfBook
 import com.sogukj.pe.module.dataSource.PdfPreviewActivity
 import com.sogukj.pe.service.FundService
+import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -87,7 +89,29 @@ class FundAssociationActivity : ToolbarActivity() {
 
         ll_export.clickWithTrigger {
             //导出报告
-            PdfPreviewActivity.start(this, PdfBook(0,"","","","","","",1),false)
+            SoguApi.getService(application,OtherService::class.java)
+                    .getInvestorPost(fund_id)
+                    .execute {
+                        onNext { payload ->
+                            if (payload.isOk){
+                                val any = payload.payload
+                                if (null != any){
+                                    val path = any.toString()
+                                    PdfPreviewActivity.invoke(this@FundAssociationActivity,
+                                                PdfBook(0,"投资人报告",path,"","","","",1),false)
+                                }else{
+                                    showErrorToast("该基金的投资人报告不存在")
+                                }
+                            }else{
+                                showErrorToast(payload.message)
+                            }
+                        }
+
+                        onError {
+                            it.printStackTrace()
+                            showErrorToast("获取数据失败")
+                        }
+                    }
         }
     }
 

@@ -45,9 +45,9 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.module.approve.ApproveListActivity
+import com.sogukj.pe.module.im.ImSearchResultActivity
 import com.sogukj.pe.module.im.msg_viewholder.ApproveAttachment
 import com.sogukj.pe.module.im.msg_viewholder.CustomAttachment
-import com.sogukj.pe.module.im.ImSearchResultActivity
 import com.sogukj.pe.module.im.msg_viewholder.ProcessAttachment
 import com.sogukj.pe.module.im.msg_viewholder.SystemAttachment
 import com.sogukj.pe.module.other.GongGaoDetailActivity
@@ -196,6 +196,7 @@ class MainMsgFragment : BaseFragment() {
                 override fun setData(view: View, data: RecentContact, position: Int) {
                     val titleName = UserInfoHelper.getUserTitleName(data.contactId, data.sessionType)
                     tvTitle.text = titleName
+                    tvTitle.maxEms = Int.MAX_VALUE
                     topTag.setVisible(data.tag == RECENT_TAG_STICKY)
                     if (data.sessionType == SessionTypeEnum.P2P) {
                         tv_flag.visibility = View.GONE
@@ -241,6 +242,7 @@ class MainMsgFragment : BaseFragment() {
                         }
                     } else if (data.sessionType == SessionTypeEnum.Team) {
                         tv_flag.visibility = View.VISIBLE
+                        tvTitle.maxEms = 8
                         val value = data.msgStatus.value
                         val fromNick = if (data.fromNick.isNullOrEmpty()) "" else "${data.fromNick}: "
                         when (value) {

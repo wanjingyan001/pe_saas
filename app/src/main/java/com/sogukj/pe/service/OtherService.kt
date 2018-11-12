@@ -220,4 +220,10 @@ interface OtherService {
      */
     @POST("/api/Pay/getUserList")
     fun getManagerData(): Observable<Payload<UserManagerBean>>
+
+    /**
+     * 获取投资人报告
+     */
+    @GET("/api/report/getPreview")
+    fun getInvestorPost(@Query("fund_id") fund_id: Int): Observable<Payload<Any>>
 }

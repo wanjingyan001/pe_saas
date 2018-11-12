@@ -38,6 +38,13 @@ class PdfPreviewActivity : ToolbarActivity() {
             intent.putExtra(Extras.FLAG, hasDownloaded)
             context.startActivity(intent)
         }
+
+        fun invoke(context: Context, bean: PdfBook,isShowShare:Boolean) {
+            val intent = Intent(context, PdfPreviewActivity::class.java)
+            intent.putExtra(Extras.DATA, bean)
+            intent.putExtra(Extras.SHARE, isShowShare)
+            context.startActivity(intent)
+        }
     }
 
     override val menuId: Int
@@ -49,7 +56,7 @@ class PdfPreviewActivity : ToolbarActivity() {
     private var flag: Boolean = false
     private var shareTitle : String = ""
     private val downloaded = mutableSetOf<String>()
-
+    private var isShowShare = true
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +70,7 @@ class PdfPreviewActivity : ToolbarActivity() {
         shareTitle = pdfBean.pdf_name
         transUrl = pdfBean.share_url
         flag = intent.getBooleanExtra(Extras.FLAG, false)
+        isShowShare = intent.getBooleanExtra(Extras.SHARE,true)
         flag.yes {
             supportInvalidateOptionsMenu()
         }
@@ -120,6 +128,9 @@ class PdfPreviewActivity : ToolbarActivity() {
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         if (flag) {
             menu.findItem(R.id.download).isVisible = false
+        }
+        if (!isShowShare){
+            menu.findItem(R.id.share).isVisible = false
         }
         return super.onPrepareOptionsMenu(menu)
     }
