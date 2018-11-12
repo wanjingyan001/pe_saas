@@ -344,6 +344,17 @@ public class Utils {
         return timestamp;
     }
 
+    public static long getTime2(String time){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        long timestamp = 0;
+        try {
+            timestamp = format.parse(time).getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return timestamp;
+    }
+
     @SuppressLint("SimpleDateFormat")
     public static String getTimeYmd(long time) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");

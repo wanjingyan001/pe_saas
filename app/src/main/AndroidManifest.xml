@@ -711,7 +711,7 @@
             android:name=".module.fund.FundAssociationDetailActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name=".module.fund.MoveActivity" />
         <activity android:name=".module.fund.BookUploadActivity" />
         <activity android:name=".module.fund.FundProjectActivity" />
@@ -1452,7 +1452,7 @@
             android:name=".module.receipt.CreateBillActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".module.receipt.BillDetailActivity"
             android:configChanges="orientation|screenSize"

@@ -30,9 +30,9 @@ class BillDetailBean : Serializable {
     var add_time = ""
     var receiver = ""
     var phone = ""
-    var province = ""
-    var city = ""
-    var county = ""
+    var province = "" //省
+    var city = ""   //市
+    var county = "" //区
     var address = ""
     var telphone = ""
     var bank = ""

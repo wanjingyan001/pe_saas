@@ -18,7 +18,7 @@
         android:id="@+id/tv_dir"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="'我的文件'中的所有视频"
+        tools:text="我的文件中的所有视频"
         android:textSize="@dimen/text_size_14"
         android:gravity="center"
         android:paddingTop="@dimen/text_10"

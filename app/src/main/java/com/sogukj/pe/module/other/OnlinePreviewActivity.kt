@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
@@ -13,10 +14,7 @@ import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.WindowManager
-import android.webkit.WebChromeClient
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.webkit.*
 import android.widget.TextView
 import cn.sharesdk.framework.Platform
 import cn.sharesdk.framework.PlatformActionListener
@@ -92,6 +90,15 @@ class OnlinePreviewActivity : ToolbarActivity(), PlatformActionListener {
             override fun onPageFinished(view: WebView, url: String) {
                 super.onPageFinished(view, url)
             }
+
+            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                super.onPageStarted(view, url, favicon)
+            }
+
+            override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
+                super.onReceivedError(view, request, error)
+            }
+
         }
 
         val settings = web.getSettings()
@@ -108,6 +115,7 @@ class OnlinePreviewActivity : ToolbarActivity(), PlatformActionListener {
         //不显示webview缩放按钮
         settings.setDisplayZoomControls(false)
         settings.domStorageEnabled = true
+        settings.loadWithOverviewMode = true
         web.setWebChromeClient(WebChromeClient())
 
         var map = HashMap<String, String>()

@@ -68,7 +68,7 @@ class CloudFileSortActivity : BaseRefreshActivity(),UploadCallBack {
     }
 
     private fun initData() {
-        tv_dir.text = "${dir}中的所有${sort}"
+        tv_dir.text = "\"${dir}\"中的所有${sort}"
         adapter = RecyclerAdapter(this){_adapter,parent,_ ->
             CloudFileSortHolder(_adapter.getView(R.layout.item_mine_file,parent))
         }

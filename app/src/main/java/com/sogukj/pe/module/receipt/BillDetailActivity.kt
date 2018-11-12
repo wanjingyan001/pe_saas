@@ -69,7 +69,7 @@ class BillDetailActivity : ToolbarActivity() {
             }
         }
         tv_time.text = detailBean.add_time
-        tv_address.text = detailBean.address
+        tv_address.text = detailBean.province + detailBean.city + detailBean.county + detailBean.address
         tv_accept.text = "${detailBean.receiver} ${detailBean.phone}"
         tv_company.text = detailBean.title
         tv_duty.text = detailBean.tax_no
