@@ -510,13 +510,19 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
                                     if (null != rl_bind) {
                                         rl_bind.setVisible(false)
                                     }
-                                    iv_foucs?.imageResource = R.mipmap.icon_wx_focus
+                                    if (null != iv_foucs){
+                                        iv_foucs?.imageResource = R.mipmap.icon_wx_focus
+                                    }
                                 } else {
                                     if (null != rl_bind) {
                                         rl_bind.setVisible(true)
                                     }
-                                    tv_bind?.text = if (it.is_sync == 1) "去关注" else "去绑定"
-                                    iv_foucs?.imageResource =  R.mipmap.icon_wx_unfocus
+                                    if (null != tv_bind){
+                                        tv_bind?.text = if (it.is_sync == 1) "去关注" else "去绑定"
+                                    }
+                                    if (null != iv_foucs){
+                                        iv_foucs?.imageResource =  R.mipmap.icon_wx_unfocus
+                                    }
                                 }
                             }
                         }.otherWise {

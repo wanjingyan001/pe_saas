@@ -137,8 +137,10 @@ object SessionHelper {
                     NimUIKit.getUserInfoProvider().getUserInfoAsync(sessionId) { success, result, code ->
                         if (result !is NimUserInfo) return@getUserInfoAsync
                         val info = result as NimUserInfo
-                        val uid = info.extensionMap["uid"].toString().toInt()
-                        PersonalInfoActivity.start(context, uid)
+                        if (null != info.extensionMap){
+                            val uid = info.extensionMap["uid"].toString().toInt()
+                            PersonalInfoActivity.start(context, uid)
+                        }
                     }
                 }
             }
