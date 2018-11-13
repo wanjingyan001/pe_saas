@@ -65,13 +65,6 @@ class MoreInfoActivity : BaseRefreshActivity() {
                 else -> throw Exception("类型错误")
             }
         }
-        infoAdapter.onItemClick = { v, p ->
-            when (listType) {
-                1 -> {
-
-                }
-            }
-        }
         moreInfoList.apply {
             layoutManager = LinearLayoutManager(this@MoreInfoActivity)
             adapter = infoAdapter

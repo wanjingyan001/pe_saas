@@ -265,7 +265,7 @@ class MainProjectFragment : BaseRefreshFragment() {
         }
 
         fb_add.setOnClickListener {
-//            if (view_pager.currentItem == 0) {
+            //            if (view_pager.currentItem == 0) {
 //                var intent = Intent(context, ProjectAddActivity::class.java)
 //                intent.putExtra(Extras.TYPE, "ADD")
 //                intent.putExtra(Extras.TITLE, mTypeMap.get(mTypeList.get(0)))
@@ -362,12 +362,12 @@ class MainProjectFragment : BaseRefreshFragment() {
                 .subscribe({ payload ->
                     if (payload.isOk) {
                         fragments = ArrayList<BaseFragment>()
-                        payload?.payload?.forEachIndexed {index, it ->
+                        payload?.payload?.forEachIndexed { index, it ->
                             mTypeList.add(it.type!!)
                             mTypeMap.put(it.type!!, it.name!!)
-                            if (index == 0){
+                            if (index == 0 && it.name == "总览") {
                                 fragments.add(OverviewFragment())
-                            }else{
+                            } else {
                                 fragments.add(ProjectListFragment.newInstance(it.type!!, false))
                             }
                             var tab = tabs.newTab().setText(it.name!!)
@@ -382,7 +382,7 @@ class MainProjectFragment : BaseRefreshFragment() {
                                         //icon.setImageDrawable(BitmapDrawable(resources, imageFile.path))
                                     }
                                 }.start()
-                            }catch (e:Exception){
+                            } catch (e: Exception) {
                                 e.printStackTrace()
                             }
 
@@ -477,17 +477,17 @@ class MainProjectFragment : BaseRefreshFragment() {
         try {
 //            Glide.with(activity!!).asGif().load(R.drawable.danger).into(dangerous)
             Glide.with(activity!!).asGif().load(R.drawable.danger).into(cus_dangerous)
-        }catch (e:Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
-    private fun setFloatButtonVisible(visible:Boolean){
+    private fun setFloatButtonVisible(visible: Boolean) {
 //        dangerous.setVisible(visible)
         cus_dangerous.setVisible(visible)
     }
 
-    fun selectTab(index :Int){
+    fun selectTab(index: Int) {
         view_pager.currentItem = index
     }
 
@@ -514,7 +514,7 @@ class MainProjectFragment : BaseRefreshFragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 0x543) {
             if (this::fragments.isLateinit) {
-                if (fragments[view_pager.currentItem] is ProjectListFragment){
+                if (fragments[view_pager.currentItem] is ProjectListFragment) {
                     (fragments[view_pager.currentItem] as ProjectListFragment).request()
                 }
             }

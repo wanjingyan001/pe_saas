@@ -143,9 +143,15 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
         tv_bind.clickWithTrigger {
             bindingStatus?.let {
                 if (it.is_sync == 0) {
-                    MobLogin.WeChatLogin(ctx, { openId ->
+                    MobLogin.WeChatLogin({ openId ->
                         updateBindingStatus(openId)
-                    },  { showCommonToast("已取消微信绑定") }, { showErrorToast("微信绑定失败") })
+                    }, { showCommonToast("已取消微信绑定") }, {
+                        (it == 1).yes {
+                            showErrorToast("请安装最新版微信")
+                        }.otherWise {
+                            showErrorToast("微信绑定失败")
+                        }
+                    })
                 } else {
                     getWxUrl()
                 }
@@ -337,7 +343,7 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
 
 
     private fun getBelongBean(userId: Int) {
-        SoguApi.getService(baseActivity!!.application, UserService::class.java)
+        SoguApi.getService(ctx, UserService::class.java)
                 .getProject(userId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -345,10 +351,10 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
                     if (payload.isOk) {
                         payload.payload?.let {
                             loadStage(it.xm!!)
-//                            it.gz?.let {
-//                                tv_6.text = it.count.toString()
-                            //point.visibility = if (it.red == null || it.red == 0) View.GONE else View.VISIBLE
-//                            }
+                            it.gz?.let {
+                                tv_6.text = it.count.toString()
+                            //point.visibility = if (it.red == /null || it.red == 0) View.GONE else View.VISIBLE
+                            }
                         }
                     } else {
                         showCustomToast(R.drawable.icon_toast_fail, payload.message)
@@ -422,7 +428,7 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
             }
         }
         if (null != user?.uid) {
-            SoguApi.getService(baseActivity!!.application, UserService::class.java)
+            SoguApi.getService(ctx, UserService::class.java)
                     .userInfo(user.uid!!)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
@@ -475,7 +481,7 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
     }
 
     private fun getWxUrl() {
-        SoguApi.getService(baseActivity!!.application, UserService::class.java)
+        SoguApi.getService(ctx, UserService::class.java)
                 .getWxQRurl()
                 .execute {
                     onNext { payload ->
@@ -493,7 +499,7 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
 
     private var bindingStatus: WXBind? = null
     private fun getBindingStatus() {
-        SoguApi.getService(baseActivity!!.application, UserService::class.java)
+        SoguApi.getService(ctx, UserService::class.java)
                 .getBindingStatus()
                 .execute {
                     onNext { payload ->
@@ -501,16 +507,16 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
                             payload.payload?.let {
                                 bindingStatus = it
                                 if (it.subscribe == 1) {
-                                    if (null != rl_bind){
+                                    if (null != rl_bind) {
                                         rl_bind.setVisible(false)
                                     }
-                                    iv_foucs.imageResource = R.mipmap.icon_wx_focus
+                                    iv_foucs?.imageResource = R.mipmap.icon_wx_focus
                                 } else {
-                                    if (null != rl_bind){
+                                    if (null != rl_bind) {
                                         rl_bind.setVisible(true)
                                     }
-                                    tv_bind.text = if (it.is_sync == 1) "去关注" else "去绑定"
-                                    iv_foucs.imageResource = if (it.is_sync == 1) R.mipmap.icon_wx_focus else R.mipmap.icon_wx_unfocus
+                                    tv_bind?.text = if (it.is_sync == 1) "去关注" else "去绑定"
+                                    iv_foucs?.imageResource =  R.mipmap.icon_wx_unfocus
                                 }
                             }
                         }.otherWise {
@@ -522,7 +528,7 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
 
 
     private fun updateBindingStatus(openId: String) {
-        SoguApi.getService(baseActivity!!.application, UserService::class.java)
+        SoguApi.getService(ctx, UserService::class.java)
                 .updateBindingStatus(openId)
                 .execute {
                     onNext { payload ->

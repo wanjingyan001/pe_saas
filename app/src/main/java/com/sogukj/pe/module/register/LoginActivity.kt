@@ -11,6 +11,7 @@ import com.netease.nim.uikit.api.NimUIKit
 import com.netease.nimlib.sdk.RequestCallback
 import com.netease.nimlib.sdk.StatusCode
 import com.netease.nimlib.sdk.auth.LoginInfo
+import com.sogukj.pe.BuildConfig
 import com.sogukj.pe.Consts
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
@@ -55,6 +56,7 @@ class LoginActivity : BaseActivity(), LoginView {
         StatusBarUtil.setLightMode(this)
         loginPresenter.loginView = this
         RetrofitUrlManager.getInstance().putDomain("Register",Consts.DEV_HTTP_HOST)
+        codeEditable(false)
         val inputList = ArrayList<Observable<CharSequence>>()
         inputList.add(RxTextView.textChanges(phoneEdt.getEditText()))
         inputList.add(RxTextView.textChanges(mVerCodeInput))
@@ -75,16 +77,22 @@ class LoginActivity : BaseActivity(), LoginView {
             }
         }
         QQLogin.clickWithTrigger {
-            MobLogin.QQLogin(this, {
+            MobLogin.QQLogin( {
                 sp.edit { putString(Extras.THIRDLOGIN, "qq_$it") }
                 checkThirdBinding("qq", it)
             }, { showCommonToast("已取消QQ登录") }, { showErrorToast("QQ登录失败") })
         }
         WeChatLogin.clickWithTrigger {
-            MobLogin.WeChatLogin(this, {
+            MobLogin.WeChatLogin( {
                 sp.edit { putString(Extras.THIRDLOGIN, "wechat_$it") }
                 checkThirdBinding("wechat", it)
-            }, { showCommonToast("已取消微信登录") }, { showErrorToast("微信登录失败") })
+            }, { showCommonToast("已取消微信登录") }, {
+                (it == 1).yes {
+                    showErrorToast("请安装最新版微信")
+                }.otherWise {
+                    showErrorToast("微信登录失败")
+                }
+            })
         }
         phoneEdt.block = {
             mVerCodeInput.setText("")
@@ -101,6 +109,13 @@ class LoginActivity : BaseActivity(), LoginView {
             }
         }
         ActivityHelper.finishAllWithoutTop()
+    }
+
+    private fun codeEditable(enable :Boolean){
+//        mVerCodeInput.isEnabled = enable
+        if (!BuildConfig.DEBUG){
+            mVerCodeInput.isEnabled = enable
+        }
     }
 
 
@@ -172,6 +187,7 @@ class LoginActivity : BaseActivity(), LoginView {
 
     override fun getCodeSuccess(phone: String) {
         sp.edit { putString(Extras.SaasPhone, phone) }
+        codeEditable(true)
         showSuccessToast("验证码已经发送，请查收")
         mVerCodeInput.isFocusable = true//设置输入框可聚集
         mVerCodeInput.isFocusableInTouchMode = true//设置触摸聚焦

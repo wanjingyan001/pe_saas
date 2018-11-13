@@ -34,6 +34,8 @@
                     android:singleLine="true"
                     tools:text="呀呀呀呀呀呀呀"
                     android:layout_gravity="center"
+                    android:maxLength="12"
+                    android:ellipsize="end"
                     android:textColor="@color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />

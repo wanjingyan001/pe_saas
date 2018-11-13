@@ -36,8 +36,7 @@ import com.netease.nimlib.sdk.msg.model.RecentContact
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.setVisible
-import com.sogukj.pe.baselibrary.Extended.textStr
+import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.BaseFragment
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -81,6 +80,8 @@ class MainMsgFragment : BaseFragment() {
         get() = R.layout.fragment_msg_center
 
     lateinit var adapter: RecyclerAdapter<RecentContact>
+
+
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
@@ -278,14 +279,14 @@ class MainMsgFragment : BaseFragment() {
                                         //内部群
                                         tv_flag.setBackgroundResource(R.drawable.shape_flag_bg_other)
                                         tv_flag.setTextColor(activity!!.resources.getColor(R.color.blue_43))
-                                        tv_flag.text = "内部群"
+                                        tv_flag.text = "内部"
                                     }
                                 }
                             } else {
                                 //内部群
                                 tv_flag.setBackgroundResource(R.drawable.shape_flag_bg_other)
                                 tv_flag.setTextColor(activity!!.resources.getColor(R.color.blue_43))
-                                tv_flag.text = "内部群"
+                                tv_flag.text = "内部"
                             }
                         }
                     }
@@ -398,6 +399,10 @@ class MainMsgFragment : BaseFragment() {
                 .into(iv_loading)
         iv_loading?.visibility = View.VISIBLE
         loadPop()
+
+        baseActivity?.networkBlock = { isAvail ->
+            networkError.setVisible(!isAvail)
+        }
     }
 
     private fun loadPop() {

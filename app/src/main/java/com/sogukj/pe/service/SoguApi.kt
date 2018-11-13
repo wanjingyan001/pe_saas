@@ -43,13 +43,13 @@ import java.util.concurrent.TimeUnit
  * Created by qinfei on 17/7/18.
  */
 class SoguApi {
-    private val context: Application
+    private val context: Context
     private var retrofit: Retrofit
     private val environment = getIntEnvironment()
     private val dzhHttp: DzhHttpUtils
     private val staticHttp: StaticHttpUtils
 
-    private constructor(context: Application) {
+    private constructor(context: Context) {
         this.context = context
 //        val client = OkHttpClient.Builder()
         val client = RetrofitUrlManager.getInstance().with(OkHttpClient.Builder())
@@ -244,12 +244,12 @@ class SoguApi {
         private var sApi: SoguApi? = null
 
         @Synchronized
-        private fun getApi(ctx: Application): SoguApi {
+        private fun getApi(ctx: Context): SoguApi {
             if (null == sApi) sApi = SoguApi(ctx)
             return sApi!!
         }
 
-        fun <T> getService(ctx: Application, service: Class<T>): T {
+        fun <T> getService(ctx: Context, service: Class<T>): T {
             return getApi(ctx).getService(service)
         }
 

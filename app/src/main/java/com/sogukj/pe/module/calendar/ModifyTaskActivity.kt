@@ -275,17 +275,14 @@ class ModifyTaskActivity : ToolbarActivity(), View.OnClickListener, AddPersonLis
 
     private fun submitChange() {
         if (missionDetails.noSpace.isEmpty()) {
-            //showToast("请填写日程描述")
             showCustomToast(R.drawable.icon_toast_common, "请填写日程描述")
             return
         }
-        if (start == null || endTime == null) {
-            //showToast("请选择时间")
+        if (start.time == 0L || endTime.time == 0L) {
             showCustomToast(R.drawable.icon_toast_common, "请选择时间")
             return
         }
-        if (start!!.time - endTime!!.time > 0) {
-            //showToast("开始时间不能大于结束时间")
+        if (start.time - endTime.time > 0) {
             showCustomToast(R.drawable.icon_toast_common, "开始时间不能大于结束时间")
             return
         }
@@ -375,11 +372,17 @@ class ModifyTaskActivity : ToolbarActivity(), View.OnClickListener, AddPersonLis
     lateinit var startDD: CalendarDingDing
     lateinit var deadDD: CalendarDingDing
 
-    var start: Date? by Delegates.observable(null, { property, oldValue, newValue ->
-
+    var start: Date by Delegates.observable(Date(), { property, oldValue, newValue ->
+        if (newValue.time > endTime.time) {
+            endTime = Date(newValue.time + 3600 * 1000)
+            deadline.text = Utils.getTime(endTime, "MM月dd日 E HH:mm")
+        }
     })
-    var endTime: Date? by Delegates.observable(null, { property, oldValue, newValue ->
-
+    var endTime: Date by Delegates.observable(Date(), { property, oldValue, newValue ->
+        if (newValue.time < start.time) {
+            start = Date(newValue.time - 3600 * 1000)
+            startTime.text = Utils.getTime(start, "MM月dd日 E HH:mm")
+        }
     })
 
     override fun onClick(v: View?) {
@@ -421,15 +424,7 @@ class ModifyTaskActivity : ToolbarActivity(), View.OnClickListener, AddPersonLis
                 startDD.show(2, selectedDate) { date ->
                     if (date != null) {
                         start = date
-                        if (start != null && endTime != null) {
-                            if (endTime!!.time < start!!.time) {
-                                showErrorToast("开始时间不能大于结束时间")
-                            } else {
-                                startTime.text = Utils.getTime(date, "MM月dd日 E HH:mm")
-                            }
-                        } else {
-                            startTime.text = Utils.getTime(date, "MM月dd日 E HH:mm")
-                        }
+                        startTime.text = Utils.getTime(date, "MM月dd日 E HH:mm")
                     }
                 }
             }
@@ -443,24 +438,17 @@ class ModifyTaskActivity : ToolbarActivity(), View.OnClickListener, AddPersonLis
                 deadDD.show(2, selectedDate) { date ->
                     if (date != null) {
                         endTime = date
-                        ifNotNull(start, endTime) { v1, v2 ->
-                            if (v2.time < v1.time) {
-                                showErrorToast("开始时间不能大于结束时间")
-                                return@ifNotNull
-                            } else {
-                                deadline.text = Utils.getTime(date, "MM月dd日 E HH:mm")
-                            }
-                        }
+                        deadline.text = Utils.getTime(date, "MM月dd日 E HH:mm")
                     }
                 }
             }
             R.id.remind -> {
-                if (start == null) {
+                if (start.time == 0L) {
                     showCustomToast(R.drawable.icon_toast_common, "请选择开始时间")
                     //showToast("请选择开始时间")
                     return
                 }
-                if (endTime == null) {
+                if (endTime.time == 0L) {
                     showCustomToast(R.drawable.icon_toast_common, "请选择结束时间")
                     //showToast("请选择结束时间")
                     return

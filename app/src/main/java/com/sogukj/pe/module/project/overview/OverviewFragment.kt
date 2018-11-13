@@ -196,6 +196,7 @@ class OverviewFragment : BaseFragment() {
                     }
                     onComplete {
                         showMore.setVisible(peopleStateAdapter.dataList.size >= 3)
+                        emptyImg.setVisible(peopleStateAdapter.dataList.isEmpty())
                     }
                 }
     }
@@ -240,6 +241,7 @@ class OverviewFragment : BaseFragment() {
                     }
                     onComplete {
                         showMore2.setVisible(dynamicAdapter.dataList.size >= 3)
+                        empty2.setVisible(dynamicAdapter.dataList.isEmpty())
                     }
                 }
     }
@@ -280,6 +282,7 @@ class OverviewFragment : BaseFragment() {
                     }
                     onComplete {
                         showMore3.setVisible(weeklyWorkAdapter.dataList.size >= 3)
+                        empty3.setVisible(weeklyWorkAdapter.dataList.isEmpty())
                     }
                 }
     }
@@ -317,6 +320,7 @@ class OverviewFragment : BaseFragment() {
                     }
                     onComplete {
                         showMore4.setVisible(opinionAdapter.dataList.size >= 3)
+                        empty4.setVisible(opinionAdapter.dataList.isEmpty())
                     }
                 }
     }

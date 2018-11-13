@@ -21,6 +21,7 @@ import android.widget.Toast
 import com.google.gson.JsonSyntaxException
 import com.noober.background.BackgroundLibrary
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
+import com.sogukj.pe.baselibrary.Extended.otherWise
 import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.R
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -48,6 +49,7 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger {
     val sp: SharedPreferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
     private lateinit var filter: IntentFilter
     private lateinit var receiver: NetworkChangeReceiver
+    var networkBlock:((isAvail:Boolean)->Unit)?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         BackgroundLibrary.inject(this)
@@ -277,7 +279,10 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger {
             val manager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             val networkInfo = manager.activeNetworkInfo
             (networkInfo == null || !networkInfo.isAvailable).yes {
+                networkBlock?.invoke(false)
                 showCommonToast("当前无网络连接")
+            }.otherWise {
+                networkBlock?.invoke(true)
             }
         }
     }

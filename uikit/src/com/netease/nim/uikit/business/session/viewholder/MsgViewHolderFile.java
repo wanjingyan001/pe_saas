@@ -52,7 +52,6 @@ public class MsgViewHolderFile extends MsgViewHolderBase implements View.OnClick
     private View line;
     //建立一个文件类型与文件后缀名的匹配表
     private static final String[][] MATCH_ARRAY = {
-            //{后缀名，    文件类型}
             {".3gp", "video/3gpp"},
             {".apk", "application/vnd.android.package-archive"},
             {".asf", "video/x-ms-asf"},
@@ -64,6 +63,9 @@ public class MsgViewHolderFile extends MsgViewHolderBase implements View.OnClick
             {".conf", "text/plain"},
             {".cpp", "text/plain"},
             {".doc", "application/msword"},
+            {".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"},
+            {".xls", "application/vnd.ms-excel"},
+            {".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"},
             {".exe", "application/octet-stream"},
             {".gif", "image/gif"},
             {".gtar", "application/x-gtar"},
@@ -75,7 +77,7 @@ public class MsgViewHolderFile extends MsgViewHolderBase implements View.OnClick
             {".java", "text/plain"},
             {".jpeg", "image/jpeg"},
             {".jpg", "image/jpeg"},
-            {".js", "application/x-javascript"},
+            {".js", "application/x-JavaScript"},
             {".log", "text/plain"},
             {".m3u", "audio/x-mpegurl"},
             {".m4a", "audio/mp4a-latm"},
@@ -99,8 +101,8 @@ public class MsgViewHolderFile extends MsgViewHolderBase implements View.OnClick
             {".png", "image/png"},
             {".pps", "application/vnd.ms-powerpoint"},
             {".ppt", "application/vnd.ms-powerpoint"},
+            {".pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation"},
             {".prop", "text/plain"},
-            {".rar", "application/x-rar-compressed"},
             {".rc", "text/plain"},
             {".rmvb", "audio/x-pn-realaudio"},
             {".rtf", "application/rtf"},
@@ -114,7 +116,7 @@ public class MsgViewHolderFile extends MsgViewHolderBase implements View.OnClick
             {".wps", "application/vnd.ms-works"},
             {".xml", "text/plain"},
             {".z", "application/x-compress"},
-            {".zip", "application/zip"},
+            {".zip", "application/x-zip-compressed"},
             {"", "*/*"}
     };
 
