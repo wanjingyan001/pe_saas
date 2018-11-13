@@ -253,7 +253,7 @@ class PayDialog {
                             if (payload.isOk){
                                 val recordBean = payload.payload
                                 if (null != recordBean){
-                                    tv_bus_balance.text = "账户余额：${recordBean.balance}"
+                                    tv_bus_balance.text = "账户余额：${Utils.reserveDecimal(recordBean.balance.toDouble())}"
                                     if (realPrice.toFloat() > recordBean.balance.toFloat()){
                                         iv_bus_select.setImageResource(R.mipmap.ic_gray_receipt)
                                         tv_bus_title.setTextColor(context!!.resources.getColor(R.color.gray_a0))
@@ -296,7 +296,7 @@ class PayDialog {
                             if (payload.isOk){
                                 val recordBean = payload.payload
                                 if (null != recordBean){
-                                    tv_per_balance.text = "账户余额：${recordBean.balance}"
+                                    tv_per_balance.text = "账户余额：${Utils.reserveDecimal(recordBean.balance.toDouble())}"
                                     if (realPrice.toFloat() > recordBean.balance.toFloat()){
                                         iv_pre_select.setImageResource(R.mipmap.ic_gray_receipt)
                                         tv_per_title.setTextColor(context!!.resources.getColor(R.color.gray_a0))

@@ -97,7 +97,7 @@ class AccountRechargeActivity : ToolbarActivity(), TextWatcher {
     private fun initData() {
         et_recharge.setSelection(et_recharge.textStr.length)
         tv_account.text = "账号：${user!!.phone}"
-        tv_balance.text = balance
+        tv_balance.text = Utils.reserveDecimal(balance.toDouble())
     }
 
     private fun initWXAPI() {

@@ -137,7 +137,7 @@ class PdfPreviewActivity : ToolbarActivity() {
 
 
     private fun download() {
-        if (pdfBean.pdf_path.isNullOrEmpty()) return
+        if (pdfBean.pdf_path.isNullOrEmpty() || !pdfBean.pdf_path.contains("?")) return
         showProgress("正在下载")
         val newUrl = pdfBean.pdf_path.substring(0, pdfBean.pdf_path.indexOf("?"))
         DownloadUtil.getInstance().download(newUrl, externalCacheDir.toString(), pdfBean.pdf_name, object : DownloadUtil.OnDownloadListener {

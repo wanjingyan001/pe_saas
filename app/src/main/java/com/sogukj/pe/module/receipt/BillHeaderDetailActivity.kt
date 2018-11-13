@@ -65,7 +65,7 @@ class BillHeaderDetailActivity : ToolbarActivity() {
 
     private fun setDetailData(bean: BillDetailBean){
         tv_title.text = bean.title
-        tv_duty.text = bean.tax_no
+        Utils.setSpaceText(tv_duty,bean.tax_no)
         tv_address.text = bean.address
         if (type == 1){
             tv_phone_tips.text = "电话号码"

@@ -21,6 +21,7 @@ import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.textStr
+import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.peUtils.ToastUtil
 import com.sogukj.service.SoguApi
 import org.jetbrains.anko.find
@@ -55,7 +56,7 @@ class CreateBillDialog {
             val ll_submit = dialog.find<LinearLayout>(R.id.ll_submit)
             if (null != map) {
                 tv_header.text = map.get("title") as String
-                tv_duty.text = map.get("tax_no") as String
+                Utils.setSpaceText(tv_duty,map.get("tax_no") as String)
                 tv_accept.text = map.get("receiver") as String
                 tv_phone.text = map.get("phone") as String
                 tv_address.text = map.get("province") as String + " " + map.get("city") as String + " " + map.get("county") as String

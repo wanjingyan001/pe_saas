@@ -84,6 +84,9 @@ public class Utils {
      */
     public static final String REGEX_EMAIL = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
     public static final String CREDIT_CODE = "[0-9A-HJ-NPQRTUWXY]{2}\\d{6}[0-9A-HJ-NPQRTUWXY]{10}";
+
+    //企业税号
+    public static final String DUTY_CODE = "^[A-Z0-9]{15}$|^[A-Z0-9]{17}$|^[A-Z0-9]{18}$|^[A-Z0-9]{20}$";
     public static int dpToPx(Context context, int dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
     }
@@ -1542,6 +1545,9 @@ public class Utils {
         return Pattern.matches(CREDIT_CODE,code);
     }
 
+    public static boolean isDutyCode(String duty){
+        return Pattern.matches(DUTY_CODE,duty);
+    }
 
     //判断整数（int）
     public static boolean isInteger(String str) {
@@ -1633,5 +1639,45 @@ public class Utils {
         BigDecimal bigDecimal1 = new BigDecimal(s1);
         BigDecimal bigDecimal2 = new BigDecimal(s2);
         return bigDecimal1.subtract(bigDecimal2).toString();
+    }
+    
+    public static void setSpaceText(TextView textView,String content){
+        if(null == content)return;
+        int length = content.length();
+        String realContent = "";
+        if(length > 4) {
+            int consult = length / 4; //商
+            int remainder = length % 4; //余数
+            for (int i = 1; i <= consult ;i++){
+                realContent += content.substring(4*(i - 1),4*i) + " ";
+            }
+            if(remainder > 0) {
+                String endStr = content.substring(consult * 4, length);
+                realContent += endStr;
+            }
+        }else{
+            realContent = content;
+        }
+        textView.setText(realContent);
+    }
+
+    public static String getSpaceText(String content){
+        if(null == content)return "";
+        int length = content.length();
+        String realContent = "";
+        if(length > 4) {
+            int consult = length / 4; //商
+            int remainder = length % 4; //余数
+            for (int i = 1; i <= consult ;i++){
+                realContent += content.substring(4*(i - 1),4*i) + " ";
+            }
+            if(remainder > 0) {
+                String endStr = content.substring(consult * 4, length);
+                realContent += endStr;
+            }
+        }else{
+            realContent =  content;
+        }
+        return realContent;
     }
 }

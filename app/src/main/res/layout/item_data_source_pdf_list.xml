@@ -4,7 +4,6 @@
                                              android:layout_width="match_parent"
                                              android:layout_height="wrap_content"
                                              xmlns:tools="http://schemas.android.com/tools"
-
                                              android:paddingBottom="10dp"
                                              android:paddingTop="10dp">
 
@@ -30,6 +29,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
     <ImageView
+        android:id="@+id/iv_right"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:paddingEnd="15dp"
@@ -38,6 +38,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/tv_pay_already"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="已购买"
+        android:textSize="@dimen/text_size_16"
+        android:drawableLeft="@mipmap/ic_haven_pay"
+        android:drawablePadding="@dimen/text_5"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@+id/pdfName"
+        app:layout_constraintEnd_toStartOf="@+id/iv_right"
+        android:layout_marginTop="@dimen/text_6"
+        android:textColor="@color/red_ff7"/>
     <TextView
         android:id="@+id/docTag"
         android:layout_width="wrap_content"
@@ -57,10 +70,22 @@
         android:textColor="@color/gray_80"
         android:textSize="@dimen/text_size_10"
         tools:text="01/09 10:32:07"
+        android:layout_marginStart="@dimen/text_5"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/docTag"
-        app:layout_constraintEnd_toEndOf="@+id/pdfName"
+        app:layout_constraintStart_toEndOf="@+id/docTag"
         app:layout_constraintTop_toTopOf="@+id/docTag" />
 
+    <TextView
+        android:id="@+id/docTime_normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/gray_80"
+        android:textSize="@dimen/text_size_10"
+        tools:text="01/09 10:32:07"
+        app:layout_constraintBottom_toBottomOf="@+id/docTag"
+        app:layout_constraintEnd_toStartOf="@+id/iv_right"
+        app:layout_constraintTop_toTopOf="@+id/docTag" />
     <TextView
         android:id="@+id/pdfName"
         android:layout_width="0dp"
@@ -84,20 +109,18 @@
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/docTag"
         app:layout_constraintStart_toStartOf="@+id/docTag"
-        android:layout_marginTop="@dimen/text_10"
+        android:layout_marginTop="@dimen/text_8"
         android:textColor="@color/red_ff7"/>
 
     <TextView
         android:id="@+id/tv_pay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="立即购买"
+        android:text="立即购买"
         android:textSize="@dimen/text_size_16"
         android:visibility="gone"
-        android:drawableLeft="@mipmap/ic_haven_pay"
-        android:drawablePadding="@dimen/text_5"
         app:layout_constraintTop_toBottomOf="@+id/docTag"
-        app:layout_constraintEnd_toEndOf="@+id/docTime"
-        android:layout_marginTop="@dimen/text_10"
+        app:layout_constraintEnd_toEndOf="@+id/tv_pay_already"
+        android:layout_marginTop="@dimen/text_8"
         android:textColor="@color/red_ff7"/>
 </android.support.constraint.ConstraintLayout>

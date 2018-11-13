@@ -416,7 +416,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                             val recordBean = payload.payload
                             if (null != recordBean) {
                                 busBalance = recordBean.balance
-                                tv_bus_balance.text = "账户余额：${recordBean.balance}"
+                                tv_bus_balance.text = "账户余额：${Utils.reserveDecimal(recordBean.balance.toDouble())}"
                                 if (coin > recordBean.balance.toDouble()) {
                                     iv_bus_select.setImageResource(R.mipmap.ic_gray_receipt)
                                     tv_bus_title.setTextColor(resources.getColor(R.color.gray_a0))
@@ -460,7 +460,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                             val recordBean = payload.payload
                             if (null != recordBean) {
                                 perBalance = recordBean.balance
-                                tv_per_balance.text = "账户余额：${recordBean.balance}"
+                                tv_per_balance.text = "账户余额：${Utils.reserveDecimal(recordBean.balance.toDouble())}"
                                 if (coin > recordBean.balance.toDouble()) {
                                     iv_pre_select.setImageResource(R.mipmap.ic_gray_receipt)
                                     tv_per_title.setTextColor(resources.getColor(R.color.gray_a0))

@@ -277,7 +277,7 @@ class InvoiceHistoryActivity : BaseRefreshActivity() {
         override fun setData(view: View, data: InvoiceHisBean, position: Int) {
             if (null == data) return
             tv_name.text = data.title
-            tv_duty.text = "税号：${data.tax_no}"
+            tv_duty.text = "税号：${Utils.getSpaceText(data.tax_no)}"
             if (data.tax_no.isNullOrEmpty()){
                 tv_duty.setVisible(false)
                 view_devider.setVisible(false)

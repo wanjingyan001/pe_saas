@@ -65,7 +65,7 @@ class AccountBalanceActivity : BaseRefreshActivity(){
                             val recordBean = payload.payload
                             if (null != recordBean){
                                 val list = recordBean.list
-                                tv_coin.text = recordBean.balance
+                                tv_coin.text = Utils.reserveDecimal(recordBean.balance.toDouble())
                                 if (null != list && list.size > 0){
                                     showList()
                                     adapter.dataList.clear()

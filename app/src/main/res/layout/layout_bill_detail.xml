@@ -147,7 +147,9 @@
             android:layout_centerVertical="true"
             android:layout_weight="4"
             android:layout_marginRight="@dimen/text_8"
+            android:digits="@string/input_number_letter"
             android:background="@null"
+            android:maxLength="24"
             android:textColor="@color/black_28"
             android:textSize="@dimen/text_size_14"/>
 

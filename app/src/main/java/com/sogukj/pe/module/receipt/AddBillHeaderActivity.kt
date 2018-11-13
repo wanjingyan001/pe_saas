@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.normal_toolbar.*
 
 /**
  * Created by CH-ZH on 2018/10/22.
- * 添加发票抬头
+ * 添加和编辑发票抬头
  */
 class AddBillHeaderActivity : ToolbarActivity(), TextWatcher {
     private var type : Int = 1   // 1 企业发票 2 个人发票
@@ -61,10 +61,11 @@ class AddBillHeaderActivity : ToolbarActivity(), TextWatcher {
             ll_other.setVisible(false)
         }
         et_title.setText(bean!!.title)
+        iv_delete.setVisible(true)
         if (!bean!!.title.isNullOrEmpty()){
             et_title.setSelection(bean!!.title.length)
         }
-        et_duty.setText(bean!!.tax_no)
+        et_duty.setText(Utils.getSpaceText(bean!!.tax_no))
         if (!bean!!.address.isNullOrEmpty()){
             //公司地址
             et_address.setText(bean!!.address)
@@ -118,10 +119,114 @@ class AddBillHeaderActivity : ToolbarActivity(), TextWatcher {
         }
 
         et_title.addTextChangedListener(this)
-
+        et_duty.addTextChangedListener(AddSpaceTextWatcher())
         iv_delete.clickWithTrigger {
             et_title.setText("")
             iv_delete.setVisible(false)
+        }
+    }
+
+    private var maxLength = 24
+    inner class AddSpaceTextWatcher : TextWatcher {
+        /** text改变之前的长度  */
+        private var beforeTextLength = 0
+        private val buffer = StringBuffer()
+        var spaceCount = 0
+        private var onTextLength = 0
+        private var isChanged = false
+        /** 记录光标的位置  */
+        private var location = 0
+        /** 是否是主动设置text  */
+        private var isSetText = false
+
+        override fun afterTextChanged(s: Editable) {
+            if (isChanged) {
+                location = et_duty.selectionEnd
+                var index = 0
+                while (index < buffer.length) { // 删掉所有空格
+                    if (buffer[index] == ' ') {
+                        buffer.deleteCharAt(index)
+                    } else {
+                        index++
+                    }
+                }
+
+                index = 0
+                var spaceNumberB = 0
+                while (index < buffer.length) { // 插入所有空格
+                    spaceNumberB = insertSpace(index, spaceNumberB)
+                    index++
+                }
+
+                val str = buffer.toString()
+
+                // 下面是计算光位置的
+                if (spaceNumberB > spaceCount) {
+                    location += spaceNumberB - spaceCount
+                    spaceCount = spaceNumberB
+                }
+                if (isSetText) {
+                    location = str.length
+                    isSetText = false
+                } else if (location > str.length) {
+                    location = str.length
+                } else if (location < 0) {
+                    location = 0
+                }
+                updateContext(s, str)
+                isChanged = false
+            }
+        }
+
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+            beforeTextLength = s.length
+            if (buffer.isNotEmpty()) {
+                buffer.delete(0, buffer.length)
+            }
+            spaceCount = (0 until s.length).count { s[it] == ' ' }
+        }
+
+        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+            onTextLength = s.length
+            buffer.append(s.toString())
+            if (onTextLength == beforeTextLength || onTextLength > maxLength
+                    || isChanged) {
+                isChanged = false
+                return
+            }
+            isChanged = true
+        }
+
+        /**
+         * 根据类型插入空格
+         *
+         * @param index
+         * @param spaceNumberAfter
+         * @return
+         * @see [类、类.方法、类.成员]
+         */
+        private fun insertSpace(index: Int, spaceNumberAfter: Int): Int {
+            var spaceNumberAfter = spaceNumberAfter
+            if (index > 3 && index % (4 * (spaceNumberAfter + 1)) == spaceNumberAfter) {
+                buffer.insert(index, ' ')
+                spaceNumberAfter++
+            }
+            return spaceNumberAfter
+        }
+
+        /**
+         * 更新编辑框中的内容
+         *
+         * @param editable
+         * @param values
+         */
+        private fun updateContext(editable: Editable, values: String) {
+            et_duty.setText(values)
+            try {
+                et_duty.setSelection(location)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
@@ -143,6 +248,10 @@ class AddBillHeaderActivity : ToolbarActivity(), TextWatcher {
 
                 if (!et_email.textStr.isNullOrEmpty() && !Utils.isEmail(et_email.textStr)){
                     showCustomToast(R.drawable.icon_toast_common, "请填写正确的邮箱")
+                    return
+                }
+                if (!Utils.isDutyCode(et_duty.textStr)){
+                    showCustomToast(R.drawable.icon_toast_common, "请填写正确的企业税号")
                     return
                 }
 

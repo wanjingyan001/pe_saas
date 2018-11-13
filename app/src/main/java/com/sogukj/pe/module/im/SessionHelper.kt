@@ -73,7 +73,7 @@ object SessionHelper {
                             CloudDishActivity.invoke(context!!,2,path,false,fileName,"")
                         }else{
                             if (!extension.isNullOrEmpty()){
-                                CloudDishActivity.invoke(context!!,2,path+".${extension}",false,fileName,"")
+                                CloudDishActivity.invoke(context!!,2,path,false,fileName,"")
                             }
                         }
                     }else if (!pathForSave.isNullOrEmpty()){
@@ -83,7 +83,7 @@ object SessionHelper {
                             CloudDishActivity.invoke(context!!,2,pathForSave,false,fileName,"")
                         }else{
                             if (!extension.isNullOrEmpty()){
-                                CloudDishActivity.invoke(context!!,2,pathForSave+".${extension}",false,fileName,"")
+                                CloudDishActivity.invoke(context!!,2,pathForSave,false,fileName,"")
                             }
                         }
                     }

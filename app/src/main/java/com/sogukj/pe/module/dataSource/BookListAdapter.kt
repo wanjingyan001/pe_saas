@@ -7,7 +7,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
-import com.sogukj.pe.baselibrary.Extended.setDrawable
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.bean.PdfBook
 
@@ -23,9 +22,12 @@ class BookListAdapter(data: List<PdfBook>, var downloaded: List<String>, val typ
         val download = helper.getView<ImageView>(R.id.download)
         val tv_price = helper.getView<TextView>(R.id.tv_price)
         val tv_pay = helper.getView<TextView>(R.id.tv_pay)
+        val tv_pay_already = helper.getView<TextView>(R.id.tv_pay_already)
+        val docTime_normal = helper.getView<TextView>(R.id.docTime_normal)
         helper.addOnClickListener(R.id.download)
         name.text = item.pdf_name
         timeTv.text = item.date
+        docTime_normal.text = item.date
         if (item.price.isNullOrEmpty()){
             tv_price.text= "￥0.99"
         }else{
@@ -33,11 +35,13 @@ class BookListAdapter(data: List<PdfBook>, var downloaded: List<String>, val typ
         }
         if (item.status == 1){
             //已购买
-            tv_pay.setDrawable(tv_pay,0,mContext!!.getDrawable(R.mipmap.ic_haven_pay))
-            tv_pay.text = "已购买"
+            tv_pay_already.setVisible(true)
+            tv_price.setVisible(false)
+            tv_pay.setVisible(false)
         }else{
-            tv_pay.setDrawable(tv_pay,-1,mContext!!.getDrawable(R.mipmap.ic_haven_pay))
-            tv_pay.text = "立即购买"
+            tv_pay.setVisible(true)
+            tv_price.setVisible(true)
+            tv_pay_already.visibility = View.INVISIBLE
             tv_pay.clickWithTrigger {
                 //智能文书购买
                 if (null != callBack){
@@ -56,19 +60,26 @@ class BookListAdapter(data: List<PdfBook>, var downloaded: List<String>, val typ
         }
         when (type) {
             DocumentType.EQUITY -> {
+                //招股书
                 tagTv.text = "证监会"
                 tv_price.setVisible(false)
                 tv_pay.setVisible(false)
+                docTime_normal.setVisible(true)
+                timeTv.setVisible(false)
             }
             DocumentType.INTELLIGENT -> {
+                //智能文书
                 tagTv.text = "拆借合同"
-                tv_price.setVisible(true)
-                tv_pay.setVisible(true)
+                docTime_normal.visibility = View.INVISIBLE
+                timeTv.setVisible(true)
             }
             DocumentType.INDUSTRY_REPORTS -> {
+                //行业研报
                 tagTv.text = item.cat
                 tv_price.setVisible(false)
                 tv_pay.setVisible(false)
+                docTime_normal.setVisible(true)
+                timeTv.setVisible(false)
             }
         }
     }

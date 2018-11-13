@@ -43,8 +43,9 @@
             android:clickable="false"
             android:checked="false"
             android:layout_marginRight="@dimen/text_20"
+            android:textColor="@color/text_select_bill"
             android:background="@drawable/bg_select_bill"
-            android:text="电子发票"/>
+            android:text="@string/electron_bill"/>
 
         <RadioButton
             android:id="@+id/rb_two"
@@ -55,9 +56,10 @@
             android:gravity="center"
             android:paddingTop="@dimen/text_10"
             android:checked="true"
+            android:textColor="@color/text_select_bill"
             android:paddingBottom="@dimen/text_10"
             android:background="@drawable/bg_select_bill"
-            android:text="纸质发票"/>
+            android:text="@string/pager_bill"/>
 
     </RadioGroup>
 

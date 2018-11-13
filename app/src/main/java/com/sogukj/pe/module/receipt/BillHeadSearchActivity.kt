@@ -60,6 +60,7 @@ class BillHeadSearchActivity : BaseRefreshActivity(), TextWatcher {
         if (!searchKey.isNullOrEmpty()){
             et_search.setText(searchKey)
             et_search.setSelection(searchKey.length)
+            setDelectIcon(true)
             requestData(searchKey,false)
         }
     }

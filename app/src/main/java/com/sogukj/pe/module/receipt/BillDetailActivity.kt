@@ -72,7 +72,7 @@ class BillDetailActivity : ToolbarActivity() {
         tv_address.text = detailBean.province + detailBean.city + detailBean.county + detailBean.address
         tv_accept.text = "${detailBean.receiver} ${detailBean.phone}"
         tv_company.text = detailBean.title
-        tv_duty.text = detailBean.tax_no
+        Utils.setSpaceText(tv_duty,detailBean.tax_no)
         tv_content.text = detailBean.content
         tv_accept_time.text = detailBean.add_time
 
