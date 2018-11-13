@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.activity_create_bill.*
  */
 class CreateBillActivity : ToolbarActivity() {
     private var fragments = ArrayList<Fragment>()
-    private var money = 0f
+    private var money = "0.00"
     private var orders : MutableList<String> ? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +28,7 @@ class CreateBillActivity : ToolbarActivity() {
     }
 
     private fun initView() {
-        money = intent.getFloatExtra(Extras.DATA,0f)
+        money = intent.getStringExtra(Extras.DATA)
         orders = intent.getStringArrayListExtra(Extras.LIST)
         setBack(true)
         setTitle("开具纸质发票")

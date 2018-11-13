@@ -33,7 +33,7 @@ import kotlinx.android.synthetic.main.layout_bill_detail.*
  */
 class ElectronBillFragment : Fragment(), TextWatcher,ShowMoreCallBack {
     private var rootView : View ? = null
-    private var money = 0f
+    private var money = "0.00"
     private var mCityPickerView : CityPickerView? = null
     private var title_type : Int = 1   // 1 企业发票 2 个人发票
     private var explain  = ""
@@ -43,7 +43,7 @@ class ElectronBillFragment : Fragment(), TextWatcher,ShowMoreCallBack {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         type = arguments!!.getInt("type")
-        money = arguments!!.getFloat("money",0f)
+        money = arguments!!.getString("money")
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -180,7 +180,7 @@ class ElectronBillFragment : Fragment(), TextWatcher,ShowMoreCallBack {
         map.put("email",et_email.textStr)
         map.put("title_type",title_type)
         map.put("title",tv_header.textStr)
-        map.put("amount",money)
+        map.put("amount",money.toFloat())
         map.put("content",tv_content.textStr)
         map.put("tax_no",et_duty.textStr)
         map.put("remark",explain)
@@ -201,13 +201,13 @@ class ElectronBillFragment : Fragment(), TextWatcher,ShowMoreCallBack {
         private var tv_submit : TextView ? = null
         private var isSubmitEnbale = false
         val BILL_SEARCH = 1002
-        fun newInstance(type:Int,money : Float,ll_submit:View,tv_submit:TextView):ElectronBillFragment{
+        fun newInstance(type:Int,money : String,ll_submit:View,tv_submit:TextView):ElectronBillFragment{
             this.ll_submit = ll_submit
             this.tv_submit = tv_submit
             val fragment = ElectronBillFragment()
             val bundle = Bundle()
             bundle.putInt("type",type)
-            bundle.putFloat("money",money)
+            bundle.putString("money",money)
             fragment.arguments = bundle
             return fragment
         }

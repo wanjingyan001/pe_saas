@@ -41,7 +41,7 @@ class MineReceiptActivity : BaseRefreshActivity() {
     private var datas = ArrayList<MineReceiptBean>()
     private lateinit var adapter: RecyclerAdapter<MineReceiptBean>
     private lateinit var alreadySelected: MutableSet<MineReceiptBean>
-    private lateinit var ordersSet : MutableSet<String>
+    private lateinit var ordersSet: MutableSet<String>
     private var totalAmount = "0.00"
     private var type = 0  //0 不可选择  1 可以选择
     private var page = 1
@@ -51,7 +51,6 @@ class MineReceiptActivity : BaseRefreshActivity() {
         setContentView(R.layout.activity_mine_receipt)
         Utils.setWindowStatusBarColor(this, R.color.white)
         toolbar?.setBackgroundColor(resources.getColor(R.color.white))
-        title = "我的订单"
         setBack(true)
         initView()
         initData()
@@ -60,6 +59,7 @@ class MineReceiptActivity : BaseRefreshActivity() {
 
     private fun initView() {
         type = intent.getIntExtra(Extras.TYPE, -1)
+
         originType = type
         rv_express.layoutManager = LinearLayoutManager(this)
         rv_express.addItemDecoration(RecycleViewDivider(this, LinearLayoutManager.VERTICAL,
@@ -67,10 +67,12 @@ class MineReceiptActivity : BaseRefreshActivity() {
         alreadySelected = ArrayList<MineReceiptBean>().toMutableSet()
         ordersSet = ArrayList<String>().toMutableSet()
         if (type == 0) {
+            title = "我的订单"
             rl_submit.setVisible(false)
             toolbar_menu.setVisible(true)
             toolbar_menu.text = "开发票"
         } else if (type == 1) {
+            title = "开发票"
             rl_submit.setVisible(true)
             toolbar_menu.setVisible(false)
         }
@@ -81,7 +83,8 @@ class MineReceiptActivity : BaseRefreshActivity() {
                 .into(iv_loading)
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver, IntentFilter(REFRESH_ACTION))
     }
-    val receiver : BroadcastReceiver = object : BroadcastReceiver(){
+
+    val receiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (originType == 0) {
                 rl_submit.setVisible(false)
@@ -100,9 +103,11 @@ class MineReceiptActivity : BaseRefreshActivity() {
         }
 
     }
+
     companion object {
         val REFRESH_ACTION = "refresh_action"
     }
+
     private fun initData() {
 
         adapter = RecyclerAdapter(this) { _adapter, parent, _ ->
@@ -117,47 +122,48 @@ class MineReceiptActivity : BaseRefreshActivity() {
         super.onDestroy()
         try {
             LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver)
-        }catch (e : Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }
-    private fun getBillOrderDatas(isLoadMore : Boolean) {
-        if (isLoadMore){
+
+    private fun getBillOrderDatas(isLoadMore: Boolean) {
+        if (isLoadMore) {
             page++
-        }else{
+        } else {
             page = 1
         }
         SoguApi.getStaticHttp(application)
                 .billOrderList(page)
                 .execute {
                     onNext { payload ->
-                        if (payload.isOk){
+                        if (payload.isOk) {
                             val datas = payload.payload
-                            if (null != datas && datas.size > 0){
-                                if (!isLoadMore){
+                            if (null != datas && datas.size > 0) {
+                                if (!isLoadMore) {
                                     adapter.dataList.clear()
                                     adapter.dataList.addAll(datas)
                                     adapter.notifyDataSetChanged()
-                                }else{
+                                } else {
                                     adapter.dataList.addAll(datas)
                                     adapter.notifyDataSetChanged()
                                 }
                                 goneEmpty()
-                            }else{
-                                if (!isLoadMore){
+                            } else {
+                                if (!isLoadMore) {
                                     showEmpty()
                                 }
                             }
-                        }else{
+                        } else {
                             showErrorToast(payload.message)
-                            if (!isLoadMore){
+                            if (!isLoadMore) {
                                 showEmpty()
                             }
                         }
 
-                        if (isLoadMore){
+                        if (isLoadMore) {
                             dofinishLoadMore()
-                        }else{
+                        } else {
                             dofinishRefresh()
                         }
                     }
@@ -165,9 +171,9 @@ class MineReceiptActivity : BaseRefreshActivity() {
                     onError {
                         it.printStackTrace()
                         showErrorToast("获取数据失败")
-                        if (isLoadMore){
+                        if (isLoadMore) {
                             dofinishLoadMore()
-                        }else{
+                        } else {
                             dofinishRefresh()
                             showEmpty()
                         }
@@ -175,19 +181,19 @@ class MineReceiptActivity : BaseRefreshActivity() {
                 }
     }
 
-    fun setLoadding(){
+    fun setLoadding() {
         view_recover.visibility = View.VISIBLE
     }
 
-    fun goneLoadding(){
+    fun goneLoadding() {
         view_recover.visibility = View.INVISIBLE
     }
 
-    fun showEmpty(){
+    fun showEmpty() {
         fl_empty.visibility = View.VISIBLE
     }
 
-    fun goneEmpty(){
+    fun goneEmpty() {
         fl_empty.visibility = View.INVISIBLE
     }
 
@@ -208,8 +214,8 @@ class MineReceiptActivity : BaseRefreshActivity() {
     private fun bindListener() {
         tv_comit.clickWithTrigger {
             //确定
-            if (totalAmount.toFloat() != 0f){
-                startActivity<CreateBillActivity>(Extras.DATA to totalAmount,Extras.LIST to ordersSet.toMutableList())
+            if (totalAmount.toFloat() != 0f) {
+                startActivity<CreateBillActivity>(Extras.DATA to totalAmount, Extras.LIST to ordersSet.toMutableList())
             }
         }
 
@@ -232,9 +238,9 @@ class MineReceiptActivity : BaseRefreshActivity() {
     }
 
     override fun doRefresh() {
-        if (type == 0){
+        if (type == 0) {
             getBillOrderDatas(false)
-        }else{
+        } else {
             dofinishRefresh()
         }
     }
@@ -253,7 +259,7 @@ class MineReceiptActivity : BaseRefreshActivity() {
         val tv_pay_status = itemView.find<TextView>(R.id.tv_pay_status)
         override fun setData(view: View, data: MineReceiptBean, position: Int) {
             if (null == data) return
-            Log.e("TAG","type ==" + type)
+            Log.e("TAG", "type ==" + type)
             iv_select.isSelected = data.isSelect
             if (data.is_invoice == 1) {
                 tv_tips.setVisible(true)
@@ -284,9 +290,9 @@ class MineReceiptActivity : BaseRefreshActivity() {
             when (type) {
                 0 -> iv_select.setVisible(false)
                 1 -> {
-                    if (data.is_invoice == 1){
+                    if (data.is_invoice == 1) {
                         iv_select.visibility = View.INVISIBLE
-                    }else{
+                    } else {
                         iv_select.setVisible(true)
                     }
                 }
@@ -297,32 +303,33 @@ class MineReceiptActivity : BaseRefreshActivity() {
             tv_amount.text = "数量：${data.count}"
             tv_coin.text = "支付金额：${data.price}"
             tv_pay_status.text = data.pay_source
-            if (type == 1 && data.is_invoice != 1){
-                itemView.setOnClickListener {
-                    if (alreadySelected.contains(data)) {
-                        alreadySelected.remove(data)
-                        ordersSet.remove(data.order_no)
-                        totalAmount = Utils.stringSubtract(totalAmount,data.price)
-                    } else {
-                        alreadySelected.add(data)
-                        ordersSet.add(data.order_no)
-                        totalAmount = Utils.stringAdd(totalAmount,data.price)
-                    }
-                    data.isSelect = !data.isSelect
-                    iv_select.isSelected = data.isSelect
-                    tv_total.text = "￥${totalAmount}"
-                    if (totalAmount.toFloat() > 0){
-                        tv_comit.setBackgroundResource(R.drawable.selector_sure)
+            itemView.setOnClickListener {
+                if (type == 1) {
+                    if (data.is_invoice != 1){
+                        if (alreadySelected.contains(data)) {
+                            alreadySelected.remove(data)
+                            ordersSet.remove(data.order_no)
+                            totalAmount = Utils.stringSubtract(totalAmount, data.price)
+                        } else {
+                            alreadySelected.add(data)
+                            ordersSet.add(data.order_no)
+                            totalAmount = Utils.stringAdd(totalAmount, data.price)
+                        }
+                        data.isSelect = !data.isSelect
+                        iv_select.isSelected = data.isSelect
+                        tv_total.text = "￥${totalAmount}"
+                        if (totalAmount.toFloat() > 0) {
+                            tv_comit.setBackgroundResource(R.drawable.selector_sure)
+                        } else {
+                            tv_comit.setBackgroundResource(R.drawable.selector_sure_gray)
+                        }
                     }else{
-                        tv_comit.setBackgroundResource(R.drawable.selector_sure_gray)
+                        RecordDetailActivity.invoke(this@MineReceiptActivity, data.pay_time, data.type, data.count,
+                                data.fee, data.price, data.invoice_type)
                     }
-                }
-            }
-
-            if (type == 0){
-                itemView.clickWithTrigger {
-                    RecordDetailActivity.invoke(this@MineReceiptActivity,data.pay_time,data.type,data.count,
-                            data.fee,data.price,data.invoice_type)
+                }else{
+                    RecordDetailActivity.invoke(this@MineReceiptActivity, data.pay_time, data.type, data.count,
+                            data.fee, data.price, data.invoice_type)
                 }
             }
         }
