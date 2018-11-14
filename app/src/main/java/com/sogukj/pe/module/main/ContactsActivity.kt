@@ -178,15 +178,15 @@ class ContactsActivity : ToolbarActivity() {
         confirmTv.clickWithTrigger {
             val list = ArrayList<UserBean>()
             list.addAll(alreadySelected)
-            if (isCreateTeam) {
-                TeamCreateActivity.start(this@ContactsActivity, list, project)
-                finish()
-            } else {
-                val intent = Intent()
-                intent.putExtra(Extras.DATA, list)
-                setResult(Extras.RESULTCODE, intent)
-                finish()
-            }
+//            if (isCreateTeam) {
+//                TeamCreateActivity.start(this@ContactsActivity, list, project)
+//                finish()
+//            } else {
+//            }
+            val intent = Intent()
+            intent.putExtra(Extras.DATA, list)
+            setResult(Extras.RESULTCODE, intent)
+            finish()
         }
         selectAll.clickWithTrigger {
             selectAll.isSelected = !selectAll.isSelected

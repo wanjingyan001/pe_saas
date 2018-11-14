@@ -7,5 +7,5 @@ enum class MoneyUnit(val unit:Long) {
     Default(1),
     TenThousand(10000),
     TenMillion(10000000),
-    Billion(100000000)
+    Billion(1000000000)
 }

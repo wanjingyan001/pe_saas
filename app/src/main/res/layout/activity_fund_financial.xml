@@ -90,7 +90,6 @@
                     android:background="#fff7f9fc"
                     android:gravity="center|left"
                     android:paddingLeft="10dp"
-                    android:text="1434,323,000元"
                     android:textColor="#ff282828"
                     android:textSize="14sp" />
             </LinearLayout>

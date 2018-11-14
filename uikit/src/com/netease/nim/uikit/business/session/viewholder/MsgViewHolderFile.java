@@ -33,6 +33,8 @@ import com.netease.nimlib.sdk.msg.constant.AttachStatusEnum;
 import com.netease.nimlib.sdk.msg.model.AttachmentProgress;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 
+import org.jetbrains.anko.ToastsKt;
+
 import java.io.File;
 import java.util.Locale;
 

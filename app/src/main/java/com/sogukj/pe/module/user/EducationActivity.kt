@@ -137,6 +137,11 @@ class EducationActivity : BaseActivity(), View.OnClickListener {
             }
             R.id.tv_start_date -> {
                 //入学时间
+                educationBean?.let {
+                    it.toSchoolDate.split("/").map { it.toInt() }.apply {
+                        selectedDate.set(this[0], this[1],0)
+                    }
+                }
                 val timePicker = TimePickerBuilder(this, { date, view ->
                     startTime = date
                     if (startTime != null && endTime != null) {
@@ -162,6 +167,11 @@ class EducationActivity : BaseActivity(), View.OnClickListener {
             }
             R.id.tv_date_end -> {
                 //毕业时间
+                educationBean?.let {
+                    it.graduationDate.split("/").map { it.toInt() }.apply {
+                        selectedDate.set(this[0], this[1],0)
+                    }
+                }
                 val timePicker = TimePickerBuilder(this, { date, view ->
                     endTime = date
                     ifNotNull(startTime, endTime) { v1, v2 ->
@@ -186,17 +196,6 @@ class EducationActivity : BaseActivity(), View.OnClickListener {
             }
             R.id.tv_education -> {
                 //学历
-//                MaterialDialog.Builder(this)
-//                        .title("选择学历")
-//                        .theme(Theme.LIGHT)
-//                        .items(resources.getStringArray(R.array.Education).toList())
-//                        .itemsCallbackSingleChoice(0) { dialog, itemView, which, text ->
-//                            tv_education.text = text
-//                            true
-//                        }
-//                        .positiveText("确定")
-//                        .negativeText("取消")
-//                        .show()
                 var dataList = resources.getStringArray(R.array.Education).toList()
                 var pvOptions = OptionsPickerBuilder(this, OnOptionsSelectListener { options1, option2, options3, v ->
                     tv_education.text = dataList.get(options1)

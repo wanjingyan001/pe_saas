@@ -45,6 +45,7 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.module.approve.ApproveListActivity
 import com.sogukj.pe.module.im.ImSearchResultActivity
+import com.sogukj.pe.module.im.TeamCreateActivity
 import com.sogukj.pe.module.im.msg_viewholder.ApproveAttachment
 import com.sogukj.pe.module.im.msg_viewholder.CustomAttachment
 import com.sogukj.pe.module.im.msg_viewholder.ProcessAttachment
@@ -80,7 +81,6 @@ class MainMsgFragment : BaseFragment() {
         get() = R.layout.fragment_msg_center
 
     lateinit var adapter: RecyclerAdapter<RecentContact>
-
 
 
     override fun onHiddenChanged(hidden: Boolean) {
@@ -168,7 +168,8 @@ class MainMsgFragment : BaseFragment() {
             add_layout.visibility = View.GONE
             var alreadySelect = ArrayList<UserBean>()
             alreadySelect.add(Store.store.getUser(ctx)!!)
-            ContactsActivity.start(ctx, alreadySelect, true, true)
+            startActivity<TeamCreateActivity>(Extras.FLAG to true, Extras.DATA to alreadySelect)
+//            ContactsActivity.start(ctx, alreadySelect, true, true)
         }
         scan.setOnClickListener {
             add_layout.visibility = View.GONE
@@ -197,7 +198,7 @@ class MainMsgFragment : BaseFragment() {
                 override fun setData(view: View, data: RecentContact, position: Int) {
                     val titleName = UserInfoHelper.getUserTitleName(data.contactId, data.sessionType)
                     tvTitle.text = titleName
-                    tvTitle.maxEms = Int.MAX_VALUE
+//                    tvTitle.maxEms = Int.MAX_VALUE
                     topTag.setVisible(data.tag == RECENT_TAG_STICKY)
                     if (data.sessionType == SessionTypeEnum.P2P) {
                         tv_flag.visibility = View.GONE
@@ -211,14 +212,14 @@ class MainMsgFragment : BaseFragment() {
                         if (data.content == "[自定义消息]") {
                             val attachment = data.attachment as? CustomAttachment
                             attachment?.let {
-                                when(attachment){
-                                    is ApproveAttachment ->{
+                                when (attachment) {
+                                    is ApproveAttachment -> {
                                         tvTitleMsg.text = attachment.messageBean.title
                                     }
-                                    is SystemAttachment ->{
+                                    is SystemAttachment -> {
                                         tvTitleMsg.text = attachment.systemBean.title
                                     }
-                                    is ProcessAttachment ->{
+                                    is ProcessAttachment -> {
                                         tvTitleMsg.text = attachment.bean.title
                                     }
                                 }

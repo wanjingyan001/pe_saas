@@ -52,6 +52,8 @@ public class TeamMessageActivity extends BaseMessageActivity {
     private TextView bigTitle;
     private TextView smallTitle;
     private TextView tv_flag;
+    private String flag;
+
     public static void start(Context context, String tid, SessionCustomization customization,
                              Class<? extends Activity> backToClass, IMMessage anchor) {
         Intent intent = new Intent();
@@ -165,22 +167,22 @@ public class TeamMessageActivity extends BaseMessageActivity {
             }
         }
 
-        if(null != team.getExtServer() && !team.getExtServer().isEmpty()) {
+        if (null != team.getExtServer() && !team.getExtServer().isEmpty()) {
             try {
                 tv_flag.setVisibility(View.VISIBLE);
                 JSONObject object = new JSONObject(team.getExtServer());
-                String flag = object.getString("grouptype");
-                if ("0".equals(flag)){
+                flag = object.getString("grouptype");
+                if ("0".equals(flag)) {
                     //全员
                     tv_flag.setBackgroundResource(R.drawable.shape_team_all);
                     tv_flag.setTextColor(getResources().getColor(R.color.orange_f5));
                     tv_flag.setText("全员");
-                }else if ("1".equals(flag)){
+                } else if ("1".equals(flag)) {
                     //部门
                     tv_flag.setBackgroundResource(R.drawable.shape_team_all);
                     tv_flag.setTextColor(getResources().getColor(R.color.orange_f5));
                     tv_flag.setText("部门");
-                }else{
+                } else {
                     //内部群
                     tv_flag.setBackgroundResource(R.drawable.shape_team_inside);
                     tv_flag.setTextColor(getResources().getColor(R.color.white));
@@ -189,7 +191,7 @@ public class TeamMessageActivity extends BaseMessageActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             tv_flag.setVisibility(View.VISIBLE);
             //内部群
             tv_flag.setBackgroundResource(R.drawable.shape_team_inside);
@@ -288,6 +290,9 @@ public class TeamMessageActivity extends BaseMessageActivity {
         IMMessage value = (IMMessage) getIntent().getSerializableExtra(Extras.EXTRA_ANCHOR);
         if (value != null) {
             arguments.putSerializable(Extras.EXTRA_ANCHOR, value);
+        }
+        if (flag != null) {
+            arguments.putString(Extras.EXTRA_FLAG, flag);
         }
         fragment = new TeamMessageFragment();
         fragment.setArguments(arguments);

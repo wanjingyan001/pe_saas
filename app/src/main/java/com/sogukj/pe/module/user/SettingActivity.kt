@@ -94,13 +94,9 @@ class SettingActivity : BaseActivity() {
             user?.let {
                 val company = sp.getString(Extras.SAAS_BASIC_DATA, "")
                 val detail = Gson().fromJson<MechanismBasicInfo?>(company)
-                detail?.mechanism_name.isNullOrEmpty().yes {
-                    showErrorToast("机构名称未找到,请联系客服")
-                }.otherWise {
-                    startActivity<UploadBasicInfoActivity>(Extras.NAME to it,
-                            Extras.CODE to user.phone,
-                            Extras.FLAG to true)
-                }
+                startActivity<UploadBasicInfoActivity>(Extras.NAME to detail?.mechanism_name,
+                        Extras.CODE to user.phone,
+                        Extras.FLAG to true)
 
             }
         }

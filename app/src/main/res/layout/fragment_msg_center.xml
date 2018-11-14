@@ -165,7 +165,7 @@
                         app:layout_constraintEnd_toStartOf="@+id/errorTv"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:background="#FF7676"
+                        app:solid_color="#FF7676"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_size_20"
                         android:gravity="center"

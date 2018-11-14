@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.text.TextUtils
+import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -26,10 +27,7 @@ import com.netease.nimlib.sdk.team.model.CreateTeamResult
 import com.sogukj.pe.BuildConfig
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
-import com.sogukj.pe.baselibrary.Extended.execute
-import com.sogukj.pe.baselibrary.Extended.setVisible
-import com.sogukj.pe.baselibrary.Extended.textStr
+import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.ActivityHelper
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -49,26 +47,30 @@ import org.jetbrains.anko.toast
 import java.io.Serializable
 
 class TeamCreateActivity : BaseActivity() {
-    lateinit var teamMember: ArrayList<UserBean>
     lateinit var adapter: MemberAdapter
     private var path: String? = null
     var bean: CustomSealBean.ValueBean? = null
     var project: ProjectBean? = null
     private val mine by lazy { Store.store.getUser(this) }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_team_create)
-        Utils.setWindowStatusBarColor(this, R.color.color_blue_0888ff)
-        team_toolbar.setNavigationIcon(R.drawable.sogu_ic_back)
-        team_toolbar.setNavigationOnClickListener { finish() }
-        val data = intent.getSerializableExtra(Extras.DATA)
-        project = intent.getSerializableExtra(Extras.DATA2) as? ProjectBean
-        teamMember = if (data != null) {
+    private val data: ArrayList<UserBean>? by extraDelegate(Extras.DATA, null)
+    private val teamMember by lazy {
+        if (data != null) {
             data as ArrayList<UserBean>
         } else {
             ArrayList()
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        intent.getBooleanExtra(Extras.FLAG, false).yes {
+            ContactsActivity.start(this, teamMember, true, true, Extras.REQUESTCODE)
+        }
+        setContentView(R.layout.activity_team_create)
+        Utils.setWindowStatusBarColor(this, R.color.color_blue_0888ff)
+        team_toolbar.setNavigationIcon(R.drawable.sogu_ic_back)
+        team_toolbar.setNavigationOnClickListener { finish() }
+        project = intent.getSerializableExtra(Extras.DATA2) as? ProjectBean
         adapter = MemberAdapter(this)
         adapter.isMyTeam = true
         adapter.refreshData(teamMember)
@@ -258,7 +260,7 @@ class TeamCreateActivity : BaseActivity() {
                                             .execute { onNext { info { "项目群组创建成功" } } }
                                 }
                             }
-                            NimUIKit.startTeamSession(this@TeamCreateActivity, it.team.id, "${mine?.name}发起了群聊,本群所有资料永久保存")
+                            NimUIKit.startTeamSession(this@TeamCreateActivity, it.team.id, "${mine?.name}发起了群聊。本群成员来自同一组织，请放心安全沟通。")
                             finish()
                             //去掉中间的activity(TeamSelectActivity)
                             ActivityHelper.removeTeamSelectActivity()

@@ -7,6 +7,7 @@ public interface Extras {
 
     String EXTRA_FILE_PATH = "file_path";
     String EXTRA_TIP = "tip";
+    String EXTRA_FLAG = "flag";
 
     String EXTRA_DATA = "data";
 

@@ -110,7 +110,7 @@
                             android:layout_height="wrap_content"
                             android:background="@drawable/bg_director_position"
                             android:textColor="@color/text_3"
-                            android:maxLength="6"
+                            android:maxEms="7"
                             android:singleLine="true"
                             android:ellipsize="end"
                             android:textSize="14sp" />

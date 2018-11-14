@@ -51,8 +51,8 @@ fun View.setOnClickFastListener(listener: OnClickFastListener.(v: View) -> Unit)
     }
 }
 
-val String?.withOutEmpty:String
-get() = (this.isNullOrBlank() || this == "null").yes { "--" }.otherWise { this!! }
+val String?.withOutEmpty: String
+    get() = (this.isNullOrBlank() || this == "null").yes { "--" }.otherWise { this!! }
 
 fun <T> List<T>?.isNullOrEmpty(): Boolean = this == null || this.isEmpty()
 /**
@@ -75,6 +75,7 @@ val Any?.jsonStr: String
 
 val TextView.textStr: String
     get() = text.trim().toString().replace(" ", "")
+
 /**
  * 扩展View是否可见，VISIBLE 与 GONE。
  */
@@ -82,15 +83,15 @@ fun View.setVisible(visible: Boolean) {
     visibility = if (visible) View.VISIBLE else View.GONE
 }
 
-fun View.setDrawable(textView : TextView ,direct : Int,drawable: Drawable){
+fun View.setDrawable(textView: TextView, direct: Int, drawable: Drawable) {
 
-    drawable.setBounds(0,0,drawable.minimumWidth,drawable.minimumHeight)
-    when(direct){
-        0 -> textView.setCompoundDrawables(drawable,null,null,null)
-        1 -> textView.setCompoundDrawables(null,drawable,null,null)
-        2 -> textView.setCompoundDrawables(null,null,drawable,null)
-        3 -> textView.setCompoundDrawables(null,null,null,drawable)
-        -1 -> textView.setCompoundDrawables(null,null,null,null)
+    drawable.setBounds(0, 0, drawable.minimumWidth, drawable.minimumHeight)
+    when (direct) {
+        0 -> textView.setCompoundDrawables(drawable, null, null, null)
+        1 -> textView.setCompoundDrawables(null, drawable, null, null)
+        2 -> textView.setCompoundDrawables(null, null, drawable, null)
+        3 -> textView.setCompoundDrawables(null, null, null, drawable)
+        -1 -> textView.setCompoundDrawables(null, null, null, null)
     }
 }
 
@@ -111,12 +112,32 @@ fun CharSequence?.checkEmpty(): CharSequence {
 }
 
 fun Number.toMoney(needDecimal: Boolean = false): String {
-    return toMoney(MoneyUnit.Default, needDecimal)
+    return this.toMoney(MoneyUnit.Default, needDecimal)
 }
 
 fun Number.toMoney(unit: MoneyUnit, needDecimal: Boolean = false): String {
     val money = Utils.formatMoney(BigDecimal(this.toDouble() / unit.unit))
     return if (needDecimal) money else money.substring(0, money.lastIndexOf("."))
+}
+
+fun Number?.toMoneyWithUnit(needDecimal: Boolean = false): String {
+    if (this == null || this == 0) {
+        return "0"
+    } else
+        return when (this) {
+            in (MoneyUnit.TenThousand.unit..MoneyUnit.TenMillion.unit) -> {
+                "${this.toMoney(MoneyUnit.TenThousand, needDecimal)}万"
+            }
+            in (MoneyUnit.TenMillion.unit..MoneyUnit.Billion.unit) -> {
+                "${this.toMoney(MoneyUnit.TenMillion, needDecimal)}千万"
+            }
+            in (MoneyUnit.Billion.unit..Long.MAX_VALUE) -> {
+                "${this.toMoney(MoneyUnit.Billion, needDecimal)}十亿"
+            }
+            else -> {
+                this.toMoney(MoneyUnit.Default, needDecimal)
+            }
+        }
 }
 
 
@@ -132,11 +153,11 @@ fun <T1, T2> ifNotNull(value1: T1?, value2: T2?, bothNotNull: (T1, T2) -> (Unit)
     }
 }
 
-fun <T1, T2> ifNotNullReturnBlo(value1: T1?, value2: T2?, bothNotNull: (T1, T2) -> (Unit)):Boolean {
+fun <T1, T2> ifNotNullReturnBlo(value1: T1?, value2: T2?, bothNotNull: (T1, T2) -> (Unit)): Boolean {
     return if (value1 != null && value2 != null) {
         bothNotNull(value1, value2)
         true
-    }else{
+    } else {
         false
     }
 }
@@ -303,8 +324,9 @@ private fun <T : View> T.clickEnable(): Boolean {
     triggerLastTime = currentClickTime
     return flag
 }
+
 private var mClickTime = 0L
- fun isClickEnable(delay: Long): Boolean {
+fun isClickEnable(delay: Long): Boolean {
     var flag = false
     val currentClickTime = System.currentTimeMillis()
     if (currentClickTime - mClickTime >= delay) {

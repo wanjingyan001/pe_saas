@@ -168,6 +168,11 @@ class WorkExpericenceAddActivity : BaseActivity(), View.OnClickListener {
             }
             R.id.tv_start_date -> {
                 //入职时间
+                workEducationBean?.let {
+                    it.employDate?.split("/")?.map { it.toInt() }?.apply {
+                        selectedDate.set(this[0],this[1],0)
+                    }
+                }
                 val timePicker = TimePickerBuilder(this, { date, view ->
                     startTime = date
                     if (startTime != null && endTime != null) {
@@ -193,6 +198,11 @@ class WorkExpericenceAddActivity : BaseActivity(), View.OnClickListener {
             }
             R.id.tv_date_end -> {
                 //离职时间
+                workEducationBean?.let {
+                    it.leaveDate?.split("/")?.map { it.toInt() }?.apply {
+                        selectedDate.set(this[0],this[1],0)
+                    }
+                }
                 val timePicker = TimePickerBuilder(this, { date, view ->
                     endTime = date
                     ifNotNull(startTime, endTime) { v1, v2 ->

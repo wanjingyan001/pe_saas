@@ -9,7 +9,10 @@ import android.view.View
 import android.widget.TextView
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.toMoney
+import com.sogukj.pe.baselibrary.Extended.toMoneyWithUnit
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
+import com.sogukj.pe.baselibrary.interf.MoneyUnit
 import com.sogukj.pe.baselibrary.utils.StatusBarUtil
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -75,7 +78,7 @@ class FundFinancialActivity : ToolbarActivity() {
 
                         tvTime.text = data.date
                         tvFundName.text = "${tmp}款基金：${data.fundName}"
-                        tvFundMoney.text = "${tmp}款：${data.figure}元"
+                        tvFundMoney.text = "${tmp}款：${data.figure.toMoneyWithUnit(true)}元"
                     }
                 }
             })
@@ -92,7 +95,7 @@ class FundFinancialActivity : ToolbarActivity() {
                 val tv = convertView.findViewById<TextView>(R.id.tv) as TextView
                 object : RecyclerHolder<JCKJLBean>(convertView) {
                     override fun setData(view: View, data: JCKJLBean, position: Int) {
-                        tv.text = "${data.fundName}：${data.figure}元"
+                        tv.text = "${data.fundName}：${data.figure.toMoneyWithUnit(true)}元"
                     }
                 }
             })
@@ -114,7 +117,7 @@ class FundFinancialActivity : ToolbarActivity() {
                         payload?.payload?.apply {
                             //总回款
                             this.allIncome?.apply {
-                                zhk.text = "${this}元"
+                                zhk.text = "${this.toMoneyWithUnit(true)}元"
                             }
                             //总出款
                             adapter2.dataList.clear()

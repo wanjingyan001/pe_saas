@@ -93,9 +93,10 @@ public class MessageFragment extends TFragment implements ModuleProxy {
     private IMMessage anchor;
     private String shareFilePath;
     private String tipStr;
+    private String teamFlag;
     private ImageView buttonMoreFuntionInText;
     private PopupWindow popupWindow;
-    private Handler handler = new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -103,9 +104,9 @@ public class MessageFragment extends TFragment implements ModuleProxy {
                     int showPos[] = new int[2];
                     buttonMoreFuntionInText.getLocationOnScreen(showPos);
                     try {
-                        popupWindow.showAtLocation(buttonMoreFuntionInText, Gravity.TOP|Gravity.RIGHT,Utils.dip2px(getActivity(),10)
-                                ,showPos[1]- Utils.dip2px(getActivity(),50));
-                    }catch (Exception e){
+                        popupWindow.showAtLocation(buttonMoreFuntionInText, Gravity.TOP | Gravity.RIGHT, Utils.dip2px(getActivity(), 10)
+                                , showPos[1] - Utils.dip2px(getActivity(), 50));
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                     break;
@@ -114,32 +115,34 @@ public class MessageFragment extends TFragment implements ModuleProxy {
         }
     };
 
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         parseIntent();
-        if(!XmlDb.Companion.open(getActivity()).get("more_guide_flag")) {
+        if (!XmlDb.Companion.open(getActivity()).get("more_guide_flag")) {
             showMoreGuidePop();
         }
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver,new IntentFilter(SEND_CLOUD_FILE));
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, new IntentFilter(SEND_CLOUD_FILE));
     }
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(null != intent) {
+            if (null != intent) {
                 ArrayList<String> filePaths = intent.getStringArrayListExtra("filePaths");
                 sendCloudFile(filePaths);
             }
         }
     };
 
-    public void sendCloudFile(List<String> filePaths){
+    public void sendCloudFile(List<String> filePaths) {
         inputPanel.sendCloudFile(filePaths);
 
     }
+
     public void showMoreGuidePop() {
-        View contentView = View.inflate(getActivity(),R.layout.layout_im_guide,null);
+        View contentView = View.inflate(getActivity(), R.layout.layout_im_guide, null);
         popupWindow = new PopupWindow(contentView,
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         popupWindow.setTouchable(true);
@@ -147,10 +150,10 @@ public class MessageFragment extends TFragment implements ModuleProxy {
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                XmlDb.Companion.open(getActivity()).set("more_guide_flag",true);
+                XmlDb.Companion.open(getActivity()).set("more_guide_flag", true);
             }
         });
-        handler.sendEmptyMessageDelayed(1001,500);
+        handler.sendEmptyMessageDelayed(1001, 500);
     }
 
     private RecyclerView mMsgList;
@@ -177,6 +180,7 @@ public class MessageFragment extends TFragment implements ModuleProxy {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     }
+
     /**
      * ***************************** life cycle *******************************
      */
@@ -230,7 +234,7 @@ public class MessageFragment extends TFragment implements ModuleProxy {
         }
         try {
             LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(receiver);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -254,6 +258,7 @@ public class MessageFragment extends TFragment implements ModuleProxy {
         customization = (SessionCustomization) getArguments().getSerializable(Extras.EXTRA_CUSTOMIZATION);
         shareFilePath = getArguments().getString(Extras.EXTRA_SHARE_FILE);
         tipStr = getArguments().getString(Extras.EXTRA_TIP);
+        teamFlag = getArguments().getString(Extras.EXTRA_FLAG);
         Container container = new Container(getActivity(), sessionId, sessionType, this);
 
         if (messageListPanel == null) {
@@ -342,7 +347,7 @@ public class MessageFragment extends TFragment implements ModuleProxy {
             message.setContent("该消息无法发送");
             message.setStatus(MsgStatusEnum.success);
             NIMClient.getService(MsgService.class).saveMessageToLocal(message, false);
-        }else {
+        } else {
             appendTeamMemberPush(message);
             final IMMessage msg = message;
             appendPushConfig(message);
@@ -376,8 +381,30 @@ public class MessageFragment extends TFragment implements ModuleProxy {
         return true;
     }
 
-    private void sendTipMsg(){
-        if (!TextUtils.isEmpty(tipStr)){
+    private void sendTipMsg() {
+        String tipStr2 = "本群是%s群，群主可在【群设置-群管理】开启\"群文件同步到加密云盘\"，让群文件永久保留。";
+        if (!TextUtils.isEmpty(tipStr)) {
+            if(teamFlag != null){
+                switch (teamFlag) {
+                    case "0":
+                        tipStr = tipStr.replace("本群成员来自同一组织，", "本群成员来自同一组织，为全员群，");
+                        tipStr2 = String.format(tipStr2, "全员");
+                        break;
+                    case "1":
+                        tipStr = tipStr.replace("本群成员来自同一组织，", "本群成员来自同一组织，为部门群，");
+                        tipStr2 = String.format(tipStr2, "部门");
+                        break;
+                    case "2":
+                        tipStr = tipStr.replace("本群成员来自同一组织，", "本群成员来自同一组织，为内部群，");
+                        tipStr2 = String.format(tipStr2, "内部");
+                        break;
+                    default:
+                        break;
+                }
+            }else {
+                tipStr2 = String.format(tipStr2, "内部");
+            }
+
             IMMessage msg = MessageBuilder.createTipMessage(sessionId, SessionTypeEnum.Team);
             msg.setContent(tipStr);
             CustomMessageConfig config = new CustomMessageConfig();
@@ -385,6 +412,15 @@ public class MessageFragment extends TFragment implements ModuleProxy {
             msg.setConfig(config);
             NIMClient.getService(MsgService.class).sendMessage(msg, false);
             messageListPanel.onMsgSend(msg);
+
+
+            IMMessage msg１ = MessageBuilder.createTipMessage(sessionId, SessionTypeEnum.Team);
+            msg１.setContent(tipStr2);
+            CustomMessageConfig config１ = new CustomMessageConfig();
+            config１.enableUnreadCount = false;
+            msg１.setConfig(config１);
+            NIMClient.getService(MsgService.class).sendMessage(msg１, false);
+            messageListPanel.onMsgSend(msg１);
         }
     }
 

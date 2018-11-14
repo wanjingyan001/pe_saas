@@ -338,7 +338,7 @@ class TeamSelectFragment : BaseFragment() {
                         }
                     }
                 }
-                var chids = ArrayList<ArrayList<Team>>()
+                var chids = ArrayList<List<Team>>()
                 chids.add(ql)
                 chids.add(tlz)
                 var mDisAdapter = DiscussAdapter(parents, chids)
@@ -445,7 +445,7 @@ class TeamSelectFragment : BaseFragment() {
         }
     }
 
-    internal inner class DiscussAdapter(val parents: ArrayList<String>, val childs: ArrayList<ArrayList<Team>>) : BaseExpandableListAdapter() {
+    internal inner class DiscussAdapter(val parents: List<String>, val childs: ArrayList<List<Team>>) : BaseExpandableListAdapter() {
 
         override fun getGroupCount(): Int = parents.size
 

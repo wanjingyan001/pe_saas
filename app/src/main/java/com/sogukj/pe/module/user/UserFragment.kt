@@ -420,6 +420,7 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
         super.onResume()
         getBindingStatus()
         val user = Store.store.getUser(ctx)
+        user?.uid?.let { getBelongBean(it) }
         user?.let {
             tv_bind.text = it.openId.isNullOrEmpty().yes {
                 "去绑定"
@@ -446,7 +447,6 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
                         ToastError(e)
                     })
         }
-        user?.uid?.let { getBelongBean(it) }
     }
 
     private fun updateUser(user: UserBean?) {
