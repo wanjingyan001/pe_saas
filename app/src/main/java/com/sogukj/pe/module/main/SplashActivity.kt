@@ -44,9 +44,9 @@ class SplashActivity : BaseActivity() {
                 splash_bg.imageResource = R.mipmap.img_logo_splash
             }
         }
-        val params = splash_bg.layoutParams as FrameLayout.LayoutParams
-        params.setMargins(0, 0, 0, Utils.dpToPx(this, 40))
-        splash_bg.layoutParams = params
+//        val params = splash_bg.layoutParams as FrameLayout.LayoutParams
+//        params.setMargins(0, 0, 0, Utils.dpToPx(this, 40))
+//        splash_bg.layoutParams = params
         //todo 之后要移除
         RetrofitUrlManager.getInstance().putDomain("WX", Consts.DEV_HTTP_HOST)
 

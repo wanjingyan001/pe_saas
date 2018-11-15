@@ -23,6 +23,7 @@ import com.netease.nim.uikit.common.ui.recyclerview.adapter.BaseMultiItemFetchLo
 import com.netease.nim.uikit.common.util.file.AttachmentStore;
 import com.netease.nim.uikit.common.util.file.FileUtil;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
+import com.netease.nim.uikit.common.util.sys.ToastUtils;
 import com.netease.nimlib.sdk.AbortableFuture;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
@@ -275,7 +276,8 @@ public class MsgViewHolderFile extends MsgViewHolderBase implements View.OnClick
                 if (dialog != null && dialog.isShowing()) {
                     dialog.dismiss();
                 }
-                Toast.makeText(context, "下载失败", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "下载失败", Toast.LENGTH_SHORT).show();
+                ToastUtils.showWarnToast("下载失败",context);
                 download.setText("下载");
                 download.setEnabled(true);
             }
@@ -311,7 +313,8 @@ public class MsgViewHolderFile extends MsgViewHolderBase implements View.OnClick
             if (extension != null) {
                 openFileByPath(context, fileAttachment.getPathForSave(), extension);
             } else {
-                Toast.makeText(context, "文件格式不正确,无法打开", Toast.LENGTH_SHORT).show();
+                ToastUtils.showWarnToast("文件格式不正确,无法打开",context);
+//                Toast.makeText(context, "文件格式不正确,无法打开", Toast.LENGTH_SHORT).show();
             }
             return;
         }
@@ -322,7 +325,8 @@ public class MsgViewHolderFile extends MsgViewHolderBase implements View.OnClick
     @Override
     public void onCancel(DialogInterface dialog) {
         if (future.abort()) {
-            Toast.makeText(context, "下载取消", Toast.LENGTH_SHORT).show();
+            ToastUtils.showWarnToast("下载取消",context);
+//            Toast.makeText(context, "下载取消", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -373,7 +377,8 @@ public class MsgViewHolderFile extends MsgViewHolderBase implements View.OnClick
             //跳转
             context.startActivity(intent);
         } catch (Exception e) { //当系统没有携带文件打开软件，提示
-            Toast.makeText(context, "没有可以打开该文件的软件", Toast.LENGTH_SHORT).show();
+            ToastUtils.showWarnToast("没有可以打开该文件的软件",context);
+//            Toast.makeText(context, "没有可以打开该文件的软件", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }
