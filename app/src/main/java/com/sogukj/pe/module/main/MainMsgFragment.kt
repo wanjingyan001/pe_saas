@@ -36,7 +36,9 @@ import com.netease.nimlib.sdk.msg.model.RecentContact
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.*
+import com.sogukj.pe.baselibrary.Extended.setDrawable
+import com.sogukj.pe.baselibrary.Extended.setVisible
+import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.base.BaseFragment
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -193,15 +195,13 @@ class MainMsgFragment : BaseFragment() {
                 val tvTitleMsg = convertView.findViewById<TextView>(R.id.tv_title_msg) as TextView
                 val tvNum = convertView.findViewById<TextView>(R.id.tv_num) as TextView
                 val topTag = convertView.findViewById<ImageView>(R.id.topTag)
-                val tv_flag = convertView.findViewById<TextView>(R.id.tv_flag)
                 @SuppressLint("SetTextI18n")
                 override fun setData(view: View, data: RecentContact, position: Int) {
                     val titleName = UserInfoHelper.getUserTitleName(data.contactId, data.sessionType)
                     tvTitle.text = titleName
-//                    tvTitle.maxEms = Int.MAX_VALUE
                     topTag.setVisible(data.tag == RECENT_TAG_STICKY)
                     if (data.sessionType == SessionTypeEnum.P2P) {
-                        tv_flag.visibility = View.GONE
+                        tvTitle.setDrawable(tvTitle,-1,activity!!.getDrawable(R.mipmap.ic_flag_qy))
                         val value = data.msgStatus.value
                         when (value) {
                             3 -> tvTitleMsg.text = Html.fromHtml("<font color='#a0a4aa'>[已读]</font>${data.content}")
@@ -243,8 +243,6 @@ class MainMsgFragment : BaseFragment() {
                                     .into(msgIcon)
                         }
                     } else if (data.sessionType == SessionTypeEnum.Team) {
-                        tv_flag.visibility = View.VISIBLE
-                        tvTitle.maxEms = 8
                         val value = data.msgStatus.value
                         val fromNick = if (data.fromNick.isNullOrEmpty()) "" else "${data.fromNick}: "
                         when (value) {
@@ -266,28 +264,20 @@ class MainMsgFragment : BaseFragment() {
                                 when (flag) {
                                     "0" -> {
                                         //全员
-                                        tv_flag.setBackgroundResource(R.drawable.shape_flag_bg)
-                                        tv_flag.setTextColor(activity!!.resources.getColor(R.color.orange_f5))
-                                        tv_flag.text = "全员"
+                                        tvTitle.setDrawable(tvTitle,2,activity!!.getDrawable(R.mipmap.ic_flag_qy))
                                     }
                                     "1" -> {
                                         //部门
-                                        tv_flag.setBackgroundResource(R.drawable.shape_flag_bg)
-                                        tv_flag.setTextColor(activity!!.resources.getColor(R.color.orange_f5))
-                                        tv_flag.text = "部门"
+                                        tvTitle.setDrawable(tvTitle,2,activity!!.getDrawable(R.mipmap.ic_flag_bm))
                                     }
                                     else -> {
-                                        //内部群
-                                        tv_flag.setBackgroundResource(R.drawable.shape_flag_bg_other)
-                                        tv_flag.setTextColor(activity!!.resources.getColor(R.color.blue_43))
-                                        tv_flag.text = "内部"
+                                        //内部
+                                        tvTitle.setDrawable(tvTitle,2,activity!!.getDrawable(R.mipmap.ic_flag_nb))
                                     }
                                 }
                             } else {
-                                //内部群
-                                tv_flag.setBackgroundResource(R.drawable.shape_flag_bg_other)
-                                tv_flag.setTextColor(activity!!.resources.getColor(R.color.blue_43))
-                                tv_flag.text = "内部"
+                                //内部
+                                tvTitle.setDrawable(tvTitle,2,activity!!.getDrawable(R.mipmap.ic_flag_nb))
                             }
                         }
                     }

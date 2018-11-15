@@ -76,4 +76,9 @@ public class SessionCustomization implements Serializable {
         // 响应事件
         public abstract void onClick(Context context, View view, String sessionId);
     }
+    public PersonalButton personalButton;
+    public static abstract class PersonalButton implements Serializable{
+        // 响应事件
+        public abstract void onClick(Context context, View view, String sessionId);
+    }
 }

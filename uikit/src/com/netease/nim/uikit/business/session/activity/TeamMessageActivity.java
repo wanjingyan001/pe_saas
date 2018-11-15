@@ -3,8 +3,10 @@ package com.netease.nim.uikit.business.session.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,8 +53,8 @@ public class TeamMessageActivity extends BaseMessageActivity {
     private Class<? extends Activity> backToClass;
     private TextView bigTitle;
     private TextView smallTitle;
-    private TextView tv_flag;
     private String flag;
+    private ImageView iv_personal;
 
     public static void start(Context context, String tid, SessionCustomization customization,
                              Class<? extends Activity> backToClass, IMMessage anchor) {
@@ -98,6 +100,15 @@ public class TeamMessageActivity extends BaseMessageActivity {
         findViews();
 
         registerTeamUpdateObserver(true);
+
+        iv_personal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (null != customization) {
+                    customization.personalButton.onClick(TeamMessageActivity.this, v, sessionId);
+                }
+            }
+        });
     }
 
     @Override
@@ -169,40 +180,36 @@ public class TeamMessageActivity extends BaseMessageActivity {
 
         if (null != team.getExtServer() && !team.getExtServer().isEmpty()) {
             try {
-                tv_flag.setVisibility(View.VISIBLE);
                 JSONObject object = new JSONObject(team.getExtServer());
                 flag = object.getString("grouptype");
                 if ("0".equals(flag)) {
                     //全员
-                    tv_flag.setBackgroundResource(R.drawable.shape_team_all);
-                    tv_flag.setTextColor(getResources().getColor(R.color.orange_f5));
-                    tv_flag.setText("全员");
+                    setDrawable(R.mipmap.ic_flag_wqy, bigTitle);
                 } else if ("1".equals(flag)) {
                     //部门
-                    tv_flag.setBackgroundResource(R.drawable.shape_team_all);
-                    tv_flag.setTextColor(getResources().getColor(R.color.orange_f5));
-                    tv_flag.setText("部门");
+                    setDrawable(R.mipmap.ic_flag_wbm, bigTitle);
                 } else {
-                    //内部群
-                    tv_flag.setBackgroundResource(R.drawable.shape_team_inside);
-                    tv_flag.setTextColor(getResources().getColor(R.color.white));
-                    tv_flag.setText("内部");
+                    //内部
+                    setDrawable(R.mipmap.ic_flag_wnb, bigTitle);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         } else {
-            tv_flag.setVisibility(View.VISIBLE);
-            //内部群
-            tv_flag.setBackgroundResource(R.drawable.shape_team_inside);
-            tv_flag.setTextColor(getResources().getColor(R.color.white));
-            tv_flag.setText("内部");
+            //内部
+            setDrawable(R.mipmap.ic_flag_wnb, bigTitle);
         }
 
 //        setTitle(team == null ? sessionId : team.getName() + "(" + team.getMemberCount() + "人)");
 
         invalidTeamTipText.setText(team.getType() == TeamTypeEnum.Normal ? R.string.normal_team_invalid_tip : R.string.team_invalid_tip);
         invalidTeamTipView.setVisibility(team.isMyTeam() ? View.GONE : View.VISIBLE);
+    }
+
+    private void setDrawable(int drawableId, TextView textView) {
+        Drawable drawable = getDrawable(drawableId);
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        textView.setCompoundDrawables(null, null, drawable, null);
     }
 
     /**
@@ -311,7 +318,7 @@ public class TeamMessageActivity extends BaseMessageActivity {
         setToolBar(R.id.toolbar, options);
         bigTitle = ((TextView) findViewById(R.id.bigTitle));
         smallTitle = (TextView) findViewById(R.id.smallTitle);
-        tv_flag = findViewById(R.id.tv_flag);
+        iv_personal = findViewById(R.id.iv_personal);
     }
 
     @Override

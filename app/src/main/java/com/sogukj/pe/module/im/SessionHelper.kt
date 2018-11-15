@@ -182,7 +182,7 @@ object SessionHelper {
             val infoBtn = object : SessionCustomization.OptionsButton() {
                 override fun onClick(context: Context, view: View?, sessionId: String?) {
                     if (!Store.store.getUser(context)?.accid.isNullOrEmpty()) {
-                        TeamInfoActivity.start(context, sessionId!!)
+//                        TeamInfoActivity.start(context, sessionId!!)
                     }
                 }
             }
@@ -190,6 +190,16 @@ object SessionHelper {
             buttons.add(infoBtn)
             teamCustomization?.buttons = buttons
             teamCustomization?.withSticker = true
+
+            val personalButton = object : SessionCustomization.PersonalButton(){
+                override fun onClick(context: Context, view: View?, sessionId: String?) {
+                    if (!Store.store.getUser(context)?.accid.isNullOrEmpty()) {
+                        TeamInfoActivity.start(context, sessionId!!)
+                    }
+                }
+
+            }
+            teamCustomization?.personalButton = personalButton
         }
         return teamCustomization
     }

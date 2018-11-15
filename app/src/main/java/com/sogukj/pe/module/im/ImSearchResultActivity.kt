@@ -34,6 +34,7 @@ import com.netease.nimlib.sdk.search.model.MsgIndexRecord
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.execute
+import com.sogukj.pe.baselibrary.Extended.setDrawable
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -60,6 +61,7 @@ import kotlinx.android.synthetic.main.search_result.*
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.find
 import org.jetbrains.anko.imageResource
+import org.json.JSONObject
 
 /**
  * Created by CH-ZH on 2018/8/20.
@@ -574,6 +576,7 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
             tvTitle.text = titleName
             val content = data.message.content
             if (data.sessionType == SessionTypeEnum.P2P) {
+                tvTitle.setDrawable(tvTitle,-1,getDrawable(R.mipmap.ic_flag_qy))
                 tvTitleMsg.text = Html.fromHtml(content.replace(searchKey, "<font color='#1787fb'>$searchKey</font>"))
                 val userInfo = NimUIKit.getUserInfoProvider().getUserInfo(data.sessionId)
                 userInfo?.let {
@@ -602,6 +605,29 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
                             .load(it.icon)
                             .apply(RequestOptions().error(R.drawable.im_team_default))
                             .into(msgIcon)
+
+                    val extServer = it.extServer
+                    if (null != extServer && "" != extServer && """"{}"""" != extServer) {
+                        val jsonObject = JSONObject(extServer)
+                        val flag = jsonObject.getString("grouptype")
+                        when (flag) {
+                            "0" -> {
+                                //全员
+                                tvTitle.setDrawable(tvTitle,2,getDrawable(R.mipmap.ic_flag_qy))
+                            }
+                            "1" -> {
+                                //部门
+                                tvTitle.setDrawable(tvTitle,2,getDrawable(R.mipmap.ic_flag_bm))
+                            }
+                            else -> {
+                                //内部
+                                tvTitle.setDrawable(tvTitle,2,getDrawable(R.mipmap.ic_flag_nb))
+                            }
+                        }
+                    } else {
+                        //内部
+                        tvTitle.setDrawable(tvTitle,2,getDrawable(R.mipmap.ic_flag_nb))
+                    }
                 }
             }
             try {

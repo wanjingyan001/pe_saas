@@ -33,6 +33,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/text_10"
                 android:orientation="horizontal">
 
                 <TextView
@@ -42,35 +43,20 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:gravity="left"
-                    android:maxEms="10"
                     android:layout_gravity="center_vertical"
                     android:singleLine="true"
                     android:text="系统消息助手"
+                    android:drawablePadding="@dimen/text_5"
                     android:textColor="@color/text_1"
-                    android:textSize="16sp"/>
-                <TextView
-                    android:id="@+id/tv_flag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="全员"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/shape_flag_bg"
-                    android:paddingLeft="@dimen/text_3"
-                    android:paddingRight="@dimen/text_3"
-                    android:paddingTop="@dimen/text_1"
-                    android:paddingBottom="@dimen/text_1"
-                    android:textSize="@dimen/text_size_10"
-                    android:layout_marginLeft="@dimen/text_5"
-                    android:textColor="@color/orange_f5"/>
+                    android:textSize="18sp"/>
             </LinearLayout>
-
 
             <TextView
                 android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
                 android:gravity="center"
+                android:layout_gravity="center_vertical"
                 android:textColor="@color/text_3"
                 android:textSize="12sp"
                 tools:text="07/07 12:00" />

@@ -214,18 +214,17 @@
                 android:paddingTop="15dp">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="群名称"
                     android:textColor="@color/black" />
 
                 <EditText
                     android:id="@+id/team_name"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:drawablePadding="10dp"
                     android:gravity="right"
                     android:textColor="#a0a4aa"
                     android:textSize="14sp" />
