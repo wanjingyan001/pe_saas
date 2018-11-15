@@ -365,7 +365,7 @@
                 android:nestedScrollingEnabled="false">
 
             </android.support.v7.widget.RecyclerView>
-
+            <include layout="@layout/layout_pay_way"/>
             <include layout="@layout/layout_pay_slient"/>
 
         </LinearLayout>

@@ -134,7 +134,7 @@ interface StaticHttpUtils {
     @FormUrlEncoded
     @POST("/api/cloud/addFolder")
     fun createNewDir(@Field("file_path")file_path:String, @Field("folder_name")folder_name:String,
-                     @Query("phone") phone : String): Observable<Payload<Any>>
+                     @Field("phone") phone : String): Observable<Payload<Any>>
 
     /**
      * 文件动态

@@ -64,7 +64,7 @@ class PayManagerActivity : BaseRefreshActivity(), AllPayCallBack {
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         showSuccessToast("支付成功")
-                        getManagerData()
+                        payRefresh()
                         if (null != dialog && dialog!!.isShowing){
                             dialog!!.dismiss()
                         }
@@ -223,7 +223,7 @@ class PayManagerActivity : BaseRefreshActivity(), AllPayCallBack {
                         if (payload.isOk){
                             if (pay_type == 1 || pay_type == 2){
                                 showSuccessToast("支付成功")
-                                doRefresh()
+                                payRefresh()
                                 if (dialog.isShowing){
                                     dialog.dismiss()
                                 }
@@ -290,7 +290,7 @@ class PayManagerActivity : BaseRefreshActivity(), AllPayCallBack {
             var ids = ""
             if (selectCount > 0){
                 alreadySelected.forEach {
-                    ids = it.user_id + ","
+                    ids += it.user_id + ","
                 }
                 PayDialog.showPayBookDialog(this,2,this,userAccount,price,selectCount,ids,PdfBook(0,"","","","","","",1))
             }else{
@@ -323,7 +323,12 @@ class PayManagerActivity : BaseRefreshActivity(), AllPayCallBack {
         getManagerData()
     }
 
-
+    private fun payRefresh(){
+        getManagerData()
+        alreadySelected.clear()
+        selectCount = 0
+        tv_pay_count.text = "已选择账号：${selectCount}个"
+    }
     override fun doLoadMore() {
 
     }

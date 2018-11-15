@@ -242,7 +242,6 @@ class PayDialog {
                 }
             }
 
-
         }
 
         fun getBusAccountInfo(tv_bus_balance: TextView, iv_bus_select: ImageView, tv_bus_title:TextView,isRefresh: Boolean,realPrice:String) {
@@ -479,10 +478,10 @@ class PayDialog {
                 //去支付
                 if (null != callBack){
                     if (type == 1){
-                        callBack.payForOther(id,2,count,pay_type,price,tv_per_balance,iv_pre_select,
+                        callBack.payForOther(id,2,count,pay_type,realPrice,tv_per_balance,iv_pre_select,
                                 tv_bus_balance,iv_bus_select,tv_per_title,tv_bus_title,dialog,book!!)
                     }else{
-                        callBack.payForOther(id,1,count,pay_type,price,tv_per_balance,iv_pre_select,
+                        callBack.payForOther(id,1,count,pay_type,realPrice,tv_per_balance,iv_pre_select,
                                 tv_bus_balance,iv_bus_select,tv_per_title,tv_bus_title,dialog,book!!)
                     }
                 }
