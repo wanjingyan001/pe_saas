@@ -33,7 +33,7 @@ import java.text.SimpleDateFormat
 /**
  * Created by qinfei on 17/10/18.
  */
-@Route(path = ARouterPath.EntryApproveActivity)
+
 class EntryApproveActivity : ToolbarActivity(){
 
     val fmt = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")

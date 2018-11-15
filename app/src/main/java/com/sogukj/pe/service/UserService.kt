@@ -167,23 +167,23 @@ interface UserService {
     /**
      * 获取微信二维码
      */
-    @Headers(value = "Domain-Name: WX")
+    @Headers(value = ["Domain-Name: WX"])
     @POST("/wx/Wxapis/bindQr")
     fun getWxQRurl(): Observable<Payload<Any>>
 
     /**
      * 获取微信绑定状态
      */
-    @Headers(value = "Domain-Name: WX")
-    @POST("/wx/Wxapis/isBindQr ")
+    @Headers(value = ["Domain-Name: WX"])
+    @POST("/wx/Wxapis/isBindQr")
     fun getBindingStatus():Observable<Payload<WXBind>>
 
     /**
      * 绑定更新接口
      */
-    @Headers(value = "Domain-Name: WX")
+    @Headers(value = ["Domain-Name: WX"])
     @FormUrlEncoded
-    @POST("/wx/Wxapis/updateBindQr ")
+    @POST("/wx/Wxapis/updateBindQr")
     fun updateBindingStatus(@Field("openid")openid:String):Observable<Payload<Any>>
 
 }

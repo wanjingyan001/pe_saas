@@ -1,5 +1,6 @@
 package com.sogukj.pe.module.register
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import androidx.core.content.edit
@@ -49,6 +50,7 @@ import java.util.*
 @Route(path = "/register/main")
 class LoginActivity : BaseActivity(), LoginView {
     private val loginPresenter: LoginPresenter by lazy { LoginPresenter(application) }
+    @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_phone_input)
@@ -93,6 +95,9 @@ class LoginActivity : BaseActivity(), LoginView {
                     showErrorToast("微信登录失败")
                 }
             })
+        }
+        DDLogin.clickWithTrigger {
+            MobLogin.DDLogin(this)
         }
         phoneEdt.block = {
             mVerCodeInput.setText("")

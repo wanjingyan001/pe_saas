@@ -19,6 +19,7 @@ import com.netease.nimlib.sdk.auth.AuthService
 import com.netease.nimlib.sdk.auth.AuthServiceObserver
 import com.netease.nimlib.sdk.auth.LoginInfo
 import com.netease.nimlib.sdk.util.NIMUtil
+import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.base.ActivityHelper
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.XmlDb
@@ -126,7 +127,7 @@ class App : MultiDexApplication() {
                     return notification
                 }
             }
-            PushAgent.getInstance(INSTANCE).setNotificationClickHandler({ context, uMessage ->
+            PushAgent.getInstance(INSTANCE).setNotificationClickHandler { context, uMessage ->
                 try {
                     ShortcutBadger.removeCount(context)
                     uMessage.custom?.apply {
@@ -182,7 +183,7 @@ class App : MultiDexApplication() {
                 } catch (e: Exception) {
                     Trace.e(e)
                 }
-            })
+            }
         }
         initNIM()
     }
@@ -220,11 +221,11 @@ class App : MultiDexApplication() {
             val token = if (enable) uToken else ""
             SoguApi.getService(INSTANCE, UserService::class.java)
                     .saveUser(uid = user.uid!!, advice_token = token)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.io())
-                    .subscribe({ payload ->
-                        Trace.i("pushToken", "${payload.isOk}")
-                    }, { e -> Trace.e(e) })
+                    .execute {
+                        onNext { payload ->
+                            Trace.i("pushToken", "${payload.isOk}")
+                        }
+                    }
         }
     }
 

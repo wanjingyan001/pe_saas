@@ -347,7 +347,8 @@ interface ApproveService {
      * 审批列表
      */
     @FormUrlEncoded
-    @POST("/api/Sptemplate/waitDoneApp")
+//    @POST("/api/Sptemplate/waitDoneApp")
+    @POST("/api/Sptemplate/approveList")
     fun getApproveList(@Field("kind") kind: Int = 4,//1=>待我审批 2=>我已审批 3=>我发起的审批 4=>抄送我的
                        @Field("page") page: Int = 1,//页数
                        @Field("pageSize") pageSize: Int = 20,//每页数量
@@ -355,6 +356,8 @@ interface ApproveService {
                        @Field("type") type: String? = null,//审批分组类型,多个逗号隔开，全部请传null
                        @Field("tid") tid: String? = null//审批模板,多个逗号隔开，全部请传null
     ): Observable<Payload<ApproveList>>
+
+
 
 
     /**

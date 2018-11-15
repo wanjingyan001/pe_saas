@@ -11,9 +11,12 @@ import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import java.util.HashMap
 import cn.sharesdk.wechat.friends.Wechat
-import com.tencent.mm.opensdk.diffdev.OAuthListener
-import com.tencent.mm.opensdk.modelmsg.SendAuth
-import com.tencent.mm.opensdk.openapi.WXAPIFactory
+import com.android.dingtalk.share.ddsharemodule.DDShareApiFactory
+import com.android.dingtalk.share.ddsharemodule.message.SendAuth
+import com.sogukj.pe.ddshare.DDShareActivity
+import com.android.dingtalk.share.ddsharemodule.message.SendAuth.Req.SNS_LOGIN
+
+
 
 
 /**
@@ -85,6 +88,14 @@ class MobLogin {
 //            val req = SendAuth.Req()
 //            req.scope = "snsapi_userinfo"
 //            wxapi.sendReq(req)
+        }
+
+
+        fun DDLogin(context:Context){
+            val ddShareApi = DDShareApiFactory.createDDShareApi(context, DDShareActivity.DDApp_Id, true)
+            val req = SendAuth.Req()
+            req.scope = SendAuth.Req.SNS_LOGIN
+            ddShareApi.sendReq(req)
         }
 
 

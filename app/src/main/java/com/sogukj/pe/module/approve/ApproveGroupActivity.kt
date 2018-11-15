@@ -29,6 +29,7 @@ import org.jetbrains.anko.startActivity
 /**
  * 审批分组界面
  */
+@Route(path = ARouterPath.EntryApproveActivity)
 class ApproveGroupActivity : ToolbarActivity(), View.OnClickListener {
     private lateinit var groupAdapter: ApproveGroupAdapter
     private val groups = mutableListOf<AGroup>()

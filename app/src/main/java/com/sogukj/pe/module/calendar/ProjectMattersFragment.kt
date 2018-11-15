@@ -15,6 +15,7 @@ import com.scwang.smartrefresh.header.MaterialHeader
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.BaseRefreshFragment
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
@@ -133,71 +134,70 @@ class ProjectMattersFragment : BaseRefreshFragment(), ScheduleItemClickListener 
 
 
     fun doRequest(page: Int, date: String, companyId: String? = null) {
-        SoguApi.getService(baseActivity!!.application, CalendarService::class.java)
+        SoguApi.getService(ctx, CalendarService::class.java)
                 .ShowMatterSchedule(page, time = date, company_id = companyId)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe({ payload ->
-                    if (payload.isOk) {
-                        if (page == 1) {
-                            data.clear()
-                        }
-                        Log.d("WJY", Gson().toJson(payload.payload))
-                        payload.payload?.let {
-                            val companyList = ArrayList<ProjectMatterCompany>()
-                            val infoList = ArrayList<ScheduleBean>()
-                            it.forEachIndexed { index, projectMattersBean ->
-                                var companyid = ""
-                                projectMattersBean.item?.forEachIndexed { position, scheduleBean ->
-                                    if (!infoList.contains(scheduleBean)) {
-                                        infoList.add(scheduleBean)
-                                    }
-                                    companyid = scheduleBean.company_id.toString()
-                                }
-                                projectMattersBean.cName?.let {
-                                    val matterCompany = ProjectMatterCompany(it, companyid)
-                                    if (!companyList.contains(matterCompany)) {
-                                        companyList.add(matterCompany)
-                                    }
-                                }
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk) {
+                            if (page == 1) {
+                                data.clear()
                             }
-                            val map = HashMap<String, List<ScheduleBean>>()
-                            companyList.forEachIndexed { position, name ->
-                                val infos = ArrayList<ScheduleBean>()
-                                data.add(name)
-                                infoList.forEachIndexed { i, scheduleBean ->
-                                    val day = scheduleBean.start_time?.split(" ")?.get(0)
-                                    if (name.companyId == scheduleBean.company_id.toString()) {
-                                        data.add(scheduleBean)
-                                        infos.add(scheduleBean)
+                            Log.d("WJY", Gson().toJson(payload.payload))
+                            payload.payload?.let {
+                                val companyList = ArrayList<ProjectMatterCompany>()
+                                val infoList = ArrayList<ScheduleBean>()
+                                it.forEachIndexed { index, projectMattersBean ->
+                                    var companyid = ""
+                                    projectMattersBean.item?.forEachIndexed { position, scheduleBean ->
+                                        if (!infoList.contains(scheduleBean)) {
+                                            infoList.add(scheduleBean)
+                                        }
+                                        companyid = scheduleBean.company_id.toString()
+                                    }
+                                    projectMattersBean.cName?.let {
+                                        val matterCompany = ProjectMatterCompany(it, companyid)
+                                        if (!companyList.contains(matterCompany)) {
+                                            companyList.add(matterCompany)
+                                        }
                                     }
                                 }
-                                map.put(name.companyName, infos)
+                                val map = HashMap<String, List<ScheduleBean>>()
+                                companyList.forEachIndexed { position, name ->
+                                    val infos = ArrayList<ScheduleBean>()
+                                    data.add(name)
+                                    infoList.forEachIndexed { i, scheduleBean ->
+                                        val day = scheduleBean.start_time?.split(" ")?.get(0)
+                                        if (name.companyId == scheduleBean.company_id.toString()) {
+                                            data.add(scheduleBean)
+                                            infos.add(scheduleBean)
+                                        }
+                                    }
+                                    map[name.companyName] = infos
+                                }
+                                projectAdapter.notifyDataSetChanged()
                             }
-                            projectAdapter.notifyDataSetChanged()
-                        }
 
-                    } else {
-                        showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                        } else {
+                            showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                        }
                     }
-                }, { e ->
-                    Trace.e(e)
-                }, {
-                    if (data.size == 0) {
-                        refresh.setVisible(false)
-                        iv_empty.setVisible(true)
-                    } else {
-                        refresh.setVisible(true)
-                        iv_empty.setVisible(false)
+                    onComplete {
+                        if (data.size == 0) {
+                            refresh.setVisible(false)
+                            iv_empty.setVisible(true)
+                        } else {
+                            refresh.setVisible(true)
+                            iv_empty.setVisible(false)
+                        }
+                        isLoadMoreEnable = (data.size - 1) % 20 == 0
+                        projectAdapter.notifyDataSetChanged()
+                        if (page == 1) {
+                            finishRefresh()
+                        } else {
+                            finishLoadMore()
+                        }
                     }
-                    isLoadMoreEnable = (data.size - 1) % 20 == 0
-                    projectAdapter.notifyDataSetChanged()
-                    if (page == 1) {
-                        finishRefresh()
-                    } else {
-                        finishLoadMore()
-                    }
-                })
+                }
     }
 
 
@@ -242,31 +242,29 @@ class ProjectMattersFragment : BaseRefreshFragment(), ScheduleItemClickListener 
     }
 
     fun getCompanyDetail(cId: Int, type: Int) {
-        SoguApi.getService(baseActivity!!.application, NewService::class.java)
+        SoguApi.getService(ctx, NewService::class.java)
                 .singleCompany(cId)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe({ payload ->
-                    if (payload.isOk) {
-                        payload.payload?.let {
-                            when (type) {
-                                5 -> {
-                                    RecordTraceActivity.start(activity, it)
-                                }
-                                6 -> {
-                                    ProjectDetailActivity.start(activity, it)
-                                }
-                                else -> {
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk) {
+                            payload.payload?.let {
+                                when (type) {
+                                    5 -> {
+                                        RecordTraceActivity.start(activity, it)
+                                    }
+                                    6 -> {
+                                        ProjectDetailActivity.start(activity, it)
+                                    }
+                                    else -> {
 
+                                    }
                                 }
                             }
+                        } else {
+                            showCustomToast(R.drawable.icon_toast_fail, payload.message)
                         }
-                    } else {
-                        showCustomToast(R.drawable.icon_toast_fail, payload.message)
                     }
-                }, { e ->
-                    Trace.e(e)
-                })
+                }
     }
 
     override fun finishCheck(isChecked: Boolean, position: Int) {
@@ -275,25 +273,24 @@ class ProjectMattersFragment : BaseRefreshFragment(), ScheduleItemClickListener 
     }
 
     fun finishTask(id: Int, isChecked: Boolean) {
-        SoguApi.getService(baseActivity!!.application, CalendarService::class.java)
+        SoguApi.getService(ctx, CalendarService::class.java)
                 .finishTask(id)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe({ payload ->
-                    if (payload.isOk) {
-                        payload.payload?.let {
-                            if (it == 1) {
-                                showCustomToast(R.drawable.icon_toast_success, "您完成了该日程")
-                            } else {
-                                showCustomToast(R.drawable.icon_toast_success, "您重新打开了该日程")
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk) {
+                            payload.payload?.let {
+                                if (it == 1) {
+                                    showCustomToast(R.drawable.icon_toast_success, "您完成了该日程")
+                                } else {
+                                    showCustomToast(R.drawable.icon_toast_success, "您重新打开了该日程")
+                                }
                             }
+                        } else {
+                            showCustomToast(R.drawable.icon_toast_fail, payload.message)
                         }
-                    } else {
-                        showCustomToast(R.drawable.icon_toast_fail, payload.message)
+
                     }
-                }, { e ->
-                    Trace.e(e)
-                })
+                }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

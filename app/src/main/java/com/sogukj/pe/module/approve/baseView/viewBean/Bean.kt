@@ -140,7 +140,11 @@ data class ApproveListBean(
         var uid: Int,// 46
         var url: String,// http://prepewinner.oss-cn-hangzhou.aliyuncs.com/uploads/headimg/5ae18f59c9193.jpg?OSSAccessKeyId=dZwbJBSoG9OREtPi&Expires=1538990127&Signature=wUIbHIvqrA5etiK9VE8iKcdz4LM%3D
         var temName: String,// 审批模版一
-        var handle: Boolean//  true=>待经办  false=>不显示任何标志
+        var handle: Boolean,//  true=>待经办  false=>不显示任何标志
+        var mark: String,//(old,new)
+        var kind: String? = null,//	string	用印类别(老审批)
+        var status_str: String? = null,//	string	审批状态(老审批)
+        var type: Int? = null//	number	类型(老审批)
 )
 
 

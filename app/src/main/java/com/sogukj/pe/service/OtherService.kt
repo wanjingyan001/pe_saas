@@ -44,14 +44,14 @@ interface OtherService {
     @POST
     fun qrNotify(@Url url: String, @Field("status") status: Int): Observable<Payload<Any>>
 
-    @Headers(value = "Domain-Name: QRCode")
+    @Headers(value = ["Domain-Name: QRCode"])
     @FormUrlEncoded
     @POST
     fun qrNotify_saas(@Url url: String, @Field("status") status: Int, @Field("phone") phone: String): Observable<Payload<Any>>
 
 
     //版本更新
-    @Headers(value = "Domain-Name: upgrade")
+    @Headers(value = ["Domain-Name: upgrade"])
     @POST("/api/Index/version")
     fun getVersion(): Observable<Payload<VersionBean>>
 
