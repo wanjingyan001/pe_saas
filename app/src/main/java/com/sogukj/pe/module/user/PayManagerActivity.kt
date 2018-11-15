@@ -289,8 +289,13 @@ class PayManagerActivity : BaseRefreshActivity(), AllPayCallBack {
             //批量购买
             var ids = ""
             if (selectCount > 0){
-                alreadySelected.forEach {
-                    ids += it.user_id + ","
+                alreadySelected.forEachIndexed { index, managerInfo ->
+                    if (index == alreadySelected.size - 1){
+                        ids += managerInfo.user_id
+                    }else{
+                        ids += managerInfo.user_id + ","
+                    }
+
                 }
                 PayDialog.showPayBookDialog(this,2,this,userAccount,price,selectCount,ids,PdfBook(0,"","","","","","",1))
             }else{
