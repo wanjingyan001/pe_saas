@@ -140,7 +140,7 @@ class MainMsgFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        toolbar_title.text = "消息"
+        toolbar_title.text = "享聊"
         loadHead()
         toolbar_back.setOnClickListener {
             if (add_layout.visibility == View.VISIBLE) {

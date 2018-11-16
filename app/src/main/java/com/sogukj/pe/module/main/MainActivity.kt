@@ -88,7 +88,7 @@ class MainActivity : BaseActivity() {
     }
 
     //    "消息", "通讯录", "基金"
-    private val modules = arrayListOf(MainBottomBar(1, "消息"),
+    private val modules = arrayListOf(MainBottomBar(1, "享聊"),
             MainBottomBar(2, "通讯录"),
             MainBottomBar(3, "工作台"),
             MainBottomBar(4, "项目"),
@@ -225,7 +225,7 @@ class MainActivity : BaseActivity() {
                     }
                     fragments.add(mainHome)
                 }
-                "消息" -> {
+                "享聊" -> {
                     items.add(msgItem)
                     fragments.add(mainMsg)
                 }
