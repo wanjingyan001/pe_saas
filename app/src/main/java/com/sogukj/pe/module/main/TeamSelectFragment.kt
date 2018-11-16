@@ -59,6 +59,7 @@ import kotlinx.android.synthetic.main.fragment_team_select.*
 import org.jetbrains.anko.find
 import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.support.v4.ctx
+import org.jetbrains.anko.support.v4.startActivity
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -237,7 +238,8 @@ class TeamSelectFragment : BaseFragment() {
 //            TeamSelectActivity.start(context, isSelectUser = true, isCreateTeam = true)
             val alreadySelect = ArrayList<UserBean>()
             alreadySelect.add(Store.store.getUser(ctx)!!)
-            ContactsActivity.start(ctx, alreadySelect, true, true)
+            startActivity<TeamCreateActivity>(Extras.FLAG to true, Extras.DATA to alreadySelect)
+//            ContactsActivity.start(ctx, alreadySelect, true, true)
 //            isSelectUser = !isSelectUser
 //
 //            loadByIsSelectUser()

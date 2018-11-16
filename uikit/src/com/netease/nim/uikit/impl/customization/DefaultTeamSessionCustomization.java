@@ -4,13 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
-import android.widget.Toast;
 
 import com.netease.nim.uikit.R;
 import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nim.uikit.api.model.session.SessionCustomization;
 import com.netease.nim.uikit.business.team.model.TeamExtras;
 import com.netease.nim.uikit.business.team.model.TeamRequestCode;
+import com.sogukj.pe.baselibrary.utils.ToastUtils;
 import com.netease.nimlib.sdk.team.model.Team;
 
 import java.util.ArrayList;
@@ -38,7 +38,8 @@ public class DefaultTeamSessionCustomization extends SessionCustomization {
                 if (team != null && team.isMyTeam()) {
                     NimUIKit.startTeamInfo(context, sessionId);
                 } else {
-                    Toast.makeText(context, R.string.team_invalid_tip, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, R.string.team_invalid_tip, Toast.LENGTH_SHORT).show();
+                    ToastUtils.showWarnToast( R.string.team_invalid_tip,context);
                 }
             }
         };

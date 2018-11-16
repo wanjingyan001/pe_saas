@@ -42,11 +42,14 @@ class SplashActivity : BaseActivity() {
             }
             else -> {
                 splash_bg.imageResource = R.mipmap.img_logo_splash
+                val params = splash_bg.layoutParams as FrameLayout.LayoutParams
+                params.width = FrameLayout.LayoutParams.MATCH_PARENT
+                params.height = FrameLayout.LayoutParams.MATCH_PARENT
+                splash_bg.layoutParams = params
+                params.setMargins(0, 0, 0, 0)
             }
         }
-//        val params = splash_bg.layoutParams as FrameLayout.LayoutParams
-//        params.setMargins(0, 0, 0, Utils.dpToPx(this, 40))
-//        splash_bg.layoutParams = params
+
         //todo 之后要移除
         RetrofitUrlManager.getInstance().putDomain("WX", Consts.DEV_HTTP_HOST)
 
@@ -58,18 +61,18 @@ class SplashActivity : BaseActivity() {
         super.onResume()
 
         handler.postDelayed({
-//            || (NIMClient.getStatus().shouldReLogin() && NimUIKit.getAccount().isNullOrEmpty())
-            if (!Store.store.checkLogin(this) ) {
-                if (sp.getBoolean(Extras.isFirstEnter,true)) {
+            //            || (NIMClient.getStatus().shouldReLogin() && NimUIKit.getAccount().isNullOrEmpty())
+            if (!Store.store.checkLogin(this)) {
+                if (sp.getBoolean(Extras.isFirstEnter, true)) {
                     startActivity<GuideActivity>()
-                }else{
+                } else {
                     startActivity<LoginActivity>()
                 }
 //                LoginActivity.start(this)
                 finish()
             } else {
                 val url = sp.getString(Extras.HTTPURL, "")
-                if (url.isNotEmpty()){
+                if (url.isNotEmpty()) {
                     RetrofitUrlManager.getInstance().setGlobalDomain(url)
                 }
                 startActivity(Intent(this, MainActivity::class.java))
@@ -79,16 +82,15 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun saveDzhToken() {
-        SoguApi.getDzhHttp(application).getDzhToken(Extras.DZH_APP_ID,Extras.DZH_SECRET_KEY)
+        SoguApi.getDzhHttp(application).getDzhToken(Extras.DZH_APP_ID, Extras.DZH_SECRET_KEY)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    t ->
-                    if (null != t && null != t.token){
-                        Log.e("TAG","token ==" + t.token)
-                        Store.store.setDzhToken(this,t.token)
+                .subscribe({ t ->
+                    if (null != t && null != t.token) {
+                        Log.e("TAG", "token ==" + t.token)
+                        Store.store.setDzhToken(this, t.token)
                     }
-                },{
+                }, {
                     it.printStackTrace()
                 })
     }

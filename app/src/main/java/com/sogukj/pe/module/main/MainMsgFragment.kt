@@ -186,7 +186,7 @@ class MainMsgFragment : BaseFragment() {
         rl_search.setOnClickListener {
             ImSearchResultActivity.invoke(activity!!, 0)
         }
-        adapter = RecyclerAdapter(baseActivity!!, { _adapter, parent, type ->
+        adapter = RecyclerAdapter(baseActivity!!) { _adapter, parent, type ->
             val convertView = _adapter.getView(R.layout.item_msg_index, parent)
             object : RecyclerHolder<RecentContact>(convertView) {
                 val msgIcon = convertView.findViewById<CircleImageView>(R.id.msg_icon) as CircleImageView
@@ -309,7 +309,7 @@ class MainMsgFragment : BaseFragment() {
                 }
 
             }
-        })
+        }
         adapter.onItemClick = { v, p ->
             if (search_edt.textStr.isEmpty()) {
                 search_edt.clearFocus()

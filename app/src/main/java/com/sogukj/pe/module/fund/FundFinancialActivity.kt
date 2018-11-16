@@ -1,5 +1,6 @@
 package com.sogukj.pe.module.fund
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -28,6 +29,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_fund_financial.*
 import org.jetbrains.anko.textColor
+import java.text.SimpleDateFormat
 
 class FundFinancialActivity : ToolbarActivity() {
 
@@ -43,6 +45,7 @@ class FundFinancialActivity : ToolbarActivity() {
     lateinit var adapter1: RecyclerAdapter<JCKJLBean>
     lateinit var adapter2: RecyclerAdapter<JCKJLBean>
 
+    @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fund_financial)
@@ -53,7 +56,7 @@ class FundFinancialActivity : ToolbarActivity() {
         title = bean.company_name
 
         kotlin.run {
-            adapter1 = RecyclerAdapter(context, { _adapter, parent, type ->
+            adapter1 = RecyclerAdapter(context) { _adapter, parent, type ->
 
                 val convertView = _adapter.getView(R.layout.item_jckjl1, parent)
                 val dot = convertView.findViewById<DotView>(R.id.dot) as DotView
@@ -81,7 +84,7 @@ class FundFinancialActivity : ToolbarActivity() {
                         tvFundMoney.text = "${tmp}款：${data.figure.toMoneyWithUnit(true)}元"
                     }
                 }
-            })
+            }
             val layoutManager = LinearLayoutManager(context)
             layoutManager.orientation = LinearLayoutManager.VERTICAL
             jckjl.addItemDecoration(SpaceItemDecoration(Utils.dpToPx(context, 10)))
@@ -90,7 +93,7 @@ class FundFinancialActivity : ToolbarActivity() {
         }
 
         kotlin.run {
-            adapter2 = RecyclerAdapter(context, { _adapter, parent, type ->
+            adapter2 = RecyclerAdapter(context) { _adapter, parent, type ->
                 val convertView = _adapter.getView(R.layout.item_jckjl2, parent)
                 val tv = convertView.findViewById<TextView>(R.id.tv) as TextView
                 object : RecyclerHolder<JCKJLBean>(convertView) {
@@ -98,7 +101,7 @@ class FundFinancialActivity : ToolbarActivity() {
                         tv.text = "${data.fundName}：${data.figure.toMoneyWithUnit(true)}元"
                     }
                 }
-            })
+            }
             val layoutManager = LinearLayoutManager(context)
             layoutManager.orientation = LinearLayoutManager.VERTICAL
             zck.addItemDecoration(SpaceItemDecoration(Utils.dpToPx(context, 10)))

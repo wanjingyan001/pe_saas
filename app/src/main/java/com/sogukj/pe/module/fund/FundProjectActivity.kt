@@ -56,7 +56,7 @@ class FundProjectActivity : ToolbarActivity() {
 
         //文件列表
         kotlin.run {
-            mAdapter = RecyclerAdapter<FundCompany>(this, { _adapter, parent, type ->
+            mAdapter = RecyclerAdapter(this) { _adapter, parent, type ->
                 val convertView = _adapter.getView(R.layout.item_fundproject, parent) as View
                 object : RecyclerHolder<FundCompany>(convertView) {
                     val icon = convertView.findViewById<ImageView>(R.id.icon) as ImageView
@@ -104,7 +104,7 @@ class FundProjectActivity : ToolbarActivity() {
                     }
 
                 }
-            })
+            }
             val layoutManager = LinearLayoutManager(this)
             layoutManager.orientation = LinearLayoutManager.VERTICAL
             fileList.addItemDecoration(SpaceItemDecoration(Utils.dpToPx(context, 10)))

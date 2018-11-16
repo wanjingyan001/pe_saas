@@ -32,9 +32,9 @@ interface DDService {
     fun getAccountToken(@Query("appid") appid: String = DDShareActivity.DDApp_Id,
                         @Query("appsecret") appsecret: String = DDShareActivity.DD_APP_SECRET)
             : Observable<AccountToken>
-    @FormUrlEncoded
+
     @POST("/sns/get_persistent_code")
-    fun getAuthorizeCode(@Query("access_token")access_token:String ,
-                         @Field("tmp_auth_code") tmp_auth_code: String ): Observable<AuthorizeCode>
+    fun getAuthorizeCode(@Query("access_token") access_token: String,
+                         @Body tmp_auth_code: AuthorizeReq): Observable<AuthorizeCode>
 
 }

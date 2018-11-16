@@ -16,3 +16,8 @@ data class AuthorizeCode(
 		var persistent_code: String,// dsa-d-asdasdadHIBIinoninINIn-ssdasd
 		var unionid: String// 7Huu46kk
 )
+
+
+data class AuthorizeReq(
+		var tmp_auth_code:String
+)

@@ -23,6 +23,7 @@ import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum
 import com.netease.nimlib.sdk.msg.model.IMMessage
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.utils.ToastUtils
 import com.sogukj.pe.module.im.clouddish.CloudDishActivity
 import com.sogukj.pe.module.im.clouddish.CloudFileAction
 import com.sogukj.pe.module.im.msg_viewholder.*
@@ -60,11 +61,12 @@ object SessionHelper {
             override fun onCloudClicked(context: Context?, message: IMMessage?) {
                 val path = (message!!.attachment as FileAttachment).path
                 val pathForSave = (message!!.attachment as FileAttachment).pathForSave
-                val extension = (message!!.attachment as FileAttachment).getExtension()
+                val extension = (message!!.attachment as FileAttachment).extension
                 val fileName = (message!!.attachment as FileAttachment).displayName
-                Log.e("TAG","path ==" + path + " pathForSave ==" + pathForSave + "  extension ==" + extension + "  fileName ==" + fileName)
+                Log.e("TAG", "path ==$path pathForSave ==$pathForSave  extension ==$extension  fileName ==$fileName")
                 if (path.isNullOrEmpty() && pathForSave.isNullOrEmpty()){
-                    Toast.makeText(context,"文件不存在,请先下载再上传",Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(context,"文件不存在,请先下载再上传",Toast.LENGTH_SHORT).show()
+                    ToastUtils.showErrorToast("文件不存在,请先下载再上传",context!!)
                 }else{
                     if (!path.isNullOrEmpty()){
                         //跳转到云盘
@@ -154,7 +156,8 @@ object SessionHelper {
                             val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:${info.mobile}"))
                             context.startActivity(intent)
                         } else {
-                            Toast.makeText(context, "找不到正确的手机号", Toast.LENGTH_SHORT).show()
+//                            Toast.makeText(context, "找不到正确的手机号", Toast.LENGTH_SHORT).show()
+                            ToastUtils.showErrorToast("找不到正确的手机号",context)
                         }
                     }
                 }

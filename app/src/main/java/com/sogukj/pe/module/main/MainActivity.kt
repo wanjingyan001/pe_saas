@@ -210,7 +210,7 @@ class MainActivity : BaseActivity() {
 
     private fun initBottomNavBar() {
         val mainItem0 = BottomNavigationItem(R.drawable.ic_qb_sel12, "工作台").setInactiveIconResource(R.drawable.ic_qb_nor2).initNavTextColor()
-        val msgItem = BottomNavigationItem(R.drawable.ic_qb_sel11, "消息").setInactiveIconResource(R.drawable.ic_qb_nor).initNavTextColor()
+        val msgItem = BottomNavigationItem(R.drawable.ic_qb_sel11, "享聊").setInactiveIconResource(R.drawable.ic_qb_nor).initNavTextColor()
         val contactItem = BottomNavigationItem(R.drawable.ic_qb_sel15, "通讯录").setInactiveIconResource(R.drawable.ic_qb_nor1).initNavTextColor()
         val mainItem = BottomNavigationItem(R.drawable.ic_qb_selnull, "工作台").setInactiveIconResource(R.drawable.ic_qb_nor2).initNavTextColor1()
         val projectItem = BottomNavigationItem(R.drawable.ic_tab_main_proj_11, "项目").setInactiveIconResource(R.drawable.ic_tab_main_proj_0).initNavTextColor()
@@ -555,7 +555,8 @@ class MainActivity : BaseActivity() {
         when (keyCode) {
             KeyEvent.KEYCODE_BACK -> {
                 if (System.currentTimeMillis() - mExitTime > 1000) {
-                    Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show()
+                    ToastUtils.showWarnToast("再按一次退出程序",this)
                     mExitTime = System.currentTimeMillis()
                 } else {
                     finish()

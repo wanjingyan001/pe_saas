@@ -44,7 +44,7 @@ class ShareUtils {
         var iddShareApi: IDDShareApi? = null
         fun share(bean: CusShareBean, context: Context) {
             Utils.copyShareFile(getEnvironment(),context)
-            iddShareApi = DDShareApiFactory.createDDShareApi(context, DDShareActivity.Companion.DDApp_Id, true)
+            iddShareApi = DDShareApiFactory.createDDShareApi(context, DDShareActivity.DDApp_Id, true)
             this.context = context
             val dialog = Dialog(context, R.style.AppTheme_Dialog)
             dialog.setContentView(R.layout.dialog_share_custom)

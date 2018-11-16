@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.sogukj.pe.baselibrary.utils.ToastUtils;
 import com.sogukj.pe.peUtils.MobLogin;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -94,7 +95,8 @@ public class WXEntryActivity extends WechatHandlerActivity implements IWXAPIEven
         if (msg != null && msg.mediaObject != null
                 && (msg.mediaObject instanceof WXAppExtendObject)) {
             WXAppExtendObject obj = (WXAppExtendObject) msg.mediaObject;
-            Toast.makeText(this, obj.extInfo, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, obj.extInfo, Toast.LENGTH_SHORT).show();
+            ToastUtils.showWarnToast(obj.extInfo,this);
         }
     }
 

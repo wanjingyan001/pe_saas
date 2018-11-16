@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.Gravity
 import android.view.View
+import androidx.core.view.doOnLayout
 import com.google.gson.Gson
 import com.ldf.calendar.model.CalendarDate
 import com.scwang.smartrefresh.header.MaterialHeader
@@ -59,7 +60,20 @@ class ProjectMattersFragment : BaseRefreshFragment(), ScheduleItemClickListener 
         get() = R.layout.fragment_project_matters
     private lateinit var projectAdapter: ProjectAdapter
     private val data = ArrayList<Any>()
-    private lateinit var window: CalendarWindow
+    private  val window: CalendarWindow by lazy {
+        ctx?.let {
+            CalendarWindow(ctx, object : CalendarSelectListener {
+                override fun daySelect(calendarDate: CalendarDate) {
+                    page = 1
+                    val calendar = Calendar.getInstance()
+                    calendar.set(calendarDate.year, calendarDate.month - 1, calendarDate.day)
+                    MDTime.text = Utils.getTime(calendar.time, "MM月dd日")
+                    date = Utils.getTime(calendar.time.time, "yyyy-MM-dd")
+                    doRequest(page, date, companyId)
+                }
+            })
+        }
+    }
     var page = 1
     var date = SimpleDateFormat("yyyy-MM-dd").format(Date(System.currentTimeMillis()))
     var companyId: String? = null
@@ -90,18 +104,6 @@ class ProjectMattersFragment : BaseRefreshFragment(), ScheduleItemClickListener 
             //选择日期
             window.showAtLocation(find(R.id.project_matter_main), Gravity.BOTTOM, 0, 0)
         }
-        handler.postDelayed({
-            window = CalendarWindow(ctx, object : CalendarSelectListener {
-                override fun daySelect(calendarDate: CalendarDate) {
-                    page = 1
-                    val calendar = Calendar.getInstance()
-                    calendar.set(calendarDate.year, calendarDate.month - 1, calendarDate.day)
-                    MDTime.text = Utils.getTime(calendar.time, "MM月dd日")
-                    date = Utils.getTime(calendar.time.time, "yyyy-MM-dd")
-                    doRequest(page, date, companyId)
-                }
-            })
-        }, 1000)
     }
 
 

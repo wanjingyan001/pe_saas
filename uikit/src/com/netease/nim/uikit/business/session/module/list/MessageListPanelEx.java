@@ -14,7 +14,6 @@ import android.text.TextUtils;
 import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.netease.nim.uikit.R;
 import com.netease.nim.uikit.api.NimUIKit;
@@ -39,6 +38,7 @@ import com.netease.nim.uikit.common.util.media.BitmapDecoder;
 import com.netease.nim.uikit.common.util.sys.ClipboardUtil;
 import com.netease.nim.uikit.common.util.sys.NetworkUtil;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
+import com.sogukj.pe.baselibrary.utils.ToastUtils;
 import com.netease.nim.uikit.impl.NimUIKitImpl;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.NIMSDK;
@@ -227,7 +227,8 @@ public class MessageListPanelEx {
                         try {
                             container.activity.startActivity(intent);
                         } catch (ActivityNotFoundException e) {
-                            Toast.makeText(container.activity, "路径错误", Toast.LENGTH_SHORT).show();
+                            ToastUtils.showWarnToast("路径错误",container.activity);
+//                            Toast.makeText(container.activity, "路径错误", Toast.LENGTH_SHORT).show();
                         }
 
                     } else if (LinkElement.TYPE_BLOCK.equals(element.getType())) {
@@ -1015,7 +1016,8 @@ public class MessageListPanelEx {
 
                 @Override
                 public void onClick() {
-                    Toast.makeText(container.activity, finalContent, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(container.activity, finalContent, Toast.LENGTH_SHORT).show();
+                    ToastUtils.showWarnToast(finalContent,container.activity);
                     setEarPhoneMode(!UserPreferences.isEarPhoneModeEnable(), true);
                 }
             });
@@ -1062,7 +1064,8 @@ public class MessageListPanelEx {
                 @Override
                 public void onClick() {
                     if (!NetworkUtil.isNetAvailable(container.activity)) {
-                        Toast.makeText(container.activity, R.string.network_is_not_available, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(container.activity, R.string.network_is_not_available, Toast.LENGTH_SHORT).show();
+                        ToastUtils.showWarnToast("网络连接失败，请检查你的网络设置",container.activity);
                         return;
                     }
                     NIMClient.getService(MsgService.class).revokeMessage(item).setCallback(new RequestCallback<Void>() {
@@ -1075,9 +1078,11 @@ public class MessageListPanelEx {
                         @Override
                         public void onFailed(int code) {
                             if (code == ResponseCode.RES_OVERDUE) {
-                                Toast.makeText(container.activity, R.string.revoke_failed, Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(container.activity, R.string.revoke_failed, Toast.LENGTH_SHORT).show();
+                                ToastUtils.showWarnToast("发送时间超过2分钟的消息，不能被撤回",container.activity);
                             } else {
-                                Toast.makeText(container.activity, "revoke msg failed, code:" + code, Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(container.activity, "revoke msg failed, code:" + code, Toast.LENGTH_SHORT).show();
+                                ToastUtils.showWarnToast("revoke msg failed, code:",container.activity);
                             }
                         }
 
@@ -1283,7 +1288,8 @@ public class MessageListPanelEx {
         }
 
         if (message == null) {
-            Toast.makeText(container.activity, "该类型不支持转发", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(container.activity, "该类型不支持转发", Toast.LENGTH_SHORT).show();
+            ToastUtils.showWarnToast("该类型不支持转发",container.activity);
             return;
         }
 

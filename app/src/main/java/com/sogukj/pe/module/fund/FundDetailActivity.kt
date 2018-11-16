@@ -72,7 +72,7 @@ class FundDetailActivity : ToolbarActivity() {
         setBack(true)
         title = data.fundName
         run {
-            adapter = RecyclerAdapter(this, { _adapter, parent, type ->
+            adapter = RecyclerAdapter(this) { _adapter, parent, type ->
                 val convertView = _adapter.getView(R.layout.item_fund_detail_name_list, parent)
                 object : RecyclerHolder<UserBean>(convertView) {
                     val headImg = convertView.find<CircleImageView>(R.id.commissionHeadImg)
@@ -90,7 +90,7 @@ class FundDetailActivity : ToolbarActivity() {
                         }
                     }
                 }
-            })
+            }
             val manager = LinearLayoutManager(this)
             manager.orientation = LinearLayoutManager.HORIZONTAL
             commissionList.layoutManager = manager
@@ -100,17 +100,17 @@ class FundDetailActivity : ToolbarActivity() {
         getFundDetail(data.id)
 
         run {
-            structure.setOnClickListener({ FundStructureActivity.start(this, data) })
-            fundsDetail.setOnClickListener({ FundAccountActivity.start(this, data) })
-            fundsWenShu.setOnClickListener({
+            structure.setOnClickListener { FundStructureActivity.start(this, data) }
+            fundsDetail.setOnClickListener { FundAccountActivity.start(this, data) }
+            fundsWenShu.setOnClickListener {
                 val stage = when(data.type){//  （1=>储备，2=>存续，3=>退出））
                     1 -> "储备"
                     2 -> "存续"
                     3 -> "退出"
                     else -> ""
                 }
-                BookListActivity.start(context, data.id, 2, null, "基金文书", data.fundName, stage)
-            })
+                BookListActivity.start(context, data.id, 2, null, "基金文件", data.fundName, stage)
+            }
             jjxm.setOnClickListener {
                 FundProjectActivity.start(context, data)
             }

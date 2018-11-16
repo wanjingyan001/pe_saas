@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.sogukj.pe.BuildConfig;
+import com.sogukj.pe.baselibrary.utils.ToastUtils;
 import com.sogukj.pe.service.DownLoadService;
 
 import java.io.File;
@@ -67,9 +68,10 @@ public class PdfUtil {
         try {
             context.startActivity(intent);
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(context,
-                    "没有找到可以打开该文件的应用!",
-                    Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context,
+//                    "没有找到可以打开该文件的应用!",
+//                    Toast.LENGTH_SHORT).show();
+            ToastUtils.showErrorToast("没有找到可以打开该文件的应用!",context);
         }
     }
 
@@ -104,7 +106,8 @@ public class PdfUtil {
                             File file = FileUtil.writeFile(response.body().byteStream(), filePath);
                             opendPdf(context, file);
                         } else {
-                            Toast.makeText(context, "下载失败!", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(context, "下载失败!", Toast.LENGTH_SHORT).show();
+                            ToastUtils.showErrorToast("下载失败!",context);
                             if (!TextUtils.isEmpty(urls)) {
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
                                 intent.setData(Uri.parse(urls));
@@ -119,7 +122,8 @@ public class PdfUtil {
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    Toast.makeText(context, "连接失败!", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "连接失败!", Toast.LENGTH_SHORT).show();
+                    ToastUtils.showErrorToast("连接失败!",context);
                 }
             });
         }

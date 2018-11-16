@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sogukj.pe.R;
+import com.sogukj.pe.baselibrary.utils.ToastUtils;
 import com.sogukj.pe.baselibrary.utils.Utils;
 import com.sogukj.pe.bean.TaskItemBean;
 import com.sogukj.pe.bean.TodoDay;
@@ -136,7 +137,10 @@ public class TaskAdapter extends RecyclerView.Adapter {
                                 }
                             }
                         } else {
-                            Toast.makeText(context, objectPayload.getMessage(), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(context, objectPayload.getMessage(), Toast.LENGTH_SHORT).show();
+                            if (objectPayload.getMessage() != null) {
+                                ToastUtils.showErrorToast(objectPayload.getMessage(),context);
+                            }
                         }
                     }
 

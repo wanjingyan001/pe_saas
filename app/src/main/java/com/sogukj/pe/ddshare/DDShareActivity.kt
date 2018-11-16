@@ -64,7 +64,7 @@ class DDShareActivity : Activity(), IDDAPIEventHandler {
         val service = DDApi.getService()
         service.getAccountToken()
                 .flatMap {
-                    service.getAuthorizeCode(it.access_token,code)
+                    service.getAuthorizeCode(it.access_token,AuthorizeReq(code))
                 }.execute {
                     onNext {
                         Log.d("WJY", it.jsonStr)

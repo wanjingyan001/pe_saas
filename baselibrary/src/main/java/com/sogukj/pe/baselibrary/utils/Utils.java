@@ -764,7 +764,8 @@ public class Utils {
                     if (!matcher.find()) {
                         return null;
                     } else {
-                        Toast.makeText(context, "只能输入汉字,英文，数字和标点符号", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(context, "只能输入汉字,英文，数字和标点符号", Toast.LENGTH_SHORT).show();
+                        ToastUtils.showErrorToast("只能输入汉字,英文，数字和标点符号",context);
                         return "";
                     }
                 }
@@ -1397,17 +1398,22 @@ public class Utils {
                         out);
                 out.close();
                 if (b) {
-                    Toast.makeText(context, "截屏成功", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "截屏成功", Toast.LENGTH_SHORT).show();
+                    ToastUtils.showSuccessToast("截屏成功",context);
                 } else {
-                    Toast.makeText(context, "截屏失败", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "截屏失败", Toast.LENGTH_SHORT).show();
+                    ToastUtils.showErrorToast("截屏失败",context);
                 }
                 if (status != 0) {
-                    Toast.makeText(context, "地图渲染完成，截屏无网格", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "地图渲染完成，截屏无网格", Toast.LENGTH_SHORT).show();
+                    ToastUtils.showWarnToast("地图渲染完成，截屏无网格",context);
                 } else {
-                    Toast.makeText(context, "地图未渲染完成，截屏有网格", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "地图未渲染完成，截屏有网格", Toast.LENGTH_SHORT).show();
+                    ToastUtils.showWarnToast("地图未渲染完成，截屏有网格",context);
                 }
             } catch (IOException e) {
-                Toast.makeText(context, "截屏失败", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "截屏失败", Toast.LENGTH_SHORT).show();
+                ToastUtils.showErrorToast("截屏失败",context);
                 e.printStackTrace();
             }
         }

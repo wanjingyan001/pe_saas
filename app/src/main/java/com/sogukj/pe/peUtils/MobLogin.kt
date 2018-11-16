@@ -15,8 +15,6 @@ import org.jetbrains.anko.info
 import java.util.*
 
 
-
-
 /**
  * Created by admin on 2018/10/29.
  */
@@ -55,7 +53,7 @@ class MobLogin {
         }
 
 
-        fun WeChatLogin(block: (account: String) -> Unit, cancel: (() -> Unit)? = null, fail: ((code:Int) -> Unit)? = null) {
+        fun WeChatLogin(block: (account: String) -> Unit, cancel: (() -> Unit)? = null, fail: ((code: Int) -> Unit)? = null) {
             //MobSDK的微信登录
             val wechat = ShareSDK.getPlatform(Wechat.NAME)
             wechat.platformActionListener = object : PlatformActionListener {
@@ -89,14 +87,14 @@ class MobLogin {
         }
 
 
-        fun DDLogin(context:Context){
+        fun DDLogin(context: Context) {
             val ddShareApi = DDShareApiFactory.createDDShareApi(context, DDShareActivity.DDApp_Id, true)
-            if (ddShareApi.isDDAppInstalled()) {
+            if (ddShareApi.isDDAppInstalled) {
                 val req = SendAuth.Req()
                 req.scope = SendAuth.Req.SNS_LOGIN
                 req.state = "sogukj"
                 ddShareApi.sendReq(req)
-            }else{
+            } else {
                 ToastUtil.showCustomToast(R.drawable.icon_toast_fail, "请先安装最新版的钉钉", context)
             }
 

@@ -63,9 +63,9 @@ class TeamInfoActivity : BaseActivity(), View.OnClickListener, SwitchButton.OnCh
     lateinit var adapter: MemberAdapter
     lateinit var team: Team
     private val mine by lazy { Store.store.getUser(this) ?: UserBean() }
-    private var isMyTeam by Delegates.observable(false, { property, oldValue, newValue ->
+    private var isMyTeam by Delegates.observable(false) { _, _, newValue ->
         adapter.isMyTeam = newValue
-    })
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

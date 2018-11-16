@@ -1113,7 +1113,10 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name=".module.project.archives.ManagerActivity" />
-        <activity android:name=".module.project.archives.ManagerDetailActivity" />
+        <activity android:name=".module.project.archives.ManagerDetailActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity android:name=".module.project.DangerousActivity" />
         <activity android:name=".module.project.IncomeCurveActivity" />
 

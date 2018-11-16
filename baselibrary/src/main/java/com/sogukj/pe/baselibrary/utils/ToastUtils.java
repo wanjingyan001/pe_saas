@@ -1,15 +1,17 @@
-package com.netease.nim.uikit.common.util.sys;
+package com.sogukj.pe.baselibrary.utils;
 
 import android.content.Context;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.netease.nim.uikit.R;
+import com.sogukj.pe.baselibrary.R;
+
 
 /**
  * Created by admin on 2018/11/14.
@@ -37,16 +39,28 @@ public class ToastUtils {
         toast.show();
     }
 
-   public static void showSuccessToast(@NonNull CharSequence text, @NonNull Context context) {
+    public static void showSuccessToast(@NonNull CharSequence text, @NonNull Context context) {
         showCustomToast(R.drawable.icon_toast_success, text, context);
     }
 
-    public static void showErrorToast(@NonNull CharSequence text, @NonNull Context context){
+    public static void showSuccessToast(@StringRes int resId, @NonNull Context context) {
+        showCustomToast(R.drawable.icon_toast_success, context.getResources().getText(resId), context);
+    }
+
+    public static void showErrorToast(@NonNull CharSequence text, @NonNull Context context) {
         showCustomToast(R.drawable.icon_toast_fail, text, context);
     }
 
-    public static void showWarnToast(@NonNull CharSequence text, @NonNull Context context){
+    public static void showErrorToast(@StringRes int resId, @NonNull Context context) {
+        showCustomToast(R.drawable.icon_toast_fail, context.getResources().getText(resId), context);
+    }
+
+    public static void showWarnToast(@NonNull CharSequence text, @NonNull Context context) {
         showCustomToast(R.drawable.icon_toast_common, text, context);
+    }
+
+    public static void showWarnToast(@StringRes int resId, @NonNull Context context) {
+        showCustomToast(R.drawable.icon_toast_common, context.getResources().getText(resId), context);
     }
 
 }

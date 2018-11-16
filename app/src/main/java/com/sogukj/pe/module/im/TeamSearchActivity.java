@@ -33,6 +33,7 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.search.model.MsgIndexRecord;
 import com.netease.nimlib.sdk.uinfo.model.UserInfo;
 import com.sogukj.pe.R;
+import com.sogukj.pe.baselibrary.utils.ToastUtils;
 import com.sogukj.pe.baselibrary.utils.Utils;
 import com.sogukj.pe.widgets.CircleImageView;
 
@@ -169,7 +170,8 @@ public class TeamSearchActivity extends AppCompatActivity implements View.OnClic
 
                     @Override
                     public void onFailed(int i) {
-                        Toast.makeText(TeamSearchActivity.this, "错误", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(TeamSearchActivity.this, "错误", Toast.LENGTH_SHORT).show();
+                        ToastUtils.showErrorToast("错误",TeamSearchActivity.this);
                     }
 
                     @Override

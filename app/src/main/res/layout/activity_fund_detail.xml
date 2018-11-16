@@ -425,7 +425,7 @@
                     android:gravity="center"
                     android:paddingBottom="13dp"
                     android:paddingTop="13dp"
-                    android:text="基金文书" />
+                    android:text="基金文件" />
 
                 <com.sogukj.pe.baselibrary.widgets.TipsView
                     android:id="@+id/jjxm"

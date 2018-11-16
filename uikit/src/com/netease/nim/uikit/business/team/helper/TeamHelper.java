@@ -2,13 +2,13 @@ package com.netease.nim.uikit.business.team.helper;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.widget.Toast;
 
 import com.netease.nim.uikit.R;
 import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nim.uikit.business.contact.core.item.ContactIdFilter;
 import com.netease.nim.uikit.business.contact.selector.activity.ContactSelectActivity;
 import com.netease.nim.uikit.business.uinfo.UserInfoHelper;
+import com.sogukj.pe.baselibrary.utils.ToastUtils;
 import com.netease.nimlib.sdk.team.constant.TeamBeInviteModeEnum;
 import com.netease.nimlib.sdk.team.constant.TeamInviteModeEnum;
 import com.netease.nimlib.sdk.team.constant.TeamMemberType;
@@ -249,7 +249,8 @@ public class TeamHelper {
                 }
             }
             tipContent.append("所在群组数量达到上限，邀请失败");
-            Toast.makeText(context, tipContent.toString(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, tipContent.toString(), Toast.LENGTH_SHORT).show();
+            ToastUtils.showErrorToast(tipContent.toString(),context);
         }
     }
 
