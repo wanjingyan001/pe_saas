@@ -15,6 +15,7 @@ data class PackageBean(val mealName: String,
                        val tel: String,
                        val wechat: String,
                        val email: String,
+                       val expirytime : String,
                        val used: Int,
                        val max: Int,
                        val list: List<PackageChild>,
@@ -26,7 +27,7 @@ data class PackageChild(val id: Int? = null,
                         val name: String,
                         val quantity: Int,
                         val pricestr: String? = null,
-                        val price: Int) : Parcelable
+                        val price: String) : Parcelable
 
 @SuppressLint("ParcelCreator")
 @Parcelize

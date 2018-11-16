@@ -2,6 +2,7 @@ package com.sogukj.pe.module.im.clouddish
 
 import android.os.Bundle
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
@@ -33,13 +34,16 @@ class SecretCloudActivity : ToolbarActivity() {
         toolbar?.setBackgroundColor(resources.getColor(R.color.white))
         val companyInfo = sp.getString(Extras.SAAS_BASIC_DATA, "")
         val detail = Gson().fromJson<MechanismBasicInfo?>(companyInfo)
-        if (null != detail){
-            company = detail.mechanism_name?:""
-        }
         bindListener()
         setBack(true)
         setTitle("加密云盘")
-
+        if (null != detail){
+            company = detail.mechanism_name?:""
+            detail.let {
+                Glide.with(this).load(it.logo).into(iv_logo)
+            }
+        }
+        tv_company.text = company
     }
 
     override fun onResume() {
@@ -114,6 +118,11 @@ class SecretCloudActivity : ToolbarActivity() {
         view_mine_file.clickWithTrigger {
             //我的文件
             startActivity<MineFileActivity>(Extras.TITLE to "我的文件",Extras.DIR to "/我的文件")
+        }
+
+        ll_company_file.clickWithTrigger {
+            //公司文件
+            startActivity<MineFileActivity>(Extras.TITLE to company,Extras.DIR to "/${company}")
         }
 
         ll_fund_file.clickWithTrigger {

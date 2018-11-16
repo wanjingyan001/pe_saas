@@ -1,20 +1,20 @@
 package com.sogukj.pe.module.other
 
 import android.annotation.SuppressLint
-import android.annotation.TargetApi
 import android.graphics.Color
 import android.graphics.Paint
-import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.text.SpannableString
 import android.text.Spanned
+import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.View
 import com.alipay.sdk.app.PayTask
-import com.google.gson.Gson
-import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.BaseActivity
@@ -24,9 +24,8 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.baselibrary.widgets.SpaceItemDecoration
 import com.sogukj.pe.bean.*
-import com.sogukj.pe.service.OtherService
+import com.sogukj.pe.module.dataSource.DocumentsListActivity
 import com.sogukj.service.SoguApi
-import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_pay_expansion.*
 import kotlinx.android.synthetic.main.item_pay_discount.view.*
 import kotlinx.android.synthetic.main.item_pay_expansion_list.view.*
@@ -34,7 +33,6 @@ import kotlinx.android.synthetic.main.layout_pay_slient.*
 import kotlinx.android.synthetic.main.layout_pay_way.*
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.dip
-import org.jetbrains.anko.info
 import org.jetbrains.anko.sdk25.coroutines.textChangedListener
 import kotlin.properties.Delegates
 
@@ -61,7 +59,39 @@ class PayExpansionActivity : BaseActivity() {
     private var coin = 9.9 //舆情总价
     private var zxPrice = "0"
     private var allprice = "9.9"
-    private var data = "2018年9月30日"
+    private var pay_type = 3 //3 支付宝 4 微信 1 个人账号 2 企业账号
+    private var zxId = -1
+    private var mHandler : Handler = object : Handler(){
+        override fun handleMessage(msg: Message?) {
+            super.handleMessage(msg)
+            when(msg!!.what){
+                DocumentsListActivity.SDK_PAY_FLAG -> {
+                    val payResult = PayResultInfo(msg.obj as Map<String, String>)
+                    /**
+                    对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
+                     */
+                    val resultInfo = payResult.getResult()// 同步返回需要验证的信息
+                    val resultStatus = payResult.getResultStatus()
+                    Log.e("TAG"," resultStatus ===" + resultStatus)
+                    // 判断resultStatus 为9000则代表支付成功
+                    if (TextUtils.equals(resultStatus, "9000")) {
+                        // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
+                        showSuccessToast("支付成功")
+                        getPayPackageInfo(true)
+                    } else if (TextUtils.equals(resultStatus, "6001")) {
+                        showErrorToast("支付已取消")
+                    } else {
+                        // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
+                        showErrorToast("支付失败")
+                    }
+                }
+                else -> {
+
+                }
+            }
+
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pay_expansion)
@@ -81,12 +111,14 @@ class PayExpansionActivity : BaseActivity() {
             payReqChild.id = calenderAdapter.dataList[position].id
             product = product.copy(discountPrice = product.discountPrice,
                     OriginalPrice = product.OriginalPrice,
-                    calenderPrice = calenderAdapter.dataList[position].price)
-            zxPrice = calenderAdapter.dataList[position].price.toString()
+                    calenderPrice = calenderAdapter.dataList[position].price.toInt())
+            zxPrice = calenderAdapter.dataList[position].price
 
             allprice = Utils.stringAdd(coin.toString(),zxPrice)
             paymentPrice.text = "￥${allprice}"
             prepareValue(allprice,perBalance,busBalance)
+
+            zxId = calenderAdapter.dataList[position].id!!
         }
         pjPackageList.apply {
             layoutManager = LinearLayoutManager(this@PayExpansionActivity)
@@ -98,7 +130,7 @@ class PayExpansionActivity : BaseActivity() {
             adapter = calenderAdapter
             addItemDecoration(SpaceItemDecoration(dip(10)))
         }
-        getPayPackageInfo()
+        getPayPackageInfo(false)
         payConfirm.clickWithTrigger {
             getPayInfo()
         }
@@ -107,11 +139,6 @@ class PayExpansionActivity : BaseActivity() {
         bindListener()
 
         paymentPrice.text = "￥${allprice}"
-
-        val warn = "您的套餐将于${data}到期，为了团队的正常工作，请尽快续费。"
-        val spannableString = SpannableString(warn)
-        spannableString.setSpan(ForegroundColorSpan(Color.parseColor("#F85959")), 6, 8 + data.length , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        tv_warn.text = spannableString
     }
 
     private fun bindListener() {
@@ -177,6 +204,8 @@ class PayExpansionActivity : BaseActivity() {
                     iv_zfb_select.setImageResource(R.mipmap.ic_select_receipt)
                     isCheckWx = false
                     isCheckZfb = false
+
+                    pay_type = 2
                 }
             }
         }
@@ -195,6 +224,8 @@ class PayExpansionActivity : BaseActivity() {
                     iv_zfb_select.setImageResource(R.mipmap.ic_select_receipt)
                     isCheckWx = false
                     isCheckZfb = false
+
+                    pay_type = 1
                 }
             }
         }
@@ -214,6 +245,8 @@ class PayExpansionActivity : BaseActivity() {
                     isCheckPer = false
                 }
                 isCheckZfb = false
+
+                pay_type = 4
             }
         }
 
@@ -232,6 +265,8 @@ class PayExpansionActivity : BaseActivity() {
                     isCheckPer = false
                 }
                 isCheckWx = false
+
+                pay_type = 3
             }
         }
     }
@@ -346,7 +381,7 @@ class PayExpansionActivity : BaseActivity() {
 
     private var disInfo: List<Discount>? = null
 
-    private fun getPayPackageInfo() {
+    private fun getPayPackageInfo(isRefresh:Boolean) {
         SoguApi.getStaticHttp(application).getPayType()
                 .execute {
                     onNext { payload ->
@@ -355,20 +390,41 @@ class PayExpansionActivity : BaseActivity() {
                                 forEach {
                                     when (it.type) {
                                         1 -> {
-                                            pjAdapter.dataList.addAll(it.list)
-                                            projectTotal.text = "项目共${it.max}个"
-                                            projectOver.text = "剩余${it.max - it.used}个"
-                                            pjAdapter.mode = it.type
-                                            disInfo = it.discountInfo
-                                            pjAdapter.notifyDataSetChanged()
+//                                            pjAdapter.dataList.addAll(it.list)
+//                                            projectTotal.text = "项目共${it.max}个"
+//                                            projectOver.text = "剩余${it.max - it.used}个"
+//                                            pjAdapter.mode = it.type
+//                                            disInfo = it.discountInfo
+//                                            pjAdapter.notifyDataSetChanged()
                                             setScribeInfos(it)
                                         }
                                         2 -> {
-                                            calenderAdapter.dataList.addAll(it.list)
                                             creditTotal.text = "征信共${it.max}次"
                                             creditOver.text = "剩余${it.max - it.used}次"
-                                            calenderAdapter.mode = it.type
-                                            calenderAdapter.notifyDataSetChanged()
+                                            if (!isRefresh){
+                                                calenderAdapter.dataList.addAll(it.list)
+                                                calenderAdapter.mode = it.type
+                                                calenderAdapter.notifyDataSetChanged()
+                                            }
+                                        }
+                                        3 -> {
+                                            projectTotal.text = "舆情监控共${it.max}个"
+                                            projectOver.text = "剩余${it.max - it.used}个"
+                                            if (!it.expirytime.isNullOrEmpty()){
+                                                ll_warn.setVisible(true)
+                                                val warn = "您的套餐将于${it.expirytime}到期，为了团队的正常工作，请尽快续费。"
+                                                val spannableString = SpannableString(warn)
+                                                spannableString.setSpan(ForegroundColorSpan(Color.parseColor("#F85959")),
+                                                        6, 8 + it.expirytime.length , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                                                tv_warn.text = spannableString
+                                            }else{
+                                                ll_warn.setVisible(false)
+                                            }
+                                            if (null != it.list && it.list.size > 0){
+                                                if (null != it.list[0] && null != it.list[0].price){
+                                                    tv_coin.text = it.list[0].price
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -392,48 +448,100 @@ class PayExpansionActivity : BaseActivity() {
     }
 
     private fun getPayInfo() {
-        SoguApi.getService(application, OtherService::class.java).getPayInfo(PayReq(Extras.PAY_PUBLIC_KEY, payReqChild))
-                .execute {
-                    onNext { payload ->
-                        if (payload.isOk) {
-                            payload.payload?.let {
-                                info { it }
-                                aliPay(it)
+//        SoguApi.getService(application, OtherService::class.java).getPayInfo(PayReq(Extras.PAY_PUBLIC_KEY, payReqChild))
+//                .execute {
+//                    onNext { payload ->
+//                        if (payload.isOk) {
+//                            payload.payload?.let {
+//                                info { it }
+//                                aliPay(it)
+//                            }
+//                        } else {
+//                            showErrorToast(payload.message)
+//                        }
+//                    }
+//                }
+        if (zxId == -1){
+            SoguApi.getStaticHttp(application)
+                    .getDilatationPayInfo(pay_type,count)
+                    .execute {
+                        onNext { payload ->
+                            if (payload.isOk){
+                                if (pay_type == 1 || pay_type == 2){
+                                    showSuccessToast("支付成功")
+                                    getPayPackageInfo(true)
+                                    getPerAccountInfo()
+                                    getBusAccountInfo()
+                                }else if (pay_type == 3){
+                                    //支付宝
+                                    sendToZfbRequest(payload.payload as String?)
+                                }else{
+                                    //微信
+                                }
+                            }else{
+                                showErrorToast(payload.message)
                             }
-                        } else {
-                            showErrorToast(payload.message)
+                        }
+
+                        onError {
+                            it.printStackTrace()
+                            if (pay_type == 1 || pay_type == 2){
+                                showErrorToast("购买套餐失败")
+                            }else{
+                                showErrorToast("获取订单失败")
+                            }
                         }
                     }
-                }
+        }else{
+            SoguApi.getStaticHttp(application)
+                    .getDilatationPayInfo(zxId,pay_type,count)
+                    .execute {
+                        onNext { payload ->
+                            if (payload.isOk){
+                                if (pay_type == 1 || pay_type == 2){
+                                    showSuccessToast("支付成功")
+                                    getPayPackageInfo(true)
+                                    getPerAccountInfo()
+                                    getBusAccountInfo()
+                                }else if (pay_type == 3){
+                                    //支付宝
+                                    sendToZfbRequest(payload.payload as String?)
+                                }else{
+                                    //微信
+                                }
+                            }else{
+                                showErrorToast(payload.message)
+                            }
+                        }
+
+                        onError {
+                            it.printStackTrace()
+                            if (pay_type == 1 || pay_type == 2){
+                                showErrorToast("购买套餐失败")
+                            }else{
+                                showErrorToast("获取订单失败")
+                            }
+                        }
+                    }
+        }
+
     }
 
-    @TargetApi(Build.VERSION_CODES.N)
-    private fun aliPay(commodityInfo: String) {
-        Observable.create<Map<String, String>> { e ->
-            val payTask = PayTask(this)
-            val result = payTask.payV2(commodityInfo, true)
-            e.onNext(result)
-        }.execute {
-            onNext { result ->
-                result.forEach { t, u ->
-                    info { "key:$t ==> value:$u \n" }
-                }
-                val payResult = Gson().fromJson<PayResult?>(result.jsonStr)
-                if (payResult != null) {
-                    when (payResult.resultStatus) {
-                        "9000" -> {
-                            showSuccessToast("支付成功")
-                            getPayPackageInfo()
-                        }
-                        else -> {
-                            showErrorToast(payResult.memo)
-                        }
-                    }
-                } else {
-                    showErrorToast("请求出错")
-                }
-            }
+    /**
+     * 支付宝支付
+     */
+    private fun sendToZfbRequest(commodityInfo: String?) {
+        val payRunnable = Runnable {
+            val alipay = PayTask(this)
+            val result = alipay.payV2(commodityInfo, true)
+            Log.e("TAG", "  result ===" + result.toString())
+            val msg = Message()
+            msg.what = DocumentsListActivity.SDK_PAY_FLAG
+            msg.obj = result
+            mHandler.sendMessage(msg)
         }
+        val payThread = Thread(payRunnable)
+        payThread.start()
     }
 
     inner class ExpansionHolder(itemView: View, val adapter: RecyclerAdapter<PackageChild>) : RecyclerHolder<PackageChild>(itemView) {
@@ -445,7 +553,7 @@ class PayExpansionActivity : BaseActivity() {
                 1 -> {
                     view.addNumberTv.text = "增加${data.quantity}个项目额度"
                     disInfo?.let {
-                        view.payPrice.text = "￥${(data.price - it[0].rates).toMoney()}"
+                        view.payPrice.text = "￥${(data.price.toInt() - it[0].rates).toMoney()}"
                     }
                     view.originalPrice.paint.flags = Paint.STRIKE_THRU_TEXT_FLAG
                     view.originalPrice.setVisible(false)
@@ -471,7 +579,7 @@ class PayExpansionActivity : BaseActivity() {
                             disInfo?.let {
                                 val dis = it[position]
                                 payReqChild.period = dis.period
-                                val pjPrice = data.price.times(dis.period)
+                                val pjPrice = data.price.toInt().times(dis.period)
                                 product = product.copy(discountPrice = product.discountPrice,
                                         OriginalPrice = pjPrice,
                                         calenderPrice = product.calenderPrice)
@@ -509,7 +617,7 @@ class PayExpansionActivity : BaseActivity() {
                         disInfo?.let {
                             val dis = it[0]
                             payReqChild.period = dis.period
-                            val pjPrice = data.price.times(dis.period)
+                            val pjPrice = data.price.toInt().times(dis.period)
                             product = product.copy(discountPrice = product.discountPrice,
                                     OriginalPrice = pjPrice,
                                     calenderPrice = product.calenderPrice)
@@ -534,7 +642,7 @@ class PayExpansionActivity : BaseActivity() {
                 }
                 2 -> {
                     view.addNumberTv.text = "增加${data.quantity}次征信"
-                    view.payPrice.text = "￥${data.price.toMoney()}"
+                    view.payPrice.text = "￥${data.price.toInt().toMoney()}"
                     view.offerLists.setVisible(false)
                 }
             }

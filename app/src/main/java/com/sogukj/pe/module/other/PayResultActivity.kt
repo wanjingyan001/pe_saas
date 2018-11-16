@@ -22,7 +22,7 @@ class PayResultActivity : BaseActivity() {
         mPackageName.text = packageBean.mealName
         PayName.text = packageBean.mealName
         amount.text = child.name
-        payPlace.text = "￥${child.price.toMoney()}"
+        payPlace.text = "￥${child.price.toInt().toMoney()}"
         newTotal.text = child.name
 
         val i = packageBean.max - packageBean.used

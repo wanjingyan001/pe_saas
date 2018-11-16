@@ -8,10 +8,13 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.provider.Settings
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
@@ -38,6 +41,7 @@ import com.sogukj.pe.bean.*
 import com.sogukj.pe.module.approve.ApproveListActivity
 import com.sogukj.pe.module.creditCollection.ShareHolderDescActivity
 import com.sogukj.pe.module.creditCollection.ShareholderCreditActivity
+import com.sogukj.pe.module.dataSource.DocumentsListActivity
 import com.sogukj.pe.module.fund.BookListActivity
 import com.sogukj.pe.module.main.ContactsActivity
 import com.sogukj.pe.module.project.archives.EquityListActivity
@@ -115,7 +119,38 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
             ctx.startActivityForResult(intent, 0x001)
         }
     }
+    private var mHandler : Handler = object : Handler(){
+        override fun handleMessage(msg: Message?) {
+            super.handleMessage(msg)
+            when(msg!!.what){
+                DocumentsListActivity.SDK_PAY_FLAG -> {
+                    val payResult = PayResultInfo(msg.obj as Map<String, String>)
+                    /**
+                    对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
+                     */
+                    val resultInfo = payResult.getResult()// 同步返回需要验证的信息
+                    val resultStatus = payResult.getResultStatus()
+                    Log.e("TAG"," resultStatus ===" + resultStatus)
+                    // 判断resultStatus 为9000则代表支付成功
+                    if (TextUtils.equals(resultStatus, "9000")) {
+                        // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
+                        showSuccessToast("支付成功")
+                        getSentimentStatus(project.company_id!!)
+                        gonePayDialog()
+                    } else if (TextUtils.equals(resultStatus, "6001")) {
+                        showErrorToast("支付已取消")
+                    } else {
+                        // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
+                        showErrorToast("支付失败")
+                    }
+                }
+                else -> {
 
+                }
+            }
+
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_project_detail)
@@ -179,7 +214,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
         var isCheckBus = false
         var isCheckWx = false
         var isCheckZfb = true
-        var pay_type = 1 //1 :支付宝 2：微信 3：个人 4 ：企业
+        var pay_type = 3 //3 支付宝 4 微信 1 个人账号 2 企业账号
         et_count.setSelection(et_count.textStr.length)
         et_count.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -542,32 +577,16 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
      * 支付宝支付
      */
     private fun sendToZfbRequest(commodityInfo: String?) {
-        Observable.create<Map<String, String>> { e ->
-            val payTask = PayTask(this)
-            val result = payTask.payV2(commodityInfo, true)
-            e.onNext(result)
-        }.execute {
-            onNext { result ->
-                result.iterator().forEach { (t, u) ->
-                    info { "key:$t ==> value:$u \n" }
-                }
-                val payResult = Gson().fromJson<PayResult?>(result.jsonStr)
-                if (payResult != null) {
-                    when (payResult.resultStatus) {
-                        "9000" -> {
-                            showSuccessToast("支付成功")
-                            getSentimentStatus(project.company_id!!)
-                            gonePayDialog()
-                        }
-                        else -> {
-                            showErrorToast(payResult.memo)
-                        }
-                    }
-                } else {
-                    showErrorToast("请求出错")
-                }
-            }
+        val payRunnable = Runnable {
+            val alipay = PayTask(this)
+            val result = alipay.payV2(commodityInfo, true)
+            val msg = Message()
+            msg.what = DocumentsListActivity.SDK_PAY_FLAG
+            msg.obj = result
+            mHandler.sendMessage(msg)
         }
+        val payThread = Thread(payRunnable)
+        payThread.start()
     }
 
     private fun refreshAccountData(tv_per_balance: TextView, iv_pre_select: ImageView,

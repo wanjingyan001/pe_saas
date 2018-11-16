@@ -65,7 +65,7 @@ interface StaticHttpUtils {
      */
     @FormUrlEncoded
     @POST("/api/Pay/WalletDetial")
-    fun getMineWalletDetail(@Field("type") type : Int): Observable<Payload<RechargeRecordBean>>
+    fun getMineWalletDetail(@Field("type") type: Int): Observable<Payload<RechargeRecordBean>>
 
     /**
      * 发票详情
@@ -79,8 +79,8 @@ interface StaticHttpUtils {
      */
     @FormUrlEncoded
     @POST("/api/Pay/rechargeWallet")
-    fun getPayInfo(@Field("type") type: Int, @Field("fee") fee : String,
-                   @Field("source")source:Int): Observable<Payload<String>>
+    fun getPayInfo(@Field("type") type: Int, @Field("fee") fee: String,
+                   @Field("source") source: Int): Observable<Payload<String>>
 
     /**
      * 舆情开启状态
@@ -113,14 +113,14 @@ interface StaticHttpUtils {
      */
     @FormUrlEncoded
     @POST("/api/Pay/WalletPay")
-    fun getAccountPayInfo(@Field("order_type")order_type:Int, @Field("order_count")order_count:Int,
-                          @Field("pay_type")pay_type:Int, @Field("fee")fee:String, @Field("type_id")type_id:String ? = null): Observable<Payload<Any>>
+    fun getAccountPayInfo(@Field("order_type") order_type: Int, @Field("order_count") order_count: Int,
+                          @Field("pay_type") pay_type: Int, @Field("fee") fee: String, @Field("type_id") type_id: String? = null): Observable<Payload<Any>>
 
     /**
      * 获取云盘文件内容
      */
     @GET("/api/cloud/getList")
-    fun getMineCloudDishData(@Query("file_path") file_path:String, @Query("phone") phone : String): Observable<Payload<List<CloudFileBean>>>
+    fun getMineCloudDishData(@Query("file_path") file_path: String, @Query("phone") phone: String): Observable<Payload<List<CloudFileBean>>>
 
     /**
      * 上传文件
@@ -133,87 +133,87 @@ interface StaticHttpUtils {
      */
     @FormUrlEncoded
     @POST("/api/cloud/addFolder")
-    fun createNewDir(@Field("file_path")file_path:String, @Field("folder_name")folder_name:String,
-                     @Field("phone") phone : String): Observable<Payload<Any>>
+    fun createNewDir(@Field("file_path") file_path: String, @Field("folder_name") folder_name: String,
+                     @Field("phone") phone: String): Observable<Payload<Any>>
 
     /**
      * 文件动态
      */
     @GET("/api/cloud/getFileNews")
-    fun getFileDynamicData(@Query("page") page: Int? = 1, @Query("phone") phone : String,
-                           @Query("limit") limit : Int ? = 15): Observable<Payload<List<FileDynamicBean>>>
+    fun getFileDynamicData(@Query("page") page: Int? = 1, @Query("phone") phone: String,
+                           @Query("limit") limit: Int? = 15): Observable<Payload<List<FileDynamicBean>>>
 
     /**
      * 文件筛选类型
      */
     @GET("/api/cloud/filterFileType")
-    fun getFileFillterData(@Query("page") page: Int? = 1, @Query("phone") phone : String,
-                           @Query("search") search : String, @Query("file_path")file_path:String
-                           , @Query("size") size : Int ? = 15): Observable<Payload<List<CloudFileBean>>>
+    fun getFileFillterData(@Query("page") page: Int? = 1, @Query("phone") phone: String,
+                           @Query("search") search: String, @Query("file_path") file_path: String
+                           , @Query("size") size: Int? = 15): Observable<Payload<List<CloudFileBean>>>
 
     /**
      * 文件搜索
      */
     @GET("/api/cloud/searchFileList")
-    fun getFileSearchData(@Query("page") page: Int? = 1, @Query("phone") phone : String,
-                          @Query("search") search : String, @Query("size") size : Int ? = 15): Observable<Payload<List<CloudFileBean>>>
+    fun getFileSearchData(@Query("page") page: Int? = 1, @Query("phone") phone: String,
+                          @Query("search") search: String, @Query("size") size: Int? = 15): Observable<Payload<List<CloudFileBean>>>
 
     /**
      * 文件夹/文件删除
      */
     @GET("/api/cloud/deleteFolder")
-    fun deleteCloudFile(@Query("file_path") file_path: String, @Query("phone") phone : String): Observable<Payload<Any>>
+    fun deleteCloudFile(@Query("file_path") file_path: String, @Query("phone") phone: String): Observable<Payload<Any>>
 
     /**
      * 文件夹/文件批量删除
      */
     @FormUrlEncoded
     @POST("/api/cloud/multipleDeleteFolder")
-    fun deleteBatchCloudFile(@Field("file_path") file_path: String, @Field("phone") phone : String): Observable<Payload<Any>>
+    fun deleteBatchCloudFile(@Field("file_path") file_path: String, @Field("phone") phone: String): Observable<Payload<Any>>
 
     /**
      * 文件/文件夹移动，重命名
      */
     @FormUrlEncoded
     @POST("/api/cloud/moveFolder")
-    fun cloudFileRemoveOrRename(@Field("file_path")file_path:String, @Field("new_file_path")new_file_path:String,
-                                @Field("phone") phone : String): Observable<Payload<Any>>
+    fun cloudFileRemoveOrRename(@Field("file_path") file_path: String, @Field("new_file_path") new_file_path: String,
+                                @Field("phone") phone: String): Observable<Payload<Any>>
 
     /**
      * 文件复制
      */
     @FormUrlEncoded
     @POST("/api/cloud/copyFolder")
-    fun copyCloudFile(@Field("file_path")file_path:String, @Field("new_file_path")new_file_path:String,
-                      @Field("phone") phone : String, @Field("file_name") file_name : String): Observable<Payload<Any>>
+    fun copyCloudFile(@Field("file_path") file_path: String, @Field("new_file_path") new_file_path: String,
+                      @Field("phone") phone: String, @Field("file_name") file_name: String): Observable<Payload<Any>>
 
 
     /**
      * 获取文件预览路径
      */
     @GET("/api/cloud/getPreviewFilePath")
-    fun getFilePreviewPath(@Query("file_path") file_path: String, @Query("phone") phone : String): Observable<Payload<JsonObject>>
+    fun getFilePreviewPath(@Query("file_path") file_path: String, @Query("phone") phone: String): Observable<Payload<JsonObject>>
 
     /**
      * 文件夹/文件批量移动
      */
     @FormUrlEncoded
     @POST("/api/cloud/multipleMoveFolder")
-    fun removeBatchCloudFile(@Field("file_path") file_path: String, @Field("phone") phone : String): Observable<Payload<Any>>
+    fun removeBatchCloudFile(@Field("file_path") file_path: String, @Field("phone") phone: String): Observable<Payload<Any>>
 
     /**
      * 获取个人文件容量与已使用量
      */
     @GET("/api/cloud/getSelfFileCapacity")
-    fun getDirMemoryData(@Query("file_path") file_path: String, @Query("phone") phone : String): Observable<Payload<JsonObject>>
+    fun getDirMemoryData(@Query("file_path") file_path: String, @Query("phone") phone: String): Observable<Payload<JsonObject>>
 
     /**
      * 发票抬头信息匹配
      */
     @FormUrlEncoded
     @POST("/api/Order/searchTitle")
-    fun searchReceiptTitle(@Field("search") search : String,@Field("page") page:Int,
-                            @Field("pageSize") pageSize : Int = 15):Observable<Payload<List<SearchReceiptBean>>>
+    fun searchReceiptTitle(@Field("search") search: String, @Field("page") page: Int,
+                           @Field("pageSize") pageSize: Int = 15): Observable<Payload<List<SearchReceiptBean>>>
 
     /**
      * 获取付费套餐
@@ -221,4 +221,21 @@ interface StaticHttpUtils {
     @POST("/api/Pay/payBillCombo")
     fun getPayType(): Observable<Payload<List<PackageBean>>>
 
+    /**
+     * 扩容套餐购买
+     */
+    @FormUrlEncoded
+    @POST("/api/pay/BillComboPay")
+    fun getDilatationPayInfo(@Field("id") id: Int, @Field("pay_type") pay_type: Int,
+                             @Field("count") count: Int,
+                             @Field("quantity") quantity: Int? = null,
+                             @Field("period") period: Int? = null): Observable<Payload<Any>>
+
+    @FormUrlEncoded
+    @POST("/api/pay/BillComboPay")
+    fun getDilatationPayInfo(@Field("pay_type") pay_type: Int,
+                             @Field("count") count: Int,
+                             @Field("id") id: Int? = null,
+                             @Field("quantity") quantity: Int? = null,
+                             @Field("period") period: Int? = null): Observable<Payload<Any>>
 }
