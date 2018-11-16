@@ -202,7 +202,7 @@ class PayDialog {
                         iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
                         isCheckBus = false
                     }
-                    if (isCheckPer){
+                    if (isClickPer){
                         iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
                         isCheckPer = false
                     }
@@ -221,7 +221,7 @@ class PayDialog {
                         iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
                         isCheckBus = false
                     }
-                    if (isCheckPer){
+                    if (isClickPer){
                         iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
                         isCheckPer = false
                     }
@@ -445,7 +445,7 @@ class PayDialog {
                         iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
                         isCheckBus = false
                     }
-                    if (isCheckPer){
+                    if (isClickPer){
                         iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
                         isCheckPer = false
                     }
@@ -464,7 +464,7 @@ class PayDialog {
                         iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
                         isCheckBus = false
                     }
-                    if (isCheckPer){
+                    if (isClickPer){
                         iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
                         isCheckPer = false
                     }

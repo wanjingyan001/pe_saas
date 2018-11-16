@@ -371,7 +371,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                     iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
                     isCheckBus = false
                 }
-                if (isCheckPer) {
+                if (isClickPer) {
                     iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
                     isCheckPer = false
                 }
@@ -390,7 +390,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                     iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
                     isCheckBus = false
                 }
-                if (isCheckPer) {
+                if (isClickPer) {
                     iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
                     isCheckPer = false
                 }
@@ -445,7 +445,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
 
                     onError {
                         it.printStackTrace()
-                        showErrorToast("获取个人账号信息失败")
+                        showErrorToast("获取企业账号信息失败")
                     }
                 }
     }

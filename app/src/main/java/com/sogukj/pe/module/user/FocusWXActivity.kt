@@ -2,7 +2,6 @@ package com.sogukj.pe.module.user
 
 import android.graphics.BitmapFactory
 import android.graphics.Paint
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import androidx.core.view.doOnLayout
@@ -18,11 +17,8 @@ import com.sogukj.pe.peUtils.ZxingUtils
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_focus_wx.*
 import org.jetbrains.anko.ctx
-import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
