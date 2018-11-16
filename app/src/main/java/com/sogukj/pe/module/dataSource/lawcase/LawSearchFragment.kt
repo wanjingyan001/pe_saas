@@ -82,7 +82,10 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
                 .into(iv_loading)
         resultAdapter = LawSearchAdapter(searchData)
         recycler_view.layoutManager = LinearLayoutManager(context)
-        recycler_view.adapter = resultAdapter
+        if (null != activity!!.et_search.textStr){
+            searchKey = activity!!.et_search.textStr
+        }
+        Log.e("TAG"," LawSearchFragment initData -- searchKey ==" + searchKey)
         getSearchData()
     }
 
@@ -116,14 +119,14 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
 
         activity!!.et_search.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                val editable = activity!!.et_search.textStr
+                searchKey = activity!!.et_search.textStr
                 if (null != presenter){
                     Utils.closeInput(activity!!,activity!!.et_search)
-                    if (activity!!.et_search.isCursorVisible){
-                        activity!!.et_search.isCursorVisible = false
-                    }
+//                    if (activity!!.et_search.isCursorVisible){
+//                        activity!!.et_search.isCursorVisible = false
+//                    }
                     showLoadding()
-                    presenter!!.doLawSearchRequest(editable,type!!,true)
+                    presenter!!.doLawSearchRequest(searchKey,type!!,true)
                 }
                 true
             }
@@ -132,12 +135,18 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
     }
 
     override fun doRefresh() {
+        if (null != activity!!.et_search){
+            searchKey = activity!!.et_search.textStr
+        }
         if (null != presenter){
             presenter!!.doLawSearchRequest(searchKey,type!!,true)
         }
     }
 
     override fun doLoadMore() {
+        if (null != activity!!.et_search){
+            searchKey = activity!!.et_search.textStr
+        }
         if (null != presenter){
             presenter!!.doLawSearchRequest(searchKey,type!!,false)
         }
@@ -198,6 +207,7 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
             setTotalCountEnable(true)
             searchData.clear()
             searchData.addAll(it!!)
+            recycler_view.adapter = resultAdapter
             resultAdapter.notifyDataSetChanged()
             if (null != tv_total && null != total){
                 tv_total.text = total.toString()

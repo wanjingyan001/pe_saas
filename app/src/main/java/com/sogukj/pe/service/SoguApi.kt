@@ -3,7 +3,6 @@ package com.sogukj.service
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import android.preference.PreferenceManager
 import android.util.Log
@@ -22,7 +21,6 @@ import com.sogukj.pe.module.register.LoginActivity
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peExtended.getIntEnvironment
 import com.sogukj.pe.peUtils.Store
-import com.sogukj.pe.peUtils.ToastUtil
 import com.sogukj.pe.service.DzhHttpUtils
 import com.sogukj.pe.service.StaticHttpUtils
 import com.sogukj.pe.service.socket.DzhInterceptor
@@ -32,7 +30,6 @@ import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.startActivity
 import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -201,7 +198,7 @@ class SoguApi {
             val jsonObject = JSONObject(content)
             val msgNo = jsonObject.getString("msgNo")
             if (msgNo == "1001") {
-                ToastUtil.showErrorToast("签名过期,请重新登录",context)
+//                ToastUtil.showErrorToast("签名过期,请重新登录",context)
                 //签名过期
                 exitUser()
             }
@@ -213,7 +210,8 @@ class SoguApi {
     }
 
     fun exitUser() {
-        context.startActivity<LoginActivity>()
+//        context.startActivity<LoginActivity>()
+        LoginActivity.invoke(context)
         Store.store.clearUser(context)
         RetrofitUrlManager.getInstance().removeGlobalDomain()
         Store.store.setRootUrl(context, "")

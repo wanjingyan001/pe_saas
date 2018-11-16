@@ -1,6 +1,7 @@
 package com.sogukj.pe.module.dataSource.lawcase.presenter
 
 import android.content.Context
+import android.util.Log
 import com.sogukj.pe.App
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.execute
@@ -32,6 +33,7 @@ class LawSearchPresenter : BasePresenter {
     }
 
     open fun doLawSearchRequest(key:String,type:Int,isRefresh:Boolean){
+        Log.e("TAG","doLawSearchRequest -- searchKey ==" + key)
         if (isRefresh){
             page = 0
         }else{

@@ -1,12 +1,13 @@
 package com.sogukj.pe.module.register
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import androidx.core.content.edit
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.amap.api.mapcore.util.it
-import com.google.gson.internal.LinkedTreeMap
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.netease.nim.uikit.api.NimUIKit
 import com.netease.nimlib.sdk.RequestCallback
@@ -20,7 +21,6 @@ import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.ActivityHelper
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.StatusBarUtil
-import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.utils.XmlDb
 import com.sogukj.pe.bean.MechanismBasicInfo
@@ -40,8 +40,10 @@ import com.tencent.bugly.crashreport.CrashReport
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_phone_input.*
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
-import org.jetbrains.anko.*
-import org.jetbrains.anko.sdk25.coroutines.textChangedListener
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.ctx
+import org.jetbrains.anko.info
+import org.jetbrains.anko.startActivity
 import java.util.*
 
 /**
@@ -293,7 +295,15 @@ class LoginActivity : BaseActivity(), LoginView {
         hideProgress()
     }
 
-
+    companion object {
+        fun invoke(context: Context){
+            val intent = Intent(context,LoginActivity::class.java)
+            if (context !is Activity){
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            context.startActivity(intent)
+        }
+    }
     override fun onDestroy() {
         super.onDestroy()
         hideProgress()

@@ -68,6 +68,13 @@ class LawSearchResultActivity : ToolbarActivity() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        if (null != et_search){
+            Utils.forceCloseInput(this,et_search)
+        }
+    }
+
     private fun bindListener() {
         tabs?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
