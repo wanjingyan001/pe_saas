@@ -1,20 +1,18 @@
 package com.sogukj.pe.peUtils
 
 import android.content.Context
-import android.os.Build
 import cn.sharesdk.framework.Platform
 import cn.sharesdk.framework.PlatformActionListener
 import cn.sharesdk.framework.ShareSDK
 import cn.sharesdk.tencent.qq.QQ
-import com.sogukj.pe.baselibrary.R
-import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
-import java.util.HashMap
 import cn.sharesdk.wechat.friends.Wechat
 import com.android.dingtalk.share.ddsharemodule.DDShareApiFactory
 import com.android.dingtalk.share.ddsharemodule.message.SendAuth
+import com.sogukj.pe.R
 import com.sogukj.pe.ddshare.DDShareActivity
-import com.android.dingtalk.share.ddsharemodule.message.SendAuth.Req.SNS_LOGIN
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
+import java.util.*
 
 
 
@@ -93,9 +91,15 @@ class MobLogin {
 
         fun DDLogin(context:Context){
             val ddShareApi = DDShareApiFactory.createDDShareApi(context, DDShareActivity.DDApp_Id, true)
-            val req = SendAuth.Req()
-            req.scope = SendAuth.Req.SNS_LOGIN
-            ddShareApi.sendReq(req)
+            if (ddShareApi.isDDAppInstalled()) {
+                val req = SendAuth.Req()
+                req.scope = SendAuth.Req.SNS_LOGIN
+                req.state = "sogukj"
+                ddShareApi.sendReq(req)
+            }else{
+                ToastUtil.showCustomToast(R.drawable.icon_toast_fail, "请先安装最新版的钉钉", context)
+            }
+
         }
 
 

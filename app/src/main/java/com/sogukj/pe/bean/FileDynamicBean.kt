@@ -33,6 +33,7 @@ class FileDynamicBean : Serializable {
     var storage = ""
     var add_time = ""
     var is_delete = 1 // 2:删除
+    var had_deleted = 0 // 0:文件未删除 1:文件已删除
     var fullpath = ""
     var preview_url = ""
     var user_head = ""

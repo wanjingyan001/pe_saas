@@ -4,7 +4,6 @@ import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import com.amap.api.mapcore.util.it
 import com.android.dingtalk.share.ddsharemodule.DDShareApiFactory
 import com.android.dingtalk.share.ddsharemodule.IDDAPIEventHandler
 import com.android.dingtalk.share.ddsharemodule.IDDShareApi
@@ -14,11 +13,6 @@ import com.android.dingtalk.share.ddsharemodule.message.BaseResp
 import com.android.dingtalk.share.ddsharemodule.message.SendAuth
 import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.jsonStr
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import okhttp3.MediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
 
 class DDShareActivity : Activity(), IDDAPIEventHandler {
     companion object {
@@ -42,10 +36,11 @@ class DDShareActivity : Activity(), IDDAPIEventHandler {
     override fun onResp(baseResp: BaseResp) {
         val errCode = baseResp.mErrCode
         val errMsg = baseResp.mErrStr
+        Log.e("TAG","errCode =====>" + errCode + "  errMsg ====> " + errMsg )
         if (baseResp.type == ShareConstant.COMMAND_SENDAUTH_V2 && baseResp is SendAuth.Resp) {
             when (errCode) {
                 BaseResp.ErrCode.ERR_OK -> {
-                    DDLogin()
+                    DDLogin(baseResp.code)
                     Toast.makeText(this, "授权成功，授权码为:" + baseResp.code, Toast.LENGTH_SHORT).show()
                 }
                 BaseResp.ErrCode.ERR_USER_CANCEL -> Toast.makeText(this, "授权取消", Toast.LENGTH_SHORT).show()
@@ -65,19 +60,17 @@ class DDShareActivity : Activity(), IDDAPIEventHandler {
     override fun onReq(p0: BaseReq?) {
     }
 
-    private fun DDLogin() {
+    private fun DDLogin(code: String) {
         val service = DDApi.getService()
         service.getAccountToken()
                 .flatMap {
-                    service.getAuthorizeCode(it.access_token,
-                            MultipartBody.Builder().setType(MultipartBody.FORM)
-                                    .addFormDataPart("tmp_auth_code", "23152698ea18304da4d0ce1xxxxx")
-                                    .build())
+                    service.getAuthorizeCode(it.access_token,code)
                 }.execute {
                     onNext {
                         Log.d("WJY", it.jsonStr)
                     }
                 }
+
     }
 
 }

@@ -94,9 +94,6 @@ android {
     androidExtensions {
         experimental = true
     }
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-    }
     flavorDimensions 'environment', 'channel'
     productFlavors {
         pe {

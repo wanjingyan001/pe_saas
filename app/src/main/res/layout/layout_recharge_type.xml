@@ -33,6 +33,7 @@
             android:layout_height="@dimen/text_35"
             android:layout_centerVertical="true"
             android:src="@mipmap/ic_recharge_wx"/>
+
         <ImageView
             android:id="@+id/iv_wx_select"
             android:layout_width="@dimen/text_25"
@@ -40,14 +41,16 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:src="@mipmap/ic_select_receipt"/>
+
         <TextView
-            android:layout_width="match_parent"
+            style="@style/text16_color28"
+            android:layout_width="267dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/iv_wx"
-            style="@style/text16_color28"
             android:layout_marginLeft="@dimen/text_20"
+            android:layout_marginRight="-3dp"
             android:layout_toLeftOf="@id/iv_wx_select"
+            android:layout_toRightOf="@id/iv_wx"
             android:text="微信支付"/>
 
     </RelativeLayout>

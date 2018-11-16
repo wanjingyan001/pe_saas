@@ -1,15 +1,19 @@
 package com.sogukj.pe.module.receipt
 
+import android.net.Uri
 import android.os.Bundle
+import com.bumptech.glide.Glide
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.execute
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.MineWalletBean
 import com.sogukj.service.SoguApi
+import kotlinx.android.synthetic.main.activity_mine_wallet.*
 import kotlinx.android.synthetic.main.layout_acount_info.*
 import kotlinx.android.synthetic.main.layout_bill_info.*
 import kotlinx.android.synthetic.main.layout_wallet_top.*
@@ -33,6 +37,11 @@ class MineWalletActivity : BaseRefreshActivity() {
         toolbar?.setBackgroundColor(resources.getColor(R.color.white))
         setBack(true)
         setTitle("我的钱包")
+        Glide.with(this)
+                .asGif()
+                .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
+                .into(iv_loading)
+        showLoadding()
     }
 
     private fun initData() {
@@ -99,6 +108,12 @@ class MineWalletActivity : BaseRefreshActivity() {
         }
     }
 
+    private fun showLoadding(){
+        ll_loadding.setVisible(true)
+    }
+    private fun goneLoadding(){
+        ll_loadding.setVisible(false)
+    }
     override fun initRefreshConfig(): RefreshConfig? {
         val config = RefreshConfig()
         config.loadMoreEnable = false
@@ -120,6 +135,7 @@ class MineWalletActivity : BaseRefreshActivity() {
         if (this::refresh.isLateinit && refresh.isRefreshing) {
             refresh.finishRefresh()
         }
+        goneLoadding()
     }
 
     private fun bindListener() {

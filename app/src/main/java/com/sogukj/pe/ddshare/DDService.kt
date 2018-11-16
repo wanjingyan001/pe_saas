@@ -12,7 +12,6 @@
 package com.sogukj.pe.ddshare
 
 import io.reactivex.Observable
-import okhttp3.RequestBody
 import retrofit2.http.*
 
 /**
@@ -33,10 +32,9 @@ interface DDService {
     fun getAccountToken(@Query("appid") appid: String = DDShareActivity.DDApp_Id,
                         @Query("appsecret") appsecret: String = DDShareActivity.DD_APP_SECRET)
             : Observable<AccountToken>
-
     @FormUrlEncoded
     @POST("/sns/get_persistent_code")
     fun getAuthorizeCode(@Query("access_token")access_token:String ,
-                         @Body body: RequestBody): Observable<AuthorizeCode>
+                         @Field("tmp_auth_code") tmp_auth_code: String ): Observable<AuthorizeCode>
 
 }

@@ -137,9 +137,14 @@ class FileDynamicActivity : BaseRefreshActivity(){
             if (null != dataList && dataList.size > 0){
                 val dynamicBean = dataList[p]
                 if (null != dynamicBean){
-                    if (null != dynamicBean.size){
+                    if (dynamicBean.is_delete != 2){
                         //预览
-                        OnlinePreviewActivity.start(this@FileDynamicActivity,dynamicBean.preview_url,dynamicBean.filename,false)
+                        if (dynamicBean.is_delete == 0){
+                            OnlinePreviewActivity.start(this@FileDynamicActivity,dynamicBean.preview_url,dynamicBean.filename,false)
+                        }else{
+                            showCommonToast("该文件已删除")
+                        }
+
                     }
                 }
             }
