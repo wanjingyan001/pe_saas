@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#f7f9fc"
-    android:focusable="true"
-    android:id="@+id/ll_root"
-    android:focusableInTouchMode="true"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:background="#f7f9fc"
+              android:focusable="true"
+              android:id="@+id/ll_root"
+              android:focusableInTouchMode="true"
+              android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/team_toolbar"
@@ -60,10 +61,13 @@
                     android:layout_below="@+id/team_logo"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="15dp"
-                    android:maxLines="2"
+                    android:maxLines="1"
                     android:ellipsize="end"
-                    android:layout_marginLeft="@dimen/text_10"
-                    android:layout_marginRight="@dimen/text_10"
+                    tools:text="综合管理部"
+                    android:drawablePadding="@dimen/text_5"
+                    android:drawableRight="@mipmap/ic_flag_qy"
+                    android:layout_marginLeft="@dimen/text_20"
+                    android:layout_marginRight="@dimen/text_20"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 

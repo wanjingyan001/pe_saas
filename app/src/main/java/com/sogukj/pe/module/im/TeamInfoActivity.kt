@@ -49,6 +49,7 @@ import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_team_info.*
 import org.jetbrains.anko.info
 import org.jetbrains.anko.toast
+import org.json.JSONObject
 import java.io.Serializable
 import kotlin.properties.Delegates
 
@@ -144,6 +145,28 @@ class TeamInfoActivity : BaseActivity(), View.OnClickListener, SwitchButton.OnCh
                 .apply(RequestOptions().error(R.drawable.invalid_name2))
                 .into(team_logo)
         team_title.text = it.name
+        val extServer = it.extServer
+        if (null != extServer && "" != extServer && """"{}"""" != extServer) {
+            val jsonObject = JSONObject(extServer)
+            val flag = jsonObject.getString("grouptype")
+            when (flag) {
+                "0" -> {
+                    //全员
+                    team_title.setDrawable(team_title,2,getDrawable(R.mipmap.ic_flag_qy))
+                }
+                "1" -> {
+                    //部门
+                    team_title.setDrawable(team_title,2,getDrawable(R.mipmap.ic_flag_bm))
+                }
+                else -> {
+                    //内部
+                    team_title.setDrawable(team_title,2,getDrawable(R.mipmap.ic_flag_nb))
+                }
+            }
+        } else {
+            //内部
+            team_title.setDrawable(team_title,2,getDrawable(R.mipmap.ic_flag_nb))
+        }
         val bean = Gson().fromJson(it.extension, TeamBean::class.java)
         if (bean != null) {
             team_project.text = bean.project_name

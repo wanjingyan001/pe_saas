@@ -14,9 +14,9 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
 import android.text.TextUtils
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -41,10 +41,8 @@ import com.sogukj.pe.module.receipt.PayDialog
 import com.sogukj.pe.service.DataSourceService
 import com.sogukj.pe.widgets.indexbar.RecycleViewDivider
 import com.sogukj.service.SoguApi
-import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_prospectus_list.*
 import org.jetbrains.anko.ctx
-import org.jetbrains.anko.info
 import org.jetbrains.anko.singleLine
 import org.jetbrains.anko.startActivityForResult
 import java.io.File
@@ -162,7 +160,9 @@ class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
                     //已购买
                     PdfPreviewActivity.start(this, book, downloaded.contains(book.pdf_name))
                 } else {
-                    showCommonToast("请先购买智能文书")
+//                    showCommonToast("请先购买智能文书")
+                    PayDialog.showPayBookDialog(this@DocumentsListActivity, 1, this@DocumentsListActivity,
+                            book.pdf_name, book.price!!, 1, book.id.toString(), book)
                 }
             } else {
                 PdfPreviewActivity.start(this, book, downloaded.contains(book.pdf_name))

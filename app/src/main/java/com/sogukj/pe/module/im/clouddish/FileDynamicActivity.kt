@@ -139,7 +139,7 @@ class FileDynamicActivity : BaseRefreshActivity(){
                 if (null != dynamicBean){
                     if (dynamicBean.is_delete != 2){
                         //预览
-                        if (dynamicBean.is_delete == 0){
+                        if (dynamicBean.had_deleted == 0){
                             OnlinePreviewActivity.start(this@FileDynamicActivity,dynamicBean.preview_url,dynamicBean.filename,false)
                         }else{
                             showCommonToast("该文件已删除")

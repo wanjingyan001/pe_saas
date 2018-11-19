@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.TextView
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.bumptech.glide.Glide
+import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
@@ -29,6 +31,7 @@ import org.jetbrains.anko.startActivity
  * Created by CH-ZH on 2018/10/18.
  * 发票历史和发票抬头
  */
+@Route(path = ARouterPath.ReceiptHeaderActivity)
 class InvoiceHistoryActivity : BaseRefreshActivity() {
     private var type  = 0
     private var title = ""
@@ -45,7 +48,7 @@ class InvoiceHistoryActivity : BaseRefreshActivity() {
     }
 
     private fun initView() {
-        type = intent.getIntExtra(Extras.TYPE,-1)
+        type = intent.getIntExtra(Extras.TYPE,0)
         title = intent.getStringExtra(Extras.TITLE)
         setTitle(title)
         setBack(true)

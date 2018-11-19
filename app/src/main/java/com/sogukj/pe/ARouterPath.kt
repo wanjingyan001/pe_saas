@@ -52,4 +52,6 @@ object ARouterPath {
     const val CreditSelectActivity:String = "/credit/main"
     //云盘
     const val SecretCloudActivity:String = "/im/clouddish"
+    //大票抬头
+    const val ReceiptHeaderActivity:String = "/receipt/header"
 }

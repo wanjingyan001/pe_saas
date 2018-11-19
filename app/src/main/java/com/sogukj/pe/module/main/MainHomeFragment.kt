@@ -143,12 +143,19 @@ class MainHomeFragment : BaseFragment() {
             val mainFunIcon = moduleAdapter.dataList[p]
             val path = mainFunIcon.address + mainFunIcon.port
             //fragment中使用路由调用startActivityForResult回调将在Activity中
-            val bundle = Bundle()
-            bundle.putInt(Extras.DATA, local_sp ?: 0)
-            bundle.putInt(Extras.FLAG, Extras.ROUTH_FLAG)
-            ARouter.getInstance().build(path)
-                    .with(bundle)
-                    .navigation(activity!!, Extras.REQUESTCODE)
+            if (path.equals("/receipt/header")){
+                ARouter.getInstance().build(path)
+                        .withString(Extras.TITLE,"发票抬头")
+                        .withInt(Extras.TYPE,1)
+                        .navigation()
+            }else{
+                val bundle = Bundle()
+                bundle.putInt(Extras.DATA, local_sp ?: 0)
+                bundle.putInt(Extras.FLAG, Extras.ROUTH_FLAG)
+                ARouter.getInstance().build(path)
+                        .with(bundle)
+                        .navigation(activity!!, Extras.REQUESTCODE)
+            }
         }
 
         loadHead()

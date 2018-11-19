@@ -10,10 +10,12 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
+import com.netease.nim.uikit.common.util.file.FileUtil
 import com.sogukj.pe.App
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.execute
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.PdfBook
 import com.sogukj.pe.peUtils.ToastUtil
@@ -345,6 +347,7 @@ class PayDialog {
             val iv_pay = dialog.find<ImageView>(R.id.iv_pay)
             val tv_fee = dialog.find<TextView>(R.id.tv_fee)
             val tv_name = dialog.find<TextView>(R.id.tv_name)
+            val tv_extension = dialog.find<TextView>(R.id.tv_extension) //扩展名
             val tv_count = dialog.find<TextView>(R.id.tv_count)
 
             val tv_coin = dialog.find<TextView>(R.id.tv_coin)
@@ -368,15 +371,21 @@ class PayDialog {
             var pay_type = 3 //1 :个人 2：企业 3：支付宝 4 ：微信
 
             tv_time.text = Utils.getTime(Date(),"yyyy-MM-dd HH:mm:ss")
-            tv_name.text = title
             tv_fee.text = "￥${price}"
             tv_count.text = "X${count}"
             if (type == 1){
                 tv_title1.text = "智能文书"
                 iv_pay.setImageResource(R.mipmap.ic_book_head)
+                tv_extension.setVisible(true)
+                if (title.contains(".")){
+                    tv_name.text = FileUtil.getFileNameNoEx(title)
+                    tv_extension.text = ".${FileUtil.getExtensionName(title)}"
+                }
             }else{
                 tv_title1.text = "付费账号"
                 iv_pay.setImageResource(R.mipmap.ic_account_head)
+                tv_extension.setVisible(false)
+                tv_name.text = title
             }
             var realPrice = price
             if (Utils.isInteger(price)){

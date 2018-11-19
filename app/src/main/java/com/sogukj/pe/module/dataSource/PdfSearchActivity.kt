@@ -1,14 +1,21 @@
 package com.sogukj.pe.module.dataSource
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.support.v7.widget.LinearLayoutManager
+import android.text.TextUtils
+import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.edit
+import com.alipay.sdk.app.PayTask
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.google.gson.Gson
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter
@@ -19,7 +26,10 @@ import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.DownloadUtil
 import com.sogukj.pe.baselibrary.widgets.SpaceItemDecoration
+import com.sogukj.pe.bean.PayResultInfo
 import com.sogukj.pe.bean.PdfBook
+import com.sogukj.pe.module.receipt.AllPayCallBack
+import com.sogukj.pe.module.receipt.PayDialog
 import com.sogukj.pe.service.DataSourceService
 import com.sogukj.service.SoguApi
 import com.zhy.view.flowlayout.FlowLayout
@@ -30,7 +40,7 @@ import org.jetbrains.anko.ctx
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.sdk25.coroutines.textChangedListener
 
-class PdfSearchActivity : BaseActivity() {
+class PdfSearchActivity : BaseActivity(), AllPayCallBack {
 
     companion object {
         fun start(context: Context, @DocumentType type: Int, category: Int? = null) {
@@ -49,7 +59,44 @@ class PdfSearchActivity : BaseActivity() {
 
     private lateinit var historyAdapter: TagAdapter<String>
     private val historyList = mutableSetOf<String>()
+    private var book : PdfBook ? = null
+    private var dialog : Dialog? = null
+    private var mHandler : Handler = @SuppressLint("HandlerLeak")
+    object : Handler(){
+        override fun handleMessage(msg: Message?) {
+            super.handleMessage(msg)
+            when(msg!!.what){
+                DocumentsListActivity.SDK_PAY_FLAG -> {
+                    val payResult = PayResultInfo(msg.obj as Map<String, String>)
+                    /**
+                    对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
+                     */
+                    val resultInfo = payResult.getResult()// 同步返回需要验证的信息
+                    val resultStatus = payResult.getResultStatus()
+                    Log.e("TAG"," resultStatus ===" + resultStatus)
+                    // 判断resultStatus 为9000则代表支付成功
+                    if (TextUtils.equals(resultStatus, "9000")) {
+                        // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
+                        showSuccessToast("支付成功")
+                        refreshIntelligentData()
+                        if (null != dialog && dialog!!.isShowing){
+                            dialog!!.dismiss()
+                        }
+                        PdfPreviewActivity.start(this@PdfSearchActivity,book!!, downloaded.contains(book!!.pdf_name))
+                    } else if (TextUtils.equals(resultStatus, "6001")) {
+                        showErrorToast("支付已取消")
+                    } else {
+                        // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
+                        showErrorToast("支付失败")
+                    }
+                }
+                else -> {
 
+                }
+            }
+
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pdf_search)
@@ -61,7 +108,18 @@ class PdfSearchActivity : BaseActivity() {
         listAdapter = BookListAdapter(documents, downloaded.toList(), type)
         listAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { adapter, view, position ->
             val book = documents[position]
-            PdfPreviewActivity.start(this,book, downloaded.contains(book.pdf_name))
+            if (type == DocumentType.INTELLIGENT) {
+                if (book.status == 1) {
+                    //已购买
+                    PdfPreviewActivity.start(this, book, downloaded.contains(book.pdf_name))
+                } else {
+//                    showCommonToast("请先购买智能文书")
+                    PayDialog.showPayBookDialog(this, 1, this,
+                            book.pdf_name, book.price!!, 1, book.id.toString(), book)
+                }
+            } else {
+                PdfPreviewActivity.start(this, book, downloaded.contains(book.pdf_name))
+            }
         }
         listAdapter.onItemChildClickListener = BaseQuickAdapter.OnItemChildClickListener { adapter, view, position ->
             val book = documents[position]
@@ -93,6 +151,13 @@ class PdfSearchActivity : BaseActivity() {
         }
         initData()
         initListener()
+
+        listAdapter.setClickPayListener(object : BookListAdapter.ClickPayCallBack {
+            override fun clickPay(title: String, price: String, count: Int, id: String, book: PdfBook) {
+                PayDialog.showPayBookDialog(this@PdfSearchActivity, 1, this@PdfSearchActivity, title, price, count, id, book)
+            }
+
+        })
     }
 
     private fun initData() {
@@ -131,6 +196,84 @@ class PdfSearchActivity : BaseActivity() {
                 getPdfList()
             }
         }
+    }
+
+    override fun pay(order_type: Int, count: Int, pay_type: Int, fee: String, tv_per_balance: TextView,
+                     iv_pre_select: ImageView, tv_bus_balance: TextView, iv_bus_select: ImageView,
+                     tv_per_title: TextView, tv_bus_title: TextView, dialog: Dialog) {
+
+
+    }
+
+    override fun payForOther(id: String, order_type: Int, count: Int, pay_type: Int, fee: String,
+                             tv_per_balance: TextView, iv_pre_select: ImageView, tv_bus_balance: TextView,
+                             iv_bus_select: ImageView, tv_per_title: TextView, tv_bus_title: TextView, dialog: Dialog, book: PdfBook?) {
+
+        SoguApi.getStaticHttp(application)
+                .getAccountPayInfo(order_type,count,pay_type,fee,id)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+                            if (pay_type == 1 || pay_type == 2){
+                                showSuccessToast("支付成功")
+                                refreshIntelligentData()
+                                if (dialog.isShowing){
+                                    dialog.dismiss()
+                                }
+                                PdfPreviewActivity.start(this@PdfSearchActivity,book!!, downloaded.contains(book.pdf_name))
+                            }else{
+                                if (pay_type == 3){
+                                    //支付宝
+                                    sendToZfbRequest(payload.payload as String?,dialog,book!!)
+                                }else if (pay_type == 4){
+                                    //微信
+                                }
+                            }
+                        }else{
+                            showErrorToast(payload.message)
+                        }
+                    }
+
+                    onError {
+                        it.printStackTrace()
+                        if (pay_type == 1 || pay_type == 2){
+                            showErrorToast("支付失败")
+                        }else{
+                            showErrorToast("获取订单失败")
+                        }
+                    }
+                }
+    }
+
+    /**
+     * 刷新智能文书
+     */
+    private fun refreshIntelligentData() {
+        page = 1
+        et_search.textStr.isNotEmpty().yes {
+            getPdfList(et_search.textStr)
+        }.otherWise {
+            getPdfList()
+        }
+    }
+
+    /**
+     * 支付宝支付
+     */
+    private fun sendToZfbRequest(commodityInfo: String?,dialog: Dialog,book:PdfBook) {
+        this.book = book
+        this.dialog = dialog
+        val payRunnable = Runnable {
+            val alipay = PayTask(this)
+            val result = alipay.payV2(commodityInfo, true)
+            Log.e("TAG", "  result ===" + result.toString())
+            val msg = Message()
+            msg.what = DocumentsListActivity.SDK_PAY_FLAG
+            msg.obj = result
+            mHandler.sendMessage(msg)
+        }
+        val payThread = Thread(payRunnable)
+        payThread.start()
     }
 
     private fun initListener() {
