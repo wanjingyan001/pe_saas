@@ -224,18 +224,6 @@ interface StaticHttpUtils {
     /**
      * 扩容套餐购买
      */
-    @FormUrlEncoded
     @POST("/api/pay/BillComboPay")
-    fun getDilatationPayInfo(@Field("id") id: Int, @Field("pay_type") pay_type: Int,
-                             @Field("count") count: Int,
-                             @Field("quantity") quantity: Int? = null,
-                             @Field("period") period: Int? = null): Observable<Payload<Any>>
-
-    @FormUrlEncoded
-    @POST("/api/pay/BillComboPay")
-    fun getDilatationPayInfo(@Field("pay_type") pay_type: Int,
-                             @Field("count") count: Int,
-                             @Field("id") id: Int? = null,
-                             @Field("quantity") quantity: Int? = null,
-                             @Field("period") period: Int? = null): Observable<Payload<Any>>
+    fun getDilatationPayInfo(@Body req: PayReq): Observable<Payload<Any>>
 }

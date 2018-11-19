@@ -78,6 +78,8 @@ class PayExpansionActivity : BaseActivity() {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         showSuccessToast("支付成功")
                         getPayPackageInfo(true)
+                        getPerAccountInfo(true)
+                        getBusAccountInfo(true)
                     } else if (TextUtils.equals(resultStatus, "6001")) {
                         showErrorToast("支付已取消")
                     } else {
@@ -116,8 +118,7 @@ class PayExpansionActivity : BaseActivity() {
 
             allprice = Utils.stringAdd(coin.toString(),zxPrice)
             paymentPrice.text = "￥${allprice}"
-            prepareValue(allprice,perBalance,busBalance)
-
+            prepareValue(allprice,perBalance,busBalance,false)
             zxId = calenderAdapter.dataList[position].id!!
         }
         pjPackageList.apply {
@@ -131,11 +132,8 @@ class PayExpansionActivity : BaseActivity() {
             addItemDecoration(SpaceItemDecoration(dip(10)))
         }
         getPayPackageInfo(false)
-        payConfirm.clickWithTrigger {
-            getPayInfo()
-        }
-        getPerAccountInfo()
-        getBusAccountInfo()
+        getPerAccountInfo(false)
+        getBusAccountInfo(false)
         bindListener()
 
         paymentPrice.text = "￥${allprice}"
@@ -146,8 +144,9 @@ class PayExpansionActivity : BaseActivity() {
             //减少舆情数量
             count = et_count.textStr.toInt()
             count--
-            if (count <= 1) {
+            if (count < 1) {
                 count = 1
+                showCommonToast("购买数量不得小于1")
             }
             coin = Utils.reserveTwoDecimal(9.9 * count, 2)
             et_count.setText(count.toString())
@@ -155,7 +154,7 @@ class PayExpansionActivity : BaseActivity() {
 
             allprice = Utils.stringAdd(coin.toString(),zxPrice)
             paymentPrice.text = "￥${allprice}"
-            prepareValue(allprice,perBalance,busBalance)
+            prepareValue(allprice,perBalance,busBalance,false)
         }
         tv_add.setOnClickListener {
             //增加舆情数量
@@ -166,7 +165,7 @@ class PayExpansionActivity : BaseActivity() {
 
             allprice = Utils.stringAdd(coin.toString(),zxPrice)
             paymentPrice.text = "￥${allprice}"
-            prepareValue(allprice,perBalance,busBalance)
+            prepareValue(allprice,perBalance,busBalance,false)
         }
 
         et_count.textChangedListener {
@@ -186,7 +185,8 @@ class PayExpansionActivity : BaseActivity() {
 
                 allprice = Utils.stringAdd(coin.toString(),zxPrice)
                 paymentPrice.text = "￥${allprice}"
-                prepareValue(allprice,perBalance,busBalance)
+                prepareValue(allprice,perBalance,busBalance,false)
+
             }
         }
 
@@ -269,16 +269,29 @@ class PayExpansionActivity : BaseActivity() {
                 pay_type = 3
             }
         }
+
+        payConfirm.clickWithTrigger {
+            val priceDouble = allprice.toDouble()
+            if (priceDouble > 0){
+                getPayInfo()
+            }
+        }
     }
 
-    private fun prepareValue(allprice:String,perBalance:String,busBalance:String){
+    private fun prepareValue(allprice:String,perBalance:String,busBalance:String,isRefresh: Boolean){
         if (allprice.toDouble() > perBalance.toDouble()) {
             iv_pre_select.setImageResource(R.mipmap.ic_gray_receipt)
             tv_per_title.setTextColor(resources.getColor(R.color.gray_a0))
             tv_per_balance.setTextColor(resources.getColor(R.color.gray_a0))
             isClickPer = false
+            if (isRefresh && pay_type == 1){
+                iv_zfb_select.setImageResource(R.mipmap.ic_unselect_receipt)
+                pay_type = 3
+            }
         }else{
-            iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
+            if (pay_type != 1){
+                iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
+            }
             tv_per_title.setTextColor(resources.getColor(R.color.black_28))
             tv_per_balance.setTextColor(resources.getColor(R.color.gray_80))
             isClickPer = true
@@ -289,15 +302,21 @@ class PayExpansionActivity : BaseActivity() {
             tv_bus_title.setTextColor(resources.getColor(R.color.gray_a0))
             tv_bus_balance.setTextColor(resources.getColor(R.color.gray_a0))
             isClickBus = false
+            if (isRefresh && pay_type == 2){
+                iv_zfb_select.setImageResource(R.mipmap.ic_unselect_receipt)
+                pay_type = 3
+            }
         }else{
-            iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
+            if (pay_type != 2){
+                iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
+            }
             tv_bus_title.setTextColor(resources.getColor(R.color.black_28))
             tv_bus_balance.setTextColor(resources.getColor(R.color.gray_80))
             isClickBus = true
         }
     }
 
-    private fun getPerAccountInfo(){
+    private fun getPerAccountInfo(isRefresh: Boolean){
         SoguApi.getStaticHttp(application)
                 .getPersonAccountInfo()
                 .execute {
@@ -306,8 +325,8 @@ class PayExpansionActivity : BaseActivity() {
                             val recordBean = payload.payload
                             recordBean?.let {
                                 perBalance = recordBean.balance
-                                setPerValueStatus(it)
-                                prepareValue(allprice,perBalance,busBalance)
+                                setPerValueStatus(it,isRefresh)
+                                prepareValue(allprice,perBalance,busBalance,isRefresh)
                             }
                         }else{
                             showErrorToast(payload.message)
@@ -320,7 +339,7 @@ class PayExpansionActivity : BaseActivity() {
                 }
     }
 
-    private fun getBusAccountInfo() {
+    private fun getBusAccountInfo(isRefresh: Boolean) {
         SoguApi.getStaticHttp(application)
                 .getBussAccountInfo()
                 .execute {
@@ -329,8 +348,8 @@ class PayExpansionActivity : BaseActivity() {
                             val recordBean = payload.payload
                             recordBean?.let {
                                 busBalance = recordBean.balance
-                                setBussValueStatus(it)
-                                prepareValue(allprice,perBalance,busBalance)
+                                setBussValueStatus(it,isRefresh)
+                                prepareValue(allprice,perBalance,busBalance,isRefresh)
                             }
                         } else {
                             showErrorToast(payload.message)
@@ -343,30 +362,42 @@ class PayExpansionActivity : BaseActivity() {
                 }
     }
 
-    private fun setPerValueStatus(recordBean : RechargeRecordBean){
+    private fun setPerValueStatus(recordBean : RechargeRecordBean,isRefresh: Boolean){
             tv_per_balance.text = "账户余额：${Utils.reserveDecimal(recordBean.balance.toDouble())}"
         if (recordBean.balance.toFloat() <= 0 || recordBean.balance.equals("")) {
             iv_pre_select.setImageResource(R.mipmap.ic_gray_receipt)
             tv_per_title.setTextColor(resources.getColor(R.color.gray_a0))
             tv_per_balance.setTextColor(resources.getColor(R.color.gray_a0))
             isClickPer = false
+            if (isRefresh && pay_type == 1){
+                iv_zfb_select.setImageResource(R.mipmap.ic_unselect_receipt)
+                pay_type = 3
+            }
         } else {
-            iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
+            if (pay_type != 1){
+                iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
+            }
             tv_per_title.setTextColor(resources.getColor(R.color.black_28))
             tv_per_balance.setTextColor(resources.getColor(R.color.gray_80))
             isClickPer = true
         }
     }
 
-    private fun setBussValueStatus(recordBean : RechargeRecordBean){
+    private fun setBussValueStatus(recordBean : RechargeRecordBean,isRefresh: Boolean){
            tv_bus_balance.text = "账户余额：${Utils.reserveDecimal(recordBean.balance.toDouble())}"
         if (recordBean.balance.toFloat() <= 0 || recordBean.balance.equals("")) {
             iv_bus_select.setImageResource(R.mipmap.ic_gray_receipt)
             tv_bus_title.setTextColor(resources.getColor(R.color.gray_a0))
             tv_bus_balance.setTextColor(resources.getColor(R.color.gray_a0))
             isClickBus = false
+            if (isRefresh && pay_type == 2){
+                iv_zfb_select.setImageResource(R.mipmap.ic_unselect_receipt)
+                pay_type = 3
+            }
         } else {
-            iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
+            if (pay_type != 2){
+                iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
+            }
             tv_bus_title.setTextColor(resources.getColor(R.color.black_28))
             tv_bus_balance.setTextColor(resources.getColor(R.color.gray_80))
             isClickBus = true
@@ -461,17 +492,17 @@ class PayExpansionActivity : BaseActivity() {
 //                        }
 //                    }
 //                }
-        if (zxId == -1){
+            payReqChild.count = count
             SoguApi.getStaticHttp(application)
-                    .getDilatationPayInfo(pay_type,count)
+                    .getDilatationPayInfo(PayReq(payReqChild,pay_type))
                     .execute {
                         onNext { payload ->
                             if (payload.isOk){
                                 if (pay_type == 1 || pay_type == 2){
                                     showSuccessToast("支付成功")
                                     getPayPackageInfo(true)
-                                    getPerAccountInfo()
-                                    getBusAccountInfo()
+                                    getPerAccountInfo(true)
+                                    getBusAccountInfo(true)
                                 }else if (pay_type == 3){
                                     //支付宝
                                     sendToZfbRequest(payload.payload as String?)
@@ -492,38 +523,6 @@ class PayExpansionActivity : BaseActivity() {
                             }
                         }
                     }
-        }else{
-            SoguApi.getStaticHttp(application)
-                    .getDilatationPayInfo(zxId,pay_type,count)
-                    .execute {
-                        onNext { payload ->
-                            if (payload.isOk){
-                                if (pay_type == 1 || pay_type == 2){
-                                    showSuccessToast("支付成功")
-                                    getPayPackageInfo(true)
-                                    getPerAccountInfo()
-                                    getBusAccountInfo()
-                                }else if (pay_type == 3){
-                                    //支付宝
-                                    sendToZfbRequest(payload.payload as String?)
-                                }else{
-                                    //微信
-                                }
-                            }else{
-                                showErrorToast(payload.message)
-                            }
-                        }
-
-                        onError {
-                            it.printStackTrace()
-                            if (pay_type == 1 || pay_type == 2){
-                                showErrorToast("购买套餐失败")
-                            }else{
-                                showErrorToast("获取订单失败")
-                            }
-                        }
-                    }
-        }
 
     }
 

@@ -44,12 +44,13 @@ data class ProductInfo(var discountPrice: Int,//折扣价
     constructor() : this(0, 0, 0)
 }
 
-data class PayReq(var key: String,
-                  var data: PayReqChid)
+data class PayReq(var data: PayReqChid,
+                  var pay_type : Int)
 
 data class PayReqChid(var id: Int?,//征信套餐ID
                       var quantity: Int?,//项目套餐包含的商品数量
-                      var period: Int?//项目套餐的有效年限
+                      var period: Int?,//项目套餐的有效年限
+                      var count : Int? //舆情数量
 ) {
-    constructor() : this(null, null, null)
+    constructor() : this(null, null, null,null)
 }
