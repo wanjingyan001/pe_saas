@@ -38,6 +38,7 @@ import com.sogukj.pe.bean.PayResultInfo
 import com.sogukj.pe.bean.PdfBook
 import com.sogukj.pe.module.receipt.AllPayCallBack
 import com.sogukj.pe.module.receipt.PayDialog
+import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.DataSourceService
 import com.sogukj.pe.widgets.indexbar.RecycleViewDivider
 import com.sogukj.service.SoguApi
@@ -252,7 +253,7 @@ class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
                      iv_pre_select: ImageView, tv_bus_balance: TextView, iv_bus_select: ImageView,
                              tv_per_title:TextView,tv_bus_title:TextView,dialog: Dialog,book:PdfBook?) {
         SoguApi.getStaticHttp(application)
-                .getAccountPayInfo(order_type,count,pay_type,fee,id)
+                .getAccountPayInfo(order_type,count,pay_type,fee,id, Store.store.getUser(this)!!.accid)
                 .execute {
                     onNext { payload ->
                         if (payload.isOk){

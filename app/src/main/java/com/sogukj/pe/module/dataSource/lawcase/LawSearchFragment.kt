@@ -85,7 +85,8 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
         if (null != activity!!.et_search.textStr){
             searchKey = activity!!.et_search.textStr
         }
-        Log.e("TAG"," LawSearchFragment initData -- searchKey ==" + searchKey)
+        Log.e("TAG"," LawSearchFragment initData -- searchKey ==" + searchKey + "  type ==" + type)
+        recycler_view.adapter = resultAdapter
         getSearchData()
     }
 
@@ -126,6 +127,7 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
 //                        activity!!.et_search.isCursorVisible = false
 //                    }
                     showLoadding()
+                    Log.e("TAG","  searchListener --- searchKey ==" + searchKey + "  type ==" + type)
                     presenter!!.doLawSearchRequest(searchKey,type!!,true)
                 }
                 true
@@ -134,11 +136,18 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
         }
     }
 
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        Log.e("TAG","  isVisibleToUser ==" + isVisibleToUser + "  type ==" + type)
+    }
+
     override fun doRefresh() {
         if (null != activity!!.et_search){
             searchKey = activity!!.et_search.textStr
         }
         if (null != presenter){
+            Log.e("TAG","  doRefresh --- searchKey ==" + searchKey + "  type ==" + type)
             presenter!!.doLawSearchRequest(searchKey,type!!,true)
         }
     }
@@ -207,7 +216,6 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
             setTotalCountEnable(true)
             searchData.clear()
             searchData.addAll(it!!)
-            recycler_view.adapter = resultAdapter
             resultAdapter.notifyDataSetChanged()
             if (null != tv_total && null != total){
                 tv_total.text = total.toString()
@@ -335,8 +343,6 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
                     realHis.add(hisInfo)
                     Store.store.saveLawtHis(activity!!,realHis)
                 }
-
-
             }
         }
 

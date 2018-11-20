@@ -138,7 +138,7 @@ object Extras {
         return safe_url
     }
 
-    const val WEIXIN_APP_ID = "wxf4e25190d6389f53"
+    const val WEIXIN_APP_ID = "wx125919d01cc63e8f"
     const val WX_PAY_TYPE = "WX_PAY_TYPE"
     val SORT = "ext.sort"
     val DIR = "ext.dir"

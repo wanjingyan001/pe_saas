@@ -80,7 +80,7 @@ interface StaticHttpUtils {
     @FormUrlEncoded
     @POST("/api/Pay/rechargeWallet")
     fun getPayInfo(@Field("type") type: Int, @Field("fee") fee: String,
-                   @Field("source") source: Int): Observable<Payload<String>>
+                   @Field("source") source: Int,@Field("accid") accid:String): Observable<Payload<String>>
 
     /**
      * 舆情开启状态
@@ -114,7 +114,8 @@ interface StaticHttpUtils {
     @FormUrlEncoded
     @POST("/api/Pay/WalletPay")
     fun getAccountPayInfo(@Field("order_type") order_type: Int, @Field("order_count") order_count: Int,
-                          @Field("pay_type") pay_type: Int, @Field("fee") fee: String, @Field("type_id") type_id: String? = null): Observable<Payload<Any>>
+                          @Field("pay_type") pay_type: Int, @Field("fee") fee: String,
+                          @Field("type_id") type_id: String? = null,@Field("accid")accid:String ? = null): Observable<Payload<Any>>
 
     /**
      * 获取云盘文件内容

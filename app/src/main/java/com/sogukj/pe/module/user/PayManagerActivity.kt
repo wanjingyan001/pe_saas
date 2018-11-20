@@ -217,7 +217,7 @@ class PayManagerActivity : BaseRefreshActivity(), AllPayCallBack {
                              tv_per_balance: TextView, iv_pre_select: ImageView, tv_bus_balance: TextView, iv_bus_select: ImageView,
                              tv_per_title:TextView,tv_bus_title:TextView,dialog: Dialog,book: PdfBook?) {
         SoguApi.getStaticHttp(application)
-                .getAccountPayInfo(order_type,count,pay_type,fee,id)
+                .getAccountPayInfo(order_type,count,pay_type,fee,id,Store.store.getUser(this)!!.accid)
                 .execute {
                     onNext { payload ->
                         if (payload.isOk){

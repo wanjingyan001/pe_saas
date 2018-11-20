@@ -26,7 +26,6 @@ import com.alipay.sdk.app.PayTask
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.google.gson.Gson
 import com.netease.nim.uikit.api.NimUIKit
 import com.netease.nimlib.sdk.NIMClient
 import com.netease.nimlib.sdk.RequestCallback
@@ -65,7 +64,6 @@ import com.sogukj.pe.service.NewService
 import com.sogukj.pe.service.OtherService
 import com.sogukj.pe.widgets.DividerGridItemDecoration
 import com.sogukj.service.SoguApi
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_project_detail.*
@@ -540,7 +538,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                         tv_bus_balance: TextView, iv_bus_select: ImageView,
                         tv_per_title: TextView, tv_bus_title: TextView, coin: Double) {
         SoguApi.getStaticHttp(application)
-                .getAccountPayInfo(order_type, count, pay_type, fee)
+                .getAccountPayInfo(order_type, count, pay_type, fee,Store.store.getUser(this)!!.accid)
                 .execute {
                     onNext { payload ->
                         if (payload.isOk) {
@@ -616,7 +614,11 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                             }
                             isStartOpen = !isStartOpen
                         } else {
-                            showErrorToast(payload.message)
+                            if (!isStartOpen){
+                                showPayDialog()
+                            }else{
+                                showErrorToast(payload.message)
+                            }
                         }
                     }
 

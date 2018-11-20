@@ -484,7 +484,6 @@ class BookListActivity : BaseActivity() {
                             showCustomToast(R.drawable.icon_toast_fail, "删除失败")
                         })
             }
-
         }
         //重命名
         bottomBar.root.getChildAt(1).setOnClickListener {

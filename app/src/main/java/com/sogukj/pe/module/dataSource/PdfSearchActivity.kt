@@ -30,6 +30,7 @@ import com.sogukj.pe.bean.PayResultInfo
 import com.sogukj.pe.bean.PdfBook
 import com.sogukj.pe.module.receipt.AllPayCallBack
 import com.sogukj.pe.module.receipt.PayDialog
+import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.DataSourceService
 import com.sogukj.service.SoguApi
 import com.zhy.view.flowlayout.FlowLayout
@@ -210,7 +211,7 @@ class PdfSearchActivity : BaseActivity(), AllPayCallBack {
                              iv_bus_select: ImageView, tv_per_title: TextView, tv_bus_title: TextView, dialog: Dialog, book: PdfBook?) {
 
         SoguApi.getStaticHttp(application)
-                .getAccountPayInfo(order_type,count,pay_type,fee,id)
+                .getAccountPayInfo(order_type,count,pay_type,fee,id, Store.store.getUser(this)!!.accid)
                 .execute {
                     onNext { payload ->
                         if (payload.isOk){

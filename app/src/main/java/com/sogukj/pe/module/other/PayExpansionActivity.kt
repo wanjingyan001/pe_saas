@@ -25,6 +25,7 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.baselibrary.widgets.SpaceItemDecoration
 import com.sogukj.pe.bean.*
 import com.sogukj.pe.module.dataSource.DocumentsListActivity
+import com.sogukj.pe.peUtils.Store
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_pay_expansion.*
 import kotlinx.android.synthetic.main.item_pay_discount.view.*
@@ -60,7 +61,7 @@ class PayExpansionActivity : BaseActivity() {
     private var zxPrice = "0"
     private var allprice = "9.9"
     private var pay_type = 3 //3 支付宝 4 微信 1 个人账号 2 企业账号
-    private var zxId = -1
+    private var isCheckedSentiment = true //是否选中舆情套餐
     private var mHandler : Handler = object : Handler(){
         override fun handleMessage(msg: Message?) {
             super.handleMessage(msg)
@@ -94,6 +95,7 @@ class PayExpansionActivity : BaseActivity() {
 
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pay_expansion)
@@ -109,17 +111,23 @@ class PayExpansionActivity : BaseActivity() {
             ExpansionHolder(_adapter.getView(R.layout.item_pay_expansion_list, parent), calenderAdapter)
         }
         calenderAdapter.onItemClick = { v, position ->
-            calenderAdapter.selectedPosition = position
-            payReqChild.id = calenderAdapter.dataList[position].id
+            if (v.itemLayout.isSelected){
+                calenderAdapter.selectedPosition = -1
+                calenderAdapter.notifyDataSetChanged()
+                zxPrice = "0"
+                payReqChild.id = null
+            }else{
+                calenderAdapter.selectedPosition = position
+                zxPrice = calenderAdapter.dataList[position].price
+                payReqChild.id = calenderAdapter.dataList[position].id
+            }
             product = product.copy(discountPrice = product.discountPrice,
                     OriginalPrice = product.OriginalPrice,
                     calenderPrice = calenderAdapter.dataList[position].price.toInt())
-            zxPrice = calenderAdapter.dataList[position].price
-
-            allprice = Utils.stringAdd(coin.toString(),zxPrice)
+            allprice = if(isCheckedSentiment){Utils.stringAdd(coin.toString(),zxPrice)}else{zxPrice}
             paymentPrice.text = "￥${allprice}"
             prepareValue(allprice,perBalance,busBalance,false)
-            zxId = calenderAdapter.dataList[position].id!!
+            setPayButtonStatus()
         }
         pjPackageList.apply {
             layoutManager = LinearLayoutManager(this@PayExpansionActivity)
@@ -142,6 +150,7 @@ class PayExpansionActivity : BaseActivity() {
     private fun bindListener() {
         tv_subtract.setOnClickListener {
             //减少舆情数量
+            if (!isCheckedSentiment)return@setOnClickListener
             count = et_count.textStr.toInt()
             count--
             if (count < 1) {
@@ -158,6 +167,7 @@ class PayExpansionActivity : BaseActivity() {
         }
         tv_add.setOnClickListener {
             //增加舆情数量
+            if (!isCheckedSentiment)return@setOnClickListener
             count++
             coin = Utils.reserveTwoDecimal(9.9 * count, 2)
             et_count.setText(count.toString())
@@ -169,6 +179,7 @@ class PayExpansionActivity : BaseActivity() {
         }
 
         et_count.textChangedListener {
+            if (!isCheckedSentiment)return@textChangedListener
             afterTextChanged {
                 if (et_count.textStr.isNullOrEmpty()) {
                     showCommonToast("购买数量不能为空")
@@ -276,8 +287,40 @@ class PayExpansionActivity : BaseActivity() {
                 getPayInfo()
             }
         }
-    }
 
+        rl_sentiment.setOnClickListener {
+            if (isCheckedSentiment){
+                rl_sentiment.setBackgroundResource(R.drawable.bg_price_shape_normal)
+                et_count.setBackgroundResource(R.drawable.bg_buy_count_normal)
+                et_count.isFocusable = false
+                allprice = zxPrice
+                Utils.forceCloseInput(this,et_count)
+            }else{
+                rl_sentiment.setBackgroundResource(R.drawable.bg_price_shape)
+                et_count.setBackgroundResource(R.drawable.bg_buy_count)
+                et_count.isFocusable = true
+                et_count.isFocusableInTouchMode = true
+                allprice = Utils.stringAdd(coin.toString(),zxPrice)
+            }
+            isCheckedSentiment = !isCheckedSentiment
+            paymentPrice.text = "￥${allprice}"
+            setPayButtonStatus()
+        }
+
+        et_count.clickWithTrigger {
+            if (isCheckedSentiment){
+                Utils.showInput(this,et_count)
+            }
+        }
+    }
+    private fun setPayButtonStatus(){
+        val priceDouble = allprice.toDouble()
+        if (priceDouble > 0){
+            payConfirm.setBackgroundColor(resources.getColor(R.color.blue_17))
+        }else{
+            payConfirm.setBackgroundColor(resources.getColor(R.color.gray_d9))
+        }
+    }
     private fun prepareValue(allprice:String,perBalance:String,busBalance:String,isRefresh: Boolean){
         if (allprice.toDouble() > perBalance.toDouble()) {
             iv_pre_select.setImageResource(R.mipmap.ic_gray_receipt)
@@ -289,9 +332,7 @@ class PayExpansionActivity : BaseActivity() {
                 pay_type = 3
             }
         }else{
-            if (pay_type != 1){
-                iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
-            }
+            iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
             tv_per_title.setTextColor(resources.getColor(R.color.black_28))
             tv_per_balance.setTextColor(resources.getColor(R.color.gray_80))
             isClickPer = true
@@ -307,9 +348,7 @@ class PayExpansionActivity : BaseActivity() {
                 pay_type = 3
             }
         }else{
-            if (pay_type != 2){
-                iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
-            }
+            iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
             tv_bus_title.setTextColor(resources.getColor(R.color.black_28))
             tv_bus_balance.setTextColor(resources.getColor(R.color.gray_80))
             isClickBus = true
@@ -374,9 +413,7 @@ class PayExpansionActivity : BaseActivity() {
                 pay_type = 3
             }
         } else {
-            if (pay_type != 1){
-                iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
-            }
+            iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
             tv_per_title.setTextColor(resources.getColor(R.color.black_28))
             tv_per_balance.setTextColor(resources.getColor(R.color.gray_80))
             isClickPer = true
@@ -395,9 +432,7 @@ class PayExpansionActivity : BaseActivity() {
                 pay_type = 3
             }
         } else {
-            if (pay_type != 2){
-                iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
-            }
+            iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
             tv_bus_title.setTextColor(resources.getColor(R.color.black_28))
             tv_bus_balance.setTextColor(resources.getColor(R.color.gray_80))
             isClickBus = true
@@ -492,9 +527,10 @@ class PayExpansionActivity : BaseActivity() {
 //                        }
 //                    }
 //                }
-            payReqChild.count = count
+
+            payReqChild.count = if(isCheckedSentiment){count}else{null}
             SoguApi.getStaticHttp(application)
-                    .getDilatationPayInfo(PayReq(payReqChild,pay_type))
+                    .getDilatationPayInfo(PayReq(payReqChild,pay_type, Store.store.getUser(this)!!.accid!!))
                     .execute {
                         onNext { payload ->
                             if (payload.isOk){

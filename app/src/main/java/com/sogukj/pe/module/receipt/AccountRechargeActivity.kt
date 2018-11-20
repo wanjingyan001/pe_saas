@@ -137,7 +137,7 @@ class AccountRechargeActivity : ToolbarActivity(), TextWatcher {
 
     private fun getPayOrderInfo() {
         SoguApi.getStaticHttp(application)
-                .getPayInfo(type,et_recharge.textStr,rechargeType)
+                .getPayInfo(type,et_recharge.textStr,rechargeType,Store.store.getUser(this)!!.accid!!)
                 .execute {
                     onNext { payload ->
                         if (payload.isOk){

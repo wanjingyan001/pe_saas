@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -93,6 +94,7 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack {
 
     private fun initData() {
         tv_coin.text = "${money}元"
+        val digits = getString(R.string.input_number_letter)
     }
 
     private fun bindListener() {
@@ -276,6 +278,7 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack {
                 updateContext(s, str)
                 isChanged = false
             }
+
             setCommitButtonStatus()
         }
 
@@ -285,6 +288,7 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack {
                 buffer.delete(0, buffer.length)
             }
             spaceCount = (0 until s.length).count { s[it] == ' ' }
+            Log.e("TAG","beforeTextChanged --- beforeTextLength ==" + beforeTextLength + "  spaceCount ==" + spaceCount)
         }
 
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
@@ -296,6 +300,7 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack {
                 return
             }
             isChanged = true
+            Log.e("TAG","onTextChanged --- onTextLength ==" + onTextLength + " buffer ==" + buffer + "  isChanged == "+ isChanged)
         }
 
         /**
@@ -328,7 +333,6 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-
 
         }
     }

@@ -32,6 +32,7 @@ import com.sogukj.pe.bean.*
 import com.sogukj.pe.module.dataSource.DocumentsListActivity
 import com.sogukj.pe.module.receipt.AllPayCallBack
 import com.sogukj.pe.module.receipt.PayDialog
+import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.CreditService
 import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -173,7 +174,7 @@ class ShareholderCreditActivity : BaseActivity(), View.OnClickListener, AllPayCa
                      iv_pre_select: ImageView, tv_bus_balance: TextView, iv_bus_select: ImageView, tv_per_title: TextView,
                      tv_bus_title: TextView, dialog: Dialog) {
         SoguApi.getStaticHttp(application)
-                .getAccountPayInfo(order_type,count,pay_type,fee)
+                .getAccountPayInfo(order_type,count,pay_type,fee, Store.store.getUser(this)!!.accid)
                 .execute {
                     onNext { payload ->
                         if (payload.isOk){

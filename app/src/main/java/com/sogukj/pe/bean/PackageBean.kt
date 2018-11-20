@@ -45,7 +45,8 @@ data class ProductInfo(var discountPrice: Int,//折扣价
 }
 
 data class PayReq(var data: PayReqChid,
-                  var pay_type : Int)
+                  var pay_type : Int,
+                  var accid : String)
 
 data class PayReqChid(var id: Int?,//征信套餐ID
                       var quantity: Int?,//项目套餐包含的商品数量

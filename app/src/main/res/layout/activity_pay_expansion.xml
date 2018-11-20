@@ -136,6 +136,7 @@
         android:paddingRight="@dimen/text_20"
         android:paddingTop="@dimen/text_10"
         android:paddingBottom="@dimen/text_10"
+        android:visibility="gone"
         android:background="@color/red_ffe">
         <ImageView
             android:layout_width="@dimen/text_25"
@@ -255,6 +256,7 @@
                 android:orientation="vertical"
                 android:background="@color/white">
                 <RelativeLayout
+                    android:id="@+id/rl_sentiment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/text_20"
