@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.os.Handler
 import androidx.core.content.edit
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.amap.api.mapcore.util.it
+import com.android.dingtalk.share.ddsharemodule.message.BaseResp
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.netease.nim.uikit.api.NimUIKit
 import com.netease.nimlib.sdk.RequestCallback
@@ -27,6 +29,7 @@ import com.sogukj.pe.bean.MechanismBasicInfo
 import com.sogukj.pe.bean.MechanismInfo
 import com.sogukj.pe.bean.RegisterVerResult
 import com.sogukj.pe.bean.UserBean
+import com.sogukj.pe.ddshare.AuthorizeCode
 import com.sogukj.pe.interf.ReviewStatus
 import com.sogukj.pe.module.main.MainActivity
 import com.sogukj.pe.module.register.presenter.LoginPresenter
@@ -59,7 +62,7 @@ class LoginActivity : BaseActivity(), LoginView {
         StatusBarUtil.setTranslucentForCoordinatorLayout(this, 0)
         StatusBarUtil.setLightMode(this)
         loginPresenter.loginView = this
-        RetrofitUrlManager.getInstance().putDomain("Register",Consts.DEV_HTTP_HOST)
+        RetrofitUrlManager.getInstance().putDomain("Register", Consts.DEV_HTTP_HOST)
         codeEditable(false)
         val inputList = ArrayList<Observable<CharSequence>>()
         inputList.add(RxTextView.textChanges(phoneEdt.getEditText()))
@@ -81,13 +84,13 @@ class LoginActivity : BaseActivity(), LoginView {
             }
         }
         QQLogin.clickWithTrigger {
-            MobLogin.QQLogin( {
+            MobLogin.QQLogin({
                 sp.edit { putString(Extras.THIRDLOGIN, "qq_$it") }
                 checkThirdBinding("qq", it)
             }, { showCommonToast("已取消QQ登录") }, { showErrorToast("QQ登录失败") })
         }
         WeChatLogin.clickWithTrigger {
-            MobLogin.WeChatLogin( {
+            MobLogin.WeChatLogin({
                 sp.edit { putString(Extras.THIRDLOGIN, "wechat_$it") }
                 checkThirdBinding("wechat", it)
             }, { showCommonToast("已取消微信登录") }, {
@@ -118,10 +121,25 @@ class LoginActivity : BaseActivity(), LoginView {
         ActivityHelper.finishAllWithoutTop()
     }
 
-    private fun codeEditable(enable :Boolean){
+    private fun codeEditable(enable: Boolean) {
 //        mVerCodeInput.isEnabled = enable
-        if (!BuildConfig.DEBUG){
+        if (!BuildConfig.DEBUG) {
             mVerCodeInput.isEnabled = enable
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getDingResult()
+    }
+
+    private fun getDingResult() {
+        val authorizeCode = intent.getSerializableExtra(Extras.DATA) as? AuthorizeCode
+        if (authorizeCode != null && authorizeCode.errcode ==   BaseResp.ErrCode.ERR_OK) {
+            authorizeCode.unionid.let {
+                sp.edit { putString(Extras.THIRDLOGIN, "ding_$it") }
+                checkThirdBinding("ding", it)
+            }
         }
     }
 
@@ -296,14 +314,15 @@ class LoginActivity : BaseActivity(), LoginView {
     }
 
     companion object {
-        fun invoke(context: Context){
-            val intent = Intent(context,LoginActivity::class.java)
-            if (context !is Activity){
+        fun invoke(context: Context) {
+            val intent = Intent(context, LoginActivity::class.java)
+            if (context !is Activity) {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
             context.startActivity(intent)
         }
     }
+
     override fun onDestroy() {
         super.onDestroy()
         hideProgress()

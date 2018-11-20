@@ -90,10 +90,18 @@ class TaskFragment : BaseRefreshFragment(), View.OnClickListener, TaskFilterWind
     override fun onResume() {
         super.onResume()
         doRequest(page, range, isFinish)
+//        if (baseActivity is CalendarMainActivity) {
+//            val currentItem = (baseActivity as? CalendarMainActivity)?.adapter?.getCurrentItem()
+//            currentItem?.let {
+//                if (it::class.simpleName == TaskFragment::class.simpleName) {
+//                    doRequest(page, range, isFinish)
+//                }
+//            }
+//        }
     }
 
     fun doRequest(page: Int, range: String, isFinish: Int) {
-        SoguApi.getService(baseActivity!!.application, CalendarService::class.java)
+        SoguApi.getService(ctx, CalendarService::class.java)
                 .showTask(page = page, range = range, is_finish = isFinish)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())

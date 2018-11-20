@@ -91,20 +91,17 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
         }
         SoguApi.getService(baseActivity!!.application, UserService::class.java)
                 .userDepart()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe({ payload ->
-                    if (payload.isOk) {
-                        departList.clear()
-                        payload.payload?.forEach {
-                            departList.add(it)
-                        }
-                    } else
-                        showCustomToast(R.drawable.icon_toast_fail, payload.message)
-                }, { e ->
-                    Trace.e(e)
-                    ToastError(e)
-                })
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk) {
+                            departList.clear()
+                            payload.payload?.forEach {
+                                departList.add(it)
+                            }
+                        } else
+                            showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                    }
+                }
 
         ll_user.clickWithTrigger {
             UserEditActivity.start(activity, departList)
@@ -345,24 +342,20 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
     private fun getBelongBean(userId: Int) {
         SoguApi.getService(ctx, UserService::class.java)
                 .getProject(userId)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe({ payload ->
-                    if (payload.isOk) {
-                        payload.payload?.let {
-                            loadStage(it.xm!!)
-                            it.gz?.let {
-                                tv_6.text = it.count.toString()
-                            //point.visibility = if (it.red == /null || it.red == 0) View.GONE else View.VISIBLE
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk) {
+                            payload.payload?.let {
+                                loadStage(it.xm!!)
+                                it.gz?.let {
+                                    tv_6.text = it.count.toString()
+                                }
                             }
+                        } else {
+                            showCustomToast(R.drawable.icon_toast_fail, payload.message)
                         }
-                    } else {
-                        showCustomToast(R.drawable.icon_toast_fail, payload.message)
                     }
-                }, { e ->
-                    Trace.e(e)
-                    ToastError(e)
-                })
+                }
     }
 
     fun loadStage(stageList: ArrayList<ProjectBelongBean.Cell1>) {
@@ -406,16 +399,6 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
         }
     }
 
-    override fun onHiddenChanged(hidden: Boolean) {
-        super.onHiddenChanged(hidden)
-        if (hidden) {   // 不在最前端显示 相当于调用了onPause();
-
-        } else {  // 在最前端显示 相当于调用了onResume();
-            val user = Store.store.getUser(ctx)
-            user?.uid?.let { getBelongBean(it) }
-        }
-    }
-
     override fun onResume() {
         super.onResume()
         getBindingStatus()
@@ -431,21 +414,19 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
         if (null != user?.uid) {
             SoguApi.getService(ctx, UserService::class.java)
                     .userInfo(user.uid!!)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.io())
-                    .subscribe({ payload ->
-                        if (payload.isOk) {
-                            payload.payload?.apply {
-                                Store.store.setUser(ctx, this)
-                                updateUser(this)
+                    .execute {
+                        onNext { payload ->
+                            if (payload.isOk) {
+                                payload.payload?.apply {
+                                    Store.store.setUser(ctx, this)
+                                    updateUser(this)
+                                }
+                            } else {
+                                showCustomToast(R.drawable.icon_toast_fail, payload.message)
                             }
-                        } else {
-                            showCustomToast(R.drawable.icon_toast_fail, payload.message)
+
                         }
-                    }, { e ->
-                        Trace.e(e)
-                        ToastError(e)
-                    })
+                    }
         }
     }
 
@@ -510,18 +491,18 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
                                     if (null != rl_bind) {
                                         rl_bind.setVisible(false)
                                     }
-                                    if (null != iv_foucs){
+                                    if (null != iv_foucs) {
                                         iv_foucs?.imageResource = R.mipmap.icon_wx_focus
                                     }
                                 } else {
                                     if (null != rl_bind) {
                                         rl_bind.setVisible(true)
                                     }
-                                    if (null != tv_bind){
+                                    if (null != tv_bind) {
                                         tv_bind?.text = if (it.is_sync == 1) "去关注" else "去绑定"
                                     }
-                                    if (null != iv_foucs){
-                                        iv_foucs?.imageResource =  R.mipmap.icon_wx_unfocus
+                                    if (null != iv_foucs) {
+                                        iv_foucs?.imageResource = R.mipmap.icon_wx_unfocus
                                     }
                                 }
                             }

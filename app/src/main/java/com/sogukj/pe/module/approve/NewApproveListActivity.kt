@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import com.alibaba.android.arouter.facade.annotation.Route
+import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
@@ -24,10 +26,10 @@ import kotlinx.android.synthetic.main.item_approval.view.*
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.textColor
-
+@Route(path = ARouterPath.ApproveListActivity)
 class NewApproveListActivity : BaseRefreshActivity() {
     private var page = 1
-    private val kind by extraDelegate(Extras.TYPE, 4)
+    private val kind by extraDelegate(Extras.TYPE, 1)
     private lateinit var listAdapter: RecyclerAdapter<ApproveListBean>
     private val mine by lazy { Store.store.getUser(this) }
 

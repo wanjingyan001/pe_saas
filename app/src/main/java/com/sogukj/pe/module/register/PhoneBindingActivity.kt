@@ -154,9 +154,9 @@ class PhoneBindingActivity : BaseActivity(), LoginView {
     override fun getUserBean(user: UserBean) {
         AnkoLogger("SAAS用户").info { user.jsonStr }
         Store.store.setUser(this@PhoneBindingActivity, user)
-        ifNotNull(user.accid, user.token, { accid, token ->
+        ifNotNull(user.accid, user.token) { accid, token ->
             IMLogin(accid, token)
-        })
+        }
         sp.getString(Extras.CompanyKey, "").let {
             it.isNotEmpty().yes {
                 loginPresenter.getCompanyInfo(it)

@@ -47,7 +47,6 @@ import org.jetbrains.anko.textColor
 /**
  * Created by qinfei on 17/10/18.
  */
-@Route(path = ARouterPath.ApproveListActivity)
 class ApproveListActivity : BaseRefreshActivity(), TabLayout.OnTabSelectedListener {
     override fun onTabReselected(tab: TabLayout.Tab?) {
 

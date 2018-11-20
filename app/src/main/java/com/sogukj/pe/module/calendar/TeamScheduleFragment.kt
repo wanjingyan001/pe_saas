@@ -89,6 +89,14 @@ class TeamScheduleFragment : BaseFragment(), ScheduleItemClickListener {
     override fun onResume() {
         super.onResume()
         doRequest(page, selectDate)
+//        if (baseActivity is CalendarMainActivity) {
+//            val currentItem = (baseActivity as? CalendarMainActivity)?.adapter?.getCurrentItem()
+//            currentItem?.let {
+//                if (it::class.simpleName == TeamScheduleFragment::class.simpleName) {
+//                    doRequest(page, selectDate)
+//                }
+//            }
+//        }
     }
 
 
@@ -149,7 +157,7 @@ class TeamScheduleFragment : BaseFragment(), ScheduleItemClickListener {
 
 
     fun doRequest(page: Int, date: String, filter: String? = null) {
-        SoguApi.getService(baseActivity!!.application,CalendarService::class.java)
+        SoguApi.getService(ctx,CalendarService::class.java)
                 .showSchedule(page, stat = 2, time = date, filter = filter)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())

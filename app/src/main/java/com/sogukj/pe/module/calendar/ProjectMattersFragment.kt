@@ -17,7 +17,9 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.execute
+import com.sogukj.pe.baselibrary.Extended.jsonStr
 import com.sogukj.pe.baselibrary.Extended.setVisible
+import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.base.BaseRefreshFragment
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Trace
@@ -42,6 +44,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_project_matters.*
 import kotlinx.android.synthetic.main.item_project_matters_list.*
 import kotlinx.android.synthetic.main.layout_empty.*
+import org.jetbrains.anko.info
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.find
 import java.text.SimpleDateFormat
@@ -60,7 +63,8 @@ class ProjectMattersFragment : BaseRefreshFragment(), ScheduleItemClickListener 
         get() = R.layout.fragment_project_matters
     private lateinit var projectAdapter: ProjectAdapter
     private val data = ArrayList<Any>()
-    private  val window: CalendarWindow by lazy {
+    private var needRefresh = true
+    private val window: CalendarWindow by lazy {
         ctx?.let {
             CalendarWindow(ctx, object : CalendarSelectListener {
                 override fun daySelect(calendarDate: CalendarDate) {
@@ -81,6 +85,14 @@ class ProjectMattersFragment : BaseRefreshFragment(), ScheduleItemClickListener 
     private var mParam1: String? = null
     private var mParam2: String? = null
 
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        isVisibleToUser.yes {
+            needRefresh = true
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
@@ -98,6 +110,7 @@ class ProjectMattersFragment : BaseRefreshFragment(), ScheduleItemClickListener 
         MDTime.text = Utils.getTime(System.currentTimeMillis(), "MM月dd日")
         matters_img1.setOnClickListener {
             //跳转公司列表
+            needRefresh = false
             startActivityForResult(Intent(ctx, CompanySelectActivity::class.java), Extras.REQUESTCODE)
         }
         matters_img2.setOnClickListener {
@@ -131,7 +144,17 @@ class ProjectMattersFragment : BaseRefreshFragment(), ScheduleItemClickListener 
 
     override fun onResume() {
         super.onResume()
-        doRequest(page, date)
+        needRefresh.yes {
+            doRequest(page, date)
+        }
+//        if (baseActivity is CalendarMainActivity) {
+//            val currentItem = (baseActivity as? CalendarMainActivity)?.adapter?.getCurrentItem()
+//            currentItem?.let {
+//                if (it::class.simpleName == ProjectMattersFragment::class.simpleName) {
+//                    doRequest(page, date)
+//                }
+//            }
+//        }
     }
 
 
@@ -144,7 +167,7 @@ class ProjectMattersFragment : BaseRefreshFragment(), ScheduleItemClickListener 
                             if (page == 1) {
                                 data.clear()
                             }
-                            Log.d("WJY", Gson().toJson(payload.payload))
+                            info { "接口数据:${payload.payload.jsonStr}" }
                             payload.payload?.let {
                                 val companyList = ArrayList<ProjectMatterCompany>()
                                 val infoList = ArrayList<ScheduleBean>()
@@ -176,6 +199,7 @@ class ProjectMattersFragment : BaseRefreshFragment(), ScheduleItemClickListener 
                                     }
                                     map[name.companyName] = infos
                                 }
+                                info { "列表数据:${data.jsonStr}" }
                                 projectAdapter.notifyDataSetChanged()
                             }
 
@@ -184,6 +208,7 @@ class ProjectMattersFragment : BaseRefreshFragment(), ScheduleItemClickListener 
                         }
                     }
                     onComplete {
+                        needRefresh = true
                         if (data.size == 0) {
                             refresh.setVisible(false)
                             iv_empty.setVisible(true)
@@ -301,7 +326,10 @@ class ProjectMattersFragment : BaseRefreshFragment(), ScheduleItemClickListener 
             val bean = data.getSerializableExtra(Extras.DATA) as CustomSealBean.ValueBean
             page = 1
             companyId = bean.id.toString()
+            this.data.clear()
+            projectAdapter.notifyDataSetChanged()
             doRequest(page, date, companyId)
+
         }
     }
 

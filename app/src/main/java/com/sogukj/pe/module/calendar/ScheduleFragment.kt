@@ -150,11 +150,19 @@ class ScheduleFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         doRequest(page, selectDate)
+//        if (baseActivity is CalendarMainActivity) {
+//            val currentItem = (baseActivity as? CalendarMainActivity)?.adapter?.getCurrentItem()
+//            currentItem?.let {
+//                if (it::class.simpleName == ScheduleFragment::class.simpleName) {
+//                    doRequest(page, selectDate)
+//                }
+//            }
+//        }
     }
 
 
     fun doRequest(page: Int, date: String) {
-        SoguApi.getService(baseActivity!!.application,CalendarService::class.java)
+        SoguApi.getService(ctx,CalendarService::class.java)
                 .showSchedule(page, stat = 1, time = date)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())

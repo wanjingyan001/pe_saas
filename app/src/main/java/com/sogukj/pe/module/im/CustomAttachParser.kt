@@ -6,11 +6,9 @@ import com.netease.nimlib.sdk.msg.attachment.MsgAttachment
 import com.netease.nimlib.sdk.msg.attachment.MsgAttachmentParser
 import com.sogukj.pe.bean.NewApprovePush
 import com.sogukj.pe.bean.NewProjectProcess
+import com.sogukj.pe.bean.PayHistory
 import com.sogukj.pe.bean.SystemPushBean
-import com.sogukj.pe.module.im.msg_viewholder.ApproveAttachment
-import com.sogukj.pe.module.im.msg_viewholder.CustomAttachment
-import com.sogukj.pe.module.im.msg_viewholder.ProcessAttachment
-import com.sogukj.pe.module.im.msg_viewholder.SystemAttachment
+import com.sogukj.pe.module.im.msg_viewholder.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import org.json.JSONObject
@@ -46,6 +44,12 @@ class CustomAttachParser : MsgAttachmentParser {
                 attachment = ApproveAttachment()
                 val bean = Gson().fromJson<NewApprovePush>(attach)
                 attachment.messageBean = bean
+            }
+            in 400..499 -> {
+                //支付
+                attachment = PayPushAttachment()
+                val bean = Gson().fromJson<PayHistory>(attach)
+                attachment.payPushBean = bean
             }
             else -> {
                 throw  Exception("数据错误")

@@ -14,7 +14,7 @@
         style="@style/registerTitleStyle"
         android:text="手机号码添加"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
 
     <ImageView
@@ -96,6 +96,7 @@
         style="@style/registerNextStep"
         android:enabled="false"
         android:text="立即邀请"
+        android:layout_marginTop="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/line2" />

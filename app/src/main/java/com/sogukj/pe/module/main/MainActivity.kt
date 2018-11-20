@@ -123,6 +123,7 @@ class MainActivity : BaseActivity() {
                     .apply(RequestOptions.circleCropTransform()
                             .placeholder(defaultLogo)
                             .error(defaultLogo))
+                    .thumbnail(0.1F)
                     .into(mainLogo)
             initBottomNavBar()
             changeFragment(defaultIndex)

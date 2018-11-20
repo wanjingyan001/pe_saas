@@ -37,4 +37,9 @@ interface DDService {
     fun getAuthorizeCode(@Query("access_token") access_token: String,
                          @Body tmp_auth_code: AuthorizeReq): Observable<AuthorizeCode>
 
+
+    @FormUrlEncoded
+    @POST("/api/Dingding/getUnionid")
+    fun getUnionid(@Field("code")code:String):Observable<String>
+
 }

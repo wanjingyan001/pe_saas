@@ -413,14 +413,14 @@ public class MessageFragment extends TFragment implements ModuleProxy {
             NIMClient.getService(MsgService.class).sendMessage(msg, false);
             messageListPanel.onMsgSend(msg);
 
-
-            IMMessage msg１ = MessageBuilder.createTipMessage(sessionId, SessionTypeEnum.Team);
-            msg１.setContent(tipStr2);
-            CustomMessageConfig config１ = new CustomMessageConfig();
-            config１.enableUnreadCount = false;
-            msg１.setConfig(config１);
-            NIMClient.getService(MsgService.class).sendMessage(msg１, false);
-            messageListPanel.onMsgSend(msg１);
+//
+//            IMMessage msg１ = MessageBuilder.createTipMessage(sessionId, SessionTypeEnum.Team);
+//            msg１.setContent(tipStr2);
+//            CustomMessageConfig config１ = new CustomMessageConfig();
+//            config１.enableUnreadCount = false;
+//            msg１.setConfig(config１);
+//            NIMClient.getService(MsgService.class).sendMessage(msg１, false);
+//            messageListPanel.onMsgSend(msg１);
         }
     }
 

@@ -134,17 +134,25 @@ class ArrangeListFragment : BaseRefreshFragment() {
     override fun onResume() {
         super.onResume()
         doRequest()
+//        if (baseActivity is CalendarMainActivity) {
+//            val currentItem = (baseActivity as? CalendarMainActivity)?.adapter?.getCurrentItem()
+//            currentItem?.let {
+//                if (it::class.simpleName == ArrangeListFragment::class.simpleName) {
+//                    doRequest()
+//                }
+//            }
+//        }
     }
 
     private fun doRequest() {
-        if (null != iv_loading){
+        if (null != iv_loading) {
             Glide.with(this)
                     .asGif()
                     .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
                     .into(iv_loading)
             iv_loading?.visibility = View.VISIBLE
         }
-        SoguApi.getService(baseActivity!!.application, CalendarService::class.java)
+        SoguApi.getService(ctx, CalendarService::class.java)
                 .getWeeklyWorkList(ArrangeReqBean(flag = 1, offset = offset))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -158,12 +166,12 @@ class ArrangeListFragment : BaseRefreshFragment() {
                         arrangeAdapter.notifyDataSetChanged()
                     }
                 }, { e ->
-                    if (null != iv_loading){
+                    if (null != iv_loading) {
                         iv_loading.setVisible(false)
                     }
                     Trace.e(e)
                 }, {
-                    if (null != iv_loading){
+                    if (null != iv_loading) {
                         iv_loading.setVisible(false)
                     }
                     if (isRefresh) {
@@ -264,7 +272,7 @@ class ArrangeListFragment : BaseRefreshFragment() {
                     emptyLayout.visibility = View.VISIBLE
                     contentLayout.visibility = View.GONE
                     view.clickWithTrigger {
-                        ArrangeEditActivity.start(baseActivity!!, arrayListOf(arrangeBean),offset.toString(),0)
+                        ArrangeEditActivity.start(baseActivity!!, arrayListOf(arrangeBean), offset.toString(), 0)
                     }
                 } else {
                     emptyLayout.visibility = View.GONE
@@ -278,10 +286,10 @@ class ArrangeListFragment : BaseRefreshFragment() {
                             val address = itemView.find<TextView>(R.id.arrange_address)
                             val addressIcon = itemView.find<ImageView>(R.id.address_icon)
                             override fun setData(view: View, data: ChildBean, position: Int) {
-                                if (data.reasons.isNullOrEmpty()){
+                                if (data.reasons.isNullOrEmpty()) {
                                     content.hint = "暂无事由信息"
                                     content.textSize = 10f
-                                }else{
+                                } else {
                                     content.text = data.reasons
                                     content.textSize = 14f
                                 }

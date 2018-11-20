@@ -41,6 +41,7 @@ class CalendarMainActivity : ToolbarActivity(), MonthSelectListener, ViewPager.O
     override val menuId: Int
         get() = R.menu.calendar_menu
     private var currentPosition: Int by Delegates.notNull()
+    lateinit var adapter: ContentAdapter
     val fragments = ArrayList<Fragment>()
     private val titles = arrayListOf("周工作安排", "日历", "任务", "项目事项", "团队日程")
     private val arrangeFragment by lazy { ArrangeListFragment() }
@@ -78,8 +79,9 @@ class CalendarMainActivity : ToolbarActivity(), MonthSelectListener, ViewPager.O
         }
     }
 
+
     private fun initPager() {
-        val adapter = ContentAdapter(supportFragmentManager, fragments, titles)
+        adapter = ContentAdapter(supportFragmentManager, fragments, titles)
         contentPager.adapter = adapter
         tabLayout.setViewPager(contentPager)
         tabLayout.setTabViewFactory { parent, _ ->

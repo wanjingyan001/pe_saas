@@ -26,6 +26,7 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.google.gson.Gson
+import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
@@ -128,7 +129,6 @@ class MainHomeFragment : BaseFragment() {
         }
 
         model.getMainModules().observe(this, Observer<List<MainFunIcon>> { functions ->
-            info { functions.jsonStr }
             functions?.let {
                 moduleAdapter.dataList.clear()
                 moduleAdapter.dataList.addAll(it)
@@ -143,24 +143,26 @@ class MainHomeFragment : BaseFragment() {
             val mainFunIcon = moduleAdapter.dataList[p]
             val path = mainFunIcon.address + mainFunIcon.port
             //fragment中使用路由调用startActivityForResult回调将在Activity中
-            if (path.equals("/receipt/header")){
-                ARouter.getInstance().build(path)
-                        .withString(Extras.TITLE,"发票抬头")
-                        .withInt(Extras.TYPE,1)
+            when (path) {
+                ARouterPath.ReceiptHeaderActivity -> ARouter.getInstance().build(path)
+                        .withString(Extras.TITLE, "发票抬头")
+                        .withInt(Extras.TYPE, 1)
                         .navigation()
-            }else{
-                val bundle = Bundle()
-                bundle.putInt(Extras.DATA, local_sp ?: 0)
-                bundle.putInt(Extras.FLAG, Extras.ROUTH_FLAG)
-                ARouter.getInstance().build(path)
-                        .with(bundle)
-                        .navigation(activity!!, Extras.REQUESTCODE)
+                ARouterPath.ApproveListActivity -> ARouter.getInstance().build(path)
+                        .navigation()
+                else -> {
+                    val bundle = Bundle()
+                    bundle.putInt(Extras.DATA, local_sp ?: 0)
+                    bundle.putInt(Extras.FLAG, Extras.ROUTH_FLAG)
+                    ARouter.getInstance().build(path)
+                            .with(bundle)
+                            .navigation(activity!!, Extras.REQUESTCODE)
+                }
             }
         }
 
         loadHead()
         toolbar_back.setOnClickListener {
-            //UserActivity.start(context)
             val intent = Intent(context, UserActivity::class.java)
             startActivityForResult(intent, 0x789)
         }
@@ -234,7 +236,7 @@ class MainHomeFragment : BaseFragment() {
         val user = Store.store.getUser(baseActivity!!)
         var header = toolbar_back.getChildAt(0) as CircleImageView
         if (user?.url.isNullOrEmpty()) {
-            if (!user?.name.isNullOrEmpty()){
+            if (!user?.name.isNullOrEmpty()) {
                 val ch = user?.name?.first()
                 header.setChar(ch)
             }
@@ -248,7 +250,7 @@ class MainHomeFragment : BaseFragment() {
                         }
 
                         override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                            if (!user?.name.isNullOrEmpty()){
+                            if (!user?.name.isNullOrEmpty()) {
                                 val ch = user?.name?.first()
                                 header.setChar(ch)
                             }
@@ -380,13 +382,13 @@ class MainHomeFragment : BaseFragment() {
                         }
                     } else
                         showCustomToast(R.drawable.icon_toast_fail, payload.message)
-                    if (null != pb){
+                    if (null != pb) {
                         pb.visibility = View.GONE
                     }
                 }, { e ->
                     Trace.e(e)
                     ToastError(e)
-                    if (null != pb){
+                    if (null != pb) {
                         pb.visibility = View.GONE
                     }
                     if (adapter.datas.size == 0) {
@@ -411,7 +413,7 @@ class MainHomeFragment : BaseFragment() {
                         }
                     }
                 }, {
-                    if (null != pb){
+                    if (null != pb) {
                         pb.visibility = View.GONE
                     }
                     if (adapter.datas.size == 0) {

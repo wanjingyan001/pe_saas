@@ -1,5 +1,7 @@
 package com.sogukj.pe.ddshare
 
+import java.io.Serializable
+
 
 data class AccountToken(
 		var access_token: String,// 070c171a26d633d1b631dxxxxxxxx
@@ -15,7 +17,7 @@ data class AuthorizeCode(
 		var openid: String,// liSii8KCxxxxx
 		var persistent_code: String,// dsa-d-asdasdadHIBIinoninINIn-ssdasd
 		var unionid: String// 7Huu46kk
-)
+):Serializable
 
 
 data class AuthorizeReq(

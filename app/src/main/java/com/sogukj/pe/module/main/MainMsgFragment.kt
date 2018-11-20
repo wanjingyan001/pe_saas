@@ -48,10 +48,7 @@ import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.module.approve.ApproveListActivity
 import com.sogukj.pe.module.im.ImSearchResultActivity
 import com.sogukj.pe.module.im.TeamCreateActivity
-import com.sogukj.pe.module.im.msg_viewholder.ApproveAttachment
-import com.sogukj.pe.module.im.msg_viewholder.CustomAttachment
-import com.sogukj.pe.module.im.msg_viewholder.ProcessAttachment
-import com.sogukj.pe.module.im.msg_viewholder.SystemAttachment
+import com.sogukj.pe.module.im.msg_viewholder.*
 import com.sogukj.pe.module.other.GongGaoDetailActivity
 import com.sogukj.pe.module.other.MsgAssistantActivity
 import com.sogukj.pe.module.user.UserActivity
@@ -201,7 +198,7 @@ class MainMsgFragment : BaseFragment() {
                     tvTitle.text = titleName
                     topTag.setVisible(data.tag == RECENT_TAG_STICKY)
                     if (data.sessionType == SessionTypeEnum.P2P) {
-                        tvTitle.setDrawable(tvTitle,-1,activity!!.getDrawable(R.mipmap.ic_flag_qy))
+                        tvTitle.setDrawable(tvTitle, -1, activity!!.getDrawable(R.mipmap.ic_flag_qy))
                         val value = data.msgStatus.value
                         when (value) {
                             3 -> tvTitleMsg.text = Html.fromHtml("<font color='#a0a4aa'>[已读]</font>${data.content}")
@@ -221,6 +218,9 @@ class MainMsgFragment : BaseFragment() {
                                     }
                                     is ProcessAttachment -> {
                                         tvTitleMsg.text = attachment.bean.title
+                                    }
+                                    is PayPushAttachment -> {
+                                        tvTitleMsg.text = attachment.payPushBean.title
                                     }
                                 }
                             }
@@ -264,20 +264,20 @@ class MainMsgFragment : BaseFragment() {
                                 when (flag) {
                                     "0" -> {
                                         //全员
-                                        tvTitle.setDrawable(tvTitle,2,activity!!.getDrawable(R.mipmap.ic_flag_qy))
+                                        tvTitle.setDrawable(tvTitle, 2, activity!!.getDrawable(R.mipmap.ic_flag_qy))
                                     }
                                     "1" -> {
                                         //部门
-                                        tvTitle.setDrawable(tvTitle,2,activity!!.getDrawable(R.mipmap.ic_flag_bm))
+                                        tvTitle.setDrawable(tvTitle, 2, activity!!.getDrawable(R.mipmap.ic_flag_bm))
                                     }
                                     else -> {
                                         //内部
-                                        tvTitle.setDrawable(tvTitle,2,activity!!.getDrawable(R.mipmap.ic_flag_nb))
+                                        tvTitle.setDrawable(tvTitle, 2, activity!!.getDrawable(R.mipmap.ic_flag_nb))
                                     }
                                 }
                             } else {
                                 //内部
-                                tvTitle.setDrawable(tvTitle,2,activity!!.getDrawable(R.mipmap.ic_flag_nb))
+                                tvTitle.setDrawable(tvTitle, 2, activity!!.getDrawable(R.mipmap.ic_flag_nb))
                             }
                         }
                     }
@@ -588,22 +588,22 @@ class MainMsgFragment : BaseFragment() {
             }
             cacheMessages.clear()
             if (adapter.dataList.size > 1) {
-                Collections.sort(adapter.dataList) { o1, o2 ->
+                adapter.dataList.sortWith(Comparator { o1, o2 ->
                     if (o1.contactId == "58d0c67d134fbc6c" || o1.contactId == "50a0500b1773be39") {
-                        return@sort -1
+                        return@Comparator -1
                     }
                     if (o2.contactId == "58d0c67d134fbc6c" || o2.contactId == "50a0500b1773be39") {
-                        return@sort 1
+                        return@Comparator 1
                     }
                     if (o1.contactId == "58d0c67d134fbc6c" && o2.contactId == "50a0500b1773be39") {
-                        return@sort -1
+                        return@Comparator -1
                     }
                     if (o2.contactId == "58d0c67d134fbc6c" && o1.contactId == "50a0500b1773be39") {
-                        return@sort 1
+                        return@Comparator 1
                     }
                     val time = o1.time - o2.time
-                    return@sort if (time == 0L) 0 else if (time > 0) -1 else 1
-                }
+                    return@Comparator if (time == 0L) 0 else if (time > 0) -1 else 1
+                })
             }
             adapter.dataList.distinct()
             adapter.notifyDataSetChanged()

@@ -11,14 +11,12 @@ import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
-import com.sogukj.pe.baselibrary.Extended.execute
-import com.sogukj.pe.baselibrary.Extended.setOnClickFastListener
-import com.sogukj.pe.baselibrary.Extended.setVisible
+import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
@@ -31,6 +29,7 @@ import kotlinx.android.synthetic.main.activity_member_select.*
 import kotlinx.coroutines.experimental.runBlocking
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.find
+import org.jetbrains.anko.info
 
 class MemberSelectActivity : ToolbarActivity() {
     /**
@@ -78,11 +77,11 @@ class MemberSelectActivity : ToolbarActivity() {
     }
 
     private fun getDataFromIntent() {
-        val list = intent.getSerializableExtra(Extras.LIST) as? ArrayList<UserBean>
-        alreadySelected = list?.toMutableSet() ?: ArrayList<UserBean>().toMutableSet()
+        val list = intent.getSerializableExtra(Extras.LIST) as ArrayList<UserBean?>
+        alreadySelected = list.filter { it != null }.toMutableSet() as MutableSet<UserBean>
         isSingle = intent.getBooleanExtra(Extras.FLAG, false)
         isAdmin = intent.getBooleanExtra(Extras.FLAG2, false)
-        if (alreadySelected.any { it.user_id != null }) {
+        if (alreadySelected.any { it?.user_id != null }) {
             selectNumber.text = "已选择: ${alreadySelected.size} 人"
         }
         title = if (isSingle){
@@ -150,11 +149,13 @@ class MemberSelectActivity : ToolbarActivity() {
             }
             data?.let {
                 memberAdapter.refreshData(it)
-                it.forEach { user ->
-                    val find = alreadySelected.find { it.user_id == user.user_id }
-                    if (find != null) {
-                        alreadySelected.remove(find)
-                        alreadySelected.add(user)
+                (::alreadySelected.isLateinit &&  alreadySelected.isNotEmpty()).yes {
+                    it.forEach { user ->
+                        val find = alreadySelected.find { it.user_id == user.user_id }
+                        if (find != null) {
+                            alreadySelected.remove(find)
+                            alreadySelected.add(user)
+                        }
                     }
                 }
             }

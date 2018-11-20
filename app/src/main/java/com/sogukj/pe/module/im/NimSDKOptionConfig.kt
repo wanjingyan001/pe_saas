@@ -6,6 +6,7 @@ import android.os.Environment
 import com.netease.nimlib.sdk.SDKOptions
 import com.netease.nimlib.sdk.StatusBarNotificationConfig
 import com.netease.nimlib.sdk.mixpush.MixPushConfig
+import com.sogukj.pe.BuildConfig
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.module.main.MainActivity
@@ -42,7 +43,7 @@ class NimSDKOptionConfig {
             // 是否是弱IM场景
             options.reducedIM = false
             // 是否检查manifest 配置，调试阶段打开，调试通过之后请关掉
-            options.checkManifestConfig = true
+            options.checkManifestConfig = BuildConfig.DEBUG
             // 是否启用群消息已读功能，默认关闭
             options.enableTeamMsgAck = true
             // 在线多端同步未读数
@@ -54,8 +55,8 @@ class NimSDKOptionConfig {
         private fun loadStatusBarNotificationConfig(): StatusBarNotificationConfig {
             val config = StatusBarNotificationConfig()
             config.notificationEntrance = MainActivity::class.java
-            config.notificationSmallIconId = R.mipmap.ic_launcher
-            config.notificationColor = Color.parseColor("#5785f3")
+            config.notificationSmallIconId = R.drawable.ic_launcher_small
+//            config.notificationColor = Color.parseColor("#5785f3")
             config.notificationFolded = true
             // 呼吸灯配置
             config.ledARGB = Color.GREEN

@@ -8,6 +8,7 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.view.View
+import com.amap.api.mapcore.util.it
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
@@ -31,10 +32,7 @@ import com.sogukj.pe.bean.*
 import com.sogukj.pe.module.approve.*
 import com.sogukj.pe.module.calendar.ModifyTaskActivity
 import com.sogukj.pe.module.calendar.TaskDetailActivity
-import com.sogukj.pe.module.im.msg_viewholder.ApproveAttachment
-import com.sogukj.pe.module.im.msg_viewholder.CustomAttachment
-import com.sogukj.pe.module.im.msg_viewholder.ProcessAttachment
-import com.sogukj.pe.module.im.msg_viewholder.SystemAttachment
+import com.sogukj.pe.module.im.msg_viewholder.*
 import com.sogukj.pe.module.project.originpro.OtherProjectShowActivity
 import com.sogukj.pe.module.project.originpro.ProjectApprovalShowActivity
 import com.sogukj.pe.module.project.originpro.ProjectUploadShowActivity
@@ -189,10 +187,10 @@ class MsgAssistantActivity : BaseRefreshActivity() {
                             (it.isNotEmpty() && page == 1).yes {
                                 msgAdapter.data.clear()
                             }
-                            it.filter { it.attachment != null }.forEach {
-                                info { it.jsonStr }
-                                immsgList.add(it)
-                                val attachment = it.attachment as CustomAttachment
+                            it.filter { it.attachment != null }.forEachIndexed { index, imMessage ->
+                                info { "第$page 页, 第$index 条==>${imMessage.jsonStr}" }
+                                immsgList.add(imMessage)
+                                val attachment = imMessage.attachment as CustomAttachment
                                 when (attachment) {
                                     is ApproveAttachment -> {
                                         msgAdapter.data.add(attachment.messageBean)
@@ -202,6 +200,9 @@ class MsgAssistantActivity : BaseRefreshActivity() {
                                     }
                                     is ProcessAttachment -> {
                                         msgAdapter.data.add(attachment.bean)
+                                    }
+                                    is PayPushAttachment -> {
+                                        msgAdapter.data.add(attachment.payPushBean)
                                     }
                                 }
                             }
@@ -215,15 +216,14 @@ class MsgAssistantActivity : BaseRefreshActivity() {
     private var anchor: IMMessage? = null
     private fun anchor(): IMMessage {
 //        return anchor ?: MessageBuilder.createEmptyMessage(account, SessionTypeEnum.P2P, 0)
-        immsgList.isEmpty().yes {
-            return anchor ?: MessageBuilder.createEmptyMessage(account, SessionTypeEnum.P2P, 0)
+        (page == 1).yes {
+            return MessageBuilder.createEmptyMessage(account, SessionTypeEnum.P2P, 0)
         }.otherWise {
-            val index = (page == 1).yes {
-                0
+            immsgList.isEmpty().yes {
+                return anchor ?: MessageBuilder.createEmptyMessage(account, SessionTypeEnum.P2P, 0)
             }.otherWise {
-                immsgList.size - 1
+                return immsgList[immsgList.size - 1]
             }
-            return immsgList[index]
         }
     }
 
@@ -265,7 +265,30 @@ class MsgAssistantActivity : BaseRefreshActivity() {
                     helper.setText(R.id.msgTime, Utils.formatDingDate(Utils.getTime(System.currentTimeMillis(), "yyyy-MM-dd HH:mm")))
                 }
                 2 -> {
-
+                    item as PayHistory
+                    when (item.type) {
+                        402 -> {
+                            helper.setImageResource(R.id.payHistoryBg, R.mipmap.bg_znws_pay_history)
+                            helper.setImageResource(R.id.payTypeIcon, R.mipmap.icon_msg_assis_znws)
+                        }
+                        403 -> {
+                            helper.setImageResource(R.id.payHistoryBg, R.mipmap.bg_zx_pay_history)
+                            helper.setImageResource(R.id.payTypeIcon, R.mipmap.icon_msg_assis_zx)
+                        }
+                        404 -> {
+                            helper.setImageResource(R.id.payHistoryBg, R.mipmap.bg_yqjk_pay_history)
+                            helper.setImageResource(R.id.payTypeIcon, R.mipmap.icon_msg_assis_yqjk)
+                        }
+                    }
+                    helper.setText(R.id.title,item.title)
+                    helper.setText(R.id.msgTime, item.time)
+                    helper.setText(R.id.payTypeTitle, item.content)
+                    helper.setText(R.id.payTypeUnitPrice, item.unit_price)
+                    helper.setText(R.id.payTypeNum, "x${item.order_count}")
+                    helper.setText(R.id.payUserName, "购买人：${item.pay_userNmae}")
+                    helper.setText(R.id.payOrderNum, "订单编号：${item.order_str}")
+                    helper.setText(R.id.payTotalPrice, item.money)
+                    helper.setText(R.id.msgTime, Utils.formatDingDate(Utils.getTime(System.currentTimeMillis(), "yyyy-MM-dd HH:mm")))
                 }
                 3 -> {
 

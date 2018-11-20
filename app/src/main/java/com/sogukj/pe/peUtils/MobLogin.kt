@@ -97,9 +97,6 @@ class MobLogin {
             } else {
                 ToastUtil.showCustomToast(R.drawable.icon_toast_fail, "请先安装最新版的钉钉", context)
             }
-
         }
-
-
     }
 }

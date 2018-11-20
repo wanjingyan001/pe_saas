@@ -10,6 +10,7 @@
  */
 package com.sogukj.pe.ddshare
 
+import com.sogukj.pe.Consts
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -34,6 +35,7 @@ class DDApi {
                     .build()
             val retrofit = Retrofit.Builder()
                     .baseUrl("https://oapi.dingtalk.com/")
+//                    .baseUrl(Consts.DEV_HTTP_HOST)
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(client)

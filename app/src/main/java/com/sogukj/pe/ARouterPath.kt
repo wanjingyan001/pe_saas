@@ -8,7 +8,7 @@ object ARouterPath {
     const val StoreProjectAddActivity: String = "/project/cbxx"
     //   投决数据
     const val InvestSuggestActivity: String = "/project/tjsj"
-    //投后管理
+    //投决方案
     const val ManageDataActivity: String = "/project/thgl"
     //项目文书
     const val ProjectBookActivity: String = "/main/bookList/project"
