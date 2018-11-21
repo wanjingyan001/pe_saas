@@ -1,11 +1,10 @@
-<resources xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingTranslation">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!--<string name="app_name">Pe_saas</string>-->
     <!--<string name="app_name">海通创新</string>-->
     <string name="get_code">点击获取</string>
     <string name="get_code_disable">剩余%s秒</string>
     <string name="tv_update_time">更新时间:%s</string>
-    <string name="tv_project_cangu_relation" formatted="false" >参股关系：&lt;font color="#666666"> %s &lt;/font></string>
+    <string name="tv_project_cangu_relation" formatted="false">参股关系：&lt;font color="#666666"> %s &lt;/font></string>
     <string name="tv_project_cangu_percent" formatted="false">参股比例(%%)：&lt;font color="#666666"> %s &lt;/font></string>
     <string name="tv_project_cangu_touzijine" formatted="false">投资金额(万元)：&lt;font color="#666666"> %s &lt;/font></string>
     <string name="tv_project_cangu_jinlirun" formatted="false">被参股公司净利润(元)：&lt;font color="#666666"> %s &lt;/font></string>

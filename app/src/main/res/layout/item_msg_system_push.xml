@@ -12,10 +12,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:paddingBottom="3dp"
-        android:paddingEnd="6dp"
         android:paddingLeft="6dp"
         android:paddingTop="3dp"
+        android:paddingEnd="6dp"
+        android:paddingBottom="3dp"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_13"
         app:corners_radius="4dp"
@@ -44,13 +44,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/header"
         app:layout_constraintTop_toTopOf="@+id/header">
+
         <TextView
             android:id="@+id/pushMsgTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="24dp"
             android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
             android:ellipsize="end"
             android:singleLine="true"
             android:textColor="@color/text_1"
@@ -78,13 +79,33 @@
             android:id="@+id/schedule"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
             android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             android:textColor="#50D59D"
             android:textSize="@dimen/text_size_samll"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/sponsor"
             app:layout_constraintTop_toBottomOf="@+id/sponsor" />
+
+        <TextView
+            android:id="@+id/expedited"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="50dp"
+            android:drawableStart="@mipmap/icon_expedited"
+            android:drawablePadding="4dp"
+            android:paddingLeft="5dp"
+            android:paddingTop="2dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="2dp"
+            android:text="加急X1"
+            android:textSize="8sp"
+            app:corners_radius="2dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/schedule"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/schedule"
+            app:solid_color="#FF5858" />
     </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

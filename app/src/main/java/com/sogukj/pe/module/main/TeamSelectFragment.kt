@@ -1,6 +1,7 @@
 package com.sogukj.pe.module.main
 
 import android.annotation.SuppressLint
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -32,10 +33,7 @@ import com.netease.nimlib.sdk.team.TeamService
 import com.netease.nimlib.sdk.team.model.Team
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
-import com.sogukj.pe.baselibrary.Extended.fromJson
-import com.sogukj.pe.baselibrary.Extended.setVisible
-import com.sogukj.pe.baselibrary.Extended.textStr
+import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.BaseFragment
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -46,6 +44,7 @@ import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.module.im.ImSearchResultActivity
 import com.sogukj.pe.module.im.PersonalInfoActivity
 import com.sogukj.pe.module.im.TeamCreateActivity
+import com.sogukj.pe.module.main.viewModel.TeamGroupModel
 import com.sogukj.pe.module.user.UserActivity
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.MyGlideUrl
@@ -98,7 +97,7 @@ class TeamSelectFragment : BaseFragment() {
         var header = toolbar_back.getChildAt(0) as CircleImageView
         val user = Store.store.getUser(baseActivity!!)
         if (user?.url.isNullOrEmpty()) {
-            if (!user?.name.isNullOrEmpty()){
+            if (!user?.name.isNullOrEmpty()) {
                 val ch = user?.name?.first()
                 header.setChar(ch)
             }
@@ -113,7 +112,7 @@ class TeamSelectFragment : BaseFragment() {
                         }
 
                         override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                            if (!user?.name.isNullOrEmpty()){
+                            if (!user?.name.isNullOrEmpty()) {
                                 val ch = user?.name?.first()
                                 header.setChar(ch)
                             }
@@ -136,7 +135,6 @@ class TeamSelectFragment : BaseFragment() {
         mine = Store.store.getUser(ctx)
         initSearchView()
         initResultList()
-        initGroupDiscuss()
         initOrganizationList()
         //initContactList()
         doRequest()
@@ -212,15 +210,14 @@ class TeamSelectFragment : BaseFragment() {
         if (isSelectUser) {
             team_toolbar_title.text = "创建群组"
             groupDiscuss1.visibility = View.GONE
-            groupDiscuss.visibility = View.GONE
+            IMTeamGroupLayout.visibility = View.GONE
             contactLayout1.visibility = View.VISIBLE
             contactLayout.visibility = View.VISIBLE
-            initGroupDiscuss()
             confirmSelectLayout.visibility = View.VISIBLE
         } else {
             team_toolbar_title.text = "通讯录"
             groupDiscuss1.visibility = View.VISIBLE
-            groupDiscuss.visibility = View.VISIBLE
+            IMTeamGroupLayout.visibility = View.VISIBLE
             contactLayout1.visibility = View.VISIBLE
             contactLayout.visibility = View.VISIBLE
             initContactList()
@@ -235,14 +232,9 @@ class TeamSelectFragment : BaseFragment() {
 
         toolbar_menu.setOnClickListener {
             search_edt.clearFocus()
-//            TeamSelectActivity.start(context, isSelectUser = true, isCreateTeam = true)
             val alreadySelect = ArrayList<UserBean>()
             alreadySelect.add(Store.store.getUser(ctx)!!)
             startActivity<TeamCreateActivity>(Extras.FLAG to true, Extras.DATA to alreadySelect)
-//            ContactsActivity.start(ctx, alreadySelect, true, true)
-//            isSelectUser = !isSelectUser
-//
-//            loadByIsSelectUser()
         }
     }
 
@@ -323,34 +315,28 @@ class TeamSelectFragment : BaseFragment() {
 
     private fun initGroupDiscuss() {
         //groupDiscuss
-        NIMClient.getService(TeamService::class.java).queryTeamList().setCallback(object : RequestCallback<List<Team>> {
-            override fun onSuccess(param: List<Team>?) {
-                var parents = ArrayList<String>(Arrays.asList("群聊", "项目讨论组"))
-                var ql = ArrayList<Team>()
-                var tlz = ArrayList<Team>()
-                param?.let {
-                    it.forEach { team ->
-                        if (team.isMyTeam) {
-                            val bean = Gson().fromJson(team.extension, TeamBean::class.java)
-                            if (bean != null) {
-                                tlz.add(team)
-                            } else {
-                                ql.add(team)
-                            }
-                        }
+        val model = ViewModelProviders.of(this).get(TeamGroupModel::class.java)
+        model.requestTeamGroupData()
+        model.teamGroup.observe(this, android.arch.lifecycle.Observer { teams ->
+            teams?.let {
+                TeamGroupName.text = "群聊（${it.size}）"
+                it.isNotEmpty().yes {
+                    TeamGroupLayout.clickWithTrigger {
+                        startActivity<IMTeamGroupActivity>(Extras.TITLE to "群聊",
+                                Extras.TYPE to 1)
                     }
                 }
-                var chids = ArrayList<List<Team>>()
-                chids.add(ql)
-                chids.add(tlz)
-                var mDisAdapter = DiscussAdapter(parents, chids)
-                groupDiscuss.setAdapter(mDisAdapter)
             }
-
-            override fun onFailed(code: Int) {
-            }
-
-            override fun onException(exception: Throwable?) {
+        })
+        model.discussionGroup.observe(this, android.arch.lifecycle.Observer { teams ->
+            teams?.let {
+                ProjectGroupName.text = "项目讨论组（${it.size}）"
+                it.isNotEmpty().yes {
+                    ProjectGroupLayout.clickWithTrigger {
+                        startActivity<IMTeamGroupActivity>(Extras.TITLE to "项目讨论组",
+                                Extras.TYPE to 2)
+                    }
+                }
             }
         })
     }
@@ -447,94 +433,97 @@ class TeamSelectFragment : BaseFragment() {
         }
     }
 
-    internal inner class DiscussAdapter(val parents: List<String>, val childs: ArrayList<List<Team>>) : BaseExpandableListAdapter() {
-
-        override fun getGroupCount(): Int = parents.size
-
-        override fun getChildrenCount(groupPosition: Int): Int {
-            return childs[groupPosition].size
-        }
-
-        override fun getGroup(groupPosition: Int): Any = parents[groupPosition]
-
-        override fun getChild(groupPosition: Int, childPosition: Int): Any? {
-            return childs[groupPosition][childPosition]
-        }
-
-        override fun getGroupId(groupPosition: Int): Long = groupPosition.toLong()
-
-        override fun getChildId(groupPosition: Int, childPosition: Int): Long =
-                childPosition.toLong()
-
-        override fun hasStableIds(): Boolean = true
-
-        override fun getGroupView(groupPosition: Int, isExpanded: Boolean, convertView: View?, parent: ViewGroup): View {
-            var convertView = convertView
-            val holder: ParentHolder
-            if (convertView == null) {
-                convertView = LayoutInflater.from(context).inflate(R.layout.item_team_organization_parent, null)
-                holder = ParentHolder(convertView)
-                convertView!!.tag = holder
-            } else {
-                holder = convertView.tag as ParentHolder
-            }
-            val title = parents[groupPosition]
-            holder.departmentName.text = "$title (${childs[groupPosition].size})"
-            holder.departTeam.setVisible(false)
-            holder.indicator.isSelected = isExpanded
-            return convertView
-        }
-
-        override fun getChildView(groupPosition: Int, childPosition: Int, isLastChild: Boolean, convertView: View?, parent: ViewGroup): View {
-            var convertView = convertView
-            val holder: ChildHolder
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_team_organization_chlid_2, null)
-            holder = ChildHolder(convertView)
-            convertView!!.tag = holder
-            childs[groupPosition].let {
-                val team = it[childPosition]
-                holder.userName.text = team.name
-                holder.selectIcon.visibility = View.GONE
-                if (team.icon.isNotEmpty()) {
-                    Glide.with(ctx)
-                            .load(MyGlideUrl(team.icon))
-                            .apply(RequestOptions().error(R.drawable.im_team_default).diskCacheStrategy(DiskCacheStrategy.ALL))
-                            .into(holder.userImg)
-                } else {
-                    holder.userImg.imageResource = R.drawable.im_team_default
-                }
-                holder.itemView.setOnClickListener {
-                    search_edt.clearFocus()
-                    NimUIKit.startTeamSession(context, team.id)
-                }
-            }
-            return convertView
-        }
-
-        override fun isChildSelectable(groupPosition: Int, childPosition: Int): Boolean = true
-
-        internal inner class ParentHolder(view: View) {
-            val indicator: ImageView = view.find(R.id.indicator)
-            val departmentName: TextView = view.find(R.id.departmentName)
-            val departTeam: TextView = view.find(R.id.departTeam)
-        }
-
-        internal inner class ChildHolder(view: View) {
-            val selectIcon: ImageView
-            val userImg: CircleImageView
-            val userName: TextView
-            val userPosition: TextView
-            val itemView: View
-
-            init {
-                selectIcon = view.find(R.id.selectIcon)
-                userImg = view.find(R.id.userHeadImg)
-                userName = view.find(R.id.userName)
-                userPosition = view.find(R.id.userPosition)
-                itemView = view
-            }
-        }
-    }
+    /**
+     * 不再使用展开列表的形式,会有卡顿
+     */
+//    internal inner class DiscussAdapter(val parents: List<String>, val childs: ArrayList<List<Team>>) : BaseExpandableListAdapter() {
+//
+//        override fun getGroupCount(): Int = parents.size
+//
+//        override fun getChildrenCount(groupPosition: Int): Int {
+//            return childs[groupPosition].size
+//        }
+//
+//        override fun getGroup(groupPosition: Int): Any = parents[groupPosition]
+//
+//        override fun getChild(groupPosition: Int, childPosition: Int): Any? {
+//            return childs[groupPosition][childPosition]
+//        }
+//
+//        override fun getGroupId(groupPosition: Int): Long = groupPosition.toLong()
+//
+//        override fun getChildId(groupPosition: Int, childPosition: Int): Long =
+//                childPosition.toLong()
+//
+//        override fun hasStableIds(): Boolean = true
+//
+//        override fun getGroupView(groupPosition: Int, isExpanded: Boolean, convertView: View?, parent: ViewGroup): View {
+//            var convertView = convertView
+//            val holder: ParentHolder
+//            if (convertView == null) {
+//                convertView = LayoutInflater.from(context).inflate(R.layout.item_team_organization_parent, null)
+//                holder = ParentHolder(convertView)
+//                convertView!!.tag = holder
+//            } else {
+//                holder = convertView.tag as ParentHolder
+//            }
+//            val title = parents[groupPosition]
+//            holder.departmentName.text = "$title (${childs[groupPosition].size})"
+//            holder.departTeam.setVisible(false)
+//            holder.indicator.isSelected = isExpanded
+//            return convertView
+//        }
+//
+//        override fun getChildView(groupPosition: Int, childPosition: Int, isLastChild: Boolean, convertView: View?, parent: ViewGroup): View {
+//            var convertView = convertView
+//            val holder: ChildHolder
+//            convertView = LayoutInflater.from(context).inflate(R.layout.item_team_organization_chlid_2, null)
+//            holder = ChildHolder(convertView)
+//            convertView!!.tag = holder
+//            childs[groupPosition].let {
+//                val team = it[childPosition]
+//                holder.userName.text = team.name
+//                holder.selectIcon.visibility = View.GONE
+//                if (team.icon.isNotEmpty()) {
+//                    Glide.with(ctx)
+//                            .load(MyGlideUrl(team.icon))
+//                            .apply(RequestOptions().error(R.drawable.im_team_default).diskCacheStrategy(DiskCacheStrategy.ALL))
+//                            .into(holder.userImg)
+//                } else {
+//                    holder.userImg.imageResource = R.drawable.im_team_default
+//                }
+//                holder.itemView.setOnClickListener {
+//                    search_edt.clearFocus()
+//                    NimUIKit.startTeamSession(context, team.id)
+//                }
+//            }
+//            return convertView
+//        }
+//
+//        override fun isChildSelectable(groupPosition: Int, childPosition: Int): Boolean = true
+//
+//        internal inner class ParentHolder(view: View) {
+//            val indicator: ImageView = view.find(R.id.indicator)
+//            val departmentName: TextView = view.find(R.id.departmentName)
+//            val departTeam: TextView = view.find(R.id.departTeam)
+//        }
+//
+//        internal inner class ChildHolder(view: View) {
+//            val selectIcon: ImageView
+//            val userImg: CircleImageView
+//            val userName: TextView
+//            val userPosition: TextView
+//            val itemView: View
+//
+//            init {
+//                selectIcon = view.find(R.id.selectIcon)
+//                userImg = view.find(R.id.userHeadImg)
+//                userName = view.find(R.id.userName)
+//                userPosition = view.find(R.id.userPosition)
+//                itemView = view
+//            }
+//        }
+//    }
 
     internal inner class OrganizationAdapter(private val parents: List<DepartmentBean>) : BaseExpandableListAdapter() {
 

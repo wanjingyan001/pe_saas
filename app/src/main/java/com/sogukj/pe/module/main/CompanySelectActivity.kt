@@ -58,7 +58,7 @@ class CompanySelectActivity : BaseRefreshActivity() {
         toolbar_menu.visibility = View.INVISIBLE
         search_bar.setCancel(false, {})
         (search_bar.tv_cancel.parent as LinearLayout).backgroundColor = Color.parseColor("#ffffff")
-        adapter = RecyclerAdapter(this, { _adapter, parent, type ->
+        adapter = RecyclerAdapter(this) { _adapter, parent, type ->
             val convertView = _adapter.getView(R.layout.item_main_project_search, parent)
             object : RecyclerHolder<Any>(convertView) {
                 val tv1 = convertView.findViewById<TextView>(R.id.tv1) as TextView
@@ -73,7 +73,7 @@ class CompanySelectActivity : BaseRefreshActivity() {
                     }
                 }
             }
-        })
+        }
         val layoutManager = LinearLayoutManager(this)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         recycler_view.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
@@ -97,6 +97,7 @@ class CompanySelectActivity : BaseRefreshActivity() {
                     }
                     BookListActivity.start(this,bean.id,2,null,"基金文书",bean.fundName,stage)
                 }else{
+
                     ARouter.getInstance().build(routerPath)
                             .withSerializable(Extras.DATA, bean)
                             .navigation()
@@ -143,9 +144,21 @@ class CompanySelectActivity : BaseRefreshActivity() {
                                 }
                                 BookListActivity.start(context, it[0].company_id!!, 1, null, "项目文书", it[0].name!!, stage)
                             }else{
-                                ARouter.getInstance().build(routerPath)
-                                        .withSerializable(Extras.DATA, it[0])
-                                        .navigation()
+                                when(routerPath){
+                                    ARouterPath.ManagerActivity ->{
+                                        ARouter.getInstance().build(routerPath)
+                                                .withInt(Extras.TYPE,8)
+                                                .withString(Extras.TITLE,"投决数据")
+                                                .withSerializable(Extras.DATA, it[0])
+                                                .navigation()
+                                    }
+                                    else ->{
+                                        ARouter.getInstance().build(routerPath)
+                                                .withSerializable(Extras.DATA, it[0])
+                                                .navigation()
+                                    }
+                                }
+
                             }
                         }
 

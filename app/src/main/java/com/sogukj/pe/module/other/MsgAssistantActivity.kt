@@ -8,6 +8,7 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.view.View
+import android.widget.TextView
 import com.amap.api.mapcore.util.it
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -263,6 +264,7 @@ class MsgAssistantActivity : BaseRefreshActivity() {
                                 "${item.subName}的${item.title}${timeForShow.isEmpty().yes { "" }.otherWise { " ，已等待$timeForShow" }}；\n在手机或电脑上快速处理审批！")
                     }
                     helper.setText(R.id.msgTime, Utils.formatDingDate(Utils.getTime(System.currentTimeMillis(), "yyyy-MM-dd HH:mm")))
+                    helper.getView<TextView>(R.id.expedited).setVisible(item.type ==301)
                 }
                 2 -> {
                     item as PayHistory
@@ -270,24 +272,37 @@ class MsgAssistantActivity : BaseRefreshActivity() {
                         402 -> {
                             helper.setImageResource(R.id.payHistoryBg, R.mipmap.bg_znws_pay_history)
                             helper.setImageResource(R.id.payTypeIcon, R.mipmap.icon_msg_assis_znws)
+                            helper.setBackgroundColor(R.id.line1, Color.parseColor("#D1F6FF"))
                         }
                         403 -> {
                             helper.setImageResource(R.id.payHistoryBg, R.mipmap.bg_zx_pay_history)
                             helper.setImageResource(R.id.payTypeIcon, R.mipmap.icon_msg_assis_zx)
+                            helper.setBackgroundColor(R.id.line1, Color.parseColor("#B8DCFF"))
                         }
                         404 -> {
                             helper.setImageResource(R.id.payHistoryBg, R.mipmap.bg_yqjk_pay_history)
                             helper.setImageResource(R.id.payTypeIcon, R.mipmap.icon_msg_assis_yqjk)
+                            helper.setBackgroundColor(R.id.line1, Color.parseColor("#FFE7E7"))
+                        }
+                        405 -> {
+                            helper.setImageResource(R.id.payHistoryBg, R.mipmap.bg_yqtc_pay_history)
+                            helper.setImageResource(R.id.payTypeIcon, R.mipmap.icon_msg_assis_yqtc)
+                            helper.setBackgroundColor(R.id.line1, Color.parseColor("#CBD5FF"))
+                        }
+                        406 -> {
+                            helper.setImageResource(R.id.payHistoryBg, R.mipmap.bg_qbcz_pay_history)
+                            helper.setImageResource(R.id.payTypeIcon, R.mipmap.icon_msg_assis_qbcz)
+                            helper.setBackgroundColor(R.id.line1, Color.parseColor("#FFE6A3"))
                         }
                     }
-                    helper.setText(R.id.title,item.title)
+                    helper.setText(R.id.title, item.title)
                     helper.setText(R.id.msgTime, item.time)
                     helper.setText(R.id.payTypeTitle, item.content)
-                    helper.setText(R.id.payTypeUnitPrice, item.unit_price)
+                    helper.setText(R.id.payTypeUnitPrice, "￥${item.unit_price}")
                     helper.setText(R.id.payTypeNum, "x${item.order_count}")
                     helper.setText(R.id.payUserName, "购买人：${item.pay_userNmae}")
                     helper.setText(R.id.payOrderNum, "订单编号：${item.order_str}")
-                    helper.setText(R.id.payTotalPrice, item.money)
+                    helper.setText(R.id.payTotalPrice, "￥${item.money}")
                     helper.setText(R.id.msgTime, Utils.formatDingDate(Utils.getTime(System.currentTimeMillis(), "yyyy-MM-dd HH:mm")))
                 }
                 3 -> {
@@ -296,10 +311,18 @@ class MsgAssistantActivity : BaseRefreshActivity() {
                 4 -> {
                     item as SystemPushBean
                     helper.setText(R.id.pushMsgTitle, item.title)
-                    helper.setText(R.id.sponsor, "发起人：${item.name}")
-                    helper.setText(R.id.schedule, Utils.formatDingDate(Utils.getTime(item.pushTime.toLong(), "yyyy-MM-dd HH:mm")))
-                    helper.setTextColor(R.id.schedule, resources.getColor(R.color.text_1))
-                    helper.setText(R.id.msgTime, Utils.formatDingDate(Utils.getTime(System.currentTimeMillis(), "yyyy-MM-dd HH:mm")))
+                    if (item.type == 202 || item.type == 203) {
+                        helper.setText(R.id.sponsor, "发起人：${item.name}")
+                        item.satrtTime?.let {
+                            helper.setText(R.id.schedule, Utils.formatDingDate(Utils.getTime(it, "yyyy-MM-dd HH:mm")))
+                            helper.setTextColor(R.id.schedule, resources.getColor(R.color.text_1))
+                        }
+                    } else if (item.type == 205) {
+                        helper.setVisible(R.id.sponsor, false)
+
+                    }
+                    helper.setText(R.id.msgTime, Utils.formatDingDate(Utils.getTime(System.currentTimeMillis(), "yyyy-MM-dd  HH:mm")))
+
                 }
                 5 -> {
                     item as NewApprovePush
@@ -308,6 +331,7 @@ class MsgAssistantActivity : BaseRefreshActivity() {
                     helper.setText(R.id.pushMsgTitle, item.title)
                     helper.setText(R.id.sponsor, "发起人：${item.subName}")
                     helper.setText(R.id.schedule, "审批已完成")
+                    helper.getView<TextView>(R.id.expedited).setVisible(item.type ==301)
                 }
                 6 -> {
                     item as NewProjectProcess
@@ -319,6 +343,7 @@ class MsgAssistantActivity : BaseRefreshActivity() {
                                 "${item.subName}的${item.title}；\n在手机或电脑上快速处理审批！")
                     }
                     helper.setText(R.id.msgTime, Utils.formatDingDate(Utils.getTime(System.currentTimeMillis(), "yyyy-MM-dd HH:mm")))
+                    helper.getView<TextView>(R.id.expedited).setVisible(item.type ==301)
                 }
             }
         }

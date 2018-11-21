@@ -89,7 +89,7 @@ class LoginActivity : BaseActivity() {
         val extra = intent.getSerializableExtra(Extras.FLAG) as? StatusCode
         extra?.let {
             when (extra) {
-                StatusCode.KICKOUT, StatusCode.KICK_BY_OTHER_CLIENT -> showCustomToast(R.drawable.icon_toast_common, "您的帐号已在其他设备登陆，您已被迫下线")
+                StatusCode.KICKOUT, StatusCode.KICK_BY_OTHER_CLIENT -> showCustomToast(R.drawable.icon_toast_common, "您的帐号已在其他设备登录，您已被迫下线")
                 StatusCode.FORBIDDEN -> showCustomToast(R.drawable.icon_toast_common, "您的帐号已被禁止登录,请联系管理员")
             }
         }

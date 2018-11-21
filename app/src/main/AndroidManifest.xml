@@ -1113,10 +1113,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name=".module.project.archives.ManagerActivity" />
-        <activity android:name=".module.project.archives.ManagerDetailActivity"
+        <activity
+            android:name=".module.project.archives.ManagerDetailActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name=".module.project.DangerousActivity" />
         <activity android:name=".module.project.IncomeCurveActivity" />
 
@@ -1178,13 +1179,13 @@
             android:name=".ddshare.DDShareActivity"
             android:exported="true"
             android:launchMode="singleInstance"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.xuexuan.zxing.android.activity.CaptureActivity"
             android:screenOrientation="portrait"
@@ -1539,12 +1540,12 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
-
         <activity
             android:name=".module.receipt.BillHeadSearchActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysVisible" />
+        <activity android:name=".module.main.IMTeamGroupActivity"></activity>
     </application>
 
 </manifest>

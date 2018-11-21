@@ -2,14 +2,13 @@ package com.sogukj.pe.module.project.archives
 
 import android.app.Activity
 import android.content.Intent
-import android.databinding.DataBindingUtil.setContentView
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.TextView
-import anet.channel.util.Utils.context
-import com.amap.api.mapcore.util.it
+import com.alibaba.android.arouter.facade.annotation.Route
+import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
@@ -23,7 +22,7 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_manager.*
-
+@Route(path = ARouterPath.ManagerActivity)
 class ManagerActivity : ToolbarActivity() {
 
     companion object {
@@ -49,7 +48,7 @@ class ManagerActivity : ToolbarActivity() {
         bean = intent.getSerializableExtra(Extras.DATA) as ProjectBean
 
         kotlin.run {
-            mModuleAdapter = RecyclerAdapter<ManagerBean>(this, { _adapter, parent, type ->
+            mModuleAdapter = RecyclerAdapter<ManagerBean>(this) { _adapter, parent, type ->
                 val convertView = _adapter.getView(R.layout.item_manager_header, parent) as View
                 object : RecyclerHolder<ManagerBean>(convertView) {
                     val tvTitle = convertView.findViewById<TextView>(R.id.title) as TextView
@@ -57,7 +56,7 @@ class ManagerActivity : ToolbarActivity() {
                         tvTitle.text = data.moduleName
                     }
                 }
-            })
+            }
             val layoutManager1 = LinearLayoutManager(this)
             layoutManager1.orientation = LinearLayoutManager.VERTICAL
             moduleList.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))

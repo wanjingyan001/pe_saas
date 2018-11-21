@@ -8,13 +8,14 @@ import java.io.Serializable
  */
 data class SystemPushBean(
         var id: Int,// 8
-        var type: Int,// 202
+        var type: Int,//  201 任务或会议  202 日程   203 任务  204    用印审批   205 周报
         var title: String,// 好好好
         var name: String,// 黄成涛
         var week_id: String? = null,//
         var sub_uid: String? = null,//
         var postName: String? = null,
-        var pushTime: Int
+        var pushTime: Int?,
+        var satrtTime:Long?
 ) : Serializable, MultiItemEntity {
     override fun getItemType(): Int {
         return 4
@@ -75,8 +76,8 @@ data class PayHistory(
         var time: String,//支付时间
         var order_str: String,//订单号
         var type: Int,//401账号付费  402 智能文书  403 100个征信套餐  404 舆情监控额度 405 征信套餐和舆情套餐购买  406 钱包充值
-        var pay_userNmae: String,
-        var title: String
+        var pay_userNmae: String?,
+        var title: String?
 ) : Serializable, MultiItemEntity {
     override fun getItemType(): Int {
         return 2

@@ -82,7 +82,7 @@ class MainNewsFragment : BaseRefreshFragment() {
             baseActivity?.finish()
         }
         Utils.setUpIndicatorWidth(tabs, 70, 70, context)
-        adapter = RecyclerAdapter<NewsBean>(baseActivity!!, { _adapter, parent, type ->
+        adapter = RecyclerAdapter(baseActivity!!) { _adapter, parent, type ->
             val convertView = _adapter.getView(R.layout.item_main_news, parent)
             object : RecyclerHolder<NewsBean>(convertView) {
                 val tv_summary = convertView.findViewById<TextView>(R.id.tv_summary) as TextView
@@ -134,8 +134,8 @@ class MainNewsFragment : BaseRefreshFragment() {
                     data.setTags(baseActivity!!, tags)
                 }
             }
-        })
-        hisAdapter = RecyclerAdapter<String>(baseActivity!!, { _adapter, parent, type ->
+        }
+        hisAdapter = RecyclerAdapter<String>(baseActivity!!) { _adapter, parent, type ->
             val convertView = _adapter.getView(R.layout.item_project_search_item, parent)
             object : RecyclerHolder<String>(convertView) {
                 val tv1 = convertView.findViewById<TextView>(R.id.tv1) as TextView
@@ -149,7 +149,7 @@ class MainNewsFragment : BaseRefreshFragment() {
                     }
                 }
             }
-        })
+        }
         run {
             val layoutManager = LinearLayoutManager(baseActivity)
             recycler_his.addItemDecoration(DividerItemDecoration(baseActivity, DividerItemDecoration.VERTICAL))

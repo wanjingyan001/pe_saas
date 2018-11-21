@@ -6,9 +6,9 @@ package com.sogukj.pe
 object ARouterPath {
     //储备信息
     const val StoreProjectAddActivity: String = "/project/cbxx"
-    //   投决数据
-    const val InvestSuggestActivity: String = "/project/tjsj"
-    //投决方案
+    // 投决方案(原InvestSuggestActivity)
+    const val ManagerActivity: String = "/project/tjsj"
+    //投后跟进
     const val ManageDataActivity: String = "/project/thgl"
     //项目文书
     const val ProjectBookActivity: String = "/main/bookList/project"

@@ -240,13 +240,73 @@
 
                 </LinearLayout>
 
-                <com.netease.nim.uikit.business.team.activity.CustomExpandableListView
-                    android:id="@+id/groupDiscuss"
+                <!--<com.netease.nim.uikit.business.team.activity.CustomExpandableListView-->
+                    <!--android:id="@+id/groupDiscuss"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:background="@color/white"-->
+                    <!--android:divider="@null"-->
+                    <!--android:groupIndicator="@null" />-->
+
+                <LinearLayout
+                    android:id="@+id/IMTeamGroupLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:divider="@null"
-                    android:groupIndicator="@null" />
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:id="@+id/TeamGroupLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"
+                        android:background="@color/white"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/TeamGroupName"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="18dp"
+                            android:layout_marginStart="40dp"
+                            android:layout_marginTop="18dp"
+                            android:layout_weight="1"
+                            android:text="群聊（0）"
+                            android:textColor="@color/black" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="25dp"
+                            android:src="@drawable/ic_right"/>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/ProjectGroupLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"
+                        android:background="@color/white"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/ProjectGroupName"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="18dp"
+                            android:layout_marginStart="40dp"
+                            android:layout_marginTop="18dp"
+                            android:layout_weight="1"
+                            android:text="项目讨论组（0）"
+                            android:textColor="@color/black" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="25dp"
+                            android:src="@drawable/ic_right"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+
 
 
                 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

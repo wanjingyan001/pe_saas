@@ -97,6 +97,25 @@
             app:layout_constraintTop_toBottomOf="@+id/approvalImg" />
 
 
+        <TextView
+            android:id="@+id/expedited"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@mipmap/icon_expedited"
+            android:drawablePadding="4dp"
+            android:paddingLeft="5dp"
+            android:paddingTop="2dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="2dp"
+            android:text="加急X1"
+            android:textSize="8sp"
+            app:corners_radius="2dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/title"
+            app:layout_constraintEnd_toEndOf="@+id/approvalImg"
+            app:layout_constraintTop_toTopOf="@+id/title"
+            app:solid_color="#FF5858" />
+
     </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -22,7 +22,7 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_invest_suggest.*
-@Route(path = ARouterPath.InvestSuggestActivity)
+
 class InvestSuggestActivity : ToolbarActivity(), TextWatcher, View.OnClickListener {
     lateinit var project: ProjectBean
     val gson = Gson()
