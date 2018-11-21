@@ -77,6 +77,8 @@ class AccountBalanceActivity : BaseRefreshActivity(){
                             }else{
                                 showEmpty()
                             }
+                        }else{
+                            showErrorToast(payload.message)
                         }
                         dofinishRefresh()
                     }
@@ -85,6 +87,7 @@ class AccountBalanceActivity : BaseRefreshActivity(){
                         it.printStackTrace()
                         showEmpty()
                         dofinishRefresh()
+                        showErrorToast("获取数据失败")
                     }
                 }
     }

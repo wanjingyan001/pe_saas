@@ -2,14 +2,17 @@ package com.sogukj.pe.module.dataSource
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.support.v4.content.FileProvider
+import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
@@ -34,14 +37,18 @@ import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
 import com.sogukj.pe.baselibrary.utils.DownloadUtil
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.baselibrary.utils.XmlDb
 import com.sogukj.pe.bean.PayResultInfo
 import com.sogukj.pe.bean.PdfBook
+import com.sogukj.pe.bean.WxPayBean
 import com.sogukj.pe.module.receipt.AllPayCallBack
 import com.sogukj.pe.module.receipt.PayDialog
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.DataSourceService
 import com.sogukj.pe.widgets.indexbar.RecycleViewDivider
 import com.sogukj.service.SoguApi
+import com.tencent.mm.sdk.openapi.IWXAPI
+import com.tencent.mm.sdk.openapi.WXAPIFactory
 import kotlinx.android.synthetic.main.activity_prospectus_list.*
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.singleLine
@@ -52,6 +59,7 @@ import java.io.File
 class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
     companion object {
         val SDK_PAY_FLAG = 1001
+        val INTELLIGENT_ACTION = "intelligent_action"
         fun start(context: Context, @DocumentType type: Int, category: Int? = null) {
             val intent = Intent(context, DocumentsListActivity::class.java)
             intent.putExtra(Extras.TYPE, type)
@@ -68,6 +76,7 @@ class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
     private val downloaded = mutableSetOf<String>()//已下载文件的名称的缓存,用于处理下载按钮是否显示
     private var book : PdfBook ? = null
     private var dialog : Dialog? = null
+    private var api: IWXAPI? = null
     private var mHandler : Handler = @SuppressLint("HandlerLeak")
     object : Handler(){
         override fun handleMessage(msg: Message?) {
@@ -240,8 +249,29 @@ class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
             addItemDecoration(RecycleViewDivider(ctx, LinearLayoutManager.VERTICAL))
             adapter = listAdapter
         }
+        initWXAPI()
         setLoadding()
         getPdfList()
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, IntentFilter(INTELLIGENT_ACTION))
+    }
+
+    private val receiver : BroadcastReceiver = object : BroadcastReceiver(){
+        override fun onReceive(context: Context?, intent: Intent?) {
+            showSuccessToast("支付成功")
+            refreshIntelligentData()
+            if (null != dialog && dialog!!.isShowing){
+                dialog!!.dismiss()
+            }
+            PdfPreviewActivity.start(this@DocumentsListActivity,book!!, downloaded.contains(book!!.pdf_name))
+        }
+    }
+
+    private fun initWXAPI() {
+        if (null == api){
+            api = WXAPIFactory.createWXAPI(this, Extras.WEIXIN_APP_ID)
+            api!!.registerApp(Extras.WEIXIN_APP_ID)
+        }
     }
 
     override fun pay(order_type: Int, count: Int, pay_type: Int, fee: String, tv_per_balance: TextView, iv_pre_select: ImageView,
@@ -252,6 +282,8 @@ class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
     override fun payForOther(id:String,order_type: Int, count: Int, pay_type: Int, fee: String, tv_per_balance: TextView,
                      iv_pre_select: ImageView, tv_bus_balance: TextView, iv_bus_select: ImageView,
                              tv_per_title:TextView,tv_bus_title:TextView,dialog: Dialog,book:PdfBook?) {
+        this.dialog = dialog
+        this.book = book
         SoguApi.getStaticHttp(application)
                 .getAccountPayInfo(order_type,count,pay_type,fee,id, Store.store.getUser(this)!!.accid)
                 .execute {
@@ -270,6 +302,12 @@ class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
                                     sendToZfbRequest(payload.payload as String?,dialog,book!!)
                                 }else if (pay_type == 4){
                                     //微信
+                                    val orderInfo = payload.payload as String
+                                    if (null != orderInfo){
+                                        sendToWxRequest(orderInfo)
+                                    }else{
+                                        showErrorToast("获取订单失败")
+                                    }
                                 }
                             }
                         }else{
@@ -286,6 +324,43 @@ class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
                         }
                     }
                 }
+    }
+
+    private fun sendToWxRequest(orderInfo: String) {
+        val wxPayBean = Gson().fromJson<WxPayBean>(orderInfo, WxPayBean::class.java)
+        if (!inspectWx()) return
+        val req = com.tencent.mm.sdk.modelpay.PayReq()
+        req.appId = wxPayBean.appid
+        req.nonceStr = wxPayBean.noncestr
+        req.packageValue = "Sign=WXPay"
+        req.sign = wxPayBean.sign
+        req.partnerId = wxPayBean.partnerid
+        req.prepayId = wxPayBean.prepayid
+        req.timeStamp = wxPayBean.timestamp
+        //调起微信支付,如果b等于false说明订单中的参数或者签名错误
+        val b = api!!.sendReq(req)
+        if (!b) {
+            showErrorToast("订单生成错误")
+        }else{
+            XmlDb.open(this).set("invokeType",4)
+        }
+        Log.e("TAG", "sendReq返回值=" + b)
+    }
+
+    private fun inspectWx(): Boolean {
+        val sIsWXAppInstalledAndSupported = api!!.isWXAppInstalled() && api!!.isWXAppSupportAPI()
+        if (!sIsWXAppInstalledAndSupported) {
+            showCommonToast("您未安装微信")
+            return false
+        } else {
+            val isPaySupported = api!!.getWXAppSupportAPI() >= com.tencent.mm.sdk.constants.Build.PAY_SUPPORTED_SDK_INT
+            if (isPaySupported) {
+                return true
+            } else {
+                showCommonToast("您微信版本过低，不支持支付。")
+                return false
+            }
+        }
     }
 
     /**
@@ -441,6 +516,15 @@ class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
     fun goneLoadding() {
         if (null != view_recover) {
             view_recover.visibility = View.INVISIBLE
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        try {
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver)
+        }catch (e : Exception){
+            e.printStackTrace()
         }
     }
 }

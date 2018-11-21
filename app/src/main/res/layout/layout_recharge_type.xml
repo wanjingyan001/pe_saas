@@ -18,7 +18,44 @@
         android:layout_marginLeft="@dimen/text_20"
         android:layout_marginRight="@dimen/text_20"
         android:background="@color/gray_f1"/>
+    <RelativeLayout
+        android:id="@+id/rl_zfb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/text_20"
+        android:paddingRight="@dimen/text_20"
+        android:paddingTop="@dimen/text_15"
+        android:paddingBottom="@dimen/text_15">
+        <ImageView
+            android:id="@+id/iv_zfb"
+            android:layout_width="@dimen/text_35"
+            android:layout_height="@dimen/text_35"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_recharge_zfb"/>
+        <ImageView
+            android:id="@+id/iv_zfb_select"
+            android:layout_width="@dimen/text_25"
+            android:layout_height="@dimen/text_25"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_unselect_receipt"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/iv_zfb"
+            style="@style/text16_color28"
+            android:layout_marginLeft="@dimen/text_20"
+            android:layout_toLeftOf="@id/iv_zfb_select"
+            android:text="支付宝支付(推荐使用)"/>
 
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/text_1"
+        android:layout_marginLeft="@dimen/text_20"
+        android:layout_marginRight="@dimen/text_20"
+        android:background="@color/gray_f1"/>
     <RelativeLayout
         android:id="@+id/rl_wx"
         android:layout_width="match_parent"
@@ -61,42 +98,4 @@
         android:layout_marginRight="@dimen/text_20"
         android:background="@color/gray_f1"/>
 
-    <RelativeLayout
-        android:id="@+id/rl_zfb"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/text_20"
-        android:paddingRight="@dimen/text_20"
-        android:paddingTop="@dimen/text_15"
-        android:paddingBottom="@dimen/text_15">
-        <ImageView
-            android:id="@+id/iv_zfb"
-            android:layout_width="@dimen/text_35"
-            android:layout_height="@dimen/text_35"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/ic_recharge_zfb"/>
-        <ImageView
-            android:id="@+id/iv_zfb_select"
-            android:layout_width="@dimen/text_25"
-            android:layout_height="@dimen/text_25"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/ic_unselect_receipt"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/iv_zfb"
-            style="@style/text16_color28"
-            android:layout_marginLeft="@dimen/text_20"
-            android:layout_toLeftOf="@id/iv_zfb_select"
-            android:text="支付宝支付"/>
-
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/text_1"
-        android:layout_marginLeft="@dimen/text_20"
-        android:layout_marginRight="@dimen/text_20"
-        android:background="@color/gray_f1"/>
 </LinearLayout>

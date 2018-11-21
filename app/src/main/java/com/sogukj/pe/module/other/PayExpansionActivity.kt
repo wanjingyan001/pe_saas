@@ -1,11 +1,16 @@
 package com.sogukj.pe.module.other
 
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Color
 import android.graphics.Paint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.text.SpannableString
@@ -15,11 +20,14 @@ import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
 import com.alipay.sdk.app.PayTask
+import com.google.gson.Gson
+import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.RxBus
 import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.baselibrary.utils.XmlDb
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.baselibrary.widgets.SpaceItemDecoration
@@ -27,6 +35,9 @@ import com.sogukj.pe.bean.*
 import com.sogukj.pe.module.dataSource.DocumentsListActivity
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.service.SoguApi
+import com.tencent.mm.sdk.constants.Build
+import com.tencent.mm.sdk.openapi.IWXAPI
+import com.tencent.mm.sdk.openapi.WXAPIFactory
 import kotlinx.android.synthetic.main.activity_pay_expansion.*
 import kotlinx.android.synthetic.main.item_pay_discount.view.*
 import kotlinx.android.synthetic.main.item_pay_expansion_list.view.*
@@ -62,6 +73,7 @@ class PayExpansionActivity : BaseActivity() {
     private var allprice = "9.9"
     private var pay_type = 3 //3 支付宝 4 微信 1 个人账号 2 企业账号
     private var isCheckedSentiment = true //是否选中舆情套餐
+    private var api: IWXAPI? = null
     private var mHandler : Handler = object : Handler(){
         override fun handleMessage(msg: Message?) {
             super.handleMessage(msg)
@@ -93,7 +105,9 @@ class PayExpansionActivity : BaseActivity() {
 
         }
     }
-
+    companion object {
+        val EXPANSION_ACTION = "expansion_action"
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pay_expansion)
@@ -143,6 +157,15 @@ class PayExpansionActivity : BaseActivity() {
         bindListener()
 
         paymentPrice.text = "￥${allprice}"
+        initWXAPI()
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, IntentFilter(EXPANSION_ACTION))
+    }
+    private val receiver : BroadcastReceiver = object : BroadcastReceiver(){
+        override fun onReceive(context: Context?, intent: Intent?) {
+            showSuccessToast("支付成功")
+            getPayPackageInfo(true)
+        }
+
     }
 
     private fun bindListener() {
@@ -310,6 +333,10 @@ class PayExpansionActivity : BaseActivity() {
                 Utils.showInput(this,et_count)
             }
         }
+
+        iv_delete.clickWithTrigger {
+            ll_warn.setVisible(false)
+        }
     }
     private fun setPayButtonStatus(){
         val priceDouble = allprice.toDouble()
@@ -452,6 +479,11 @@ class PayExpansionActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         RxBus.getIntanceBus().unSubscribe("RxBus")
+        try {
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver)
+        }catch (e : Exception){
+            e.printStackTrace()
+        }
     }
 
 
@@ -554,6 +586,12 @@ class PayExpansionActivity : BaseActivity() {
                                     sendToZfbRequest(payload.payload as String?)
                                 }else{
                                     //微信
+                                    val orderInfo = payload.payload as String
+                                    if (null != orderInfo){
+                                        sendToWxRequest(orderInfo)
+                                    }else{
+                                        showErrorToast("获取订单失败")
+                                    }
                                 }
                             }else{
                                 showErrorToast(payload.message)
@@ -570,6 +608,50 @@ class PayExpansionActivity : BaseActivity() {
                         }
                     }
 
+    }
+
+    private fun initWXAPI() {
+        if (null == api){
+            api = WXAPIFactory.createWXAPI(this, Extras.WEIXIN_APP_ID)
+            api!!.registerApp(Extras.WEIXIN_APP_ID)
+        }
+    }
+
+    private fun sendToWxRequest(orderInfo: String) {
+        val wxPayBean = Gson().fromJson<WxPayBean>(orderInfo,WxPayBean::class.java)
+        if (!inspectWx()) return
+        val req = com.tencent.mm.sdk.modelpay.PayReq()
+        req.appId = wxPayBean.appid
+        req.nonceStr = wxPayBean.noncestr
+        req.packageValue = "Sign=WXPay"
+        req.sign = wxPayBean.sign
+        req.partnerId = wxPayBean.partnerid
+        req.prepayId = wxPayBean.prepayid
+        req.timeStamp = wxPayBean.timestamp
+        //调起微信支付,如果b等于false说明订单中的参数或者签名错误
+        val b = api!!.sendReq(req)
+        if (!b) {
+            showErrorToast("订单生成错误")
+        }else{
+            XmlDb.open(this).set("invokeType",1)
+        }
+        Log.e("TAG", "sendReq返回值=" + b)
+    }
+
+    private fun inspectWx(): Boolean {
+        val sIsWXAppInstalledAndSupported = api!!.isWXAppInstalled() && api!!.isWXAppSupportAPI()
+        if (!sIsWXAppInstalledAndSupported) {
+            showCommonToast("您未安装微信")
+            return false
+        } else {
+            val isPaySupported = api!!.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT
+            if (isPaySupported) {
+                return true
+            } else {
+                showCommonToast("您微信版本过低，不支持支付。")
+                return false
+            }
+        }
     }
 
     /**

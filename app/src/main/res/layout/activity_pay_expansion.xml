@@ -133,10 +133,10 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/text_20"
-        android:paddingRight="@dimen/text_20"
+        android:paddingRight="@dimen/text_5"
         android:paddingTop="@dimen/text_10"
-        android:paddingBottom="@dimen/text_10"
         android:visibility="gone"
+        android:paddingBottom="@dimen/text_10"
         android:background="@color/red_ffe">
         <ImageView
             android:layout_width="@dimen/text_25"
@@ -144,10 +144,18 @@
             android:src="@mipmap/ic_pay_warn"/>
         <TextView
             android:id="@+id/tv_warn"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/text_10"
             tools:text="您的套餐将于2018年9月30日到期，为了团队的正常工作，请尽快续费。"/>
+        <ImageView
+            android:id="@+id/iv_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/text_10"
+            android:paddingRight="@dimen/text_10"
+            android:src="@mipmap/ic_pay_close"/>
     </LinearLayout>
     <android.support.constraint.ConstraintLayout
         android:id="@+id/bottomLayout"

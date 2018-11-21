@@ -74,6 +74,26 @@ class SecretCloudActivity : ToolbarActivity() {
                     }
                 }
 
+        SoguApi.getStaticHttp(application)
+                .getDirMemoryData("/${company}",Store.store.getUser(this)!!.phone)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+                            val jsonObject = payload.payload
+                            if (null != jsonObject){
+                                val total = jsonObject.get("total").asString
+                                val used = jsonObject.get("used").asString
+                                tv_company_ram.text = "${used}/${total}"
+                            }
+                        }else{
+                            showErrorToast(payload.message)
+                        }
+                    }
+                    onError {
+                        it.printStackTrace()
+                        showErrorToast("获取数据失败")
+                    }
+                }
     }
 
     private fun getDynamicData() {

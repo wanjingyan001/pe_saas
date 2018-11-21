@@ -10,6 +10,7 @@ import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
 import com.alipay.sdk.app.PayTask
+import com.google.gson.Gson
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
@@ -17,8 +18,10 @@ import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.baselibrary.utils.XmlDb
 import com.sogukj.pe.bean.PayResultInfo
 import com.sogukj.pe.bean.UserBean
+import com.sogukj.pe.bean.WxPayBean
 import com.sogukj.pe.module.dataSource.DocumentsListActivity
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.service.SoguApi
@@ -71,9 +74,9 @@ class AccountRechargeActivity : ToolbarActivity(), TextWatcher {
 
                 }
             }
-
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_recharge)
@@ -90,14 +93,54 @@ class AccountRechargeActivity : ToolbarActivity(), TextWatcher {
         title = intent.getStringExtra(Extras.TITLE)
         type = intent.getIntExtra(Extras.TYPE,1)
         user = Store.store.getUser(this)
-        setTitle(title)
+        if (!title.isNullOrEmpty()){
+            setTitle(title)
+        }else{
+            val saveType = XmlDb.open(this).get("type", 1)
+            setTitle(if (saveType == 1){"个人账户充值"}else{"企业账户充值"})
+        }
         initWXAPI()
     }
 
     private fun initData() {
         et_recharge.setSelection(et_recharge.textStr.length)
         tv_account.text = "账号：${user!!.phone}"
-        tv_balance.text = Utils.reserveDecimal(balance.toDouble())
+        if (!balance.isNullOrEmpty()){
+            tv_balance.text = Utils.reserveDecimal(balance.toDouble())
+        }else{
+            getAccountDatas()
+        }
+
+        if (rechargeType == 2){
+            iv_wx_select.setImageResource(R.mipmap.ic_unselect_receipt)
+            iv_zfb_select.setImageResource(R.mipmap.ic_select_receipt)
+        }else{
+            iv_zfb_select.setImageResource(R.mipmap.ic_unselect_receipt)
+            iv_wx_select.setImageResource(R.mipmap.ic_select_receipt)
+        }
+    }
+
+    private fun getAccountDatas() {
+        val saveType = XmlDb.open(this).get("type", 1)
+        SoguApi.getStaticHttp(application)
+                .getMineWalletDetail(saveType)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+                            val recordBean = payload.payload
+                            if (null != recordBean){
+                                val list = recordBean.list
+                                tv_balance.text = Utils.reserveDecimal(recordBean.balance.toDouble())
+                            }
+                        }else{
+                            showErrorToast(payload.message)
+                        }
+                    }
+                    onError {
+                        it.printStackTrace()
+                        showErrorToast("获取数据失败")
+                    }
+                }
     }
 
     private fun initWXAPI() {
@@ -132,7 +175,6 @@ class AccountRechargeActivity : ToolbarActivity(), TextWatcher {
                 rechargeType = 1
             }
         }
-
     }
 
     private fun getPayOrderInfo() {
@@ -147,7 +189,11 @@ class AccountRechargeActivity : ToolbarActivity(), TextWatcher {
                                 sendToZfbRequest(orderInfo)
                             }else if (rechargeType == 2){
                                 //微信
-                                sendToWxRequest(orderInfo)
+                                if (null != orderInfo){
+                                    sendToWxRequest(orderInfo)
+                                }else{
+                                    showErrorToast("获取订单失败")
+                                }
                             }
                         }else{
                             showErrorToast(payload.message)
@@ -165,19 +211,24 @@ class AccountRechargeActivity : ToolbarActivity(), TextWatcher {
      * 微信支付
      */
     private fun sendToWxRequest(orderInfo: String?) {
+        val wxPayBean = Gson().fromJson<WxPayBean>(orderInfo,WxPayBean::class.java)
         if (!inspectWx()) return
         val req = PayReq()
-        req.appId = ""
-        req.nonceStr = ""
+        req.appId = wxPayBean.appid
+        req.nonceStr = wxPayBean.noncestr
         req.packageValue = "Sign=WXPay"
-        req.sign = ""
-        req.partnerId = ""
-        req.prepayId = ""
-        req.timeStamp = ""
+        req.sign = wxPayBean.sign
+        req.partnerId = wxPayBean.partnerid
+        req.prepayId = wxPayBean.prepayid
+        req.timeStamp = wxPayBean.timestamp
         //调起微信支付,如果b等于false说明订单中的参数或者签名错误
         val b = api!!.sendReq(req)
         if (!b) {
             showErrorToast("订单生成错误")
+        }else{
+            XmlDb.open(this).set("type",type)
+            XmlDb.open(this).set("rechargeType",rechargeType)
+            XmlDb.open(this).set("invokeType",0)
         }
         Log.e("TAG", "sendReq返回值=" + b)
     }
@@ -244,6 +295,7 @@ class AccountRechargeActivity : ToolbarActivity(), TextWatcher {
 
     override fun onNewIntent(intent: Intent?) {
         val code = intent!!.getStringExtra(Extras.WX_PAY_TYPE)
+        Log.e("TAG","  onNewIntent -- code ==" + code)
         if (null != code){
             when(code){
                 "0" -> {

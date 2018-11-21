@@ -1,11 +1,14 @@
 package com.sogukj.pe.module.creditCollection
 
 import android.app.Dialog
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextUtils
@@ -18,6 +21,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.alipay.sdk.app.PayTask
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.execute
@@ -35,6 +39,8 @@ import com.sogukj.pe.module.receipt.PayDialog
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.CreditService
 import com.sogukj.service.SoguApi
+import com.tencent.mm.sdk.openapi.IWXAPI
+import com.tencent.mm.sdk.openapi.WXAPIFactory
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_shareholder_credit.*
@@ -46,6 +52,7 @@ class ShareholderCreditActivity : BaseActivity(), View.OnClickListener, AllPayCa
 
     companion object {
         val TAG = ShareholderCreditActivity::class.java.simpleName
+        val SHARE_CREDIT_ACTION = "share_credit_action"
         fun start(ctx: Context?, project: ProjectBean) {
             val intent = Intent(ctx, ShareholderCreditActivity::class.java)
             intent.putExtra(Extras.DATA, project)
@@ -72,9 +79,16 @@ class ShareholderCreditActivity : BaseActivity(), View.OnClickListener, AllPayCa
     override fun onDestroy() {
         super.onDestroy()
         RxBus.getIntanceBus().unSubscribe(this)
+        try {
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver)
+        }catch (e : Exception){
+            e.printStackTrace()
+        }
     }
+
     private var creditCount = 0
     private var dialog : Dialog? = null
+    private var api: IWXAPI? = null
     private var mHandler : Handler = object : Handler(){
         override fun handleMessage(msg: Message?) {
             super.handleMessage(msg)
@@ -117,7 +131,7 @@ class ShareholderCreditActivity : BaseActivity(), View.OnClickListener, AllPayCa
         initSearchView()
         back.setOnClickListener(this)
         inquireBtn.setOnClickListener(this)
-
+        initWXAPI()
         Glide.with(context).asGif().load(R.drawable.dynamic).into(gif)
 
         AppBarLayout.addOnOffsetChangedListener { _, verticalOffset ->
@@ -166,13 +180,30 @@ class ShareholderCreditActivity : BaseActivity(), View.OnClickListener, AllPayCa
                 AddCreditActivity.start(context, "EDIT", cell, 0x002)
             }
         }
-
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, IntentFilter(SHARE_CREDIT_ACTION))
         getCreditTimes()
+    }
+
+    private val receiver : BroadcastReceiver = object : BroadcastReceiver(){
+        override fun onReceive(context: Context?, intent: Intent?) {
+            showSuccessToast("支付成功")
+            getCreditTimes()
+            if (null != dialog && dialog!!.isShowing){
+                dialog!!.dismiss()
+            }
+        }
+    }
+    private fun initWXAPI() {
+        if (null == api){
+            api = WXAPIFactory.createWXAPI(this, Extras.WEIXIN_APP_ID)
+            api!!.registerApp(Extras.WEIXIN_APP_ID)
+        }
     }
 
     override fun pay(order_type: Int, count: Int, pay_type: Int, fee: String, tv_per_balance: TextView,
                      iv_pre_select: ImageView, tv_bus_balance: TextView, iv_bus_select: ImageView, tv_per_title: TextView,
                      tv_bus_title: TextView, dialog: Dialog) {
+        this.dialog = dialog
         SoguApi.getStaticHttp(application)
                 .getAccountPayInfo(order_type,count,pay_type,fee, Store.store.getUser(this)!!.accid)
                 .execute {
@@ -190,6 +221,12 @@ class ShareholderCreditActivity : BaseActivity(), View.OnClickListener, AllPayCa
                                     sendToZfbRequest(payload.payload as String?,dialog)
                                 }else if (pay_type == 4){
                                     //微信
+                                    val orderInfo = payload.payload as String
+                                    if (null != orderInfo){
+                                        sendToWxRequest(orderInfo)
+                                    }else{
+                                        showErrorToast("获取订单失败")
+                                    }
                                 }
                             }
                         }else{
@@ -208,6 +245,42 @@ class ShareholderCreditActivity : BaseActivity(), View.OnClickListener, AllPayCa
                 }
     }
 
+    private fun sendToWxRequest(orderInfo: String) {
+        val wxPayBean = Gson().fromJson<WxPayBean>(orderInfo, WxPayBean::class.java)
+        if (!inspectWx()) return
+        val req = com.tencent.mm.sdk.modelpay.PayReq()
+        req.appId = wxPayBean.appid
+        req.nonceStr = wxPayBean.noncestr
+        req.packageValue = "Sign=WXPay"
+        req.sign = wxPayBean.sign
+        req.partnerId = wxPayBean.partnerid
+        req.prepayId = wxPayBean.prepayid
+        req.timeStamp = wxPayBean.timestamp
+        //调起微信支付,如果b等于false说明订单中的参数或者签名错误
+        val b = api!!.sendReq(req)
+        if (!b) {
+            showErrorToast("订单生成错误")
+        }else{
+            XmlDb.open(this).set("invokeType",6)
+        }
+        Log.e("TAG", "sendReq返回值=" + b)
+    }
+
+    private fun inspectWx(): Boolean {
+        val sIsWXAppInstalledAndSupported = api!!.isWXAppInstalled() && api!!.isWXAppSupportAPI()
+        if (!sIsWXAppInstalledAndSupported) {
+            showCommonToast("您未安装微信")
+            return false
+        } else {
+            val isPaySupported = api!!.getWXAppSupportAPI() >= com.tencent.mm.sdk.constants.Build.PAY_SUPPORTED_SDK_INT
+            if (isPaySupported) {
+                return true
+            } else {
+                showCommonToast("您微信版本过低，不支持支付。")
+                return false
+            }
+        }
+    }
     /**
      * 支付宝支付
      */

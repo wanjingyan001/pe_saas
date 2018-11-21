@@ -3,8 +3,10 @@ package com.sogukj.pe.module.project
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -12,6 +14,7 @@ import android.os.Handler
 import android.os.Message
 import android.provider.Settings
 import android.support.v4.app.Fragment
+import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.widget.GridLayoutManager
 import android.text.Editable
 import android.text.TextUtils
@@ -26,6 +29,7 @@ import com.alipay.sdk.app.PayTask
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.google.gson.Gson
 import com.netease.nim.uikit.api.NimUIKit
 import com.netease.nimlib.sdk.NIMClient
 import com.netease.nimlib.sdk.RequestCallback
@@ -64,6 +68,9 @@ import com.sogukj.pe.service.NewService
 import com.sogukj.pe.service.OtherService
 import com.sogukj.pe.widgets.DividerGridItemDecoration
 import com.sogukj.service.SoguApi
+import com.tencent.mm.sdk.constants.Build
+import com.tencent.mm.sdk.openapi.IWXAPI
+import com.tencent.mm.sdk.openapi.WXAPIFactory
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_project_detail.*
@@ -84,6 +91,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
     private var is_ability: Int? = null//非空(1=>有能力,2=>无能力)
     private var isHidden: Int = 0
     private var isStartOpen = false
+    private var api: IWXAPI? = null
     private var NAVIGATION_GESTURE: String = when {
         Rom.isEmui() -> "navigationbar_is_min"
         Rom.isMiui() -> "force_fsg_nav_bar"
@@ -91,6 +99,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
     }
 
     companion object {
+        val PROJECT_ACTION = "project_action"
         fun start(ctx: Activity?, project: ProjectBean) {
             val intent = Intent(ctx, ProjectDetailActivity::class.java)
             intent.putExtra(Extras.DATA, project)
@@ -149,6 +158,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
 
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_project_detail)
@@ -162,6 +172,32 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
         getProjectDetail(project.company_id!!)
         getSentimentStatus(project.company_id!!)
         bindListener()
+        initWXAPI()
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, IntentFilter(PROJECT_ACTION))
+    }
+
+    private val receiver : BroadcastReceiver = object : BroadcastReceiver(){
+        override fun onReceive(context: Context?, intent: Intent?) {
+            showSuccessToast("支付成功")
+            getSentimentStatus(project.company_id!!)
+            gonePayDialog()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        try {
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver)
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+    }
+
+    private fun initWXAPI() {
+        if (null == api){
+            api = WXAPIFactory.createWXAPI(this, Extras.WEIXIN_APP_ID)
+            api!!.registerApp(Extras.WEIXIN_APP_ID)
+        }
     }
 
     private fun bindListener() {
@@ -553,6 +589,12 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                                     sendToZfbRequest(payload.payload as String?)
                                 } else if (pay_type == 4) {
                                     //微信
+                                    val orderInfo = payload.payload as String
+                                    if (null != orderInfo){
+                                        sendToWxRequest(orderInfo)
+                                    }else{
+                                        showErrorToast("获取订单失败")
+                                    }
                                 }
                             }
                         } else {
@@ -569,6 +611,68 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                         }
                     }
                 }
+    }
+
+    private fun sendToWxRequest(orderInfo: String) {
+        val wxPayBean = Gson().fromJson<WxPayBean>(orderInfo, WxPayBean::class.java)
+        if (!inspectWx()) return
+        val req = com.tencent.mm.sdk.modelpay.PayReq()
+        req.appId = wxPayBean.appid
+        req.nonceStr = wxPayBean.noncestr
+        req.packageValue = "Sign=WXPay"
+        req.sign = wxPayBean.sign
+        req.partnerId = wxPayBean.partnerid
+        req.prepayId = wxPayBean.prepayid
+        req.timeStamp = wxPayBean.timestamp
+        //调起微信支付,如果b等于false说明订单中的参数或者签名错误
+        val b = api!!.sendReq(req)
+        if (!b) {
+            showErrorToast("订单生成错误")
+        }else{
+            XmlDb.open(this).set("invokeType",3)
+        }
+        Log.e("TAG", "sendReq返回值=" + b)
+    }
+
+    private fun inspectWx(): Boolean {
+        val sIsWXAppInstalledAndSupported = api!!.isWXAppInstalled() && api!!.isWXAppSupportAPI()
+        if (!sIsWXAppInstalledAndSupported) {
+            showCommonToast("您未安装微信")
+            return false
+        } else {
+            val isPaySupported = api!!.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT
+            if (isPaySupported) {
+                return true
+            } else {
+                showCommonToast("您微信版本过低，不支持支付。")
+                return false
+            }
+        }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        val code = intent!!.getStringExtra(Extras.WX_PAY_TYPE)
+        Log.e("TAG","  onNewIntent -- code ==" + code)
+        if (null != code){
+            when(code){
+                "0" -> {
+                    showSuccessToast("支付成功")
+                    getSentimentStatus(project.company_id!!)
+                    gonePayDialog()
+                }
+                "-1" -> {
+                    showErrorToast("支付失败  errorCode ==" + code)
+                }
+                "-2" -> {
+                    showErrorToast("支付已取消")
+                }
+                else -> {
+
+                }
+            }
+        }
+        super.onNewIntent(intent)
+        setIntent(intent)
     }
 
     /**
@@ -611,6 +715,10 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                                 headView.tv_senti_title.text = "关闭舆情监控"
                                 headView.tv_senti_time.setVisible(true)
                                 headView.ll_times_buy.setVisible(true)
+
+                                if (remainder <= 0) {
+                                    showPayDialog()
+                                }
                             }
                             isStartOpen = !isStartOpen
                         } else {
@@ -654,8 +762,9 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                     }
                 }
     }
-
+    var remainder = 0
     private fun setSentimentData(info: SentimentInfoBean) {
+        remainder = info.remainder
         when (info.is_open) {
             0 -> {
                 headView.iv_button.setImageResource(R.mipmap.ic_sentiment_off)

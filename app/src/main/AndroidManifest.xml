@@ -1486,6 +1486,7 @@
             android:name=".module.receipt.AccountRechargeActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity android:name=".module.dataSource.IndustrySubActivity" />
         <activity android:name=".module.project.overview.MoreInfoActivity" />
