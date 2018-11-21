@@ -148,7 +148,8 @@ class MineFileDialog {
             }
         }
 
-        fun showFileItemDialog(context: Activity, isdir : Boolean, data: CloudFileBean,requestCode : Int,previousPath:String,callBack: UploadCallBack){
+        fun showFileItemDialog(context: Activity, isdir : Boolean, data: CloudFileBean,requestCode : Int,
+                               previousPath:String,callBack: UploadCallBack,isBusinessFile:Boolean){
             val dialog = Dialog(context, R.style.AppTheme_Dialog)
             dialog.setContentView(R.layout.dialog_file_item)
             val lay = dialog.getWindow()!!.getAttributes()
@@ -172,6 +173,7 @@ class MineFileDialog {
 
             val tv_rename = dialog.find<TextView>(R.id.tv_rename) //重命名
             val tv_remove = dialog.find<TextView>(R.id.tv_remove) //移动到
+            val view_line4 = dialog.find<View>(R.id.view_line4)
             val tv_delete = dialog.find<TextView>(R.id.tv_delete) //删除
             val tv_cancel = dialog.find<TextView>(R.id.tv_cancel)
             if (null != data){
@@ -193,9 +195,15 @@ class MineFileDialog {
                 tv_copy.setVisible(false)
                 view_line2.setVisible(false)
             }else{
-
                 tv_copy.setVisible(true)
                 view_line2.setVisible(true)
+            }
+            if (isBusinessFile){
+                tv_remove.setVisible(false)
+                view_line4.setVisible(false)
+            }else{
+                tv_remove.setVisible(true)
+                view_line4.setVisible(true)
             }
             tv_cancel.clickWithTrigger {
                 if (dialog.isShowing){

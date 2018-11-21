@@ -170,9 +170,11 @@ class CloudFileSortActivity : BaseRefreshActivity(),UploadCallBack {
 
             iv_filter.clickWithTrigger {
                 if (data.file_type.equals("Folder")){
-                    MineFileDialog.showFileItemDialog(this@CloudFileSortActivity,true,data,MODIFI_DIR,filePath,this@CloudFileSortActivity)
+                    MineFileDialog.showFileItemDialog(this@CloudFileSortActivity,true,data,MODIFI_DIR,filePath,
+                            this@CloudFileSortActivity,false)
                 }else{
-                    MineFileDialog.showFileItemDialog(this@CloudFileSortActivity,false,data,MODIFI_FILE,filePath,this@CloudFileSortActivity)
+                    MineFileDialog.showFileItemDialog(this@CloudFileSortActivity,false,data,MODIFI_FILE,filePath,
+                            this@CloudFileSortActivity,false)
                 }
             }
         }

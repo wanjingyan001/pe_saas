@@ -117,12 +117,12 @@ class SecretCloudActivity : ToolbarActivity() {
 
         view_mine_file.clickWithTrigger {
             //我的文件
-            startActivity<MineFileActivity>(Extras.TITLE to "我的文件",Extras.DIR to "/我的文件")
+            startActivity<MineFileActivity>(Extras.TITLE to "我的文件",Extras.DIR to "/我的文件",Extras.TYPE to false)
         }
 
         ll_company_file.clickWithTrigger {
             //公司文件
-            startActivity<MineFileActivity>(Extras.TITLE to company,Extras.DIR to "/${company}")
+            startActivity<MineFileActivity>(Extras.TITLE to company,Extras.DIR to "/${company}",Extras.TYPE to true)
         }
 
         ll_fund_file.clickWithTrigger {

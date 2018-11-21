@@ -79,8 +79,6 @@ class PayExpansionActivity : BaseActivity() {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         showSuccessToast("支付成功")
                         getPayPackageInfo(true)
-                        getPerAccountInfo(true)
-                        getBusAccountInfo(true)
                     } else if (TextUtils.equals(resultStatus, "6001")) {
                         showErrorToast("支付已取消")
                     } else {
@@ -327,12 +325,18 @@ class PayExpansionActivity : BaseActivity() {
             tv_per_title.setTextColor(resources.getColor(R.color.gray_a0))
             tv_per_balance.setTextColor(resources.getColor(R.color.gray_a0))
             isClickPer = false
-            if (isRefresh && pay_type == 1){
+            if (pay_type == 1){
                 iv_zfb_select.setImageResource(R.mipmap.ic_unselect_receipt)
                 pay_type = 3
             }
         }else{
-            iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
+            if (pay_type == 1){
+                iv_pre_select.setImageResource(R.mipmap.ic_unselect_receipt)
+                isCheckPer = true
+            }else{
+                iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
+                isCheckPer = false
+            }
             tv_per_title.setTextColor(resources.getColor(R.color.black_28))
             tv_per_balance.setTextColor(resources.getColor(R.color.gray_80))
             isClickPer = true
@@ -343,12 +347,18 @@ class PayExpansionActivity : BaseActivity() {
             tv_bus_title.setTextColor(resources.getColor(R.color.gray_a0))
             tv_bus_balance.setTextColor(resources.getColor(R.color.gray_a0))
             isClickBus = false
-            if (isRefresh && pay_type == 2){
+            if (pay_type == 2){
                 iv_zfb_select.setImageResource(R.mipmap.ic_unselect_receipt)
                 pay_type = 3
             }
         }else{
-            iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
+            if (pay_type == 2){
+                iv_bus_select.setImageResource(R.mipmap.ic_unselect_receipt)
+                isCheckBus = true
+            }else{
+                iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
+                isCheckBus = false
+            }
             tv_bus_title.setTextColor(resources.getColor(R.color.black_28))
             tv_bus_balance.setTextColor(resources.getColor(R.color.gray_80))
             isClickBus = true

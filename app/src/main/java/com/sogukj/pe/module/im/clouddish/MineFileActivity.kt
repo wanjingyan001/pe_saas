@@ -71,6 +71,7 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
     private var selectCount = 0
     private var dir = ""
     private var isNameSort = false //默认是时间排序
+    private var isBusinessFile = false //是否是企业文件下
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mine_file)
@@ -84,6 +85,7 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
     private fun initView() {
         title = intent.getStringExtra(Extras.TITLE)
         dir = intent.getStringExtra(Extras.DIR)
+        isBusinessFile = intent.getBooleanExtra(Extras.TYPE,false)
         setBack(true)
         setTitle(title)
         tv_file_title.text = title
@@ -697,7 +699,8 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
                 }else{
                     if (data.file_type.equals("Folder")) {
                         //文件夾
-                        startActivity<MineFileActivity>(Extras.TITLE to data.file_name,Extras.DIR to dir+"/${data.file_name}")
+                        startActivity<MineFileActivity>(Extras.TITLE to data.file_name,Extras.DIR to dir+"/${data.file_name}",
+                                Extras.TYPE to isBusinessFile)
                     } else {
                         //预览
                         getFilePreviewPath(dir+"/${data.file_name}",data.file_name)
@@ -707,9 +710,11 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
 
             iv_filter.clickWithTrigger {
                 if (data.file_type.equals("Folder")){
-                    MineFileDialog.showFileItemDialog(this@MineFileActivity,true,data,MODIFI_DIR,dir,this@MineFileActivity)
+                    MineFileDialog.showFileItemDialog(this@MineFileActivity,true,
+                            data,MODIFI_DIR,dir,this@MineFileActivity,isBusinessFile)
                 }else{
-                    MineFileDialog.showFileItemDialog(this@MineFileActivity,false,data,MODIFI_FILE,dir,this@MineFileActivity)
+                    MineFileDialog.showFileItemDialog(this@MineFileActivity,false,
+                            data,MODIFI_FILE,dir,this@MineFileActivity,isBusinessFile)
                 }
             }
         }
