@@ -289,7 +289,7 @@ class MsgAssistantActivity : BaseRefreshActivity() {
                             helper.setImageResource(R.id.payTypeIcon, R.mipmap.icon_msg_assis_yqtc)
                             helper.setBackgroundColor(R.id.line1, Color.parseColor("#CBD5FF"))
                         }
-                        406 -> {
+                        401,406 -> {
                             helper.setImageResource(R.id.payHistoryBg, R.mipmap.bg_qbcz_pay_history)
                             helper.setImageResource(R.id.payTypeIcon, R.mipmap.icon_msg_assis_qbcz)
                             helper.setBackgroundColor(R.id.line1, Color.parseColor("#FFE6A3"))
@@ -300,7 +300,7 @@ class MsgAssistantActivity : BaseRefreshActivity() {
                     helper.setText(R.id.payTypeTitle, item.content)
                     helper.setText(R.id.payTypeUnitPrice, "￥${item.unit_price}")
                     helper.setText(R.id.payTypeNum, "x${item.order_count}")
-                    helper.setText(R.id.payUserName, "购买人：${item.pay_userNmae}")
+                    helper.setText(R.id.payUserName, "购买人：${item.pay_userNmae.withOutEmpty}")
                     helper.setText(R.id.payOrderNum, "订单编号：${item.order_str}")
                     helper.setText(R.id.payTotalPrice, "￥${item.money}")
                     helper.setText(R.id.msgTime, Utils.formatDingDate(Utils.getTime(System.currentTimeMillis(), "yyyy-MM-dd HH:mm")))

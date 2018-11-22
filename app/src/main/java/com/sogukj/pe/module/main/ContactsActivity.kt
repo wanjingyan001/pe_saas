@@ -2,6 +2,8 @@ package com.sogukj.pe.module.main
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -36,6 +38,7 @@ import com.sogukj.pe.bean.MechanismBasicInfo
 import com.sogukj.pe.bean.ProjectBean
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.module.im.TeamCreateActivity
+import com.sogukj.pe.module.main.viewModel.OrganizationModel
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.UserService
@@ -108,6 +111,10 @@ class ContactsActivity : ToolbarActivity() {
     var searchKey = ""
     private val mine = Store.store.getUser(this)
     private var totalNumber = 0
+
+    private val model by lazy {
+        ViewModelProviders.of(this).get(OrganizationModel::class.java)
+    }
 
 
     companion object {
@@ -195,7 +202,7 @@ class ContactsActivity : ToolbarActivity() {
                     departmentBean.data?.forEach { userBean ->
                         //这里是防止传递过来的已选中用户对象不规范
                         alreadySelected.add(userBean)
-                        organizationList.expandGroup(0)
+//                        organizationList.expandGroup(0)
                     }
                 }
                 tissueAdapter.notifyDataSetChanged()
@@ -383,50 +390,37 @@ class ContactsActivity : ToolbarActivity() {
         searchAdapter.notifyDataSetChanged()
     }
 
-
     private fun getTissueData() {
-        SoguApi.getService(application, UserService::class.java)
-                .userDepart()
-                .execute {
-                    onNext { payload ->
-                        if (payload.isOk) {
-                            payload.payload?.let {
-                                departList.addAll(it)
-                                tissueAdapter.notifyDataSetChanged()
-                                departList.forEachIndexed { index, departmentBean ->
-                                    totalNumber += departmentBean.data?.size ?: 0
-                                    departmentBean.data?.forEach { userBean ->
-                                        val find = alreadySelected.find { it.uid == userBean.uid }
-                                        if (find != null) {
-                                            //这里是防止传递过来的已选中用户对象不规范
-                                            alreadySelected.remove(find)
-                                            alreadySelected.add(userBean)
-                                            if (!organizationList.expandGroup(index)) {
-                                                organizationList.expandGroup(index)
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            showCustomToast(R.drawable.icon_toast_common, payload.message)
-                        }
-                    }
-                    onError { error ->
-                        Trace.e(error)
-                        showCustomToast(R.drawable.icon_toast_fail, "数据获取失败")
-                    }
-                    onComplete {
-                        if (needSelectAll){
-                            selectAll.isSelected = alreadySelected.size == totalNumber
-                            if (selectAll.isSelected) {
-                                (0 until tissueAdapter.groupCount)
-                                        .forEach { organizationList.collapseGroup(it) }
-                                organizationList.expandGroup(0)
+        model.getUserDepart(this)
+        model.datas.observe(this, Observer {department->
+            department?.let {
+                departList.addAll(it)
+                tissueAdapter.notifyDataSetChanged()
+
+                departList.forEachIndexed { index, departmentBean ->
+                    totalNumber += departmentBean.data?.size ?: 0
+                    departmentBean.data?.forEach { userBean ->
+                        val find = alreadySelected.find { it.uid == userBean.uid }
+                        if (find != null) {
+                            //这里是防止传递过来的已选中用户对象不规范
+                            alreadySelected.remove(find)
+                            alreadySelected.add(userBean)
+                            if (!organizationList.expandGroup(index)) {
+                                organizationList.expandGroup(index)
                             }
                         }
                     }
                 }
+                if (needSelectAll) {
+                    selectAll.isSelected = alreadySelected.size == totalNumber
+                    if (selectAll.isSelected) {
+                        (0 until tissueAdapter.groupCount)
+                                .forEach { organizationList.collapseGroup(it) }
+                        organizationList.expandGroup(0)
+                    }
+                }
+            }
+        })
     }
 
 
@@ -594,7 +588,7 @@ class ContactsActivity : ToolbarActivity() {
                             }
                         }
                         selectNumber.text = "已选择: ${alreadySelected.size} 人"
-                        if (needSelectAll){
+                        if (needSelectAll) {
                             selectAll.isSelected = alreadySelected.size == totalNumber
                         }
 

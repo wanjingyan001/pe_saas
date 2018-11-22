@@ -1549,7 +1549,11 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysVisible" />
-        <activity android:name=".module.main.IMTeamGroupActivity"></activity>
+        <activity
+            android:name=".module.main.IMTeamGroupActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
     </application>
 
 </manifest>

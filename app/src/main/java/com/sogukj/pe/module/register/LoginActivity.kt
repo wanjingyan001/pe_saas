@@ -62,7 +62,7 @@ class LoginActivity : BaseActivity(), LoginView {
         StatusBarUtil.setTranslucentForCoordinatorLayout(this, 0)
         StatusBarUtil.setLightMode(this)
         loginPresenter.loginView = this
-        RetrofitUrlManager.getInstance().putDomain("Register", Consts.DEV_HTTP_HOST)
+        RetrofitUrlManager.getInstance().putDomain(Consts.REGISTER, Consts.DEV_HTTP_HOST)
         codeEditable(false)
         val inputList = ArrayList<Observable<CharSequence>>()
         inputList.add(RxTextView.textChanges(phoneEdt.getEditText()))
@@ -135,7 +135,7 @@ class LoginActivity : BaseActivity(), LoginView {
 
     private fun getDingResult() {
         val authorizeCode = intent.getSerializableExtra(Extras.DATA) as? AuthorizeCode
-        if (authorizeCode != null && authorizeCode.errcode ==   BaseResp.ErrCode.ERR_OK) {
+        if (authorizeCode != null && authorizeCode.errcode == BaseResp.ErrCode.ERR_OK) {
             authorizeCode.unionid.let {
                 sp.edit { putString(Extras.THIRDLOGIN, "ding_$it") }
                 checkThirdBinding("ding", it)

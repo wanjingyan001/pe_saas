@@ -47,7 +47,7 @@ class LpAssistantActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_la_assistant)
         Utils.setWindowStatusBarColor(this, R.color.white)
-        RetrofitUrlManager.getInstance().putDomain("DataSource", Consts.DEV_HTTP_HOST)
+        RetrofitUrlManager.getInstance().putDomain(Consts.DATA_SOURCE, Consts.DEV_HTTP_HOST)
         initView()
         initData()
         bindListener()

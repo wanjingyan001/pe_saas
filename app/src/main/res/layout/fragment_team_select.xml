@@ -109,12 +109,14 @@
                         android:layout_gravity="center_vertical|end"
                         android:layout_marginEnd="10dp"
                         android:src="@drawable/ic_refuse_disable"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
                 </FrameLayout>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/team_bg_search2"/>
+                    android:background="@drawable/team_bg_search2" />
+
                 <TextView
                     android:id="@+id/search_hint"
                     android:layout_width="wrap_content"
@@ -159,9 +161,9 @@
                         android:id="@+id/company_icon"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:layout_marginBottom="8dp"
                         android:layout_marginStart="20dp"
-                        android:layout_marginTop="8dp" />
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp" />
 
                     <TextView
                         android:id="@+id/companyName"
@@ -241,18 +243,19 @@
                 </LinearLayout>
 
                 <!--<com.netease.nim.uikit.business.team.activity.CustomExpandableListView-->
-                    <!--android:id="@+id/groupDiscuss"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:background="@color/white"-->
-                    <!--android:divider="@null"-->
-                    <!--android:groupIndicator="@null" />-->
+                <!--android:id="@+id/groupDiscuss"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@color/white"-->
+                <!--android:divider="@null"-->
+                <!--android:groupIndicator="@null" />-->
 
                 <LinearLayout
                     android:id="@+id/IMTeamGroupLayout"
                     android:layout_width="match_parent"
-                    android:orientation="vertical"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
                     <LinearLayout
                         android:id="@+id/TeamGroupLayout"
                         android:layout_width="match_parent"
@@ -261,24 +264,38 @@
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="5dp"
+                            android:src="@mipmap/icon_team_layout" />
+
                         <TextView
                             android:id="@+id/TeamGroupName"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="18dp"
-                            android:layout_marginStart="40dp"
                             android:layout_marginTop="18dp"
+                            android:layout_marginBottom="18dp"
                             android:layout_weight="1"
                             android:text="群聊（0）"
                             android:textColor="@color/black" />
 
                         <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@mipmap/icon_look_over" />
+
+                        <TextView
+                            android:textSize="@dimen/text_size_medium"
+                            android:textColor="#5194E4"
+                            android:text="查看"
+                            android:layout_marginEnd="20dp"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="25dp"
-                            android:src="@drawable/ic_right"/>
+                            android:layout_height="wrap_content" />
 
                     </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/ProjectGroupLayout"
                         android:layout_width="match_parent"
@@ -287,26 +304,38 @@
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="5dp"
+                            android:src="@mipmap/icon_project_team_layout" />
+
                         <TextView
                             android:id="@+id/ProjectGroupName"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="18dp"
-                            android:layout_marginStart="40dp"
                             android:layout_marginTop="18dp"
+                            android:layout_marginBottom="18dp"
                             android:layout_weight="1"
                             android:text="项目讨论组（0）"
                             android:textColor="@color/black" />
 
                         <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@mipmap/icon_look_over" />
+
+                        <TextView
+                            android:textSize="@dimen/text_size_medium"
+                            android:textColor="#5194E4"
+                            android:text="查看"
+                            android:layout_marginEnd="20dp"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="25dp"
-                            android:src="@drawable/ic_right"/>
+                            android:layout_height="wrap_content" />
 
                     </LinearLayout>
                 </LinearLayout>
-
 
 
                 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -325,9 +354,9 @@
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
                         android:text="组织架构"
                         android:textColor="#ff282828"
                         android:textSize="16sp" />
@@ -339,8 +368,8 @@
                         android:drawableLeft="@mipmap/icon_depart_team"
                         android:drawablePadding="8dp"
                         android:gravity="center_vertical"
-                        android:paddingEnd="16dp"
                         android:paddingLeft="16dp"
+                        android:paddingEnd="16dp"
                         android:text="全员群"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/text_size_normal" />

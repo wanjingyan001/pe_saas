@@ -2,6 +2,7 @@ package com.sogukj.pe.service
 
 import android.support.annotation.IntRange
 import com.google.gson.internal.LinkedTreeMap
+import com.sogukj.pe.Consts
 import com.sogukj.pe.bean.*
 import io.reactivex.Observable
 import okhttp3.RequestBody
@@ -167,21 +168,21 @@ interface UserService {
     /**
      * 获取微信二维码
      */
-    @Headers(value = ["Domain-Name: WX"])
+    @Headers(value = ["Domain-Name: ${Consts.WX}"])
     @POST("/wx/Wxapis/bindQr")
     fun getWxQRurl(): Observable<Payload<Any>>
 
     /**
      * 获取微信绑定状态
      */
-    @Headers(value = ["Domain-Name: WX"])
+    @Headers(value = ["Domain-Name: ${Consts.WX}"])
     @POST("/wx/Wxapis/isBindQr")
     fun getBindingStatus():Observable<Payload<WXBind>>
 
     /**
      * 绑定更新接口
      */
-    @Headers(value = ["Domain-Name: WX"])
+    @Headers(value = ["Domain-Name: ${Consts.WX}"])
     @FormUrlEncoded
     @POST("/wx/Wxapis/updateBindQr")
     fun updateBindingStatus(@Field("openid")openid:String):Observable<Payload<Any>>

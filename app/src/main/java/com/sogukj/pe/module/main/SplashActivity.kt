@@ -50,8 +50,10 @@ class SplashActivity : BaseActivity() {
             }
         }
 
-        //todo 之后要移除
-        RetrofitUrlManager.getInstance().putDomain("WX", Consts.DEV_HTTP_HOST)
+        //todo WX之后要移除
+        RetrofitUrlManager.getInstance().putDomain(Consts.WX, Consts.DEV_HTTP_HOST)
+
+        RetrofitUrlManager.getInstance().putDomain(Consts.CREDIT_COLLECTION, Consts.DEV_HTTP_HOST)
 
         saveDzhToken()
         getCompanyInfo()

@@ -44,6 +44,7 @@ import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.module.im.ImSearchResultActivity
 import com.sogukj.pe.module.im.PersonalInfoActivity
 import com.sogukj.pe.module.im.TeamCreateActivity
+import com.sogukj.pe.module.main.viewModel.OrganizationModel
 import com.sogukj.pe.module.main.viewModel.TeamGroupModel
 import com.sogukj.pe.module.user.UserActivity
 import com.sogukj.pe.peExtended.getEnvironment
@@ -72,6 +73,9 @@ class TeamSelectFragment : BaseFragment() {
     private lateinit var contactAdapter: ContactAdapter
     private lateinit var resultAdapter: ContactAdapter
     private val selectMap = HashMap<String, Boolean>()
+    private val model by lazy {
+        ViewModelProviders.of(this).get(OrganizationModel::class.java)
+    }
 
     override val containerViewId: Int
         get() = R.layout.fragment_team_select
@@ -141,7 +145,6 @@ class TeamSelectFragment : BaseFragment() {
         initHeader()
         loadHead()
         toolbar_back.setOnClickListener {
-            //UserActivity.start(context)
             val intent = Intent(context, UserActivity::class.java)
             startActivityForResult(intent, 0x789)
         }
@@ -313,6 +316,9 @@ class TeamSelectFragment : BaseFragment() {
         }
     }
 
+    /**
+     * 群组
+     */
     private fun initGroupDiscuss() {
         //groupDiscuss
         val model = ViewModelProviders.of(this).get(TeamGroupModel::class.java)
@@ -360,34 +366,26 @@ class TeamSelectFragment : BaseFragment() {
 
     @SuppressLint("SetTextI18n")
     fun doRequest() {
-        SoguApi.getService(baseActivity!!.application, UserService::class.java)
-                .userDepart()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe({ payload ->
-                    if (payload.isOk) {
-                        var i = 0
-                        departList.clear()
-                        payload.payload?.forEach { depart ->
-                            departList.add(depart)
-                            depart.data?.let { userData ->
-                                i += userData.size
-                                userData.forEach {
-                                    it.uid?.let {
-                                        selectMap.put(it.toString(), false)
-                                    }
-                                }
+        model.getUserDepart(ctx)
+        model.datas.observe(this, android.arch.lifecycle.Observer {
+            it?.let {
+                var i = 0
+                departList.clear()
+                departList.addAll(it)
+                orgAdapter.notifyDataSetChanged()
+                it.forEach { depart ->
+                    depart.data?.let { userData ->
+                        i += userData.size
+                        userData.forEach {
+                            it.uid?.let {
+                                selectMap.put(it.toString(), false)
                             }
                         }
-                        num.text = "共${i}人"
-                        orgAdapter.notifyDataSetChanged()
-                    } else
-                        showCustomToast(R.drawable.icon_toast_fail, payload.message)
-                }, { e ->
-                    Trace.e(e)
-                    showCustomToast(R.drawable.icon_toast_fail, "公司组织架构人员获取失败")
-                })
-
+                    }
+                }
+                num.text = "共${i}人"
+            }
+        })
         var user = Store.store.getUser(ctx)
         user?.accid?.let {
             SoguApi.getService(baseActivity!!.application, UserService::class.java)
@@ -399,11 +397,9 @@ class TeamSelectFragment : BaseFragment() {
                             contactList.clear()
                             contactList.addAll(payload.payload!!)
                             contactAdapter.notifyDataSetChanged()
-                        } //else
-                        //showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                        }
                     }, { e ->
                         Trace.e(e)
-//                        showCustomToast(R.drawable.icon_toast_fail, "最近联系人数据获取失败")
                     })
         }
 

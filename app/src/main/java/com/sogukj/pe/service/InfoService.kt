@@ -1,12 +1,10 @@
 package com.sogukj.pe.service
 
+import com.sogukj.pe.Consts
 import com.sogukj.pe.bean.*
 import io.reactivex.Observable
 import okhttp3.RequestBody
-import retrofit2.http.Body
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
 
 /**
  * Created by admin on 2018/5/23.
@@ -16,6 +14,8 @@ interface InfoService {
         const val APPKEY_NAME = "appkey"
         const val APPKEY_VALUE = "d5f17cafef0829b5"
     }
+
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Listinformation/Volatility")
     fun stockInfo(
@@ -23,6 +23,7 @@ interface InfoService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<StockBean>>
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Listinformation/Companyinfo")
     fun companyInfo(
@@ -30,6 +31,7 @@ interface InfoService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<CompanyBean>>
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Listinformation/Seniorexecutive")
     fun listSeniorExecutive(
@@ -37,6 +39,7 @@ interface InfoService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<List<GaoGuanBean>>>
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Listinformation/Holdingcompany")
     fun cangu(
@@ -44,6 +47,7 @@ interface InfoService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<List<CanGuBean>>>
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Listinformation/Announcement")
     fun listAnnouncement(
@@ -51,6 +55,7 @@ interface InfoService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<List<AnnouncementBean>>>
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Listinformation/Issuerelated")
     fun issueInfo(
@@ -58,6 +63,7 @@ interface InfoService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<IssueRelatedBean>>
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Listinformation/Equitychange")
     fun listEquityChange(
@@ -67,6 +73,7 @@ interface InfoService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<List<EquityChangeBean>>>
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Listinformation/Bonusinfo")
     fun listBonusInfo(
@@ -92,6 +99,7 @@ interface InfoService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<BizInfoBean>>
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Listinformation/Holder")
     fun listShareholderInfo(
@@ -101,6 +109,7 @@ interface InfoService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<List<ShareHolderBean>>>
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Listinformation/Annualreport")
     fun listAnnualReport(
@@ -110,6 +119,7 @@ interface InfoService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<List<AnnualReportBean>>>
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Listinformation/Changeinfo")
     fun listChangeRecord(
@@ -119,6 +129,7 @@ interface InfoService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<List<ChangeRecordBean>>>
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Listinformation/Invest")
     fun listInvestment(
@@ -128,6 +139,7 @@ interface InfoService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<List<InvestmentBean>>>
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Listinformation/Staff")
     fun listKeyPersonal(
@@ -137,7 +149,7 @@ interface InfoService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<List<KeyPersonalBean>>>
 
-
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Listinformation/Findhistoryrongzi")
     fun listFinanceHistory(
@@ -147,6 +159,7 @@ interface InfoService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<List<FinanceHistoryBean>>>
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Listinformation/Findtzanli")
     fun listInvestEvent(
@@ -156,6 +169,7 @@ interface InfoService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<List<InvestEventBean>>>
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Listinformation/Findteammember")
     fun listCoreTeam(
@@ -165,6 +179,7 @@ interface InfoService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<List<TeamMemberBean>>>
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Listinformation/Getproductinfo")
     fun listBizInfo(
@@ -174,6 +189,7 @@ interface InfoService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<List<ProductBean>>>
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Listinformation/Findjingpin")
     fun listProductInfo(
@@ -183,6 +199,7 @@ interface InfoService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<List<ProductBean>>>
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Listinformation/Employments")
     fun listRecruit(
@@ -192,6 +209,7 @@ interface InfoService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<List<RecruitBean>>>
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Listinformation/Bond")
     fun listBond(
@@ -201,6 +219,8 @@ interface InfoService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<List<BondBean>>>
 
+
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Listinformation/Taxcredit")
     fun listTaxRate(
@@ -210,6 +230,7 @@ interface InfoService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<List<TaxRateBean>>>
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Listinformation/Purchaseland")
     fun listLandPurchase(
@@ -219,6 +240,7 @@ interface InfoService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<List<LandPurchaseBean>>>
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Listinformation/Bids")
     fun listBids(
@@ -228,6 +250,7 @@ interface InfoService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<List<BidBean>>>
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Listinformation/Qualification")
     fun listQualification(
@@ -237,6 +260,7 @@ interface InfoService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<List<QualificationBean>>>
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Listinformation/Checkinfo")
     fun listCheck(
@@ -246,6 +270,7 @@ interface InfoService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<List<CheckBean>>>
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Listinformation/Appbkinfo")
     fun listApp(
@@ -255,6 +280,7 @@ interface InfoService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<List<AppBean>>>
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Listinformation/Tm")
     fun listBrand(
@@ -264,6 +290,7 @@ interface InfoService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<List<BrandBean>>>
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Listinformation/Patents")
     fun listPatent(
@@ -273,6 +300,7 @@ interface InfoService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<List<PatentBean>>>
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Listinformation/Icp")
     fun listICP(
@@ -282,6 +310,7 @@ interface InfoService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<List<IcpBean>>>
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Listinformation/Branch")
     fun listBranch(

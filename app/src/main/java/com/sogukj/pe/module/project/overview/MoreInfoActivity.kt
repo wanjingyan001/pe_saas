@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
+import android.view.LayoutInflater
 import android.view.View
 import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
@@ -122,6 +123,9 @@ class MoreInfoActivity : BaseRefreshActivity() {
             onComplete {
                 emptyImg.setVisible(infoAdapter.dataList.isEmpty())
                 iv_loading.setVisible(false)
+                if (listType == 1) {
+                    moreInfoList.setItemViewCacheSize(infoAdapter.dataList.size)
+                }
             }
         }
     }
@@ -180,7 +184,6 @@ class MoreInfoActivity : BaseRefreshActivity() {
             data as UserProjectInfo
             view.peopleOverviewTitle.setVisible(true)
             view.peopleOverviewTitle.text = Html.fromHtml("${data.name}   共负责<font color='#3C98E8'>${data.count}</font>个项目")
-
             val adapter = RecyclerAdapter<Company>(ctx) { _adapter, parent, _ ->
                 val holder = OverviewHolder(_adapter.getView(R.layout.item_overview_horizontal_list, parent))
                 holder.isPeopleState = true

@@ -1,5 +1,6 @@
 package com.sogukj.pe.service
 
+import com.sogukj.pe.Consts
 import com.sogukj.pe.bean.*
 import io.reactivex.Observable
 import io.reactivex.Observer
@@ -14,7 +15,7 @@ interface RegisterService {
     /**
      * 提交手机号,发送验证码
      */
-    @Headers(value = ["Domain-Name: Register"])
+    @Headers(value = ["Domain-Name: ${Consts.REGISTER}"])
     @FormUrlEncoded
     @POST("/api/Saas/send_saas_code")
     fun sendVerCode(@Field("phone") phone: String): Observable<Payload<Any>>
@@ -22,7 +23,7 @@ interface RegisterService {
     /**
      * 验证短信验证码
      */
-    @Headers(value = ["Domain-Name: Register"])
+    @Headers(value = ["Domain-Name: ${Consts.REGISTER}"])
     @FormUrlEncoded
     @POST("/api/Saas/verify_saas_code")
     fun verifyCode(@Field("phone") phone: String,
@@ -31,7 +32,7 @@ interface RegisterService {
     /**
      * 邀请码验证
      */
-    @Headers(value = ["Domain-Name: Register"])
+    @Headers(value = ["Domain-Name: ${Consts.REGISTER}"])
     @FormUrlEncoded
     @POST("/api/Saas/get_check_code")
     fun inviteCode(@Field("phone") phone: String,
@@ -40,7 +41,7 @@ interface RegisterService {
     /**
      * 团队信息补充
      */
-    @Headers(value = ["Domain-Name: Register"])
+    @Headers(value = ["Domain-Name: ${Consts.REGISTER}"])
     @POST("/api/Saas/get_info_sup")
     fun teamInfoSupplement(@Body req: TeamInfoSupplementReq): Observable<Payload<JoinTeamResult>>
 
@@ -48,7 +49,7 @@ interface RegisterService {
     /**
      * 上传名片
      */
-    @Headers(value = ["Domain-Name: Register"])
+    @Headers(value = ["Domain-Name: ${Consts.REGISTER}"])
     @POST("/api/Saas/uploadCard")
     fun uploadCard(@Body reqBean: RequestBody): Observable<Payload<String>>
 
@@ -56,7 +57,7 @@ interface RegisterService {
     /**
      * 获取邀请码接口
      */
-    @Headers(value = ["Domain-Name: Register"])
+    @Headers(value = ["Domain-Name: ${Consts.REGISTER}"])
     @FormUrlEncoded
     @POST("/api/Saas/get_code")
     fun getInviteCode(@Field("key") key: String): Observable<Payload<InviteCode>>
@@ -66,7 +67,7 @@ interface RegisterService {
      * 通过手机号邀请
      *
      */
-    @Headers(value = ["Domain-Name: Register"])
+    @Headers(value = ["Domain-Name: ${Consts.REGISTER}"])
     @FormUrlEncoded
     @POST("/api/Saas/send_add_code")
     fun inviteByPhone(@Field("phone") phone: String,
@@ -76,7 +77,7 @@ interface RegisterService {
     /**
      * 审核失败后 机构信息查询
      */
-    @Headers(value = ["Domain-Name: Register"])
+    @Headers(value = ["Domain-Name: ${Consts.REGISTER}"])
     @FormUrlEncoded
     @POST("/api/Saas/get_mechanism_info")
     fun getMechanismInfo(@Field("user_id") user_id: Int): Observable<Payload<MechanismInfo>>
@@ -84,7 +85,7 @@ interface RegisterService {
     /**
      * 基础资料上传
      */
-    @Headers(value = ["Domain-Name: Register"])
+    @Headers(value = ["Domain-Name: ${Consts.REGISTER}"])
     @FormUrlEncoded
     @POST("/api/Saas/basic_data_upload")
     fun uploadBasicInfo(@Field("key") key: String,
@@ -96,7 +97,7 @@ interface RegisterService {
     /**
      * 上传logo
      */
-    @Headers(value = ["Domain-Name: Register"])
+    @Headers(value = ["Domain-Name: ${Consts.REGISTER}"])
     @POST("/api/Saas/addlogo")
     fun uploadLogo(@Body reqBean: RequestBody): Observable<Payload<String>>
 
@@ -171,7 +172,7 @@ interface RegisterService {
     /**
      * 判断是否绑定过第三方登录
      */
-    @Headers(value = ["Domain-Name: WX"])
+    @Headers(value = ["Domain-Name: ${Consts.WX}"])
     @FormUrlEncoded
     @POST("api/Saas/threePartyLogin")
     fun checkThirdBinding(@Field("source") source: String,

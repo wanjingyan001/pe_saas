@@ -1,5 +1,7 @@
 package com.sogukj.pe.peUtils
+
 import android.content.Context
+import android.preference.PreferenceManager
 import android.text.TextUtils
 import android.util.Log
 import com.google.gson.Gson
@@ -30,8 +32,8 @@ class Store private constructor() {
         XmlDb.open(ctx).set("uToken", token)
     }
 
-    fun setRootUrl(ctx:Context,rootUrl:String){
-        XmlDb.open(ctx).set(Extras.HTTPURL,"")
+    fun setRootUrl(ctx: Context, rootUrl: String) {
+        XmlDb.open(ctx).set(Extras.HTTPURL, "")
     }
 
     private val resultNews = LinkedList<String>()
@@ -67,17 +69,19 @@ class Store private constructor() {
         return resultNews
     }
 
-    fun newsSearchRemover(ctx: Context, position: Int){
-        if (position<resultNews.size){
+    fun newsSearchRemover(ctx: Context, position: Int) {
+        if (position < resultNews.size) {
             resultNews.removeAt(position)
             XmlDb.open(ctx).set("his.news", GSON.toJson(this.resultNews.toArray()))
         }
     }
+
     private val searchResult = ArrayList<String>()
-    fun saveSearchHis(ctx:Context,searchHis : ArrayList<String>){
+    fun saveSearchHis(ctx: Context, searchHis: ArrayList<String>) {
         XmlDb.open(ctx).set("search_his", GSON.toJson(searchHis.toArray()))
     }
-    fun getSearchHis(ctx:Context):ArrayList<String>{
+
+    fun getSearchHis(ctx: Context): ArrayList<String> {
         this.searchResult.clear()
         try {
             val strJson = XmlDb.open(ctx).get("search_his", "")
@@ -92,14 +96,16 @@ class Store private constructor() {
         return searchResult
     }
 
-    fun clearSearchHis(ctx : Context){
+    fun clearSearchHis(ctx: Context) {
         XmlDb.open(ctx).set("search_his", "")
     }
+
     private var contractResult = ArrayList<UserBean>()
-    fun saveContractHis(ctx:Context,searchHis : ArrayList<UserBean>){
+    fun saveContractHis(ctx: Context, searchHis: ArrayList<UserBean>) {
         XmlDb.open(ctx).set("contract_his", GSON.toJson(searchHis.toArray()))
     }
-    fun getContractHis(ctx:Context):ArrayList<UserBean>{
+
+    fun getContractHis(ctx: Context): ArrayList<UserBean> {
         this.contractResult.clear()
         try {
             val strJson = XmlDb.open(ctx).get("contract_his", "")
@@ -114,16 +120,17 @@ class Store private constructor() {
         return contractResult
     }
 
-    fun clearContractHis(ctx : Context){
+    fun clearContractHis(ctx: Context) {
         XmlDb.open(ctx).set("contract_his", "")
     }
 
     private var plResult = ArrayList<String>()
     private var cloudResult = ArrayList<String>()
-    fun savePltHis(ctx:Context,searchHis : ArrayList<String>){
+    fun savePltHis(ctx: Context, searchHis: ArrayList<String>) {
         XmlDb.open(ctx).set("pl_his", GSON.toJson(searchHis.toArray()))
     }
-    fun getPlHis(ctx:Context):ArrayList<String>{
+
+    fun getPlHis(ctx: Context): ArrayList<String> {
         this.plResult.clear()
         try {
             val strJson = XmlDb.open(ctx).get("pl_his", "")
@@ -138,14 +145,15 @@ class Store private constructor() {
         return plResult
     }
 
-    fun clearPlHis(ctx : Context){
+    fun clearPlHis(ctx: Context) {
         XmlDb.open(ctx).set("pl_his", "")
     }
 
-    fun saveCloudtHis(ctx:Context,searchHis : ArrayList<String>){
+    fun saveCloudtHis(ctx: Context, searchHis: ArrayList<String>) {
         XmlDb.open(ctx).set("cloud_his", GSON.toJson(searchHis.toArray()))
     }
-    fun getCloudHis(ctx:Context):ArrayList<String>{
+
+    fun getCloudHis(ctx: Context): ArrayList<String> {
         this.cloudResult.clear()
         try {
             val strJson = XmlDb.open(ctx).get("cloud_his", "")
@@ -160,15 +168,16 @@ class Store private constructor() {
         return cloudResult
     }
 
-    fun clearCloudHis(ctx : Context){
+    fun clearCloudHis(ctx: Context) {
         XmlDb.open(ctx).set("cloud_his", "")
     }
 
     private var lawcaseHis = ArrayList<LawCaseHisInfo>()
-    fun saveLawtHis(ctx:Context,searchHis : ArrayList<LawCaseHisInfo>){
+    fun saveLawtHis(ctx: Context, searchHis: ArrayList<LawCaseHisInfo>) {
         XmlDb.open(ctx).set("law_his", GSON.toJson(searchHis.toArray()))
     }
-    fun getLawHis(ctx:Context):ArrayList<LawCaseHisInfo>{
+
+    fun getLawHis(ctx: Context): ArrayList<LawCaseHisInfo> {
         this.lawcaseHis.clear()
         try {
             val strJson = XmlDb.open(ctx).get("law_his", "")
@@ -183,7 +192,7 @@ class Store private constructor() {
         return lawcaseHis
     }
 
-    fun clearLawHis(ctx : Context){
+    fun clearLawHis(ctx: Context) {
         XmlDb.open(ctx).set("law_his", "")
     }
 
@@ -266,11 +275,13 @@ class Store private constructor() {
     fun setUser(ctx: Context, user: UserBean) {
         this._user = user
         XmlDb.open(ctx).set(UserBean::class.java.simpleName, GSON.toJson(user))
+        PreferenceManager.getDefaultSharedPreferences(ctx).edit().putString("user_table_token", user.table_token).apply()
     }
 
     fun clearUser(ctx: Context) {
         this._user = null
         XmlDb.open(ctx).set(UserBean::class.java.simpleName, "{}")
+        PreferenceManager.getDefaultSharedPreferences(ctx).edit().putString("user_table_token", "").apply()
     }
 
     /**
@@ -318,19 +329,21 @@ class Store private constructor() {
     }
 
     fun getDzhToken(ctx: Context): String {
-        return XmlDb.open(ctx).get(com.sogukj.pe.Extras.DZH_TOKEN,"")
+        return XmlDb.open(ctx).get(com.sogukj.pe.Extras.DZH_TOKEN, "")
     }
 
-    fun setDzhToken(ctx: Context, token: String):Boolean{
-        return XmlDb.open(ctx).set(com.sogukj.pe.Extras.DZH_TOKEN,token)
+    fun setDzhToken(ctx: Context, token: String): Boolean {
+        return XmlDb.open(ctx).set(com.sogukj.pe.Extras.DZH_TOKEN, token)
     }
 
-    fun getApproveConfig(ctx:Context):Int{
-        return XmlDb.open(ctx).get(Extras.APPROVE_CONFIG,0)
+    fun getApproveConfig(ctx: Context): Int {
+        return XmlDb.open(ctx).get(Extras.APPROVE_CONFIG, 0)
     }
-    fun saveApproveConfig(ctx:Context,config:Int):Boolean{
-        return XmlDb.open(ctx).set(Extras.APPROVE_CONFIG,config)
+
+    fun saveApproveConfig(ctx: Context, config: Int): Boolean {
+        return XmlDb.open(ctx).set(Extras.APPROVE_CONFIG, config)
     }
+
     class SizeList<E> : LinkedList<E>() {
 
         fun distinct() {

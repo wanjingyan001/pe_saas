@@ -5,6 +5,10 @@ package com.sogukj.pe
  */
 class Consts {
     companion object {
+        const val CREDIT_COLLECTION = "creditCollection"
+        const val REGISTER = "Register"
+        const val DATA_SOURCE = "DataSource"
+        const val WX = "WX"
         val HTTP_HOST = "https://sougu.pewinner.com/"
 //        val DEV_HTTP_HOST = "https://presougu.pewinner.com/"
 //        val DEV_HTTP_HOST = "http://hmtbtx.pewinner.com/"
