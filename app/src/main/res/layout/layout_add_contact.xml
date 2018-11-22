@@ -19,6 +19,7 @@
         <EditText
             android:id="@+id/et_contact_name"
             style="@style/addContactContent"
+            android:textCursorDrawable="@null"
             android:layout_toRightOf="@id/tv_cn_tag"/>
         <TextView
             android:id="@+id/tv_contact_name"
@@ -82,6 +83,7 @@
             style="@style/addContactContent"
             android:visibility="invisible"
             android:inputType="phone"
+            android:textCursorDrawable="@null"
             android:layout_toRightOf="@+id/tv_phone_tag"/>
         <TextView
             android:id="@+id/tv_phone_name"
@@ -110,6 +112,7 @@
             style="@style/addContactContent"
             android:visibility="invisible"
             android:inputType="number"
+            android:textCursorDrawable="@null"
             android:layout_toRightOf="@+id/tv_card_tag"/>
         <TextView
             android:id="@+id/tv_card_name"
@@ -137,6 +140,7 @@
             android:id="@+id/et_email_name"
             style="@style/addContactContent"
             android:visibility="invisible"
+            android:textCursorDrawable="@null"
             android:layout_toRightOf="@+id/tv_email_tag"/>
         <TextView
             android:id="@+id/tv_email_name"

@@ -5,8 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
@@ -15,6 +13,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
@@ -30,6 +29,7 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_fund_edit.*
+import kotlinx.android.synthetic.main.toolbar_custom.*
 import org.jetbrains.anko.find
 import java.text.SimpleDateFormat
 import java.util.*
@@ -40,20 +40,17 @@ class FundEditActivity : ToolbarActivity() {
 
     lateinit var adapter: RecyclerAdapter<UserBean>
 
-    override val menuId: Int
-        get() = R.menu.menu_mark
+//    override val menuId: Int
+//        get() = R.menu.menu_mark
+//
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        val flag = super.onCreateOptionsMenu(menu)
+//        val menuMark = menu.findItem(R.id.action_mark) as MenuItem
+//        menuMark.title = "保存"
+//        return flag
+//    }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val flag = super.onCreateOptionsMenu(menu)
-        val menuMark = menu.findItem(R.id.action_mark) as MenuItem
-        menuMark.title = "保存"
-        return flag
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            R.id.action_mark -> {
-
+    private fun saveFund(){
                 var map = HashMap<String, Any?>()
                 map.put("id", data.id)
                 //map.put("administrator", administrator.text.toString())
@@ -115,9 +112,6 @@ class FundEditActivity : ToolbarActivity() {
                             Trace.e(e)
                             showCustomToast(R.drawable.icon_toast_fail, "保存失败")
                         })
-            }
-        }
-        return false
     }
 
     lateinit var data: FundSmallBean
@@ -128,6 +122,7 @@ class FundEditActivity : ToolbarActivity() {
         data = intent.getSerializableExtra(Extras.DATA) as FundSmallBean
         setBack(true)
         title = data.fundName
+        toolbar_menu.text = "保存"
         run {
             adapter = RecyclerAdapter(this, { _adapter, parent, type ->
                 val convertView = _adapter.getView(R.layout.item_fund_detail_name_list, parent)
@@ -199,6 +194,10 @@ class FundEditActivity : ToolbarActivity() {
                     regTime.text = SimpleDateFormat("yyyy-MM-dd").format(date)
                 }
             }
+        }
+
+        toolbar_menu.clickWithTrigger {
+            saveFund()
         }
     }
 

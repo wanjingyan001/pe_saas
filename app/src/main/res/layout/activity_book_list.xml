@@ -43,7 +43,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="2dp"
             android:maxEms="10"
-            android:ellipsize="middle"
+            android:ellipsize="end"
             android:gravity="center"
             android:singleLine="true"
             tools:text="主    页" />

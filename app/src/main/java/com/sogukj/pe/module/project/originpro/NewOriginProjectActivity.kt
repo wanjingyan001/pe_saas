@@ -153,6 +153,22 @@ class NewOriginProjectActivity : ToolbarActivity(), NewOriginProCallBack {
                     phoneMap.put(position, et_phone_name)
                     idCardMap.put(position, et_card_name)
                     emailMap.put(position, et_email_name)
+
+                    if (!et_contact_name.textStr.isNullOrEmpty()){
+                        et_contact_name.setSelection(et_contact_name.textStr.length)
+                    }
+
+                    if (!et_phone_name.textStr.isNullOrEmpty()){
+                        et_phone_name.setSelection(et_phone_name.textStr.length)
+                    }
+
+                    if (!et_card_name.textStr.isNullOrEmpty()){
+                        et_card_name.setSelection(et_card_name.textStr.length)
+                    }
+
+                    if (!et_email_name.textStr.isNullOrEmpty()){
+                        et_email_name.setSelection(et_email_name.textStr.length)
+                    }
                 }
 
                 private fun fitData(data: NewProjectInfo.RelateInfo) {

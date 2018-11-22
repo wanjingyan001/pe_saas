@@ -11,8 +11,7 @@ import android.os.Environment
 import android.os.Handler
 import android.os.Message
 import android.view.Gravity
-import android.view.Menu
-import android.view.MenuItem
+import android.view.View
 import android.view.WindowManager
 import android.webkit.*
 import android.widget.TextView
@@ -29,6 +28,7 @@ import cn.sharesdk.wechat.moments.WechatMoments
 import cn.sharesdk.wechat.utils.WechatClientNotExistException
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -42,6 +42,7 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_online_preview.*
+import kotlinx.android.synthetic.main.toolbar_custom.*
 import java.io.File
 import java.io.UnsupportedEncodingException
 
@@ -156,33 +157,44 @@ class OnlinePreviewActivity : ToolbarActivity(), PlatformActionListener {
                 web.loadUrl(url)
             }
         }
-    }
 
-    override val menuId: Int
-        get() = R.menu.menu_mark
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val flag = super.onCreateOptionsMenu(menu)
-        val menuMark = menu.findItem(R.id.action_mark) as MenuItem
         if (isCanShare){
-            menuMark.title = "分享"
+            toolbar_menu.text = "分享"
+            toolbar_menu.visibility = View.VISIBLE
         }else{
-            menuMark.title = ""
+            toolbar_menu.visibility = View.INVISIBLE
         }
-        return flag
+
+        toolbar_menu.clickWithTrigger {
+            cusShare()
+        }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            R.id.action_mark -> {
-//                share()
-                if (isCanShare){
-                    cusShare()
-                }
-            }
-        }
-        return false
-    }
+//    override val menuId: Int
+//        get() = R.menu.menu_mark
+//
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        val flag = super.onCreateOptionsMenu(menu)
+//        val menuMark = menu.findItem(R.id.action_mark) as MenuItem
+//        if (isCanShare){
+//            menuMark.title = "分享"
+//        }else{
+//            menuMark.title = ""
+//        }
+//        return flag
+//    }
+//
+//    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+//        when (item?.itemId) {
+//            R.id.action_mark -> {
+////                share()
+//                if (isCanShare){
+//                    cusShare()
+//                }
+//            }
+//        }
+//        return false
+//    }
 
     private fun cusShare() {
         if (transUrl.isNullOrEmpty())

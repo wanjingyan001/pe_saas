@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context="com.sogukj.pe.ui.project.RecordTraceActivity">
 
-    <include layout="@layout/toolbar" />
+    <include layout="@layout/toolbar_custom" />
 
     <FrameLayout
         android:id="@+id/contentLayout"

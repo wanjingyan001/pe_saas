@@ -5,8 +5,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -15,6 +13,7 @@ import com.google.gson.Gson
 import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.DateUtils
 import com.sogukj.pe.baselibrary.utils.Trace
@@ -28,6 +27,7 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_record_trace.*
+import kotlinx.android.synthetic.main.toolbar_custom.*
 import org.jetbrains.anko.textColor
 @Route(path = ARouterPath.RecordTraceActivity)
 class RecordTraceActivity : ToolbarActivity() {
@@ -44,7 +44,7 @@ class RecordTraceActivity : ToolbarActivity() {
         setBack(true)
         title = "拜访记录"
         company_name.text = project.name
-
+        toolbar_menu.text = "添加"
 //        project.company_id = 1
 
         adapter = RecyclerAdapter(this, { _adapter, parent, type ->
@@ -99,6 +99,10 @@ class RecordTraceActivity : ToolbarActivity() {
         project.company_id?.let {
             load(it)
         }
+
+        toolbar_menu.clickWithTrigger {
+            RecordDetailActivity.startAdd(this@RecordTraceActivity, project)
+        }
     }
 
     fun load(it: Int) {
@@ -137,24 +141,24 @@ class RecordTraceActivity : ToolbarActivity() {
                 })
     }
 
-    override val menuId: Int
-        get() = R.menu.menu_mark
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val flag = super.onCreateOptionsMenu(menu)
-        val menuMark = menu.findItem(R.id.action_mark) as MenuItem
-        menuMark.title = "添加"
-        return flag
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            R.id.action_mark -> {
-                RecordDetailActivity.startAdd(this@RecordTraceActivity, project)
-            }
-        }
-        return false
-    }
+//    override val menuId: Int
+//        get() = R.menu.menu_mark
+//
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        val flag = super.onCreateOptionsMenu(menu)
+//        val menuMark = menu.findItem(R.id.action_mark) as MenuItem
+//        menuMark.title = "添加"
+//        return flag
+//    }
+//
+//    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+//        when (item?.itemId) {
+//            R.id.action_mark -> {
+//                RecordDetailActivity.startAdd(this@RecordTraceActivity, project)
+//            }
+//        }
+//        return false
+//    }
 
     companion object {
         fun start(ctx: Activity?, project: ProjectBean) {

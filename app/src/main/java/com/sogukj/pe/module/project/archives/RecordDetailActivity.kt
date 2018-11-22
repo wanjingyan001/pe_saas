@@ -4,12 +4,12 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
-import android.view.Menu
-import android.view.MenuItem
+import android.view.View
 import android.view.WindowManager
 import com.google.gson.Gson
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.DateUtils
 import com.sogukj.pe.baselibrary.utils.Trace
@@ -24,6 +24,7 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_record_detail.*
+import kotlinx.android.synthetic.main.toolbar_custom.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
@@ -131,6 +132,20 @@ class RecordDetailActivity : ToolbarActivity() {
                 Utils.showSoftInputFromWindow(this,et_des)
             }
         }
+        if ("ADD".equals(type)){
+            toolbar_menu.text = "提交"
+            toolbar_menu.visibility = View.VISIBLE
+        }else if ("VIEW".equals(type)){
+            toolbar_menu.visibility = View.INVISIBLE
+        }
+
+        toolbar_menu.clickWithTrigger {
+            if (project.company_id == null) {
+                showCustomToast(R.drawable.icon_toast_common, "请选择公司")
+            } else {
+                upload(project.company_id!!)
+            }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -142,34 +157,34 @@ class RecordDetailActivity : ToolbarActivity() {
         }
     }
 
-    override val menuId: Int
-        get() = R.menu.menu_mark
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val flag = super.onCreateOptionsMenu(menu)
-        val menuMark = menu.findItem(R.id.action_mark) as MenuItem
-        if (type == "ADD") {
-            menuMark.title = "提交"
-        } else if (type == "VIEW") {
-            menuMark.title = ""
-        }
-        return flag
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            R.id.action_mark -> {
-                if (type == "ADD") {
-                    if (project.company_id == null) {
-                        showCustomToast(R.drawable.icon_toast_common, "请选择公司")
-                    } else {
-                        upload(project.company_id!!)
-                    }
-                }
-            }
-        }
-        return false
-    }
+//    override val menuId: Int
+//        get() = R.menu.menu_mark
+//
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        val flag = super.onCreateOptionsMenu(menu)
+//        val menuMark = menu.findItem(R.id.action_mark) as MenuItem
+//        if (type == "ADD") {
+//            menuMark.title = "提交"
+//        } else if (type == "VIEW") {
+//            menuMark.title = ""
+//        }
+//        return flag
+//    }
+//
+//    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+//        when (item?.itemId) {
+//            R.id.action_mark -> {
+//                if (type == "ADD") {
+//                    if (project.company_id == null) {
+//                        showCustomToast(R.drawable.icon_toast_common, "请选择公司")
+//                    } else {
+//                        upload(project.company_id!!)
+//                    }
+//                }
+//            }
+//        }
+//        return false
+//    }
 
     var paramsMap = HashMap<String, Any>()
 

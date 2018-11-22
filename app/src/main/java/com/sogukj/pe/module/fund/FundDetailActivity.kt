@@ -6,14 +6,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Gravity
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
@@ -27,6 +26,7 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_fund_detail.*
+import kotlinx.android.synthetic.main.toolbar_custom.*
 import org.jetbrains.anko.find
 
 class FundDetailActivity : ToolbarActivity() {
@@ -42,26 +42,26 @@ class FundDetailActivity : ToolbarActivity() {
         }
     }
 
-    override val menuId: Int
-        get() = R.menu.menu_mark
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val flag = super.onCreateOptionsMenu(menu)
-        val menuMark = menu.findItem(R.id.action_mark) as MenuItem
-        menuMark.title = "编辑"
-        return flag
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            R.id.action_mark -> {
-                val intent = Intent(context, FundEditActivity::class.java)
-                intent.putExtra(Extras.DATA, data)
-                startActivityForResult(intent, 0x001)
-            }
-        }
-        return false
-    }
+//    override val menuId: Int
+//        get() = R.menu.menu_mark
+//
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        val flag = super.onCreateOptionsMenu(menu)
+//        val menuMark = menu.findItem(R.id.action_mark) as MenuItem
+//        menuMark.title = "编辑"
+//        return flag
+//    }
+//
+//    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+//        when (item?.itemId) {
+//            R.id.action_mark -> {
+//                val intent = Intent(context, FundEditActivity::class.java)
+//                intent.putExtra(Extras.DATA, data)
+//                startActivityForResult(intent, 0x001)
+//            }
+//        }
+//        return false
+//    }
 
     lateinit var data: FundSmallBean
 
@@ -71,6 +71,7 @@ class FundDetailActivity : ToolbarActivity() {
         data = intent.getSerializableExtra(Extras.DATA) as FundSmallBean
         setBack(true)
         title = data.fundName
+        toolbar_menu.text = "编辑"
         run {
             adapter = RecyclerAdapter(this) { _adapter, parent, type ->
                 val convertView = _adapter.getView(R.layout.item_fund_detail_name_list, parent)
@@ -117,6 +118,12 @@ class FundDetailActivity : ToolbarActivity() {
             jjxh.setOnClickListener {
                 FundAssociationActivity.start(context, 1, 0, data.id)
             }
+        }
+
+        toolbar_menu.clickWithTrigger {
+            val intent = Intent(context, FundEditActivity::class.java)
+            intent.putExtra(Extras.DATA, data)
+            startActivityForResult(intent, 0x001)
         }
     }
 

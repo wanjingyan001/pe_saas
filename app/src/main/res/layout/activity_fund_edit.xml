@@ -9,7 +9,7 @@
     android:focusableInTouchMode="true"
     tools:context="com.sogukj.pe.ui.fund.FundDetailActivity">
 
-    <include layout="@layout/toolbar" />
+    <include layout="@layout/toolbar_custom" />
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"

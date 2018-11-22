@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context="com.sogukj.pe.ui.project.RecordDetailActivity">
 
-    <include layout="@layout/toolbar" />
+    <include layout="@layout/toolbar_custom" />
 
     <TextView
         android:id="@+id/company_name"

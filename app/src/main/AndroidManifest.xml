@@ -764,7 +764,7 @@
             android:name=".module.creditCollection.ShareholderCreditActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".module.creditCollection.AddCreditActivity"
             android:configChanges="orientation|screenSize"
@@ -1385,7 +1385,10 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".module.creditCollection.NewCreditListActivity" />
+        <activity android:name=".module.creditCollection.NewCreditListActivity"
+                  android:configChanges="orientation|screenSize"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity android:name=".module.other.MsgAssistantActivity" />
         <activity
             android:name=".module.project.originpro.NewOriginProjectActivity"
