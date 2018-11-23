@@ -127,7 +127,7 @@ class ApproveDetailActivity : ToolbarActivity() {
             -22 -> "管理公司用印"
             -23 -> "外资用印"
             -41 -> "报销"
-            else -> ""
+            else -> fixation.title
         }
 
         val status = fixation.mainStatus

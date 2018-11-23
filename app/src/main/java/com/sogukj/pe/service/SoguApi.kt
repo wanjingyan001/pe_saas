@@ -203,7 +203,7 @@ class SoguApi {
                 exitUser()
             }
         } catch (e: Exception) {
-            Log.e("OkHttp", content)
+            Log.e("OkHttp", "${response.request().url()}====>$content")
             e.printStackTrace()
         }
         response.newBuilder().body(ResponseBody.create(mediaType, content)).build()

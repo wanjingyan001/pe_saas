@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
@@ -33,12 +34,13 @@ class CreateDepartmentActivity : ToolbarActivity() {
     override val menuId: Int
         get() = R.menu.menu_complete
     private lateinit var departmentAdapter: DepartmentAdapter
-    private lateinit var mechanismName:String
-    private lateinit var phone:String
+    private lateinit var mechanismName: String
+    private lateinit var phone: String
     private val logoUrl: String by extraDelegate(Extras.DATA, "")
     private val departments = ArrayList<Department>()
     private val model: OrganViewModel by lazy { ViewModelProviders.of(this).get(OrganViewModel::class.java) }
-    private val flag :Boolean by extraDelegate(Extras.FLAG ,false)
+    private val flag: Boolean by extraDelegate(Extras.FLAG, false)
+    private val fromRegister: Boolean by extraDelegate(Extras.FLAG2, true)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +49,9 @@ class CreateDepartmentActivity : ToolbarActivity() {
         title = "创建部门"
         mechanismName = intent.getStringExtra(Extras.NAME)
         phone = intent.getStringExtra(Extras.CODE)
-
+        fromRegister.no {
+            supportInvalidateOptionsMenu()
+        }
         companyName.text = mechanismName
         Glide.with(this)
                 .load(logoUrl)
@@ -126,6 +130,14 @@ class CreateDepartmentActivity : ToolbarActivity() {
                 }
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        menu.clear()
+        fromRegister.yes {
+            menuInflater.inflate(R.menu.menu_complete, menu)
+        }
+        return super.onPrepareOptionsMenu(menu)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.complete -> {
@@ -146,24 +158,24 @@ class CreateDepartmentActivity : ToolbarActivity() {
                 unique = split("_")[1]
             }
         }
-        SoguApi.getService(application, RegisterService::class.java).getUserBean(phone,sp.getInt(Extras.SaasUserId,0),source, unique)
+        SoguApi.getService(application, RegisterService::class.java).getUserBean(phone, sp.getInt(Extras.SaasUserId, 0), source, unique)
                 .execute {
                     onNext { payload ->
                         if (payload.isOk) {
                             payload.payload?.let {
                                 if (flag) {
                                     finish()
-                                }else{
-                                    Store.store.setUser(this@CreateDepartmentActivity,it)
+                                } else {
+                                    Store.store.setUser(this@CreateDepartmentActivity, it)
                                     getCompanyInfo()
                                 }
                             }
-                        }else{
+                        } else {
                             hideProgress()
                             showTopSnackBar(payload.message)
                         }
                     }
-                    onError { e->
+                    onError { e ->
                         hideProgress()
                         Trace.e(e)
                     }

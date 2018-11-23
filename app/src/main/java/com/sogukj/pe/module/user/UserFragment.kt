@@ -193,7 +193,8 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
                     startActivity<CreateDepartmentActivity>(Extras.NAME to name,
                             Extras.CODE to user.phone,
                             Extras.DATA to logo,
-                            Extras.FLAG to true)
+                            Extras.FLAG to true,
+                            Extras.FLAG2 to false)
                 }
             }
         }
