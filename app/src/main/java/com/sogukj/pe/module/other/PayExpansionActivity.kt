@@ -74,6 +74,7 @@ class PayExpansionActivity : BaseActivity() {
     private var pay_type = 3 //3 支付宝 4 微信 1 个人账号 2 企业账号
     private var isCheckedSentiment = true //是否选中舆情套餐
     private var api: IWXAPI? = null
+    private var isCloseWarn = false
     private var mHandler : Handler = object : Handler(){
         override fun handleMessage(msg: Message?) {
             super.handleMessage(msg)
@@ -336,6 +337,7 @@ class PayExpansionActivity : BaseActivity() {
 
         iv_delete.clickWithTrigger {
             ll_warn.setVisible(false)
+            isCloseWarn = true
         }
     }
     private fun setPayButtonStatus(){
@@ -519,7 +521,9 @@ class PayExpansionActivity : BaseActivity() {
                                             projectTotal.text = "舆情监控共${it.max}个"
                                             projectOver.text = "剩余${it.max - it.used}个"
                                             if (!it.expirytime.isNullOrEmpty()){
-                                                ll_warn.setVisible(true)
+                                                if (!isCloseWarn){
+                                                    ll_warn.setVisible(true)
+                                                }
                                                 val warn = "您的套餐将于${it.expirytime}到期，为了团队的正常工作，请尽快续费。"
                                                 val spannableString = SpannableString(warn)
                                                 spannableString.setSpan(ForegroundColorSpan(Color.parseColor("#F85959")),

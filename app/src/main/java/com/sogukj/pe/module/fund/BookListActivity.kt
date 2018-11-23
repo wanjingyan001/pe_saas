@@ -150,7 +150,8 @@ class BookListActivity : BaseActivity() {
                             }
                             data.count?.apply {
                                 if (this == 0) {
-                                    str = "${str}无文件"
+//                                    str = "${str}无文件"
+                                    str = "无文件"
                                 } else {
                                     str = "${str}${this}个文件"
                                 }
@@ -245,7 +246,8 @@ class BookListActivity : BaseActivity() {
                             }
                             data.count?.apply {
                                 if (this == 0) {
-                                    str = "${str}无文件"
+//                                    str = "${str}无文件"
+                                    str = "无文件"
                                 } else {
                                     str = "${str}${this}个文件"
                                 }

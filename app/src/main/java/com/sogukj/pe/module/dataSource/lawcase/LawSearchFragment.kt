@@ -92,6 +92,7 @@ class LawSearchFragment : LawSearchBaseFragment(),LawSearchCallBack, TextWatcher
                 "  searchKey ==" + searchKey + "  realType ==" + realType)
         if (isVisible){
             getSearchData()
+            searchResultListener()
         }
     }
 
@@ -149,15 +150,14 @@ class LawSearchFragment : LawSearchBaseFragment(),LawSearchCallBack, TextWatcher
             activity!!.et_search.setHint(R.string.search_keyword)
             activity!!.et_search.setText("")
         }
+    }
 
+    private fun searchResultListener(){
         activity!!.et_search.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 searchKey = activity!!.et_search.textStr
                 if (null != presenter){
                     Utils.closeInput(activity!!,activity!!.et_search)
-//                    if (activity!!.et_search.isCursorVisible){
-//                        activity!!.et_search.isCursorVisible = false
-//                    }
                     XmlDb.open(activity!!).set("searchKey",searchKey)
                     val searchType = XmlDb.open(activity!!).get("realType", type)
                     Log.e("TAG","  searchListener --- searchKey ==" + searchKey + "  searchType ==" + searchType +
@@ -169,7 +169,6 @@ class LawSearchFragment : LawSearchBaseFragment(),LawSearchCallBack, TextWatcher
             false
         }
     }
-
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)

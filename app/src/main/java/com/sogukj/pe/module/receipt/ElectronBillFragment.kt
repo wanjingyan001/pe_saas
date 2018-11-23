@@ -5,8 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -101,6 +101,7 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack {
         tv_header.clickWithTrigger {
             BillHeadSearchActivity.invokeForResult(this, BILL_SEARCH, tv_header.textStr)
         }
+        et_duty.inputType = InputType.TYPE_CLASS_TEXT
         et_duty.addTextChangedListener(AddSpaceTextWatcher())
         et_accept.addTextChangedListener(this)
         et_phone.addTextChangedListener(this)
@@ -275,6 +276,7 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack {
                 } else if (location < 0) {
                     location = 0
                 }
+
                 updateContext(s, str)
                 isChanged = false
             }
@@ -288,7 +290,6 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack {
                 buffer.delete(0, buffer.length)
             }
             spaceCount = (0 until s.length).count { s[it] == ' ' }
-            Log.e("TAG","beforeTextChanged --- beforeTextLength ==" + beforeTextLength + "  spaceCount ==" + spaceCount)
         }
 
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
@@ -300,7 +301,6 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack {
                 return
             }
             isChanged = true
-            Log.e("TAG","onTextChanged --- onTextLength ==" + onTextLength + " buffer ==" + buffer + "  isChanged == "+ isChanged)
         }
 
         /**
@@ -327,7 +327,8 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack {
          * @param values
          */
         private fun updateContext(editable: Editable, values: String) {
-            et_duty.setText(values)
+//            et_duty.setText(values)
+            editable.replace(0,editable.length,values)
             try {
                 et_duty.setSelection(location)
             } catch (e: Exception) {

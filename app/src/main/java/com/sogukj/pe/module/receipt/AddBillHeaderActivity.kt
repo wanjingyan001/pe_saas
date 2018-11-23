@@ -221,7 +221,8 @@ class AddBillHeaderActivity : ToolbarActivity(), TextWatcher {
          * @param values
          */
         private fun updateContext(editable: Editable, values: String) {
-            et_duty.setText(values)
+//            et_duty.setText(values)
+            editable.replace(0,editable.length,values)
             try {
                 et_duty.setSelection(location)
             } catch (e: Exception) {
