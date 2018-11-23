@@ -47,6 +47,7 @@ import kotlinx.android.synthetic.main.layout_empty.*
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.find
 import org.jetbrains.anko.imageResource
+import org.jetbrains.anko.support.v4.ctx
 import java.io.File
 import java.util.*
 import kotlin.properties.Delegates
@@ -177,7 +178,7 @@ class FilterFileActivity : BaseActivity() {
                 val list1 = FileUtil.getFiles(WX_DOC_PATH2)
                 val list2 = FileUtil.getFiles(QQ_DOC_PATH)
                 val list4 = FileUtil.getFiles(QQ_DOC_PATH1)
-                val list5 = FileUtil.getFiles(DING_TALK_PATH)
+                val list5 = FileUtil.getDingFiles(ctx)
                 val list3 = FileUtil.getFiles(FileUtil.getExternalFilesDir(applicationContext))
                 files = list.plus(list1).plus(list2).plus(list3).plus(list4).plus(list5).toMutableList()
                 directory1.text = "全部"
@@ -195,7 +196,7 @@ class FilterFileActivity : BaseActivity() {
                 directory1.text = "QQ"
             }
             DING_TALK -> {
-                val list = FileUtil.getFiles(DING_TALK_PATH)
+                val list = FileUtil.getDingFiles(ctx)
                 files = list.toMutableList()
                 directory1.text = "钉钉"
             }
@@ -221,9 +222,9 @@ class FilterFileActivity : BaseActivity() {
             }
         }
         files = files.filter { FileUtil.getFileType(it) == fileType }.toMutableList()
-        Collections.sort(files) { o1, o2 ->
+        files.sortWith(Comparator { o1, o2 ->
             o2.lastModified().compareTo(o1.lastModified())
-        }
+        })
     }
 
     private fun initRefresh() {

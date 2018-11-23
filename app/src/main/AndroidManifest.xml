@@ -1385,10 +1385,11 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".module.creditCollection.NewCreditListActivity"
-                  android:configChanges="orientation|screenSize"
-                  android:screenOrientation="portrait"
-                  android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+        <activity
+            android:name=".module.creditCollection.NewCreditListActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity android:name=".module.other.MsgAssistantActivity" />
         <activity
             android:name=".module.project.originpro.NewOriginProjectActivity"
@@ -1488,8 +1489,8 @@
         <activity
             android:name=".module.receipt.AccountRechargeActivity"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity android:name=".module.dataSource.IndustrySubActivity" />
         <activity android:name=".module.project.overview.MoreInfoActivity" />
@@ -1554,6 +1555,11 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
+
+        <service
+            android:name=".service.FileFindService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

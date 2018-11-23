@@ -1,16 +1,21 @@
 package com.sogukj.pe.peUtils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.webkit.MimeTypeMap;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.nbsp.materialfilepicker.utils.FileComparator;
 import com.netease.nim.uikit.api.NimUIKit;
 import com.sogukj.pe.R;
 import com.sogukj.pe.baselibrary.utils.Trace;
+import com.sogukj.pe.bean.DingFile;
 import com.sogukj.pe.module.fileSelector.DocFileFilter;
 import com.sogukj.pe.module.fileSelector.ImageFileFilter;
 import com.sogukj.pe.module.fileSelector.VideoFileFilter;
@@ -56,7 +61,7 @@ public class FileUtil {
         TXT("txt"),
         OTHER("pages", "keynote", "numbers", "cer", "der", "pfx", "p12", "arm", "pem",
                 "ai", "cdr", "dfx", "eps", "svg", "stl", "wmf", "emf", "art", "xar",
-                "wav", "flac", "m4a", "wma", "amr",  "mp3", "wma", "aac", "mid", "m3u");
+                "wav", "flac", "m4a", "wma", "amr", "mp3", "wma", "aac", "mid", "m3u");
         private String[] extensions;
 
         FileType(String... extensions) {
@@ -777,12 +782,37 @@ public class FileUtil {
         return vecFile;
     }
 
+    public static List<File> getDingFiles(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        String dingFileDirStr = sp.getString("DingFileDir", "");
+        Gson gson = new Gson();
+        List<DingFile> dingFiles = gson.fromJson(dingFileDirStr, new TypeToken<List<DingFile>>() {
+        }.getType());
+        List<File> vecFile = new ArrayList<>();
+        for (DingFile file : dingFiles) {
+            File ding = new File(file.getPath());
+            if (ding.isDirectory()) {
+                File[] files = ding.listFiles();
+                if (files != null && files.length > 0) {
+                    for (File aSubFile : files) {
+                        // 判断是否为文件夹
+                        if (!aSubFile.isDirectory()) {
+                            vecFile.add(aSubFile);
+                        }
+                    }
+                }
+            }
+        }
+        return vecFile;
+    }
+
     /**
      * 获取指定目录下的文件地址列表
+     *
      * @param fileAbsolutePath
      * @return
      */
-    public static Set<String> getFilePaths(String fileAbsolutePath){
+    public static Set<String> getFilePaths(String fileAbsolutePath) {
         Set<String> paths = new HashSet<>();
         File file = new File(fileAbsolutePath);
         if (file.exists()) {
@@ -876,6 +906,7 @@ public class FileUtil {
 
     /**
      * 根据图片的路径得到该图片在表中的ID
+     *
      * @param context
      * @param fileName
      * @return
@@ -900,6 +931,7 @@ public class FileUtil {
 
     /**
      * 根据图片的ID得到缩略图
+     *
      * @param context
      * @param imageId
      * @return
@@ -919,10 +951,11 @@ public class FileUtil {
 
     /**
      * 获取指定目录下的图片文件
+     *
      * @param fileAbsolutePath
      * @return
      */
-    public static List<File> getImageFile(String fileAbsolutePath){
+    public static List<File> getImageFile(String fileAbsolutePath) {
         List<File> iamges = new ArrayList<>();
         File file = new File(fileAbsolutePath);
         if (file.exists()) {
@@ -941,10 +974,11 @@ public class FileUtil {
 
     /**
      * 获取指定目录下的视频文件
+     *
      * @param fileAbsolutePath
      * @return
      */
-    public static List<File> getVideoFile(String fileAbsolutePath){
+    public static List<File> getVideoFile(String fileAbsolutePath) {
         List<File> videos = new ArrayList<>();
         File file = new File(fileAbsolutePath);
         if (file.exists()) {
@@ -962,11 +996,12 @@ public class FileUtil {
     }
 
     /**
-     *  获取指定目录下的文档文件
+     * 获取指定目录下的文档文件
+     *
      * @param fileAbsolutePath
      * @return
      */
-    public static List<File> getDocFile(String fileAbsolutePath){
+    public static List<File> getDocFile(String fileAbsolutePath) {
         List<File> docs = new ArrayList<>();
         File file = new File(fileAbsolutePath);
         if (file.exists()) {
@@ -985,10 +1020,11 @@ public class FileUtil {
 
     /**
      * 获取指定目录下的压缩包文件
+     *
      * @param fileAbsolutePath
      * @return
      */
-    public static List<File> getZipFile(String fileAbsolutePath){
+    public static List<File> getZipFile(String fileAbsolutePath) {
         List<File> zips = new ArrayList<>();
         File file = new File(fileAbsolutePath);
         if (file.exists()) {

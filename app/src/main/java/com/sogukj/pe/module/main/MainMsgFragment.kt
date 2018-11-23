@@ -394,6 +394,7 @@ class MainMsgFragment : BaseFragment() {
         baseActivity?.networkBlock = { isAvail ->
             networkError.setVisible(!isAvail)
         }
+        refresh.autoRefresh(1500)
     }
 
     private fun loadPop() {
@@ -476,9 +477,6 @@ class MainMsgFragment : BaseFragment() {
         NIMClient.getService(MsgService::class.java).queryRecentContacts().setCallback(object : RequestCallback<MutableList<RecentContact>> {
             override fun onSuccess(p0: MutableList<RecentContact>?) {
                 p0?.let {
-                    //                    it.forEach { item ->
-//                        AnkoLogger("WJY").info { "IM消息列表:" + item.jsonStr }
-//                    }
                     recentList.addAll(it)
                 }
                 val list = recentList.toList()
@@ -607,7 +605,7 @@ class MainMsgFragment : BaseFragment() {
             }
             adapter.dataList.distinct()
             adapter.notifyDataSetChanged()
-        }, 500)
+        }, 200)
     }
 
     override fun onDestroyView() {

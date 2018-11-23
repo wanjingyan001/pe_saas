@@ -54,6 +54,7 @@ import com.sogukj.pe.module.register.LoginActivity
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.FileUtil
 import com.sogukj.pe.peUtils.Store
+import com.sogukj.pe.service.FileFindService
 import com.sogukj.pe.service.OtherService
 import com.sogukj.pe.service.socket.DzhClientService
 import com.sogukj.pe.widgets.MyProgressBar
@@ -64,10 +65,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
-import org.jetbrains.anko.ctx
-import org.jetbrains.anko.find
-import org.jetbrains.anko.imageResource
-import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.*
 import java.io.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -571,6 +569,7 @@ class MainActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         DzhClientService.stopService(this)
+        stopService<FileFindService>()
     }
 
     companion object {

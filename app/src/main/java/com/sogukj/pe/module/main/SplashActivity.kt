@@ -16,6 +16,7 @@ import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.module.register.LoginActivity
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.Store
+import com.sogukj.pe.service.FileFindService
 import com.sogukj.pe.service.RegisterService
 import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -25,6 +26,7 @@ import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import me.leolin.shortcutbadger.ShortcutBadger
 import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.startService
 
 /**
  * Created by qinfei on 17/8/11.
@@ -57,6 +59,8 @@ class SplashActivity : BaseActivity() {
 
         saveDzhToken()
         getCompanyInfo()
+
+        startService<FileFindService>()
     }
 
     override fun onResume() {

@@ -50,7 +50,7 @@ val String.firstLetter: String
 
 fun Context.needIm():Boolean{
     val data = PreferenceManager.getDefaultSharedPreferences(this).getString(Extras.SAAS_BASIC_DATA, "")
-   return data.contains("消息")
+   return data.contains("享聊")
 }
 
 fun getEnvironment(): String {

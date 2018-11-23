@@ -354,7 +354,8 @@ public class MessageFragment extends TFragment implements ModuleProxy {
             // send message to server and save to db
             Map<String, Object> ext = new HashMap<>();
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
-            ext.put("domain", sp.getString("user_table_token", ""));
+            ext.put("domain", sp.getString("saas.httpUrl", ""));
+            ext.put("table_token", sp.getString("user_table_token", ""));
             message.setRemoteExtension(ext);
             message.setMsgAck();
             NIMClient.getService(MsgService.class).sendMessage(message, false).setCallback(new RequestCallback<Void>() {
