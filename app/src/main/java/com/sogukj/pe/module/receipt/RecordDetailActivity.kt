@@ -47,10 +47,10 @@ class RecordDetailActivity : ToolbarActivity() {
 
         tv_time.text = time
         when(type){
-            1 -> iv_pay.imageResource = R.mipmap.ic_sentiment_head
-            2 -> iv_pay.imageResource = R.mipmap.ic_credit_head
-            3 -> iv_pay.imageResource = R.mipmap.ic_account_head
-            4 -> iv_pay.imageResource = R.mipmap.ic_book_head
+            4 -> iv_pay.imageResource = R.mipmap.ic_sentiment_head
+            3 -> iv_pay.imageResource = R.mipmap.ic_credit_head
+            1 -> iv_pay.imageResource = R.mipmap.ic_account_head
+            2 -> iv_pay.imageResource = R.mipmap.ic_book_head
         }
 
         tv_title.text = describe

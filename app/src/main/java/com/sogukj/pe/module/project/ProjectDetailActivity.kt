@@ -16,6 +16,7 @@ import android.provider.Settings
 import android.support.v4.app.Fragment
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -226,8 +227,10 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
         dialog!!.show()
         val iv_close = dialog!!.find<ImageView>(R.id.iv_close)
         val tv_subtract = dialog!!.find<TextView>(R.id.tv_subtract)
+        val fl_subtract = dialog!!.find<FrameLayout>(R.id.fl_subtract)
         val et_count = dialog!!.find<EditText>(R.id.et_count)
         val tv_add = dialog!!.find<TextView>(R.id.tv_add)
+        val fl_add = dialog!!.find<FrameLayout>(R.id.fl_add)
         val tv_coin = dialog!!.find<TextView>(R.id.tv_coin)
         val rl_bus = dialog!!.find<RelativeLayout>(R.id.rl_bus)
         val tv_bus_balance = dialog!!.find<TextView>(R.id.tv_bus_balance)
@@ -311,7 +314,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
             }
         }
 
-        tv_subtract.setOnClickListener{
+        fl_subtract.setOnClickListener{
             //减
             count = et_count.textStr.toInt()
             count--
@@ -352,7 +355,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
             }
         }
 
-        tv_add.setOnClickListener {
+        fl_add.setOnClickListener {
             //加
             count++
             coin = Utils.reserveTwoDecimal(9.9 * count, 2)

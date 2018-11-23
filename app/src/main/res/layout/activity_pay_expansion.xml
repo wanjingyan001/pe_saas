@@ -315,19 +315,30 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:orientation="horizontal">
-                        <TextView
-                            android:id="@+id/tv_subtract"
+                        <FrameLayout
+                            android:id="@+id/fl_subtract"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:paddingLeft="@dimen/text_20"
-                            android:paddingRight="@dimen/text_20"
-                            android:paddingTop="@dimen/text_10"
-                            android:paddingBottom="@dimen/text_10"
-                            android:background="@drawable/bg_subtract_shape"
-                            android:textSize="@dimen/text_size_14"
-                            android:textColor="@color/black_28"
-                            android:text="-"/>
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:id="@+id/tv_subtract"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:paddingLeft="@dimen/text_20"
+                                android:paddingRight="@dimen/text_20"
+                                android:paddingTop="@dimen/text_10"
+                                android:paddingBottom="@dimen/text_10"
+                                android:background="@drawable/bg_subtract_shape"
+                                android:textSize="@dimen/text_size_14"
+                                android:textColor="@color/black_28"/>
+                            <ImageView
+                                android:layout_width="10dp"
+                                android:layout_height="@dimen/text_2"
+                                android:layout_gravity="center"
+                                android:scaleType="fitXY"
+                                android:src="@mipmap/ic_subtract"/>
+                        </FrameLayout>
+                        
                         <EditText
                             android:id="@+id/et_count"
                             android:layout_width="wrap_content"
@@ -342,19 +353,30 @@
                             android:inputType="number"
                             android:textColor="@color/black_28"
                             android:text="1"/>
-                        <TextView
-                            android:id="@+id/tv_add"
+                        <FrameLayout
+                            android:id="@+id/fl_add"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:textSize="@dimen/text_size_14"
-                            android:textColor="@color/black_28"
-                            android:paddingLeft="@dimen/text_20"
-                            android:paddingRight="@dimen/text_20"
-                            android:paddingTop="@dimen/text_10"
-                            android:paddingBottom="@dimen/text_10"
-                            android:background="@drawable/bg_add_shape"
-                            android:text="+"/>
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:id="@+id/tv_add"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:textSize="@dimen/text_size_14"
+                                android:textColor="@color/black_28"
+                                android:paddingLeft="@dimen/text_20"
+                                android:paddingRight="@dimen/text_20"
+                                android:paddingTop="@dimen/text_10"
+                                android:paddingBottom="@dimen/text_10"
+                                android:background="@drawable/bg_add_shape"/>
+                            <ImageView
+                                android:layout_width="@dimen/text_10"
+                                android:layout_height="@dimen/text_10"
+                                android:layout_gravity="center"
+                                android:scaleType="fitXY"
+                                android:src="@mipmap/ic_add"/>
+                        </FrameLayout>
+
                     </LinearLayout>
                 </RelativeLayout>
 

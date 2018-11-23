@@ -22,9 +22,9 @@ import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.Extended.yes
-import com.sogukj.pe.baselibrary.base.BaseRefreshFragment
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.baselibrary.utils.XmlDb
 import com.sogukj.pe.bean.LawCaseHisInfo
 import com.sogukj.pe.bean.LawSearchResultInfo
 import com.sogukj.pe.module.dataSource.lawcase.presenter.LawSearchPresenter
@@ -37,12 +37,13 @@ import org.jetbrains.anko.support.v4.startActivity
 /**
  * Created by CH-ZH on 2018/9/10.
  */
-class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
-    private var type : Int  = -1
+class LawSearchFragment : LawSearchBaseFragment(),LawSearchCallBack, TextWatcher {
+    private var type : Int  = 1
     private var searchKey : String = ""
     private var presenter:LawSearchPresenter ? = null
     private lateinit var resultAdapter: LawSearchAdapter
     private var searchData  = ArrayList<LawSearchResultInfo>()
+    private var realType : Int = 1
     override fun initRefreshConfig(): RefreshConfig? {
         val config = RefreshConfig()
         config.loadMoreEnable = true
@@ -56,7 +57,8 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        type = arguments!!.getInt("type", -1)
+        type = arguments!!.getInt("type", 1)
+        realType = arguments!!.getInt("type",1)
         searchKey = arguments!!.getString("search_key")
     }
 
@@ -75,6 +77,24 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
         bindListener()
     }
 
+    override fun onFragmentFirstVisible() {
+
+    }
+
+    override fun onFragmentVisibleChange(isVisible: Boolean) {
+        realType = type
+        val realSearchKey = XmlDb.open(activity!!).get("searchKey", searchKey)
+        if (!realSearchKey.equals(searchKey)){
+            searchKey = realSearchKey
+        }
+        XmlDb.open(activity!!).set("realType",realType)
+        Log.e("TAG"," onFragmentVisibleChange -- isVisible ==" + isVisible +
+                "  searchKey ==" + searchKey + "  realType ==" + realType)
+        if (isVisible){
+            getSearchData()
+        }
+    }
+
     private fun initData() {
         Glide.with(ctx)
                 .asGif()
@@ -85,15 +105,27 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
         if (null != activity!!.et_search.textStr){
             searchKey = activity!!.et_search.textStr
         }
-        Log.e("TAG"," LawSearchFragment initData -- searchKey ==" + searchKey + "  type ==" + type)
         recycler_view.adapter = resultAdapter
-        getSearchData()
+        if (!XmlDb.open(activity!!).get("isFirst")){
+            if (null != presenter){
+                showLoadding()
+                presenter!!.doLawSearchRequest(searchKey,type!!,true)
+            }
+            XmlDb.open(activity!!).set("isFirst",true)
+        }
     }
 
     private fun getSearchData() {
         if (null != presenter){
             showLoadding()
-            presenter!!.doLawSearchRequest(searchKey,type!!,true)
+            presenter!!.doLawSearchRequest(searchKey,realType!!,true)
+        }
+    }
+
+    private fun getSearchData(searchType:Int) {
+        if (null != presenter){
+            showLoadding()
+            presenter!!.doLawSearchRequest(searchKey,searchType!!,true)
         }
     }
 
@@ -126,9 +158,11 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
 //                    if (activity!!.et_search.isCursorVisible){
 //                        activity!!.et_search.isCursorVisible = false
 //                    }
-                    showLoadding()
-                    Log.e("TAG","  searchListener --- searchKey ==" + searchKey + "  type ==" + type)
-                    presenter!!.doLawSearchRequest(searchKey,type!!,true)
+                    XmlDb.open(activity!!).set("searchKey",searchKey)
+                    val searchType = XmlDb.open(activity!!).get("realType", type)
+                    Log.e("TAG","  searchListener --- searchKey ==" + searchKey + "  searchType ==" + searchType +
+                            "  isFragmentVisible() ==" + isFragmentVisible())
+                    getSearchData(searchType)
                 }
                 true
             }
@@ -139,7 +173,6 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
-        Log.e("TAG","  isVisibleToUser ==" + isVisibleToUser + "  type ==" + type)
     }
 
     override fun doRefresh() {
@@ -147,8 +180,8 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
             searchKey = activity!!.et_search.textStr
         }
         if (null != presenter){
-            Log.e("TAG","  doRefresh --- searchKey ==" + searchKey + "  type ==" + type)
-            presenter!!.doLawSearchRequest(searchKey,type!!,true)
+            Log.e("TAG","  doRefresh --- searchKey ==" + searchKey + "  realType ==" + realType)
+            presenter!!.doLawSearchRequest(searchKey,realType!!,true)
         }
     }
 
@@ -157,7 +190,7 @@ class LawSearchFragment : BaseRefreshFragment(),LawSearchCallBack, TextWatcher {
             searchKey = activity!!.et_search.textStr
         }
         if (null != presenter){
-            presenter!!.doLawSearchRequest(searchKey,type!!,false)
+            presenter!!.doLawSearchRequest(searchKey,realType!!,false)
         }
     }
 

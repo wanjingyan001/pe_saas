@@ -31,6 +31,8 @@ class LawSearchResultActivity : ToolbarActivity() {
         setContentView(R.layout.activity_law_search)
         searchKey = intent.getStringExtra(Extras.DATA)
         XmlDb.open(this).set(Extras.IS_FIRST_LAW,true)
+        XmlDb.open(this).set("isFirst",false)
+        XmlDb.open(this).set("searchKey",searchKey)
         initData()
         bindListener()
     }

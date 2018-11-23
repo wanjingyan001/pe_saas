@@ -169,7 +169,7 @@ class PayExpansionActivity : BaseActivity() {
     }
 
     private fun bindListener() {
-        tv_subtract.setOnClickListener {
+        fl_subtract.setOnClickListener {
             //减少舆情数量
             if (!isCheckedSentiment)return@setOnClickListener
             count = et_count.textStr.toInt()
@@ -186,7 +186,7 @@ class PayExpansionActivity : BaseActivity() {
             paymentPrice.text = "￥${allprice}"
             prepareValue(allprice,perBalance,busBalance,false)
         }
-        tv_add.setOnClickListener {
+        fl_add.setOnClickListener {
             //增加舆情数量
             if (!isCheckedSentiment)return@setOnClickListener
             count++
