@@ -4,12 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.style.ForegroundColorSpan
-import android.view.View
 import android.widget.TextView
-import com.amap.api.mapcore.util.it
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
@@ -27,10 +22,8 @@ import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.BaseRefreshActivity
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Utils
-import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
-import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.*
-import com.sogukj.pe.module.approve.*
+import com.sogukj.pe.module.approve.ApproveDetailActivity
 import com.sogukj.pe.module.calendar.ModifyTaskActivity
 import com.sogukj.pe.module.calendar.TaskDetailActivity
 import com.sogukj.pe.module.im.msg_viewholder.*
@@ -39,17 +32,9 @@ import com.sogukj.pe.module.project.originpro.ProjectApprovalShowActivity
 import com.sogukj.pe.module.project.originpro.ProjectUploadShowActivity
 import com.sogukj.pe.module.weekly.PersonalWeeklyActivity
 import com.sogukj.pe.peUtils.Store
-import com.sogukj.pe.peUtils.SupportEmptyView
-import com.sogukj.pe.service.OtherService
-import com.sogukj.pe.service.Payload
-import com.sogukj.service.SoguApi
-import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_msg_assistant.*
-import kotlinx.android.synthetic.main.item_msg_assistant.view.*
-import kotlinx.android.synthetic.main.item_msg_content.view.*
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.info
-import org.jetbrains.anko.singleLine
 import org.jetbrains.anko.startActivity
 
 class MsgAssistantActivity : BaseRefreshActivity() {
@@ -300,7 +285,7 @@ class MsgAssistantActivity : BaseRefreshActivity() {
                     helper.setText(R.id.payTypeTitle, item.content)
                     helper.setText(R.id.payTypeUnitPrice, "￥${item.unit_price}")
                     helper.setText(R.id.payTypeNum, "x${item.order_count}")
-                    helper.setText(R.id.payUserName, "购买人：${item.pay_userNmae.withOutEmpty}")
+                    helper.setText(R.id.payUserName, "购买人：${item.pay_userName.withOutEmpty}")
                     helper.setText(R.id.payOrderNum, "订单编号：${item.order_str}")
                     helper.setText(R.id.payTotalPrice, "￥${item.money}")
                     helper.setText(R.id.msgTime, Utils.formatDingDate(Utils.getTime(System.currentTimeMillis(), "yyyy-MM-dd HH:mm")))
