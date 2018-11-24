@@ -225,5 +225,5 @@ interface OtherService {
      * 获取投资人报告
      */
     @GET("/api/report/getPreview")
-    fun getInvestorPost(@Query("fund_id") fund_id: Int): Observable<Payload<Any>>
+    fun getInvestorPost(@Query("fund_id") fund_id: Int): Observable<Payload<JsonObject>>
 }

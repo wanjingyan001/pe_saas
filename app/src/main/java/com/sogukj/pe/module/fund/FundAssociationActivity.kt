@@ -94,9 +94,9 @@ class FundAssociationActivity : ToolbarActivity() {
                     .execute {
                         onNext { payload ->
                             if (payload.isOk){
-                                val any = payload.payload
-                                if (null != any){
-                                    val path = any.toString()
+                                val json = payload.payload
+                                if (null != json){
+                                    val path = json.get("preview_file_path").asString
                                     PdfPreviewActivity.invoke(this@FundAssociationActivity,
                                                 PdfBook(0,"投资人报告",path,"","","","",1),false)
                                 }else{
