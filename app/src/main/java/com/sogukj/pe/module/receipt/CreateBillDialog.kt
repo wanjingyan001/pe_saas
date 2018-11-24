@@ -54,6 +54,7 @@ class CreateBillDialog {
             val view_duty = dialog.find<View>(R.id.view_duty)
             val iv_close = dialog.find<ImageView>(R.id.iv_close)
             val ll_submit = dialog.find<LinearLayout>(R.id.ll_submit)
+            var title_type = 1 // 1 企业发票 2 个人发票
             if (null != map) {
                 tv_header.text = map.get("title") as String
                 Utils.setSpaceText(tv_duty,map.get("tax_no") as String)
@@ -61,8 +62,9 @@ class CreateBillDialog {
                 tv_phone.text = map.get("phone") as String
                 tv_address.text = map.get("province") as String + " " + map.get("city") as String + " " + map.get("county") as String
                 tv_detail.text = map.get("address") as String
+                title_type = map.get("title_type") as Int
             }
-            if (tv_duty.textStr.isNullOrEmpty()){
+            if (title_type == 2){
                 ll_duty.setVisible(false)
                 view_duty.setVisible(false)
             }else{

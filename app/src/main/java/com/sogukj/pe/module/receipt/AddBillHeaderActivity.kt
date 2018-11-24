@@ -2,6 +2,7 @@ package com.sogukj.pe.module.receipt
 
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
@@ -119,6 +120,7 @@ class AddBillHeaderActivity : ToolbarActivity(), TextWatcher {
         }
 
         et_title.addTextChangedListener(this)
+        et_duty.inputType = InputType.TYPE_CLASS_TEXT
         et_duty.addTextChangedListener(AddSpaceTextWatcher())
         iv_delete.clickWithTrigger {
             et_title.setText("")
