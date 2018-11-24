@@ -347,7 +347,9 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
         override fun getView(parent: FlowLayout?, position: Int, key: String?): View {
             val itemView = View.inflate(this@ImSearchResultActivity,R.layout.search_his_item,null)
             val tv_item = itemView.findViewById<TextView>(R.id.tv_item)
-            tv_item.text = key
+            if (!key.isNullOrEmpty()){
+                tv_item.text = key
+            }
             return itemView
         }
 
@@ -816,7 +818,9 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
                 presenter!!.getPlExpressResultData(true,query)
             }else if (type == 3){
                 //获取云文件
-                getCloudSearchData(false,query)
+                if (!query.isNullOrEmpty()){
+                    getCloudSearchData(false,query)
+                }
             }
         }
     }
@@ -882,12 +886,16 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
                 }
             }
             if (index == 0){
-                his.add(searchKey)
+                if (!searchKey.isNullOrEmpty()){
+                    his.add(searchKey)
+                }
                 Store.store.saveCloudtHis(this,his)
             }
         }else{
             val keys = ArrayList<String>()
-            keys.add(searchKey)
+            if (!searchKey.isNullOrEmpty()){
+                keys.add(searchKey)
+            }
             Store.store.saveCloudtHis(this,keys)
         }
     }

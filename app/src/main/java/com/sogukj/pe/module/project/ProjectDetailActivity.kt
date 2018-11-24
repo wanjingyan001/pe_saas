@@ -16,7 +16,6 @@ import android.provider.Settings
 import android.support.v4.app.Fragment
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -715,7 +714,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                             } else {
                                 showSuccessToast("开启舆情成功")
                                 headView.iv_button.setImageResource(R.mipmap.ic_sentiment_on)
-                                headView.tv_senti_title.text = "关闭舆情监控"
+                                headView.tv_senti_title.text = "监控到期时间："
                                 headView.tv_senti_time.setVisible(true)
                                 headView.ll_times_buy.setVisible(true)
 
@@ -768,22 +767,22 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
     var remainder = 0
     private fun setSentimentData(info: SentimentInfoBean) {
         remainder = info.remainder
+        headView.tv_senti_time.text = info.expire
+        headView.tv_times.text = "剩余次数：${info.remainder}次"
         when (info.is_open) {
             0 -> {
                 headView.iv_button.setImageResource(R.mipmap.ic_sentiment_off)
                 headView.tv_senti_title.text = "开启舆情监控"
                 headView.tv_senti_time.setVisible(false)
                 headView.ll_times_buy.setVisible(true)
-                headView.tv_times.text = "剩余次数：${info.remainder}次"
+
                 isStartOpen = false
             }
             1 -> {
                 headView.iv_button.setImageResource(R.mipmap.ic_sentiment_on)
-                headView.tv_senti_title.text = "关闭舆情监控"
+                headView.tv_senti_title.text = "监控到期时间："
                 headView.tv_senti_time.setVisible(true)
                 headView.ll_times_buy.setVisible(true)
-                headView.tv_times.text = "剩余次数：${info.remainder}次"
-                headView.tv_senti_time.text = "监控到期时间${info.expire}"
                 isStartOpen = true
             }
         }

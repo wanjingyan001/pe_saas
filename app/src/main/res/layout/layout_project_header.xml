@@ -227,7 +227,7 @@
                     android:visibility="gone"
                     android:textSize="@dimen/text_size_10"
                     android:textColor="@color/red_f01"
-                    android:text="监控到期时间09-13"/>
+                    tools:text="09-13"/>
             </LinearLayout>
 
             <ImageView

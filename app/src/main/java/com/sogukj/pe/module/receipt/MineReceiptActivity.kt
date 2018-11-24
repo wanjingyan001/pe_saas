@@ -300,8 +300,8 @@ class MineReceiptActivity : BaseRefreshActivity() {
 
             tv_title.text = data.type
             tv_time.text = data.pay_time
-            tv_amount.text = "数量：${data.count}"
-            tv_coin.text = "支付金额：${data.price}"
+            tv_amount.text = "数量：${data.count}个"
+            tv_coin.text = "支付金额：${data.price}元"
             tv_pay_status.text = data.pay_source
             itemView.setOnClickListener {
                 if (type == 1) {
