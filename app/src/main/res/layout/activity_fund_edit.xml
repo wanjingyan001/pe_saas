@@ -379,7 +379,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="carry分成&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;"
+                    android:text="Carry分成&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;&#8194;"
                     android:textColor="@color/text_1" />
 
                 <EditText
