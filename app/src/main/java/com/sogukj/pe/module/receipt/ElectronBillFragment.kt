@@ -423,6 +423,7 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack {
                         if (null != receiptBean) {
                             tv_header.text = receiptBean.title
                             et_duty.setText(Utils.getSpaceText(receiptBean.tax_no))
+                            et_duty.setSelection(et_duty.textStr.length)
                         }
                     }
                 }
