@@ -154,6 +154,7 @@ class MainHomeFragment : BaseFragment() {
                     val bundle = Bundle()
                     bundle.putInt(Extras.DATA, local_sp ?: 0)
                     bundle.putInt(Extras.FLAG, Extras.ROUTH_FLAG)
+                    bundle.putString(Extras.TITLE, mainFunIcon.name)
                     ARouter.getInstance().build(path)
                             .with(bundle)
                             .navigation(activity!!, Extras.REQUESTCODE)

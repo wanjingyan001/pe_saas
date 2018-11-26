@@ -50,6 +50,10 @@ class CompanySelectActivity : BaseRefreshActivity() {
     @Autowired(name = "ext.name")
     var name = ""
 
+    @JvmField
+    @Autowired(name = "ext.title")
+    var titleStr  = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         ARouter.getInstance().inject(this)
         super.onCreate(savedInstanceState)
@@ -88,15 +92,15 @@ class CompanySelectActivity : BaseRefreshActivity() {
                 doRequest(bean.id!!)
             } else if (routerPath.contains("fund")) {
                 val bean = adapter.dataList[p] as FundSmallBean
-                if (name == "fund"){
-                    val stage = when(bean.type){//  （1=>储备，2=>存续，3=>退出））
+                if (name == "fund") {
+                    val stage = when (bean.type) {//  （1=>储备，2=>存续，3=>退出））
                         1 -> "储备"
                         2 -> "存续"
                         3 -> "退出"
                         else -> ""
                     }
-                    BookListActivity.start(this,bean.id,2,null,"基金文书",bean.fundName,stage)
-                }else{
+                    BookListActivity.start(this, bean.id, 2, null, "基金文书", bean.fundName, stage)
+                } else {
 
                     ARouter.getInstance().build(routerPath)
                             .withSerializable(Extras.DATA, bean)
@@ -133,7 +137,7 @@ class CompanySelectActivity : BaseRefreshActivity() {
                 .subscribe({ payload ->
                     if (payload.isOk) {
                         payload.payload?.let {
-                            if (name == "project"){
+                            if (name == "project") {
                                 val stage = when (it[0].type) {//（4是储备，1是立项，3是关注，5是退出，6是调研）
                                     6 -> "调研"
                                     4 -> "储备"
@@ -143,25 +147,37 @@ class CompanySelectActivity : BaseRefreshActivity() {
                                     else -> ""
                                 }
                                 BookListActivity.start(context, it[0].company_id!!, 1, null, "项目文书", it[0].name!!, stage)
-                            }else{
-                                when(routerPath){
-                                    ARouterPath.ManagerActivity ->{
+                            } else {
+                                when (routerPath) {
+                                    ARouterPath.ManagerActivity -> {
                                         ARouter.getInstance().build(routerPath)
-                                                .withInt(Extras.TYPE,8)
-                                                .withString(Extras.TITLE,"投决数据")
+                                                .withInt(Extras.TYPE, 8)
+                                                .withString(Extras.TITLE, titleStr)
                                                 .withSerializable(Extras.DATA, it[0])
                                                 .navigation()
                                     }
-                                    else ->{
+                                    ARouterPath.ManageDataActivity ->{
+                                        ARouter.getInstance().build(ARouterPath.ManagerActivity)
+                                                .withString(Extras.TITLE, titleStr)
+                                                .withInt(Extras.TYPE, 10)
+                                                .withSerializable(Extras.DATA, it[0])
+                                                .navigation()
+                                    }
+                                    ARouterPath.SurveyDataActivity -> {
+                                        ARouter.getInstance().build(ARouterPath.ManagerActivity)
+                                                .withString(Extras.TITLE, titleStr)
+                                                .withInt(Extras.TYPE, 1)
+                                                .withSerializable(Extras.DATA, it[0])
+                                                .navigation()
+                                    }
+                                    else -> {
                                         ARouter.getInstance().build(routerPath)
                                                 .withSerializable(Extras.DATA, it[0])
                                                 .navigation()
                                     }
                                 }
-
                             }
                         }
-
                     } else
                         showCustomToast(R.drawable.icon_toast_fail, payload.message)
                 }, { e ->

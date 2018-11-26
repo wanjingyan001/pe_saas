@@ -84,8 +84,6 @@ class TeamCreateActivity : BaseActivity() {
         val manager = GridLayoutManager(this, 7)
         team_member.layoutManager = manager
         team_member.adapter = adapter
-
-        team_number.text = "${teamMember.size}人"
         team_name.filters = Utils.getFilter(this)
         related_items_layout.clickWithTrigger {
             CompanySelectActivity.start(this)
@@ -127,6 +125,11 @@ class TeamCreateActivity : BaseActivity() {
             }
         }
 
+        initView()
+    }
+
+    private fun initView() {
+        team_number.text = "${teamMember.size}人"
         if (project != null) {
             team_project.text = project?.shortName ?: project?.name!!
             team_project.setVisible(team_project.text.isNotEmpty())
@@ -293,7 +296,7 @@ class TeamCreateActivity : BaseActivity() {
                         teamMember.addAll(it)
                         adapter.refreshData(teamMember)
                         team_number.text = "${teamMember.size}人"
-                        getTeamHeader(teamMember)
+                        initView()
                     }
                 }
                 Extras.RESULTCODE2 -> {
@@ -303,7 +306,7 @@ class TeamCreateActivity : BaseActivity() {
                         teamMember.addAll(it)
                         adapter.refreshData(teamMember)
                         team_number.text = "${teamMember.size}人"
-                        getTeamHeader(teamMember)
+                        initView()
                     }
                 }
             }

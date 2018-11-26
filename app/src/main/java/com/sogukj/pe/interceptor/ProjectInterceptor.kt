@@ -38,6 +38,7 @@ class ProjectInterceptor : IInterceptor, AnkoLogger {
             ARouter.getInstance()
                     .build(ARouterPath.CompanySelectActivity)
                     .withString(Extras.ROUTE_PATH, postcard.path)
+                    .withString(Extras.TITLE, bundle.getString(Extras.TITLE))
                     .navigation()
             callback.onInterrupt(null)
         } else if (postcard.path.contains("source") && bundle.getInt(Extras.FLAG) == Extras.ROUTH_FLAG) {

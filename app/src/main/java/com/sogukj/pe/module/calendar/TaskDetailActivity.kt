@@ -93,7 +93,7 @@ class TaskDetailActivity : ToolbarActivity(), CommentListener, View.OnClickListe
             }
             ModifyTaskActivity.Task -> {
                 title = "任务详情"
-                adapter = RecyclerAdapter(this, { _adapter, parent, position ->
+                adapter = RecyclerAdapter(this) { _adapter, parent, position ->
                     val convertView = _adapter.getView(R.layout.item_comment_list, parent)
                     object : RecyclerHolder<TaskDetailBean.Record>(convertView) {
                         val headerImage = convertView.find<CircleImageView>(R.id.headerImage)
@@ -134,7 +134,7 @@ class TaskDetailActivity : ToolbarActivity(), CommentListener, View.OnClickListe
                             time.text = data.time
                         }
                     }
-                })
+                }
                 commentList.layoutManager = LinearLayoutManager(this)
                 commentList.adapter = adapter
                 window = CommentWindow(this, this)

@@ -405,13 +405,6 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
         getBindingStatus()
         val user = Store.store.getUser(ctx)
         user?.uid?.let { getBelongBean(it) }
-        user?.let {
-            tv_bind.text = it.openId.isNullOrEmpty().yes {
-                "去绑定"
-            }.otherWise {
-                "去关注"
-            }
-        }
         if (null != user?.uid) {
             SoguApi.getService(ctx, UserService::class.java)
                     .userInfo(user.uid!!)
