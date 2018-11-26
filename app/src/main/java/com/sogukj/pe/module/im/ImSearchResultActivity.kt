@@ -288,13 +288,11 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
     }
 
     private fun initCloudFileHisData() {
-        cloudFileHis!!.reverse()
         cloudHisAdapter = CloudHisAdapter()
         tfl.adapter = cloudHisAdapter
     }
 
     private fun initPlHisData() {
-        plHis!!.reverse()
         plAdapter = PlAdapter()
         tfl.adapter = plAdapter
     }
@@ -311,7 +309,6 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
     }
 
     private fun initContractHis() {
-        contractHis!!.reverse()
         contractAdapter = ContractAdapter()
         tfl.adapter = contractAdapter
     }
@@ -396,10 +393,10 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
     }
 
     private fun initSearchHisData() {
-        searchHis!!.reverse()
         searchAdapter = SearchAdapter()
         tfl.adapter = searchAdapter
     }
+
     private fun bindListener() {
         iv_search.setOnClickListener {
             Utils.showSoftInputFromWindow(this,et_search)
@@ -545,6 +542,7 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
                         cloudHisAdapter!!.notifyDataChanged()
                     }
                 }
+                ll_empty_his.visibility = View.VISIBLE
             }
         }
 
