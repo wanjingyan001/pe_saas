@@ -1,7 +1,6 @@
 package com.sogukj.pe.service
 
 import android.support.annotation.IntRange
-import com.google.gson.internal.LinkedTreeMap
 import com.sogukj.pe.Consts
 import com.sogukj.pe.bean.*
 import io.reactivex.Observable
@@ -185,6 +184,6 @@ interface UserService {
     @Headers(value = ["Domain-Name: ${Consts.WX}"])
     @FormUrlEncoded
     @POST("/wx/Wxapis/updateBindQr")
-    fun updateBindingStatus(@Field("openid")openid:String):Observable<Payload<Any>>
+    fun updateBindingStatus(@Field("unique")unique:String):Observable<Payload<Any>>
 
 }

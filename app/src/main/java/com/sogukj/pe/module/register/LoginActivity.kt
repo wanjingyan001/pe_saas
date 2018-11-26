@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.os.Handler
 import androidx.core.content.edit
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.amap.api.mapcore.util.it
 import com.android.dingtalk.share.ddsharemodule.message.BaseResp
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.netease.nim.uikit.api.NimUIKit

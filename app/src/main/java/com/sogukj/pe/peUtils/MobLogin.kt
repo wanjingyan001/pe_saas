@@ -58,12 +58,12 @@ class MobLogin {
             val wechat = ShareSDK.getPlatform(Wechat.NAME)
             wechat.platformActionListener = object : PlatformActionListener {
                 override fun onComplete(p0: Platform?, p1: Int, p2: HashMap<String, Any>?) {
-                    info { "微信授权成功" }
+                    info { "微信授权成功 : ${wechat.db.get("unionid")}" }
                     p2?.iterator()?.forEach {
                         info { "${it.key} ===> ${it.value}" }
                     }
                     info { "所有数据:${p0?.db?.exportData()}" }
-                    block.invoke(wechat.db.userId)
+                    block.invoke(wechat.db.get("unionid"))
                 }
 
                 override fun onCancel(p0: Platform?, p1: Int) {
