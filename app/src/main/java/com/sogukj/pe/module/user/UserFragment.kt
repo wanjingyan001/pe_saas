@@ -515,6 +515,7 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
                     onNext { payload ->
                         payload.isOk.yes {
                             info { payload.payload }
+                            getBindingStatus()
                         }.otherWise {
                             showErrorToast(payload.message)
                         }
