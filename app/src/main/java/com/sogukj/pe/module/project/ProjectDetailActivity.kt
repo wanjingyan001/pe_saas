@@ -126,10 +126,11 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
             ctx.startActivityForResult(intent, 0x001)
         }
     }
-    private var mHandler : Handler = object : Handler(){
+
+    private var mHandler: Handler = object : Handler() {
         override fun handleMessage(msg: Message?) {
             super.handleMessage(msg)
-            when(msg!!.what){
+            when (msg!!.what) {
                 DocumentsListActivity.SDK_PAY_FLAG -> {
                     val payResult = PayResultInfo(msg.obj as Map<String, String>)
                     /**
@@ -137,7 +138,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                      */
                     val resultInfo = payResult.getResult()// 同步返回需要验证的信息
                     val resultStatus = payResult.getResultStatus()
-                    Log.e("TAG"," resultStatus ===" + resultStatus)
+                    Log.e("TAG", " resultStatus ===" + resultStatus)
                     // 判断resultStatus 为9000则代表支付成功
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
@@ -176,7 +177,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver, IntentFilter(PROJECT_ACTION))
     }
 
-    private val receiver : BroadcastReceiver = object : BroadcastReceiver(){
+    private val receiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             showSuccessToast("支付成功")
             getSentimentStatus(project.company_id!!)
@@ -188,13 +189,13 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
         super.onDestroy()
         try {
             LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver)
-        }catch (e:Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
     private fun initWXAPI() {
-        if (null == api){
+        if (null == api) {
             api = WXAPIFactory.createWXAPI(this, Extras.WEIXIN_APP_ID)
             api!!.registerApp(Extras.WEIXIN_APP_ID)
         }
@@ -273,8 +274,8 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                     tv_per_title.setTextColor(resources.getColor(R.color.gray_a0))
                     tv_per_balance.setTextColor(resources.getColor(R.color.gray_a0))
                     isClickPer = false
-                }else{
-                    if (!isCheckPer){
+                } else {
+                    if (!isCheckPer) {
                         iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
                     }
                     tv_per_title.setTextColor(resources.getColor(R.color.black_28))
@@ -287,8 +288,8 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                     tv_bus_title.setTextColor(resources.getColor(R.color.gray_a0))
                     tv_bus_balance.setTextColor(resources.getColor(R.color.gray_a0))
                     isClickBus = false
-                }else{
-                    if (!isCheckBus){
+                } else {
+                    if (!isCheckBus) {
                         iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
                     }
                     tv_bus_title.setTextColor(resources.getColor(R.color.black_28))
@@ -313,7 +314,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
             }
         }
 
-        fl_subtract.setOnClickListener{
+        fl_subtract.setOnClickListener {
             //减
             count = et_count.textStr.toInt()
             count--
@@ -330,8 +331,8 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                 tv_per_title.setTextColor(resources.getColor(R.color.gray_a0))
                 tv_per_balance.setTextColor(resources.getColor(R.color.gray_a0))
                 isClickPer = false
-            }else{
-                if (!isCheckPer){
+            } else {
+                if (!isCheckPer) {
                     iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
                 }
                 tv_per_title.setTextColor(resources.getColor(R.color.black_28))
@@ -344,8 +345,8 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                 tv_bus_title.setTextColor(resources.getColor(R.color.gray_a0))
                 tv_bus_balance.setTextColor(resources.getColor(R.color.gray_a0))
                 isClickBus = false
-            }else{
-                if (!isCheckBus){
+            } else {
+                if (!isCheckBus) {
                     iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
                 }
                 tv_bus_title.setTextColor(resources.getColor(R.color.black_28))
@@ -367,8 +368,8 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                 tv_per_title.setTextColor(resources.getColor(R.color.gray_a0))
                 tv_per_balance.setTextColor(resources.getColor(R.color.gray_a0))
                 isClickPer = false
-            }else{
-                if (!isCheckPer){
+            } else {
+                if (!isCheckPer) {
                     iv_pre_select.setImageResource(R.mipmap.ic_select_receipt)
                 }
                 tv_per_title.setTextColor(resources.getColor(R.color.black_28))
@@ -381,8 +382,8 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                 tv_bus_title.setTextColor(resources.getColor(R.color.gray_a0))
                 tv_bus_balance.setTextColor(resources.getColor(R.color.gray_a0))
                 isClickBus = false
-            }else{
-                if (!isCheckBus){
+            } else {
+                if (!isCheckBus) {
                     iv_bus_select.setImageResource(R.mipmap.ic_select_receipt)
                 }
                 tv_bus_title.setTextColor(resources.getColor(R.color.black_28))
@@ -576,7 +577,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                         tv_bus_balance: TextView, iv_bus_select: ImageView,
                         tv_per_title: TextView, tv_bus_title: TextView, coin: Double) {
         SoguApi.getStaticHttp(application)
-                .getAccountPayInfo(order_type, count, pay_type, fee,Store.store.getUser(this)!!.accid)
+                .getAccountPayInfo(order_type, count, pay_type, fee, Store.store.getUser(this)!!.accid)
                 .execute {
                     onNext { payload ->
                         if (payload.isOk) {
@@ -592,9 +593,9 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                                 } else if (pay_type == 4) {
                                     //微信
                                     val orderInfo = payload.payload as String
-                                    if (null != orderInfo){
+                                    if (null != orderInfo) {
                                         sendToWxRequest(orderInfo)
-                                    }else{
+                                    } else {
                                         showErrorToast("获取订单失败")
                                     }
                                 }
@@ -630,8 +631,8 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
         val b = api!!.sendReq(req)
         if (!b) {
             showErrorToast("订单生成错误")
-        }else{
-            XmlDb.open(this).set("invokeType",3)
+        } else {
+            XmlDb.open(this).set("invokeType", 3)
         }
         Log.e("TAG", "sendReq返回值=" + b)
     }
@@ -654,9 +655,9 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
 
     override fun onNewIntent(intent: Intent?) {
         val code = intent!!.getStringExtra(Extras.WX_PAY_TYPE)
-        Log.e("TAG","  onNewIntent -- code ==" + code)
-        if (null != code){
-            when(code){
+        Log.e("TAG", "  onNewIntent -- code ==" + code)
+        if (null != code) {
+            when (code) {
                 "0" -> {
                     showSuccessToast("支付成功")
                     getSentimentStatus(project.company_id!!)
@@ -724,9 +725,9 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                             }
                             isStartOpen = !isStartOpen
                         } else {
-                            if (!isStartOpen){
+                            if (!isStartOpen) {
                                 showPayDialog()
-                            }else{
+                            } else {
                                 showErrorToast(payload.message)
                             }
                         }
@@ -764,6 +765,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                     }
                 }
     }
+
     var remainder = 0
     private fun setSentimentData(info: SentimentInfoBean) {
         remainder = info.remainder
@@ -1085,10 +1087,10 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
     }
 
     @SuppressLint("SetTextI18n")
-    private fun initIntelligence(yu: Int, fu: Int) {
+    private fun initIntelligence(yu: Int? = 0, fu: Int? = 0) {
         headView.neg_num.setVisible(true)
         headView.yq_num.setVisible(true)
-        if (fu == 0) {
+        if (fu == 0 || fu == null) {
             headView.neg_num.text = "运营良好"
             headView.neg_num.textColor = Color.parseColor("#ff27d2ab")
             headView.neg_num.backgroundResource = R.drawable.neg_yq_bg2
@@ -1101,8 +1103,8 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                 ProjectNewsActivity.start(context, "负面讯息", 1, project.company_id!!)
             }
         }
-        headView.yq_num.text = "${yu}条"
-        if (yu == 0) {
+        headView.yq_num.text = "${yu?:0}条"
+        if (yu == 0 || yu == null) {
             headView.yuqing.setOnClickListener(null)
         } else {
             headView.yuqing.setOnClickListener {
@@ -1128,7 +1130,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                                         detailModules.add(ProjectModules(it))
                                     }
                                 }
-                                initIntelligence(it.yu!!, it.fu!!)
+                                initIntelligence(it.yu, it.fu)
                             }
                         } else {
                             payload.message
@@ -1154,7 +1156,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
 
 
     private fun managerAssess() {
-        ifNotNull(is_business, is_ability, project.company_id, { is_business, is_ability, id ->
+        ifNotNull(is_business, is_ability, project.company_id) { is_business, is_ability, id ->
             SoguApi.getService(application, OtherService::class.java)
                     .assess(id, is_business, is_ability)
                     .execute {
@@ -1167,7 +1169,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                                 showCustomToast(R.drawable.icon_toast_fail, payload.message)
                         }
                     }
-        })
+        }
     }
 
     private fun doAdd() {

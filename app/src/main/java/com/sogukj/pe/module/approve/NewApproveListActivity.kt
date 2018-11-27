@@ -26,6 +26,7 @@ import kotlinx.android.synthetic.main.item_approval.view.*
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.textColor
+
 @Route(path = ARouterPath.ApproveListActivity)
 class NewApproveListActivity : BaseRefreshActivity() {
     private var page = 1
@@ -53,7 +54,7 @@ class NewApproveListActivity : BaseRefreshActivity() {
             when (bean.mark) {
                 "old" -> {
                     val data = ApprovalBean()
-                    data.add_time = Utils.getTime(bean.add_time,"yyyy/MM/dd")
+                    data.add_time = Utils.getTime(bean.add_time, "yyyy/MM/dd")
                     data.approval_id = bean.approval_id
                     data.kind = bean.kind
                     data.name = bean.name
@@ -68,8 +69,13 @@ class NewApproveListActivity : BaseRefreshActivity() {
                     }
                 }
                 "new" -> {
+                    val isMine = when {
+                        kind == 1 -> 0
+                        bean.uid != mine!!.uid -> 0
+                        else -> 1
+                    }
                     startActivity<ApproveDetailActivity>(Extras.ID to bean.approval_id,
-                            Extras.FLAG to if (bean.uid == mine!!.uid) 1 else 0)
+                            Extras.FLAG to isMine)
                 }
             }
         }

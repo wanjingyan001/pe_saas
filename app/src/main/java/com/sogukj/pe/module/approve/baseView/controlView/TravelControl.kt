@@ -110,7 +110,7 @@ class TravelControl @JvmOverloads constructor(
 
         @SuppressLint("SetTextI18n")
         override fun convert(helper: BaseViewHolder, item: ControlBean) {
-            var itemDays: Pair<Double, String> by Delegates.observable(0.0 to "", { _, oldValue, newValue ->
+            var itemDays: Pair<Double, String> by Delegates.observable(0.0 to "") { _, oldValue, newValue ->
                 days = days + newValue.first - oldValue.first
                 inflate.totalDays.text = "$days${newValue.second} "
                 controlBean.children!![3].value?.let {
@@ -120,7 +120,7 @@ class TravelControl @JvmOverloads constructor(
                         it.add("$days${newValue.second}")
                     }
                 }
-            })
+            }
 
             //行程
             val detailItem = helper.getView<LinearLayout>(R.id.detailsItem)

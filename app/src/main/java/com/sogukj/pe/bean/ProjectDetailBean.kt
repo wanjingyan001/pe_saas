@@ -6,8 +6,8 @@ import java.io.Serializable
  * Created by qinfei on 17/8/25.
  */
 class ProjectDetailBean : Serializable {
-    var yu: Int? = null
-    var fu: Int? = null
+    var yu: Int? = 0
+    var fu: Int? = 0
     //var yuQing: List<NewsBean>? = null//舆情新闻
     //var fuMian: List<NewsBean>? = null//负面新闻
     var counts: ArrayList<DetailBean>? = null

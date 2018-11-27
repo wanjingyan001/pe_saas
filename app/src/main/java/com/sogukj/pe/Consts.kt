@@ -15,7 +15,7 @@ class Consts {
 //        val DEV_HTTP_HOST = "http://hmtbtx.pewinner.com/"
 
         val DEV_HTTP_HOST = "https://prenewsaas.pewinner.com/"
-//        val DEV_HTTP_HOST = "https://presougu.pewinner.com/"
+//        val DEV_HTTP_HOST = "https://pe.pewinner.com/"
 
         val DZH_HOST = "http://gw.yundzh.com/"
 //        val HTTP_HOST = when (getEnvironment()) {
@@ -28,7 +28,7 @@ class Consts {
 //            }
 //            "ht" -> when (BuildConfig.BUILD_TYPE) {
 //            //"debug" -> "http://prehts.pewinner.com/"
-//                "release" -> "http://hts.pewinner.com/"
+//                "release" -> "http://hts.pewinner.com /"
 //                else -> ""
 //            }
 //            "kk" -> when (BuildConfig.BUILD_TYPE) {

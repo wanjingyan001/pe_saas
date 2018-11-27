@@ -75,7 +75,7 @@ class FundSealControl @JvmOverloads constructor(
                             }
                         }
                     }
-                    inflate.optionGroup.onCheckedChange { group, checkedId ->
+                    inflate.optionGroup.setOnCheckedChangeListener { group, checkedId ->
                         when (checkedId) {
                             R.id.yes -> inflate.controlLayout2.setVisible(true)
                             R.id.no -> inflate.controlLayout2.setVisible(false)
