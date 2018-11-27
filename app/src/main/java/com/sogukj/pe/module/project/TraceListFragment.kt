@@ -1,7 +1,12 @@
 package com.sogukj.pe.module.project
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
+import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.View
@@ -83,6 +88,13 @@ class TraceListFragment : BaseFragment(), SupportEmptyView {
 //        }, 100)
         Log.e("onViewCreated", "${type}")
         isViewCreated = true
+        LocalBroadcastManager.getInstance(activity!!).registerReceiver(receiver, IntentFilter(TRACE_ACTION))
+    }
+
+    private val receiver : BroadcastReceiver = object : BroadcastReceiver(){
+        override fun onReceive(context: Context?, intent: Intent?) {
+            doRequest()
+        }
     }
 
     var isViewCreated = false
@@ -99,6 +111,11 @@ class TraceListFragment : BaseFragment(), SupportEmptyView {
     override fun onDestroyView() {
         super.onDestroyView()
         isViewCreated = false
+        try {
+            LocalBroadcastManager.getInstance(activity!!).unregisterReceiver(receiver)
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
     }
 
     fun doRequest() {
@@ -127,6 +144,7 @@ class TraceListFragment : BaseFragment(), SupportEmptyView {
 
     companion object {
         val TAG = TraceListFragment::class.java.simpleName
+        val TRACE_ACTION = "trace_action"
         const val TYPE_CB = 4
         const val TYPE_LX = 1
         const val TYPE_YT = 2

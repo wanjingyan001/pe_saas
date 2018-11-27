@@ -3,6 +3,7 @@ package com.sogukj.pe.module.project.archives
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.content.LocalBroadcastManager
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
@@ -18,6 +19,7 @@ import com.sogukj.pe.bean.CustomSealBean
 import com.sogukj.pe.bean.ProjectBean
 import com.sogukj.pe.bean.RecordInfoBean
 import com.sogukj.pe.module.approve.ListSelectorActivity
+import com.sogukj.pe.module.project.TraceListFragment
 import com.sogukj.pe.service.ProjectService
 import com.sogukj.pe.widgets.CalendarDingDing
 import com.sogukj.service.SoguApi
@@ -148,6 +150,11 @@ class RecordDetailActivity : ToolbarActivity() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        Utils.forceCloseInput(this,et_des)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == ListSelectorActivity.REQ_LIST_SELECTOR && resultCode === Activity.RESULT_OK) {
@@ -222,6 +229,7 @@ class RecordDetailActivity : ToolbarActivity() {
                 .subscribeOn(Schedulers.io())
                 .subscribe({ payload ->
                     if (payload.isOk) {
+                        LocalBroadcastManager.getInstance(this).sendBroadcast(Intent(TraceListFragment.TRACE_ACTION))
                         setResult(Activity.RESULT_OK)
                         finish()
                     } else
