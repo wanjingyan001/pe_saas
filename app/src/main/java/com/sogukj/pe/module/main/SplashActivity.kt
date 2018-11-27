@@ -14,6 +14,7 @@ import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.StatusBarUtil
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.module.register.LoginActivity
+import com.sogukj.pe.peExtended.RootPath
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.FileFindService
@@ -53,9 +54,9 @@ class SplashActivity : BaseActivity() {
         }
 
         //todo WX之后要移除
-        RetrofitUrlManager.getInstance().putDomain(Consts.WX, Consts.DEV_HTTP_HOST)
+        RetrofitUrlManager.getInstance().putDomain(Consts.WX, RootPath)
 
-        RetrofitUrlManager.getInstance().putDomain(Consts.CREDIT_COLLECTION, Consts.DEV_HTTP_HOST)
+        RetrofitUrlManager.getInstance().putDomain(Consts.CREDIT_COLLECTION, RootPath)
 
         saveDzhToken()
         getCompanyInfo()

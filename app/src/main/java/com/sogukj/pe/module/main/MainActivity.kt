@@ -51,6 +51,7 @@ import com.sogukj.pe.module.fund.FundMainFragment
 import com.sogukj.pe.module.news.NewsDetailActivity
 import com.sogukj.pe.module.project.MainProjectFragment
 import com.sogukj.pe.module.register.LoginActivity
+import com.sogukj.pe.peExtended.RootPath
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.FileUtil
 import com.sogukj.pe.peUtils.Store
@@ -371,7 +372,7 @@ class MainActivity : BaseActivity() {
             hint.setSpan(ForegroundColorSpan(Color.parseColor("#FF6174")), 9, hint.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
             prompt.text = hint
         }
-        RetrofitUrlManager.getInstance().putDomain("upgrade", Consts.HTTP_HOST)
+        RetrofitUrlManager.getInstance().putDomain("upgrade", RootPath)
         SoguApi.getService(application, OtherService::class.java)
                 .getVersion()
                 .observeOn(AndroidSchedulers.mainThread())

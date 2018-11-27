@@ -26,6 +26,7 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.LpAssisBean
 import com.sogukj.pe.module.dataSource.*
 import com.sogukj.pe.module.dataSource.lawcase.LowCaseHisActivity
+import com.sogukj.pe.peExtended.RootPath
 import com.sogukj.pe.service.DataSourceService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_la_assistant.*
@@ -47,7 +48,7 @@ class LpAssistantActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_la_assistant)
         Utils.setWindowStatusBarColor(this, R.color.white)
-        RetrofitUrlManager.getInstance().putDomain(Consts.DATA_SOURCE, Consts.DEV_HTTP_HOST)
+        RetrofitUrlManager.getInstance().putDomain(Consts.DATA_SOURCE, RootPath)
         initView()
         initData()
         bindListener()

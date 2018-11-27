@@ -26,6 +26,7 @@ import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.isWifi
 import com.sogukj.pe.baselibrary.utils.DownloadUtil
 import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.peExtended.RootPath
 import com.sogukj.pe.peUtils.ToastUtil.Companion.showSuccessToast
 import com.sogukj.pe.service.OtherService
 import com.sogukj.pe.widgets.MyProgressBar
@@ -69,7 +70,7 @@ class CheckUpdateUtil {
                 hint.setSpan(ForegroundColorSpan(Color.parseColor("#FF6174")), 9, hint.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
                 prompt.text = hint
             }
-            RetrofitUrlManager.getInstance().putDomain("upgrade", Consts.HTTP_HOST)
+            RetrofitUrlManager.getInstance().putDomain("upgrade", RootPath)
             SoguApi.getService(App.INSTANCE, OtherService::class.java).getVersion()
                     .execute {
                         onNext { payload ->

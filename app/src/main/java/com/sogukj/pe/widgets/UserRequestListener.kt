@@ -11,7 +11,11 @@ import com.bumptech.glide.request.target.Target
  */
 class UserRequestListener(val img: CircleImageView, val name: String) : RequestListener<Drawable> {
     override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-        img.setChar(name.first())
+        img.setChar(if (name.isEmpty()) {
+            '无'
+        } else {
+            name.first()
+        })
         return false
     }
 

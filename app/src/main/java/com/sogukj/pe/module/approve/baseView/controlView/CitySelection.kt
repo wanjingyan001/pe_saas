@@ -82,6 +82,7 @@ class CitySelection @JvmOverloads constructor(
                                 val textView = inflate.cities.getChildAt(it) as TextView
                                 if (it < values.size) {
                                     inflate.cities.setVisible(true)
+                                    textView.setVisible(true)
                                     textView.text = values[it].name
                                 } else {
                                     textView.setVisible(false)

@@ -33,6 +33,7 @@ import com.sogukj.pe.interf.ReviewStatus
 import com.sogukj.pe.module.main.MainActivity
 import com.sogukj.pe.module.register.presenter.LoginPresenter
 import com.sogukj.pe.module.register.presenter.LoginView
+import com.sogukj.pe.peExtended.RootPath
 import com.sogukj.pe.peUtils.LoginTimer
 import com.sogukj.pe.peUtils.MobLogin
 import com.sogukj.pe.peUtils.Store
@@ -61,7 +62,7 @@ class LoginActivity : BaseActivity(), LoginView {
         StatusBarUtil.setTranslucentForCoordinatorLayout(this, 0)
         StatusBarUtil.setLightMode(this)
         loginPresenter.loginView = this
-        RetrofitUrlManager.getInstance().putDomain(Consts.REGISTER, Consts.DEV_HTTP_HOST)
+        RetrofitUrlManager.getInstance().putDomain(Consts.REGISTER, RootPath)
         codeEditable(false)
         val inputList = ArrayList<Observable<CharSequence>>()
         inputList.add(RxTextView.textChanges(phoneEdt.getEditText()))
