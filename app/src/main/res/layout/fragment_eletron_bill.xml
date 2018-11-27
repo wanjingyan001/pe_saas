@@ -22,6 +22,7 @@
                 style="@style/text12_colora0"
                 android:background="@color/white"
                 android:paddingLeft="@dimen/text_15"
+                android:paddingRight="@dimen/text_15"
                 android:paddingBottom="@dimen/text_15"
                 android:text="电子发票与纸质发票具有同等法律效力，可支持报销入账"/>
             <include

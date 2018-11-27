@@ -214,7 +214,7 @@ interface StaticHttpUtils {
     @FormUrlEncoded
     @POST("/api/Order/searchTitle")
     fun searchReceiptTitle(@Field("search") search: String, @Field("page") page: Int,
-                           @Field("pageSize") pageSize: Int = 15): Observable<Payload<List<SearchReceiptBean>>>
+                           @Field("pageSize") pageSize: Int = 15): Observable<Payload<List<InvoiceHisBean>>>
 
     /**
      * 获取付费套餐

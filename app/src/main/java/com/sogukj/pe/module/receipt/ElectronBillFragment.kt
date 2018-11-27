@@ -23,7 +23,7 @@ import com.sogukj.pe.baselibrary.widgets.citypicker.OnCityItemClickListener
 import com.sogukj.pe.baselibrary.widgets.citypicker.bean.CityBean
 import com.sogukj.pe.baselibrary.widgets.citypicker.bean.DistrictBean
 import com.sogukj.pe.baselibrary.widgets.citypicker.bean.ProvinceBean
-import com.sogukj.pe.bean.SearchReceiptBean
+import com.sogukj.pe.bean.InvoiceHisBean
 import kotlinx.android.synthetic.main.fragment_eletron_bill.*
 import kotlinx.android.synthetic.main.layout_accept_type.*
 import kotlinx.android.synthetic.main.layout_bill_detail.*
@@ -32,7 +32,7 @@ import kotlinx.android.synthetic.main.layout_bill_detail.*
  * Created by CH-ZH on 2018/10/18.
  * 电子发票
  */
-class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack {
+class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack{
     private var rootView: View? = null
     private var money = "0.00"
     private var mCityPickerView: CityPickerView? = null
@@ -419,7 +419,7 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack {
             when (requestCode) {
                 BILL_SEARCH -> {
                     if (null != data) {
-                        val receiptBean = data.getSerializableExtra(Extras.DATA) as SearchReceiptBean
+                        val receiptBean = data.getSerializableExtra(Extras.DATA) as InvoiceHisBean
                         if (null != receiptBean) {
                             tv_header.text = receiptBean.title
                             et_duty.setText(Utils.getSpaceText(receiptBean.tax_no))

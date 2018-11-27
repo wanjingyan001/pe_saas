@@ -22,7 +22,7 @@ import com.sogukj.pe.baselibrary.utils.RefreshConfig
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
-import com.sogukj.pe.bean.SearchReceiptBean
+import com.sogukj.pe.bean.InvoiceHisBean
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_bill_search.*
 import kotlinx.android.synthetic.main.search_header.*
@@ -34,9 +34,11 @@ import kotlinx.android.synthetic.main.search_header.*
 class BillHeadSearchActivity : BaseRefreshActivity(), TextWatcher {
     private var inputTime = 0L
     private val INTERVAL = 300 //输入间隔时间
-    private lateinit var searchAdaper : RecyclerAdapter<SearchReceiptBean>
+    private lateinit var searchAdaper : RecyclerAdapter<InvoiceHisBean>
     private var page = 1
     private var searchKey = ""
+    private var defaultPage = 1
+    private var isDefaultData = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bill_search)
@@ -62,7 +64,50 @@ class BillHeadSearchActivity : BaseRefreshActivity(), TextWatcher {
             et_search.setSelection(searchKey.length)
             setDelectIcon(true)
             requestData(searchKey,false)
+        }else{
+            getBillHeaderData(false)
         }
+    }
+
+    private fun getBillHeaderData(isLoadMore: Boolean) {
+        isDefaultData = true
+        if (isLoadMore){
+            defaultPage++
+        }else{
+            defaultPage = 1
+        }
+        SoguApi.getStaticHttp(application)
+                .getBillHeaderList(defaultPage)
+                .execute {
+                    onNext {payload ->
+                        if (payload.isOk){
+                            val infos = payload.payload
+                            if (null != infos && infos.size > 0){
+                                if (isLoadMore){
+                                    searchAdaper.dataList.addAll(infos)
+                                    searchAdaper.notifyDataSetChanged()
+                                }else{
+                                    searchAdaper.dataList.clear()
+                                    searchAdaper.dataList.addAll(infos)
+                                    searchAdaper.notifyDataSetChanged()
+                                }
+                            }
+                        }else{
+                            showErrorToast(payload.message)
+                        }
+                        if (isLoadMore){
+                            dofinishLoadMore()
+                        }
+                    }
+
+                    onError {
+                        it.printStackTrace()
+                        showErrorToast("获取数据失败")
+                        if (isLoadMore){
+                            dofinishLoadMore()
+                        }
+                    }
+                }
     }
 
     private fun bindListener() {
@@ -79,6 +124,7 @@ class BillHeadSearchActivity : BaseRefreshActivity(), TextWatcher {
             setDelectIcon(false)
             et_search.setHint(R.string.search)
             et_search.setText("")
+            getBillHeaderData(false)
         }
 
         searchAdaper.onItemClick = {v,p ->
@@ -98,6 +144,7 @@ class BillHeadSearchActivity : BaseRefreshActivity(), TextWatcher {
     override fun afterTextChanged(s: Editable?) {
        if (et_search.textStr.isNullOrEmpty()){
            setDelectIcon(false)
+           getBillHeaderData(false)
        }else{
            setDelectIcon(true)
        }
@@ -126,6 +173,7 @@ class BillHeadSearchActivity : BaseRefreshActivity(), TextWatcher {
     }
 
     private fun requestData(search: String,isLoadMore:Boolean) {
+        isDefaultData = false
         if (isLoadMore){
             page++
         }else{
@@ -140,7 +188,7 @@ class BillHeadSearchActivity : BaseRefreshActivity(), TextWatcher {
                                 if (!isLoadMore){
                                     searchAdaper.dataList.clear()
                                     if (!et_search.textStr.isNullOrEmpty()){
-                                        val bean = SearchReceiptBean()
+                                        val bean = InvoiceHisBean()
                                         bean.title = et_search.textStr
                                         searchAdaper.dataList.add(bean)
                                     }
@@ -154,7 +202,7 @@ class BillHeadSearchActivity : BaseRefreshActivity(), TextWatcher {
                             if (!isLoadMore){
                                 searchAdaper.dataList.clear()
                                 if (!et_search.textStr.isNullOrEmpty()){
-                                    val bean = SearchReceiptBean()
+                                    val bean = InvoiceHisBean()
                                     bean.title = et_search.textStr
                                     searchAdaper.dataList.add(bean)
                                     searchAdaper.notifyDataSetChanged()
@@ -172,7 +220,7 @@ class BillHeadSearchActivity : BaseRefreshActivity(), TextWatcher {
                         if (!isLoadMore){
                             searchAdaper.dataList.clear()
                             if (!et_search.textStr.isNullOrEmpty()){
-                                val bean = SearchReceiptBean()
+                                val bean = InvoiceHisBean()
                                 bean.title = et_search.textStr
                                 searchAdaper.dataList.add(bean)
                                 searchAdaper.notifyDataSetChanged()
@@ -192,10 +240,10 @@ class BillHeadSearchActivity : BaseRefreshActivity(), TextWatcher {
         }
     }
 
-    inner class ResultBillHolder(itemView: View) : RecyclerHolder<SearchReceiptBean>(itemView) {
+    inner class ResultBillHolder(itemView: View) : RecyclerHolder<InvoiceHisBean>(itemView) {
         val tv_search_title = itemView.findViewById<TextView>(R.id.tv_search_title)
         val tv_search_duty = itemView.findViewById<TextView>(R.id.tv_search_duty)
-        override fun setData(view: View, data: SearchReceiptBean, position: Int) {
+        override fun setData(view: View, data: InvoiceHisBean, position: Int) {
             if (null == data) return
             tv_search_title.text = data.title
             tv_search_duty.text = data.tax_no
@@ -223,7 +271,11 @@ class BillHeadSearchActivity : BaseRefreshActivity(), TextWatcher {
     }
 
     override fun doLoadMore() {
-        requestData(et_search.textStr,true)
+        if (isDefaultData){
+            getBillHeaderData(true)
+        }else{
+            requestData(et_search.textStr,true)
+        }
     }
 
     fun dofinishLoadMore() {
