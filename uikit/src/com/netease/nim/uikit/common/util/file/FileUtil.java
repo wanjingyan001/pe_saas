@@ -256,6 +256,9 @@ public class FileUtil {
         }
     }
     public static FileType getFileTypeByPath(String fileName) {
+        if(fileName.isEmpty()) {
+            return FileType.DOCUMENT;
+        }
         FileType fileType = fileTypeExtensions.get(getExtension(fileName));
         if (fileType != null) {
             return fileType;
