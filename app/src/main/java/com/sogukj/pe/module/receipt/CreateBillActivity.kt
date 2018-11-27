@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import kotlinx.android.synthetic.main.activity_create_bill.*
@@ -35,6 +36,10 @@ class CreateBillActivity : ToolbarActivity() {
         fragments.add(ElectronBillFragment.newInstance(1,money,ll_submit,tv_submit))
         fragments.add(ElectronBillFragment.newInstance(2,money,ll_submit,tv_submit))
         radio_group.check(R.id.rb_two)
+
+        view_electron.clickWithTrigger {
+            showCommonToast("电子发票暂未开通")
+        }
     }
 
     open fun getOrders(): MutableList<String>? {

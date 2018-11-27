@@ -62,7 +62,24 @@
             android:text="@string/pager_bill"/>
 
     </RadioGroup>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="@+id/radio_group"
+        app:layout_constraintEnd_toEndOf="@+id/radio_group"
+        app:layout_constraintTop_toTopOf="@+id/radio_group"
+        app:layout_constraintBottom_toBottomOf="@+id/radio_group">
+        <View
+            android:id="@+id/view_electron"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+    </LinearLayout>
     <LinearLayout
         android:id="@+id/ll_submit"
         android:layout_width="match_parent"

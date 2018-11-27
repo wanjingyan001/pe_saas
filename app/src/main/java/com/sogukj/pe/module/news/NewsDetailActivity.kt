@@ -20,8 +20,11 @@ import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
+import android.webkit.WebResourceRequest
 import android.webkit.WebSettings
 import android.webkit.WebSettings.LayoutAlgorithm
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.TextView
 import android.widget.Toast
 import cn.sharesdk.framework.Platform
@@ -298,7 +301,20 @@ class NewsDetailActivity : ToolbarActivity(), PlatformActionListener {
 //      webSettings.setLoadWithOverviewMode(true);
 //        webSettings.setLayoutAlgorithm(LayoutAlgorithm.NARROW_COLUMNS)
         webSettings.layoutAlgorithm = LayoutAlgorithm.SINGLE_COLUMN
+        webview.webViewClient = object : WebViewClient(){
+            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+                view!!.loadUrl(request!!.url.toString())
+                return true
+            }
 
+            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                super.onPageStarted(view, url, favicon)
+            }
+
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+            }
+        }
 
         news = intent.getSerializableExtra(Extras.DATA) as NewsBean?
         news?.apply {

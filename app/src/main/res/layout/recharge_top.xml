@@ -87,7 +87,7 @@
             android:textSize="@dimen/text_size_24"
             android:textColor="@color/red_ff7"
             android:gravity="center_vertical|right"
-            android:text="￥"/>
+            android:text="¥"/>
 
         <EditText
             android:id="@+id/et_recharge"
