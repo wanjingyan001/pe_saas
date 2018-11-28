@@ -35,7 +35,8 @@ fun ActivityHelper.hasCreditListActivity(): Boolean {
 
 
 val RootPath: String
-    get() = if (BuildConfig.DEBUG) Consts.DEV_HTTP_HOST else Consts.HTTP_HOST
+//    get() = if (BuildConfig.DEBUG) Consts.DEV_HTTP_HOST else Consts.HTTP_HOST
+    get() = if (getIntEnvironment() == 0) Consts.DEV_HTTP_HOST else Consts.HTTP_HOST
 
 /**
  * 限定汉字
