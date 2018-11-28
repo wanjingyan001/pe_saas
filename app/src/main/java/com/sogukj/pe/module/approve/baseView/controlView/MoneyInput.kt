@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.BaseActivity
+import com.sogukj.pe.baselibrary.utils.RxBus
 import com.sogukj.pe.module.approve.baseView.BaseControl
 import com.sogukj.pe.module.approve.utils.NumberToCN
 import com.sogukj.pe.widgets.MoneyFilter
@@ -35,11 +36,10 @@ class MoneyInput @JvmOverloads constructor(
                 it.isNotEmpty().yes {
                     it[0].toString().isNotEmpty().yes {
                         inflate.moneyEdt.setText(it[0].toString())
-                        block?.invoke(inflate.moneyEdt.textStr.toDouble())
                     }
                 }
             }
-            inflate.moneyEdt.onFocusChange { _, hasFocus ->
+            inflate.moneyEdt.setOnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus && inflate.moneyEdt.textStr.isNotEmpty()) {
                     isConformRules(inflate.moneyEdt.textStr).no {
                         showErrorToast("输入的金额有误,请检查")
@@ -59,6 +59,12 @@ class MoneyInput @JvmOverloads constructor(
                             controlBean.value?.clear()
                             controlBean.value?.add(moneyStr)
                             controlBean.extras?.value = NumberToCN.money2CNUnit(moneyStr)
+
+                            RxBus.getIntanceBus().post(moneyStr.toDouble())
+                        }.otherWise {
+                            block?.invoke(0.0)
+
+                            RxBus.getIntanceBus().post(0.0)
                         }
                     }
                 }

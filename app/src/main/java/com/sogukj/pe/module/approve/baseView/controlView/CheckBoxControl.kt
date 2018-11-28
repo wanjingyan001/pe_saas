@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.View
 import com.google.gson.internal.LinkedTreeMap
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.jsonStr
 import com.sogukj.pe.baselibrary.Extended.otherWise
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.yes
@@ -16,6 +17,7 @@ import com.sogukj.pe.module.approve.baseView.viewBean.ApproveValueBean
 import com.sogukj.pe.module.approve.baseView.viewBean.OptionBean
 import kotlinx.android.synthetic.main.item_control_checkbox_option.view.*
 import kotlinx.android.synthetic.main.layout_control_checkbox.view.*
+import org.jetbrains.anko.info
 
 /**
  * 横向页面多选
@@ -50,27 +52,26 @@ class CheckBoxControl @JvmOverloads constructor(
                 layoutManager = GridLayoutManager(context, 2)
                 adapter = optionAdapter
             }
-            optionAdapter.onItemClick = { v, p ->
-                controlBean.value?.let {
-                    it.contains(optionAdapter.dataList[p]).yes {
-                        it.removeAt(p)
-                    }.otherWise {
-                        it.add(optionAdapter.dataList[p])
-                    }
-                    optionAdapter.notifyItemChanged(p)
-                }
-            }
         }
     }
 
     inner class OptionHolder(itemView: View) : RecyclerHolder<OptionBean>(itemView) {
         override fun setData(view: View, data: OptionBean, position: Int) {
+            val valueData = ApproveValueBean(name = data.name, scal_unit = data.scal_unit)
             view.checkboxOption.text = data.name
             controlBean.value?.let {
                 it.forEach { appValue ->
                     appValue as ApproveValueBean
                     view.checkboxOption.isChecked = appValue.name == data.name
                 }
+            }
+            view.checkboxOption.setOnCheckedChangeListener { _, isChecked ->
+                isChecked.yes {
+                    controlBean.value?.add(valueData)
+                }.otherWise {
+                    controlBean.value?.remove(valueData)
+                }
+                info { controlBean.value.jsonStr }
             }
         }
     }

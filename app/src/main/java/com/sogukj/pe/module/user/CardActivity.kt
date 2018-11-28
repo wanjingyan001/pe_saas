@@ -86,7 +86,13 @@ class CardActivity : Activity(), PlatformActionListener {
             }
         }
         shareCard.clickWithTrigger {
-            share()
+            if (Utils.saveImage(this@CardActivity, businessCard, PATH)) {
+                Utils.saveImageToGallery(ctx, PATH)
+                share()
+            }else{
+                toast("权限不足")
+                finish()
+            }
         }
         card_main.setOnTouchListener { v, event ->
             if (!inRangeOfView(businessCard, event) && !inRangeOfView(downloadCard, event) && !inRangeOfView(shareCard,event)) {

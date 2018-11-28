@@ -1,5 +1,8 @@
 package com.sogukj.pe.module.approve.baseView.viewBean
 
+import com.sogukj.pe.baselibrary.Extended.otherWise
+import com.sogukj.pe.baselibrary.Extended.yes
+
 /**
  * Created by admin on 2018/9/26.
  *
@@ -54,8 +57,8 @@ data class ControlBean(
         /**
          * 以下两项为基金项目关联中使用
          */
-        val is_must_fund:Boolean?,//基金是否必填(目前固定为true)
-        val is_must_pro:Boolean?,//项目是否必填
+        val is_must_fund: Boolean?,//基金是否必填(目前固定为true)
+        val is_must_pro: Boolean?,//项目是否必填
         val is_disabled: Boolean?,//  是否可编辑
         val skip: List<SkipBean>?,//跳转相关
         val is_show: Boolean?,//是否打印
@@ -164,3 +167,24 @@ data class OptionBean(val name: String,//选项名
 data class ExtrasBean(val name: String,//可能是大写,当前时间等文字
                       var value: String//对应值
 )
+
+fun ControlBean.copyWithoutValue(isDelete: Boolean? = false): ControlBean {
+    var newChild: MutableList<ControlBean>? = null
+        (this.children == null || this.children.isEmpty()).yes {
+        newChild = null
+    }.otherWise {
+        newChild = mutableListOf()
+        this.children?.forEach {
+            newChild?.add(it.copyWithoutValue(it.is_delete))
+        }
+    }
+    return ControlBean(control = control,
+            componentName = componentName,
+            fields = fields, name = name, name1 = name1, name2 = name2, name3 = name3,
+            is_must = is_must, is_delete = isDelete, is_disabled = is_disabled, is_extras = is_extras,
+            is_fresh = is_fresh, is_multiple = is_multiple, is_must_fund = is_must_fund, is_must_pro = is_must_pro,
+            is_scal = is_scal, is_show = is_show, placeholder = placeholder, skip = skip, scal_unit = scal_unit, uint = uint,
+            options = options, format = format, linkText = linkText, stable = stable, extras = extras,
+            value = mutableListOf(),
+            children = newChild)
+}

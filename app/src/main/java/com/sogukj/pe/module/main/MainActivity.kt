@@ -114,7 +114,7 @@ class MainActivity : BaseActivity() {
             }
             val defaultLogo = when (getEnvironment()) {
                 "zgh" -> R.mipmap.ic_launcher_zgh_circle
-                else -> R.mipmap.ic_launch_pe_round
+                else -> R.mipmap.ic_launcher_28_round
 
             }
             Glide.with(this@MainActivity)
@@ -208,6 +208,7 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    @Suppress("PLUGIN_WARNING")
     private fun initBottomNavBar() {
         val mainItem0 = BottomNavigationItem(R.drawable.ic_qb_sel12, "工作台").setInactiveIconResource(R.drawable.ic_qb_nor2).initNavTextColor()
         val msgItem = BottomNavigationItem(R.drawable.ic_qb_sel11, "享聊").setInactiveIconResource(R.drawable.ic_qb_nor).initNavTextColor()
@@ -225,7 +226,7 @@ class MainActivity : BaseActivity() {
                     }
                     fragments.add(mainHome)
                 }
-                "享聊" -> {
+                "享聊", "消息" -> {
                     items.add(msgItem)
                     fragments.add(mainMsg)
                 }
@@ -245,6 +246,8 @@ class MainActivity : BaseActivity() {
         }
         if (modules.size.rem(2) == 0) {
             mainItem.isEnable(false)
+            mainItem.setActiveColorResource(R.color.transparent)
+                    .setInActiveColorResource(R.color.transparent)
             items.add(modules.size.div(2), mainItem)
         }
         items.forEach {
@@ -556,7 +559,7 @@ class MainActivity : BaseActivity() {
             KeyEvent.KEYCODE_BACK -> {
                 if (System.currentTimeMillis() - mExitTime > 1000) {
 //                    Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show()
-                    ToastUtils.showWarnToast("再按一次退出程序",this)
+                    ToastUtils.showWarnToast("再按一次退出程序", this)
                     mExitTime = System.currentTimeMillis()
                 } else {
                     finish()

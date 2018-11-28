@@ -38,7 +38,7 @@ class SMSNotification @JvmOverloads constructor(
                     inflate.optionGroup.check(id)
                 }
             }
-            inflate.optionGroup.onCheckedChange { _, checkedId ->
+            inflate.optionGroup.setOnCheckedChangeListener {  _, checkedId ->
                 controlBean.value?.clear()
                 controlBean.value?.add(ApproveValueBean(name = if (checkedId == R.id.yes) "是" else "否"))
                 optionChange?.invoke()

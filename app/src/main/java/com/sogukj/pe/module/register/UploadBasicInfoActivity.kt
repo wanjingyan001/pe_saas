@@ -106,6 +106,13 @@ class UploadBasicInfoActivity : ToolbarActivity() {
                                     .into(mCompanyLogo)
                         }
                     }
+                    onError {
+                        showErrorToast("上传失败")
+                        cardPath = ""
+                        Glide.with(ctx)
+                                .load(cardPath)
+                                .into(mCompanyLogo)
+                    }
                 }
     }
 

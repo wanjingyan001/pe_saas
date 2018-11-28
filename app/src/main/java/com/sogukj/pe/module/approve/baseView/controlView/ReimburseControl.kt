@@ -13,14 +13,17 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
+import com.sogukj.pe.baselibrary.utils.RxBus
 import com.sogukj.pe.baselibrary.widgets.SpaceItemDecoration
 import com.sogukj.pe.module.approve.baseView.BaseControl
 import com.sogukj.pe.module.approve.baseView.ControlFactory
 import com.sogukj.pe.module.approve.baseView.viewBean.ControlBean
+import com.sogukj.pe.module.approve.baseView.viewBean.copyWithoutValue
 import com.sogukj.pe.module.approve.utils.NumberToCN
 import kotlinx.android.synthetic.main.layout_control_money_input.view.*
 import kotlinx.android.synthetic.main.layout_control_reimburse.view.*
 import kotlinx.android.synthetic.main.layout_control_reimburse_list_footer.view.*
+import kotlinx.android.synthetic.main.layout_control_travel.view.*
 import org.jetbrains.anko.backgroundColorResource
 import org.jetbrains.anko.backgroundResource
 import org.jetbrains.anko.dip
@@ -58,10 +61,24 @@ class ReimburseControl @JvmOverloads constructor(
                     adapter = detailAdapter
                 }
                 footer.copyDetail.clickWithTrigger { _ ->
-                    val element = resetValues(it[0].copy())
-                    element?.let {
-                        group.add(it)
-                        detailAdapter.notifyItemInserted(group.size - 1)
+                    val copy = it[0].copyWithoutValue(isDelete = grouplist.is_delete)
+                    it.add(copy)
+                    detailAdapter.notifyItemInserted(it.size - 1)
+                }
+            }
+            //总报销金额
+            controlBean.children!![2].let {
+                it.value?.let { totalNum ->
+                    totalNum.isNotEmpty().yes {
+                        detailAdapter.moneyNum = totalNum[0].toString().toDouble()
+                        inflate.totalAmount.text = totalNum[0] as String
+                    }.otherWise {
+                        inflate.totalAmount.hint = it.placeholder
+                    }
+                }
+                it.extras?.let {
+                    it.value.isNotEmpty().yes {
+                        inflate.CNMoney.text = it.value
                     }
                 }
             }
@@ -73,7 +90,8 @@ class ReimburseControl @JvmOverloads constructor(
         var moneyNum = 0.0
 
         override fun convert(helper: BaseViewHolder, item: ControlBean) {
-            var itemMoney: Double by Delegates.observable(0.0, { _, oldValue, newValue ->
+            val position = helper.adapterPosition
+            var itemMoney: Double by Delegates.observable(0.0) { _, oldValue, newValue ->
                 moneyNum = moneyNum + newValue - oldValue
                 totals.add(moneyNum)
                 totals.forEach {
@@ -85,19 +103,22 @@ class ReimburseControl @JvmOverloads constructor(
                     totals.add(d)
                     inflate.totalAmount.text = d.toString()
                     inflate.CNMoney.text = NumberToCN.money2CNUnit(d.toString())
+                    controlBean.children!![2].value?.clear()
+                    controlBean.children!![2].value?.add(d.toString())
+                    controlBean.children!![2].extras?.value = NumberToCN.money2CNUnit(d.toString())
                 }, 1000)
 
-            })
+            }
             //"报销明细"的控件组(包含提示文字,金额输入,报销类型选择,费用明细填写)
             val detailItem = helper.getView<LinearLayout>(R.id.detailsItem)
             val delete = helper.getView<ImageView>(R.id.deleteItem)
-            delete.setVisible(item.is_delete == true)
+            delete.setVisible(item.is_delete == true && position > 0)
             val factory = ControlFactory(activity)
             item.children?.let {
                 it.forEach {
                     val control = when (it.control) {
                         8 -> {
-                            it.name = "报销明细${helper.adapterPosition + 1}"
+                            it.name = "报销明细${position + 1}"
                             factory.createControl(NoticText::class.java, it)
                         }
                         9 -> {
@@ -120,8 +141,8 @@ class ReimburseControl @JvmOverloads constructor(
                 }
             }
             delete.clickWithTrigger {
-                group.removeAt(helper.adapterPosition)
-                detailAdapter.notifyItemRemoved(helper.adapterPosition)
+                group.removeAt(position)
+                detailAdapter.notifyItemRemoved(position)
             }
         }
     }

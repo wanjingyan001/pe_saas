@@ -153,7 +153,7 @@ class ApproveInitiateActivity : ToolbarActivity() {
                         10 -> factory.createControl(AttachmentSelection::class.java, it)
                         11 -> factory.createControl(ContactSelection::class.java, it)
                         12 -> factory.createControl(DepartmentControl::class.java, it)
-                    //13当前地点暂时不做
+                        //13当前地点暂时不做
                         14 -> factory.createControl(DocumentAssociate::class.java, it)
                         15 -> factory.createControl(SealSelection::class.java, it)
                         16 -> factory.createControl(RadioControl::class.java, it)
@@ -266,9 +266,20 @@ class ApproveInitiateActivity : ToolbarActivity() {
         (0 until controlLayout.childCount).forEach {
             val view = controlLayout.getChildAt(it)
             if (view is BaseControl) {
-                info {
-                    view.controlBean.jsonStr
+                view.controlBean.children.isNullOrEmpty().yes {
+                    info {
+                        view.controlBean.jsonStr
+                    }
+                }.otherWise {
+                    info {
+                        view.controlBean.children?.forEach {
+                            info {
+                                it.jsonStr
+                            }
+                        }
+                    }
                 }
+
                 val checks = getBean(view)
                 checks.any { !it }.no {
                     value.add(view.controlBean)
@@ -342,7 +353,7 @@ class ApproveInitiateActivity : ToolbarActivity() {
         return checkValue
     }
 
-    private var dialog:MaterialDialog?=null
+    private var dialog: MaterialDialog? = null
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.copyApprove -> {
@@ -353,7 +364,7 @@ class ApproveInitiateActivity : ToolbarActivity() {
                             onNext { payload ->
                                 payload.isOk.yes {
                                     payload.payload?.let {
-                                        if (dialog == null){
+                                        if (dialog == null) {
                                             dialog = showCopyDialog(it) {
                                                 it.sid?.let {
                                                     getLastApproveDetail(it)
@@ -385,7 +396,9 @@ class ApproveInitiateActivity : ToolbarActivity() {
 
         if (requestCode == Extras.REQUESTCODE && resultCode == Extras.RESULTCODE && data != null) {
             val users = data.getSerializableExtra(Extras.DATA) as ArrayList<UserBean>
-            val newCopy = users.map { User(name = it.name, id = it.uid.toString(), url = it.url ?: "") }.toMutableList()
+            val newCopy = users.map {
+                User(name = it.name, id = it.uid.toString(), url = it.url ?: "")
+            }.toMutableList()
             val def = approvers.cs.def.split(",")
             def.forEachIndexed { index, defId ->
                 val find = newCopy.find { it.id == defId }
@@ -426,7 +439,7 @@ class ApproveInitiateActivity : ToolbarActivity() {
                     views.forEach {
                         info { it.jsonStr }
                     }
-                    saveApproveDraft(views.jsonStr)
+                    saveApproveDraft(views.jsonStr, it.yes { 1 }.otherWise { 0 })
                 }.show()
             }.otherWise {
                 super.onBackPressed()
@@ -436,7 +449,7 @@ class ApproveInitiateActivity : ToolbarActivity() {
     }
 
 
-    private fun initDialog(block: () -> Unit): MaterialDialog {
+    private fun initDialog(block: (flag: Boolean) -> Unit): MaterialDialog {
         val mDialog = MaterialDialog.Builder(this)
                 .theme(Theme.LIGHT)
                 .canceledOnTouchOutside(true)
@@ -449,30 +462,36 @@ class ApproveInitiateActivity : ToolbarActivity() {
         cancel.text = "否"
         yes.text = "是"
         cancel.setOnClickListener {
+            block.invoke(false)
             mDialog.dismiss()
-            super.onBackPressed()
+//            super.onBackPressed()
         }
         yes.setOnClickListener {
-            block.invoke()
+            mDialog.dismiss()
+            block.invoke(true)
         }
         return mDialog
     }
 
 
-    private fun saveApproveDraft(data: String) {
+    private fun saveApproveDraft(data: String, save: Int) {
+        val str = when (save) {
+            0 -> "清除"
+            else -> "保存"
+        }
         SoguApi.getService(application, ApproveService::class.java)
-                .saveApproveDraft(tid, data)
+                .saveApproveDraft(tid, data, save)
                 .execute {
                     onNext { payload ->
                         payload.isOk.yes {
-                            showSuccessToast("草稿保存成功")
+                            showSuccessToast("草稿${str}成功")
                             finish()
                         }.otherWise {
-                            showErrorToast("草稿保存失败")
+                            showErrorToast("草稿${str}失败")
                         }
                     }
                     onError {
-                        showErrorToast("草稿保存失败")
+                        showErrorToast("草稿${str}失败")
                     }
                 }
     }

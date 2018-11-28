@@ -218,7 +218,10 @@ class TeamInfoActivity : BaseActivity(), View.OnClickListener, SwitchButton.OnCh
             teamMembers.clear()
             result.forEach {
                 val info = it as NimUserInfo
-                if (null != info.extensionMap && info.extensionMap.isNotEmpty() && info.extensionMap["uid"] != null) {
+                if (null != info.extensionMap &&
+                        info.extensionMap.isNotEmpty() &&
+                        info.extensionMap["uid"] != null &&
+                        info.extensionMap["uid"] != "null") {
                     println(info.extensionMap.jsonStr)
                     val uid = info.extensionMap["uid"].toString().toInt()
                     val user = UserBean()

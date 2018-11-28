@@ -358,8 +358,6 @@ interface ApproveService {
     ): Observable<Payload<ApproveList>>
 
 
-
-
     /**
      * 显示审批
      */
@@ -412,7 +410,8 @@ interface ApproveService {
     @FormUrlEncoded
     @POST("/api/Sptemplate/saveDraft")
     fun saveApproveDraft(@Field("tid") tid: Int,//审批id
-                         @Field("data") data: String? = null
+                         @Field("data") data: String? = null,
+                         @Field("save") save: Int//1保存 0不保存
     ): Observable<Payload<Any>>
 
     /**
@@ -449,7 +448,7 @@ interface ApproveService {
      */
     @FormUrlEncoded
     @POST("/api/Sptemplate/getPrevInfo")
-    fun getLastApproveDetail(@Field("sid")sid:Int):Observable<Payload<List<ControlBean>>>
+    fun getLastApproveDetail(@Field("sid") sid: Int): Observable<Payload<List<ControlBean>>>
 
 
     /**
@@ -457,5 +456,5 @@ interface ApproveService {
      */
     @FormUrlEncoded
     @POST("/api/Sptemplate/deriveWps")
-    fun deriveWps(@Field("aid")aid:Int):Observable<Payload<ApprovalForm>>
+    fun deriveWps(@Field("aid") aid: Int): Observable<Payload<ApprovalForm>>
 }

@@ -5,28 +5,21 @@ import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
-import com.amap.api.mapcore.util.it
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
-import com.sogukj.pe.baselibrary.Extended.otherWise
-import com.sogukj.pe.baselibrary.Extended.setVisible
-import com.sogukj.pe.baselibrary.Extended.yes
+import com.sogukj.pe.R.drawable.copy
+import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.module.approve.baseView.BaseControl
 import com.sogukj.pe.module.approve.baseView.ControlFactory
 import com.sogukj.pe.module.approve.baseView.viewBean.ControlBean
+import com.sogukj.pe.module.approve.baseView.viewBean.copyWithoutValue
 import kotlinx.android.synthetic.main.layout_control_reimburse_list_footer.view.*
-import kotlinx.android.synthetic.main.layout_control_singline_edt.view.*
 import kotlinx.android.synthetic.main.layout_control_travel.view.*
-import org.jetbrains.anko.backgroundColorResource
-import org.jetbrains.anko.dip
 import org.jetbrains.anko.info
-import org.jetbrains.anko.sdk25.coroutines.textChangedListener
 import kotlin.properties.Delegates
 
 /**
@@ -41,8 +34,10 @@ class TravelControl @JvmOverloads constructor(
 
     override fun getContentResId(): Int = R.layout.layout_control_travel
 
+    private lateinit var groupList: MutableList<ControlBean>
+
     override fun bindContentView() {
-        val groupList = controlBean.children!! //第一层级(包含出差事由,行程详情列表,增加行程,出差总天数,出差备注,同行人)
+        groupList = controlBean.children!! //第一层级(包含出差事由,行程详情列表,增加行程,出差总天数,出差备注,同行人)
         hasInit.yes {
             //出差事由输入框
             groupList[0].value?.let {
@@ -70,10 +65,9 @@ class TravelControl @JvmOverloads constructor(
                     adapter = travelAdapter
                 }
                 footer.copyDetail.clickWithTrigger { _ ->
-                    resetValues(it[0].copy())?.let {
-                        group.add(it)
-                        travelAdapter.notifyItemInserted(group.size - 1)
-                    }
+                    val copy = it[0].copyWithoutValue(isDelete = groupList[1].is_delete)
+                    it.add(copy)
+                    travelAdapter.notifyItemInserted(it.size - 1)
                 }
             }
             //出差总天数
@@ -125,13 +119,14 @@ class TravelControl @JvmOverloads constructor(
             //行程
             val detailItem = helper.getView<LinearLayout>(R.id.detailsItem)
             val delete = helper.getView<ImageView>(R.id.deleteItem)
-            delete.setVisible(item.is_delete == true)
+            val position = helper.adapterPosition
+            delete.setVisible(item.is_delete == true && position > 0)
             val factory = ControlFactory(activity)
             item.children?.let {
                 it.forEach {
                     val control = when (it.control) {
                         8 -> {
-                            it.name = "行程${helper.adapterPosition + 1}"
+                            it.name = "行程${position + 1}"
                             factory.createControl(NoticText::class.java, it)
                         }
                         17 -> factory.createControl(CheckBoxControl::class.java, it)
@@ -151,8 +146,11 @@ class TravelControl @JvmOverloads constructor(
                 }
             }
             delete.clickWithTrigger {
-                controlBean.children!![1].children!!.removeAt(helper.adapterPosition)
-                travelAdapter.notifyItemRemoved(helper.adapterPosition)
+                travelAdapter.data.forEach {
+                    info { "$position ===> ${it.children.jsonStr}" }
+                }
+                travelAdapter.notifyItemRemoved(position)
+                controlBean.children!![1].children!!.removeAt(position)
             }
         }
     }
