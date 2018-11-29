@@ -388,7 +388,7 @@ class ImSearchResultActivity : BaseActivity(), TextWatcher,ImSearchCallBack {
 
     override fun finishLoadMore() {
         if (refresh.isLoading) {
-            refresh.finishLoadMore()
+            refresh.finishLoadMore(0)
         }
     }
 

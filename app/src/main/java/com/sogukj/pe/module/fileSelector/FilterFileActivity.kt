@@ -32,7 +32,6 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.module.fileSelector.DocumentsFragment.Companion.ALL_DOC
 import com.sogukj.pe.module.fileSelector.DocumentsFragment.Companion.DING_TALK
-import com.sogukj.pe.module.fileSelector.DocumentsFragment.Companion.DING_TALK_PATH
 import com.sogukj.pe.module.fileSelector.DocumentsFragment.Companion.PE_LOCAL
 import com.sogukj.pe.module.fileSelector.DocumentsFragment.Companion.QQ_DOC
 import com.sogukj.pe.module.fileSelector.DocumentsFragment.Companion.QQ_DOC_PATH
@@ -47,7 +46,6 @@ import kotlinx.android.synthetic.main.layout_empty.*
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.find
 import org.jetbrains.anko.imageResource
-import org.jetbrains.anko.support.v4.ctx
 import java.io.File
 import java.util.*
 import kotlin.properties.Delegates
@@ -270,7 +268,7 @@ class FilterFileActivity : BaseActivity() {
             iv_empty.setVisible(false)
             mAdapter.notifyDataSetChanged()
         }
-        refresh.finishLoadMore()
+        refresh.finishLoadMore(0)
     }
 
     override fun onResume() {

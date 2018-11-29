@@ -300,7 +300,7 @@ class LawSearchFragment : LawSearchBaseFragment(),LawSearchCallBack, TextWatcher
 
     override fun dofinishLoadMore() {
         if (null != refresh && refresh.isLoading) {
-            refresh.finishLoadMore()
+            refresh.finishLoadMore(0)
         }
     }
 

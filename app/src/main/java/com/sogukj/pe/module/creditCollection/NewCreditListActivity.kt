@@ -91,7 +91,7 @@ class NewCreditListActivity : BaseActivity() {
         refresh.setOnLoadMoreListener {
             offset = listAdapter.dataList.size
             loadMore(offset, searchKey)
-            refresh.postDelayed({ refresh.finishLoadMore() }, 2000)
+            refresh.postDelayed({ refresh.finishLoadMore(0) }, 2000)
         }
         search_edt.filters = Utils.getFilter(context)
         search_edt.setOnFocusChangeListener { v, hasFocus ->

@@ -1,7 +1,6 @@
 package com.sogukj.pe.module.fund
 
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -15,9 +14,7 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.RelativeSizeSpan
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
@@ -342,7 +339,7 @@ class FundListFragment : BaseFragment() {
                     if (offset == 0)
                         refresh?.finishRefresh()
                     else
-                        refresh?.finishLoadMore()
+                        refresh?.finishLoadMore(0)
                 })
     }
 

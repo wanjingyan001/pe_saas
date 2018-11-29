@@ -176,7 +176,7 @@ class InvestSearchActivity : BaseActivity() {
                         (page == 1).yes {
                             refresh.finishRefresh()
                         }.otherWise {
-                            refresh.finishLoadMore()
+                            refresh.finishLoadMore(0)
                         }
                         searchAdapter.dataList.isNotEmpty().yes {
                             search_iv_empty.setVisible(false)

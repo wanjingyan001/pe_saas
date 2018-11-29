@@ -2,25 +2,17 @@ package com.sogukj.pe.baselibrary.base
 
 import android.annotation.SuppressLint
 import android.graphics.Color
-import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
 import android.view.View
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.api.RefreshFooter
 import com.scwang.smartrefresh.layout.api.RefreshHeader
-import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import com.sogukj.pe.baselibrary.R
 import com.sogukj.pe.baselibrary.interf.SGRefreshListener
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
-import org.jetbrains.anko.ctx
 import org.jetbrains.anko.find
-import org.jetbrains.anko.support.v4.ctx
-import org.jetbrains.anko.support.v4.find
 
 abstract class BaseRefreshActivity : ToolbarActivity(), SGRefreshListener {
     lateinit var refresh: SmartRefreshLayout
@@ -99,7 +91,7 @@ abstract class BaseRefreshActivity : ToolbarActivity(), SGRefreshListener {
 
     fun finishLoadMore() {
         if (this::refresh.isLateinit && refresh.isLoading) {
-            refresh.finishLoadMore()
+            refresh.finishLoadMore(0)
         }
     }
 

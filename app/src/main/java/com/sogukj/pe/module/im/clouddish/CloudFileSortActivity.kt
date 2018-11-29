@@ -261,7 +261,7 @@ class CloudFileSortActivity : BaseRefreshActivity(),UploadCallBack {
 
     fun dofinishLoadMore() {
         if (this::refresh.isLateinit && refresh.isLoading) {
-            refresh.finishLoadMore()
+            refresh.finishLoadMore(0)
         }
         goneLoadding()
     }

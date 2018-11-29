@@ -138,7 +138,7 @@ class PatentListActivity : BaseActivity() {
                         if (page == 1) {
                             refresh.finishRefresh()
                         } else {
-                            refresh.finishLoadMore()
+                            refresh.finishLoadMore(0)
                         }
                         data.isNotEmpty().yes {
                             patentList.setVisible(true)
@@ -156,7 +156,7 @@ class PatentListActivity : BaseActivity() {
                             emptyImg.setVisible(true)
                             refresh.finishRefresh()
                         } else {
-                            refresh.finishLoadMore()
+                            refresh.finishLoadMore(0)
                         }
                         Log.e("TAG", "专利列表 error ==" + it.message)
                         showErrorToast("数据获取失败")

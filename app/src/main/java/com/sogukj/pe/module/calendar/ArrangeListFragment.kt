@@ -179,7 +179,7 @@ class ArrangeListFragment : BaseRefreshFragment() {
                         isRefresh = false
                     }
                     if (isLoadMore) {
-                        refresh.finishLoadMore()
+                        refresh.finishLoadMore(0)
                         isLoadMore = false
                         recycler_view.run {
                             smoothScrollToPosition(0)

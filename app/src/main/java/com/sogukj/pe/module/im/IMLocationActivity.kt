@@ -398,7 +398,7 @@ class IMLocationActivity : BaseActivity(), AMap.OnCameraChangeListener, AMapLoca
                 it.pois.forEach {
                     info { "名称:${it.title}===>地址:${it.snippet}" }
                 }
-                refresh.finishLoadMore()
+                refresh.finishLoadMore(0)
                 if (page == 0) {
                     poiAdapter.dataList.clear()
                 }

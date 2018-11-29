@@ -373,7 +373,7 @@ class PdfSearchActivity : BaseActivity(), AllPayCallBack {
                             (page == 1).yes {
                                 refresh.finishRefresh()
                             }.otherWise {
-                                refresh.finishLoadMore()
+                                refresh.finishLoadMore(0)
                             }
                             documents.isNotEmpty().yes {
                                 search_iv_empty.setVisible(false)

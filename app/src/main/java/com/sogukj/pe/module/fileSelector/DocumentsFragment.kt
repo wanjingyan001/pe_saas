@@ -132,7 +132,7 @@ class DocumentsFragment : BasePageFragment(), View.OnClickListener {
             adapter.dataList.addAll(dirFiles)
         }
         adapter.notifyDataSetChanged()
-        refresh.finishLoadMore()
+        refresh.finishLoadMore(0)
 
     }
 
