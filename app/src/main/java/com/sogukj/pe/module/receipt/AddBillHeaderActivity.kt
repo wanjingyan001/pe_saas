@@ -13,6 +13,8 @@ import com.sogukj.pe.baselibrary.Extended.textStr
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.BillDetailBean
+import com.sogukj.pe.bean.UserBean
+import com.sogukj.pe.peUtils.Store
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.layout_add_content.*
 import kotlinx.android.synthetic.main.normal_toolbar.*
@@ -25,6 +27,7 @@ class AddBillHeaderActivity : ToolbarActivity(), TextWatcher {
     private var type : Int = 1   // 1 企业发票 2 个人发票
     private var bean : BillDetailBean? = null
     private var id : Int ? = null
+    private var userBean : UserBean? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_bheader)
@@ -38,6 +41,7 @@ class AddBillHeaderActivity : ToolbarActivity(), TextWatcher {
         setBack(true)
         bean = intent.getSerializableExtra(Extras.DATA) as BillDetailBean?
         id = intent.getIntExtra(Extras.ID,0)
+        userBean = Store.store.getUser(this)
         setTitle("发票抬头")
         toolbar_menu.text = "完成"
         toolbar_menu.setTextColor(resources.getColor(R.color.blue_3c))
@@ -47,7 +51,32 @@ class AddBillHeaderActivity : ToolbarActivity(), TextWatcher {
     }
 
     private fun setPrimeData() {
-        if (null == bean) return
+        if (null == bean) {
+            if (!userBean!!.mechanism_name.isNullOrEmpty()){
+                et_title.setText(userBean!!.mechanism_name)
+                et_title.setSelection(userBean!!.mechanism_name.length)
+            }
+            if (!userBean!!.tax_no.isNullOrEmpty()){
+                et_duty.setText(Utils.getSpaceText(userBean!!.tax_no))
+            }
+            if (!userBean!!.address.isNullOrEmpty()){
+                //公司地址
+                et_address.setText(userBean!!.address)
+            }
+            if (!userBean!!.telephone.isNullOrEmpty()){
+                //电话号码
+                et_number.setText(userBean!!.telephone)
+            }
+            if (!userBean!!.phone.isNullOrEmpty()){
+                //手机号
+                et_phone.setText(userBean!!.phone)
+            }
+            if (!userBean!!.person_email.isNullOrEmpty()){
+                //邮箱
+                et_email.setText(userBean!!.person_email)
+            }
+            return
+        }
         if (bean!!.type == 1){
             //公司
             iv_company.setImageResource(R.mipmap.ic_unselect_receipt)

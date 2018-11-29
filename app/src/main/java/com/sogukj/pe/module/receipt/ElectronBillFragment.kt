@@ -24,6 +24,8 @@ import com.sogukj.pe.baselibrary.widgets.citypicker.bean.CityBean
 import com.sogukj.pe.baselibrary.widgets.citypicker.bean.DistrictBean
 import com.sogukj.pe.baselibrary.widgets.citypicker.bean.ProvinceBean
 import com.sogukj.pe.bean.InvoiceHisBean
+import com.sogukj.pe.bean.UserBean
+import com.sogukj.pe.peUtils.Store
 import kotlinx.android.synthetic.main.fragment_eletron_bill.*
 import kotlinx.android.synthetic.main.layout_accept_type.*
 import kotlinx.android.synthetic.main.layout_bill_detail.*
@@ -41,10 +43,12 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack{
     private var phoneAddress = ""
     private var bankAccount = ""
     private var type: Int = 2  // 1 : 电子发票 2 : 纸质发票
+    private var userBean : UserBean? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         type = arguments!!.getInt("type")
         money = arguments!!.getString("money")
+        userBean = Store.store.getUser(activity!!)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -95,6 +99,20 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack{
     private fun initData() {
         tv_coin.text = "${money}元"
         val digits = getString(R.string.input_number_letter)
+        if (!userBean!!.phone.isNullOrEmpty()){
+            et_phone.setText(userBean!!.phone)
+        }
+
+        if (!userBean!!.person_email.isNullOrEmpty()){
+            et_email.setText(userBean!!.person_email)
+        }
+        if (!userBean!!.mechanism_name.isNullOrEmpty()){
+            tv_header.setText(userBean!!.mechanism_name)
+        }
+        if (!userBean!!.tax_no.isNullOrEmpty()){
+            et_duty.setText(Utils.getSpaceText(userBean!!.tax_no))
+            et_duty.setSelection(et_duty.textStr.length)
+        }
     }
 
     private fun bindListener() {

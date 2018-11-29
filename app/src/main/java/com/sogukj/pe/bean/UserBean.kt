@@ -10,6 +10,7 @@ open class UserBean : Serializable {
     var depart_name: String = ""//部门名称
     var position: String = ""//职位
     var email: String = ""//邮件
+    var person_email : String = "" //个人邮箱
     var project: String = ""//项目
     var memo: String = ""//备注
     var url: String? = null
@@ -27,7 +28,9 @@ open class UserBean : Serializable {
     var is_read: Int? = null//抄送人状态 ""全部，"1"已读，"2"未读
     var uids: String? = ""
     var openId: String? = null//微信openId
-
+    var telephone : String = "" //公司电话
+    var tax_no : String = "" //税号
+    var mechanism_name : String = "" //公司名称
     fun headImage(): String? {
         if (null == url) return null
         val file = File(url)
