@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.LinearLayout
+import com.amap.api.mapcore.util.it
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.jakewharton.rxbinding2.widget.RxTextView
@@ -65,9 +66,9 @@ class TravelControl @JvmOverloads constructor(
                     adapter = travelAdapter
                 }
                 footer.copyDetail.clickWithTrigger { _ ->
-                    val copy = it[0].copyWithoutValue(isDelete = groupList[1].is_delete)
-                    it.add(copy)
-                    travelAdapter.notifyItemInserted(it.size - 1)
+                    val copy = it.last().copyWithoutValue(isDelete = groupList[1].is_delete)
+                    travelAdapter.addData(it.size, copy)
+                    info { copy.jsonStr }
                 }
             }
             //出差总天数
@@ -99,8 +100,10 @@ class TravelControl @JvmOverloads constructor(
     }
 
 
-    inner class TravelAdapter(data: List<ControlBean>) : BaseQuickAdapter<ControlBean, BaseViewHolder>(R.layout.item_control_reimburse_detail, data) {
+    inner class TravelAdapter(data: List<ControlBean>)
+        : BaseQuickAdapter<ControlBean, BaseViewHolder>(R.layout.item_control_reimburse_detail, data) {
         var days = 0.0
+        var timeUnit = "小时"
 
         @SuppressLint("SetTextI18n")
         override fun convert(helper: BaseViewHolder, item: ControlBean) {
@@ -136,6 +139,7 @@ class TravelControl @JvmOverloads constructor(
                             val dateRange = factory.createControl(DateRangeControl::class.java, it)
                             (dateRange as DateRangeControl).block = { days, unit ->
                                 itemDays = days to (unit ?: "")
+                                timeUnit = unit ?: ""
                             }
                             dateRange
                         }
@@ -146,12 +150,21 @@ class TravelControl @JvmOverloads constructor(
                 }
             }
             delete.clickWithTrigger {
-                travelAdapter.data.forEach {
-                    info { "$position ===> ${it.children.jsonStr}" }
-                }
-                travelAdapter.notifyItemRemoved(position)
-                controlBean.children!![1].children!!.removeAt(position)
+                travelAdapter.remove(position)
+                calculateAgain()
             }
+        }
+
+        private fun calculateAgain() {
+            var newTotal = 0.0
+            controlBean.children!![1].children?.forEach {
+                it.children!![5].value?.let {
+                    if (it.size == 3) {
+                        newTotal += it[2].toString().toDouble()
+                    }
+                }
+            }
+            inflate.totalDays.text = "$newTotal${travelAdapter.timeUnit}"
         }
     }
 }

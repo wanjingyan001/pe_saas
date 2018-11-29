@@ -424,11 +424,7 @@ class ApproveInitiateActivity : ToolbarActivity() {
                 view.controlBean.value.isNullOrEmpty().no {
                     valueNotEmpty.add(view.controlBean)
                 }
-                view.controlBean.children?.forEach {
-                    it.value.isNullOrEmpty().no {
-                        valueNotEmpty.add(it)
-                    }
-                }
+                getChildValue(view.controlBean.children, valueNotEmpty)
             }
         }
         if (aid != null) {
@@ -445,9 +441,17 @@ class ApproveInitiateActivity : ToolbarActivity() {
                 super.onBackPressed()
             }
         }
-
     }
 
+    private fun getChildValue(childs: List<ControlBean>?, valueNotEmpty: MutableList<ControlBean>) {
+        childs?.forEach {
+            it.value.isNullOrEmpty().no {
+                valueNotEmpty.add(it)
+            }.otherWise {
+                getChildValue(it.children, valueNotEmpty)
+            }
+        }
+    }
 
     private fun initDialog(block: (flag: Boolean) -> Unit): MaterialDialog {
         val mDialog = MaterialDialog.Builder(this)

@@ -63,8 +63,6 @@ class MoneyInput @JvmOverloads constructor(
                             RxBus.getIntanceBus().post(moneyStr.toDouble())
                         }.otherWise {
                             block?.invoke(0.0)
-
-                            RxBus.getIntanceBus().post(0.0)
                         }
                     }
                 }

@@ -61,9 +61,8 @@ class ReimburseControl @JvmOverloads constructor(
                     adapter = detailAdapter
                 }
                 footer.copyDetail.clickWithTrigger { _ ->
-                    val copy = it[0].copyWithoutValue(isDelete = grouplist.is_delete)
-                    it.add(copy)
-                    detailAdapter.notifyItemInserted(it.size - 1)
+                    val copy = it.last().copyWithoutValue(isDelete = grouplist.is_delete)
+                    detailAdapter.addData(it.size, copy)
                 }
             }
             //总报销金额
@@ -86,29 +85,12 @@ class ReimburseControl @JvmOverloads constructor(
     }
 
 
-    inner class DetailAdapter(data: List<ControlBean>) : BaseQuickAdapter<ControlBean, BaseViewHolder>(R.layout.item_control_reimburse_detail, data) {
+    inner class DetailAdapter(data: List<ControlBean>)
+        : BaseQuickAdapter<ControlBean, BaseViewHolder>(R.layout.item_control_reimburse_detail, data) {
         var moneyNum = 0.0
 
         override fun convert(helper: BaseViewHolder, item: ControlBean) {
             val position = helper.adapterPosition
-            var itemMoney: Double by Delegates.observable(0.0) { _, oldValue, newValue ->
-                moneyNum = moneyNum + newValue - oldValue
-                totals.add(moneyNum)
-                totals.forEach {
-                    info { it }
-                }
-                helper.itemView.postDelayed({
-                    val d = totals[totals.size - 1]
-                    totals.clear()
-                    totals.add(d)
-                    inflate.totalAmount.text = d.toString()
-                    inflate.CNMoney.text = NumberToCN.money2CNUnit(d.toString())
-                    controlBean.children!![2].value?.clear()
-                    controlBean.children!![2].value?.add(d.toString())
-                    controlBean.children!![2].extras?.value = NumberToCN.money2CNUnit(d.toString())
-                }, 1000)
-
-            }
             //"报销明细"的控件组(包含提示文字,金额输入,报销类型选择,费用明细填写)
             val detailItem = helper.getView<LinearLayout>(R.id.detailsItem)
             val delete = helper.getView<ImageView>(R.id.deleteItem)
@@ -124,7 +106,10 @@ class ReimburseControl @JvmOverloads constructor(
                         9 -> {
                             val input = factory.createControl(MoneyInput::class.java, it)
                             (input as MoneyInput).block = { money ->
-                                itemMoney = money
+                                val value = grouplist.children!![position].children!![1].value
+                                value?.clear()
+                                value?.add(money.toString())
+                                calculateAgain()
                             }
                             input
                         }
@@ -141,9 +126,26 @@ class ReimburseControl @JvmOverloads constructor(
                 }
             }
             delete.clickWithTrigger {
-                group.removeAt(position)
-                detailAdapter.notifyItemRemoved(position)
+                detailAdapter.remove(position)
+                calculateAgain()
             }
+        }
+
+        private fun calculateAgain() {
+            var totalNum = 0.0
+            grouplist.children?.forEach {
+                it.children!![1].value?.let {
+                    it.isNotEmpty().yes {
+                        info { it[0].toString() }
+                        totalNum += it[0].toString().toDouble()
+                    }
+                }
+            }
+            inflate.totalAmount.text = totalNum.toString()
+            inflate.CNMoney.text = NumberToCN.money2CNUnit(totalNum.toString())
+            controlBean.children!![2].value?.clear()
+            controlBean.children!![2].value?.add(totalNum.toString())
+            controlBean.children!![2].extras?.value = NumberToCN.money2CNUnit(totalNum.toString())
         }
     }
 }
