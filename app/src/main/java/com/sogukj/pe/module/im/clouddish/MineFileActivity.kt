@@ -729,7 +729,6 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
                             val jsonObject = payload.payload
                             jsonObject?.let {
                                 val previewUrl = it.get("preview_url").asString
-                                previewUrl
                                 OnlinePreviewActivity.start(this@MineFileActivity,previewUrl,fileName,false)
                             }
                         }else{

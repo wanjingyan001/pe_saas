@@ -41,6 +41,7 @@ import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.UserService
 import com.sogukj.service.SoguApi
+import com.squareup.leakcanary.LeakCanary
 import com.tencent.bugly.crashreport.CrashReport
 import com.umeng.commonsdk.UMConfigure
 import com.umeng.message.IUmengRegisterCallback
@@ -48,8 +49,6 @@ import com.umeng.message.MsgConstant
 import com.umeng.message.PushAgent
 import com.umeng.message.UmengMessageHandler
 import com.umeng.message.entity.UMessage
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import me.leolin.shortcutbadger.ShortcutBadger
 import org.jetbrains.anko.AnkoLogger
@@ -186,6 +185,12 @@ class App : MultiDexApplication() {
             }
         }
         initNIM()
+//        initLeakCanary()
+    }
+
+    private fun initLeakCanary() {
+        if (LeakCanary.isInAnalyzerProcess(this))return
+        LeakCanary.install(this)
     }
 
 

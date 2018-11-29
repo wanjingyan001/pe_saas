@@ -1,24 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bg_record"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical"
-    tools:context="com.sogukj.pe.ui.project.RecordDetailActivity">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/bg_record"
+              android:fitsSystemWindows="true"
+              android:orientation="vertical"
+              tools:context="com.sogukj.pe.ui.project.RecordDetailActivity">
 
-    <include layout="@layout/toolbar_custom" />
-
-    <TextView
-        android:id="@+id/company_name"
-        style="@style/SoguTextLarge"
+    <include layout="@layout/toolbar_custom"/>
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="18dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="18dp"
-        android:text="上海搜股科技" />
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white">
+
+
+        <TextView
+            android:id="@+id/projectSelectionTitle"
+            style="@style/ItemTextLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="12dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="项目名称"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/company_name"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="16dp"
+            android:background="@null"
+            android:drawableEnd="@drawable/jt_copy"
+            android:gravity="end|center_vertical"
+            android:hint="请选择"
+            android:singleLine="true"
+            android:textColor="@color/text_1"
+            android:textSize="@dimen/text_size_medium"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/projectSelectionTitle"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    </android.support.constraint.ConstraintLayout>
 
     <TableLayout
         android:layout_width="match_parent"
@@ -34,7 +67,7 @@
             <TextView
                 style="@style/ItemTextLabel"
                 android:layout_height="20dp"
-                android:text="项目开始时间" />
+                android:text="项目开始时间"/>
 
             <TextView
                 android:id="@+id/tv_start_time"
@@ -43,13 +76,13 @@
                 android:layout_weight="1"
                 android:drawableRight="@drawable/jt_copy"
                 android:gravity="right"
-                android:text="jintain" />
+                android:text="jintain"/>
         </TableRow>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/divider2" />
+            android:background="@color/divider2"/>
 
         <TableRow
             android:paddingBottom="18dp"
@@ -58,7 +91,7 @@
             <TextView
                 style="@style/ItemTextLabel"
                 android:layout_height="20dp"
-                android:text="项目结束时间" />
+                android:text="项目结束时间"/>
 
             <TextView
                 android:id="@+id/tv_end_time"
@@ -67,7 +100,7 @@
                 android:layout_weight="1"
                 android:drawableRight="@drawable/jt_copy"
                 android:gravity="right"
-                android:text="jintain" />
+                android:text="jintain"/>
         </TableRow>
     </TableLayout>
 
@@ -86,13 +119,13 @@
             <TextView
                 style="@style/ItemTextLabel"
                 android:layout_height="20dp"
-                android:text="拜访人员（选填）" />
+                android:text="拜访人员（选填）"/>
 
             <EditText
                 android:id="@+id/et_visiter"
                 style="@style/ItemTextValue"
                 android:layout_height="20dp"
-                android:gravity="left" />
+                android:gravity="left"/>
         </TableRow>
 
     </TableLayout>
@@ -113,12 +146,13 @@
             <TextView
                 style="@style/ItemTextLabel"
                 android:layout_height="20dp"
-                android:text="跟踪情况描述" />
+                android:text="跟踪情况描述"/>
 
             <EditText
                 android:id="@+id/et_des"
                 style="@style/ItemTextValue"/>
         </TableRow>
+
         <View
             android:id="@+id/view_des"/>
     </TableLayout>
@@ -136,12 +170,12 @@
             <TextView
                 style="@style/ItemTextLabel"
                 android:layout_height="20dp"
-                android:text="是否为重大事件，并加入到项目关键节点记录中" />
+                android:text="是否为重大事件，并加入到项目关键节点记录中"/>
 
             <CheckBox
                 android:id="@+id/cb_important"
                 android:layout_height="20dp"
-                android:checked="false" />
+                android:checked="false"/>
         </TableRow>
 
         <TableRow android:paddingBottom="18dp">
@@ -149,7 +183,7 @@
             <TextView
                 android:text="（注：可在项目日历中查看）"
                 android:textColor="#b4b4b4"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
         </TableRow>
     </TableLayout>
 
