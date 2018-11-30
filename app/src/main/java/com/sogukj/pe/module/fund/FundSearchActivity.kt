@@ -1,5 +1,6 @@
 package com.sogukj.pe.module.fund
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -58,6 +59,7 @@ class FundSearchActivity : BaseRefreshActivity(), View.OnClickListener {
     }
 
 
+    @SuppressLint("StringFormatMatches")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fund_search)
@@ -181,6 +183,7 @@ class FundSearchActivity : BaseRefreshActivity(), View.OnClickListener {
         return config
     }
 
+    @SuppressLint("StringFormatMatches")
     fun doSearch(searchStr: String) {
         if (searchStr.isEmpty()) {
             adapter.dataList.clear()

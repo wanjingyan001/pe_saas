@@ -1,5 +1,6 @@
 package com.sogukj.pe.module.news
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -13,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
 import android.text.InputType
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -74,6 +76,7 @@ class MainNewsFragment : BaseRefreshFragment() {
     }
 
 
+    @SuppressLint("StringFormatMatches")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //toolbar_back.visibility = View.GONE
@@ -423,6 +426,7 @@ class MainNewsFragment : BaseRefreshFragment() {
     var type = 1
     var key = ""
     var page = 1
+    @SuppressLint("StringFormatMatches")
     fun doSearch(text: String) {
         search_view.et_search.setSelection(text.length)
         this.key = text
@@ -448,8 +452,10 @@ class MainNewsFragment : BaseRefreshFragment() {
                             adapter.dataList.addAll(this)
                         }
                         payload?.apply {
-                            tv_result_title.text = Html.fromHtml(getString(R.string.tv_title_result_news, adapter.dataList.size))
+//                            tv_result_title.text = Html.fromHtml(getString(R.string.tv_title_result_news, adapter.dataList.size))
                         }
+                        Log.e("TAG"," payload.total ==" + (payload.total as Double).toInt())
+                        tv_result_title.text = Html.fromHtml(getString(R.string.tv_title_result_news,(payload.total as Double).toInt()))
                     } else
                         showCustomToast(R.drawable.icon_toast_fail, payload.message)
                 }, { e ->
