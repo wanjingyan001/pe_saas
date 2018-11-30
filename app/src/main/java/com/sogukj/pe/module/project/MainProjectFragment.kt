@@ -77,7 +77,7 @@ class MainProjectFragment : BaseRefreshFragment() {
         val user = Store.store.getUser(baseActivity!!)
         var header = headerIcon.getChildAt(0) as CircleImageView
         if (user?.url.isNullOrEmpty()) {
-            if (null != user?.name){
+            if (null != user?.name && !"".equals(user?.name)){
                 val ch = user.name.first()
                 header.setChar(ch)
             }

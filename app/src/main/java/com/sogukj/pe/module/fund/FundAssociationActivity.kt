@@ -11,6 +11,7 @@ import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.execute
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
@@ -54,11 +55,14 @@ class FundAssociationActivity : ToolbarActivity() {
         fund_id = intent.getIntExtra(Extras.DATA2, 0)
         if (flag == 1) {
             title = "基金运行情况"
+            ll_export.setVisible(true)
         } else if (flag == 2) {
             title = intent.getStringExtra(Extras.TITLE)
             id = intent.getIntExtra(Extras.ID, 0)
+            ll_export.setVisible(false)
         } else {
             title = ""
+            ll_export.setVisible(false)
         }
 
         kotlin.run {
