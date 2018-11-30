@@ -1,5 +1,6 @@
 package com.sogukj.pe.service
 
+import com.sogukj.pe.Consts
 import com.sogukj.pe.bean.*
 import io.reactivex.Observable
 import retrofit2.http.*
@@ -35,6 +36,7 @@ interface NewService {
                     , @Field("principal_id") principal_id: Int? = null
                     , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE): Observable<Payload<List<ProjectBean>>>
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/news/newsInfo")
     fun newsInfo(@Field("table_id") table_id: Int
