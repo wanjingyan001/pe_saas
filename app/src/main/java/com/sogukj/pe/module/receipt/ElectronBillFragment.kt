@@ -113,6 +113,9 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack{
             et_duty.setText(Utils.getSpaceText(userBean!!.tax_no))
             et_duty.setSelection(et_duty.textStr.length)
         }
+        if (!userBean!!.name.isNullOrEmpty()){
+            et_accept.setText(userBean!!.name)
+        }
     }
 
     private fun bindListener() {

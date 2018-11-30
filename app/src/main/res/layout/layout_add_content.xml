@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
     android:layout_marginTop="@dimen/text_8"
     android:orientation="vertical">
@@ -99,7 +100,7 @@
 
         <RelativeLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="3">
 
             <ImageView
@@ -114,11 +115,12 @@
             <EditText
                 android:id="@+id/et_title"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/text_8"
                 android:layout_toLeftOf="@id/iv_delete"
                 android:background="@null"
+                tools:text="搜股科技有限公司"
                 android:textColor="@color/black_28"
                 android:textSize="@dimen/text_size_14"/>
         </RelativeLayout>
@@ -171,6 +173,7 @@
                 android:layout_marginRight="@dimen/text_8"
                 android:background="@null"
                 android:maxLength="24"
+                android:maxLines="1"
                 android:digits="@string/input_number_letter"
                 android:textColor="@color/black_28"
                 android:textSize="@dimen/text_size_14"/>
@@ -201,13 +204,14 @@
             <EditText
                 android:id="@+id/et_address"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_weight="3"
                 android:layout_marginRight="@dimen/text_8"
                 android:hint="输入公司地址"
                 android:textColorHint="@color/gray_a0"
                 android:background="@null"
+                tools:text="哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒"
                 android:textColor="@color/black_28"
                 android:textSize="@dimen/text_size_14"/>
         </LinearLayout>
@@ -243,6 +247,8 @@
                 android:inputType="phone"
                 android:textColorHint="@color/gray_a0"
                 android:background="@null"
+                android:maxLines="1"
+                tools:text="010111111111"
                 android:textColor="@color/black_28"
                 android:textSize="@dimen/text_size_14"/>
         </LinearLayout>
@@ -270,7 +276,7 @@
             <EditText
                 android:id="@+id/et_bank"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_weight="3"
                 android:layout_marginRight="@dimen/text_8"
@@ -310,6 +316,7 @@
                 android:layout_marginRight="@dimen/text_8"
                 android:hint="输入公司银行账号"
                 android:inputType="number"
+                android:maxLines="1"
                 android:textColorHint="@color/gray_a0"
                 android:background="@null"
                 android:textColor="@color/black_28"
@@ -356,6 +363,7 @@
                 android:layout_marginRight="@dimen/text_8"
                 android:inputType="phone"
                 android:maxLength="11"
+                android:maxLines="1"
                 android:hint="输入个人手机号码"
                 android:textColorHint="@color/gray_a0"
                 android:background="@null"
@@ -391,6 +399,7 @@
                 android:layout_weight="3"
                 android:layout_marginRight="@dimen/text_8"
                 android:hint="输入个人邮箱"
+                android:maxLines="1"
                 android:textColorHint="@color/gray_a0"
                 android:background="@null"
                 android:textColor="@color/black_28"
