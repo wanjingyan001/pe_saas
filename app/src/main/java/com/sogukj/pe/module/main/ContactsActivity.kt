@@ -214,6 +214,15 @@ class ContactsActivity : ToolbarActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        val list = ArrayList<UserBean>()
+        list.addAll(alreadySelected)
+        val intent = Intent()
+        intent.putExtra(Extras.DATA, list)
+        setResult(Extras.RESULTCODE, intent)
+        super.onBackPressed()
+    }
+
 
     @SuppressLint("SetTextI18n")
     private fun getDataFromIntent() {
