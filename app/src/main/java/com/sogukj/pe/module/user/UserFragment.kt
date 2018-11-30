@@ -164,7 +164,7 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
                             payload?.payload?.apply {
                                 var shareBean = CusShareBean()
                                 shareBean.shareTitle = this.company!!
-                                shareBean.shareContent = ""
+                                shareBean.shareContent = "搜股XPE您的专属投资大管家"
                                 shareBean.shareUrl = this.web_url!!
                                 ShareUtils.share(shareBean, activity!!)
                             }

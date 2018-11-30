@@ -30,13 +30,15 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="20dp"
                 android:textColor="@color/text_1"
-                android:textSize="18sp"
-                android:visibility="gone" />
+                android:layout_marginTop="@dimen/text_10"
+                tools:text="村上大树蜀黍"
+                android:textSize="18sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:layout_marginTop="@dimen/text_10"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp">
 

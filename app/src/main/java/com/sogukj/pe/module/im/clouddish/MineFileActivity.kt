@@ -231,10 +231,14 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
         toolbar_menu.clickWithTrigger {
             //筛选、全选(无内容是隐藏全选)
             fl_cover.visibility = View.VISIBLE
-            if (null != nameAdapter.dataList && nameAdapter.dataList.size > 0){
-                showFillterPup()
-            }else{
+            if (isBusinessFile){
                 showOnlyFitterPup()
+            }else{
+                if (null != nameAdapter.dataList && nameAdapter.dataList.size > 0){
+                    showFillterPup()
+                }else{
+                    showOnlyFitterPup()
+                }
             }
         }
 
