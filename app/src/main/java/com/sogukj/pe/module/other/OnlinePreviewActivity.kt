@@ -6,10 +6,9 @@ import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.os.Bundle
-import android.os.Environment
-import android.os.Handler
-import android.os.Message
+import android.net.Uri
+import android.os.*
+import android.support.annotation.RequiresApi
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
@@ -26,9 +25,11 @@ import cn.sharesdk.tencent.qzone.QZone
 import cn.sharesdk.wechat.friends.Wechat
 import cn.sharesdk.wechat.moments.WechatMoments
 import cn.sharesdk.wechat.utils.WechatClientNotExistException
+import com.bumptech.glide.Glide
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
+import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -38,6 +39,7 @@ import com.sogukj.pe.peUtils.BASE64Encoder
 import com.sogukj.pe.peUtils.FileUtil
 import com.sogukj.pe.peUtils.ShareUtils
 import com.sogukj.pe.service.FundService
+import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -83,6 +85,7 @@ class OnlinePreviewActivity : ToolbarActivity(), PlatformActionListener {
                 return true
             }
 
+            @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
             override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
                 view!!.loadUrl(request!!.url.toString())
                 return true
@@ -119,6 +122,10 @@ class OnlinePreviewActivity : ToolbarActivity(), PlatformActionListener {
         settings.loadWithOverviewMode = true
         web.setWebChromeClient(WebChromeClient())
 
+        Glide.with(this)
+                .asGif()
+                .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
+                .into(iv_loading)
         var map = HashMap<String, String>()
         map.put("url", url)
         SoguApi.getService(application, FundService::class.java)
@@ -147,12 +154,14 @@ class OnlinePreviewActivity : ToolbarActivity(), PlatformActionListener {
             }
             web.loadUrl("file:///android_asset/pdfjs/web/viewer.html?file=" + url)
         } else {
-            if (FileUtil.getFileType(File(url.split("?")[0])) == FileUtil.FileType.DOC) {
+            if (FileUtil.getFileType(File(url.split("?")[0])) == FileUtil.FileType.ONLYDOC){
+                view_recover.visibility = View.VISIBLE
+                parseDocToPdf()
+            } else if (FileUtil.getFileType(File(url.split("?")[0])) == FileUtil.FileType.DOC) {
                 if (url.contains("txt")) {
                     web.loadUrl(url)
                 } else {
                     web.loadUrl("https://view.officeapps.live.com/op/view.aspx?src=" + url)
-//                    web.loadUrl("https://company.pewinner.com/web/preview/preview?src=" + url)
                 }
             } else if (FileUtil.getFileType(File(url.split("?")[0])) == FileUtil.FileType.IMAGE) {
                 web.loadUrl(url)
@@ -169,6 +178,51 @@ class OnlinePreviewActivity : ToolbarActivity(), PlatformActionListener {
         toolbar_menu.clickWithTrigger {
             cusShare()
         }
+    }
+
+    private fun parseDocToPdf() {
+        SoguApi.getService(this,OtherService::class.java)
+                .docParsePdfFile(url)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+                            val jsonObject = payload.payload
+                            jsonObject?.let {
+                                var previewUrl = it.get("preview_url").asString
+                                if ("" != previewUrl) {
+                                    var bytes: ByteArray? = null
+                                    try {// 获取以字符编码为utf-8的字符
+                                        bytes = previewUrl.toByteArray(Charsets.UTF_8)
+                                    } catch (e: UnsupportedEncodingException) {
+                                        e.printStackTrace()
+                                    }
+                                    if (bytes != null) {
+                                        previewUrl = BASE64Encoder().encode(bytes)
+                                    }
+                                }
+                                web.loadUrl("file:///android_asset/pdfjs/web/viewer.html?file=" + previewUrl)
+                            }
+                        }else{
+                            if (url.contains("txt")) {
+                                web.loadUrl(url)
+                            } else {
+                                web.loadUrl("https://view.officeapps.live.com/op/view.aspx?src=" + url)
+                            }
+                        }
+
+                        view_recover.visibility = View.INVISIBLE
+                    }
+
+                    onError {
+                        it.printStackTrace()
+                        if (url.contains("txt")) {
+                            web.loadUrl(url)
+                        } else {
+                            web.loadUrl("https://view.officeapps.live.com/op/view.aspx?src=" + url)
+                        }
+                        view_recover.visibility = View.INVISIBLE
+                    }
+                }
     }
 
 //    override val menuId: Int
