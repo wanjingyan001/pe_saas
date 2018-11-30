@@ -1,10 +1,7 @@
 package com.sogukj.pe.service
 
-import com.google.gson.internal.LinkedHashTreeMap
-import com.google.gson.internal.LinkedTreeMap
 import com.sogukj.pe.Consts
 import com.sogukj.pe.bean.*
-import com.sogukj.pe.module.dataSource.DocumentType
 import io.reactivex.Observable
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -25,7 +22,7 @@ interface DataSourceService {
                       @Field("year") year: Int? = null,
                       @Field("search") search: String? = null,
                       @Field("page") page: Int = 1,
-                      @Field("pageSize") pageSize: Int = 20): Observable<Payload<List<InvestmentEvent>>>
+                      @Field("pageSize") pageSize: Int = 15): Observable<Payload<List<InvestmentEvent>>>
 
     /**
      * 获取投资分类(投资事件的筛选条件1)
@@ -42,7 +39,7 @@ interface DataSourceService {
     @FormUrlEncoded
     @POST("/api/Datasource/industryReport")
     fun getSourceBookList(@Field("page") page: Int = 1,
-                          @Field("pageSize") pageSize: Int = 20,
+                          @Field("pageSize") pageSize: Int = 15,
                           @Field("type") type: Int,
                           @Field("condition") condition: Int? = null,
                           @Field("keywords") keywords: String? = null): Observable<Payload<List<PdfBook>>>
@@ -87,7 +84,7 @@ interface DataSourceService {
     @FormUrlEncoded
     @POST("api/Datasource/policyNews")
     fun getPolicyExpressList(@Field("page") page: Int = 1,
-                             @Field("pageSize") pageSize: Int = 20,
+                             @Field("pageSize") pageSize: Int = 15,
                              @Field("keywords") keywords: String? = null,
                              @Field("type") type: Int? = null): Observable<Payload<List<PlListInfos>>>
 

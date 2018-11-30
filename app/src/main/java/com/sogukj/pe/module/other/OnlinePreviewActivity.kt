@@ -152,6 +152,7 @@ class OnlinePreviewActivity : ToolbarActivity(), PlatformActionListener {
                     web.loadUrl(url)
                 } else {
                     web.loadUrl("https://view.officeapps.live.com/op/view.aspx?src=" + url)
+//                    web.loadUrl("https://company.pewinner.com/web/preview/preview?src=" + url)
                 }
             } else if (FileUtil.getFileType(File(url.split("?")[0])) == FileUtil.FileType.IMAGE) {
                 web.loadUrl(url)
