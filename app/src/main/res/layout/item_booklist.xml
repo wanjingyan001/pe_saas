@@ -32,6 +32,7 @@
             android:singleLine="true"
             android:textColor="@color/text_1"
             android:gravity="center_vertical"
+            tools:text="自动化测试.pdf"
             android:textSize="15sp" />
 
         <LinearLayout
@@ -45,7 +46,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
-                android:text="12MB"
+                tools:text="273.51KB"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textColor="@color/text_3"
                 android:textSize="12sp" />
 
@@ -54,7 +57,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
-                android:text="12:00"
+                tools:text="2018-11-30 14:39:37"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textColor="@color/text_3"
                 android:textSize="12sp" />
 
@@ -63,7 +68,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
-                android:text="姓名"
+                tools:text="胡一天-赵"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textColor="@color/text_3"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -74,8 +81,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
-        android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:padding="17dp"
+        android:padding="16dp"
         android:src="@drawable/oval_1" />
 </LinearLayout>

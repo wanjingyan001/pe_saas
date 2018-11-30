@@ -3,6 +3,7 @@ package com.sogukj.pe.module.news
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
@@ -290,6 +291,11 @@ class MainNewsFragment : BaseRefreshFragment() {
                         }
                     }
         }
+
+        Glide.with(ctx)
+                .asGif()
+                .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
+                .into(iv_loading)
     }
 
     override fun onStart() {
@@ -315,6 +321,18 @@ class MainNewsFragment : BaseRefreshFragment() {
     override fun doLoadMore() {
         ++page
         handler.post(searchTask)
+    }
+
+    open fun showLoadding(){
+        if (null != ll_loadding){
+            ll_loadding.visibility = View.VISIBLE
+        }
+    }
+
+    open fun goneLoadding(){
+        if (null != ll_loadding){
+            ll_loadding.visibility = View.INVISIBLE
+        }
     }
 
     override fun initRefreshConfig(): RefreshConfig? {

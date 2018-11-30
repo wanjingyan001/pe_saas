@@ -110,13 +110,13 @@ class FundStructureActivity : ToolbarActivity() {
                 .subscribe({ payload ->
                     if (payload.isOk) {
                         payload.payload?.apply {
-                            if (director == null) {
+                            if (director.isNullOrEmpty()) {
                                 empty1.visibility = View.VISIBLE
                             } else {
                                 empty1.visibility = View.GONE
                                 addEntry1(director!!.split(","), directorList)
                             }
-                            if (gd == null) {
+                            if (null == gd || gd!!.size == 0 ) {
                                 empty2.visibility = View.VISIBLE
                             } else {
                                 empty2.visibility = View.GONE
@@ -132,7 +132,7 @@ class FundStructureActivity : ToolbarActivity() {
                                 blList.visibility = View.GONE
                                 empty5.visibility = View.VISIBLE
                             }
-                            if (supervisor == null) {
+                            if (supervisor.isNullOrEmpty()) {
                                 supervisorName.visibility = View.GONE
                                 empty3.visibility = View.VISIBLE
                             } else {
@@ -140,7 +140,7 @@ class FundStructureActivity : ToolbarActivity() {
                                 empty3.visibility = View.GONE
                                 supervisorName.text = supervisor
                             }
-                            if (total == null) {
+                            if (total.isNullOrEmpty()) {
                                 totalLayout.visibility = View.GONE
                                 empty4.visibility = View.VISIBLE
                             } else {

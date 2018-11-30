@@ -226,4 +226,11 @@ interface OtherService {
      */
     @GET("/api/report/getPreview")
     fun getInvestorPost(@Query("fund_id") fund_id: Int): Observable<Payload<JsonObject>>
+
+    /**
+     * 基金列表
+     */
+    @FormUrlEncoded
+    @POST("/api/preview/preview")
+    fun docParsePdfFile(@Field("src") src:String): Observable<Payload<JsonObject>>
 }

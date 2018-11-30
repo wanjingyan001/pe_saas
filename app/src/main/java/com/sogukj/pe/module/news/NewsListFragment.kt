@@ -2,7 +2,6 @@ package com.sogukj.pe.module.news
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
 import android.support.v7.widget.LinearLayoutManager
@@ -16,7 +15,6 @@ import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.BaseRefreshFragment
 import com.sogukj.pe.baselibrary.utils.DateUtils
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
@@ -33,8 +31,6 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_list_news.*
-import kotlinx.android.synthetic.main.layout_empty.*
-import kotlinx.android.synthetic.main.layout_loading.*
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.textColor
 import java.text.SimpleDateFormat
@@ -87,14 +83,14 @@ class NewsListFragment : BaseRefreshFragment(), SupportEmptyView {
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         recycler_view.layoutManager = layoutManager
         recycler_view.adapter = adapter
-        Glide.with(ctx)
-                .asGif()
-                .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
-                .into(iv_loading)
-        iv_loading?.visibility = View.VISIBLE
+        showLoadding()
         handler.postDelayed({
             doRequest()
         }, 100)
+    }
+
+    private fun showLoadding() {
+        getNewsFragment().showLoadding()
     }
 
     override fun doRefresh() {
@@ -130,6 +126,11 @@ class NewsListFragment : BaseRefreshFragment(), SupportEmptyView {
                 .subscribe({ payload ->
                     if (payload.isOk) {
                         if (page == 1) {
+                            if (null != payload.payload && payload.payload!!.size > 0){
+                                goneEmpty()
+                            }else{
+                                showEmpty()
+                            }
                             adapter.dataList.clear()
                         }
                         payload.payload?.apply {
@@ -137,10 +138,10 @@ class NewsListFragment : BaseRefreshFragment(), SupportEmptyView {
                         }
                     } else
                         showCustomToast(R.drawable.icon_toast_fail, payload.message)
-                    iv_loading?.visibility = View.GONE
+                    goneLoadding()
                 }, { e ->
                     Trace.e(e)
-                    iv_loading?.visibility = View.GONE
+                    goneLoadding()
                     SupportEmptyView.checkEmpty(this, adapter)
                     loadDataEnd()
                 }, {
@@ -151,13 +152,25 @@ class NewsListFragment : BaseRefreshFragment(), SupportEmptyView {
                 })
     }
 
+    private fun goneLoadding() {
+        getNewsFragment().goneLoadding()
+    }
+
+    private fun getNewsFragment():MainNewsFragment{
+        return parentFragment as MainNewsFragment
+    }
+    private fun showEmpty(){
+        fl_empty.visibility = View.VISIBLE
+    }
+
+    private fun goneEmpty(){
+        fl_empty.visibility = View.INVISIBLE
+    }
     private fun loadDataEnd() {
         if (page == 1)
             finishRefresh()
         else
             finishLoadMore()
-        refresh.setVisible(adapter.dataList.isNotEmpty())
-        iv_empty.setVisible(adapter.dataList.isEmpty())
     }
 
     private var queryTxt = ""

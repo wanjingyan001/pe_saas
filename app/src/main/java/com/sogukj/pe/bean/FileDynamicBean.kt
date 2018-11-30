@@ -37,4 +37,5 @@ class FileDynamicBean : Serializable {
     var fullpath = ""
     var preview_url = ""
     var user_head = ""
+    var show_time = ""
 }

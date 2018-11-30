@@ -24,7 +24,6 @@ import com.sogukj.pe.baselibrary.base.BaseRefreshFragment
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.DownloadUtil
 import com.sogukj.pe.baselibrary.utils.RefreshConfig
-import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.BatchRemoveBean
@@ -522,11 +521,12 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                 }
             }
             tv_summary.text = data.file_name
-            if (Utils.getTimeYmd(System.currentTimeMillis()).equals(Utils.getTimeYmd(Utils.getTime(data.create_time)))){
-                tv_time.text = "今天 ${Utils.getTimeHm(Utils.getTime(data.create_time))}"
-            }else{
-                tv_time.text = data.create_time
-            }
+//            if (Utils.getTimeYmd(System.currentTimeMillis()).equals(Utils.getTimeYmd(Utils.getTime(data.create_time)))){
+//                tv_time.text = "今天 ${Utils.getTimeHm(Utils.getTime(data.create_time))}"
+//            }else{
+//                tv_time.text = data.create_time
+//            }
+            tv_time.text = data.show_time
             itemView.clickWithTrigger {
                 if (data.file_type.equals("Folder")) {
                     startActivity<FileDirDetailActivity>(Extras.TITLE to data.file_name, Extras.TYPE to invokeType,
@@ -590,11 +590,12 @@ class CloudMineFileFragment : BaseRefreshFragment() {
                 }
             }
             tv_summary.text = data.file_name
-            if (Utils.getTimeYmd(System.currentTimeMillis()).equals(Utils.getTimeYmd(Utils.getTime(data.create_time)))){
-                tv_time.text = "今天 ${Utils.getTimeHm(Utils.getTime(data.create_time))}"
-            }else{
-                tv_time.text = data.create_time
-            }
+//            if (Utils.getTimeYmd(System.currentTimeMillis()).equals(Utils.getTimeYmd(Utils.getTime(data.create_time)))){
+//                tv_time.text = "今天 ${Utils.getTimeHm(Utils.getTime(data.create_time))}"
+//            }else{
+//                tv_time.text = data.create_time
+//            }
+            tv_time.text = data.show_time
             itemView.clickWithTrigger {
                 if (data.file_type.equals("Folder")){
                     startActivity<FileDirDetailActivity>(Extras.TITLE to data.file_name, Extras.TYPE to invokeType,

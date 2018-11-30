@@ -4,7 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
+import android.support.annotation.RequiresApi
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
@@ -120,7 +122,7 @@ class BookListActivity : BaseActivity() {
         //搜索   两个adapter内容一样
         kotlin.run {
             adapter = RecyclerAdapter<FileListBean>(this, { _adapter, parent, type ->
-                val convertView = _adapter.getView(R.layout.item_booklist, parent) as View
+                val convertView = _adapter.getView(R.layout.item_booklist, parent)
                 object : RecyclerHolder<FileListBean>(convertView) {
                     val file_icon = convertView.find<ImageView>(R.id.file_icon)
                     val tvSummary = convertView.find<TextView>(R.id.tv_summary)
@@ -184,7 +186,7 @@ class BookListActivity : BaseActivity() {
         //文件列表
         kotlin.run {
             mFileAdapter = RecyclerAdapter<FileListBean>(this, { _adapter, parent, _type ->
-                val convertView = _adapter.getView(R.layout.item_booklist, parent) as View
+                val convertView = _adapter.getView(R.layout.item_booklist, parent)
                 object : RecyclerHolder<FileListBean>(convertView) {
                     val file_icon = convertView.find<ImageView>(R.id.file_icon)
                     val tvSummary = convertView.find<TextView>(R.id.tv_summary)
@@ -205,6 +207,7 @@ class BookListActivity : BaseActivity() {
                         ivSelect.tag = 1
                     }
 
+                    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
                     override fun setData(view: View, data: FileListBean, position: Int) {
                         if (data.dirname.isNullOrEmpty()) {
                             file_icon.imageResource = FileTypeUtils.getFileType(data.doc_title).icon

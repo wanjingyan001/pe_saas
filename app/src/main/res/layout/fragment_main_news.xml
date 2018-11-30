@@ -105,6 +105,19 @@
                 android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+            <LinearLayout
+                android:id="@+id/ll_loadding"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:visibility="invisible"
+                android:background="@color/gray_f1"
+                android:orientation="vertical">
+                <ImageView android:id="@+id/iv_loading"
+                           android:layout_width="54dp"
+                           android:layout_height="54dp"
+                           android:layout_gravity="center" />
+            </LinearLayout>
         </android.support.design.widget.CoordinatorLayout>
 
         <FrameLayout

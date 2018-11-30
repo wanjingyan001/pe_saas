@@ -1,12 +1,10 @@
 package com.sogukj.pe.service
 
+import com.sogukj.pe.Consts
 import com.sogukj.pe.bean.*
 import io.reactivex.Observable
 import okhttp3.RequestBody
-import retrofit2.http.Body
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
 
 /**
  * Created by admin on 2018/5/24.
@@ -157,6 +155,7 @@ interface ProjectService {
     /**
      * 本周舆情发生数排行
      */
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("api/Userfont/companyNewsRank")
     fun  companyNewsRank(@Field("more")more:Int = 0):Observable<Payload<List<Opinion>>>

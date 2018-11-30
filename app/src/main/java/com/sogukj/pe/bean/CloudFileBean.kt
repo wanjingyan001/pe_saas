@@ -15,4 +15,5 @@ class CloudFileBean : Serializable{
     var used_bytes = "" //字节
     var file_path = ""
     var preview_url = "http://kuaizhangkuaixunyuyin.oss-cn-hangzhou.aliyuncs.com/photo/Android/6499ba1b-3f5e-4903-a4a5-5a17bf4d2aea.jpg"
+    var show_time = ""
 }

@@ -213,7 +213,7 @@ class ProjectListFragment : BaseFragment(), SupportEmptyView {
         if (requestCode == 0x001) {
             doRequest()
             if (resultCode == Activity.RESULT_OK && parentFragment != null) {
-                if (data!!.getStringExtra(Extras.FLAG) == "DELETE") {
+                if (null != data && "DELETE".equals(data!!.getStringExtra(Extras.FLAG))) {
                     return
                 }
                 var mPFragment = parentFragment as MainProjectFragment

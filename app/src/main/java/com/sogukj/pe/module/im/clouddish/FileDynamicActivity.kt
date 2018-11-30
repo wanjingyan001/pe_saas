@@ -162,11 +162,12 @@ class FileDynamicActivity : BaseRefreshActivity(){
         val tv_size = itemView.find<TextView>(R.id.tv_size)
         override fun setData(view: View, data: FileDynamicBean, position: Int) {
             if (null == data)return
-            if (Utils.getTimeYmd(System.currentTimeMillis()).equals(Utils.getTimeYmd(Utils.getTime2(data.add_time)))){
-                tv_time.text = "今天 ${Utils.getTimeHm(Utils.getTime2(data.add_time))}"
-            }else{
-                tv_time.text = data.add_time
-            }
+//            if (Utils.getTimeYmd(System.currentTimeMillis()).equals(Utils.getTimeYmd(Utils.getTime2(data.add_time)))){
+//                tv_time.text = "今天 ${Utils.getTimeHm(Utils.getTime2(data.add_time))}"
+//            }else{
+//                tv_time.text = data.add_time
+//            }
+            tv_time.text = data.show_time
             iv_file.imageResource = FileTypeUtils.getFileType(data.filename).icon
             tv_name.text = data.filename
             if (data.is_delete == 2){

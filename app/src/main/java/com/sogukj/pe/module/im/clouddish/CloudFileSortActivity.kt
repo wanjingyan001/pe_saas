@@ -141,11 +141,12 @@ class CloudFileSortActivity : BaseRefreshActivity(),UploadCallBack {
         override fun setData(view: View, data: CloudFileBean, position: Int) {
             if (null == data) return
             tv_summary.text = data.file_name
-            if (Utils.getTimeYmd(System.currentTimeMillis()).equals(Utils.getTimeYmd(Utils.getTime(data.create_time)))){
-                tv_time.text = "今天 ${Utils.getTimeHm(Utils.getTime(data.create_time))}"
-            }else{
-                tv_time.text = data.create_time
-            }
+//            if (Utils.getTimeYmd(System.currentTimeMillis()).equals(Utils.getTimeYmd(Utils.getTime(data.create_time)))){
+//                tv_time.text = "今天 ${Utils.getTimeHm(Utils.getTime(data.create_time))}"
+//            }else{
+//                tv_time.text = data.create_time
+//            }
+            tv_time.text = data.show_time
             if (data.file_type.equals("Folder")) {
                 file_icon.setImageResource(R.drawable.folder_zip)
                 tv_fileSize.setVisible(false)
