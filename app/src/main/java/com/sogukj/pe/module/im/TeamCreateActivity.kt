@@ -296,7 +296,11 @@ class TeamCreateActivity : BaseActivity() {
                         teamMember.addAll(it)
                         adapter.refreshData(teamMember)
                         team_number.text = "${teamMember.size}人"
-                        initView()
+                        if (it.size == 1 && it[0].uid == mine!!.uid){
+                            finish()
+                        }else{
+                            initView()
+                        }
                     }
                 }
                 Extras.RESULTCODE2 -> {

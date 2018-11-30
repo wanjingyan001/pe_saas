@@ -28,6 +28,7 @@ import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_fund_financial.*
+import org.jetbrains.anko.info
 import org.jetbrains.anko.textColor
 import java.text.SimpleDateFormat
 
@@ -111,7 +112,7 @@ class FundFinancialActivity : ToolbarActivity() {
 
         var type1 = 0
         var type2 = 0
-        SoguApi.getService(application,ProjectService::class.java)
+        SoguApi.getService(application, ProjectService::class.java)
                 .projIncomeOutcome(bean.projId!!)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -120,7 +121,7 @@ class FundFinancialActivity : ToolbarActivity() {
                         payload?.payload?.apply {
                             //总回款
                             this.allIncome?.apply {
-                                zhk.text = "${this.toMoneyWithUnit(true)}元"
+                                zhk.text = "${this.toMoney(MoneyUnit.TenThousand, true) }万元"
                             }
                             //总出款
                             adapter2.dataList.clear()

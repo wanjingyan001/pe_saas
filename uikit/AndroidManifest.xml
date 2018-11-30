@@ -2,8 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.netease.nim.uikit">
 
-    <application
-        android:theme="@style/AppTheme.NoActionBar">
+    <application android:theme="@style/AppTheme.NoActionBar">
         <meta-data
             android:name="com.netease.nim.uikit.support.glide.NIMGlideModule"
             android:value="GlideModule" />

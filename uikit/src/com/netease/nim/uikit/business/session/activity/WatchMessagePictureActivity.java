@@ -104,10 +104,10 @@ public class WatchMessagePictureActivity extends UI {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nim_watch_picture_activity);
 
-        ToolBarOptions options = new NimToolBarOptions();
-        options.titleString = "图片";
-        options.navigateId = R.drawable.nim_actionbar_white_back_icon;
-        setToolBar(R.id.toolbar, options);
+//        ToolBarOptions options = new NimToolBarOptions();
+//        options.titleString = "图片";
+//        options.navigateId = R.drawable.nim_actionbar_white_back_icon;
+//        setToolBar(R.id.toolbar, options);
 
         handleIntent();
 

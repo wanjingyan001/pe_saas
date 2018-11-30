@@ -128,13 +128,13 @@ fun Number?.toMoneyWithUnit(needDecimal: Boolean = false): String {
         return "0"
     } else
         return when (this) {
-            in (MoneyUnit.TenThousand.unit..MoneyUnit.TenMillion.unit) -> {
+            in (MoneyUnit.TenThousand.unit until MoneyUnit.TenMillion.unit) -> {
                 "${this.toMoney(MoneyUnit.TenThousand, needDecimal)}万"
             }
-            in (MoneyUnit.TenMillion.unit..MoneyUnit.Billion.unit) -> {
+            in (MoneyUnit.TenMillion.unit until MoneyUnit.Billion.unit) -> {
                 "${this.toMoney(MoneyUnit.TenMillion, needDecimal)}千万"
             }
-            in (MoneyUnit.Billion.unit..Long.MAX_VALUE) -> {
+            in (MoneyUnit.Billion.unit until Long.MAX_VALUE) -> {
                 "${this.toMoney(MoneyUnit.Billion, needDecimal)}十亿"
             }
             else -> {

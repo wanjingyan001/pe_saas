@@ -91,7 +91,7 @@ abstract class BaseRefreshActivity : ToolbarActivity(), SGRefreshListener {
 
     fun finishLoadMore() {
         if (this::refresh.isLateinit && refresh.isLoading) {
-            refresh.finishLoadMore(0)
+            refresh.finishLoadMore()
         }
     }
 

@@ -25,7 +25,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.transition.Transition
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.setVisible
@@ -374,20 +376,31 @@ class MainProjectFragment : BaseRefreshFragment() {
                             }
                             var tab = tabs.newTab().setText(it.name!!)
                             tabs.addTab(tab)
-
+//                            try {
+//                                Thread {
+//                                    var target = Glide.with(ctx).load(it.icon).downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)//FutureTarget<File>
+//                                    var imageFile = target.get()//File
+//                                    activity?.runOnUiThread {
+//                                        tab.icon = BitmapDrawable(resources, imageFile.path)
+//                                        //icon.setImageDrawable(BitmapDrawable(resources, imageFile.path))
+//                                    }
+//                                }.start()
+//                            } catch (e: Exception) {
+//                                e.printStackTrace()
+//                            }
                             try {
-                                Thread {
-                                    var target = Glide.with(ctx).load(it.icon).downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)//FutureTarget<File>
-                                    var imageFile = target.get()//File
-                                    activity?.runOnUiThread {
-                                        tab.icon = BitmapDrawable(resources, imageFile.path)
-                                        //icon.setImageDrawable(BitmapDrawable(resources, imageFile.path))
+                                Glide.with(ctx).load(it.icon).into(object : SimpleTarget<Drawable>() {
+                                    override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                                        tab.icon = resource
                                     }
-                                }.start()
-                            } catch (e: Exception) {
+
+                                    override fun onLoadFailed(errorDrawable: Drawable?) {
+                                        tab.icon = null
+                                    }
+                                })
+                            } catch (e: GlideException) {
                                 e.printStackTrace()
                             }
-
                         }
                         var adapter = ArrayPagerAdapter(childFragmentManager, fragments.toTypedArray())
                         view_pager.adapter = adapter

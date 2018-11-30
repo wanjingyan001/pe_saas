@@ -68,7 +68,6 @@ class TravelControl @JvmOverloads constructor(
                 footer.copyDetail.clickWithTrigger { _ ->
                     val copy = it.last().copyWithoutValue(isDelete = groupList[1].is_delete)
                     travelAdapter.addData(it.size, copy)
-                    info { copy.jsonStr }
                 }
             }
             //出差总天数

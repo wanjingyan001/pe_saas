@@ -3,22 +3,15 @@ package com.sogukj.pe.module.approve.baseView.controlView
 import android.content.Context
 import android.content.Intent
 import android.util.AttributeSet
-import android.view.View
-import android.widget.LinearLayout
 import android.widget.RadioButton
-import com.amap.api.mapcore.util.it
 import com.google.gson.internal.LinkedTreeMap
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.otherWise
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.module.approve.baseView.BaseControl
 import com.sogukj.pe.module.approve.baseView.ControlFactory
 import com.sogukj.pe.module.approve.baseView.viewBean.ApproveValueBean
 import kotlinx.android.synthetic.main.layout_control_fund_seal.view.*
-import org.jetbrains.anko.backgroundColorResource
-import org.jetbrains.anko.dip
-import org.jetbrains.anko.sdk25.coroutines.onCheckedChange
 
 /**
  * 基金用印套件
@@ -89,7 +82,7 @@ class FundSealControl @JvmOverloads constructor(
             arrayOf(group[3], group[4]).forEach {
                 val control = when (it.control) {
                     1 -> factory.createControl(SingLineInput::class.java, it)
-                    7 -> factory.createControl(PhoneSelection::class.java, it)
+                    7 -> factory.createControl(PhotoSelection::class.java, it)
                     else -> throw Exception("")
                 }
                 inflate.controlLayout2.addView(getDividerView())
@@ -108,8 +101,8 @@ class FundSealControl @JvmOverloads constructor(
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         (0 until inflate.controlLayout2.childCount).forEach {
-            if (inflate.controlLayout2.getChildAt(it) is PhoneSelection) {
-                (inflate.controlLayout2.getChildAt(it) as PhoneSelection).onActivityResult(requestCode, resultCode, data)
+            if (inflate.controlLayout2.getChildAt(it) is PhotoSelection) {
+                (inflate.controlLayout2.getChildAt(it) as PhotoSelection).onActivityResult(requestCode, resultCode, data)
             }
         }
     }

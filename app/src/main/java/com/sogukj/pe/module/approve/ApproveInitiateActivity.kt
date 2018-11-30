@@ -3,7 +3,6 @@ package com.sogukj.pe.module.approve
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -17,10 +16,8 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.view.get
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
-import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -29,7 +26,6 @@ import com.bumptech.glide.request.target.Target
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
-import com.sogukj.pe.baselibrary.base.AvoidOnResult
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
@@ -48,8 +44,6 @@ import com.sogukj.pe.widgets.ApproverItemDecoration
 import com.sogukj.pe.widgets.CircleImageView
 import com.sogukj.pe.widgets.UserRequestListener
 import com.sogukj.service.SoguApi
-import io.reactivex.Observable
-import io.reactivex.internal.util.HalfSerializer.onNext
 import kotlinx.android.synthetic.main.activity_approve_initiate.*
 import kotlinx.android.synthetic.main.item_new_approver_list.view.*
 import kotlinx.android.synthetic.main.layout_new_approve_user_list.view.*
@@ -147,7 +141,7 @@ class ApproveInitiateActivity : ToolbarActivity() {
                         4 -> factory.createControl(SingSelection::class.java, it)
                         5 -> factory.createControl(MultiSelection::class.java, it)
                         6 -> factory.createControl(DateSelection::class.java, it)
-                        7 -> factory.createControl(PhoneSelection::class.java, it)
+                        7 -> factory.createControl(PhotoSelection::class.java, it)
                         8 -> factory.createControl(NoticText::class.java, it)
                         9 -> factory.createControl(MoneyInput::class.java, it)
                         10 -> factory.createControl(AttachmentSelection::class.java, it)
@@ -386,8 +380,8 @@ class ApproveInitiateActivity : ToolbarActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         (0 until controlLayout.childCount).forEach {
-            if (controlLayout.getChildAt(it) is PhoneSelection) {
-                (controlLayout.getChildAt(it) as PhoneSelection).onActivityResult(requestCode, resultCode, data)
+            if (controlLayout.getChildAt(it) is PhotoSelection) {
+                (controlLayout.getChildAt(it) as PhotoSelection).onActivityResult(requestCode, resultCode, data)
             }
             if (controlLayout.getChildAt(it) is FundSealControl) {
                 (controlLayout.getChildAt(it) as FundSealControl).onActivityResult(requestCode, resultCode, data)

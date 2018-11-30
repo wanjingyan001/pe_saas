@@ -15,6 +15,7 @@ interface ProjectService {
         const val APPKEY_VALUE = "d5f17cafef0829b5"
     }
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Stockinfo/tenShareHolder")
     fun listTenShareHolders(
@@ -23,6 +24,7 @@ interface ProjectService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<List<TimeGroupedShareHolderBean>>>
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Stockinfo/tenShareHolder")
     fun gubenjiegou(
@@ -32,26 +34,30 @@ interface ProjectService {
     ): Observable<Payload<List<TimeGroupedCapitalStructureBean>>>
 
     //股权变动列表
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/StockInfo/equityList")
     fun equityList(@Field("company_id") company_id: Int): Observable<Payload<ArrayList<EquityListBean>>>
 
     //股权信息
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/StockInfo/equityInfo")
     fun equityInfo(@Field("hid") hid: Int): Observable<Payload<ArrayList<StructureBean>>>
 
     //财务列表
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/StockInfo/financialList")
     fun financialList(@Field("company_id") company_id: Int): Observable<Payload<ArrayList<FinanceListBean>>>
 
     //财务信息详情
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/StockInfo/financialInfo")
     fun financialInfo(@Field("fin_id") fin_id: Int): Observable<Payload<ArrayList<FinanceDetailBean>>>
 
-
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Stockinfo/Copyreg")
     fun listCopyright(
@@ -62,6 +68,7 @@ interface ProjectService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<List<CopyRightBean>>>
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Stockinfo/Companyintro")
     fun companyInfo2(
@@ -71,6 +78,7 @@ interface ProjectService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<String>>
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Stockinfo/InvestDistribute")
     fun listInvestDistribute(
@@ -121,6 +129,7 @@ interface ProjectService {
     fun projectRecords(@Field("type") type: Int): Observable<Payload<ArrayList<ProjectRecordBean>>>
 
     //股权结构
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/StockInfo/equityRatio")
     fun equityRatio(@Field("company_id") company_id: Int): Observable<Payload<EquityStructureBean>>
@@ -129,28 +138,28 @@ interface ProjectService {
      * 项目总览
      */
     @POST("api/Userfont/getAllProject")
-    fun getAllProjectOverview():Observable<Payload<List<Company>>>
+    fun getAllProjectOverview(): Observable<Payload<List<Company>>>
 
     /**
      * 项目负责人下的项目数量
      */
     @FormUrlEncoded
     @POST("api/Userfont/getPrincipal")
-    fun getPrincipal(@Field("more")more:Int = 0):Observable<Payload<List<UserProjectInfo>>>
+    fun getPrincipal(@Field("more") more: Int = 0): Observable<Payload<List<UserProjectInfo>>>
 
     /**
      *  本周内的新增项目
      */
     @FormUrlEncoded
     @POST("api/Userfont/newCompanyAdd")
-    fun newCompanyAdd(@Field("more")more:Int = 0):Observable<Payload<ProjectAdd>>
+    fun newCompanyAdd(@Field("more") more: Int = 0): Observable<Payload<ProjectAdd>>
 
     /**
      * 本周内项目动向
      */
     @FormUrlEncoded
     @POST("api/Userfont/companyTrends")
-    fun companyTrends(@Field("more")more:Int = 0):Observable<Payload<ProjectAdd>>
+    fun companyTrends(@Field("more") more: Int = 0): Observable<Payload<ProjectAdd>>
 
     /**
      * 本周舆情发生数排行
@@ -158,5 +167,5 @@ interface ProjectService {
     @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("api/Userfont/companyNewsRank")
-    fun  companyNewsRank(@Field("more")more:Int = 0):Observable<Payload<List<Opinion>>>
+    fun companyNewsRank(@Field("more") more: Int = 0): Observable<Payload<List<Opinion>>>
 }

@@ -38,7 +38,7 @@ import kotlin.properties.Delegates
  * 图片选择
  * Created by admin on 2018/9/27.
  */
-class PhoneSelection @JvmOverloads constructor(
+class PhotoSelection @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : BaseControl(context, attrs, defStyleAttr) {
 

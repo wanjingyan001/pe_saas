@@ -77,8 +77,8 @@ class MemberSelectActivity : ToolbarActivity() {
     }
 
     private fun getDataFromIntent() {
-        val list = intent.getSerializableExtra(Extras.LIST) as ArrayList<UserBean?>
-        alreadySelected = list.filter { it != null }.toMutableSet() as MutableSet<UserBean>
+        val list = intent.getSerializableExtra(Extras.LIST) as? ArrayList<UserBean?>
+        alreadySelected = list?.filter { it != null }?.toMutableSet() as? MutableSet<UserBean>  ?: mutableSetOf()
         isSingle = intent.getBooleanExtra(Extras.FLAG, false)
         isAdmin = intent.getBooleanExtra(Extras.FLAG2, false)
         if (alreadySelected.any { it?.user_id != null }) {
