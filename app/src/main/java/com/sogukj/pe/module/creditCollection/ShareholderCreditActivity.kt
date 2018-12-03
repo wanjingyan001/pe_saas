@@ -205,7 +205,7 @@ class ShareholderCreditActivity : BaseActivity(), View.OnClickListener, AllPayCa
                      tv_bus_title: TextView, dialog: Dialog) {
         this.dialog = dialog
         SoguApi.getStaticHttp(application)
-                .getAccountPayInfo(order_type,count,pay_type,fee, Store.store.getUser(this)!!.accid)
+                .getAccountPayInfo(order_type,count,pay_type,fee, null,Store.store.getUser(this)!!.accid)
                 .execute {
                     onNext { payload ->
                         if (payload.isOk){

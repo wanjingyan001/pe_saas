@@ -577,7 +577,7 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                         tv_bus_balance: TextView, iv_bus_select: ImageView,
                         tv_per_title: TextView, tv_bus_title: TextView, coin: Double) {
         SoguApi.getStaticHttp(application)
-                .getAccountPayInfo(order_type, count, pay_type, fee, Store.store.getUser(this)!!.accid)
+                .getAccountPayInfo(order_type, count, pay_type, fee, null,Store.store.getUser(this)!!.accid)
                 .execute {
                     onNext { payload ->
                         if (payload.isOk) {

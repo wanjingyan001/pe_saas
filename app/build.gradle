@@ -93,6 +93,7 @@ android {
         preDexLibraries true
         javaMaxHeapSize "6g"//越大越好
         jumboMode = true
+        keepRuntimeAnnotatedClasses false
     }
     androidExtensions {
         experimental = true
