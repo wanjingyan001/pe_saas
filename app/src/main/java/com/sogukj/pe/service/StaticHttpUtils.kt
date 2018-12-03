@@ -227,4 +227,11 @@ interface StaticHttpUtils {
      */
     @POST("/api/pay/BillComboPay")
     fun getDilatationPayInfo(@Body req: PayReq): Observable<Payload<Any>>
+
+    /**
+     * doc转pdf
+     */
+    @FormUrlEncoded
+    @POST("/api/preview/getPreview")
+    fun docParsePdfFile(@Field("src") src:String): Observable<Payload<JsonObject>>
 }

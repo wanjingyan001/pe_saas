@@ -39,7 +39,6 @@ import com.sogukj.pe.peUtils.BASE64Encoder
 import com.sogukj.pe.peUtils.FileUtil
 import com.sogukj.pe.peUtils.ShareUtils
 import com.sogukj.pe.service.FundService
-import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -181,7 +180,7 @@ class OnlinePreviewActivity : ToolbarActivity(), PlatformActionListener {
     }
 
     private fun parseDocToPdf() {
-        SoguApi.getService(this,OtherService::class.java)
+        SoguApi.getStaticHttp(application)
                 .docParsePdfFile(url)
                 .execute {
                     onNext { payload ->

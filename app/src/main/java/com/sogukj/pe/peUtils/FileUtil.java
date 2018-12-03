@@ -57,7 +57,7 @@ public class FileUtil {
         IMAGE("jpg", "jpeg", "gif", "png", "bmp", "Webp"),
         VIDEO("rm", "rmvb", "mp4", "mov", "mtv", "wmv", "avi", "3gp", "flv"),
         DOC("pdf", "doc", "docx", "ppt", "pptx", "xls", "xlsx"),
-        ONLYDOC("doc", "docx"),
+        ONLYDOC("doc", "docx", "ppt", "pptx"),
         ZIP("rar", "zip", "7z", "iso", "gz"),
         TXT("txt"),
         OTHER("pages", "keynote", "numbers", "cer", "der", "pfx", "p12", "arm", "pem",
