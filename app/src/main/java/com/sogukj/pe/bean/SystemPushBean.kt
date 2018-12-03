@@ -73,8 +73,9 @@ data class PayHistory(
         var order_count: Int,//数量
         var content: String,//内容
         var pay_type: String,//支付方式
-        var time: String,//支付时间
+        var time: String,//
         var order_str: String,//订单号
+        var order_time:String,//支付时间
         var type: Int,//401账号付费  402 智能文书  403 100个征信套餐  404 舆情监控额度 405 征信套餐和舆情套餐购买  406 钱包充值
         var pay_userName: String?,
         var title: String?

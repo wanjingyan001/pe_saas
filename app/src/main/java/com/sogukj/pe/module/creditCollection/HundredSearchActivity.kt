@@ -2,6 +2,11 @@ package com.sogukj.pe.module.creditCollection
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
+import android.widget.Button
+import android.widget.TextView
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.Theme
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
@@ -12,6 +17,7 @@ import com.sogukj.pe.service.CreditService
 import com.sogukj.service.SoguApi
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_hundred_search.*
+import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
 
 /**
@@ -19,8 +25,14 @@ import org.jetbrains.anko.startActivity
  */
 class HundredSearchActivity : ToolbarActivity() {
     private val name: String? by extraDelegate(Extras.NAME, null)
-    private val phone:String? by extraDelegate( Extras.DATA,null)
-    private val idCard:String? by extraDelegate(Extras.DATA2 ,null)
+    private val phone: String? by extraDelegate(Extras.DATA, null)
+    private val idCard: String? by extraDelegate(Extras.DATA2, null)
+    override val menuId: Int
+        get() = if (name != null && phone != null && idCard != null) {
+            R.menu.arrange_edit_delete
+        } else {
+            super.menuId
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +78,7 @@ class HundredSearchActivity : ToolbarActivity() {
                         payload.isOk.yes {
                             payload.payload?.let {
                                 startActivity<NewCreditDetailActivity>(Extras.BEAN to it)
+                                finish()
                             }
                         }.otherWise {
                             showErrorToast(payload.message)
@@ -75,5 +88,28 @@ class HundredSearchActivity : ToolbarActivity() {
                         showErrorToast("查询失败")
                     }
                 }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.arrange_delete) {
+            val mDialog = MaterialDialog.Builder(this)
+                    .theme(Theme.LIGHT)
+                    .canceledOnTouchOutside(true)
+                    .customView(R.layout.dialog_yongyin, false).build()
+            mDialog.show()
+            val content = mDialog.find<TextView>(R.id.content)
+            val cancel = mDialog.find<Button>(R.id.cancel)
+            val yes = mDialog.find<Button>(R.id.yes)
+            content.text = "是否需要删除该征信记录"
+            cancel.text = "否"
+            yes.text = "是"
+            cancel.clickWithTrigger {
+                mDialog.dismiss()
+            }
+            yes.clickWithTrigger {
+                TODO("调用删除接口")
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

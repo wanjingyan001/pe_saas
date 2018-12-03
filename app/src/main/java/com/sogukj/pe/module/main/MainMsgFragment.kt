@@ -33,12 +33,11 @@ import com.netease.nimlib.sdk.msg.MsgServiceObserve
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum
 import com.netease.nimlib.sdk.msg.model.IMMessage
 import com.netease.nimlib.sdk.msg.model.RecentContact
+import com.netease.nimlib.sdk.team.constant.TeamMessageNotifyTypeEnum
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.setDrawable
-import com.sogukj.pe.baselibrary.Extended.setVisible
-import com.sogukj.pe.baselibrary.Extended.textStr
+import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.BaseFragment
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -186,11 +185,11 @@ class MainMsgFragment : BaseFragment() {
         adapter = RecyclerAdapter(baseActivity!!) { _adapter, parent, type ->
             val convertView = _adapter.getView(R.layout.item_msg_index, parent)
             object : RecyclerHolder<RecentContact>(convertView) {
-                val msgIcon = convertView.findViewById<CircleImageView>(R.id.msg_icon) as CircleImageView
-                val tvTitle = convertView.findViewById<TextView>(R.id.tv_title) as TextView
-                val tvDate = convertView.findViewById<TextView>(R.id.tv_date) as TextView
-                val tvTitleMsg = convertView.findViewById<TextView>(R.id.tv_title_msg) as TextView
-                val tvNum = convertView.findViewById<TextView>(R.id.tv_num) as TextView
+                val msgIcon = convertView.findViewById(R.id.msg_icon) as CircleImageView
+                val tvTitle = convertView.findViewById(R.id.tv_title) as TextView
+                val tvDate = convertView.findViewById(R.id.tv_date) as TextView
+                val tvTitleMsg = convertView.findViewById(R.id.tv_title_msg) as TextView
+                val tvNum = convertView.findViewById(R.id.tv_num) as TextView
                 val topTag = convertView.findViewById<ImageView>(R.id.topTag)
                 @SuppressLint("SetTextI18n")
                 override fun setData(view: View, data: RecentContact, position: Int) {
@@ -242,6 +241,14 @@ class MainMsgFragment : BaseFragment() {
                                     })
                                     .into(msgIcon)
                         }
+                        tvNum.backgroundResource = R.drawable.bg_tag_num
+                        if (data.content == "欢迎使用系统消息助手" ||
+                                data.content == "欢迎使用审批消息助手" || data.unreadCount <= 0) {
+                            tvNum.visibility = View.INVISIBLE
+                        } else {
+                            tvNum.visibility = View.VISIBLE
+                            tvNum.text = data.unreadCount.toString()
+                        }
                     } else if (data.sessionType == SessionTypeEnum.Team) {
                         val value = data.msgStatus.value
                         val fromNick = if (data.fromNick.isNullOrEmpty()) "" else "${data.fromNick}: "
@@ -279,33 +286,56 @@ class MainMsgFragment : BaseFragment() {
                                 //内部
                                 tvTitle.setDrawable(tvTitle, 2, activity!!.getDrawable(R.mipmap.ic_flag_nb))
                             }
+                            when (it.messageNotifyType) {
+                                TeamMessageNotifyTypeEnum.Mute -> {
+                                    tvNum.visibility = View.VISIBLE
+                                    tvNum.text = ""
+                                    tvNum.backgroundResource = R.drawable.im_team_shield
+                                    if (data.unreadCount > 0) {
+                                        tvNum.setCompoundDrawables(null, null, resources.getDrawable(R.drawable.icon_im_mute_unread), null)
+                                    } else {
+                                        tvNum.setCompoundDrawables(null, null, null, null)
+                                    }
+                                }
+                                else -> {
+                                    tvNum.backgroundResource = R.drawable.bg_tag_num
+                                    (data.unreadCount <= 0).yes {
+                                        tvNum.visibility = View.INVISIBLE
+                                    }.otherWise {
+                                        tvNum.visibility = View.VISIBLE
+                                        tvNum.text = data.unreadCount.toString()
+                                    }
+                                }
+                            }
                         }
                     }
                     try {
                         val time = Utils.getTime(data.time, "yyyy-MM-dd HH:mm:ss")
                         tvDate.text = Utils.formatDingDate(time)
                     } catch (e: Exception) {
+                        e.printStackTrace()
                     }
-                    val mutableMap = data.extension
-                    if (mutableMap != null && mutableMap.isNotEmpty() && mutableMap[data.contactId] == "Mute") {
-                        tvNum.visibility = View.VISIBLE
-                        tvNum.text = ""
-                        tvNum.backgroundResource = R.drawable.im_team_shield
-                        if (data.unreadCount > 0) {
-                            tvNum.setCompoundDrawables(null, null, resources.getDrawable(R.drawable.icon_im_mute_unread), null)
-                        } else {
-                            tvNum.setCompoundDrawables(null, null, null, null)
-                        }
-                    } else {
-                        tvNum.backgroundResource = R.drawable.bg_tag_num
-                        if (data.content == "欢迎使用系统消息助手" ||
-                                data.content == "欢迎使用审批消息助手" || data.unreadCount <= 0) {
-                            tvNum.visibility = View.INVISIBLE
-                        } else {
-                            tvNum.visibility = View.VISIBLE
-                            tvNum.text = data.unreadCount.toString()
-                        }
-                    }
+
+//                    val mutableMap = data.extension
+//                    if (mutableMap != null && mutableMap.isNotEmpty() && mutableMap[data.contactId] == "Mute") {
+//                        tvNum.visibility = View.VISIBLE
+//                        tvNum.text = ""
+//                        tvNum.backgroundResource = R.drawable.im_team_shield
+//                        if (data.unreadCount > 0) {
+//                            tvNum.setCompoundDrawables(null, null, resources.getDrawable(R.drawable.icon_im_mute_unread), null)
+//                        } else {
+//                            tvNum.setCompoundDrawables(null, null, null, null)
+//                        }
+//                    } else {
+//                        tvNum.backgroundResource = R.drawable.bg_tag_num
+//                        if (data.content == "欢迎使用系统消息助手" ||
+//                                data.content == "欢迎使用审批消息助手" || data.unreadCount <= 0) {
+//                            tvNum.visibility = View.INVISIBLE
+//                        } else {
+//                            tvNum.visibility = View.VISIBLE
+//                            tvNum.text = data.unreadCount.toString()
+//                        }
+//                    }
                 }
 
             }
@@ -432,7 +462,7 @@ class MainMsgFragment : BaseFragment() {
                 }, { e ->
                     Trace.e(e)
                     pop_layout.visibility = View.GONE
-                })
+                }).let { }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -458,7 +488,7 @@ class MainMsgFragment : BaseFragment() {
                             }
                         }, { e ->
                             //showCustomToast(R.drawable.icon_toast_fail, "二维码错误")
-                        })
+                        }).let { }
             }
         } else if (requestCode == 0x789) {
             loadHead()
@@ -477,6 +507,9 @@ class MainMsgFragment : BaseFragment() {
         NIMClient.getService(MsgService::class.java).queryRecentContacts().setCallback(object : RequestCallback<MutableList<RecentContact>> {
             override fun onSuccess(p0: MutableList<RecentContact>?) {
                 p0?.let {
+                    it.forEach {
+                        info { it.jsonStr }
+                    }
                     recentList.addAll(it)
                 }
                 val list = recentList.toList()

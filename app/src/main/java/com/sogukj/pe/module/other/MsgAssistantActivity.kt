@@ -235,6 +235,8 @@ class MsgAssistantActivity : BaseRefreshActivity() {
         }
 
         override fun convert(helper: BaseViewHolder, item: MultiItemEntity) {
+            val imMessage = immsgList[helper.adapterPosition]
+            helper.setText(R.id.msgTime, TimeUtil.getTimeShowString(imMessage.time, false))
             when (helper.itemViewType) {
                 1 -> {
                     item as NewApprovePush
@@ -248,8 +250,8 @@ class MsgAssistantActivity : BaseRefreshActivity() {
                         helper.setText(R.id.approvalTip,
                                 "${item.subName}的${item.title}${timeForShow.isEmpty().yes { "" }.otherWise { " ，已等待$timeForShow" }}；\n在手机或电脑上快速处理审批！")
                     }
-                    helper.setText(R.id.msgTime, Utils.formatDingDate(Utils.getTime(System.currentTimeMillis(), "yyyy-MM-dd HH:mm")))
-                    helper.getView<TextView>(R.id.expedited).setVisible(item.type ==301)
+
+                    helper.getView<TextView>(R.id.expedited).setVisible(item.type == 301)
                 }
                 2 -> {
                     item as PayHistory
@@ -274,21 +276,20 @@ class MsgAssistantActivity : BaseRefreshActivity() {
                             helper.setImageResource(R.id.payTypeIcon, R.mipmap.icon_msg_assis_yqtc)
                             helper.setBackgroundColor(R.id.line1, Color.parseColor("#CBD5FF"))
                         }
-                        401,406 -> {
+                        401, 406 -> {
                             helper.setImageResource(R.id.payHistoryBg, R.mipmap.bg_qbcz_pay_history)
                             helper.setImageResource(R.id.payTypeIcon, R.mipmap.icon_msg_assis_qbcz)
                             helper.setBackgroundColor(R.id.line1, Color.parseColor("#FFE6A3"))
                         }
                     }
                     helper.setText(R.id.title, item.title)
-                    helper.setText(R.id.msgTime, item.time)
                     helper.setText(R.id.payTypeTitle, item.content)
                     helper.setText(R.id.payTypeUnitPrice, "￥${item.unit_price}")
                     helper.setText(R.id.payTypeNum, "x${item.order_count}")
                     helper.setText(R.id.payUserName, "购买人：${item.pay_userName.withOutEmpty}")
                     helper.setText(R.id.payOrderNum, "订单编号：${item.order_str}")
                     helper.setText(R.id.payTotalPrice, "￥${item.money}")
-                    helper.setText(R.id.msgTime, Utils.formatDingDate(Utils.getTime(System.currentTimeMillis(), "yyyy-MM-dd HH:mm")))
+                    helper.setText(R.id.orderTime, item.order_time)
                 }
                 3 -> {
 
@@ -306,17 +307,14 @@ class MsgAssistantActivity : BaseRefreshActivity() {
                         helper.setVisible(R.id.sponsor, false)
 
                     }
-                    helper.setText(R.id.msgTime, Utils.formatDingDate(Utils.getTime(System.currentTimeMillis(), "yyyy-MM-dd  HH:mm")))
-
                 }
                 5 -> {
                     item as NewApprovePush
-                    helper.setText(R.id.msgTime, Utils.formatDingDate(Utils.getTime(System.currentTimeMillis(), "yyyy-MM-dd HH:mm")))
                     helper.setImageResource(R.id.header, R.mipmap.icon_msg_ass_item_header)
                     helper.setText(R.id.pushMsgTitle, item.title)
                     helper.setText(R.id.sponsor, "发起人：${item.subName}")
                     helper.setText(R.id.schedule, "审批已完成")
-                    helper.getView<TextView>(R.id.expedited).setVisible(item.type ==301)
+                    helper.getView<TextView>(R.id.expedited).setVisible(item.type == 301)
                 }
                 6 -> {
                     item as NewProjectProcess
@@ -327,8 +325,7 @@ class MsgAssistantActivity : BaseRefreshActivity() {
                         helper.setText(R.id.approvalTip,
                                 "${item.subName}的${item.title}；\n在手机或电脑上快速处理审批！")
                     }
-                    helper.setText(R.id.msgTime, Utils.formatDingDate(Utils.getTime(System.currentTimeMillis(), "yyyy-MM-dd HH:mm")))
-                    helper.getView<TextView>(R.id.expedited).setVisible(item.type ==301)
+                    helper.getView<TextView>(R.id.expedited).setVisible(item.type == 301)
                 }
             }
         }

@@ -136,6 +136,7 @@
             android:layout_marginEnd="10dp"
             android:ellipsize="end"
             android:singleLine="true"
+            android:gravity="end"
             android:textColor="@color/text_1"
             app:layout_constraintEnd_toEndOf="@+id/payHistoryBg"
             app:layout_constraintStart_toEndOf="@+id/payTypeTitle"

@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -16,6 +18,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
 import com.huantansheng.easyphotos.EasyPhotos
+import com.jakewharton.rxbinding2.widget.RxTextView
 import com.netease.nim.uikit.api.NimUIKit
 import com.netease.nim.uikit.business.team.helper.TeamHelper
 import com.netease.nim.uikit.common.ui.widget.SwitchButton
@@ -23,6 +26,7 @@ import com.netease.nim.uikit.support.glide.GlideEngine
 import com.netease.nimlib.sdk.NIMClient
 import com.netease.nimlib.sdk.Observer
 import com.netease.nimlib.sdk.RequestCallback
+import com.netease.nimlib.sdk.RequestCallbackWrapper
 import com.netease.nimlib.sdk.msg.MessageBuilder
 import com.netease.nimlib.sdk.msg.MsgService
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum
@@ -46,11 +50,14 @@ import com.sogukj.pe.module.main.ContactsActivity
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.ImService
 import com.sogukj.service.SoguApi
+import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_team_info.*
 import org.jetbrains.anko.info
+import org.jetbrains.anko.sdk25.coroutines.textChangedListener
 import org.jetbrains.anko.toast
 import org.json.JSONObject
 import java.io.Serializable
+import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 
 
@@ -74,21 +81,21 @@ class TeamInfoActivity : BaseActivity(), View.OnClickListener, SwitchButton.OnCh
         setContentView(R.layout.activity_team_info)
         Utils.setWindowStatusBarColor(this, R.color.color_blue_0888ff)
         sessionId = intent.getStringExtra("sessionId")
-        toolbar = findViewById<Toolbar>(R.id.team_toolbar) as Toolbar
+        toolbar = findViewById(R.id.team_toolbar)
         toolbar.setNavigationIcon(R.drawable.sogu_ic_back)
         toolbar.setNavigationOnClickListener { finish() }
-        teamMember = findViewById<RecyclerView>(R.id.team_member) as RecyclerView
-        teamLayout = findViewById<RelativeLayout>(R.id.team_layout) as RelativeLayout
-        profileToggle = findViewById<SwitchButton>(R.id.user_profile_toggle) as SwitchButton
+        teamMember = findViewById(R.id.team_member)
+        teamLayout = findViewById(R.id.team_layout)
+        profileToggle = findViewById(R.id.user_profile_toggle)
         val manager = GridLayoutManager(this, 7)
         teamMember.layoutManager = manager
         adapter = MemberAdapter(this)
         teamMember.adapter = adapter
 
-        val teamPic = findViewById<TextView>(R.id.team_pic) as TextView
-        val teamFile = findViewById<TextView>(R.id.team_file) as TextView
-        val teamLink = findViewById<TextView>(R.id.team_link) as TextView
-        val teamSearch = findViewById<TextView>(R.id.team_search) as TextView
+        val teamPic = findViewById<TextView>(R.id.team_pic)
+        val teamFile = findViewById<TextView>(R.id.team_file)
+        val teamLink = findViewById<TextView>(R.id.team_link)
+        val teamSearch = findViewById<TextView>(R.id.team_search)
 
         teamPic.setOnClickListener(this)
         teamFile.setOnClickListener(this)
@@ -111,6 +118,19 @@ class TeamInfoActivity : BaseActivity(), View.OnClickListener, SwitchButton.OnCh
                 teamIntroduction.setSelection(teamIntroduction.textStr.length)
             }
         }
+        teamIntroduction.addTextChangedListener(object :TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+                updateIntroduction()
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+        })
+
         adapter.onItemClick = { v, p ->
             if (v.getTag(R.id.member_headImg) == "ADD") {
                 ContactsActivity.start(this, teamMembers, false, false)
@@ -152,20 +172,20 @@ class TeamInfoActivity : BaseActivity(), View.OnClickListener, SwitchButton.OnCh
             when (flag) {
                 "0" -> {
                     //全员
-                    team_title.setDrawable(team_title,2,getDrawable(R.mipmap.ic_flag_qy))
+                    team_title.setDrawable(team_title, 2, getDrawable(R.mipmap.ic_flag_qy))
                 }
                 "1" -> {
                     //部门
-                    team_title.setDrawable(team_title,2,getDrawable(R.mipmap.ic_flag_bm))
+                    team_title.setDrawable(team_title, 2, getDrawable(R.mipmap.ic_flag_bm))
                 }
                 else -> {
                     //内部
-                    team_title.setDrawable(team_title,2,getDrawable(R.mipmap.ic_flag_nb))
+                    team_title.setDrawable(team_title, 2, getDrawable(R.mipmap.ic_flag_nb))
                 }
             }
         } else {
             //内部
-            team_title.setDrawable(team_title,2,getDrawable(R.mipmap.ic_flag_nb))
+            team_title.setDrawable(team_title, 2, getDrawable(R.mipmap.ic_flag_nb))
         }
         val bean = Gson().fromJson(it.extension, TeamBean::class.java)
         if (bean != null) {
@@ -392,20 +412,22 @@ class TeamInfoActivity : BaseActivity(), View.OnClickListener, SwitchButton.OnCh
 
     override fun onPause() {
         super.onPause()
+        Utils.closeInput(this, team_name)
+        Utils.closeInput(this, teamIntroduction)
+    }
+
+    private fun updateIntroduction() {
         val map = HashMap<TeamFieldEnum, Serializable>()
         val name = team_name.text.trim().toString()
         if (name.isNotEmpty() && team_title.text != name) {
-            map.put(TeamFieldEnum.Name, name)
+            map[TeamFieldEnum.Name] = name
         }
-        if (team.introduce != teamIntroduction.textStr && teamIntroduction.text.isNotEmpty() && teamIntroduction.hint != "暂无介绍") {
-            map.put(TeamFieldEnum.Introduce, teamIntroduction.textStr)
+        if (team.introduce != teamIntroduction.textStr && teamIntroduction.text.isNotEmpty()) {
+            map[TeamFieldEnum.Introduce] = teamIntroduction.textStr
         }
         map.isNotEmpty().yes {
             NIMClient.getService(TeamService::class.java).updateTeamFields(sessionId, map)
         }
-
-        Utils.closeInput(this, team_name)
-        Utils.closeInput(this, teamIntroduction)
     }
 
     override fun onStart() {
