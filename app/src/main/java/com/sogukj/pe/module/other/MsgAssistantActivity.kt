@@ -289,7 +289,7 @@ class MsgAssistantActivity : BaseRefreshActivity() {
                     helper.setText(R.id.payUserName, "购买人：${item.pay_userName.withOutEmpty}")
                     helper.setText(R.id.payOrderNum, "订单编号：${item.order_str}")
                     helper.setText(R.id.payTotalPrice, "￥${item.money}")
-                    helper.setText(R.id.orderTime, item.order_time)
+                    helper.setText(R.id.orderTime, "订单时间：${item.order_time}")
                 }
                 3 -> {
 

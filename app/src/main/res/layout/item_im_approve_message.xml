@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/approveItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginEnd="24dp"
+    android:background="@mipmap/bg_msg_assistant_item"
     android:paddingStart="15dp"
-    app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
-    android:background="@mipmap/bg_msg_assistant_item">
+    app:layout_constraintStart_toStartOf="parent"
+    tools:ignore="MissingPrefix">
+
     <TextView
         android:id="@+id/approveType"
         android:layout_width="wrap_content"
@@ -24,17 +27,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!--<TextView-->
-        <!--android:id="@+id/approveNum"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="5dp"-->
-        <!--android:ellipsize="end"-->
-        <!--android:singleLine="true"-->
-        <!--android:text="CXKAJG23452213552233"-->
-        <!--android:textColor="@color/gray_80"-->
-        <!--android:textSize="@dimen/text_size_10"-->
-        <!--app:layout_constraintStart_toStartOf="@+id/approveType"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/approveType" />-->
+    <!--android:id="@+id/approveNum"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:ellipsize="end"-->
+    <!--android:singleLine="true"-->
+    <!--android:text="CXKAJG23452213552233"-->
+    <!--android:textColor="@color/gray_80"-->
+    <!--android:textSize="@dimen/text_size_10"-->
+    <!--app:layout_constraintStart_toStartOf="@+id/approveType"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/approveType" />-->
 
     <TextView
         android:id="@+id/sponsor"
@@ -50,30 +53,49 @@
         app:layout_constraintTop_toBottomOf="@+id/approveType" />
 
     <!--<TextView-->
-        <!--android:id="@+id/reason"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="8dp"-->
-        <!--android:layout_marginEnd="25dp"-->
-        <!--android:ellipsize="end"-->
-        <!--android:maxLines="2"-->
-        <!--android:text="审批事由："-->
-        <!--android:textColor="@color/text_1"-->
-        <!--android:textSize="12sp"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintStart_toStartOf="@+id/sponsor"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/sponsor" />-->
+    <!--android:id="@+id/reason"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="8dp"-->
+    <!--android:layout_marginEnd="25dp"-->
+    <!--android:ellipsize="end"-->
+    <!--android:maxLines="2"-->
+    <!--android:text="审批事由："-->
+    <!--android:textColor="@color/text_1"-->
+    <!--android:textSize="12sp"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintStart_toStartOf="@+id/sponsor"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/sponsor" />-->
 
     <TextView
         android:id="@+id/schedule"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="已审批"
         android:textColor="#50D59D"
         android:textSize="@dimen/text_size_samll"
-        android:text="已审批"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/sponsor"
         app:layout_constraintTop_toBottomOf="@+id/sponsor" />
+
+    <TextView
+        android:id="@+id/expedited"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="45dp"
+        android:drawableStart="@mipmap/icon_expedited"
+        android:drawablePadding="4dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="2dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="2dp"
+        android:text="加急X1"
+        android:textSize="8sp"
+        app:corners_radius="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/schedule"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/schedule"
+        app:solid_color="#FF5858" />
 </android.support.constraint.ConstraintLayout>

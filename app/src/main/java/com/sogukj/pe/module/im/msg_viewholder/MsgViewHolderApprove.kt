@@ -11,6 +11,7 @@ import com.netease.nim.uikit.common.ui.recyclerview.adapter.BaseMultiItemFetchLo
 import com.netease.nim.uikit.common.util.sys.ScreenUtil
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.bean.NewApprovePush
 import com.sogukj.pe.bean.ProjectBean
@@ -48,8 +49,8 @@ class MsgViewHolderApprove(adapter: BaseMultiItemFetchLoadAdapter<*, *>) : MsgVi
 //        view.approveNum.text = data.title
         view.sponsor.text = replaceText("发起人：", data.subName)
 //        view.reason.text = replaceText("审批事由：", data.reasons)
-        view.schedule.text =data.statusStr
-
+        view.schedule.text = data.statusStr
+        view.expedited.setVisible(data.type == 301)
 //        data.preapproval.isNullOrEmpty().yes {
 //            view.schedule.textColor = R.color.text_3
 //        }

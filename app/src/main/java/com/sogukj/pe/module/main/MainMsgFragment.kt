@@ -1,11 +1,13 @@
 package com.sogukj.pe.module.main
 
 import android.annotation.SuppressLint
+import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
@@ -191,6 +193,7 @@ class MainMsgFragment : BaseFragment() {
                 val tvTitleMsg = convertView.findViewById(R.id.tv_title_msg) as TextView
                 val tvNum = convertView.findViewById(R.id.tv_num) as TextView
                 val topTag = convertView.findViewById<ImageView>(R.id.topTag)
+                @TargetApi(Build.VERSION_CODES.LOLLIPOP)
                 @SuppressLint("SetTextI18n")
                 override fun setData(view: View, data: RecentContact, position: Int) {
                     val titleName = UserInfoHelper.getUserTitleName(data.contactId, data.sessionType)
@@ -363,28 +366,32 @@ class MainMsgFragment : BaseFragment() {
         }
         adapter.onItemLongClick = { v, positon ->
             val data = adapter.dataList[positon]
-            val top = if (isTagSet(data, RECENT_TAG_STICKY)) "取消置顶" else "置顶该聊天"
-            MaterialDialog.Builder(ctx)
-                    .theme(Theme.LIGHT)
-                    .items(mutableListOf(top, "删除"))
-                    .itemsCallback { dialog, itemView, position, text ->
-                        when (position) {
-                            0 -> {
-                                if (isTagSet(data, RECENT_TAG_STICKY)) {
-                                    removeTag(data, RECENT_TAG_STICKY)
-                                } else {
-                                    addTag(data, RECENT_TAG_STICKY)
+            if (data.contactId != "58d0c67d134fbc6c" && data.contactId != "50a0500b1773be39") {
+                val top = if (isTagSet(data, RECENT_TAG_STICKY)) "取消置顶" else "置顶该聊天"
+                MaterialDialog.Builder(ctx)
+                        .theme(Theme.LIGHT)
+                        .items(mutableListOf(top, "删除"))
+                        .itemsCallback { dialog, itemView, position, text ->
+                            when (position) {
+                                0 -> {
+                                    if (isTagSet(data, RECENT_TAG_STICKY)) {
+                                        removeTag(data, RECENT_TAG_STICKY)
+                                    } else {
+                                        addTag(data, RECENT_TAG_STICKY)
+                                    }
+                                    NIMClient.getService(MsgService::class.java).updateRecent(data)
+                                    getIMRecentContact()
                                 }
-                                NIMClient.getService(MsgService::class.java).updateRecent(data)
-                                getIMRecentContact()
-                            }
-                            1 -> {
-                                deleteRecentContact(data.contactId, data.sessionType)
+                                1 -> {
+                                    deleteRecentContact(data.contactId, data.sessionType)
+                                }
                             }
                         }
-                    }
-                    .show()
-            true
+                        .show()
+                true
+            } else {
+                false
+            }
         }
         val layoutManager = LinearLayoutManager(baseActivity)
         layoutManager.orientation = LinearLayoutManager.VERTICAL

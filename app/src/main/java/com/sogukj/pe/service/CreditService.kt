@@ -95,5 +95,13 @@ interface CreditService {
     @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Credit/PersonalCreInfo")
-    fun hundredCreditDetail(@Field("idCard") idCard: String): Observable<Payload<NewCreditInfo>>
+    fun hundredCreditDetail(@Field("pid") pid: Int): Observable<Payload<NewCreditInfo>>
+
+    /**
+     *征信 个人资质-删除
+     */
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
+    @FormUrlEncoded
+    @POST("/api/Credit/PersonalCreDel")
+    fun deleteHundredCredit(@Field("pid") pid: Int):Observable<Payload<Any>>
 }

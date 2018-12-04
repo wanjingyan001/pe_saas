@@ -27,8 +27,9 @@ class HundredSearchActivity : ToolbarActivity() {
     private val name: String? by extraDelegate(Extras.NAME, null)
     private val phone: String? by extraDelegate(Extras.DATA, null)
     private val idCard: String? by extraDelegate(Extras.DATA2, null)
+    private val pid: Int? by extraDelegate(Extras.ID, null)
     override val menuId: Int
-        get() = if (name != null && phone != null && idCard != null) {
+        get() = if (pid != null) {
             R.menu.arrange_edit_delete
         } else {
             super.menuId
@@ -107,9 +108,26 @@ class HundredSearchActivity : ToolbarActivity() {
                 mDialog.dismiss()
             }
             yes.clickWithTrigger {
-                TODO("调用删除接口")
+                delete()
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun delete() {
+        pid?.let {
+            SoguApi.getService(this, CreditService::class.java)
+                    .deleteHundredCredit(it)
+                    .execute {
+                        onNext { payload ->
+                            payload.isOk.yes {
+                                showSuccessToast("删除成功")
+                                finish()
+                            }.otherWise {
+                                showErrorToast(payload.message)
+                            }
+                        }
+                    }
+        }
     }
 }

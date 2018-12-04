@@ -36,5 +36,6 @@ data class PersonCreList(
         var name: String,// 测试
         var phone: String,// 18701780256
         var idCard: String,// 362302199306076512
-        var add_time: String// 2018-09-12 11:14:55
+        var add_time: String,// 2018-09-12 11:14:55
+        var pid: Int//个人资质ID
 )

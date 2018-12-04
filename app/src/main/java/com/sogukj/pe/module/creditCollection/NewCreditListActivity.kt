@@ -140,7 +140,7 @@ class NewCreditListActivity : BaseActivity() {
             CreditHolder(_adapter.getView(R.layout.item_new_credit_list, parent))
         }
         listAdapter.onItemClick = { v, position ->
-            getNewCreditDetail(listAdapter.dataList[position].idCard)
+            getNewCreditDetail(listAdapter.dataList[position].pid)
         }
         lister.apply {
             layoutManager = LinearLayoutManager(ctx)
@@ -165,7 +165,7 @@ class NewCreditListActivity : BaseActivity() {
                     onNext { payload ->
                         payload.isOk.yes {
                             payload.payload?.let {
-                                if (offset == 0){
+                                if (offset == 0) {
                                     listAdapter.dataList.clear()
                                 }
                                 listAdapter.dataList.addAll(it)
@@ -182,9 +182,9 @@ class NewCreditListActivity : BaseActivity() {
     }
 
 
-    private fun getNewCreditDetail(idcard: String) {
+    private fun getNewCreditDetail(pid: Int) {
         SoguApi.getService(application, CreditService::class.java)
-                .hundredCreditDetail(idcard)
+                .hundredCreditDetail(pid)
                 .execute {
                     onNext { payload ->
                         payload.isOk.yes {
@@ -209,7 +209,8 @@ class NewCreditListActivity : BaseActivity() {
                 startActivity<HundredSearchActivity>(
                         Extras.NAME to data.name,
                         Extras.DATA to data.phone,
-                        Extras.DATA2 to data.idCard)
+                        Extras.DATA2 to data.idCard,
+                        Extras.ID to data.pid)
             }
         }
     }
