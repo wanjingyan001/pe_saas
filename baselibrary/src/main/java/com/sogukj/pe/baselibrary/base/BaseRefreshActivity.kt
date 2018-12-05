@@ -66,7 +66,7 @@ abstract class BaseRefreshActivity : ToolbarActivity(), SGRefreshListener {
                 }
                 it.setOnLoadMoreListener {
                     doLoadMore()
-                    refresh.finishLoadMore(1000)
+//                    refresh.finishLoadMore(1000)
                 }
             }
         }
@@ -91,10 +91,17 @@ abstract class BaseRefreshActivity : ToolbarActivity(), SGRefreshListener {
 
     fun finishLoadMore() {
         if (this::refresh.isLateinit && refresh.isLoading) {
-            refresh.finishLoadMore()
+            refresh.finishLoadMore(100)
         }
     }
 
+    fun finishLoad(page : Int){
+        if (page == 1){
+            finishRefresh()
+        }else{
+            finishLoadMore()
+        }
+    }
     var isLoadMoreEnable: Boolean = RefreshConfig.Default.loadMoreEnable
         get() = if (this::refresh.isLateinit) refresh.isEnableLoadMore else field
         set(value) {

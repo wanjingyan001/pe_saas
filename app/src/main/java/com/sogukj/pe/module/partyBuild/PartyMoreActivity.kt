@@ -6,7 +6,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.annotation.IntRange
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.Toolbar
 import android.view.View
 import android.widget.TextView
 import com.sogukj.pe.Extras
@@ -145,7 +144,9 @@ class PartyMoreActivity : BaseRefreshActivity() {
                     } else {
                         showCustomToast(R.drawable.icon_toast_fail, payload.message)
                     }
-                }, { e -> Trace.e(e) }, {
+                }, { e -> Trace.e(e)
+                    finishLoad(page)
+                }, {
                     if (page == 1) {
                         finishRefresh()
                     } else {
@@ -172,7 +173,9 @@ class PartyMoreActivity : BaseRefreshActivity() {
                     } else {
                         showCustomToast(R.drawable.icon_toast_fail, payload.message)
                     }
-                }, { e -> Trace.e(e) }, {
+                }, { e -> Trace.e(e)
+                    finishLoad(page)
+                }, {
                     if (page == 1) {
                         finishRefresh()
                     } else {

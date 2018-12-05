@@ -1,9 +1,7 @@
 package com.sogukj.pe.module.approve
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
@@ -14,14 +12,11 @@ import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.alibaba.android.arouter.facade.annotation.Route
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
-import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.textStr
@@ -34,15 +29,12 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.ApprovalBean
 import com.sogukj.pe.bean.ApproveFilterBean
 import com.sogukj.pe.bean.MessageBean
-import com.sogukj.pe.peUtils.SupportEmptyView
 import com.sogukj.pe.service.ApproveService
 import com.sogukj.pe.util.ColorUtil
 import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_approve_list.*
-import org.jetbrains.anko.backgroundColor
-import org.jetbrains.anko.textColor
 
 /**
  * Created by qinfei on 17/10/18.
@@ -253,6 +245,7 @@ class ApproveListActivity : BaseRefreshActivity(), TabLayout.OnTabSelectedListen
         ++page
         doRequest()
     }
+
 
     override fun initRefreshConfig(): RefreshConfig? {
         val config = RefreshConfig()
@@ -475,6 +468,7 @@ class ApproveListActivity : BaseRefreshActivity(), TabLayout.OnTabSelectedListen
                         } else {
                             iv_empty.visibility = View.GONE
                         }
+                        finishLoad(page)
                     }, {
                         //SupportEmptyView.checkEmpty(this, adapter)
                         if (adapter.dataList.size == 0) {
@@ -483,6 +477,7 @@ class ApproveListActivity : BaseRefreshActivity(), TabLayout.OnTabSelectedListen
                             iv_empty.visibility = View.GONE
                         }
                         adapter.notifyDataSetChanged()
+                        finishLoad(page)
                     })
             6 -> SoguApi.getService(application, ApproveService::class.java)
                     .specApprove(news_id = bean.news_id!!, add_time = bean.add_time, flag = flag, search = searchStr)
@@ -513,6 +508,7 @@ class ApproveListActivity : BaseRefreshActivity(), TabLayout.OnTabSelectedListen
                         } else {
                             iv_empty.visibility = View.GONE
                         }
+                        finishLoad(page)
                     }, {
                         //SupportEmptyView.checkEmpty(this, adapter)
                         if (adapter.dataList.size == 0) {
@@ -521,6 +517,7 @@ class ApproveListActivity : BaseRefreshActivity(), TabLayout.OnTabSelectedListen
                             iv_empty.visibility = View.GONE
                         }
                         adapter.notifyDataSetChanged()
+                        finishLoad(page)
                     })
             else -> SoguApi.getService(application, ApproveService::class.java)
                     .listApproval(status = status_tyoe, page = page,
@@ -549,6 +546,7 @@ class ApproveListActivity : BaseRefreshActivity(), TabLayout.OnTabSelectedListen
                         } else {
                             iv_empty.visibility = View.GONE
                         }
+                        finishLoad(page)
                     }, {
                         //SupportEmptyView.checkEmpty(this, adapter)
                         if (adapter.dataList.size == 0) {
@@ -557,6 +555,7 @@ class ApproveListActivity : BaseRefreshActivity(), TabLayout.OnTabSelectedListen
                             iv_empty.visibility = View.GONE
                         }
                         adapter.notifyDataSetChanged()
+                        finishLoad(page)
                     })
         }
 

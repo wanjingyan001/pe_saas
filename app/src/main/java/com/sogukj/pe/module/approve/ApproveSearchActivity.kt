@@ -152,6 +152,7 @@ class ApproveSearchActivity : BaseRefreshActivity() {
                     Trace.e(e)
                     //showToast("暂无可用数据")
                     showCustomToast(R.drawable.icon_toast_common, "暂无可用数据")
+                    finishLoad(page)
                 }, {
                     SupportEmptyView.checkEmpty(this, adapter)
                    isLoadMoreEnable = adapter.dataList.size % 20 == 0

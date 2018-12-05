@@ -322,6 +322,7 @@ class ProjectBookActivity : BaseRefreshActivity(), SupportEmptyView {
                         showCustomToast(R.drawable.icon_toast_fail, payload.message)
                 }, { e ->
                     Trace.e(e)
+                    finishLoad(page)
                 }, {
                     tv_result_title.text = Html.fromHtml(getString(R.string.tv_title_result_search1, adapter.dataList.size))
                     adapter.notifyDataSetChanged()

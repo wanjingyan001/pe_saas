@@ -114,6 +114,7 @@ class ProjectNewsActivity : BaseRefreshActivity() {
                     Trace.e(e)
                     iv_loading?.visibility = View.GONE
                     SupportEmptyView.checkEmpty(this, adapter)
+                    finishLoad(page)
                 }, {
                     SupportEmptyView.checkEmpty(this, adapter)
                     adapter.notifyDataSetChanged()

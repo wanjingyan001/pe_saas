@@ -10,7 +10,6 @@ import androidx.core.view.get
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexboxLayoutManager
-import com.scwang.smartrefresh.layout.api.RefreshFooter
 import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
@@ -148,9 +147,6 @@ class InvestmentActivity : BaseRefreshActivity() {
         return config
     }
 
-    override fun initRefreshFooter(): RefreshFooter? = null
-
-
     private fun getInvestList() {
         SoguApi.getService(application, DataSourceService::class.java)
                 .getInvestList(fIndustryId, fYear, page = page)
@@ -176,6 +172,10 @@ class InvestmentActivity : BaseRefreshActivity() {
                         }.otherWise {
                             finishLoadMore()
                         }
+                    }
+                    onError {
+                        it.printStackTrace()
+                        finishLoad(page)
                     }
                 }
     }

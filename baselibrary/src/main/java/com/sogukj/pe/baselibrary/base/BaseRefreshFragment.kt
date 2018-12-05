@@ -102,7 +102,7 @@ abstract class BaseRefreshFragment : BaseFragment(), SGRefreshListener {
 
     fun finishLoadMore() {
         if (refresh != null) {
-            refresh?.finishLoadMore()
+            refresh?.finishLoadMore(100)
         }
     }
 

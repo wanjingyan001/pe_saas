@@ -517,6 +517,9 @@ class DocumentsListActivity : BaseRefreshActivity(), AllPayCallBack {
         if (null != view_recover) {
             view_recover.visibility = View.INVISIBLE
         }
+        if (page > 1){
+            finishLoadMore()
+        }
     }
 
     override fun onDestroy() {

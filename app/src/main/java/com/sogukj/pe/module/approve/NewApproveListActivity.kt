@@ -1,7 +1,6 @@
 package com.sogukj.pe.module.approve
 
 import android.graphics.Color
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -134,6 +133,10 @@ class NewApproveListActivity : BaseRefreshActivity() {
                             finishLoadMore()
                         }
                         emptyImg.setVisible(listAdapter.dataList.isEmpty())
+                    }
+                    onError {
+                        it.printStackTrace()
+                        finishLoad(page)
                     }
                 }
     }
