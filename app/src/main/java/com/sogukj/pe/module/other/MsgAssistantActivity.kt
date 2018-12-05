@@ -86,38 +86,38 @@ class MsgAssistantActivity : BaseRefreshActivity() {
                     }
                 }
                 is NewProjectProcess -> {
-                    val floor = data.floor
+                    val icFloor = data.floor + 1
                     val project = ProjectBean()
                     project.company_id = data.id
                     project.floor = data.floor
                     project.name = data.cName
-                    when (floor) {
+                    when (icFloor) {
                         2 -> {
                             //立项
-                            context.startActivity<ProjectApprovalShowActivity>(Extras.DATA to project, Extras.FLAG to floor)
+                            context.startActivity<ProjectApprovalShowActivity>(Extras.DATA to project, Extras.FLAG to icFloor)
                         }
                         3 -> {
                             //预审会
-                            context.startActivity<ProjectUploadShowActivity>(Extras.DATA to project, Extras.FLAG to floor)
+                            context.startActivity<ProjectUploadShowActivity>(Extras.DATA to project, Extras.FLAG to icFloor)
                         }
                         4 -> {
                             //投决会
-                            context.startActivity<OtherProjectShowActivity>(Extras.DATA to project, Extras.FLAG to floor,
+                            context.startActivity<OtherProjectShowActivity>(Extras.DATA to project, Extras.FLAG to icFloor,
                                     Extras.TITLE to "投决会")
                         }
                         5 -> {
                             //签约付款
-                            context.startActivity<OtherProjectShowActivity>(Extras.DATA to project, Extras.FLAG to floor,
+                            context.startActivity<OtherProjectShowActivity>(Extras.DATA to project, Extras.FLAG to icFloor,
                                     Extras.TITLE to "签约付款")
                         }
                         6 -> {
                             //投后管理
-                            context.startActivity<OtherProjectShowActivity>(Extras.DATA to project, Extras.FLAG to floor,
+                            context.startActivity<OtherProjectShowActivity>(Extras.DATA to project, Extras.FLAG to icFloor,
                                     Extras.TITLE to "投后管理")
                         }
                         7 -> {
                             //退出管理
-                            context.startActivity<OtherProjectShowActivity>(Extras.DATA to project, Extras.FLAG to floor,
+                            context.startActivity<OtherProjectShowActivity>(Extras.DATA to project, Extras.FLAG to icFloor,
                                     Extras.TITLE to "退出管理")
                         }
                     }
