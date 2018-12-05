@@ -97,8 +97,10 @@ class MainMsgFragment : BaseFragment() {
         var header = toolbar_back.getChildAt(0) as CircleImageView
         val user = Store.store.getUser(baseActivity!!)
         if (user?.url.isNullOrEmpty()) {
-            val ch = user?.name?.first()
-            header.setChar(ch)
+            if (null != user?.name){
+                val ch = user?.name?.first()
+                header.setChar(ch)
+            }
         } else {
             Glide.with(ctx)
                     .load(MyGlideUrl(user?.url))

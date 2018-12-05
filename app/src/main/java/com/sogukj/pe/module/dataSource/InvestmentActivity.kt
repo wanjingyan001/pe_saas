@@ -1,5 +1,6 @@
 package com.sogukj.pe.module.dataSource
 
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
@@ -8,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.core.view.get
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.bumptech.glide.Glide
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.sogukj.pe.ARouterPath
@@ -51,6 +53,10 @@ class InvestmentActivity : BaseRefreshActivity() {
         toolbar?.setBackgroundColor(resources.getColor(R.color.white))
         title = "融资事件"
         setBack(true)
+        Glide.with(this)
+                .asGif()
+                .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
+                .into(iv_loading)
         resultAdapter = RecyclerAdapter(this) { _adapter, parent, _ ->
             ResultHolder(_adapter.getView(R.layout.item_investment_event_list, parent))
         }
@@ -93,6 +99,7 @@ class InvestmentActivity : BaseRefreshActivity() {
             layoutManager = manager
             adapter = secondaryAdapter
         }
+        showLoadding()
         getInvestList()
         getInvestCategory()
         initListener()
@@ -127,6 +134,13 @@ class InvestmentActivity : BaseRefreshActivity() {
         }
     }
 
+    private fun showLoadding(){
+        view_recover.visibility = View.VISIBLE
+    }
+
+    private fun goneLoadding(){
+        view_recover.visibility = View.INVISIBLE
+    }
 
     override fun doRefresh() {
         page = 1
@@ -172,10 +186,12 @@ class InvestmentActivity : BaseRefreshActivity() {
                         }.otherWise {
                             finishLoadMore()
                         }
+                        goneLoadding()
                     }
                     onError {
                         it.printStackTrace()
                         finishLoad(page)
+                        goneLoadding()
                     }
                 }
     }

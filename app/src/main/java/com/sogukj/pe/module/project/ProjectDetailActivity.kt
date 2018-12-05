@@ -736,9 +736,9 @@ class ProjectDetailActivity : ToolbarActivity(), BaseQuickAdapter.OnItemClickLis
                     onError {
                         it.printStackTrace()
                         if (isStartOpen) {
-                            showSuccessToast("关闭舆情失败")
+                            showErrorToast("关闭舆情失败")
                         } else {
-                            showSuccessToast("开启舆情失败")
+                            showErrorToast("开启舆情失败")
                         }
                     }
                 }

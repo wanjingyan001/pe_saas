@@ -183,6 +183,7 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
             tv_edit.visibility = View.VISIBLE
             tv_edit.text = "编辑"
             enableEdit = true
+            toolbar_title.maxEms = 11
         }else{
             //不可编辑
             tv_edit.visibility = View.GONE

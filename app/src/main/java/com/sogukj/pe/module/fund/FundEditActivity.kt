@@ -16,6 +16,7 @@ import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
+import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.FundSmallBean
@@ -105,6 +106,7 @@ class FundEditActivity : ToolbarActivity() {
                                     setResult(Activity.RESULT_OK)
                                     finish()
                                 }, 2000)
+                                Utils.forceCloseInput(this,contributeSize)
                             } else {
                                 showCustomToast(R.drawable.icon_toast_fail, payload.message)
                             }
