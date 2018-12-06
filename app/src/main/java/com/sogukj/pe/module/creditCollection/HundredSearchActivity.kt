@@ -72,7 +72,7 @@ class HundredSearchActivity : ToolbarActivity() {
 
     private fun doSearch() {
         SoguApi.getService(application, CreditService::class.java)
-                .HundredCredit(nameEdt.textStr, idCardEdt.textStr, phoneEdt.textStr)
+                .HundredCredit(nameEdt.textStr, idCardEdt.textStr, phoneEdt.textStr,pid)
                 .execute {
                     onNext { payload ->
                         payload.isOk.yes {
