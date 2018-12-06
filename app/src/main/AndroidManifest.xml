@@ -1197,6 +1197,7 @@
             android:name=".module.register.LoginActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="stateAlwaysVisible" />
         <activity
             android:name=".module.register.PhoneBindingActivity"

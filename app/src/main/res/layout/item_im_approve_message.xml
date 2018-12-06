@@ -85,17 +85,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="45dp"
-        android:drawableStart="@mipmap/icon_expedited"
-        android:drawablePadding="4dp"
         android:paddingLeft="5dp"
         android:paddingTop="2dp"
         android:paddingRight="5dp"
         android:paddingBottom="2dp"
         android:text="加急X1"
-        android:textSize="8sp"
-        app:corners_radius="2dp"
+        android:textSize="11sp"
         app:layout_constraintBottom_toBottomOf="@+id/schedule"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/schedule"
         app:solid_color="#FF5858" />
+    <ImageView
+        android:layout_width="@dimen/text_10"
+        android:layout_height="@dimen/text_12"
+        android:src="@mipmap/icon_expedited"
+        android:scaleType="fitXY"
+        app:layout_constraintTop_toTopOf="@+id/schedule"
+        app:layout_constraintBottom_toBottomOf="@+id/schedule"
+        app:layout_constraintEnd_toStartOf="@+id/expedited"/>
 </android.support.constraint.ConstraintLayout>

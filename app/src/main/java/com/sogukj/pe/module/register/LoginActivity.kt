@@ -130,11 +130,11 @@ class LoginActivity : BaseActivity(), LoginView {
 
     override fun onResume() {
         super.onResume()
-        getDingResult()
+//        getDingResult()
     }
 
     private fun getDingResult() {
-        val authorizeCode = intent.getSerializableExtra(Extras.DATA) as? AuthorizeCode
+        val authorizeCode = intent.getSerializableExtra(Extras.DATA) as AuthorizeCode
         if (authorizeCode != null && authorizeCode.errcode == BaseResp.ErrCode.ERR_OK) {
             authorizeCode.unionid.let {
                 sp.edit { putString(Extras.THIRDLOGIN, "ding_$it") }
@@ -143,7 +143,18 @@ class LoginActivity : BaseActivity(), LoginView {
         }
     }
 
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        val authorizeCode = intent.getSerializableExtra(Extras.DATA) as AuthorizeCode
+        if (authorizeCode != null && authorizeCode.errcode == BaseResp.ErrCode.ERR_OK) {
+            authorizeCode.unionid.let {
+                sp.edit { putString(Extras.THIRDLOGIN, "ding_$it") }
+                checkThirdBinding("ding", it)
+            }
+        }
 
+    }
     /**
      * 网易云信IM登录
      */
@@ -196,6 +207,10 @@ class LoginActivity : BaseActivity(), LoginView {
                         }.otherWise {
                             showErrorToast(payload.message)
                         }
+                    }
+
+                    onError {
+                        it.printStackTrace()
                     }
                 }
     }
