@@ -198,6 +198,10 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
                 }
             }
         }
+        createDep2.clickWithTrigger {
+
+        }
+
         adminSetting.setVisible((user?.is_admin == 1) or (user?.is_admin == 2))
         adminSetting.clickWithTrigger {
             startActivityForResult<AdminMainActivity>(Extras.REQUESTCODE)
