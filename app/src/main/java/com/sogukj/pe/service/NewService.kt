@@ -60,7 +60,7 @@ interface NewService {
     ): Observable<Payload<Any>>
 
     @FormUrlEncoded
-    @POST("/api/news/showProject")
+    @POST("/api/Company/showComBase")
     fun showProject(
             @Field("company_id") company_id: Int): Observable<Payload<ProjectBean>>
 

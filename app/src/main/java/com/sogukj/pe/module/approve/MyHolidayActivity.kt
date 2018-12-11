@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -32,7 +33,7 @@ class MyHolidayActivity : ToolbarActivity() {
         setBack(true)
         title = "我的假期"
 
-        adapter = RecyclerAdapter(context, { _adapter, parent, type ->
+        adapter = RecyclerAdapter(context) { _adapter, parent, type ->
             val convertView = _adapter.getView(R.layout.item_vacation, parent)
             object : RecyclerHolder<VacationBean>(convertView) {
                 val image = convertView.findViewById<ImageView>(R.id.color) as ImageView
@@ -48,28 +49,30 @@ class MyHolidayActivity : ToolbarActivity() {
                     ColorUtil.setColorStatus(image, data)
                 }
             }
-        })
+        }
         recycler_view.layoutManager = LinearLayoutManager(context)
         recycler_view.addItemDecoration(SpaceItemDecoration(Utils.dpToPx(context, 10)))
         recycler_view.adapter = adapter
 
         SoguApi.getService(application, ApproveService::class.java)
-                .showVacation()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe({ payload ->
-                    if (payload.isOk) {
-                        adapter.dataList.clear()
-                        adapter.dataList.addAll(payload.payload!!)
-                        adapter.notifyDataSetChanged()
-                    } else {
-                        showCustomToast(R.drawable.icon_toast_fail, payload.message)
-                        empty.visibility = View.VISIBLE
+                .getNewHoliday()
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk) {
+                            adapter.dataList.clear()
+                            adapter.dataList.addAll(payload.payload!!)
+                            adapter.notifyDataSetChanged()
+                        } else {
+                            showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                            empty.visibility = View.VISIBLE
+                        }
                     }
-                }, { e ->
-                    Trace.e(e)
-                    empty.visibility = View.VISIBLE
-                })
+                    onError { e ->
+                        Trace.e(e)
+                        empty.visibility = View.VISIBLE
+
+                    }
+                }
 
         record_detail.setOnClickListener {
             VacationRecordActivity.start(context, type = 1)

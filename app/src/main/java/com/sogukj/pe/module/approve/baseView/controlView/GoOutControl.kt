@@ -28,15 +28,15 @@ import kotlin.properties.Delegates
 class GoOutControl @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : BaseControl(context, attrs, defStyleAttr) {
-    private var selectionType: ApproveValueBean by Delegates.observable(ApproveValueBean(name = "", scal_unit = ""), { property, oldValue, newValue ->
-           newValue.name.isNotEmpty().yes {
-               controlBean.children!![0].value?.let {
-                   it.clear()
-                   it.add(selectionType)
-                   dateRange.selectionType = selectionType
-               }
-           }
-    })
+    private var selectionType: ApproveValueBean by Delegates.observable(ApproveValueBean(name = "", scal_unit = "")) { _, _, newValue ->
+        newValue.name.isNotEmpty().yes {
+            controlBean.children!![0].value?.let {
+                it.clear()
+                it.add(selectionType)
+                dateRange.selectionType = selectionType
+            }
+        }
+    }
     private lateinit var dateRange: DateRangeControl
 
     override fun getContentResId(): Int = R.layout.layout_control_go_out

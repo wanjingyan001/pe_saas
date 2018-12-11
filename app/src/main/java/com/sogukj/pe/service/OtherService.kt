@@ -113,32 +113,39 @@ interface OtherService {
     fun getFourModules(): Observable<Payload<List<MainModule>>>
 
     /**
+     * 新建项目时获取项目负责人
+     */
+    @FormUrlEncoded
+    @POST("/api/Company/superior")
+    fun getLeader(@Field("user_id") user_id: Int?): Observable<Payload<ProjectSuperior>>
+
+    /**
      * 项目基本信息
      */
     @FormUrlEncoded
     @POST("/api/Company/showComBase")
-    fun getProBuildInfo(@Field("company_id") company_id:Int): Observable<Payload<NewProjectInfo>>
+    fun getProBuildInfo(@Field("company_id") company_id: Int): Observable<Payload<NewProjectInfo>>
 
     /**
      * 添加修改项目基本数据
      */
     @POST("/api/Company/newProject")
-    fun createProjectBuild(@Body map: HashMap<String, Any>): Observable<Payload<Any>>
+    fun createProjectBuild(@Body map: HashMap<String, Any?>): Observable<Payload<Any>>
 
     /**
      * 立项信息填写
      */
     @FormUrlEncoded
     @POST("/api/Company/comFileList")
-    fun getProApproveInfo(@Field("company_id") company_id:Int,@Field("floor") floor : Int,
-                                   @Field("type") type : Int = 0 ): Observable<Payload<List<List<ProjectApproveInfo>>>>
+    fun getProApproveInfo(@Field("company_id") company_id: Int, @Field("floor") floor: Int,
+                          @Field("type") type: Int = 0): Observable<Payload<List<List<ProjectApproveInfo>>>>
 
     /**
      * 删除文件
      */
     @FormUrlEncoded
     @POST("/api/Company/deleteFile")
-    fun deleteProjectFile(@Field("file_id") file_id:Int) : Observable<Payload<Any>>
+    fun deleteProjectFile(@Field("file_id") file_id: Int): Observable<Payload<Any>>
 
     /**
      * 立项提交
@@ -157,7 +164,7 @@ interface OtherService {
      */
     @FormUrlEncoded
     @POST("/api/Company/deleteOssFile")
-    fun deleteProjectOssFile(@Field("filepath") filepath:String) : Observable<Payload<Any>>
+    fun deleteProjectOssFile(@Field("filepath") filepath: String): Observable<Payload<Any>>
 
     /**
      * 提交审批
@@ -171,15 +178,15 @@ interface OtherService {
      */
     @FormUrlEncoded
     @POST("/api/Company/approveRecord")
-    fun getApproveRecord(@Field("company_id") company_id:Int,@Field("floor") floor : Int): Observable<Payload<ApproveRecordInfo>>
+    fun getApproveRecord(@Field("company_id") company_id: Int, @Field("floor") floor: Int): Observable<Payload<ApproveRecordInfo>>
 
     /**
      * 分配审批
      */
     @FormUrlEncoded
     @POST("/api/Company/allotApproval")
-    fun commitAllocationApprove(@Field("user_id") user_id : Int,@Field("company_id") company_id:Int,
-                                @Field("floor") floor : Int): Observable<Payload<Any>>
+    fun commitAllocationApprove(@Field("user_id") user_id: Int, @Field("company_id") company_id: Int,
+                                @Field("floor") floor: Int): Observable<Payload<Any>>
 
 
     /**
@@ -193,27 +200,27 @@ interface OtherService {
      */
     @FormUrlEncoded
     @POST("/api/Company/investSubject")
-    fun getLinkFund(@Field("company_id") company_id:Int): Observable<Payload<List<LinkFundBean>>>
+    fun getLinkFund(@Field("company_id") company_id: Int): Observable<Payload<List<LinkFundBean>>>
 
     /**
      * 基金列表
      */
     @FormUrlEncoded
     @POST("/api/Archives/allProjectOrFund")
-    fun getLinkFundList(@Field("type") type:Int = 2,@Field("flag") flag:Int = 1): Observable<Payload<List<InvestFundBean>>>
+    fun getLinkFundList(@Field("type") type: Int = 2, @Field("flag") flag: Int = 1): Observable<Payload<List<InvestFundBean>>>
 
 
     /**
      * 尚荣新项目流程配置
      */
     @POST("/api/Company/hideButton")
-    fun configApprove():Observable<Payload<JsonObject>>
+    fun configApprove(): Observable<Payload<JsonObject>>
 
     /**
      * 关于
      */
     @POST("/api/index/getxieyiurl")
-    fun getAboutPage():Observable<Payload<AboutPageBean>>
+    fun getAboutPage(): Observable<Payload<AboutPageBean>>
 
     /**
      * 账户管理

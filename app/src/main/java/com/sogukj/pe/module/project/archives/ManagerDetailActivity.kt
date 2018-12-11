@@ -71,7 +71,7 @@ class ManagerDetailActivity : ToolbarActivity() {
                 map.put("moduleId", moduleId!!)
                 map.put("data", oriData)
 
-                SoguApi.getService(application,ProjectService::class.java)
+                SoguApi.getService(application, ProjectService::class.java)
                         .subInvestMan(map)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
@@ -98,7 +98,7 @@ class ManagerDetailActivity : ToolbarActivity() {
     lateinit var oriData: ArrayList<ManagerDetailBean>
 
     private fun doRequest() {
-        SoguApi.getService(application,ProjectService::class.java)
+        SoguApi.getService(application, ProjectService::class.java)
                 .getInvestManDetail(bean.company_id!!, moduleId!!)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -322,8 +322,9 @@ class ManagerDetailActivity : ToolbarActivity() {
         }
         checkList.add {
             var map = HashMap<String, String>()
-            var pathList = pathMap.get(bean.id!!)!!
-            if (pathList == null || pathList.size == 0) {
+            var pathList = pathMap[bean.id!!]!!
+            val rawData = bean.files?.isEmpty() ?: true
+            if ((pathList == null || pathList.size == 0) && (bean.files == null || rawData)) {
                 false
             } else {
                 map.putAll(pathList)
@@ -376,7 +377,7 @@ class ManagerDetailActivity : ToolbarActivity() {
     private fun uploadFile(filePath: String?) {
         if (!filePath.isNullOrEmpty()) {
             val file = File(filePath)
-            SoguApi.getService(application,ProjectService::class.java)
+            SoguApi.getService(application, ProjectService::class.java)
                     .uploadFile(MultipartBody.Builder().setType(MultipartBody.FORM)
                             .addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("*/*"), file))
                             .build())

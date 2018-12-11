@@ -93,28 +93,28 @@
 
                         <TextView
                             style="@style/ItemTextLabel"
-                            android:text="项目负责人" />
+                            android:text="项目经理" />
 
                         <TextView
                             android:id="@+id/et_fuzeren"
                             style="@style/ItemTextValue"
                             android:gravity="right"
-                            android:hint="请选择负责人" />
+                            android:hint="请选择项目经理" />
                     </TableRow>
 
                     <TableRow
                         android:background="@drawable/divider_bottom"
                         android:paddingBottom="15dp"
-                        android:visibility="gone"
                         android:paddingTop="15dp">
 
                         <TextView
                             style="@style/ItemTextLabel"
-                            android:text="法人代表" />
+                            android:text="项目负责人" />
 
                         <TextView
                             android:id="@+id/et_faren"
                             android:gravity="right"
+                            android:hint="请选择负责人"
                             style="@style/ItemTextValue" />
                     </TableRow>
 

@@ -155,14 +155,14 @@ class ApproveInitiateActivity : ToolbarActivity() {
                         18 -> {
                             val project = factory.createControl(ProjectSelection::class.java, it)
                             (project as ProjectSelection).block = { value ->
-                                getApprovers(projectId = value.id)
+                                getApprovers(projectId = value.id.toString())
                             }
                             project
                         }
                         19 -> {
                             val fund = factory.createControl(FundSelection::class.java, it)
                             (fund as FundSelection).block = {
-                                getApprovers(fundId = it.id)
+                                getApprovers(fundId = it.id.toString())
                             }
                             fund
                         }
@@ -170,7 +170,7 @@ class ApproveInitiateActivity : ToolbarActivity() {
                         21 -> {
                             val fap = factory.createControl(FAPControl::class.java, it)
                             (fap as FAPControl).block = { v1, v2 ->
-                                getApprovers(fundId = v1, projectId = v2)
+                                getApprovers(fundId = v1.toString(), projectId = v2.toString())
                             }
                             fap
                         }
@@ -183,7 +183,7 @@ class ApproveInitiateActivity : ToolbarActivity() {
                         -21 -> {
                             val fs = factory.createControl(FundSealControl::class.java, it)
                             (fs as FundSealControl).block = { v1, v2 ->
-                                getApprovers(fundId = v1, projectId = v2)
+                                getApprovers(fundId = v1.toString(), projectId = v2.toString())
                             }
                             fs
                         }
@@ -289,9 +289,9 @@ class ApproveInitiateActivity : ToolbarActivity() {
         (checkValue.none { !it } && value.isNotEmpty() && ::approvers.isLateinit).yes {
             val service = SoguApi.getService(application, ApproveService::class.java)
             val observable = if (aid != null) {
-                service.modifyApprove(aid!!, data = value.jsonStr, sp = approvers.sp.jsonStr, cs = approvers.cs.jsonStr, jr = approvers.jr.jsonStr)
+                service.modifyApprove(aid!!, data = value.jsonStr, sp = approvers.sp.jsonStr, cs = approvers.cs.jsonStr, jr = approvers.jr.jsonOrNull)
             } else {
-                service.submitNewApprove(tid, data = value.jsonStr, sp = approvers.sp.jsonStr, cs = approvers.cs.jsonStr, jr = approvers.jr.jsonStr)
+                service.submitNewApprove(tid, data = value.jsonStr, sp = approvers.sp.jsonStr, cs = approvers.cs.jsonStr, jr = approvers.jr.jsonOrNull)
             }
             observable.execute {
                 onNext { payload ->

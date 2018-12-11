@@ -181,6 +181,9 @@ interface ApproveService {
     @POST("/api/Approve/showVacation")
     fun showVacation(): Observable<Payload<ArrayList<VacationBean>>>
 
+    @POST("api/Skip/myHolidays")
+    fun getNewHoliday(): Observable<Payload<List<VacationBean>>>
+
     @FormUrlEncoded
     @POST("/api/Approve/historyCity")
     fun getHistoryCity(@Field("template_id") template_id: Int): Observable<Payload<ArrayList<CityArea.City>>>
@@ -457,4 +460,17 @@ interface ApproveService {
     @FormUrlEncoded
     @POST("/api/Sptemplate/deriveWps")
     fun deriveWps(@Field("aid") aid: Int): Observable<Payload<ApprovalForm>>
+
+    /**
+     * 新老审批整合———我的请假/出差/外出记录
+     */
+    @FormUrlEncoded
+    @POST("/api/Sptemplate/showLeaveRecode")
+    fun showApproveRecode(@Field("kind") kind: Int = 3,
+                          @Field("page") page: Int = 1,
+                          @Field("pageSize") pageSize: Int = 20,
+                          @Field("query") query: String? = null,
+                          @Field("type") type: String = "1",
+                          @Field("tid") tid: String = "11"// 10 出差 11请假 14 外出
+    ): Observable<Payload<ApproveRecordList>>
 }

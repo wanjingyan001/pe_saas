@@ -20,6 +20,7 @@ import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.isNullOrEmpty
 import com.sogukj.pe.baselibrary.Extended.textStr
+import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -95,7 +96,7 @@ class NewOriginProjectActivity : ToolbarActivity(), NewOriginProCallBack {
 
     private fun initData() {
         initLocalData()
-        mCompanyAdapter = RecyclerAdapter<CompanySelectBean>(this, { _adapter, parent, type ->
+        mCompanyAdapter = RecyclerAdapter<CompanySelectBean>(this) { _adapter, parent, type ->
             val convertView = _adapter.getView(R.layout.item_main_project_search, parent) as View
             object : RecyclerHolder<CompanySelectBean>(convertView) {
                 val tv1 = convertView.findViewById<TextView>(R.id.tv1) as TextView
@@ -103,7 +104,7 @@ class NewOriginProjectActivity : ToolbarActivity(), NewOriginProCallBack {
                     tv1.text = "${position + 1}." + data.name
                 }
             }
-        })
+        }
 
         val layoutManager = LinearLayoutManager(this)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
@@ -112,7 +113,7 @@ class NewOriginProjectActivity : ToolbarActivity(), NewOriginProCallBack {
         recycler_result.adapter = mCompanyAdapter
 
 
-        mRelateAdapter = RecyclerAdapter<NewProjectInfo.RelateInfo>(this, { _adapter, parent, type ->
+        mRelateAdapter = RecyclerAdapter<NewProjectInfo.RelateInfo>(this) { _adapter, parent, type ->
             val convertView = _adapter.getView(R.layout.layout_add_contact, parent)
             object : RecyclerHolder<NewProjectInfo.RelateInfo>(convertView) {
                 val et_contact_name = convertView.findViewById<EditText>(R.id.et_contact_name)
@@ -130,7 +131,7 @@ class NewOriginProjectActivity : ToolbarActivity(), NewOriginProCallBack {
                         setModuleEnable(true)
                         rl_job.setOnClickListener {
                             //选择职位
-                            Utils.forceCloseInput(this@NewOriginProjectActivity,et_contact_name)
+                            Utils.forceCloseInput(this@NewOriginProjectActivity, et_contact_name)
                             val experience = resources.getStringArray(R.array.job).toList()
                             val position = experience.indices.firstOrNull { experience[it].contains(tv_job_name.text) }
                                     ?: 0
@@ -154,19 +155,19 @@ class NewOriginProjectActivity : ToolbarActivity(), NewOriginProCallBack {
                     idCardMap.put(position, et_card_name)
                     emailMap.put(position, et_email_name)
 
-                    if (!et_contact_name.textStr.isNullOrEmpty()){
+                    if (!et_contact_name.textStr.isNullOrEmpty()) {
                         et_contact_name.setSelection(et_contact_name.textStr.length)
                     }
 
-                    if (!et_phone_name.textStr.isNullOrEmpty()){
+                    if (!et_phone_name.textStr.isNullOrEmpty()) {
                         et_phone_name.setSelection(et_phone_name.textStr.length)
                     }
 
-                    if (!et_card_name.textStr.isNullOrEmpty()){
+                    if (!et_card_name.textStr.isNullOrEmpty()) {
                         et_card_name.setSelection(et_card_name.textStr.length)
                     }
 
-                    if (!et_email_name.textStr.isNullOrEmpty()){
+                    if (!et_email_name.textStr.isNullOrEmpty()) {
                         et_email_name.setSelection(et_email_name.textStr.length)
                     }
                 }
@@ -218,7 +219,7 @@ class NewOriginProjectActivity : ToolbarActivity(), NewOriginProCallBack {
 
                 }
             }
-        })
+        }
 
         recycler_view.addItemDecoration(RecycleViewDivider(this, LinearLayoutManager.VERTICAL,
                 Utils.dip2px(this, 8f), Color.parseColor("#f7f9fc")))
@@ -245,7 +246,7 @@ class NewOriginProjectActivity : ToolbarActivity(), NewOriginProCallBack {
                 tv_name_simple.text = project!!.shortName
             }
 
-            if (null != project!!.creditCode){
+            if (null != project!!.creditCode) {
                 tv_credit_code.text = project!!.creditCode
             }
             if (null != presenter && null != project!!.company_id) {
@@ -255,6 +256,8 @@ class NewOriginProjectActivity : ToolbarActivity(), NewOriginProCallBack {
             }
         }
     }
+
+    private lateinit var data: CompanySelectBean
 
     private fun bindListener() {
         rl_name_all.setOnClickListener {
@@ -340,7 +343,7 @@ class NewOriginProjectActivity : ToolbarActivity(), NewOriginProCallBack {
         }
 
         mCompanyAdapter.onItemClick = { v, p ->
-            val data = mCompanyAdapter.dataList.get(p)
+            data = mCompanyAdapter.dataList.get(p)
             tv_name_all.text = data.name
 
             search_view.search = ""
@@ -386,7 +389,7 @@ class NewOriginProjectActivity : ToolbarActivity(), NewOriginProCallBack {
             }
             for ((k, v) in jobMap) {
                 if (k == i) {
-                    if (!"请选择".equals(v.textStr)){
+                    if (!"请选择".equals(v.textStr)) {
                         info.position = v.textStr
                     }
                 }
@@ -428,20 +431,23 @@ class NewOriginProjectActivity : ToolbarActivity(), NewOriginProCallBack {
             }
         }
         val code = tv_credit_code.textStr
-        if (!code.isNullOrEmpty() && !Utils.isCreditCode(code)){
+        if (!code.isNullOrEmpty() && !Utils.isCreditCode(code)) {
             showCustomToast(R.drawable.icon_toast_common, "请填写正确的信用代码")
             return
         }
-        val map = HashMap<String, Any>()
-        map.put("cName", tv_name_all.textStr)
-        map.put("shortName", tv_name_simple.textStr)
-        map.put("info", et_business_brief.textStr)
-        map.put("principal", chargerPmId)
-        map.put("leader", chargerPlId)
-        map.put("type", 2)
-        map.put("creditCode", code)
-        map.put("company_id", company_id)
-        map.put("relate", relateInfos)
+        val map = HashMap<String, Any?>()
+        map["cName"] = tv_name_all.textStr
+        map["shortName"] = tv_name_simple.textStr
+        map["info"] = et_business_brief.textStr
+        map["principal"] = chargerPmId
+        map["leader"] = chargerPlId
+        map["type"] = 2
+        map["creditCode"] = code
+        map["company_id"] = company_id
+        map["relate"] = relateInfos
+        (::data.isLateinit && data.id != 0L).yes {
+            map["tianyan_id"] = data.id
+        }
         if (null != presenter) {
             presenter!!.createProjectBuild(map)
         }
@@ -467,8 +473,7 @@ class NewOriginProjectActivity : ToolbarActivity(), NewOriginProCallBack {
                     if (payload.isOk) {
                         mCompanyAdapter.dataList.clear()
 
-                        var bean = CompanySelectBean()
-                        bean.name = search_view.search
+                        var bean = CompanySelectBean(name = search_view.search)
                         mCompanyAdapter.dataList.add(bean)
 
                         payload?.payload?.apply {
@@ -522,7 +527,7 @@ class NewOriginProjectActivity : ToolbarActivity(), NewOriginProCallBack {
 
         tv_name_all.text = data.name
         tv_name_simple.text = data.shortName
-        if (!data.creditCode.isNullOrEmpty()){
+        if (!data.creditCode.isNullOrEmpty()) {
             tv_credit_code.text = data.creditCode
         }
         if (null != data.duty) {

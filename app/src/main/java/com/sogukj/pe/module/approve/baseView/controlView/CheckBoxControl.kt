@@ -59,12 +59,16 @@ class CheckBoxControl @JvmOverloads constructor(
         override fun setData(view: View, data: OptionBean, position: Int) {
             val valueData = ApproveValueBean(name = data.name, scal_unit = data.scal_unit)
             view.checkboxOption.text = data.name
-            controlBean.value?.let {
-                it.forEach { appValue ->
-                    appValue as ApproveValueBean
-                    view.checkboxOption.isChecked = appValue.name == data.name
-                }
-            }
+            view.checkboxOption.isChecked = (controlBean.value?.find { value ->
+                value as ApproveValueBean
+                value.name == data.name
+            } != null)
+//            controlBean.value?.let {
+//                it.forEach { appValue ->
+//                    appValue as ApproveValueBean
+//                    view.checkboxOption.isChecked = appValue.name == data.name
+//                }
+//            }
             view.checkboxOption.setOnCheckedChangeListener { _, isChecked ->
                 isChecked.yes {
                     controlBean.value?.add(valueData)

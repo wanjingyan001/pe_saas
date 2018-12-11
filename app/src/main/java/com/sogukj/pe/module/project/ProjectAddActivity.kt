@@ -15,8 +15,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.execute
-import com.sogukj.pe.baselibrary.Extended.isNullOrEmpty
+import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.Utils
@@ -44,6 +43,9 @@ import java.util.*
  */
 class ProjectAddActivity : ToolbarActivity() {
     lateinit var mCompanyAdapter: RecyclerAdapter<CompanySelectBean>
+    private lateinit var data: CompanySelectBean
+    private var selectUser = Store.store.getUser(this)//项目经理(默认自己)
+    private var leaderId: Int = 0//项目负责人
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_project)
@@ -60,7 +62,8 @@ class ProjectAddActivity : ToolbarActivity() {
             val user = Store.store.getUser(this)
             chargerStr = user!!.name
             chargerId = user.uid!!
-            et_fuzeren.text = user!!.name
+            et_fuzeren.text = user.name
+            getLeader()
         } else if (type == "EDIT") {
             setTitle("编辑项目")
             var data = intent.getSerializableExtra(Extras.DATA) as ProjectBean
@@ -72,11 +75,11 @@ class ProjectAddActivity : ToolbarActivity() {
                         if (payload.isOk) {
                             payload.payload?.apply {
                                 et_name.text = name
-                                et_fuzeren.text = chargeName
+                                et_fuzeren.text = duty?.name
                                 chargerStr = chargeName ?: ""
                                 chargerId = charge ?: 0
                                 et_short_name.text = shortName
-                                et_faren.text = legalPersonName
+                                et_faren.text = lead?.name
                                 et_reg_address.text = regLocation
                                 et_credit_code.text = creditCode
                                 et_other.text = info
@@ -132,7 +135,7 @@ class ProjectAddActivity : ToolbarActivity() {
             }
         }
 
-        mCompanyAdapter = RecyclerAdapter<CompanySelectBean>(this, { _adapter, parent, type ->
+        mCompanyAdapter = RecyclerAdapter<CompanySelectBean>(this) { _adapter, parent, type ->
             val convertView = _adapter.getView(R.layout.item_main_project_search, parent) as View
             object : RecyclerHolder<CompanySelectBean>(convertView) {
                 val tv1 = convertView.findViewById<TextView>(R.id.tv1) as TextView
@@ -140,11 +143,10 @@ class ProjectAddActivity : ToolbarActivity() {
                     tv1.text = "${position + 1}." + data.name
                 }
             }
-        })
+        }
         mCompanyAdapter.onItemClick = { v, p ->
-            val data = mCompanyAdapter.dataList.get(p)
+            data = mCompanyAdapter.dataList.get(p)
             et_name.text = data.name
-
             search_view.search = ""
             mCompanyAdapter.dataList.clear()
             mCompanyAdapter.notifyDataSetChanged()
@@ -213,10 +215,12 @@ class ProjectAddActivity : ToolbarActivity() {
                         chargerStr = ""
                         et_fuzeren.text = ""
                     } else {
+                        selectUser = userList[0]
                         chargerId = userList.get(0).uid ?: 0
                         chargerStr = userList.get(0).name ?: ""
                         et_fuzeren.text = chargerStr
                     }
+                    getLeader()
                 }
             }
         }
@@ -238,8 +242,7 @@ class ProjectAddActivity : ToolbarActivity() {
                     if (payload.isOk) {
                         mCompanyAdapter.dataList.clear()
 
-                        var bean = CompanySelectBean()
-                        bean.name = search_view.search
+                        var bean = CompanySelectBean(name = search_view.search)
                         mCompanyAdapter.dataList.add(bean)
 
                         payload?.payload?.apply {
@@ -259,29 +262,30 @@ class ProjectAddActivity : ToolbarActivity() {
                         recycler_result.visibility = View.GONE
                         iv_empty.visibility = View.VISIBLE
                     }
-                })
+                }).let { }
     }
 
     private fun doSave() {
-        val project = ProjectBean()
-        project.name = et_name?.text?.trim()?.toString()
-        if (project.name == null) return
-        project.shortName = et_short_name?.text?.trim()?.toString()
-        project.legalPersonName = et_faren?.text?.trim()?.toString()
-        project.regLocation = et_reg_address?.text?.trim()?.toString()
-        project.creditCode = et_credit_code?.text?.trim()?.toString()
-        project.info = et_other?.text?.trim()?.toString()
-        project.charge = chargerId
-        project.chargeName = chargerStr
-        SoguApi.getService(application, NewService::class.java)
-                .addProject(name = project.name!!
-                        , shortName = project.shortName!!
-                        , creditCode = project.creditCode
-                        , legalPersonName = project.legalPersonName
-                        , regLocation = project.regLocation
-                        , info = project.info
-                        , charge = chargerId
-                        , type = 6)
+        if (!::data.isLateinit) {
+            showCommonToast("请选择公司名称")
+            return
+        }
+        if (et_name?.text?.trim()?.toString() == null) return
+        val map = HashMap<String, Any?>()
+        map["cName"] = et_name.textStr
+        map["shortName"] = et_short_name.textStr
+        map["info"] = et_other.textStr
+        map["principal"] = selectUser?.uid
+        map["leader"] = leaderId//负责人
+        map["type"] = 2
+        map["creditCode"] = et_credit_code.textStr
+        map["company_id"] = null
+        map["relate"] = null
+        (::data.isLateinit && data.id != 0L).yes {
+            map["tianyan_id"] = data.id
+        }
+        SoguApi.getService(application, OtherService::class.java)
+                .createProjectBuild(map)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ payload ->
@@ -317,30 +321,27 @@ class ProjectAddActivity : ToolbarActivity() {
                 }, { e ->
                     Trace.e(e)
                     showCustomToast(R.drawable.icon_toast_fail, "保存失败")
-                })
+                }).let { }
     }
 
     private fun editSave() {
-        var data = intent.getSerializableExtra(Extras.DATA) as ProjectBean
+        var project = intent.getSerializableExtra(Extras.DATA) as ProjectBean
         if (et_name?.text?.trim()?.toString().isNullOrEmpty()) return
-        data.name = et_name?.text?.trim()?.toString()
-        data.shortName = et_short_name?.text?.trim()?.toString()
-        data.legalPersonName = et_faren?.text?.trim()?.toString()
-        data.regLocation = et_reg_address?.text?.trim()?.toString()
-        data.creditCode = et_credit_code?.text?.trim()?.toString()
-        data.info = et_other?.text?.trim()?.toString()
-        data.charge = chargerId
-        data.chargeName = chargerStr
-        SoguApi.getService(application, NewService::class.java)
-                .addProject(company_id = data.company_id
-                        , name = data.name!!
-                        , shortName = data.shortName!!
-                        , creditCode = data.creditCode
-                        , legalPersonName = data.legalPersonName
-                        , regLocation = data.regLocation
-                        , info = data.info
-                        , charge = chargerId
-                        , type = 6)
+        val map = HashMap<String, Any?>()
+        map["cName"] = et_name.textStr
+        map["shortName"] = et_short_name.textStr
+        map["info"] = et_other.textStr
+        map["principal"] = selectUser?.uid
+        map["leader"] = leaderId
+        map["type"] = 2
+        map["creditCode"] = et_credit_code.textStr
+        map["company_id"] = project.company_id
+        map["relate"] = null
+        (::data.isLateinit && data.id != 0L).yes {
+            map["tianyan_id"] = data.id
+        }
+        SoguApi.getService(application, OtherService::class.java)
+                .createProjectBuild(map)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ payload ->
@@ -354,7 +355,28 @@ class ProjectAddActivity : ToolbarActivity() {
                 }, { e ->
                     Trace.e(e)
                     showCustomToast(R.drawable.icon_toast_fail, "保存失败")
-                })
+                }).let { }
+    }
+
+
+    private fun getLeader() {
+        selectUser?.let {
+            SoguApi.getService(application, OtherService::class.java)
+                    .getLeader(it.uid)
+                    .execute {
+                        onNext { payload ->
+                            payload.isOk.yes {
+                                payload.payload?.let {
+                                    et_faren.text = it.name
+                                    leaderId = it.uid
+                                }
+                            }.otherWise {
+                                showErrorToast(payload.message)
+                            }
+                        }
+                    }
+        }
+
     }
 
     companion object {

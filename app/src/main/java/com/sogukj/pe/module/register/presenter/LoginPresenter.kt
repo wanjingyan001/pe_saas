@@ -119,5 +119,4 @@ class LoginPresenter constructor(val application: Application) {
                     }
                 }
     }
-
 }

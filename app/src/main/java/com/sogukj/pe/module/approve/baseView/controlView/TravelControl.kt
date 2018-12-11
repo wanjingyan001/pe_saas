@@ -66,6 +66,7 @@ class TravelControl @JvmOverloads constructor(
                     adapter = travelAdapter
                 }
                 footer.copyDetail.clickWithTrigger { _ ->
+                    //以后要使用deepCopy
                     val copy = it.last().copyWithoutValue(isDelete = groupList[1].is_delete)
                     travelAdapter.addData(it.size, copy)
                 }
@@ -76,7 +77,7 @@ class TravelControl @JvmOverloads constructor(
                 inflate.totalDaysTitle.setVisible(it.is_show != false)
                 it.value?.let { value ->
                     value.isNotEmpty().yes {
-                        inflate.totalDays.text = value[0] as String
+                        inflate.totalDays.text = value[0].toString()
                     }.otherWise {
                         inflate.totalDays.hint = it.placeholder
                     }

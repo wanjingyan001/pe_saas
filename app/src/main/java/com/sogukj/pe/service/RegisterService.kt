@@ -177,5 +177,15 @@ interface RegisterService {
     @POST("api/Saas/threePartyLogin")
     fun checkThirdBinding(@Field("source") source: String,
                           @Field("unique") unique: String): Observable<Payload<CheckThird>>
+
+
+    /**
+     * 判断手机号是否已绑定过第三方账号
+     */
+    @Headers(value = ["Domain-Name: ${Consts.WX}"])
+    @FormUrlEncoded
+    @POST("api/Saas/isBand")
+    fun hasBanded(@Field("source") source: String,
+                  @Field("phone") phone: String): Observable<Payload<Any>>
 }
 

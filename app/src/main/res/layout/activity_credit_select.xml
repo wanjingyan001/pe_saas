@@ -10,7 +10,7 @@
     <ImageView
         android:id="@+id/toolbarBg"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="76dp"
         android:scaleType="centerCrop"
         android:src="@mipmap/bg_credit_toolbar"
         app:layout_constraintTop_toTopOf="parent" />
@@ -18,7 +18,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="@dimen/toolbar_height"
         app:contentInsetEnd="0dp"
         app:contentInsetLeft="0dp"
         app:contentInsetRight="0dp"

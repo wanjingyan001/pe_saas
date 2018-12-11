@@ -37,7 +37,7 @@ class DepartmentControl @JvmOverloads constructor(
                     values.forEach { map ->
                         val treeMap = map as LinkedTreeMap<*, *>
                         beans.add(ApproveValueBean(name = treeMap["name"] as String,
-                                id = treeMap["id"] as String))
+                                id = treeMap["id"] as? Int))
                     }
                     controlBean.value?.clear()
                     controlBean.value?.addAll(beans)

@@ -8,7 +8,7 @@
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-package com.sogukj.pe.module.main.viewModel;
+package com.sogukj.pe.module.main.viewModel
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel

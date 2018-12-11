@@ -62,7 +62,7 @@ class NewOriginProPresenter : BasePresenter {
 
     }
 
-    open fun createProjectBuild(map : HashMap<String,Any>){
+    open fun createProjectBuild(map : HashMap<String,Any?>){
         SoguApi.getService(App.INSTANCE,OtherService::class.java)
                 .createProjectBuild(map)
                 .execute {

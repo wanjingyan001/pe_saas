@@ -146,7 +146,7 @@ class LoginActivity : BaseActivity(), LoginView {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         setIntent(intent)
-        val authorizeCode = intent.getSerializableExtra(Extras.DATA) as AuthorizeCode
+        val authorizeCode = intent.getSerializableExtra(Extras.DATA) as? AuthorizeCode
         if (authorizeCode != null && authorizeCode.errcode == BaseResp.ErrCode.ERR_OK) {
             authorizeCode.unionid.let {
                 sp.edit { putString(Extras.THIRDLOGIN, "ding_$it") }

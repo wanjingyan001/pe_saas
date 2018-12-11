@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.layout_control_fund_seal.view.*
 class FundSealControl @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : BaseControl(context, attrs, defStyleAttr) {
-    var block: ((fundId: String?, projectId: String?) -> Unit)? = null
+    var block: ((fundId: Int?, projectId: Int?) -> Unit)? = null
     override fun getContentResId(): Int = R.layout.layout_control_fund_seal
 
     override fun bindContentView() {

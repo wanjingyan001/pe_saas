@@ -61,7 +61,7 @@ import java.io.FileOutputStream
 import kotlin.properties.Delegates
 
 class ApproveDetailActivity : ToolbarActivity() {
-//    private val kind by extraDelegate(Extras.TYPE, 4)
+    //    private val kind by extraDelegate(Extras.TYPE, 4)
     private val approveId by extraDelegate(Extras.ID, 0)
     private val isMine by extraDelegate(Extras.FLAG, 0)
     private var tid by Delegates.notNull<Int>()//审批模板id
@@ -90,7 +90,7 @@ class ApproveDetailActivity : ToolbarActivity() {
                                 initBasic(it.fixation)
                                 initInfo(it.relax)
                                 initFiles(it.files)
-                                initApprovers(it.flow)
+                                initApprovers(it.flow,it.fixation)
                                 initManager(it.handle)
                                 initCopyPeo(it.copier)
                                 initButtons(it.click)
@@ -104,6 +104,7 @@ class ApproveDetailActivity : ToolbarActivity() {
                     }
                 }
     }
+
 
     /**
      * 头像,申请人,审批编号
@@ -179,7 +180,7 @@ class ApproveDetailActivity : ToolbarActivity() {
     /**
      * 审批人
      */
-    private fun initApprovers(flow: List<Flow>?) {
+    private fun initApprovers(flow: List<Flow>?,fixation: Fixation) {
         flow.isNullOrEmpty().yes {
             part2.setVisible(false)
             return
@@ -202,7 +203,7 @@ class ApproveDetailActivity : ToolbarActivity() {
                         convertView.tv_time.text = flow.approval_time
                         convertView.singLayout.setVisible(flow.sign_img.isNotEmpty())
                         convertView.infoLayout.setVisible(flow.sign_img.isEmpty())
-                        if (flow.status == 3 || flow.status == 5) {
+                        if ((flow.status == 3 || flow.status == 5) && fixation.groupName != "出勤休假") {
                             when (flow.is_edit_file) {
                                 1 -> {
                                     convertView.tv_edit.setVisible(true)
@@ -222,7 +223,8 @@ class ApproveDetailActivity : ToolbarActivity() {
                             convertView.tv_edit.setVisible(false)
                         }
                         convertView.tv_content.setVisible(!flow.content.isNullOrEmpty())
-                        convertView.tv_content.text = Html.fromHtml("意见: <font color='#666666'>${flow.content ?: ""}</font><br/>")
+                        convertView.tv_content.text = Html.fromHtml("意见: <font color='#666666'>${flow.content
+                                ?: ""}</font><br/>")
                         convertView.ll_comments.setVisible(!flow.comment.isNullOrEmpty())
                         flow.sign_img.isNotEmpty().yes {
                             Glide.with(this)
@@ -398,7 +400,7 @@ class ApproveDetailActivity : ToolbarActivity() {
                             operateBtn.text = "确认意见并签字"
                             operateBtn.clickWithTrigger { _ ->
                                 info { btns.jsonStr }
-                                initApproveDialog(btns,true)
+                                initApproveDialog(btns, true)
 
                             }
                         }
@@ -560,7 +562,7 @@ class ApproveDetailActivity : ToolbarActivity() {
     /**
      * 审批dialog(按钮由接口返回,可能是"同意","不同意"等等)
      */
-    private fun initApproveDialog(button: List<Button>,isSignature:Boolean = false) {
+    private fun initApproveDialog(button: List<Button>, isSignature: Boolean = false) {
         val inflate = LayoutInflater.from(this).inflate(R.layout.layout_new_approve_dialog, null)
         val dialog = MaterialDialog.Builder(this)
                 .theme(Theme.LIGHT)
@@ -594,12 +596,12 @@ class ApproveDetailActivity : ToolbarActivity() {
                                         val path = it.data.getStringExtra(Extras.DATA)
                                         Observable.just(path)
                                     }.subscribe { path ->
-                                hideProgress()
-                                fileName.setVisible(true)
-                                deleteFile.setVisible(true)
-                                filePath = path
-                                fileName.text = java.io.File(path).name
-                            }
+                                        hideProgress()
+                                        fileName.setVisible(true)
+                                        deleteFile.setVisible(true)
+                                        filePath = path
+                                        fileName.text = java.io.File(path).name
+                                    }
                         }
                         deleteFile.clickWithTrigger {
                             filePath = null
@@ -626,11 +628,11 @@ class ApproveDetailActivity : ToolbarActivity() {
                         operateBtns.addView(operateBtn)
                         operateBtn.clickWithTrigger { _ ->
                             dialog.dismiss()
-                            if (isSignature){
+                            if (isSignature) {
                                 initSignatureDialog { file ->
-                                    doApprove(type = it.key,content = contentEdt.textStr, file = file)
+                                    doApprove(type = it.key, content = contentEdt.textStr, file = file)
                                 }.show()
-                            }else{
+                            } else {
                                 val file = if (filePath == null) null else java.io.File(filePath)
                                 showConfirmDialog(it, contentEdt.textStr, file = file)
                             }

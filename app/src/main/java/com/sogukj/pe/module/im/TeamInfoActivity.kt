@@ -118,7 +118,7 @@ class TeamInfoActivity : BaseActivity(), View.OnClickListener, SwitchButton.OnCh
                 teamIntroduction.setSelection(teamIntroduction.textStr.length)
             }
         }
-        teamIntroduction.addTextChangedListener(object :TextWatcher{
+        teamIntroduction.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 updateIntroduction()
             }
@@ -457,34 +457,36 @@ class TeamInfoActivity : BaseActivity(), View.OnClickListener, SwitchButton.OnCh
                             accounts.add(it)
                         }
                     }
-                    NIMClient.getService(TeamService::class.java).addMembers(sessionId, accounts)
-                            .setCallback(object : RequestCallback<List<String>> {
-                                override fun onSuccess(p0: List<String>?) {
-                                    if (p0 != null && !p0.isEmpty()) {
-                                        TeamHelper.onMemberTeamNumOverrun(p0, this@TeamInfoActivity)
-                                    } else {
-                                        toast("邀请成功")
-                                        val msg = MessageBuilder.createTipMessage(sessionId, SessionTypeEnum.Team)
-                                        msg.content = "欢迎${newMembers.joinToString { it.name }}加入"
-                                        val config = CustomMessageConfig()
-                                        config.enableUnreadCount = false
-                                        msg.config = config
-                                        NIMClient.getService(MsgService::class.java).sendMessage(msg, false)
+                    if (accounts.isNotEmpty()) {
+                        NIMClient.getService(TeamService::class.java).addMembers(sessionId, accounts)
+                                .setCallback(object : RequestCallback<List<String>> {
+                                    override fun onSuccess(p0: List<String>?) {
+                                        if (p0 != null && !p0.isEmpty()) {
+                                            TeamHelper.onMemberTeamNumOverrun(p0, this@TeamInfoActivity)
+                                        } else {
+                                            toast("邀请成功")
+                                            val msg = MessageBuilder.createTipMessage(sessionId, SessionTypeEnum.Team)
+                                            msg.content = "欢迎${newMembers.joinToString { it.name }}加入"
+                                            val config = CustomMessageConfig()
+                                            config.enableUnreadCount = false
+                                            msg.config = config
+                                            NIMClient.getService(MsgService::class.java).sendMessage(msg, false)
+                                        }
+                                        getTeamMember(team.id)
                                     }
-                                    getTeamMember(team.id)
-                                }
 
-                                override fun onFailed(p0: Int) {
-                                    if (p0 == 408) {
-                                        toast("请检查网络")
-                                    } else {
-                                        toast("邀请失败")
+                                    override fun onFailed(p0: Int) {
+                                        if (p0 == 408) {
+                                            toast("请检查网络")
+                                        } else {
+                                            toast("邀请失败")
+                                        }
                                     }
-                                }
 
-                                override fun onException(p0: Throwable?) {
-                                }
-                            })
+                                    override fun onException(p0: Throwable?) {
+                                    }
+                                })
+                    }
                 }
                 Extras.RESULTCODE2 -> {
                     val newMembers = data.getSerializableExtra(Extras.LIST2) as ArrayList<UserBean>

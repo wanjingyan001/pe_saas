@@ -462,8 +462,8 @@ class MainActivity : BaseActivity() {
             bottomBar.selectTab(0)
         }
         pathByUri = intent!!.getStringExtra("pathByUri")
-        accid = intent!!.getStringExtra("accid")
-        bundle = intent!!.getBundleExtra("bundle")
+        accid = intent.getStringExtra("accid")
+        bundle = intent.getBundleExtra("bundle")
         if (null != bundle) {
             if (bundle!!.getBoolean("formPersonalInfo")) {
                 if (!pathByUri.isNullOrEmpty()) {
