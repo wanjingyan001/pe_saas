@@ -1,145 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/text_30"
     android:layout_marginRight="@dimen/text_30"
-    android:paddingBottom="@dimen/text_10"
-    android:background="@drawable/bg_sentiment_pay"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <TextView
-        android:id="@+id/tv_title1"
+    android:orientation="vertical"
+    android:background="@drawable/bg_sentiment_pay">
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        style="@style/text16_color28"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="@dimen/text_15"
-        android:text="舆情监控已达上限"/>
-
-    <TextView
-        android:id="@+id/tv_title2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title1"
-        android:gravity="center"
-        style="@style/text16_color28"
-        android:text="请购买监控额度"/>
-    
-    <ImageView
-        android:id="@+id/iv_close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:padding="@dimen/text_10"
-        android:layout_marginRight="@dimen/text_5"
-        android:src="@mipmap/ic_pay_close"/>
-    <View
-        android:id="@+id/view1"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/text_1"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title2"
-        android:layout_marginLeft="@dimen/text_15"
-        android:layout_marginRight="@dimen/text_15"
-        android:layout_marginTop="@dimen/text_15"
-        android:background="@color/gray_f1"/>
-
-    <LinearLayout
-        android:id="@+id/ll_buy"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/text_15"
-        android:layout_marginLeft="@dimen/text_15"
-        android:layout_marginRight="@dimen/text_15"
-        app:layout_constraintTop_toBottomOf="@+id/view1"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="9.9元/个/月"
-            android:textColor="@color/red_f85"
-            android:textSize="@dimen/text_size_15"
-            android:gravity="center"
-            android:paddingTop="@dimen/text_25"
-            android:paddingBottom="@dimen/text_25"
-            android:background="@drawable/bg_price_shape"
-            android:layout_weight="1"/>
+        android:layout_height="match_parent">
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1.7"
-            android:paddingLeft="@dimen/text_15"
-            android:paddingRight="@dimen/text_15"
-            android:gravity="center_horizontal"
+            android:paddingBottom="@dimen/text_10"
             android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="购买数量"
-                style="@style/text14_color28"/>
-            <LinearLayout
+            <android.support.constraint.ConstraintLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/text_15"
-                android:layout_marginBottom="@dimen/text_5"
-                android:orientation="horizontal">
-                <FrameLayout
-                    android:id="@+id/fl_subtract"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-                    <TextView
-                        android:id="@+id/tv_subtract"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:background="@drawable/bg_subtract_shape"
-                        android:textSize="@dimen/text_size_14"
-                        android:textColor="@color/black_28"/>
-                    <ImageView
-                        android:layout_width="10dp"
-                        android:layout_height="@dimen/text_2"
-                        android:layout_gravity="center"
-                        android:scaleType="fitXY"
-                        android:src="@mipmap/ic_subtract"/>
-                </FrameLayout>
-
-                <EditText
-                    android:id="@+id/et_count"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
+                android:layout_height="wrap_content"
+                xmlns:app="http://schemas.android.com/apk/res-auto">
+                <TextView
+                    android:id="@+id/tv_title1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:background="@drawable/bg_buy_count"
-                    android:textSize="@dimen/text_size_14"
-                    android:inputType="number"
-                    android:textColor="@color/black_28"
-                    android:text="1"/>
-                <FrameLayout
-                    android:id="@+id/fl_add"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-                    <TextView
-                        android:id="@+id/tv_add"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:textSize="@dimen/text_size_14"
-                        android:textColor="@color/black_28"
-                        android:background="@drawable/bg_add_shape"/>
-                    <ImageView
-                        android:layout_width="@dimen/text_10"
-                        android:layout_height="@dimen/text_10"
-                        android:layout_gravity="center"
-                        android:scaleType="fitXY"
-                        android:src="@mipmap/ic_add"/>
-                </FrameLayout>
+                    style="@style/text16_color28"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="@dimen/text_15"
+                    android:text="舆情监控已达上限"/>
 
-            </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_title2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_title1"
+                    android:gravity="center"
+                    style="@style/text16_color28"
+                    android:text="请购买监控额度"/>
+
+                <ImageView
+                    android:id="@+id/iv_close"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:padding="@dimen/text_10"
+                    android:layout_marginRight="@dimen/text_5"
+                    android:src="@mipmap/ic_pay_close"/>
+                <View
+                    android:id="@+id/view1"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/text_1"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_title2"
+                    android:layout_marginLeft="@dimen/text_15"
+                    android:layout_marginRight="@dimen/text_15"
+                    android:layout_marginTop="@dimen/text_15"
+                    android:background="@color/gray_f1"/>
+
+                <LinearLayout
+                    android:id="@+id/ll_buy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_15"
+                    android:layout_marginLeft="@dimen/text_15"
+                    android:layout_marginRight="@dimen/text_15"
+                    app:layout_constraintTop_toBottomOf="@+id/view1"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="9.9元/个/月"
+                        android:textColor="@color/red_f85"
+                        android:textSize="@dimen/text_size_15"
+                        android:gravity="center"
+                        android:paddingTop="@dimen/text_25"
+                        android:paddingBottom="@dimen/text_25"
+                        android:background="@drawable/bg_price_shape"
+                        android:layout_weight="1"/>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.7"
+                        android:paddingLeft="@dimen/text_15"
+                        android:paddingRight="@dimen/text_15"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="购买数量"
+                            style="@style/text14_color28"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/text_15"
+                            android:layout_marginBottom="@dimen/text_5"
+                            android:orientation="horizontal">
+                            <FrameLayout
+                                android:id="@+id/fl_subtract"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1">
+                                <TextView
+                                    android:id="@+id/tv_subtract"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:background="@drawable/bg_subtract_shape"
+                                    android:textSize="@dimen/text_size_14"
+                                    android:textColor="@color/black_28"/>
+                                <ImageView
+                                    android:layout_width="10dp"
+                                    android:layout_height="@dimen/text_2"
+                                    android:layout_gravity="center"
+                                    android:scaleType="fitXY"
+                                    android:src="@mipmap/ic_subtract"/>
+                            </FrameLayout>
+
+                            <EditText
+                                android:id="@+id/et_count"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="2"
+                                android:gravity="center"
+                                android:background="@drawable/bg_buy_count"
+                                android:textSize="@dimen/text_size_14"
+                                android:inputType="number"
+                                android:textColor="@color/black_28"
+                                android:text="1"/>
+                            <FrameLayout
+                                android:id="@+id/fl_add"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1">
+                                <TextView
+                                    android:id="@+id/tv_add"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:textSize="@dimen/text_size_14"
+                                    android:textColor="@color/black_28"
+                                    android:background="@drawable/bg_add_shape"/>
+                                <ImageView
+                                    android:layout_width="@dimen/text_10"
+                                    android:layout_height="@dimen/text_10"
+                                    android:layout_gravity="center"
+                                    android:scaleType="fitXY"
+                                    android:src="@mipmap/ic_add"/>
+                            </FrameLayout>
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </android.support.constraint.ConstraintLayout>
+
+            <include layout="@layout/pay_dialog_content"/>
         </LinearLayout>
-    </LinearLayout>
-    <include layout="@layout/pay_dialog_content"/>
-</android.support.constraint.ConstraintLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+
+</LinearLayout>

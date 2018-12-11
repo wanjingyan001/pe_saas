@@ -11,7 +11,6 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -88,8 +87,6 @@ class LawSearchFragment : LawSearchBaseFragment(),LawSearchCallBack, TextWatcher
             searchKey = realSearchKey
         }
         XmlDb.open(activity!!).set("realType",realType)
-        Log.e("TAG"," onFragmentVisibleChange -- isVisible ==" + isVisible +
-                "  searchKey ==" + searchKey + "  realType ==" + realType)
         if (isVisible){
             getSearchData()
             searchResultListener()
@@ -160,8 +157,6 @@ class LawSearchFragment : LawSearchBaseFragment(),LawSearchCallBack, TextWatcher
                     Utils.closeInput(activity!!,activity!!.et_search)
                     XmlDb.open(activity!!).set("searchKey",searchKey)
                     val searchType = XmlDb.open(activity!!).get("realType", type)
-                    Log.e("TAG","  searchListener --- searchKey ==" + searchKey + "  searchType ==" + searchType +
-                            "  isFragmentVisible() ==" + isFragmentVisible())
                     getSearchData(searchType)
                 }
                 true
@@ -179,7 +174,6 @@ class LawSearchFragment : LawSearchBaseFragment(),LawSearchCallBack, TextWatcher
             searchKey = activity!!.et_search.textStr
         }
         if (null != presenter){
-            Log.e("TAG","  doRefresh --- searchKey ==" + searchKey + "  realType ==" + realType)
             presenter!!.doLawSearchRequest(searchKey,realType!!,true)
         }
     }
@@ -250,7 +244,7 @@ class LawSearchFragment : LawSearchBaseFragment(),LawSearchCallBack, TextWatcher
             searchData.addAll(it!!)
             resultAdapter.notifyDataSetChanged()
             if (null != tv_total && null != total){
-                tv_total.text = total.toString()
+                tv_total.text = (total as Double).toInt().toString()
             }
         }else{
             if (null != iv_empty){
@@ -317,7 +311,6 @@ class LawSearchFragment : LawSearchBaseFragment(),LawSearchCallBack, TextWatcher
             holder.tv_content.text = "${resultInfo.fwzh}/${resultInfo.sxx}/${resultInfo.fbrq}/${resultInfo.ssrq}"
 
             holder.itemView.setOnClickListener {
-                Log.e("TAG","type ==" + type)
                 var hisInfo = LawCaseHisInfo()
                 var kind = ""
                 when(type){
@@ -348,11 +341,11 @@ class LawSearchFragment : LawSearchBaseFragment(),LawSearchCallBack, TextWatcher
                 }
                 startActivity<LawResultDetailActivity>(Extras.DATA to resultInfo.href, Extras.TITLE to kind)
                 hisInfo.kind = kind
-                hisInfo.title = resultInfo.title
-                hisInfo.hao = resultInfo.fwzh
-                hisInfo.href = resultInfo.href
+                hisInfo.title = if (null == resultInfo.title){""}else{resultInfo.title}
+                hisInfo.hao = if (null == resultInfo.fwzh){""}else{resultInfo.fwzh}
+                hisInfo.href = if (null == resultInfo.href){""}else{resultInfo.href}
                 hisInfo.key_word = searchKey
-                if (resultInfo.fbrq.contains("发")){
+                if (null != resultInfo.fbrq && resultInfo.fbrq.contains("发")){
                     val split = resultInfo.fbrq.split("发")
                     if (null != split && split.size > 1){
                         hisInfo.time = split[0]
