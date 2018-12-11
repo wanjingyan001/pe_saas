@@ -38,7 +38,7 @@ class SelectionActivity : ToolbarActivity() {
     /**
      * 基金项目关联控件中获取项目需要传基金id
      */
-    private val selectedFundId: String? by extraDelegate(Extras.ID)
+    private val selectedFundId: Int? by extraDelegate(Extras.ID)
     private var requestUrl = ""
     private lateinit var listAdapter: RecyclerAdapter<Any>
     /**
@@ -137,7 +137,7 @@ class SelectionActivity : ToolbarActivity() {
     private fun getList() {
         requestUrl.isNotEmpty().yes {
             SoguApi.getService(application, ApproveService::class.java)
-                    .selectionList(requestUrl, fund_id = selectedFundId)
+                    .selectionList(requestUrl, fund_id = selectedFundId.toString())
                     .execute {
                         onNext { payload ->
                             payload.isOk.yes {
@@ -162,7 +162,7 @@ class SelectionActivity : ToolbarActivity() {
                                             it.forEach { city ->
                                                 city.children.forEach { cc ->
                                                     city.addSubItem(cc)
-                                                    if (selectedCities.find { it.name == cc.name } != null) {
+                                                    if (selectedCities.find { it.id == cc.id } != null) {
                                                         cityAdapter.selected.add(cc)
                                                     }
                                                 }

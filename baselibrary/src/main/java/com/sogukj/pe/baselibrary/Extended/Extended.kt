@@ -76,8 +76,18 @@ val EditText.noSpace: String
 val Any?.jsonStr: String
     get() = if (this == null) "" else Gson().toJson(this)
 
-val Any?.jsonOrNull:String?
-    get() = if (this == null) null else Gson().toJson(this)
+val Any?.jsonOrNull: String?
+    get() = if (this == null) null else {
+        if (this is String?) {
+            if (this.isEmpty()){
+                null
+            }else{
+                this
+            }
+        } else {
+            Gson().toJson(this)
+        }
+    }
 
 val TextView.textStr: String
     get() = text.trim().toString().replace(" ", "")

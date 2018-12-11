@@ -36,7 +36,7 @@ data class ApproveValueBean(val name: String,
 data class Approvers(
         var sp: List<Sp>,
         var cs: Cs,
-        var jr: String// 30
+        var jr: String?// 30
 )
 
 data class Sp(

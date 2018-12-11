@@ -743,6 +743,7 @@ class ApproveDetailActivity : ToolbarActivity() {
                     onNext { payload ->
                         payload.isOk.yes {
                             showSuccessToast("审批完成")
+                            getDetail()
                         }.otherWise {
                             showErrorToast(payload.message)
                         }

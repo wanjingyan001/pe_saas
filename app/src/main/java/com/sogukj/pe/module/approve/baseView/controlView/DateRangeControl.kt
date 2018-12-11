@@ -66,7 +66,7 @@ class DateRangeControl @JvmOverloads constructor(
                 it.isNotEmpty().yes {
                     it[0].isNotEmpty().yes {
                         inflate.startTimeTv.text = it[0]
-                        start = Utils.getTime(it[0],formatStr)
+                        start = Utils.getTime(it[0], formatStr)
                         inflate.startTimeTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
                     }.otherWise {
                         inflate.startTimeTv.hint = controlBean.placeholder
@@ -74,7 +74,7 @@ class DateRangeControl @JvmOverloads constructor(
                     }
                     it[1].isNotEmpty().yes {
                         inflate.endTimeTv.text = it[1]
-                        end = Utils.getTime(it[1],formatStr)
+                        end = Utils.getTime(it[1], formatStr)
                         inflate.endTimeTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
                     }.otherWise {
                         inflate.endTimeTv.hint = controlBean.placeholder
@@ -104,7 +104,7 @@ class DateRangeControl @JvmOverloads constructor(
                             showCommonToast("请先选择假期类型")
                             return@clickWithTrigger
                         }.otherWise {
-                            (holiday!!.hours!!.toDouble() <= 0.0).yes {
+                            (holiday!!.status?.toInt() == 1 && holiday!!.hours!!.toDouble() <= 0.0).yes {
                                 showCommonToast("无可用时长")
                                 return@clickWithTrigger
                             }

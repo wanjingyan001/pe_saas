@@ -555,6 +555,7 @@ class ApproveInitiateActivity : ToolbarActivity() {
         override fun onBindViewHolder(holder: CopyHolder, position: Int) {
             if (position == users.size) {
                 holder.header.setImageResource(R.drawable.invalid_name3)
+                holder.header.invalidate()
                 holder.name.text = "添加"
                 holder.remove.setVisible(false)
                 holder.itemView.setOnClickListener { v ->
@@ -562,7 +563,7 @@ class ApproveInitiateActivity : ToolbarActivity() {
                         onItemClick!!(v, position)
                     }
                 }
-            } else {
+            } else if (position < users.size) {
                 val user = users[position]
                 holder.name.text = user.name
                 if (user.url.isEmpty()) {
@@ -573,6 +574,7 @@ class ApproveInitiateActivity : ToolbarActivity() {
                             .load(user.url)
                             .listener(object : RequestListener<Drawable> {
                                 override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                                    holder.header.setImageDrawable(resource)
                                     return false
                                 }
 
@@ -594,6 +596,7 @@ class ApproveInitiateActivity : ToolbarActivity() {
                             approvers.cs.users.removeAt(position)
                             copyPeos.removeAt(position)
                             notifyItemRemoved(position)
+                            notifyDataSetChanged()
                         }
                     }
                 }

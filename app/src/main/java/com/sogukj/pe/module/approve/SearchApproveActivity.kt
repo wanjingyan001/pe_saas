@@ -20,8 +20,10 @@ import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.baselibrary.widgets.SpaceItemDecoration
+import com.sogukj.pe.bean.ApprovalBean
 import com.sogukj.pe.bean.InvestmentEvent
 import com.sogukj.pe.module.approve.baseView.viewBean.ApproveListBean
+import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.ApproveService
 import com.sogukj.service.SoguApi
 import com.zhy.view.flowlayout.FlowLayout
@@ -32,6 +34,7 @@ import kotlinx.android.synthetic.main.item_approval.view.*
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.sdk25.coroutines.textChangedListener
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.textColor
 
 class SearchApproveActivity : BaseActivity() {
@@ -40,6 +43,7 @@ class SearchApproveActivity : BaseActivity() {
     private val historyList = mutableSetOf<String>()
     private var page = 1
     private val kind by extraDelegate(Extras.TYPE, 4)
+    private val mine by lazy { Store.store.getUser(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +56,36 @@ class SearchApproveActivity : BaseActivity() {
             layoutManager = LinearLayoutManager(ctx)
             addItemDecoration(SpaceItemDecoration(dip(10)))
             adapter = searchAdapter
+        }
+        searchAdapter.onItemClick = {v,p->
+            val bean = searchAdapter.dataList[p]
+            when (bean.mark) {
+                "old" -> {
+                    val data = ApprovalBean()
+                    data.add_time = Utils.getTime(bean.add_time, "yyyy/MM/dd")
+                    data.approval_id = bean.approval_id
+                    data.kind = bean.kind
+                    data.name = bean.name
+                    data.status = bean.status
+                    data.status_str = bean.status_str
+                    data.title = bean.title
+                    data.type = bean.type
+                    when {
+                        bean.type == 2 -> SealApproveActivity.start(this, data, if (bean.uid == mine!!.uid) 1 else 2)
+                        bean.type == 3 -> SignApproveActivity.start(this, data, if (bean.uid == mine!!.uid) 1 else 2)
+                        bean.type == 1 -> LeaveBusinessApproveActivity.start(this, data, if (bean.uid == mine!!.uid) 1 else 2)
+                    }
+                }
+                "new" -> {
+                    val isMine = when {
+                        kind == 1 -> 0
+                        bean.uid != mine!!.uid -> 0
+                        else -> 1
+                    }
+                    startActivity<ApproveDetailActivity>(Extras.ID to bean.approval_id,
+                            Extras.FLAG to isMine)
+                }
+            }
         }
         initHistory()
         initRefresh()

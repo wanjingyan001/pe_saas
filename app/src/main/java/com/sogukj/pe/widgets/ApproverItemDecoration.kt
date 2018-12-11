@@ -74,7 +74,8 @@ class ApproverItemDecoration constructor(val context: Context, val sizes: List<I
                 if (list.contains(index)) {
                     val left = view.right + params.rightMargin
                     val fl = ((view.width - header.width) * 2 - bitmap.width) / 2.toFloat()
-                    c.drawBitmap(bitmap, view.right + fl, (header.height - bitmap.height).toFloat(), mPaint)
+                    Log.d("WJY","间距:$fl ===> 位置:${view.right + fl}")
+                    c.drawBitmap(bitmap, view.right + fl - 13.5f, (header.height - bitmap.height).toFloat(), mPaint)
 //                    + Utils.dpToPx(parent.context, 5)
                 }
             }

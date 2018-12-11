@@ -90,10 +90,12 @@ class FundSealControl @JvmOverloads constructor(
             }
             //是否短信通知审批人
             group[5].let {
-                it.is_show!!.yes {
-                    inflate.controlLayout3.addView(getDividerView())
-                    inflate.controlLayout2.addView(factory.createControl(SMSNotification::class.java, it))
-                }
+                inflate.controlLayout3.addView(getDividerView())
+                inflate.controlLayout3.addView(factory.createControl(SMSNotification::class.java, it))
+//                it.is_show!!.yes {
+//                    inflate.controlLayout3.addView(getDividerView())
+//                    inflate.controlLayout2.addView(factory.createControl(SMSNotification::class.java, it))
+//                }
             }
         }
     }
