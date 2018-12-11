@@ -165,10 +165,6 @@ class LawSearchFragment : LawSearchBaseFragment(),LawSearchCallBack, TextWatcher
         }
     }
 
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
-    }
-
     override fun doRefresh() {
         if (null != activity!!.et_search){
             searchKey = activity!!.et_search.textStr
@@ -239,6 +235,9 @@ class LawSearchFragment : LawSearchBaseFragment(),LawSearchCallBack, TextWatcher
             if (null != iv_empty){
                 iv_empty.visibility = View.INVISIBLE
             }
+            if (null != recycler_view){
+                recycler_view.visibility = View.VISIBLE
+            }
             setTotalCountEnable(true)
             searchData.clear()
             searchData.addAll(it!!)
@@ -249,6 +248,9 @@ class LawSearchFragment : LawSearchBaseFragment(),LawSearchCallBack, TextWatcher
         }else{
             if (null != iv_empty){
                 iv_empty.visibility = View.VISIBLE
+            }
+            if (null != recycler_view){
+                recycler_view.visibility = View.INVISIBLE
             }
             setTotalCountEnable(false)
         }
