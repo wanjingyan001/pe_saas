@@ -266,7 +266,7 @@ class ProjectAddActivity : ToolbarActivity() {
     }
 
     private fun doSave() {
-        if (!::data.isLateinit) {
+        if (!::data.isInitialized) {
             showCommonToast("请选择公司名称")
             return
         }
@@ -281,7 +281,7 @@ class ProjectAddActivity : ToolbarActivity() {
         map["creditCode"] = et_credit_code.textStr
         map["company_id"] = null
         map["relate"] = null
-        (::data.isLateinit && data.id != 0L).yes {
+        (::data.isInitialized && data.id != 0L).yes {
             map["tianyan_id"] = data.id
         }
         SoguApi.getService(application, OtherService::class.java)
