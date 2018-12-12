@@ -35,7 +35,6 @@ class GoOutControl @JvmOverloads constructor(
                 it.clear()
                 it.add(selectionType)
                 dateRange.selectionType = selectionType
-
             }
         }
     }
@@ -66,7 +65,7 @@ class GoOutControl @JvmOverloads constructor(
                             val treeMap = map as LinkedTreeMap<*, *>
                             beans.add(ApproveValueBean(name = treeMap["name"] as String,
                                     scal_unit = treeMap["scal_unit"] as String,
-                                    format = treeMap["format"].toString()
+                                    format = treeMap["format"] as? String
                             ))
                         }
                         it[0].value?.clear()

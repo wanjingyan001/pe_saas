@@ -78,13 +78,22 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end|center_vertical"
-                android:visibility="gone"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/iv_sign"
-                    android:layout_width="100dp"
-                    android:layout_height="40dp" />
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="start" />
+
+                <TextView
+                    android:id="@+id/tv_status2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1111"
+                    android:textColor="@color/textColorBlue"
+                    android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>
 

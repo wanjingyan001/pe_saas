@@ -53,7 +53,9 @@ class ApproveGroupActivity : ToolbarActivity(), View.OnClickListener {
         groupAdapter.addHeaderView(header)
         groupAdapter.setOnItemClickListener { _, _, position ->
             val bean = groups[position].t
-            startActivity<ApproveInitiateActivity>(Extras.ID to bean.id, Extras.NAME to bean.name)
+            bean?.let {
+                startActivity<ApproveInitiateActivity>(Extras.ID to bean.id, Extras.NAME to bean.name)
+            }
         }
         getApproveGroup()
     }

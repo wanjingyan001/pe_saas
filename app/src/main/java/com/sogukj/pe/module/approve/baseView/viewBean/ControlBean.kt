@@ -162,7 +162,7 @@ data class SkipBean(
 
 data class OptionBean(val name: String,//选项名
                       val scal_unit: String?, //外出套件时 选项的计时单位
-                      val format: String?//
+                      val format: String? = null//
 )
 
 data class ExtrasBean(val name: String,//可能是大写,当前时间等文字

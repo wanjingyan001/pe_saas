@@ -90,7 +90,7 @@ class ApproveDetailActivity : ToolbarActivity() {
                                 initBasic(it.fixation)
                                 initInfo(it.relax)
                                 initFiles(it.files)
-                                initApprovers(it.flow,it.fixation)
+                                initApprovers(it.flow, it.fixation)
                                 initManager(it.handle)
                                 initCopyPeo(it.copier)
                                 initButtons(it.click)
@@ -180,7 +180,7 @@ class ApproveDetailActivity : ToolbarActivity() {
     /**
      * 审批人
      */
-    private fun initApprovers(flow: List<Flow>?,fixation: Fixation) {
+    private fun initApprovers(flow: List<Flow>?, fixation: Fixation) {
         flow.isNullOrEmpty().yes {
             part2.setVisible(false)
             return
@@ -230,6 +230,7 @@ class ApproveDetailActivity : ToolbarActivity() {
                             Glide.with(this)
                                     .load(flow.sign_img)
                                     .into(convertView.iv_sign)
+                            convertView.tv_status2.text = flow.getStatusStr
                         }
                         flow.comment?.let { com ->
                             convertView.ll_comments.removeAllViews()
@@ -399,9 +400,8 @@ class ApproveDetailActivity : ToolbarActivity() {
                         8 -> {
                             operateBtn.text = "确认意见并签字"
                             operateBtn.clickWithTrigger { _ ->
-                                info { btns.jsonStr }
-                                initApproveDialog(btns, true)
-
+                                //                                initApproveDialog(btns, true)
+                                signatureOperate(btns)
                             }
                         }
                         9 -> {
@@ -642,6 +642,30 @@ class ApproveDetailActivity : ToolbarActivity() {
             }
         }
         dialog.show()
+    }
+
+    private fun signatureOperate(button: List<Button>) {
+        var selected: Button? = null
+        MaterialDialog.Builder(this)
+                .theme(Theme.LIGHT)
+                .items(button.map { it.value })
+                .title("用印意见")
+                .itemsCallbackSingleChoice(-1) { dialog, itemView, which, text ->
+                    selected = button[which]
+                    true
+                }.positiveText("确定").negativeText("取消")
+                .onPositive { dialog, _ ->
+                    dialog.dismiss()
+                    initSignatureDialog { file ->
+                        selected?.let {
+                            doApprove(type = it.key, file = file)
+                        }
+                    }.show()
+                }
+                .onNegative { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
     }
 
 
