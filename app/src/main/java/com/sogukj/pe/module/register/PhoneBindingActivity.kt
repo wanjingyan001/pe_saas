@@ -112,7 +112,7 @@ class PhoneBindingActivity : BaseActivity(), LoginView {
                                                 .onNegative { dialog, which ->
                                                     dialog.dismiss()
                                                     phoneEdt.getEditText().setText("")
-                                                }
+                                                }.show()
                                     }
                                 }
                             }.otherWise {

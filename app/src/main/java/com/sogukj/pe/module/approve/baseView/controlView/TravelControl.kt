@@ -108,9 +108,7 @@ class TravelControl @JvmOverloads constructor(
         @SuppressLint("SetTextI18n")
         override fun convert(helper: BaseViewHolder, item: ControlBean) {
             var itemDays: Pair<Double, String> by Delegates.observable(0.0 to "") { _, oldValue, newValue ->
-                info { "days:$days >>>> new:${newValue.first} >>> old:${oldValue.first}" }
                 days = days + newValue.first - oldValue.first
-                info { "结果:${days.toFloat()}" }
                 inflate.totalDays.text = "${days.toFloat()}${newValue.second} "
                 controlBean.children!![3].value?.let {
                     it.isNotEmpty().yes {
@@ -162,7 +160,6 @@ class TravelControl @JvmOverloads constructor(
             controlBean.children!![1].children?.forEach {
                 it.children!![5].value?.let {
                     if (it.size == 3) {
-                        info { "newTotal:$newTotal   ---  value:${it[2]} -- ${it[2] as Double}" }
                         newTotal += (it[2] as Double)
                     }
                 }

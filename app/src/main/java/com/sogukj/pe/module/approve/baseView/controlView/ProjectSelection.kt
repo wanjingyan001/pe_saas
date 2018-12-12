@@ -14,6 +14,7 @@ import com.sogukj.pe.module.approve.baseView.BaseControl
 import com.sogukj.pe.module.approve.baseView.viewBean.ApproveValueBean
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.layout_control_project_selection.view.*
+import org.jetbrains.anko.info
 
 /**
  * 项目选择
@@ -31,12 +32,13 @@ class ProjectSelection @JvmOverloads constructor(
         hasInit.yes {
             inflate.star.setVisible(isMust)
             inflate.projectSelectionTitle.text = controlBean.name
+            info { controlBean.value.toString() }
             controlBean.value?.let { values ->
                 values.isNotEmpty().yes {
                     val beans = mutableListOf<ApproveValueBean>()
                     values.forEach { map ->
                         val treeMap = map as LinkedTreeMap<*, *>
-                        beans.add(ApproveValueBean(name = treeMap["name"] as String, id = treeMap["id"] as? Int))
+                        beans.add(ApproveValueBean(name = treeMap["name"] as String, id = (treeMap["id"] as? Number)?.toInt()))
                     }
                     controlBean.value?.clear()
                     controlBean.value?.addAll(beans)

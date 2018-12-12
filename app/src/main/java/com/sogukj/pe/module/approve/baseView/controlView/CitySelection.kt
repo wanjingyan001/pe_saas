@@ -44,7 +44,7 @@ class CitySelection @JvmOverloads constructor(
                     values.forEach { map ->
                         val treeMap = map as LinkedTreeMap<*, *>
                         beans.add(ApproveValueBean(name = treeMap["name"] as String,
-                                id = treeMap["id"] as? Int))
+                                id = (treeMap["id"] as? Number)?.toInt()))
                     }
                     controlBean.value?.clear()
                     controlBean.value?.addAll(beans)

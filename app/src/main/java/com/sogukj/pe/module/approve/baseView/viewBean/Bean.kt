@@ -28,7 +28,8 @@ data class ApproveValueBean(val name: String,
                             val status: String? = null,
                             val title: String? = null,
                             val number: String? = null,
-                            val add_time: String? = null) : Serializable
+                            val add_time: String? = null,
+                            val format: String? = null) : Serializable
 
 /**
  * 审批人/抄送人/经办人

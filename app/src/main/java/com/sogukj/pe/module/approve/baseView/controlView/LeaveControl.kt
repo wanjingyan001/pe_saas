@@ -63,8 +63,8 @@ class LeaveControl @JvmOverloads constructor(
                         val beans = mutableListOf<ApproveValueBean>()
                         values.forEach { map ->
                             val treeMap = map as LinkedTreeMap<*, *>
-                            beans.add(ApproveValueBean(name = treeMap["name"] as String,id = treeMap["id"] as? Int,
-                                    hours = treeMap["hours"].toString(),status = treeMap["status"].toString()))
+                            beans.add(ApproveValueBean(name = treeMap["name"] as String, id = (treeMap["id"] as? Number)?.toInt(),
+                                    hours = treeMap["hours"].toString(), status = treeMap["status"].toString()))
                         }
                         it[1].value?.clear()
                         it[1].value?.addAll(beans)
@@ -85,7 +85,6 @@ class LeaveControl @JvmOverloads constructor(
             }
         }
     }
-
 
 
     private fun getHolidaysList() {
