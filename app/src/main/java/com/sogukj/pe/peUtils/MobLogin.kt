@@ -23,8 +23,12 @@ class MobLogin {
     companion object : AnkoLogger {
         const val WeChatID = "wxda5922908a178f1c"
 
-        fun QQLogin(block: (account: String) -> Unit, cancel: (() -> Unit)? = null, fail: (() -> Unit)? = null) {
+        fun QQLogin(context:Context,block: (account: String) -> Unit, cancel: (() -> Unit)? = null, fail: ((code : Int) -> Unit)? = null) {
             val platform = ShareSDK.getPlatform(QQ.NAME)
+            if (!platform.isClientValid){
+                ToastUtil.showWarnToast("请安装最新版QQ",context)
+                return
+            }
             platform.platformActionListener = object : PlatformActionListener {
                 override fun onComplete(p0: Platform, p1: Int, p2: HashMap<String, Any>) {
                     info { "授权成功" }
@@ -40,7 +44,7 @@ class MobLogin {
 
                 override fun onError(p0: Platform, p1: Int, p2: Throwable) {
                     info { "code:$p1  ,error:${p2.message}" }
-                    fail?.invoke()
+                    fail?.invoke(p1)
                 }
 
             }
@@ -53,9 +57,13 @@ class MobLogin {
         }
 
 
-        fun WeChatLogin(block: (account: String) -> Unit, cancel: (() -> Unit)? = null, fail: ((code: Int) -> Unit)? = null) {
+        fun WeChatLogin(context:Context,block: (account: String) -> Unit, cancel: (() -> Unit)? = null, fail: (() -> Unit)? = null) {
             //MobSDK的微信登录
             val wechat = ShareSDK.getPlatform(Wechat.NAME)
+            if (!wechat.isClientValid){
+                ToastUtil.showWarnToast("请安装最新版微信",context)
+                return
+            }
             wechat.platformActionListener = object : PlatformActionListener {
                 override fun onComplete(p0: Platform?, p1: Int, p2: HashMap<String, Any>?) {
                     info { "微信授权成功 : ${wechat.db.get("unionid")}" }
@@ -70,9 +78,9 @@ class MobLogin {
                     cancel?.invoke()
                 }
 
-                override fun onError(p0: Platform?, p1: Int, p2: Throwable?) {
+                override fun onError(p0: Platform?, p1: Int, p2: Throwable) {
                     info { "code:$p1  ,error:${p2?.message}" }
-                    fail?.invoke(p1)
+                    fail?.invoke()
                 }
 
             }

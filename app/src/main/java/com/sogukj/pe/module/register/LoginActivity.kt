@@ -84,21 +84,17 @@ class LoginActivity : BaseActivity(), LoginView {
             }
         }
         QQLogin.clickWithTrigger {
-            MobLogin.QQLogin({
+            MobLogin.QQLogin(this,{
                 sp.edit { putString(Extras.THIRDLOGIN, "qq_$it") }
                 checkThirdBinding("qq", it)
             }, { showCommonToast("已取消QQ登录") }, { showErrorToast("QQ登录失败") })
         }
         WeChatLogin.clickWithTrigger {
-            MobLogin.WeChatLogin({
+            MobLogin.WeChatLogin(this,{
                 sp.edit { putString(Extras.THIRDLOGIN, "wechat_$it") }
                 checkThirdBinding("wechat", it)
-            }, { showCommonToast("已取消微信登录") }, {
-                (it == 1).yes {
-                    showErrorToast("请安装最新版微信")
-                }.otherWise {
-                    showErrorToast("微信登录失败")
-                }
+            }, { showCommonToast("已取消微信登录") },{
+                showErrorToast("微信登录失败")
             })
         }
         DDLogin.clickWithTrigger {
