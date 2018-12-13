@@ -434,10 +434,10 @@ class ApproveDetailActivity : ToolbarActivity() {
     private fun addComment(commentLayout: LinearLayout, hid: Int, data: Comment) {
         val convertView = layoutInflater.inflate(R.layout.item_approve_comment, null)
         commentLayout.addView(convertView)
-        val ivUser = convertView.findViewById<CircleImageView>(R.id.iv_user) as CircleImageView
-        val tvName = convertView.findViewById<TextView>(R.id.tv_name) as TextView
-        val tvTime = convertView.findViewById<TextView>(R.id.tv_time) as TextView
-        val tvComment = convertView.findViewById<TextView>(R.id.tv_comment) as TextView
+        val ivUser = convertView.findViewById(R.id.iv_user) as CircleImageView
+        val tvName = convertView.findViewById(R.id.tv_name) as TextView
+        val tvTime = convertView.findViewById(R.id.tv_time) as TextView
+        val tvComment = convertView.findViewById(R.id.tv_comment) as TextView
         tvName.text = data.name
         tvTime.text = data.add_time
         val buff = StringBuffer()

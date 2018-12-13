@@ -83,6 +83,7 @@ interface InfoService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<List<BonusBean>>>
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Listinformation/Allotmen")
     fun listAllotment(
@@ -92,6 +93,7 @@ interface InfoService {
             , @Field(APPKEY_NAME) appkey: String = APPKEY_VALUE
     ): Observable<Payload<List<AllotmentBean>>>
 
+    @Headers(value = ["Domain-Name: ${Consts.CREDIT_COLLECTION}"])
     @FormUrlEncoded
     @POST("/api/Listinformation/Sgcompanyinfo")
     fun bizinfo(
