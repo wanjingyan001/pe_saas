@@ -70,7 +70,7 @@ class ReimburseControl @JvmOverloads constructor(
                 it.value?.let { totalNum ->
                     totalNum.isNotEmpty().yes {
                         detailAdapter.moneyNum = totalNum[0].toString().toDouble()
-                        inflate.totalAmount.text = totalNum[0] as String
+                        inflate.totalAmount.text = totalNum[0].toString()
                     }.otherWise {
                         inflate.totalAmount.hint = it.placeholder
                     }

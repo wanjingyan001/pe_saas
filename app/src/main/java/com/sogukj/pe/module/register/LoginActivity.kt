@@ -84,21 +84,17 @@ class LoginActivity : BaseActivity(), LoginView {
             }
         }
         QQLogin.clickWithTrigger {
-            MobLogin.QQLogin({
+            MobLogin.QQLogin(this,{
                 sp.edit { putString(Extras.THIRDLOGIN, "qq_$it") }
                 checkThirdBinding("qq", it)
             }, { showCommonToast("已取消QQ登录") }, { showErrorToast("QQ登录失败") })
         }
         WeChatLogin.clickWithTrigger {
-            MobLogin.WeChatLogin({
+            MobLogin.WeChatLogin(this,{
                 sp.edit { putString(Extras.THIRDLOGIN, "wechat_$it") }
                 checkThirdBinding("wechat", it)
-            }, { showCommonToast("已取消微信登录") }, {
-                (it == 1).yes {
-                    showErrorToast("请安装最新版微信")
-                }.otherWise {
-                    showErrorToast("微信登录失败")
-                }
+            }, { showCommonToast("已取消微信登录") },{
+                showErrorToast("微信登录失败")
             })
         }
         DDLogin.clickWithTrigger {
@@ -130,11 +126,11 @@ class LoginActivity : BaseActivity(), LoginView {
 
     override fun onResume() {
         super.onResume()
-        getDingResult()
+//        getDingResult()
     }
 
     private fun getDingResult() {
-        val authorizeCode = intent.getSerializableExtra(Extras.DATA) as? AuthorizeCode
+        val authorizeCode = intent.getSerializableExtra(Extras.DATA) as AuthorizeCode
         if (authorizeCode != null && authorizeCode.errcode == BaseResp.ErrCode.ERR_OK) {
             authorizeCode.unionid.let {
                 sp.edit { putString(Extras.THIRDLOGIN, "ding_$it") }
@@ -143,7 +139,18 @@ class LoginActivity : BaseActivity(), LoginView {
         }
     }
 
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        val authorizeCode = intent.getSerializableExtra(Extras.DATA) as? AuthorizeCode
+        if (authorizeCode != null && authorizeCode.errcode == BaseResp.ErrCode.ERR_OK) {
+            authorizeCode.unionid.let {
+                sp.edit { putString(Extras.THIRDLOGIN, "ding_$it") }
+                checkThirdBinding("ding", it)
+            }
+        }
 
+    }
     /**
      * 网易云信IM登录
      */
@@ -196,6 +203,10 @@ class LoginActivity : BaseActivity(), LoginView {
                         }.otherWise {
                             showErrorToast(payload.message)
                         }
+                    }
+
+                    onError {
+                        it.printStackTrace()
                     }
                 }
     }

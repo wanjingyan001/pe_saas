@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.layout_control_fund_and_project.view.*
 class FAPControl @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : BaseControl(context, attrs, defStyleAttr) {
-    var block: ((fundId: String?, projectId: String?) -> Unit)? = null
+    var block: ((fundId: Int?, projectId: Int?) -> Unit)? = null
     val refresh by lazy { controlBean.is_fresh == true }
 
     override fun getContentResId(): Int = R.layout.layout_control_fund_and_project
@@ -39,7 +39,7 @@ class FAPControl @JvmOverloads constructor(
                     val beans = mutableListOf<ApproveValueBean>()
                     values.forEach { map ->
                         val treeMap = map as LinkedTreeMap<*, *>
-                        beans.add(ApproveValueBean(name = treeMap["name"] as String, id = treeMap["id"] as String))
+                        beans.add(ApproveValueBean(name = treeMap["name"] as String, id = treeMap["id"] as? Int))
                     }
                     controlBean.value?.clear()
                     controlBean.value?.addAll(beans)

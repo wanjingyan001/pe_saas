@@ -32,15 +32,32 @@ class DateRangeControl @JvmOverloads constructor(
 ) : BaseControl(context, attrs, defStyleAttr) {
     private var start: Long = 0
     private var end: Long = 0
-    private var dateRange by Delegates.observable(0L to 0L, { _, _, newValue ->
+    private var dateRange by Delegates.observable(0L to 0L) { _, _, newValue ->
         (newValue.first > 0L && newValue.second > 0L && controlBean.is_scal!!).yes {
             countDuration()
         }
-    })
+    }
     var needAssociate: Int = -1
     var holiday: ApproveValueBean? = null
-    var selectionType: ApproveValueBean? = null
+
+    var selectionType: ApproveValueBean? by Delegates.observable(null as ApproveValueBean?) { _, _, newValue ->
+        newValue?.let {
+            it.format!!.isNotEmpty().yes {
+                formatStr = it.format
+            }
+        }
+    }
+
     var block: ((days: Double, unit: String?) -> Unit)? = null
+    val timeFormat = booleanArrayOf(true, true, true, true, true, true)
+    var formatStr: String by Delegates.observable("") { _, _, newValue ->
+        timeFormat[0] = newValue.contains("yyyy")
+        timeFormat[1] = newValue.contains("MM")
+        timeFormat[2] = newValue.contains("dd")
+        timeFormat[3] = (newValue.contains("HH") || newValue.contains("hh"))
+        timeFormat[4] = newValue.contains("mm")
+        timeFormat[5] = newValue.contains("ss")
+    }
 
     override fun getContentResId(): Int = R.layout.layout_control_date_range
 
@@ -50,23 +67,13 @@ class DateRangeControl @JvmOverloads constructor(
             inflate.startTimeTitle.text = controlBean.name1
             inflate.endTimeTitle.text = controlBean.name2
             inflate.durationTitle.text = controlBean.name3
-            val timeFormat = booleanArrayOf(true, true, true, true, true, true)
-            var formatStr = "yyyy-MM-dd HH:mm:ss"
-            controlBean.format?.let {
-                timeFormat[0] = it.contains("yyyy")
-                timeFormat[1] = it.contains("MM")
-                timeFormat[2] = it.contains("dd")
-                timeFormat[3] = (it.contains("HH") || it.contains("hh"))
-                timeFormat[4] = it.contains("mm")
-                timeFormat[5] = it.contains("ss")
-                formatStr = it
-            }
+            formatStr = controlBean.format ?: "yyyy-MM-dd HH:mm:ss"
             controlBean.value?.let {
                 it as MutableList<String>
                 it.isNotEmpty().yes {
                     it[0].isNotEmpty().yes {
                         inflate.startTimeTv.text = it[0]
-                        start = Utils.getTime(it[0],formatStr)
+                        start = Utils.getTime(it[0], formatStr)
                         inflate.startTimeTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
                     }.otherWise {
                         inflate.startTimeTv.hint = controlBean.placeholder
@@ -74,7 +81,7 @@ class DateRangeControl @JvmOverloads constructor(
                     }
                     it[1].isNotEmpty().yes {
                         inflate.endTimeTv.text = it[1]
-                        end = Utils.getTime(it[1],formatStr)
+                        end = Utils.getTime(it[1], formatStr)
                         inflate.endTimeTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
                     }.otherWise {
                         inflate.endTimeTv.hint = controlBean.placeholder
@@ -104,7 +111,7 @@ class DateRangeControl @JvmOverloads constructor(
                             showCommonToast("请先选择假期类型")
                             return@clickWithTrigger
                         }.otherWise {
-                            (holiday!!.hours!!.toDouble() <= 0.0).yes {
+                            (holiday!!.status?.toInt() == 1 && holiday!!.hours!!.toDouble() <= 0.0).yes {
                                 showCommonToast("无可用时长")
                                 return@clickWithTrigger
                             }
@@ -191,7 +198,7 @@ class DateRangeControl @JvmOverloads constructor(
                     onNext { payload ->
                         payload.isOk.yes {
                             payload.payload?.let { days ->
-                                val unit = when (controlBean.scal_unit!!) {
+                                val unit = when (s_unit) {
                                     "year" -> "年"
                                     "month" -> "月"
                                     "day" -> "天"
@@ -204,7 +211,6 @@ class DateRangeControl @JvmOverloads constructor(
                                 inflate.durationTv.setText(days + unit)
                                 block?.invoke(days.toDouble(), unit)
                                 inflate.durationTv.isClickable = false
-                                info { controlBean.value.jsonStr }
                             }
                         }.otherWise {
                             inflate.durationTv.setText("点击重新计算")

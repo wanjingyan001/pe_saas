@@ -8,7 +8,7 @@
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-package com.sogukj.pe.module.main.adapter;
+package com.sogukj.pe.module.main.adapter
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder

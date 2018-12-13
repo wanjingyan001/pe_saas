@@ -44,7 +44,7 @@ class CitySelection @JvmOverloads constructor(
                     values.forEach { map ->
                         val treeMap = map as LinkedTreeMap<*, *>
                         beans.add(ApproveValueBean(name = treeMap["name"] as String,
-                                id = treeMap["id"] as String))
+                                id = (treeMap["id"] as? Number)?.toInt()))
                     }
                     controlBean.value?.clear()
                     controlBean.value?.addAll(beans)
@@ -67,7 +67,8 @@ class CitySelection @JvmOverloads constructor(
                 AvoidOnResult(activity)
                         .startForResult<SelectionActivity>(Extras.REQUESTCODE,
                                 Extras.TYPE to controlBean.skip!![0].skip_site,
-                                Extras.FLAG to controlBean.is_multiple)
+                                Extras.FLAG to controlBean.is_multiple,
+                                Extras.LIST to controlBean.value)
                         .filter { it.resultCode == Activity.RESULT_OK}
                         .flatMap {
                             val list = it.data.getSerializableExtra(Extras.BEAN) as ArrayList<ApproveValueBean>

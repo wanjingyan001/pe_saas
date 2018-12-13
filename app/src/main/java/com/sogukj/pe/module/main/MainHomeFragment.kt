@@ -2,20 +2,15 @@ package com.sogukj.pe.module.main
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.support.v4.view.PagerAdapter
-import android.support.v4.view.ViewPager
 import android.support.v7.widget.GridLayoutManager
-import android.text.Html
-import android.util.Log
-import android.view.LayoutInflater
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.PagerSnapHelper
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -29,48 +24,33 @@ import com.google.gson.Gson
 import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
-import com.sogukj.pe.baselibrary.Extended.execute
-import com.sogukj.pe.baselibrary.Extended.fromJson
-import com.sogukj.pe.baselibrary.Extended.jsonStr
+import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.BaseFragment
 import com.sogukj.pe.baselibrary.utils.Trace
-import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.MechanismBasicInfo
-import com.sogukj.pe.bean.MessageBean
-import com.sogukj.pe.bean.MessageIndexBean
-import com.sogukj.pe.bean.NewsBean
 import com.sogukj.pe.database.FunctionViewModel
 import com.sogukj.pe.database.Injection
 import com.sogukj.pe.database.MainFunIcon
-import com.sogukj.pe.module.approve.ApproveDetailActivity
-import com.sogukj.pe.module.news.MainNewsActivity
-import com.sogukj.pe.module.news.NewsDetailActivity
-import com.sogukj.pe.module.other.MessageListActivity
+import com.sogukj.pe.module.main.adapter.MainMsgPageAdapter
+import com.sogukj.pe.module.main.adapter.MsgPageScrollListener
 import com.sogukj.pe.module.partyBuild.PartyMainActivity
 import com.sogukj.pe.module.user.UserActivity
 import com.sogukj.pe.peExtended.getEnvironment
-import com.sogukj.pe.peUtils.CacheUtils
 import com.sogukj.pe.peUtils.MyGlideUrl
 import com.sogukj.pe.peUtils.Store
+import com.sogukj.pe.service.ApproveService
 import com.sogukj.pe.service.NewService
 import com.sogukj.pe.service.OtherService
 import com.sogukj.pe.widgets.CircleImageView
 import com.sogukj.service.SoguApi
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_home.*
 import me.leolin.shortcutbadger.ShortcutBadger
 import org.jetbrains.anko.find
-import org.jetbrains.anko.info
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.find
-import org.jetbrains.anko.support.v4.startActivity
 import java.net.UnknownHostException
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 /**
@@ -80,7 +60,11 @@ class MainHomeFragment : BaseFragment() {
     override val containerViewId: Int
         get() = R.layout.fragment_home
 
-    lateinit var moduleAdapter: RecyclerAdapter<MainFunIcon>
+    private lateinit var moduleAdapter: RecyclerAdapter<MainFunIcon>
+    private val msgPageAdapter: MainMsgPageAdapter by lazy {
+        MainMsgPageAdapter(ctx)
+    }
+    var page = 1
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -109,6 +93,17 @@ class MainHomeFragment : BaseFragment() {
         val company = sp.getString(Extras.SAAS_BASIC_DATA, "")
         val detail = Gson().fromJson<MechanismBasicInfo?>(company)
         toolbar_title.text = detail?.mechanism_name ?: "XPE"
+
+        homeMsgPage.apply {
+            layoutManager = LinearLayoutManager(ctx, LinearLayoutManager.HORIZONTAL, false)
+            adapter = msgPageAdapter
+            addOnScrollListener(MsgPageScrollListener {
+                page += 1
+                doRequest()
+            })
+        }
+        PagerSnapHelper().attachToRecyclerView(homeMsgPage)
+
         val factory = Injection.provideViewModelFactory(ctx)
         val model = ViewModelProviders.of(this, factory).get(FunctionViewModel::class.java)
 
@@ -167,60 +162,14 @@ class MainHomeFragment : BaseFragment() {
             val intent = Intent(context, UserActivity::class.java)
             startActivityForResult(intent, 0x789)
         }
-
-        adapter = ViewPagerAdapter(ArrayList(), ctx)
-        noleftviewpager.adapter = adapter
-        noleftviewpager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            // 没划过去 1---2---0
-            // 划过去了 1---2---onPageSelected---0
-            // 划到底   1--—0
-            override fun onPageScrollStateChanged(state: Int) {
-                squence.add("$state")
-                if (state == 0) {
-                    if (squence.size == 3) {
-                        Log.e("没划过去", "没划过去")
-                    } else if (squence.size == 4) {
-                        Log.e("划过去了", "划过去了")
-                    } else if (squence.size == 2) {
-                        Log.e("划到底", "划到底")
-                        page++
-                        doRequest()
-                    }
-                    squence.clear()
-                }
-            }
-
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-            }
-
-            override fun onPageSelected(position: Int) {
-                squence.add("onPageSelected")
-            }
-        })
-        noleftviewpager.isScrollble = false
-
-        cache = CacheUtils(ctx)
         Glide.with(ctx).asGif().load(R.drawable.loading).into(pb)
         pb.visibility = View.VISIBLE
-        //doRequest()
-
         refresh.setOnRefreshListener {
             page = 1
             doRequest()
             refresh.finishRefresh(1000)
         }
         refresh.isEnableAutoLoadMore = false
-    }
-
-    var squence = ArrayList<String>()
-
-    lateinit var adapter: ViewPagerAdapter
-    lateinit var cache: CacheUtils
-    var page = 1
-
-    override fun onDestroy() {
-        super.onDestroy()
-        cache.close()
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
@@ -235,7 +184,7 @@ class MainHomeFragment : BaseFragment() {
 
     fun loadHead() {
         val user = Store.store.getUser(baseActivity!!)
-        var header = toolbar_back.getChildAt(0) as CircleImageView
+        val header = toolbar_back.getChildAt(0) as CircleImageView
         if (user?.url.isNullOrEmpty()) {
             if (!user?.name.isNullOrEmpty()) {
                 val ch = user?.name?.first()
@@ -261,8 +210,6 @@ class MainHomeFragment : BaseFragment() {
                     .into(header)
         }
     }
-
-    lateinit var totalData: ArrayList<Any>
 
     override fun onResume() {
         super.onResume()
@@ -304,228 +251,21 @@ class MainHomeFragment : BaseFragment() {
     }
 
     fun doRequest() {
-        var flag = sp.getInt(Extras.main_flag, 1)
-        if (flag == 1) {
-            doRequestMsgList()
-        } else {
-            doRequestQB()
-        }
+        getMsgPageDatas()
         SoguApi.getService(baseActivity!!.application, OtherService::class.java)
                 .getNumber()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe({ payload ->
-                    if (payload.isOk) {
-                        payload.payload?.apply {
-                            local_sp = sp
-                        }
-                    } else
-                        showCustomToast(R.drawable.icon_toast_fail, payload.message)
-                }, { e ->
-                    Trace.e(e)
-                    ToastError(e)
-                })
-    }
-
-    fun doRequestQB() {
-        iv_empty.visibility = View.GONE
-        noleftviewpager.visibility = View.VISIBLE
-        totalData = ArrayList()
-        var cacheData = cache.getDiskCacheNews("${Store.store.getUser(ctx)?.uid}")
-        if (cacheData != null) {
-            if (page == 1) {
-                if (Utils.isNetworkError(context)) {
-                    adapter.datas.clear()
-                    adapter.datas.addAll(cacheData)
-                    adapter.notifyDataSetChanged()
-
-                    totalData.clear()
-                    totalData.addAll(cacheData)
-                } else {
-                    adapter.datas.clear()
-                    adapter.notifyDataSetChanged()
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk) {
+                            payload.payload?.apply {
+                                local_sp = sp
+                            }
+                        } else
+                            showCustomToast(R.drawable.icon_toast_fail, payload.message)
+                    }
                 }
-            }
-        }
-        SoguApi.getService(baseActivity!!.application, NewService::class.java)
-                .listNews(page = page, type = null)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe({ payload ->
-                    if (payload.isOk) {
-                        payload.payload?.apply {
-                            if (page == 1) {
-                                //adapter.datas.clear()
-                                //重新设置adapter
-                                adapter = ViewPagerAdapter(ArrayList(), ctx)
-                                noleftviewpager.adapter = adapter
-                            }
-                            adapter.datas.addAll(this)
-                            adapter.notifyDataSetChanged()
-
-                            if (this.size == 0) {
-                                iv_empty.visibility = View.VISIBLE
-                                iv_empty.setBackgroundResource(R.drawable.sl)
-                                noleftviewpager.visibility = View.GONE
-                                iv_empty.setOnClickListener {
-                                    iv_empty.visibility = View.GONE
-                                    noleftviewpager.visibility = View.VISIBLE
-                                    page = 1
-                                    doRequest()
-                                }
-                            }
-
-                            if (page == 1) {
-                                cache.addToDiskCacheNews("${Store.store.getUser(ctx)?.uid}", this)
-                                totalData.clear()
-                                totalData.addAll(this)
-                            }
-                        }
-                    } else
-                        showCustomToast(R.drawable.icon_toast_fail, payload.message)
-                    if (null != pb) {
-                        pb.visibility = View.GONE
-                    }
-                }, { e ->
-                    Trace.e(e)
-                    ToastError(e)
-                    if (null != pb) {
-                        pb.visibility = View.GONE
-                    }
-                    if (adapter.datas.size == 0) {
-                        iv_empty.visibility = View.VISIBLE
-                        if (page == 1) {
-                            iv_empty.setBackgroundResource(R.drawable.zw)
-                        } else {
-                            showCustomToast(R.drawable.icon_toast_common, "暂无最新数据")
-                            iv_empty.setBackgroundResource(R.drawable.sl)
-                        }
-                        noleftviewpager.visibility = View.GONE
-                    }
-                    if (e is UnknownHostException) {
-                        iv_empty.visibility = View.VISIBLE
-                        iv_empty.setBackgroundResource(R.drawable.dw)
-                        noleftviewpager.visibility = View.GONE
-                        iv_empty.setOnClickListener {
-                            iv_empty.visibility = View.GONE
-                            noleftviewpager.visibility = View.VISIBLE
-                            page = 1
-                            doRequest()
-                        }
-                    }
-                }, {
-                    if (null != pb) {
-                        pb.visibility = View.GONE
-                    }
-                    if (adapter.datas.size == 0) {
-                        iv_empty.visibility = View.VISIBLE
-                        if (page == 1) {
-                            iv_empty.setBackgroundResource(R.drawable.zw)
-                        } else {
-                            showCustomToast(R.drawable.icon_toast_common, "暂无最新数据")
-                            iv_empty.setBackgroundResource(R.drawable.sl)
-                        }
-                        noleftviewpager.visibility = View.GONE
-                    }
-                })
     }
 
-    fun doRequestMsgList() {
-        iv_empty.visibility = View.GONE
-        noleftviewpager.visibility = View.VISIBLE
-        totalData = ArrayList()
-        var cacheData = cache.getDiskCache("${Store.store.getUser(ctx)?.uid}")
-        if (cacheData != null) {
-            if (page == 1) {
-                if (Utils.isNetworkError(context)) {
-                    adapter.datas.clear()
-                    adapter.datas.addAll(cacheData)
-                    adapter.notifyDataSetChanged()
-
-                    totalData.clear()
-                    totalData.addAll(cacheData)
-                } else {
-                    adapter.datas.clear()
-                    adapter.notifyDataSetChanged()
-                }
-            }
-        }
-        SoguApi.getService(baseActivity!!.application, OtherService::class.java)
-                .msgList(page = page, pageSize = 20, status = 1)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe({ payload ->
-                    if (payload.isOk) {
-                        payload.payload?.apply {
-                            if (page == 1) {
-                                //adapter.datas.clear()
-                                //重新设置adapter
-                                adapter = ViewPagerAdapter(ArrayList(), ctx)
-                                noleftviewpager.adapter = adapter
-                            }
-                            adapter.datas.addAll(this)
-                            adapter.notifyDataSetChanged()
-
-                            if (this.size == 0) {
-                                iv_empty.visibility = View.VISIBLE
-                                iv_empty.setBackgroundResource(R.drawable.sl)
-                                noleftviewpager.visibility = View.GONE
-                                iv_empty.setOnClickListener {
-                                    iv_empty.visibility = View.GONE
-                                    noleftviewpager.visibility = View.VISIBLE
-                                    page = 1
-                                    doRequest()
-                                }
-                            }
-
-                            if (page == 1) {
-                                cache.addToDiskCache("${Store.store.getUser(ctx)?.uid}", this)
-                                totalData.clear()
-                                totalData.addAll(this)
-                            }
-                        }
-                    } else
-                        showCustomToast(R.drawable.icon_toast_fail, payload.message)
-                    pb.visibility = View.GONE
-                }, { e ->
-                    Trace.e(e)
-                    ToastError(e)
-                    pb.visibility = View.GONE
-                    if (adapter.datas.size == 0) {
-                        iv_empty.visibility = View.VISIBLE
-                        if (page == 1) {
-                            iv_empty.setBackgroundResource(R.drawable.zw)
-                        } else {
-                            showCustomToast(R.drawable.icon_toast_common, "暂无最新数据")
-                            iv_empty.setBackgroundResource(R.drawable.sl)
-                        }
-                        noleftviewpager.visibility = View.GONE
-                    }
-                    if (e is UnknownHostException) {
-                        iv_empty.visibility = View.VISIBLE
-                        iv_empty.setBackgroundResource(R.drawable.dw)
-                        noleftviewpager.visibility = View.GONE
-                        iv_empty.setOnClickListener {
-                            iv_empty.visibility = View.GONE
-                            noleftviewpager.visibility = View.VISIBLE
-                            page = 1
-                            doRequest()
-                        }
-                    }
-                }, {
-                    pb.visibility = View.GONE
-                    if (adapter.datas.size == 0) {
-                        iv_empty.visibility = View.VISIBLE
-                        if (page == 1) {
-                            iv_empty.setBackgroundResource(R.drawable.zw)
-                        } else {
-                            showCustomToast(R.drawable.icon_toast_common, "暂无最新数据")
-                            iv_empty.setBackgroundResource(R.drawable.sl)
-                        }
-                        noleftviewpager.visibility = View.GONE
-                    }
-                })
-    }
 
     var local_sp: Int? = null
 
@@ -549,218 +289,100 @@ class MainHomeFragment : BaseFragment() {
 
     var SHENPI = 0x500
 
-    inner class ViewPagerAdapter(var datas: ArrayList<Any>, private val mContext: Context) : PagerAdapter() {
 
-        private var mViewCache: LinkedList<View>? = null
-
-        private var mLayoutInflater: LayoutInflater? = null
-
-
-        init {
-            this.mLayoutInflater = LayoutInflater.from(mContext)
-            this.mViewCache = LinkedList()
+    // 根据情况请求审批或舆情接口
+    private fun getMsgPageDatas() {
+        val flag = sp.getInt(Extras.main_flag, 1)
+//        val flag = 1
+        if (flag == 1) {
+            //获取审批列表
+            SoguApi.getService(ctx, ApproveService::class.java).getApproveList(1, page)
+                    .execute {
+                        onNext {
+                            it.isOk.yes {
+                                it.payload?.let {
+                                    if (page == 1) {
+                                        msgPageAdapter.dataList.clear()
+                                    }
+                                    msgPageAdapter.refreshData(it.data)
+                                }
+                            }.otherWise {
+                                showErrorToast(it.message)
+                            }
+                        }
+                        onError { e ->
+                            getMsgPageDataError(e)
+                        }
+                        onComplete {
+                            getMsgPageDataComplete()
+                        }
+                    }
+        } else {
+            //获取舆情
+            SoguApi.getService(ctx, NewService::class.java).listNews(page = page, type = 0)
+                    .execute {
+                        onNext {
+                            it.isOk.yes {
+                                it.payload?.let {
+                                    if (page == 1) {
+                                        msgPageAdapter.dataList.clear()
+                                    }
+                                    msgPageAdapter.refreshData(it)
+                                }
+                            }.otherWise {
+                                showErrorToast(it.message)
+                            }
+                        }
+                        onError { e ->
+                            getMsgPageDataError(e)
+                        }
+                        onComplete {
+                            getMsgPageDataComplete()
+                        }
+                    }
         }
+    }
 
-        override fun notifyDataSetChanged() {
-            super.notifyDataSetChanged()
+    private fun getMsgPageDataComplete() {
+        if (null != pb) {
+            pb.visibility = View.GONE
         }
-
-        override fun getCount(): Int {
-            return this.datas!!.size
-        }
-
-        override fun getItemPosition(`object`: Any): Int {
-            return super.getItemPosition(`object`)
-        }
-
-        override fun instantiateItem(container: ViewGroup, position: Int): Any {
-            var holder: ViewHolder? = null
-            var convertView: View? = null
-            if (mViewCache!!.size == 0) {
-                convertView = mLayoutInflater!!.inflate(R.layout.item_msg_content_main, null, false)
-                holder = ViewHolder()
-                holder.tvTitle = convertView.findViewById<TextView>(R.id.tv_title) as TextView
-                holder.tvSeq = convertView.findViewById<TextView>(R.id.sequense) as TextView
-                holder.tvNum = convertView.findViewById<TextView>(R.id.tv_num) as TextView
-                holder.tvState = convertView.findViewById<TextView>(R.id.tv_state) as TextView
-                holder.tvFrom = convertView.findViewById<TextView>(R.id.tv_from) as TextView
-                holder.tvType = convertView.findViewById<TextView>(R.id.tv_type) as TextView
-                holder.tvMsg = convertView.findViewById<TextView>(R.id.tv_msg) as TextView
-                holder.tvUrgent = convertView.findViewById<TextView>(R.id.tv_urgent) as TextView
-                holder.ll_content = convertView.findViewById<LinearLayout>(R.id.ll_content) as LinearLayout
-                holder.tvMore = convertView.findViewById<TextView>(R.id.more) as TextView
-
-                convertView.tag = holder
+        if (msgPageAdapter.dataList.size == 0) {
+            iv_empty.visibility = View.VISIBLE
+            if (page == 1) {
+                iv_empty.setBackgroundResource(R.drawable.zw)
             } else {
-                convertView = mViewCache!!.removeFirst()
-                holder = convertView!!.tag as ViewHolder
+                showCustomToast(R.drawable.icon_toast_common, "暂无最新数据")
+                iv_empty.setBackgroundResource(R.drawable.sl)
             }
+            homeMsgPage.visibility = View.GONE
+        }
+    }
 
-            var data = datas!![position]
-            if (data is MessageBean) {
-                val strType = when (data.type) {
-                    1 -> "出勤休假"
-                    2 -> "用印审批"
-                    3 -> "签字审批"
-                    else -> ""
-                }
-                //ColorUtil.setColorStatus(holder.tvState!!, data)
-                holder.tvState!!.text = data.status_str
-                try {
-                    holder.tvTitle?.text = strType
-                    holder.tvSeq?.text = data.title
-                } catch (e: Exception) {
-                }
-                holder.tvFrom?.text = "发起人:" + data.username
-                holder.tvType?.text = "类型:" + data.type_name
-                holder.tvMsg?.text = "审批事由:" + data.reasons
-                val cnt = data.message_count
-                holder.tvNum?.text = "${cnt}"
-                if (cnt != null && cnt > 0)
-                    holder.tvNum?.visibility = View.VISIBLE
-                else
-                    holder.tvNum?.visibility = View.GONE
-                val urgnet = data.urgent_count
-                holder.tvUrgent?.text = "加急x${urgnet}"
-                if (urgnet != null && urgnet > 0)
-                    holder.tvUrgent?.visibility = View.VISIBLE
-                else
-                    holder.tvUrgent?.visibility = View.GONE
-
-                holder.tvMore?.setOnClickListener {
-                    var bean = MessageIndexBean()
-                    bean.flag = 1
-                    MessageListActivity.start(baseActivity, bean)
-                }
-                holder.ll_content?.setOnClickListener {
-                    val isMine = if (data.status == -1 || data.status == 4) 1 else 0
-                    startActivity<ApproveDetailActivity>(Extras.ID to data.approval_id!!,
-                            Extras.FLAG to isMine)
-//                    if (data.type == 2) {
-//                        //SealApproveActivity.start(context, data, isMine)
-//                        val intent = Intent(context, SealApproveActivity::class.java)
-//                        intent.putExtra("isMine", isMine)
-//                        intent.putExtra(Extras.DATA, data)
-//                        startActivityForResult(intent, SHENPI)
-//                    } else if (data.type == 3) {
-//                        //SignApproveActivity.start(context, data, isMine)
-//                        val intent = Intent(context, SignApproveActivity::class.java)
-//                        intent.putExtra(Extras.DATA, data)
-//                        intent.putExtra("isMine", isMine)
-//                        startActivityForResult(intent, SHENPI)
-//                    } else if (data.type == 1) {
-//                        val intent = Intent(context, LeaveBusinessApproveActivity::class.java)
-//                        intent.putExtra(Extras.DATA, data)
-//                        intent.putExtra("isMine", isMine)
-//                        startActivityForResult(intent, SHENPI)
-//                    }
-                }
-
-                container.addView(convertView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-            } else if (data is NewsBean) {
-                holder.tvTitle?.text = "舆情"
-                holder.tvNum?.visibility = View.GONE
-
-                holder.tvSeq?.text = data.company
-                if (data.company.isNullOrEmpty()) {
-                    holder.tvSeq?.visibility = View.GONE
-                } else {
-                    holder.tvSeq?.visibility = View.VISIBLE
-                }
-
-//                if (data.tag.isNullOrEmpty()) {
-//                    holder.tvState!!.visibility = View.GONE
-//                } else {
-//                    holder.tvState?.text = data.tag?.split("#")?.get(1)
-//                }
-                holder.tvUrgent?.visibility = View.GONE
-                holder.tvFrom?.text = data.source
-                if (data.source.isNullOrEmpty()) {
-                    holder.tvFrom?.visibility = View.GONE
-                } else {
-                    holder.tvFrom?.visibility = View.VISIBLE
-                }
-                holder.tvType?.text = data.time
-                holder.tvMsg?.text = Html.fromHtml(data.title)
-
-
-                holder.tvMore?.setOnClickListener {
-                    MainNewsActivity.start(baseActivity)
-                }
-                holder.ll_content?.setOnClickListener {
-                    NewsDetailActivity.start(baseActivity, data)
-                }
-
-                if (data.table_id == 1) {
-                    holder.tvState?.visibility = View.VISIBLE
-                    holder.tvState?.text = "法律诉讼"
-                } else if (data.table_id == 2) {
-                    holder.tvState?.visibility = View.VISIBLE
-                    holder.tvState?.text = "法院公告"
-                } else if (data.table_id == 3) {
-                    holder.tvState?.visibility = View.VISIBLE
-                    holder.tvState?.text = "失信人"
-                } else if (data.table_id == 4) {
-                    holder.tvState?.visibility = View.VISIBLE
-                    holder.tvState?.text = "被执行人"
-                } else if (data.table_id == 5) {
-                    holder.tvState?.visibility = View.VISIBLE
-                    holder.tvState?.text = "行政处罚"
-                } else if (data.table_id == 6) {
-                    holder.tvState?.visibility = View.VISIBLE
-                    holder.tvState?.text = "严重违法"
-                } else if (data.table_id == 7) {
-                    holder.tvState?.visibility = View.VISIBLE
-                    holder.tvState?.text = "股权出质"
-                } else if (data.table_id == 8) {
-                    holder.tvState?.visibility = View.VISIBLE
-                    holder.tvState?.text = "动产抵押"
-                } else if (data.table_id == 9) {
-                    holder.tvState?.visibility = View.VISIBLE
-                    holder.tvState?.text = "欠税公告"
-                } else if (data.table_id == 10) {
-                    holder.tvState?.visibility = View.VISIBLE
-                    holder.tvState?.text = "经营异常"
-                } else if (data.table_id == 11) {
-                    holder.tvState?.visibility = View.VISIBLE
-                    holder.tvState?.text = "开庭公告"
-                } else if (data.table_id == 12) {
-                    holder.tvState?.visibility = View.VISIBLE
-                    holder.tvState?.text = "司法拍卖"
-                } else if (data.table_id == 13) {
-                    holder.tvState?.visibility = View.VISIBLE
-                    holder.tvState?.text = "新闻舆情"
-                } else {
-                    holder.tvState?.visibility = View.GONE
-                }
-
-                container.addView(convertView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+    private fun getMsgPageDataError(e: Throwable) {
+        Trace.e(e)
+        ToastError(e)
+        pb.visibility = View.GONE
+        if (msgPageAdapter.dataList.size == 0) {
+            iv_empty.visibility = View.VISIBLE
+            if (page == 1) {
+                iv_empty.setBackgroundResource(R.drawable.zw)
+            } else {
+                showCustomToast(R.drawable.icon_toast_common, "暂无最新数据")
+                iv_empty.setBackgroundResource(R.drawable.sl)
             }
-
-            return convertView
+            homeMsgPage.visibility = View.GONE
         }
-
-        override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-            val contentView = `object` as View
-            container.removeView(contentView)
-            this.mViewCache!!.add(contentView)
-        }
-
-        override fun isViewFromObject(view: View, o: Any): Boolean {
-            return view === o
-        }
-
-        inner class ViewHolder {
-            var tvTitle: TextView? = null
-            var tvSeq: TextView? = null
-            var tvNum: TextView? = null
-            var tvState: TextView? = null
-            var tvFrom: TextView? = null
-            var tvType: TextView? = null
-            var tvMsg: TextView? = null
-            var tvUrgent: TextView? = null
-            var ll_content: LinearLayout? = null
-            var tvMore: TextView? = null
+        if (e is UnknownHostException) {
+            iv_empty.visibility = View.VISIBLE
+            iv_empty.setBackgroundResource(R.drawable.dw)
+            homeMsgPage.visibility = View.GONE
+            iv_empty.setOnClickListener {
+                iv_empty.visibility = View.GONE
+                homeMsgPage.visibility = View.VISIBLE
+                page = 1
+                doRequest()
+            }
         }
     }
 }

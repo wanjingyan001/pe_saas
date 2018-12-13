@@ -3,6 +3,7 @@ package com.sogukj.pe.module.dataSource.lawcase
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.text.Html
 import android.view.View
 import android.webkit.WebSettings
 import android.widget.TextView
@@ -16,7 +17,6 @@ import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.bean.LawNewsDetailBean
 import com.sogukj.pe.service.DataSourceService
-import com.sogukj.pe.service.OtherService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_law_detail.*
 import kotlinx.android.synthetic.main.white_back_toolbar.*
@@ -129,7 +129,7 @@ class LawResultDetailActivity : ToolbarActivity() {
     private fun fitContentData(tags: List<String>) {
         for (title in tags){
             val tag = View.inflate(this, R.layout.law_tag_item, null) as TextView
-            tag.text = title
+            tag.text = Html.fromHtml(title)
             ll_content.addView(tag)
         }
     }

@@ -8,7 +8,7 @@ import java.io.Serializable
  */
 data class SystemPushBean(
         var id: Int,// 8
-        var type: Int,//  201 任务或会议  202 日程   203 任务  204    用印审批   205 周报
+        var type: Int,//  201 会议  202 日程   203 任务  204    用印审批   205 周报
         var title: String,// 好好好
         var name: String,// 黄成涛
         var week_id: String? = null,//

@@ -1,6 +1,5 @@
 package com.sogukj.pe.module.creditCollection
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Button
@@ -73,7 +72,7 @@ class HundredSearchActivity : ToolbarActivity() {
 
     private fun doSearch() {
         SoguApi.getService(application, CreditService::class.java)
-                .HundredCredit(nameEdt.textStr, idCardEdt.textStr, phoneEdt.textStr)
+                .HundredCredit(nameEdt.textStr, idCardEdt.textStr, phoneEdt.textStr,pid)
                 .execute {
                     onNext { payload ->
                         payload.isOk.yes {

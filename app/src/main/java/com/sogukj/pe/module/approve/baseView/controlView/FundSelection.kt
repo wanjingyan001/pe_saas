@@ -36,7 +36,7 @@ class FundSelection @JvmOverloads constructor(
                     val beans = mutableListOf<ApproveValueBean>()
                     values.forEach { map ->
                         val treeMap = map as LinkedTreeMap<*, *>
-                        beans.add(ApproveValueBean(name = treeMap["name"] as String, id = treeMap["id"] as String))
+                        beans.add(ApproveValueBean(name = treeMap["name"] as String, id = (treeMap["id"] as? Number)?.toInt()))
                     }
                     controlBean.value?.clear()
                     controlBean.value?.addAll(beans)
@@ -56,13 +56,13 @@ class FundSelection @JvmOverloads constructor(
                             val extra = it.data.getSerializableExtra(Extras.BEAN)
                             Observable.just(extra as ApproveValueBean)
                         }.subscribe {
-                    controlBean.value?.clear()
-                    controlBean.value?.add(it)
-                    inflate.fundTv.text = it.name
-                    if (block != null && refresh) {
-                        block?.invoke(it)
-                    }
-                }
+                            controlBean.value?.clear()
+                            controlBean.value?.add(it)
+                            inflate.fundTv.text = it.name
+                            if (block != null && refresh) {
+                                block?.invoke(it)
+                            }
+                        }
             }
         }
     }

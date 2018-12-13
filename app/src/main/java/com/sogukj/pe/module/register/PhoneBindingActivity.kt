@@ -2,7 +2,12 @@ package com.sogukj.pe.module.register
 
 import android.os.Bundle
 import android.os.Handler
+import android.preference.PreferenceManager
 import androidx.core.content.edit
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.Theme
+import com.amap.api.mapcore.util.it
+import com.google.gson.internal.LinkedTreeMap
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.netease.nim.uikit.api.NimUIKit
 import com.netease.nimlib.sdk.RequestCallback
@@ -24,6 +29,9 @@ import com.sogukj.pe.module.register.presenter.LoginPresenter
 import com.sogukj.pe.module.register.presenter.LoginView
 import com.sogukj.pe.peUtils.LoginTimer
 import com.sogukj.pe.peUtils.Store
+import com.sogukj.pe.peUtils.ToastUtil
+import com.sogukj.pe.service.RegisterService
+import com.sogukj.service.SoguApi
 import com.tencent.bugly.crashreport.CrashReport
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_phone_binding.*
@@ -52,7 +60,7 @@ class PhoneBindingActivity : BaseActivity(), LoginView {
         }
         mGetCode.clickWithTrigger {
             if (Utils.isMobileExact(phoneEdt.getInput())) {
-                loginPresenter.sendPhoneInput(phoneEdt.getInput())
+                hasBanded(phoneEdt.getInput())
             } else {
                 showErrorToast("手机号格式有误")
             }
@@ -68,6 +76,50 @@ class PhoneBindingActivity : BaseActivity(), LoginView {
             it.no {
                 loginPresenter.verificationCode(phoneEdt.getInput(), mVerCodeInput.textStr)
             }
+        }
+    }
+
+
+    private fun hasBanded(phone: String) {
+        val sp = PreferenceManager.getDefaultSharedPreferences(application)
+        var source = ""
+        sp.getString(Extras.THIRDLOGIN, "").apply {
+            isNotEmpty().yes {
+                source = split("_")[0]
+            }
+        }
+        source.isNotEmpty().yes {
+            SoguApi.getService(application, RegisterService::class.java)
+                    .hasBanded(source, phone)
+                    .execute {
+                        onNext { payload ->
+                            payload.isOk.yes {
+                                payload.payload?.let {
+                                    it as LinkedTreeMap<*, *>
+                                    val hasBand = it["band"] as Number //1表示已绑定  0  表示未绑定
+                                    if (hasBand.toInt() == 0) {
+                                        loginPresenter.sendPhoneInput(phoneEdt.getInput())
+                                    } else {
+                                        MaterialDialog.Builder(this@PhoneBindingActivity)
+                                                .theme(Theme.LIGHT)
+                                                .content("该手机号已绑定过第三方账号,是否解绑并重新绑定")
+                                                .positiveText("确定")
+                                                .negativeText("取消")
+                                                .onPositive { dialog, which ->
+                                                    dialog.dismiss()
+                                                    loginPresenter.sendPhoneInput(phoneEdt.getInput())
+                                                }
+                                                .onNegative { dialog, which ->
+                                                    dialog.dismiss()
+                                                    phoneEdt.getEditText().setText("")
+                                                }.show()
+                                    }
+                                }
+                            }.otherWise {
+                                showErrorToast(payload.message)
+                            }
+                        }
+                    }
         }
     }
 

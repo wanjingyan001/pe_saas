@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusableInTouchMode="true"
-    android:focusable="true"
     android:background="@color/white"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
@@ -93,12 +94,21 @@
                     android:layout_marginTop="5dp"
                     android:clipChildren="false">
 
-                    <com.sogukj.pe.baselibrary.widgets.NoLeftScrollViewPager
-                        android:id="@+id/noleftviewpager"
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/homeMsgPage"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp" />
+                        android:orientation="horizontal"
+                        app:layoutManager="android.support.v7.widget.LinearLayoutManager">
+
+                    </android.support.v7.widget.RecyclerView>
+                    <!--<com.sogukj.pe.baselibrary.widgets.NoLeftScrollViewPager-->
+                    <!--android:id="@+id/noleftviewpager"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_marginLeft="10dp"-->
+                    <!--android:layout_marginRight="10dp" />-->
 
                     <ImageView
                         android:id="@+id/iv_empty"
@@ -121,9 +131,9 @@
 
                 <ViewStub
                     android:id="@+id/partyLayout"
-                    android:layout="@layout/layout_main_home_party_build"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout="@layout/layout_main_home_party_build" />
 
                 <ViewStub
                     android:id="@+id/modulesLayout"
@@ -141,14 +151,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="20dp"
+                    android:layout_marginBottom="12dp"
                     android:text="常用应用"
-                    android:visibility="gone"
                     android:textColor="@color/text_1"
                     android:textSize="@dimen/text_size_normal"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone" />
 
 
                 <android.support.v7.widget.RecyclerView
@@ -156,8 +166,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
                     android:layout_marginTop="5dp"
+                    android:layout_marginRight="20dp"
                     android:nestedScrollingEnabled="false">
 
                 </android.support.v7.widget.RecyclerView>

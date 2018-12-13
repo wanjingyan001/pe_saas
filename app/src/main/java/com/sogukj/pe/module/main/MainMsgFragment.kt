@@ -98,7 +98,7 @@ class MainMsgFragment : BaseFragment() {
         val user = Store.store.getUser(baseActivity!!)
         if (user?.url.isNullOrEmpty()) {
             if (null != user?.name){
-                val ch = user?.name?.first()
+                val ch = user.name.first()
                 header.setChar(ch)
             }
         } else {

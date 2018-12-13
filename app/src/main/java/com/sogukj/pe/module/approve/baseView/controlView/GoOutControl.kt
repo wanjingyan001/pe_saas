@@ -28,15 +28,16 @@ import kotlin.properties.Delegates
 class GoOutControl @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : BaseControl(context, attrs, defStyleAttr) {
-    private var selectionType: ApproveValueBean by Delegates.observable(ApproveValueBean(name = "", scal_unit = ""), { property, oldValue, newValue ->
-           newValue.name.isNotEmpty().yes {
-               controlBean.children!![0].value?.let {
-                   it.clear()
-                   it.add(selectionType)
-                   dateRange.selectionType = selectionType
-               }
-           }
-    })
+    private var selectionType: ApproveValueBean by Delegates.observable(ApproveValueBean(name = "", scal_unit = "",format = "yyyy-MM-dd HH:mm:ss"))
+    { _, _, newValue ->
+        newValue.name.isNotEmpty().yes {
+            controlBean.children!![0].value?.let {
+                it.clear()
+                it.add(selectionType)
+                dateRange.selectionType = selectionType
+            }
+        }
+    }
     private lateinit var dateRange: DateRangeControl
 
     override fun getContentResId(): Int = R.layout.layout_control_go_out
@@ -62,7 +63,10 @@ class GoOutControl @JvmOverloads constructor(
                         val beans = mutableListOf<ApproveValueBean>()
                         values.forEach { map ->
                             val treeMap = map as LinkedTreeMap<*, *>
-                            beans.add(ApproveValueBean(name = treeMap["name"] as String, scal_unit = treeMap["scal_unit"] as String))
+                            beans.add(ApproveValueBean(name = treeMap["name"] as String,
+                                    scal_unit = treeMap["scal_unit"] as String,
+                                    format = treeMap["format"] as? String
+                            ))
                         }
                         it[0].value?.clear()
                         it[0].value?.addAll(beans)
@@ -79,8 +83,11 @@ class GoOutControl @JvmOverloads constructor(
                         MaterialDialog.Builder(activity)
                                 .theme(Theme.LIGHT)
                                 .items(opt.map { it.name })
-                                .itemsCallbackSingleChoice(opt.map { it.name }.indexOf(inflate.goOutTv.text)) { dialog, itemView, which, text ->
-                                    selectionType =ApproveValueBean(name = opt[which].name,scal_unit = opt[which].scal_unit)
+                                .itemsCallbackSingleChoice(opt.map { it.name }.indexOf(inflate.goOutTv.text))
+                                { dialog, itemView, which, text ->
+                                    selectionType = ApproveValueBean(name = opt[which].name,
+                                            scal_unit = opt[which].scal_unit,
+                                            format = opt[which].format)
                                     inflate.goOutTv.text = opt[which].name
                                     true
                                 }

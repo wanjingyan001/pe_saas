@@ -183,8 +183,8 @@ class FileDynamicActivity : BaseRefreshActivity(){
             tv_title.text = title
             if (!data.user_head.isNullOrEmpty()){
                 Glide.with(this@FileDynamicActivity).load(data.user_head).apply(RequestOptions.circleCropTransform()
-                        .placeholder(R.mipmap.banner_ht)
-                        .error(R.mipmap.banner_ht)).into(iv_user)
+                        .placeholder(R.mipmap.ic_launch_pe_round)
+                        .error(R.mipmap.ic_launch_pe_round)).into(iv_user)
             }
         }
 

@@ -161,7 +161,8 @@ data class SkipBean(
         val skip_site: String)
 
 data class OptionBean(val name: String,//选项名
-                      val scal_unit: String? //外出套件时 选项的计时单位
+                      val scal_unit: String?, //外出套件时 选项的计时单位
+                      val format: String? = null//
 )
 
 data class ExtrasBean(val name: String,//可能是大写,当前时间等文字
@@ -170,7 +171,7 @@ data class ExtrasBean(val name: String,//可能是大写,当前时间等文字
 
 fun ControlBean.copyWithoutValue(isDelete: Boolean? = false): ControlBean {
     var newChild: MutableList<ControlBean>? = null
-        (this.children == null || this.children.isEmpty()).yes {
+    (this.children == null || this.children.isEmpty()).yes {
         newChild = null
     }.otherWise {
         newChild = mutableListOf()

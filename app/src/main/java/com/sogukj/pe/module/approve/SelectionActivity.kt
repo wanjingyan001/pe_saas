@@ -8,7 +8,6 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.ImageView
-import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
@@ -39,7 +38,7 @@ class SelectionActivity : ToolbarActivity() {
     /**
      * 基金项目关联控件中获取项目需要传基金id
      */
-    private val selectedFundId: String? by extraDelegate(Extras.ID)
+    private val selectedFundId: Int? by extraDelegate(Extras.ID)
     private var requestUrl = ""
     private lateinit var listAdapter: RecyclerAdapter<Any>
     /**
@@ -53,6 +52,9 @@ class SelectionActivity : ToolbarActivity() {
      */
     private lateinit var userAdapter: UserAdapter
     private val users by lazy { mutableListOf<MultiItemEntity>() }
+    private lateinit var selectedUsers: MutableList<ApproveValueBean>
+    private lateinit var selectedCities: MutableList<ApproveValueBean>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_selection)
@@ -61,6 +63,7 @@ class SelectionActivity : ToolbarActivity() {
             7 -> {
                 title = "请选择城市"
                 cityAdapter = CityAdapter(citys)
+                selectedCities = intent.getSerializableExtra(Extras.LIST) as MutableList<ApproveValueBean>
                 recyclerList.apply {
                     layoutManager = LinearLayoutManager(ctx)
                     adapter = cityAdapter
@@ -71,6 +74,8 @@ class SelectionActivity : ToolbarActivity() {
             9 -> {
                 title = "请选择成员"
                 userAdapter = UserAdapter(users)
+                selectedUsers = intent.getSerializableExtra(Extras.LIST) as MutableList<ApproveValueBean>
+
                 recyclerList.apply {
                     layoutManager = LinearLayoutManager(ctx)
                     adapter = userAdapter
@@ -132,7 +137,7 @@ class SelectionActivity : ToolbarActivity() {
     private fun getList() {
         requestUrl.isNotEmpty().yes {
             SoguApi.getService(application, ApproveService::class.java)
-                    .selectionList(requestUrl, fund_id = selectedFundId)
+                    .selectionList(requestUrl, fund_id = selectedFundId.toString())
                     .execute {
                         onNext { payload ->
                             payload.isOk.yes {
@@ -155,8 +160,11 @@ class SelectionActivity : ToolbarActivity() {
                                         payload.payload?.let {
                                             val list = mutableListOf<MultiItemEntity>()
                                             it.forEach { city ->
-                                                city.children.forEach {
-                                                    city.addSubItem(it)
+                                                city.children.forEach { cc ->
+                                                    city.addSubItem(cc)
+                                                    if (selectedCities.find { it.id == cc.id } != null) {
+                                                        cityAdapter.selected.add(cc)
+                                                    }
                                                 }
                                                 list.add(city)
                                             }
@@ -179,8 +187,11 @@ class SelectionActivity : ToolbarActivity() {
                                         payload.payload?.let {
                                             val list = mutableListOf<MultiItemEntity>()
                                             it.forEach { dep ->
-                                                dep.children.forEach {
-                                                    dep.addSubItem(it)
+                                                dep.children.forEach { uc ->
+                                                    dep.addSubItem(uc)
+                                                    if (selectedUsers.find { it.id == uc.id } != null) {
+                                                        userAdapter.selected.add(uc)
+                                                    }
                                                 }
                                                 list.add(dep)
                                             }
@@ -205,7 +216,7 @@ class SelectionActivity : ToolbarActivity() {
                     val list = ArrayList<ApproveValueBean>()
                     val map1 = cityAdapter.selected.map {
                         it as CChildren
-                        ApproveValueBean(name = it.name, id = it.id.toString())
+                        ApproveValueBean(name = it.name, id = it.id)
                     }
                     list.addAll(map1)
                     val intent = Intent()
@@ -221,7 +232,7 @@ class SelectionActivity : ToolbarActivity() {
                     val list = ArrayList<ApproveValueBean>()
                     val map1 = userAdapter.selected.map {
                         it as UChild
-                        ApproveValueBean(name = it.name, id = it.id.toString())
+                        ApproveValueBean(name = it.name, id = it.id)
                     }
                     list.addAll(map1)
                     val intent = Intent()
@@ -289,18 +300,23 @@ class SelectionActivity : ToolbarActivity() {
                     icon.isSelected = selected.contains(item)
                     helper.itemView.clickWithTrigger {
                         multiple.yes {
-                            selected.contains(item).yes {
+                            if (selected.contains(item)) {
                                 selected.remove(item)
-                            }.otherWise {
-                                selected.add(item)
+                            } else {
+                                if (selected.size >= 6) {
+                                    showErrorToast("最多选择6个城市")
+                                } else {
+                                    selected.add(item)
+                                }
                             }
                             notifyItemChanged(helper.adapterPosition)
                         }.otherWise {
+                            selected.clear()
                             selected.add(item)
                             val list = ArrayList<ApproveValueBean>()
                             val map1 = selected.map {
                                 it as CChildren
-                                ApproveValueBean(name = it.name, id = it.id.toString())
+                                ApproveValueBean(name = it.name, id = it.id)
                             }
                             list.addAll(map1)
                             val intent = Intent()
@@ -347,7 +363,9 @@ class SelectionActivity : ToolbarActivity() {
                     Glide.with(this@SelectionActivity)
                             .load(item.url)
                             .into(header)
-                    holder.getView<ImageView>(R.id.selectIcon).setVisible(multiple)
+                    val selectIcon = holder.getView<ImageView>(R.id.selectIcon)
+                    selectIcon.setVisible(multiple)
+                    selectIcon.isSelected = selected.contains(item)
                     holder.itemView.clickWithTrigger {
                         multiple.yes {
                             selected.contains(item).yes {
@@ -357,11 +375,12 @@ class SelectionActivity : ToolbarActivity() {
                             }
                             notifyItemChanged(holder.adapterPosition)
                         }.otherWise {
+                            selected.clear()
                             selected.add(item)
                             val list = ArrayList<ApproveValueBean>()
                             val map1 = selected.map {
                                 it as UChild
-                                ApproveValueBean(name = it.name, id = it.id.toString())
+                                ApproveValueBean(name = it.name, id = it.id)
                             }
                             list.addAll(map1)
                             val intent = Intent()

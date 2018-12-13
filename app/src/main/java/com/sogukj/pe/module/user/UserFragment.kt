@@ -140,14 +140,10 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
         tv_bind.clickWithTrigger {
             bindingStatus?.let {
                 if (it.is_sync == 0) {
-                    MobLogin.WeChatLogin({ openId ->
-                        updateBindingStatus(openId)
+                    MobLogin.WeChatLogin(activity!!,{
+                        updateBindingStatus(it)
                     }, { showCommonToast("已取消微信绑定") }, {
-                        (it == 1).yes {
-                            showErrorToast("请安装最新版微信")
-                        }.otherWise {
-                            showErrorToast("微信绑定失败")
-                        }
+                        showErrorToast("微信绑定失败")
                     })
                 } else {
                     getWxUrl()

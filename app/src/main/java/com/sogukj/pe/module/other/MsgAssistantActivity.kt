@@ -33,7 +33,9 @@ import com.sogukj.pe.module.project.originpro.ProjectUploadShowActivity
 import com.sogukj.pe.module.weekly.PersonalWeeklyActivity
 import com.sogukj.pe.peUtils.Store
 import kotlinx.android.synthetic.main.activity_msg_assistant.*
+import kotlinx.coroutines.experimental.android.UI
 import org.jetbrains.anko.ctx
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.info
 import org.jetbrains.anko.startActivity
 
@@ -59,13 +61,17 @@ class MsgAssistantActivity : BaseRefreshActivity() {
             val data = adapter.data[position]
             when (data) {
                 is NewApprovePush -> {
-                    val isMine = if (mine!!.uid == data.subId) 1 else 0
+                    val isMine = if (data.type == 301 || data.type == 302) {
+                        0
+                    } else {
+                        if (mine!!.uid == data.subId) 1 else 0
+                    }
                     context.startActivity<ApproveDetailActivity>(Extras.ID to data.id,
                             Extras.FLAG to isMine)
                 }
                 is SystemPushBean -> {
                     when (data.type) {
-                        202 -> {
+                        201, 202 -> {
                             TaskDetailActivity.start(context, data.id, data.title, ModifyTaskActivity.Task)
                         }
                         203 -> {
@@ -282,6 +288,7 @@ class MsgAssistantActivity : BaseRefreshActivity() {
                             helper.setBackgroundColor(R.id.line1, Color.parseColor("#FFE6A3"))
                         }
                     }
+                    helper.setImageResource(R.id.header, R.mipmap.icon_msg_system_push)
                     helper.setText(R.id.title, item.title)
                     helper.setText(R.id.payTypeTitle, item.content)
                     helper.setText(R.id.payTypeUnitPrice, "￥${item.unit_price}")
@@ -297,10 +304,10 @@ class MsgAssistantActivity : BaseRefreshActivity() {
                 4 -> {
                     item as SystemPushBean
                     helper.setText(R.id.pushMsgTitle, item.title)
-                    if (item.type == 202 || item.type == 203) {
+                    if (item.type == 202 || item.type == 203 || item.type == 201) {
                         helper.setText(R.id.sponsor, "发起人：${item.name}")
                         item.satrtTime?.let {
-                            helper.setText(R.id.schedule, Utils.formatDingDate(Utils.getTime(it, "yyyy-MM-dd HH:mm")))
+                            helper.setText(R.id.schedule, Utils.formatDingDate(Utils.getTime(it * 1000, "yyyy-MM-dd HH:mm")))
                             helper.setTextColor(R.id.schedule, resources.getColor(R.color.text_1))
                         }
                     } else if (item.type == 205) {

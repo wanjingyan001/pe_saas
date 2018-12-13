@@ -66,6 +66,7 @@ class TravelControl @JvmOverloads constructor(
                     adapter = travelAdapter
                 }
                 footer.copyDetail.clickWithTrigger { _ ->
+                    //以后要使用deepCopy
                     val copy = it.last().copyWithoutValue(isDelete = groupList[1].is_delete)
                     travelAdapter.addData(it.size, copy)
                 }
@@ -76,7 +77,7 @@ class TravelControl @JvmOverloads constructor(
                 inflate.totalDaysTitle.setVisible(it.is_show != false)
                 it.value?.let { value ->
                     value.isNotEmpty().yes {
-                        inflate.totalDays.text = value[0] as String
+                        inflate.totalDays.text = value[0].toString()
                     }.otherWise {
                         inflate.totalDays.hint = it.placeholder
                     }
@@ -108,7 +109,7 @@ class TravelControl @JvmOverloads constructor(
         override fun convert(helper: BaseViewHolder, item: ControlBean) {
             var itemDays: Pair<Double, String> by Delegates.observable(0.0 to "") { _, oldValue, newValue ->
                 days = days + newValue.first - oldValue.first
-                inflate.totalDays.text = "$days${newValue.second} "
+                inflate.totalDays.text = "${days.toFloat()}${newValue.second} "
                 controlBean.children!![3].value?.let {
                     it.isNotEmpty().yes {
                         it[0] = "$days${newValue.second}"
@@ -159,11 +160,11 @@ class TravelControl @JvmOverloads constructor(
             controlBean.children!![1].children?.forEach {
                 it.children!![5].value?.let {
                     if (it.size == 3) {
-                        newTotal += it[2].toString().toDouble()
+                        newTotal += (it[2] as Double)
                     }
                 }
             }
-            inflate.totalDays.text = "$newTotal${travelAdapter.timeUnit}"
+            inflate.totalDays.text = "${newTotal.toFloat()}${travelAdapter.timeUnit}"
         }
     }
 }

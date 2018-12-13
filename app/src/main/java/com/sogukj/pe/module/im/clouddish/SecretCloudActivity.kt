@@ -3,6 +3,7 @@ package com.sogukj.pe.module.im.clouddish
 import android.os.Bundle
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
 import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
@@ -40,7 +41,10 @@ class SecretCloudActivity : ToolbarActivity() {
         if (null != detail){
             company = detail.mechanism_name?:""
             detail.let {
-                Glide.with(this).load(it.logo).into(iv_logo)
+                Glide.with(this).load(it.logo)
+                        .apply(RequestOptions.fitCenterTransform()
+                        .placeholder(R.mipmap.ic_launcher_pe)
+                        .error(R.mipmap.ic_launcher_pe)).into(iv_logo)
             }
         }
         tv_company.text = company

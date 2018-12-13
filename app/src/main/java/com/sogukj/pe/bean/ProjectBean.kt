@@ -26,14 +26,29 @@ class ProjectBean : Serializable {
 
     var is_ability: Int? = null//有无能力 1 有能力 2 无能力
     var is_business: Int? = null//有无商业价值  1有价值  2无价值
-    var red :Int? = null//大于0显示红点
+    var red: Int? = null//大于0显示红点
 
     var logo: String? = null
     var chairman: String? = null
     var track_time: String? = null//	track_time	string	跟踪时间
-    var number:String? = null
+    var number: String? = null
     var quit: Int = 1 //0---在投，1---部分退出
 
-    var sortLetters:String = ""//显示数据拼音的首字母
-    var floor : Int ? = null
+    var sortLetters: String = ""//显示数据拼音的首字母
+    var floor: Int? = null
+    var duty: Duty? = null
+    var lead: Lead? = null
+
 }
+
+/**
+ * 项目经理
+ */
+data class Duty(val principal: Int,
+                val name: String)
+
+/**
+ * 项目组负责人
+ */
+data class Lead(val leader: Int,
+                val name: String)

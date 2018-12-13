@@ -119,7 +119,11 @@ class NewApproveListActivity : BaseRefreshActivity() {
                     onNext { payload ->
                         payload.isOk.yes {
                             payload.payload?.let {
-                                listAdapter.refreshData(it.data)
+                                (page == 1).yes {
+                                    listAdapter.dataList.clear()
+                                }
+                                listAdapter.dataList.addAll(it.data)
+                                listAdapter.notifyDataSetChanged()
                                 refresh.isEnableLoadMore = listAdapter.dataList.size < it.total
                             }
                         }.otherWise {
@@ -168,7 +172,7 @@ class NewApproveListActivity : BaseRefreshActivity() {
                     itemView.tv_state.textColor = Color.parseColor("#50D59D")
                 }
                 3 -> {
-                    itemView.tv_state.text = "待用印"
+                    itemView.tv_state.text = "待处理"
                     itemView.tv_state.textColor = Color.parseColor("#806AF2")
                 }
                 4 -> {

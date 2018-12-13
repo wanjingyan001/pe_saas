@@ -19,7 +19,7 @@ data class AttachmentBean(val name: String,
  * 审批控件中的值
  */
 data class ApproveValueBean(val name: String,
-                            val id: String? = null,
+                            val id: Int? = null,
                             val url: String? = null,
                             val size: String? = null,
                             var value: Int? = null,
@@ -28,7 +28,8 @@ data class ApproveValueBean(val name: String,
                             val status: String? = null,
                             val title: String? = null,
                             val number: String? = null,
-                            val add_time: String? = null) : Serializable
+                            val add_time: String? = null,
+                            val format: String? = null) : Serializable
 
 /**
  * 审批人/抄送人/经办人
@@ -36,7 +37,7 @@ data class ApproveValueBean(val name: String,
 data class Approvers(
         var sp: List<Sp>,
         var cs: Cs,
-        var jr: String// 30
+        var jr: String?// 30
 )
 
 data class Sp(
@@ -117,7 +118,7 @@ data class ApprovalUser(
 data class UChild(
         var id: Int,
         var name: String,
-        var url: String?
+        var url: String? = null
 ) : MultiItemEntity, Serializable {
     override fun getItemType(): Int = 2
 }
@@ -142,6 +143,9 @@ data class ApproveListBean(
         var temName: String,// 审批模版一
         var handle: Boolean,//  true=>待经办  false=>不显示任何标志
         var mark: String,//(old,new)
+        var start_time: String? = null,//请假开始时间
+        var end_time: String? = null,//请假结束时间
+        var holidayname: String? = null,//请假类型名字
         var kind: String? = null,//	string	用印类别(老审批)
         var status_str: String? = null,//	string	审批状态(老审批)
         var type: Int? = null//	number	类型(老审批)
@@ -153,4 +157,34 @@ data class NewApproveNum(
         var overMe: Int,// 我已审批
         var happenMe: Int,// 我发起的
         var copyMe: Int// 抄送我的
+)
+
+
+data class ApproveRecordList(
+        var data: List<ApproveRecord>,
+        var total: Int// 1
+)
+
+data class ApproveRecord(
+        val add_time: Long,//审批发起时间
+        val approval_id: Int?,//审批ID
+        val company_name: String? = null,//
+        val end_time: String,//(请假)审批结束时间
+        val holidayname: String?,//请假类型名称
+        val kind: String?,//
+        val mark: String,//new old
+        val name: String?,//发起人名字
+        val number: String?,//审批单号
+        val reasons: String?,//审批事由
+        val shortName: String?,//
+        val start_time: String,//请假开始时间
+        val status: Int,//审批状态 -1 审批不通过，0待审批，1审批中，2审批人都通过，3待用印，4审批真正完成, 5撤销成功
+        val status_str: String?,//审批状态文字
+        val table_id: Int?,
+        val table_name: String?,
+        val temName: String?,//审批模板名
+        val title: String,//审批标题
+        val type: Int?,//
+        val uid: Int,//发起人ID
+        val url: String//发起人头像
 )

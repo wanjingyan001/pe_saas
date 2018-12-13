@@ -40,7 +40,7 @@ class DocumentAssociate @JvmOverloads constructor(
                                 title = treeMap["title"] as String,
                                 number = treeMap["number"] as String,
                                 add_time = treeMap["add_time"] as String,
-                                id = treeMap["id"] as String))
+                                id = treeMap["id"] as? Int))
                     }
                     controlBean.value?.clear()
                     controlBean.value?.addAll(beans)

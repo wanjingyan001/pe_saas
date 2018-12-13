@@ -75,7 +75,8 @@ interface CreditService {
     @POST("/api/Credit/queryPersonalCre")
     fun HundredCredit(@Field("name") name: String,
                       @Field("idCard") idCard: String,
-                      @Field("phone") phone: String): Observable<Payload<NewCreditInfo>>
+                      @Field("phone") phone: String,
+                      @Field("pid")pid : Int ? = null): Observable<Payload<NewCreditInfo>>
 
 
     /**
