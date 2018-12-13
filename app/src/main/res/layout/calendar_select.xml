@@ -142,13 +142,13 @@
             android:orientation="horizontal"
             android:visibility="gone">
 
-            <com.bigkoo.pickerview.lib.WheelView
+            <com.contrarywind.view.WheelView
                 android:id="@+id/hour"
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:background="@android:color/white" />
 
-            <com.bigkoo.pickerview.lib.WheelView
+            <com.contrarywind.view.WheelView
                 android:id="@+id/minute"
                 android:layout_width="100dp"
                 android:layout_height="match_parent"

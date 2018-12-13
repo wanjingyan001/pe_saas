@@ -39,7 +39,7 @@ class FAPControl @JvmOverloads constructor(
                     val beans = mutableListOf<ApproveValueBean>()
                     values.forEach { map ->
                         val treeMap = map as LinkedTreeMap<*, *>
-                        beans.add(ApproveValueBean(name = treeMap["name"] as String, id = treeMap["id"] as? Int))
+                        beans.add(ApproveValueBean(name = treeMap["name"] as String, id = (treeMap["id"] as? Number)?.toInt()))
                     }
                     controlBean.value?.clear()
                     controlBean.value?.addAll(beans)
@@ -61,18 +61,24 @@ class FAPControl @JvmOverloads constructor(
                             val extra = it.data.getSerializableExtra(Extras.BEAN)
                             Observable.just(extra as ApproveValueBean)
                         }.subscribe {
-                    controlBean.value?.let { values ->
-                        values.isNotEmpty().yes {
-                            values[0] = it
-                        }.otherWise {
-                            values.add(it)
+                            controlBean.value?.let { values ->
+                                values.isNotEmpty().yes {
+                                    values[0] = it
+                                }.otherWise {
+                                    values.add(it)
+                                }
+                                if (values.size > 1) {
+                                    values.removeAt(1)
+                                }
+                                if (inflate.projectTv.text.isNotEmpty()){
+                                    inflate.projectTv.text = ""
+                                }
+                            }
+                            inflate.fundTv.text = it.name
+                            if (block != null && refresh) {
+                                block?.invoke(it.id, null)
+                            }
                         }
-                    }
-                    inflate.fundTv.text = it.name
-                    if (block != null && refresh) {
-                        block?.invoke(it.id, null)
-                    }
-                }
             }
 
             inflate.projectSelectionTitle.text = controlBean.name2
@@ -97,18 +103,18 @@ class FAPControl @JvmOverloads constructor(
                                 val extra = it.data.getSerializableExtra(Extras.BEAN)
                                 Observable.just(extra as ApproveValueBean)
                             }.subscribe {
-                        controlBean.value?.let { values ->
-                            (values.size > 1).yes {
-                                values[1] = it
-                            }.otherWise {
-                                values.add(it)
+                                controlBean.value?.let { values ->
+                                    (values.size > 1).yes {
+                                        values[1] = it
+                                    }.otherWise {
+                                        values.add(it)
+                                    }
+                                }
+                                inflate.projectTv.text = it.name
+                                if (block != null && refresh) {
+                                    block?.invoke(fundId, it.id)
+                                }
                             }
-                        }
-                        inflate.projectTv.text = it.name
-                        if (block != null && refresh) {
-                            block?.invoke(fundId, it.id)
-                        }
-                    }
                 }
             }
         }
