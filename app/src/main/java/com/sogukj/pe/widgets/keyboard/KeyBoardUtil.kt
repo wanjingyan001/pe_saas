@@ -16,6 +16,7 @@ import android.widget.FrameLayout
 import com.sogukj.pe.R
 import org.jetbrains.anko.find
 import org.jetbrains.anko.inputMethodManager
+import org.jetbrains.anko.vibrator
 import java.lang.reflect.Method
 import java.util.*
 
@@ -170,7 +171,7 @@ class KeyBoardUtil {
         override fun onPress(primaryCode: Int) {
             Log.e(TAG, "onPress")
             //添加震动效果
-//            mActivity.applicationContext.vibrator.vibrate(50)
+            mActivity.applicationContext.vibrator.vibrate(50)
             ////指定隐藏（确定）删除不显示预览
             mKeyBoardView.isPreviewEnabled = !(primaryCode == Keyboard.KEYCODE_DONE || primaryCode == Keyboard.KEYCODE_DELETE)
         }
