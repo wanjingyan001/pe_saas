@@ -1,6 +1,7 @@
 package com.sogukj.pe.module.creditCollection
 
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
@@ -13,6 +14,7 @@ import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.service.CreditService
+import com.sogukj.pe.widgets.keyboard.KeyBoardUtil
 import com.sogukj.service.SoguApi
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_hundred_search.*
@@ -27,6 +29,7 @@ class HundredSearchActivity : ToolbarActivity() {
     private val phone: String? by extraDelegate(Extras.DATA, null)
     private val idCard: String? by extraDelegate(Extras.DATA2, null)
     private val pid: Int? by extraDelegate(Extras.ID, null)
+    private var keyboardUtli : KeyBoardUtil ? = null
     override val menuId: Int
         get() = if (pid != null) {
             R.menu.arrange_edit_delete
@@ -42,6 +45,7 @@ class HundredSearchActivity : ToolbarActivity() {
         setBack(true)
         title = "个人资质查询"
         val inputList = ArrayList<Observable<CharSequence>>()
+        keyboardUtli = KeyBoardUtil(this)
         inputList.add(RxTextView.textChanges(nameEdt))
         inputList.add(RxTextView.textChanges(phoneEdt))
         inputList.add(RxTextView.textChanges(idCardEdt))
@@ -66,6 +70,11 @@ class HundredSearchActivity : ToolbarActivity() {
             }.otherWise {
                 showErrorToast("请输入正确的手机号")
             }
+        }
+
+        idCardEdt.setOnTouchListener { v, event ->
+            keyboardUtli?.attachTo(idCardEdt)
+            false
         }
     }
 
@@ -128,5 +137,13 @@ class HundredSearchActivity : ToolbarActivity() {
                         }
                     }
         }
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            var b = keyboardUtli?.hideSoftKeyboard() ?: false
+            return if (b) true else super.onKeyDown(keyCode, event)
+        }
+        return super.onKeyDown(keyCode, event)
     }
 }

@@ -153,7 +153,6 @@
                     <EditText
                         android:id="@+id/IDCardEdt"
                         style="@style/creditEdtStyle"
-                        android:digits="0123456789QWERTYUIOPLKJHGFDSAZXCVBNM"
                         android:maxLength="18"
                         android:singleLine="true" />
 
