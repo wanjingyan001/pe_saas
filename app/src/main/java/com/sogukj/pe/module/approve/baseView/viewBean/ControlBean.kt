@@ -169,6 +169,9 @@ data class ExtrasBean(val name: String,//可能是大写,当前时间等文字
                       var value: String//对应值
 )
 
+/**
+ * 可以尝试改为使用deepCopy方法
+ */
 fun ControlBean.copyWithoutValue(isDelete: Boolean? = false): ControlBean {
     var newChild: MutableList<ControlBean>? = null
     (this.children == null || this.children.isEmpty()).yes {
