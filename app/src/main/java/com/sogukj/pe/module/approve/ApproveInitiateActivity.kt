@@ -396,13 +396,17 @@ class ApproveInitiateActivity : ToolbarActivity() {
             val def = approvers.cs.def.split(",")
             def.forEachIndexed { index, defId ->
                 val find = newCopy.find { it.id == defId }
-                newCopy.remove(find!!)
-                newCopy.add(index, find)
+                find?.let {
+                    newCopy.remove(it)
+                    newCopy.add(index, it)
+                }
             }
             copyPeos.clear()
             copyPeos.addAll(newCopy)
             approvers.cs.users.clear()
             approvers.cs.users.addAll(newCopy)
+            copyAdapter.users.clear()
+            copyAdapter.users.addAll(newCopy)
             copyAdapter.notifyDataSetChanged()
         }
     }
