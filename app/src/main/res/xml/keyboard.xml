@@ -2,16 +2,11 @@
 isRepeatable:长按时是否重复这个操作
 -->
 <Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
-    android:horizontalGap="1px"
+    android:horizontalGap="1dp"
     android:keyHeight="7%p"
     android:keyWidth="33.33%p"
-    android:verticalGap="1px">
-    <Row android:keyHeight="6%p">
-        <Key
-            android:codes="-4"
-            android:keyIcon="@drawable/icon_pro_hide"
-            android:keyWidth="100%" />
-    </Row>
+    android:verticalGap="1dp">
+
     <Row>
         <Key
             android:codes="49"

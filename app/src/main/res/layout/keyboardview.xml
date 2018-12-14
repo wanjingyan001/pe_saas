@@ -10,21 +10,56 @@ keyTextSize:设置key标签字体大小
 labelTextSize:设置带文本和图标的键上个的文本的小大
 
 -->
-<com.sogukj.pe.widgets.keyboard.CustomKeyboardView
-    android:id="@+id/keyboard_view"
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/main_bg_color"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    android:keyBackground="@drawable/bg_keyboardview"
-    android:keyPreviewHeight="35dp"
-    android:keyPreviewLayout="@layout/keyboard_key_preview"
-    android:keyPreviewOffset="0dp"
-    android:keyTextColor="@color/gray_80"
-    android:keyTextSize="@dimen/text_size_18"
-    android:labelTextSize="@dimen/text_size_18"
-    android:paddingTop="0dp"
-    android:shadowColor="#fff"
-    android:shadowRadius="0.0"/>
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/rl_tips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/text_5"
+        android:paddingBottom="@dimen/text_5"
+        android:background="@color/white">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="专属安全键盘"
+            android:layout_centerInParent="true"
+            android:textSize="@dimen/text_size_16"
+            android:drawableLeft="@mipmap/ic_keyboard_safe"
+            android:drawablePadding="@dimen/text_5"
+            android:textColor="@color/blue_43"/>
+        <ImageView
+            android:id="@+id/iv_hide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/text_10"
+            android:padding="@dimen/text_15"
+            android:src="@mipmap/ic_keyboard_hide"/>
+    </RelativeLayout>
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/text_1"
+        android:background="@color/gray_f1"/>
+    <com.sogukj.pe.widgets.keyboard.CustomKeyboardView
+        android:id="@+id/keyboard_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/keyborad_line_color"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:keyBackground="@drawable/bg_keyboardview"
+        android:keyPreviewHeight="35dp"
+        android:keyPreviewLayout="@layout/keyboard_key_preview"
+        android:keyPreviewOffset="0dp"
+        android:keyTextColor="@color/gray_80"
+        android:keyTextSize="@dimen/text_size_18"
+        android:labelTextSize="@dimen/text_size_18"
+        android:paddingTop="0dp"
+        android:shadowColor="#fff"
+        android:shadowRadius="0.0"/>
+</LinearLayout>

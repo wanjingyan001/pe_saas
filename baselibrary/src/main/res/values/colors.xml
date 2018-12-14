@@ -167,6 +167,7 @@
     <color name="red_f01">#f01400</color>
     <color name="red_ff7">#FF7676</color>
     <color name="red_ffe">#FFEEEE</color>
+    <color name="red_ff3">#FF3300</color>
     <color name="gray_dbd">#DBDCDD</color>
     <color name="blue_bb">#bbddff</color>
     <color name="blue_bc">#BCDAFF</color>
@@ -177,4 +178,5 @@
     <color name="gray_ef">#EFEFEF</color>
     <color name="gray_a2">#A2A8B5</color>
     <color name="yellow_f7b">#F7B62B</color>
+    <color name="keyborad_line_color">#F1F1F1</color>
 </resources>

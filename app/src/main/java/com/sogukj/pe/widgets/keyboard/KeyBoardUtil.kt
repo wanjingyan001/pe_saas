@@ -13,6 +13,8 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.EditText
 import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.RelativeLayout
 import com.sogukj.pe.R
 import org.jetbrains.anko.find
 import org.jetbrains.anko.inputMethodManager
@@ -30,6 +32,9 @@ class KeyBoardUtil {
     var mKeyboard: Keyboard
     lateinit var mKeyBoardViewContainer: View
     lateinit var mKeyBoardView: CustomKeyboardView
+    lateinit var iv_hide: ImageView
+    lateinit var rl_tips : RelativeLayout
+    lateinit var view_line : View
     var mEditText: EditText? = null
     val TAG = "Keyboard"
     var mOnOkClick: OnOkClick? = null
@@ -58,6 +63,9 @@ class KeyBoardUtil {
         lp.gravity = Gravity.BOTTOM
         frameLayout.addView(mKeyBoardViewContainer, lp)
         mKeyBoardView = mKeyBoardViewContainer.find(R.id.keyboard_view)
+        iv_hide = mKeyBoardViewContainer.find(R.id.iv_hide)
+        rl_tips = mKeyBoardViewContainer.find(R.id.rl_tips)
+        view_line = mKeyBoardViewContainer.find(R.id.view_line)
     }
 
     fun attachTo(editText: EditText) {
@@ -71,6 +79,10 @@ class KeyBoardUtil {
         hideSystemSoftKeyboard()
         //显示自定义键盘
         showSoftKeyboard()
+
+        iv_hide.setOnClickListener {
+            hideSoftKeyboard()
+        }
     }
 
     private fun onFoucsChange() {
@@ -79,10 +91,14 @@ class KeyBoardUtil {
             //如果获取焦点，并且当前键盘没有显示，则显示，并执行动画
             if (hasFocus && mKeyBoardView.visibility != View.VISIBLE) {
                 mKeyBoardView.visibility = View.VISIBLE
+                rl_tips.visibility = View.VISIBLE
+                view_line.visibility = View.VISIBLE
                 startAnimation(true)
             } else if (!hasFocus && mKeyBoardView.visibility == View.VISIBLE) {
                 //如果当前时失去较大，并且当前在键盘正在显示，则隐藏
                 mKeyBoardView.visibility = View.GONE
+                rl_tips.visibility = View.GONE
+                view_line.visibility = View.GONE
                 startAnimation(false)
             }
         }
@@ -93,6 +109,8 @@ class KeyBoardUtil {
             // 焦点改变函数不会回调，所以在此判断如果隐藏就显示
             if (mKeyBoardView.visibility == View.GONE) {
                 mKeyBoardView.visibility = View.VISIBLE
+                rl_tips.visibility = View.VISIBLE
+                view_line.visibility = View.VISIBLE
                 startAnimation(true)
             }
         }
@@ -130,6 +148,8 @@ class KeyBoardUtil {
         mKeyBoardView.isPreviewEnabled = true
         //设置可见
         mKeyBoardView.visibility = View.VISIBLE
+        rl_tips.visibility = View.VISIBLE
+        view_line.visibility = View.VISIBLE
         //指定键盘弹出动画
         startAnimation(true)
         //设置监听
@@ -265,6 +285,8 @@ class KeyBoardUtil {
         var visibility = mKeyBoardView.visibility
         if (visibility == View.INVISIBLE || visibility == View.GONE) {
             mKeyBoardView.visibility = View.VISIBLE
+            rl_tips.visibility = View.VISIBLE
+            view_line.visibility = View.VISIBLE
         }
     }
 
@@ -274,6 +296,8 @@ class KeyBoardUtil {
         if (visibility == View.VISIBLE) {
             startAnimation(false)
             mKeyBoardView.visibility = View.GONE
+            rl_tips.visibility = View.GONE
+            view_line.visibility = View.GONE
             return true
         }
         return false
