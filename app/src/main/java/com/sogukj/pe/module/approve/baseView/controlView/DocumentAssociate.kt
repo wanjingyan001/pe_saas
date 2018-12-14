@@ -40,7 +40,7 @@ class DocumentAssociate @JvmOverloads constructor(
                                 title = treeMap["title"] as String,
                                 number = treeMap["number"] as String,
                                 add_time = treeMap["add_time"] as String,
-                                id = treeMap["id"] as? Int))
+                                id = (treeMap["id"] as? Number)?.toInt()))
                     }
                     controlBean.value?.clear()
                     controlBean.value?.addAll(beans)
@@ -59,10 +59,10 @@ class DocumentAssociate @JvmOverloads constructor(
                             val extra = it.data.getSerializableExtra(Extras.BEAN)
                             Observable.just(extra as ApproveValueBean)
                         }.subscribe {
-                    controlBean.value?.clear()
-                    controlBean.value?.add(it)
-                    inflate.associateTv.text = it.name
-                }
+                            controlBean.value?.clear()
+                            controlBean.value?.add(it)
+                            inflate.associateTv.text = "${it.title}${it.number}"
+                        }
             }
         }
     }
