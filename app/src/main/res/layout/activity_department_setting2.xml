@@ -8,163 +8,323 @@
     tools:context="com.sogukj.pe.module.register.DepartmentSettingActivity">
 
     <include layout="@layout/toolbar" />
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/ll_bottom"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/infoLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="18dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="18dp"
+                        android:layout_weight="1"
+                        android:text="部门名称"
+                        android:textColor="@color/text_1"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <TextView
+                        android:id="@+id/departmentName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
+                        android:textColor="@color/text_1"
+                        android:hint="必填"
+                        android:textSize="@dimen/text_size_medium" />
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginStart="20dp"
+                    android:background="@color/divider2" />
+
+                <LinearLayout
+                    android:id="@+id/selectPrincipal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="18dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="18dp"
+                        android:layout_weight="1"
+                        android:text="部门负责人"
+                        android:textColor="@color/text_1"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <TextView
+                        android:id="@+id/departmentPrincipal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
+                        android:drawableEnd="@drawable/ic_right"
+                        android:drawablePadding="10dp"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/text_1"
+                        android:textSize="@dimen/text_size_medium" />
+
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginStart="20dp"
+                    android:background="@color/divider2" />
+            </LinearLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/memberLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:layout_constraintTop_toBottomOf="@+id/infoLayout">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="12dp"
+                    android:text="部门成员"
+                    android:textColor="@color/text_1"
+                    android:textSize="@dimen/text_size_medium"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/memberCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginTop="7dp"
+                    android:drawableEnd="@drawable/ic_right"
+                    android:gravity="center_vertical"
+                    android:text="0人"
+                    android:textColor="@color/text_3"
+                    android:textSize="@dimen/text_size_medium"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/memberList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:paddingBottom="15dp"
+                    android:paddingEnd="20dp"
+                    android:paddingStart="20dp"
+                    android:paddingTop="15dp"
+                    app:layout_constraintTop_toBottomOf="@+id/memberCount">
+
+                </android.support.v7.widget.RecyclerView>
+
+            </android.support.constraint.ConstraintLayout>
+            <RelativeLayout
+                android:id="@+id/rl_next_depart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="@dimen/text_20"
+                app:layout_constraintTop_toBottomOf="@+id/memberLayout">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="删除"
+                    android:textSize="@dimen/text_size_14"
+                    android:textColor="@color/blue_51"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="下一级部门"
+                    android:textSize="@dimen/text_size_16"
+                    android:textColor="@color/black_33"/>
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/view_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintTop_toBottomOf="@+id/rl_next_depart"
+                android:layout_marginStart="20dp"
+                android:background="@color/divider2" />
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/inputLayout"
+                app:layout_constraintTop_toBottomOf="@+id/view_line"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:paddingStart="@dimen/text_20"
+                android:paddingEnd="@dimen/text_5"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/et_name"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="输入字部门名称"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    android:textColor="@color/text_1"
+                    android:textColorHint="@color/text_3"
+                    android:textSize="@dimen/text_size_medium"
+                    app:layout_constraintBottom_toBottomOf="@+id/line"
+                    app:layout_constraintEnd_toStartOf="@+id/addDepartment"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/addDepartment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingEnd="15dp"
+                    android:paddingStart="15dp"
+                    android:src="@mipmap/icon_add_department"
+                    app:layout_constraintBottom_toBottomOf="@+id/line"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/divider2"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <View
+                android:id="@+id/view_line1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                app:layout_constraintTop_toBottomOf="@+id/inputLayout"
+                android:background="@color/divider2" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                app:layout_constraintTop_toBottomOf="@+id/view_line1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingLeft="@dimen/text_20"
+                android:paddingRight="@dimen/text_20"
+                tools:listitem="@layout/item_child_department"
+                android:nestedScrollingEnabled="false">
+
+
+            </android.support.v7.widget.RecyclerView>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
 
     <LinearLayout
-        android:id="@+id/infoLayout"
+        android:id="@+id/ll_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:background="@color/white"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="18dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="18dp"
-                android:layout_weight="1"
-                android:text="部门名称"
-                android:textColor="@color/text_1"
-                android:textSize="@dimen/text_size_medium" />
-
-            <TextView
-                android:id="@+id/departmentName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:textColor="@color/text_1"
-                android:textSize="@dimen/text_size_medium" />
-
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="20dp"
-            android:background="@color/divider2" />
-
-        <LinearLayout
-            android:id="@+id/selectPrincipal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="18dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="18dp"
-                android:layout_weight="1"
-                android:text="部门负责人"
-                android:textColor="@color/text_1"
-                android:textSize="@dimen/text_size_medium" />
-
-            <TextView
-                android:id="@+id/departmentPrincipal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:drawableEnd="@drawable/ic_right"
-                android:drawablePadding="10dp"
-                android:gravity="center_vertical"
-                android:textColor="@color/text_1"
-                android:textSize="@dimen/text_size_medium" />
-
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/memberLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@+id/infoLayout">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="12dp"
-            android:text="部门成员"
-            android:textColor="@color/text_1"
-            android:textSize="@dimen/text_size_medium"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/memberCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="15dp"
-            android:layout_marginTop="7dp"
-            android:drawableEnd="@drawable/ic_right"
-            android:gravity="center_vertical"
-            android:text="0人"
-            android:textColor="@color/text_3"
-            android:textSize="@dimen/text_size_medium"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/memberList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:paddingBottom="15dp"
-            android:paddingEnd="20dp"
-            android:paddingStart="20dp"
-            android:paddingTop="15dp"
-            app:layout_constraintTop_toBottomOf="@+id/memberCount">
-
-        </android.support.v7.widget.RecyclerView>
-
-    </android.support.constraint.ConstraintLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent">
+        <RelativeLayout
+            android:id="@+id/rl_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/text_15"
+            android:paddingRight="@dimen/text_15"
+            android:paddingTop="@dimen/text_10"
+            android:paddingBottom="@dimen/text_10"
+            android:visibility="gone"
+            android:background="@drawable/bg_depart_bottom"
+            android:layout_alignParentBottom="true">
+            <TextView
+                android:id="@+id/tv_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="删除"
+                android:textSize="@dimen/text_size_14"
+                android:paddingLeft="@dimen/text_25"
+                android:paddingRight="@dimen/text_25"
+                android:paddingTop="@dimen/text_8"
+                android:layout_marginLeft="@dimen/text_25"
+                android:paddingBottom="@dimen/text_8"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/selector_sure_gray"
+                android:textColor="@color/white"/>
 
+            <TextView
+                android:id="@+id/tv_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_14"
+                android:layout_centerVertical="true"
+                android:textColor="@color/blue_17"
+                android:text="已选择：0个"/>
+
+            <ImageView
+                android:id="@+id/iv_select"
+                android:layout_width="@dimen/text_20"
+                android:layout_height="@dimen/text_20"
+                android:layout_marginStart="@dimen/text_10"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/tv_delete"
+                android:background="@drawable/team_select_bg"/>
+
+            <TextView
+                android:id="@+id/tv_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="全选"
+                android:layout_marginRight="@dimen/text_5"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/iv_select"
+                android:textSize="@dimen/text_size_14"
+                android:textColor="@color/blue_17"/>
+        </RelativeLayout>
         <TextView
             android:id="@+id/addMember"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:gravity="center"
             android:paddingBottom="18dp"
             android:paddingTop="18dp"
             android:text="邀请成员"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/text_size_medium" />
-
-        <!--<TextView-->
-            <!--android:id="@+id/addChildDepartment"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:gravity="center"-->
-            <!--android:paddingBottom="18dp"-->
-            <!--android:paddingTop="18dp"-->
-            <!--android:text="添加子部门"-->
-            <!--android:textColor="@color/colorPrimary"-->
-            <!--android:textSize="@dimen/text_size_medium" />-->
 
     </LinearLayout>
 

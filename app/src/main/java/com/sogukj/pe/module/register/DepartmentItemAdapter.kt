@@ -1,6 +1,7 @@
 package com.sogukj.pe.module.register
 
 import android.app.Activity
+import android.widget.ImageView
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.entity.MultiItemEntity
@@ -29,17 +30,29 @@ class DepartmentItemAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseVie
                 }else{
                     holder.setGone(R.id.view_divider,true)
                 }
-                holder.setText(R.id.departmentName,depart0Item.name)
-                holder.itemView.setOnClickListener {
-                    //查看
+                if (depart0Item.isCanSelect){
+                    holder.setGone(R.id.iv_select,true)
+                    holder.setGone(R.id.view_gaps,true)
+                }else{
+                    holder.setGone(R.id.iv_select,false)
+                    holder.setGone(R.id.view_gaps,false)
                 }
+                val iv_select = holder.getView<ImageView>(R.id.iv_select)
+                iv_select.isSelected = depart0Item.isSelected
+                holder.setText(R.id.departmentName,depart0Item.name)
+                holder.addOnClickListener(R.id.item_view)
             }
             Extras.TYPE_LEVEL_1 ->{
                 val depart1Item = item as Depart1Item
                 holder.setText(R.id.departmentName,depart1Item.name)
-                holder.itemView.setOnClickListener {
-                    //查看
+                if (depart1Item.isCanSelect){
+                    holder.setGone(R.id.iv_select,true)
+                }else{
+                    holder.setGone(R.id.iv_select,false)
                 }
+                val iv_select = holder.getView<ImageView>(R.id.iv_select)
+                iv_select.isSelected = depart1Item.isSelected
+                holder.addOnClickListener(R.id.item_view)
             }
         }
     }

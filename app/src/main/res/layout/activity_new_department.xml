@@ -61,7 +61,7 @@
             android:layout_marginLeft="@dimen/text_25"
             android:paddingBottom="@dimen/text_8"
             android:layout_alignParentRight="true"
-            android:background="@drawable/bg_depart_delete"
+            android:background="@drawable/selector_sure_gray"
             android:textColor="@color/white"/>
 
         <TextView

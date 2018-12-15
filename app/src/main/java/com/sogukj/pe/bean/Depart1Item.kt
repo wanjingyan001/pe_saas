@@ -9,6 +9,8 @@ import com.sogukj.pe.Extras.TYPE_LEVEL_1
 class Depart1Item : MultiItemEntity {
     var id : Int ? = null
     var name : String ? = null
+    var isCanSelect : Boolean = false
+    var isSelected : Boolean = false
     constructor(name : String){
         this.name = name
     }

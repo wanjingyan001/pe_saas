@@ -10,6 +10,8 @@ import com.sogukj.pe.Extras.TYPE_LEVEL_0
 class Depart0Item : AbstractExpandableItem<Depart1Item>, MultiItemEntity  {
     var id : Int ? = null
     var name : String ? = null
+    var isCanSelect : Boolean = false
+    var isSelected : Boolean = false
     constructor(name : String){
         this.name = name
     }
