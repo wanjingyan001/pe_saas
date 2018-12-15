@@ -368,7 +368,6 @@
                 android:gravity="start|center_vertical"
                 android:padding="18dp"
                 android:text="新创建部门"
-                android:visibility="gone"
                 android:textColor="@color/black_28"/>
 
             <View

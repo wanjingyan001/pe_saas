@@ -29,7 +29,7 @@
         android:id="@+id/addDepartment"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginEnd="13dp"
+        android:layout_marginEnd="5dp"
         android:paddingEnd="15dp"
         android:paddingStart="15dp"
         android:src="@mipmap/icon_add_department"

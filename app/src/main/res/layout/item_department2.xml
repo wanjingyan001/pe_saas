@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:layout_marginLeft="@dimen/text_20"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/iv_select"
+        android:layout_width="@dimen/text_20"
+        android:layout_height="@dimen/text_20"
+        android:background="@drawable/team_select_bg"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <View
+        android:id="@+id/view_gaps"
+        android:layout_width="@dimen/text_30"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_select"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageView
+        android:id="@+id/treeIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/tree_list_indicator"
+        app:layout_constraintBottom_toBottomOf="@+id/departmentName"
+        app:layout_constraintStart_toEndOf="@+id/view_gaps"
+        app:layout_constraintTop_toTopOf="@+id/departmentName"/>
+
+    <TextView
+        android:id="@+id/departmentName"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="5dp"
+        android:background="@null"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textColor="@color/text_1"
+        android:textColorHint="@color/text_3"
+        android:textSize="@dimen/text_size_medium"
+        app:layout_constraintBottom_toBottomOf="@+id/line"
+        app:layout_constraintEnd_toStartOf="@+id/tv_watch"
+        app:layout_constraintStart_toEndOf="@+id/treeIndicator"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="部门名称"/>
+
+    <TextView
+        android:id="@+id/tv_watch"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="@dimen/text_15"
+        android:drawablePadding="@dimen/text_8"
+        android:drawableRight="@mipmap/ic_depart_watch"
+        android:gravity="center"
+        android:paddingLeft="@dimen/text_10"
+        android:text="查看"
+        android:textColor="@color/blue_51"
+        android:textSize="@dimen/text_size_16"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="@dimen/text_1"
+        android:background="@color/gray_f1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tv_watch"
+        app:layout_constraintStart_toStartOf="parent"/>
+</android.support.constraint.ConstraintLayout>
+

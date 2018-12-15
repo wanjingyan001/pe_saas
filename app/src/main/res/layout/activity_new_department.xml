@@ -46,6 +46,7 @@
         android:paddingRight="@dimen/text_15"
         android:paddingTop="@dimen/text_10"
         android:paddingBottom="@dimen/text_10"
+        android:visibility="gone"
         android:background="@drawable/bg_depart_bottom"
         android:layout_alignParentBottom="true">
         <TextView
@@ -109,8 +110,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:paddingLeft="@dimen/text_10"
-                android:paddingRight="@dimen/text_20"
                 android:paddingBottom="@dimen/text_10"
                 tools:listitem="@layout/item_department1">
 
