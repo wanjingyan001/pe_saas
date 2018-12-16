@@ -154,6 +154,7 @@
                 android:padding="@dimen/text_20"
                 app:layout_constraintTop_toBottomOf="@+id/memberLayout">
                 <TextView
+                    android:id="@+id/tv_del"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -294,26 +295,29 @@
                 android:layout_centerVertical="true"
                 android:textColor="@color/blue_17"
                 android:text="已选择：0个"/>
-
-            <ImageView
-                android:id="@+id/iv_select"
-                android:layout_width="@dimen/text_20"
-                android:layout_height="@dimen/text_20"
-                android:layout_marginStart="@dimen/text_10"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/tv_delete"
-                android:background="@drawable/team_select_bg"/>
-
-            <TextView
-                android:id="@+id/tv_status"
+            <LinearLayout
+                android:id="@+id/ll_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="全选"
-                android:layout_marginRight="@dimen/text_5"
+                android:layout_toLeftOf="@+id/tv_delete"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/iv_select"
-                android:textSize="@dimen/text_size_14"
-                android:textColor="@color/blue_17"/>
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tv_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="全选"
+                    android:layout_marginRight="@dimen/text_5"
+                    android:textSize="@dimen/text_size_14"
+                    android:textColor="@color/blue_17"/>
+                <ImageView
+                    android:id="@+id/iv_select"
+                    android:layout_width="@dimen/text_20"
+                    android:layout_height="@dimen/text_20"
+                    android:background="@drawable/team_select_bg"/>
+            </LinearLayout>
+
         </RelativeLayout>
         <TextView
             android:id="@+id/addMember"

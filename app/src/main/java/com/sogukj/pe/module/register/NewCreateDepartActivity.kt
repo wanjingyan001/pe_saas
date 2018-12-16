@@ -19,10 +19,12 @@ import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.bean.Depart0Item
 import com.sogukj.pe.bean.Depart1Item
+import com.sogukj.pe.bean.Department
 import kotlinx.android.synthetic.main.activity_new_department.*
 import kotlinx.android.synthetic.main.commom_blue_title.*
 import kotlinx.android.synthetic.main.layout_department_header.*
 import org.jetbrains.anko.find
+import org.jetbrains.anko.startActivity
 import java.util.*
 
 /**
@@ -111,16 +113,15 @@ class NewCreateDepartActivity : ToolbarActivity() {
             isEdit.yes {
                 //完成
                 tv_edit.text = "编辑"
-                isEdit = false
                 rl_bottom.visibility = View.GONE
                 showNormalList()
             }.otherWise {
                 tv_edit.text = "完成"
-                isEdit = true
                 //编辑
                 rl_bottom.visibility = View.VISIBLE
                 showEditList()
             }
+            isEdit = !isEdit
         }
 
         departAdapter.setOnItemChildClickListener { _adapter, view, position ->
@@ -134,7 +135,7 @@ class NewCreateDepartActivity : ToolbarActivity() {
                         //一级部门
                         if (!entity.isCanSelect){
                             //查看
-                            showSuccessToast("position ==" + position)
+                            startActivity<DepartmentSettingActivity>(Extras.DATA to Department(1,entity.name))
                             return@setOnItemChildClickListener
                         }
                         entity.isSelected = !entity.isSelected
@@ -146,7 +147,7 @@ class NewCreateDepartActivity : ToolbarActivity() {
                         //二级部门
                         if (!entity.isCanSelect){
                             //查看
-                            showSuccessToast("position ==" + position)
+                            startActivity<DepartmentSettingActivity>(Extras.DATA to Department(1,entity.name))
                             return@setOnItemChildClickListener
                         }
                         entity.isSelected = !entity.isSelected
@@ -171,6 +172,10 @@ class NewCreateDepartActivity : ToolbarActivity() {
 
         addDepartment.clickWithTrigger {
             //添加顶级部门
+            if (isEdit){
+                showTopSnackBar("编辑状态下不能添加部门")
+                return@clickWithTrigger
+            }
             if (departmentName.textStr.isNotEmpty()) {
                 addDepartment(departmentName.textStr)
                 departmentName.setText("")
