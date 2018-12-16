@@ -88,7 +88,7 @@
             android:layout_marginBottom="25dp"
             android:layout_marginTop="8dp"
             android:gravity="start"
-            android:text="李宁的用印申请，已等待3个小时；\n在手机或电脑上快速处理审批！"
+            tools:text="李宁的用印申请，已等待3个小时；\n在手机或电脑上快速处理审批！"
             android:textColor="@color/text_3"
             android:textSize="@dimen/text_size_samll"
             app:layout_constraintBottom_toBottomOf="parent"
