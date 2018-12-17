@@ -85,7 +85,7 @@
             2、侧边这个灰色方块是侧面滑块，色值#EFEFEF，r=6，w=5"
             android:letterSpacing="0.03"
             android:lineSpacingExtra="6sp"
-            android:layout_margin="10dp"
+            android:padding="@dimen/text_10"
             android:textColor="@color/text_3"
             android:textSize="14sp" />
 

@@ -9,10 +9,13 @@ import com.sogukj.pe.Extras.TYPE_LEVEL_1
 class Depart1Item : MultiItemEntity {
     var id : Int ? = null
     var name : String ? = null
+    var pid : Int ? = null
     var isCanSelect : Boolean = false
     var isSelected : Boolean = false
-    constructor(name : String){
+    constructor(name : String,id:Int,pid:Int){
         this.name = name
+        this.id = id
+        this.pid = pid
     }
     override fun getItemType(): Int {
         return TYPE_LEVEL_1

@@ -20,6 +20,9 @@ import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.bean.Depart0Item
 import com.sogukj.pe.bean.Depart1Item
 import com.sogukj.pe.bean.Department
+import com.sogukj.pe.bean.MineDepartmentBean
+import com.sogukj.pe.service.RegisterService
+import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_new_department.*
 import kotlinx.android.synthetic.main.commom_blue_title.*
 import kotlinx.android.synthetic.main.layout_department_header.*
@@ -34,15 +37,15 @@ import java.util.*
 class NewCreateDepartActivity : ToolbarActivity() {
     private lateinit var mechanismName: String
     private lateinit var phone: String
-    private lateinit var departAdapter : DepartmentItemAdapter
-    private lateinit var alreadySelected: MutableSet<MultiItemEntity>
+    private  var departAdapter : DepartmentItemAdapter ? = null
     private var list = ArrayList<MultiItemEntity>()
     private val logoUrl: String by extraDelegate(Extras.DATA, "")
     private val flag: Boolean by extraDelegate(Extras.FLAG, false)
     private val fromRegister: Boolean by extraDelegate(Extras.FLAG2, true)
     private var isEdit = false
-    private var totalAmount = 0
-    private var isAllSelect = false
+    private var rootPid = 0
+    private var isCanDelete = false
+    private var isDeleteChild = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_department)
@@ -64,37 +67,84 @@ class NewCreateDepartActivity : ToolbarActivity() {
         tv_edit.visibility = View.VISIBLE
         rl_bottom.visibility = View.GONE
         isEdit = false
-        alreadySelected = ArrayList<MultiItemEntity>().toMutableSet()
+        isCanDelete = false
     }
 
     private fun initData() {
-        totalAmount = 0
-        list = getLocalData()
+        getDepartmentFormNet()
+    }
+
+    private fun getDepartmentFormNet() {
+        SoguApi.getService(this,RegisterService::class.java)
+                .getCompanyDepartment(1)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+                            val data = payload.payload
+                            if (null != data && data.size > 0){
+                                list = getServiceData(data)
+                                setAdaperForList()
+                            }
+                        }else{
+                            showErrorToast(payload.message)
+                        }
+                    }
+                    onError {
+                        it.printStackTrace()
+                        showErrorToast("获取数据失败")
+                        list = getLocalData()
+                        setAdaperForList()
+                    }
+                }
+    }
+
+    private fun getServiceData(data: List<MineDepartmentBean>): ArrayList<MultiItemEntity> {
+        val res = ArrayList<MultiItemEntity>()
+            data.forEach {
+                if (null != it){
+                    rootPid = it.pid!!
+                    val departParent = Depart0Item(it.name,it.id!!,it.pid!!)
+                    val children = it.children
+                    if (null != children && children.size > 0){
+                        children.forEach {
+                            if (null != it){
+                                val departChild = Depart1Item(it.name,it.id!!,it.pid!!)
+                                departParent.addSubItem(departChild)
+                            }
+                        }
+                    }
+                    res.add(departParent)
+                }
+            }
+        return res
+    }
+
+    private fun setAdaperForList(){
         departAdapter = DepartmentItemAdapter(list,this)
         departmentList.apply {
             layoutManager = LinearLayoutManager(this@NewCreateDepartActivity)
             adapter = departAdapter
         }
-        departAdapter.expandAll()
+        departAdapter!!.expandAll()
 
-        if (null == departAdapter.data || departAdapter.data.size == 0){
+        if (null == departAdapter!!.data || departAdapter!!.data.size == 0){
             tv_edit.visibility = View.GONE
         }
+        setClickChildListener()
     }
-
     private fun getLocalData(): ArrayList<MultiItemEntity> {
         val res = ArrayList<MultiItemEntity>()
-        val item0 = Depart0Item("高管")
-        val item1 = Depart0Item("投资部")
-        val item2 = Depart0Item("组织部")
+        val item0 = Depart0Item("高管",1,0)
+        val item1 = Depart0Item("投资部",2,0)
+        val item2 = Depart0Item("组织部",3,0)
 
-        val item3 = Depart1Item("高管一部")
-        val item4 = Depart1Item("高管二部")
-        val item5 = Depart1Item("高管三部")
-        val item6 = Depart1Item("投资一部")
-        val item7 = Depart1Item("投资二部")
-        val item8 = Depart1Item("组织一部")
-        val item9 = Depart1Item("组织二部")
+        val item3 = Depart1Item("高管一部",4,1)
+        val item4 = Depart1Item("高管二部",5,1)
+        val item5 = Depart1Item("高管三部",6,1)
+        val item6 = Depart1Item("投资一部",7,2)
+        val item7 = Depart1Item("投资二部",8,2)
+        val item8 = Depart1Item("组织一部",9,3)
+        val item9 = Depart1Item("组织二部",10,3)
         item0.addSubItem(item3)
         item0.addSubItem(item4)
         item0.addSubItem(item5)
@@ -123,53 +173,6 @@ class NewCreateDepartActivity : ToolbarActivity() {
             }
             isEdit = !isEdit
         }
-
-        departAdapter.setOnItemChildClickListener { _adapter, view, position ->
-            val data = _adapter.data
-            val entity = data[position]
-            when(view.id){
-                R.id.item_view -> {
-                    val iv_select = view.find<ImageView>(R.id.iv_select)
-                    if (entity is Depart0Item){
-                        Log.e("TAG","Depart0Item isCanSelect ==" + entity.isCanSelect)
-                        //一级部门
-                        if (!entity.isCanSelect){
-                            //查看
-                            startActivity<DepartmentSettingActivity>(Extras.DATA to Department(1,entity.name))
-                            return@setOnItemChildClickListener
-                        }
-                        entity.isSelected = !entity.isSelected
-                        iv_select.isSelected = entity.isSelected
-                    }
-
-                    if (entity is Depart1Item){
-                        Log.e("TAG","Depart1Item isCanSelect ==" + entity.isCanSelect)
-                        //二级部门
-                        if (!entity.isCanSelect){
-                            //查看
-                            startActivity<DepartmentSettingActivity>(Extras.DATA to Department(1,entity.name))
-                            return@setOnItemChildClickListener
-                        }
-                        entity.isSelected = !entity.isSelected
-                        iv_select.isSelected = entity.isSelected
-                    }
-                    if (alreadySelected.contains(entity)){
-                        alreadySelected.remove(entity)
-                        totalAmount--
-                        if (totalAmount < 0){
-                            totalAmount = 0
-                        }
-                    }else{
-                        alreadySelected.add(entity as MultiItemEntity)
-                        totalAmount++
-                    }
-
-                    tv_count.text = "已选择：${totalAmount}个"
-                    tv_delete.setBackgroundResource(if (totalAmount > 0){R.drawable.bg_depart_delete}else{R.drawable.selector_sure_gray})
-                }
-            }
-        }
-
         addDepartment.clickWithTrigger {
             //添加顶级部门
             if (isEdit){
@@ -186,64 +189,92 @@ class NewCreateDepartActivity : ToolbarActivity() {
 
         tv_delete.clickWithTrigger {
             //删除
-            if (totalAmount > 0){
+            if (isCanDelete ){
                 showDeleteDepartDialog()
             }
         }
-        iv_select.clickWithTrigger {
-            selectAllOrNone()
-        }
-
-        tv_status.clickWithTrigger {
-            selectAllOrNone()
-        }
     }
 
-    private fun selectAllOrNone() {
-        isAllSelect = !isAllSelect
-        iv_select.isSelected = isAllSelect
-        val data = departAdapter.data
-        isAllSelect.yes {
-            tv_status.text = "全不选"
-            if (null != data && data.size > 0){
-                data.forEach {
-                    alreadySelected.clear()
-                    alreadySelected.add(it)
-                    if (it is Depart0Item){
-                        it.isCanSelect = true
-                        it.isSelected = true
+    private fun setClickChildListener(){
+        departAdapter!!.setOnItemChildClickListener { _adapter, view, position ->
+            val data = _adapter.data
+            val entity = data[position]
+            when(view.id){
+                R.id.ll_content -> {
+                    val iv_select = view.find<ImageView>(R.id.iv_select)
+                    if (entity is Depart0Item){
+                        if (!entity.isCanSelect){
+                            startActivity<DepartmentSettingActivity>(Extras.DATA to Department(1,entity.name))
+                            return@setOnItemChildClickListener
+                        }
+                        entity.isSelected = !entity.isSelected
+                        iv_select.isSelected = entity.isSelected
+                        data.forEachIndexed { index, it ->
+                            if (it is Depart0Item){
+                                it.isCanSelect = true
+                                if (index == position){
+                                    it.isSelected = entity.isSelected
+                                }else{
+                                    it.isSelected = false
+                                }
+                            }
+                            if (it is Depart1Item){
+                                it.isCanSelect = true
+                                it.isSelected = false
+                            }
+                        }
+                        _adapter.notifyDataSetChanged()
+                        isCanDelete = if (entity.isSelected){true}else{false}
+                        tv_delete.setBackgroundResource(if (entity.isSelected){R.drawable.bg_depart_delete}else{R.drawable.selector_sure_gray})
+
+                        Log.e("TAG","  child size ==" + entity.subItems.size)
                     }
-                    if (it is Depart1Item){
-                        it.isCanSelect = true
-                        it.isSelected = true
+
+                    if (entity is Depart1Item){
+                        if (!entity.isCanSelect){
+                            startActivity<DepartmentSettingActivity>(Extras.DATA to Department(1,entity.name))
+                            return@setOnItemChildClickListener
+                        }
+                        entity.isSelected = !entity.isSelected
+                        iv_select.isSelected = entity.isSelected
+
+                        data.forEachIndexed { index, it ->
+                            if (it is Depart1Item){
+                                it.isCanSelect = true
+                                if (index == position){
+                                    it.isSelected = entity.isSelected
+                                }else{
+                                    it.isSelected = false
+                                }
+                            }
+                            if (it is Depart0Item){
+                                it.isCanSelect = true
+                                it.isSelected = false
+                            }
+                        }
+                        _adapter.notifyDataSetChanged()
+                        isCanDelete = if (entity.isSelected){true}else{false}
+                        tv_delete.setBackgroundResource(if (entity.isSelected){R.drawable.bg_depart_delete}else{R.drawable.selector_sure_gray})
+                    }
+
+                }
+
+                R.id.tv_watch -> {
+                    if (entity is Depart0Item){
+                        startActivity<DepartmentSettingActivity>(Extras.DATA to Department(1,entity.name))
+                    }
+
+                    if (entity is Depart1Item){
+                        startActivity<DepartmentSettingActivity>(Extras.DATA to Department(1,entity.name))
                     }
                 }
             }
-            totalAmount = departAdapter.data.size
-        }.otherWise {
-            tv_status.text = "全选"
-            if (null != data && data.size > 0){
-                data.forEach {
-                    if (it is Depart0Item){
-                        it.isCanSelect = true
-                        it.isSelected = false
-                    }
-                    if (it is Depart1Item){
-                        it.isCanSelect = true
-                        it.isSelected = false
-                    }
-                }
-                alreadySelected.clear()
-            }
-            totalAmount = 0
         }
-        departAdapter.notifyDataSetChanged()
-        tv_delete.setBackgroundResource(if (totalAmount > 0){R.drawable.bg_depart_delete}else{R.drawable.selector_sure_gray})
-        tv_count.text = "已选择：${totalAmount}个"
     }
 
     private fun showNormalList() {
-        val data = departAdapter.data
+        if (null == departAdapter) return
+        val data = departAdapter!!.data
         if (null != data && data.size > 0){
             data.forEach {
                 if (it is Depart0Item){
@@ -255,7 +286,7 @@ class NewCreateDepartActivity : ToolbarActivity() {
                     it.isSelected = false
                 }
             }
-            departAdapter.notifyDataSetChanged()
+            departAdapter!!.notifyDataSetChanged()
         }
     }
 
@@ -292,7 +323,8 @@ class NewCreateDepartActivity : ToolbarActivity() {
     }
 
     private fun showEditList() {
-        val data = departAdapter.data
+        if (null == departAdapter) return
+        val data = departAdapter!!.data
         if (null != data && data.size > 0){
             data.forEach {
                 if (it is Depart0Item){
@@ -304,7 +336,7 @@ class NewCreateDepartActivity : ToolbarActivity() {
                     it.isSelected = false
                 }
             }
-            departAdapter.notifyDataSetChanged()
+            departAdapter!!.notifyDataSetChanged()
         }
     }
 
@@ -312,12 +344,32 @@ class NewCreateDepartActivity : ToolbarActivity() {
      * 添加部门
      */
     private fun addDepartment(name : String){
-        val data = departAdapter.data
-        if (null != data && data.size > 0){
-            departAdapter.addData(data.size,Depart0Item(name))
-        }else{
-            departAdapter.addData(0,Depart0Item(name))
-        }
+        if (null == departAdapter) return
+        val data = departAdapter!!.data
+        SoguApi.getService(this,RegisterService::class.java)
+                .createDepartmentInfo(name,rootPid)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+                            if (null != data && data.size > 0){
+                                departAdapter!!.addData(data.size,Depart0Item(name,1,rootPid))
+                            }else{
+                                departAdapter!!.addData(0,Depart0Item(name,1,rootPid))
+                            }
+                        }else{
+                          showErrorToast(payload.message)
+                        }
+                    }
+                    onError {
+                        it.printStackTrace()
+                        showErrorToast("创建部门失败")
+                        if (null != data && data.size > 0){
+                            departAdapter!!.addData(data.size,Depart0Item(name,1,rootPid))
+                        }else{
+                            departAdapter!!.addData(0,Depart0Item(name,1,rootPid))
+                        }
+                    }
+                }
     }
 
     override fun onDestroy() {

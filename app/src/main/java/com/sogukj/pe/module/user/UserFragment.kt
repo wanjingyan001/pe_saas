@@ -360,9 +360,11 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
                     onNext { payload ->
                         if (payload.isOk) {
                             payload.payload?.let {
-                                loadStage(it.xm!!)
-                                it.gz?.let {
-                                    tv_6.text = it.count.toString()
+                                if (null != it){
+                                    loadStage(it.xm!!)
+                                    it.gz?.let {
+                                        tv_6.text = it.count.toString()
+                                    }
                                 }
                             }
                         } else {
@@ -373,6 +375,7 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
     }
 
     fun loadStage(stageList: ArrayList<ProjectBelongBean.Cell1>) {
+        if (null == stageList || stageList.size == 0)return
         var size = stageList.size
 
         val wm = context!!.getSystemService(Context.WINDOW_SERVICE) as WindowManager

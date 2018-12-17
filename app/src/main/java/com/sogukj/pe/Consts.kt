@@ -9,6 +9,7 @@ class Consts {
         const val REGISTER = "Register"
         const val DATA_SOURCE = "DataSource"
         const val WX = "WX"
+        const val DEV = "dev"
 //        val HTTP_HOST = "https://sougu.pewinner.com/"
         val HTTP_HOST = "https://pe.pewinner.com/"
 //        val DEV_HTTP_HOST = "https://presougu.pewinner.com/"

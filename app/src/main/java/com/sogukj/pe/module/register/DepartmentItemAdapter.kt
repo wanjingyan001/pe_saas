@@ -32,15 +32,14 @@ class DepartmentItemAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseVie
                 }
                 if (depart0Item.isCanSelect){
                     holder.setGone(R.id.iv_select,true)
-                    holder.setGone(R.id.view_gaps,true)
                 }else{
                     holder.setGone(R.id.iv_select,false)
-                    holder.setGone(R.id.view_gaps,false)
                 }
                 val iv_select = holder.getView<ImageView>(R.id.iv_select)
                 iv_select.isSelected = depart0Item.isSelected
                 holder.setText(R.id.departmentName,depart0Item.name)
-                holder.addOnClickListener(R.id.item_view)
+                holder.addOnClickListener(R.id.ll_content)
+                holder.addOnClickListener(R.id.tv_watch)
             }
             Extras.TYPE_LEVEL_1 ->{
                 val depart1Item = item as Depart1Item
@@ -52,7 +51,8 @@ class DepartmentItemAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseVie
                 }
                 val iv_select = holder.getView<ImageView>(R.id.iv_select)
                 iv_select.isSelected = depart1Item.isSelected
-                holder.addOnClickListener(R.id.item_view)
+                holder.addOnClickListener(R.id.ll_content)
+                holder.addOnClickListener(R.id.tv_watch)
             }
         }
     }
