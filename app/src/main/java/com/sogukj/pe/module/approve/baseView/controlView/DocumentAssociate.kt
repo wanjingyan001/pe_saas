@@ -59,10 +59,10 @@ class DocumentAssociate @JvmOverloads constructor(
                             val extra = it.data.getSerializableExtra(Extras.BEAN)
                             Observable.just(extra as ApproveValueBean)
                         }.subscribe {
-                    controlBean.value?.clear()
-                    controlBean.value?.add(it)
-                    inflate.associateTv.text = "${it.title}${it.number}"
-                }
+                            controlBean.value?.clear()
+                            controlBean.value?.add(it)
+                            inflate.associateTv.text = "${it.title}${it.number}"
+                        }
             }
         }
     }

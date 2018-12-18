@@ -106,7 +106,6 @@
             android:background="@null"
             android:gravity="center_vertical"
             android:hint="请输入身份证号"
-            android:digits="0123456789QxX"
             android:textColor="@color/text_1"
             android:maxLength="18"
             android:singleLine="true"

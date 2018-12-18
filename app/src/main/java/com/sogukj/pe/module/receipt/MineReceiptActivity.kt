@@ -6,7 +6,9 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.support.annotation.RequiresApi
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
@@ -257,6 +259,7 @@ class MineReceiptActivity : BaseRefreshActivity() {
         val tv_coin = itemView.find<TextView>(R.id.tv_coin)
         val tv_tips = itemView.find<TextView>(R.id.tv_tips)
         val tv_pay_status = itemView.find<TextView>(R.id.tv_pay_status)
+        @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
         override fun setData(view: View, data: MineReceiptBean, position: Int) {
             if (null == data) return
             Log.e("TAG", "type ==" + type)

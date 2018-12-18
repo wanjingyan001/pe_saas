@@ -38,6 +38,7 @@ import com.sogukj.pe.module.register.LoginActivity
 import com.sogukj.pe.module.weekly.PersonalWeeklyActivity
 import com.sogukj.pe.peExtended.defaultIc
 import com.sogukj.pe.peExtended.getEnvironment
+import com.sogukj.pe.peExtended.getIntEnvironment
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.UserService
 import com.sogukj.service.SoguApi
@@ -72,7 +73,9 @@ class App : MultiDexApplication() {
                 ARouter.openDebug()
             }
             ARouter.init(INSTANCE)
-            CrashReport.initCrashReport(INSTANCE, "49fb9e37b7", BuildConfig.DEBUG)
+            if (getIntEnvironment() == 1){
+                CrashReport.initCrashReport(INSTANCE, "49fb9e37b7", BuildConfig.DEBUG)
+            }
             SgDatabase.getInstance(INSTANCE)
             MobSDK.init(INSTANCE, "214eaf8217e6c", "c1ddfcaa333020a5a06812bc745d508c")
             //友盟初始化

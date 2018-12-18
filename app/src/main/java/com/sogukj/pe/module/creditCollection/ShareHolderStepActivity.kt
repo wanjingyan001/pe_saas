@@ -11,6 +11,7 @@ import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.view.Gravity
+import android.view.KeyEvent
 import android.view.View
 import android.widget.EditText
 import com.sogukj.pe.Extras
@@ -30,6 +31,7 @@ import com.sogukj.pe.peExtended.removeStep1
 import com.sogukj.pe.service.CreditService
 import com.sogukj.pe.widgets.IOSPopwindow
 import com.sogukj.pe.widgets.PayView
+import com.sogukj.pe.widgets.keyboard.KeyBoardUtil
 import com.sogukj.service.SoguApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -55,7 +57,7 @@ class ShareHolderStepActivity : ToolbarActivity(), View.OnClickListener {
     private lateinit var popwin: IOSPopwindow
     var step = 0
     var selectId = 0
-
+    private var keyboardUtli : KeyBoardUtil? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_share_holder_step)
@@ -80,7 +82,7 @@ class ShareHolderStepActivity : ToolbarActivity(), View.OnClickListener {
             step_layout_1.visibility = View.GONE
             step_layout_2.visibility = View.VISIBLE
         }
-
+        keyboardUtli = KeyBoardUtil(this)
         popwin = IOSPopwindow(this)
         typeSelect.setOnClickListener(this)
         companySelect.setOnClickListener(this)
@@ -106,6 +108,11 @@ class ShareHolderStepActivity : ToolbarActivity(), View.OnClickListener {
                 typeSelectTv.text = "股东"
             }
             selectType = select
+        }
+
+        IDCardEdt.setOnTouchListener { v, event ->
+            keyboardUtli?.attachTo(IDCardEdt)
+            false
         }
     }
 
@@ -243,5 +250,13 @@ class ShareHolderStepActivity : ToolbarActivity(), View.OnClickListener {
             companyName.text = valueBean.name
             selectId = valueBean.id!!
         }
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            var b = keyboardUtli?.hideSoftKeyboard() ?: false
+            return if (b) true else super.onKeyDown(keyCode, event)
+        }
+        return super.onKeyDown(keyCode, event)
     }
 }
