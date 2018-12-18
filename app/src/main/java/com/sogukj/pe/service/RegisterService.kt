@@ -203,10 +203,25 @@ interface RegisterService {
                              @Field("pid")pid:Int,@Field("depart_id")depart_id : Int?=null):Observable<Payload<Any>>
 
     /**
-     * 批量删除部门
+     * 批量删除用户
      */
     @FormUrlEncoded
     @POST("api/Department/delCompanyUser")
-    fun deleteDepartmentInfo(@Field("user_ids")user_ids:String):Observable<Payload<Any>>
+    fun deleteDepartmentUser(@Field("user_ids")user_ids:String):Observable<Payload<Any>>
+
+
+    /**
+     * 多级部门删除
+     */
+    @FormUrlEncoded
+    @POST("/api/Department/delDepartmentInfo")
+    fun deleteDepartmentInfo(@Field("depart_id") depart_id: Int): Observable<Payload<Any>>
+
+    /**
+     * 部门详情
+     */
+    @FormUrlEncoded
+    @POST("/api/Department/getDepartmentInfo")
+    fun getDepartmentInfo(@Field("depart_id") depart_id: Int,@Field("type")type : Int = 2):Observable<Payload<DepartmentInfo>>
 }
 

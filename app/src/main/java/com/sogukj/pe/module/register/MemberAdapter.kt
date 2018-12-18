@@ -11,6 +11,7 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.widgets.CircleImageView
@@ -25,6 +26,10 @@ class MemberAdapter(val ctx: Context, val members: ArrayList<UserBean>) : Recycl
     override fun onBindViewHolder(holder: MemberHolder, position: Int) {
         if (position == members.size) {
             holder.headImg.setImageResource(R.drawable.invalid_name3)
+            holder.headImg.setTag(R.id.member_headImg,Extras.ADD)
+        } else if (position == members.size + 1){
+            holder.headImg.setImageResource(R.mipmap.invalid_name4)
+            holder.headImg.setTag(R.id.member_headImg,Extras.SUBTRACT)
         } else {
             val userBean = members[position]
             if (userBean.url.isNullOrEmpty()) {
@@ -54,7 +59,7 @@ class MemberAdapter(val ctx: Context, val members: ArrayList<UserBean>) : Recycl
         }
     }
 
-    override fun getItemCount(): Int = members.size + 1
+    override fun getItemCount(): Int = members.size + 2
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MemberHolder {
         val inflate = LayoutInflater.from(ctx).inflate(R.layout.item_team_member, parent, false)

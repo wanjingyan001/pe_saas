@@ -46,6 +46,10 @@ class NewCreateDepartActivity : ToolbarActivity() {
     private var rootPid = 0
     private var isCanDelete = false
     private var isDeleteChild = false
+    private var parentPos = -1
+    private var childPos = -1
+    private var depart_id = -1
+    private var childDepartCount = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_department)
@@ -226,8 +230,17 @@ class NewCreateDepartActivity : ToolbarActivity() {
                         _adapter.notifyDataSetChanged()
                         isCanDelete = if (entity.isSelected){true}else{false}
                         tv_delete.setBackgroundResource(if (entity.isSelected){R.drawable.bg_depart_delete}else{R.drawable.selector_sure_gray})
+                        if (null != entity.subItems && entity.subItems.size > 0){
+                            Log.e("TAG","  child size ==" + entity.subItems.size + "  position ==" + position)
+                            childDepartCount = entity.subItems.size
+                        }else{
+                            Log.e("TAG","  parent position ==" + position)
+                            childDepartCount = 0
+                        }
+                        isDeleteChild = false
+                        parentPos = position
 
-                        Log.e("TAG","  child size ==" + entity.subItems.size)
+                        depart_id = entity.id!!
                     }
 
                     if (entity is Depart1Item){
@@ -255,6 +268,11 @@ class NewCreateDepartActivity : ToolbarActivity() {
                         _adapter.notifyDataSetChanged()
                         isCanDelete = if (entity.isSelected){true}else{false}
                         tv_delete.setBackgroundResource(if (entity.isSelected){R.drawable.bg_depart_delete}else{R.drawable.selector_sure_gray})
+                        Log.e("TAG","  child position ==" + position)
+                        isDeleteChild = true
+                        childPos = position
+
+                        depart_id = entity.id!!
                     }
 
                 }
@@ -316,8 +334,51 @@ class NewCreateDepartActivity : ToolbarActivity() {
 
         tv_comfirm.clickWithTrigger {
             //确定删除
-            if (dialog.isShowing){
-                dialog.dismiss()
+            deleteDepartmentInfo(dialog)
+        }
+    }
+
+    private fun deleteDepartmentInfo(dialog: MaterialDialog) {
+        SoguApi.getService(this,RegisterService::class.java)
+                .deleteDepartmentInfo(depart_id)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk){
+                            showSuccessToast("删除部门成功")
+                            deleteDepartLocal()
+                        }else{
+                            showErrorToast(payload.message)
+                        }
+                        if (dialog.isShowing){
+                            dialog.dismiss()
+                        }
+                    }
+                    onError {
+                        it.printStackTrace()
+                        showErrorToast("删除部门失败")
+                        deleteDepartLocal()
+                        if (dialog.isShowing){
+                            dialog.dismiss()
+                        }
+                    }
+                }
+    }
+
+    private fun deleteDepartLocal() {
+        if (isDeleteChild){
+            //删除子部门
+            if (childPos != -1){
+                departAdapter!!.remove(childPos)
+            }
+        }else{
+            //删除的一级部门
+            if (childDepartCount > 0){
+                //删除一级部门和当前部门的子部门
+                for (i in 0 .. childDepartCount){
+                    departAdapter!!.remove(parentPos)
+                }
+            }else{
+                departAdapter!!.remove(parentPos)
             }
         }
     }

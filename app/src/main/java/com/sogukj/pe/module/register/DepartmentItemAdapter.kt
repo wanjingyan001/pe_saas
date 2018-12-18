@@ -20,6 +20,7 @@ class DepartmentItemAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseVie
         addItemType(Extras.TYPE_LEVEL_0, R.layout.item_department1)
         addItemType(Extras.TYPE_LEVEL_1, R.layout.item_department2)
     }
+
     override fun convert(holder: BaseViewHolder, item: MultiItemEntity) {
         when(holder.itemViewType){
             Extras.TYPE_LEVEL_0 -> {

@@ -28,6 +28,7 @@ import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.ChildDepartmentBean
 import com.sogukj.pe.bean.Department
+import com.sogukj.pe.bean.DepartmentInfo
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.service.RegisterService
 import com.sogukj.service.SoguApi
@@ -50,9 +51,8 @@ class DepartmentSettingActivity : ToolbarActivity() {
     private var childenDepartment = ArrayList<ChildDepartmentBean>()
     private lateinit var childAdapter : RecyclerAdapter<ChildDepartmentBean>
     private var isShowDel = false
-    private lateinit var alreadySelected: MutableSet<ChildDepartmentBean>
-    private var selectCount = 0
-    private var isAllSelect = false
+    private var isCanDlete = false
+    private var deletePos = -1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_department_setting2)
@@ -63,7 +63,6 @@ class DepartmentSettingActivity : ToolbarActivity() {
             departmentName.text = it.name
             title = it.name
         }
-        alreadySelected = java.util.ArrayList<ChildDepartmentBean>().toMutableSet()
         memberAdapter.onItemClick = { v, p ->
             if (p == memberData.size) {
                 if (isNotEmpty) {
@@ -71,6 +70,9 @@ class DepartmentSettingActivity : ToolbarActivity() {
                 } else {
                     toInviteActivity()
                 }
+            }else if (v.getTag(R.id.member_headImg).equals(Extras.SUBTRACT)){
+                //删除部门成员页面
+                showCommonToast("删除部门成员")
             }
         }
         getDepartmentSetting()
@@ -91,7 +93,7 @@ class DepartmentSettingActivity : ToolbarActivity() {
 
         for (i in 1 .. 15){
             var childDepartmentBean = ChildDepartmentBean()
-            childDepartmentBean.name = "子部门" + i
+            childDepartmentBean.de_name = "子部门" + i
             childDepartmentBean.isCanSelect = false
             childDepartmentBean.isSelected = false
             childenDepartment.add(childDepartmentBean)
@@ -121,46 +123,9 @@ class DepartmentSettingActivity : ToolbarActivity() {
 
         }
 
-        ll_status.clickWithTrigger {
-            //全选，全不选
-            isAllSelect = !isAllSelect
-            val dataList = childAdapter.dataList
-            isAllSelect.yes {
-                tv_status.text = "全不选"
-                iv_select.isSelected = true
-                if (null != dataList && dataList.size > 0){
-                    alreadySelected.clear()
-                    dataList.forEach {
-                        it.isCanSelect = true
-                        it.isSelected = true
-                        alreadySelected.add(it)
-                    }
-                    childAdapter.notifyDataSetChanged()
-                    selectCount = dataList.size
-                    tv_count.text = "已选择：${selectCount}个"
-                    tv_delete.setBackgroundResource(if (selectCount > 0){R.drawable.bg_depart_delete}else{R.drawable.selector_sure_gray})
-                }
-            }.otherWise {
-                tv_status.text = "全选"
-                iv_select.isSelected = false
-                if (null != dataList && dataList.size > 0){
-                    alreadySelected.clear()
-                    dataList.forEach {
-                        it.isCanSelect = true
-                        it.isSelected = false
-                    }
-                    childAdapter.notifyDataSetChanged()
-
-                    selectCount = 0
-                    tv_count.text = "已选择：${selectCount}个"
-                    tv_delete.setBackgroundResource(R.drawable.selector_sure_gray)
-                }
-            }
-        }
-
         tv_delete.clickWithTrigger {
-            //批量删除
-            if (selectCount > 0){
+            //删除
+            if (isCanDlete){
                 showDeleteDepartDialog()
             }
         }
@@ -186,7 +151,7 @@ class DepartmentSettingActivity : ToolbarActivity() {
     private fun addDepartment(name : String){
         val dataList = childAdapter.dataList
         val child = ChildDepartmentBean()
-        child.name = name
+        child.de_name = name
         child.isCanSelect = false
         child.isSelected = false
         if (null != dataList){
@@ -221,8 +186,44 @@ class DepartmentSettingActivity : ToolbarActivity() {
 
         tv_comfirm.clickWithTrigger {
             //确定删除
-            if (dialog.isShowing){
-                dialog.dismiss()
+            deleteDepartmentInfo(dialog)
+        }
+    }
+
+    private fun deleteDepartmentInfo(dialog: MaterialDialog) {
+        departmentBean?.let {
+            SoguApi.getService(this,RegisterService::class.java)
+                    .deleteDepartmentInfo(it.depart_id)
+                    .execute {
+                        onNext { payload ->
+                            if (payload.isOk){
+                                showSuccessToast("删除部门成功")
+                                deleteDepartLocal()
+                            }else{
+                                showErrorToast(payload.message)
+                            }
+                            if (dialog.isShowing){
+                                dialog.dismiss()
+                            }
+                        }
+                        onError {
+                            it.printStackTrace()
+                            showErrorToast("删除部门失败")
+                            deleteDepartLocal()
+                            if (dialog.isShowing){
+                                dialog.dismiss()
+                            }
+                        }
+                    }
+        }
+    }
+
+    private fun deleteDepartLocal() {
+        val dataList = childAdapter.dataList
+        if (null != dataList && dataList.size > 0){
+            if (deletePos != -1){
+                dataList.removeAt(deletePos)
+                childAdapter.notifyItemRemoved(deletePos)
             }
         }
     }
@@ -291,6 +292,62 @@ class DepartmentSettingActivity : ToolbarActivity() {
                             }
                         }
                     }
+
+            SoguApi.getService(this,RegisterService::class.java)
+                    .getDepartmentInfo(it.depart_id)
+                    .execute {
+                        onNext { payload ->
+                            if (payload.isOk){
+                                val departmentInfo = payload.payload
+                                if (null != departmentInfo){
+                                    setDepartmentInfo(departmentInfo)
+                                }
+                            }else{
+                                showErrorToast(payload.message)
+                            }
+                        }
+
+                        onError {
+                            it.printStackTrace()
+                            showErrorToast("获取部门详情失败")
+                        }
+                    }
+        }
+    }
+
+    private fun setDepartmentInfo(departmentInfo: DepartmentInfo) {
+        if (!departmentInfo.depart_head_name.isNullOrEmpty()){
+            departmentPrincipal.text = departmentInfo.depart_head_name
+        }
+
+        if (departmentInfo.p_depart_name.isNullOrEmpty()){
+            parent_depart.setVisible(false)
+            view_depart.setVisible(false)
+        }else{
+            parent_depart.setVisible(true)
+            view_depart.setVisible(true)
+            tv_parentDepart.text = departmentInfo.p_depart_name
+        }
+        val user_info = departmentInfo.user_info
+        if (null != user_info && user_info.size > 0){
+            memberCount.text = "${user_info.size}人"
+            memberAdapter.members.addAll(user_info)
+            memberAdapter.notifyDataSetChanged()
+        }
+
+        val children = departmentInfo.children
+        if (null != children && children.size > 0){
+            rl_next_depart.setVisible(true)
+            view_line.setVisible(true)
+            inputLayout.setVisible(true)
+            view_line1.setVisible(true)
+            childAdapter.dataList.addAll(children)
+            childAdapter.notifyDataSetChanged()
+        }else{
+            rl_next_depart.setVisible(false)
+            view_line.setVisible(false)
+            inputLayout.setVisible(false)
+            view_line1.setVisible(false)
         }
     }
 
@@ -361,36 +418,37 @@ class DepartmentSettingActivity : ToolbarActivity() {
         val tv_watch = itemView.find<TextView>(R.id.tv_watch)
         override fun setData(view: View, data: ChildDepartmentBean, position: Int) {
             if (null == data) return
-            departmentName.text = data.name
+            departmentName.text = data.de_name
             iv_select.isSelected = data.isSelected
             if (data.isCanSelect){
                 iv_select.setVisible(true)
                 ll_content.clickWithTrigger {
-                    //
-                    if (alreadySelected.contains(data)){
-                        alreadySelected.remove(data)
-                        selectCount--
-                        if (selectCount < 0){
-                            selectCount = 0
-                        }
-                    }else{
-                        alreadySelected.add(data)
-                        selectCount++
-                    }
                     data.isSelected = !data.isSelected
                     iv_select.isSelected = data.isSelected
-                    tv_count.text = "已选择：${selectCount}个"
-                    tv_delete.setBackgroundResource(if (selectCount > 0){R.drawable.bg_depart_delete}else{R.drawable.selector_sure_gray})
+                    isCanDlete = if (data.isSelected){true}else{false}
+                    tv_delete.setBackgroundResource(if (data.isSelected){R.drawable.bg_depart_delete}else{R.drawable.selector_sure_gray})
+
+                    val dataList = childAdapter.dataList
+                    dataList.forEachIndexed { index, childDepartmentBean ->
+                        childDepartmentBean.isCanSelect = true
+                        if (index == position){
+                            childDepartmentBean.isSelected = data.isSelected
+                        }else{
+                            childDepartmentBean.isSelected = false
+                        }
+                    }
+                    childAdapter.notifyDataSetChanged()
+                    deletePos = position
                 }
                 tv_watch.clickWithTrigger {
                     //查看
-                    startActivity<DepartmentSettingActivity>(Extras.DATA to Department(1,data.name))
+                    startActivity<DepartmentSettingActivity>(Extras.DATA to Department(1,data.de_name))
                 }
             }else{
                 iv_select.setVisible(false)
                 itemView.clickWithTrigger {
                     //查看
-                    startActivity<DepartmentSettingActivity>(Extras.DATA to Department(1,data.name))
+                    startActivity<DepartmentSettingActivity>(Extras.DATA to Department(1,data.de_name))
                 }
             }
         }
