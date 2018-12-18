@@ -1,11 +1,8 @@
 package com.sogukj.pe.module.im
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.databinding.DataBindingUtil.setContentView
 import android.graphics.drawable.Drawable
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
@@ -18,7 +15,6 @@ import com.bumptech.glide.request.target.Target
 import com.netease.nimlib.sdk.team.model.Team
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.R.layout.item
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
@@ -37,14 +33,16 @@ class RemoveMemberActivity : ToolbarActivity() {
     private lateinit var alreadySelected: ArrayList<UserBean>
     private var team: Team? = null
     private val mine by lazy { Store.store.getUser(this) }
+    private var type = 0
     override val menuId: Int
         get() = R.menu.arrange_edit_save
 
     companion object {
-        fun start(context: Activity, teamMembers: ArrayList<UserBean>, team: Team? = null) {
+        fun start(context: Activity, teamMembers: ArrayList<UserBean>,type:Int,team: Team? = null) {
             val intent = Intent(context, RemoveMemberActivity::class.java)
             intent.putExtra(Extras.LIST, teamMembers)
             intent.putExtra(Extras.DATA, team)
+            intent.putExtra(Extras.TYPE,type)
             context.startActivityForResult(intent, Extras.REQUESTCODE)
         }
     }
@@ -53,7 +51,8 @@ class RemoveMemberActivity : ToolbarActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_remove_member)
         setBack(true)
-        title = "移除群成员"
+        type = intent.getIntExtra(Extras.TYPE,0)
+        title = if (type == 0){"移除群成员"}else{"移除部门成员"}
         teamMembers = intent.getSerializableExtra(Extras.LIST) as ArrayList<UserBean>
         alreadySelected = intent.getSerializableExtra(Extras.LIST) as ArrayList<UserBean>
         team = intent.getSerializableExtra(Extras.DATA) as? Team

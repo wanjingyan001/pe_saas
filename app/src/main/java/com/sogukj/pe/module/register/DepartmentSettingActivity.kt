@@ -19,6 +19,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
+import com.netease.nimlib.sdk.team.model.Team
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
@@ -30,6 +31,7 @@ import com.sogukj.pe.bean.ChildDepartmentBean
 import com.sogukj.pe.bean.Department
 import com.sogukj.pe.bean.DepartmentInfo
 import com.sogukj.pe.bean.UserBean
+import com.sogukj.pe.module.im.RemoveMemberActivity
 import com.sogukj.pe.service.RegisterService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_department_setting2.*
@@ -72,7 +74,7 @@ class DepartmentSettingActivity : ToolbarActivity() {
                 }
             }else if (v.getTag(R.id.member_headImg).equals(Extras.SUBTRACT)){
                 //删除部门成员页面
-                showCommonToast("删除部门成员")
+                RemoveMemberActivity.start(this, memberAdapter.members,1)
             }
         }
         getDepartmentSetting()
@@ -452,6 +454,10 @@ class DepartmentSettingActivity : ToolbarActivity() {
                 }
             }
         }
+
+    }
+
+    inner abstract class DepartTeam : Team{
 
     }
 }
