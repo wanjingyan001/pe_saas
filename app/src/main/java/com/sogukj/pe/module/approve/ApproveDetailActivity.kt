@@ -112,12 +112,14 @@ class ApproveDetailActivity : ToolbarActivity() {
     private fun initBasic(fixation: Fixation) {
         tid = fixation.tid
         tName = fixation.tName
-        Glide.with(this)
-                .load(fixation.url)
-                .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))
-                .thumbnail(0.1f)
-                .listener(UserRequestListener(applicantHeader, fixation.name))
-                .into(applicantHeader)
+        isDestroyed.no {
+            Glide.with(this)
+                    .load(fixation.url)
+                    .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))
+                    .thumbnail(0.1f)
+                    .listener(UserRequestListener(applicantHeader, fixation.name))
+                    .into(applicantHeader)
+        }
         applicantName.text = fixation.name
         approveNum.text = "审批编号:${fixation.number}"
         title = when (fixation.control) {

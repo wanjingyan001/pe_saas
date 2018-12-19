@@ -1166,7 +1166,6 @@
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
-            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent" />
 
         <receiver android:name=".wxapi.AppRegister">
