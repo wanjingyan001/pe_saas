@@ -18,7 +18,7 @@ class UserActivity : ToolbarActivity() {
         supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fl_container, UserFragment.newInstance())
-                .commit()
+                .commitAllowingStateLoss()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
