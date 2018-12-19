@@ -190,7 +190,6 @@ interface RegisterService {
     /**
      * 获取多级部门
      */
-    @Headers(value = ["Domain-Name: ${Consts.DEV}"])
     @FormUrlEncoded
     @POST("api/Department/getCompanyDepartment")
     fun getCompanyDepartment(@Field("type")type:Int):Observable<Payload<List<MineDepartmentBean>>>
@@ -198,16 +197,14 @@ interface RegisterService {
     /**
      * 创建部门
      */
-    @Headers(value = ["Domain-Name: ${Consts.DEV}"])
     @FormUrlEncoded
     @POST("api/Department/setDepartmentInfo")
     fun createDepartmentInfo(@Field("depart_name")depart_name:String,
-                             @Field("pid")pid:Int,@Field("depart_id")depart_id : Int?=null):Observable<Payload<Any>>
+                             @Field("pid")pid:Int,@Field("depart_id")depart_id : Int?=null):Observable<Payload<AddDepartBean>>
 
     /**
      * 批量删除用户
      */
-    @Headers(value = ["Domain-Name: ${Consts.DEV}"])
     @FormUrlEncoded
     @POST("api/Department/delCompanyUser")
     fun deleteDepartmentUser(@Field("user_ids")user_ids:String):Observable<Payload<Any>>
@@ -216,7 +213,6 @@ interface RegisterService {
     /**
      * 多级部门删除
      */
-    @Headers(value = ["Domain-Name: ${Consts.DEV}"])
     @FormUrlEncoded
     @POST("/api/Department/delDepartmentInfo")
     fun deleteDepartmentInfo(@Field("depart_id") depart_id: Int): Observable<Payload<Any>>
@@ -224,9 +220,16 @@ interface RegisterService {
     /**
      * 部门详情
      */
-    @Headers(value = ["Domain-Name: ${Consts.DEV}"])
     @FormUrlEncoded
     @POST("/api/Department/getDepartmentInfo")
     fun getDepartmentInfo(@Field("depart_id") depart_id: Int,@Field("type")type : Int = 2):Observable<Payload<DepartmentInfo>>
+
+    /**
+     * 保存部门信息
+     */
+    @FormUrlEncoded
+    @POST("/api/Department/depart_set")
+    fun saveDepartmentInfo(@Field("depart_id") depart_id: Int,@Field("depart_name") depart_name : String,
+                           @Field("depart_head")depart_head : Int,@Field("depart_member")depart_member:String): Observable<Payload<Any>>
 }
 

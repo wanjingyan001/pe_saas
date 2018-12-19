@@ -17,8 +17,8 @@
         android:id="@+id/departHeader"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="10dp"
         android:layout_below="@id/toolbar"
+        android:layout_marginTop="10dp"
         android:background="@color/white"
         android:gravity="center_vertical">
 
@@ -35,43 +35,49 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:textColor="@color/text_1"
-            android:textSize="@dimen/text_size_medium" />
+            android:textSize="@dimen/text_size_medium"/>
 
     </LinearLayout>
+
     <RelativeLayout
         android:id="@+id/rl_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/text_10"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bg_depart_bottom"
         android:paddingBottom="@dimen/text_10"
         android:paddingLeft="@dimen/text_20"
         android:paddingRight="@dimen/text_20"
-        android:background="@drawable/bg_depart_bottom"
-        android:layout_alignParentBottom="true">
+        android:paddingTop="@dimen/text_10">
+
         <TextView
             android:id="@+id/tv_delete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="删除"
-            android:textSize="@dimen/text_size_14"
-            android:paddingTop="@dimen/text_12"
-            android:paddingBottom="@dimen/text_12"
-            android:gravity="center"
             android:background="@drawable/selector_sure_gray"
-            android:textColor="@color/white"/>
+            android:gravity="center"
+            android:paddingBottom="@dimen/text_12"
+            android:paddingTop="@dimen/text_12"
+            android:text="删除"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_14"/>
     </RelativeLayout>
+
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/text_15"
-        android:layout_below="@id/departHeader"
         android:layout_above="@id/rl_bottom"
+        android:layout_below="@id/departHeader"
+        android:layout_marginTop="@dimen/text_15"
         android:scrollbars="none">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <include layout="@layout/layout_department_header"/>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/departmentList"
                 android:layout_width="match_parent"
@@ -86,6 +92,25 @@
 
     </android.support.v4.widget.NestedScrollView>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/rl_bottom"
+        android:layout_below="@id/departHeader">
 
+        <ImageView
+            android:id="@+id/iv_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:src="@drawable/img_empty"/>
 
+        <ImageView
+            android:id="@+id/iv_loading"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:visibility="gone"
+            android:layout_gravity="center"/>
+    </FrameLayout>
 </RelativeLayout>

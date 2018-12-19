@@ -19,12 +19,10 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
-import com.netease.nimlib.sdk.team.model.Team
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
-import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.ChildDepartmentBean
@@ -50,7 +48,6 @@ class DepartmentSettingActivity : ToolbarActivity() {
     private val model: OrganViewModel by lazy { ViewModelProviders.of(this).get(OrganViewModel::class.java) }
     private var isNotEmpty: Boolean = false
     private var principal: UserBean? = null
-    private var childenDepartment = ArrayList<ChildDepartmentBean>()
     private lateinit var childAdapter : RecyclerAdapter<ChildDepartmentBean>
     private var isShowDel = false
     private var isCanDlete = false
@@ -93,17 +90,9 @@ class DepartmentSettingActivity : ToolbarActivity() {
             toInviteActivity()
         }
 
-        for (i in 1 .. 15){
-            var childDepartmentBean = ChildDepartmentBean()
-            childDepartmentBean.de_name = "子部门" + i
-            childDepartmentBean.isCanSelect = false
-            childDepartmentBean.isSelected = false
-            childenDepartment.add(childDepartmentBean)
-        }
         childAdapter = RecyclerAdapter(this){_adapter, parent, _ ->
             ChildDepartmentHolder(_adapter.getView(R.layout.item_child_department,parent))
         }
-        childAdapter.dataList = childenDepartment
         recycler_view.apply {
             layoutManager = LinearLayoutManager(this@DepartmentSettingActivity)
             addItemDecoration(DividerItemDecoration(this@DepartmentSettingActivity,DividerItemDecoration.VERTICAL))
@@ -133,7 +122,7 @@ class DepartmentSettingActivity : ToolbarActivity() {
         }
 
         addDepartment.clickWithTrigger {
-            //添加顶级部门
+            //添加部门
             if (isShowDel){
                 showTopSnackBar("编辑状态下不能添加")
                 return@clickWithTrigger
@@ -153,12 +142,35 @@ class DepartmentSettingActivity : ToolbarActivity() {
     private fun addDepartment(name : String){
         val dataList = childAdapter.dataList
         val child = ChildDepartmentBean()
-        child.de_name = name
         child.isCanSelect = false
         child.isSelected = false
-        if (null != dataList){
-            dataList.add(child)
-            childAdapter.notifyDataSetChanged()
+        departmentBean?.let {
+            SoguApi.getService(this,RegisterService::class.java)
+                    .createDepartmentInfo(name,it.depart_id)
+                    .execute {
+                        onNext { payload ->
+                            if (payload.isOk){
+                                val departBean = payload.payload
+                                if (null != departBean){
+                                    if (null != dataList){
+                                        child.de_name = if (null != departBean.name){departBean.name}else{""}
+                                        child.depart_id = departBean.id
+                                        dataList.add(child)
+                                        childAdapter.notifyDataSetChanged()
+                                    }
+                                }else{
+                                    getDepartmentSetting()
+                                }
+
+                            }else{
+                                showErrorToast(payload.message)
+                            }
+                        }
+                        onError {
+                            it.printStackTrace()
+                            showErrorToast("创建部门失败")
+                        }
+                    }
         }
     }
 
@@ -211,7 +223,6 @@ class DepartmentSettingActivity : ToolbarActivity() {
                         onError {
                             it.printStackTrace()
                             showErrorToast("删除部门失败")
-                            deleteDepartLocal()
                             if (dialog.isShowing){
                                 dialog.dismiss()
                             }
@@ -274,26 +285,26 @@ class DepartmentSettingActivity : ToolbarActivity() {
 
     private fun getDepartmentSetting() {
         departmentBean?.let {
-            SoguApi.getService(application, RegisterService::class.java).setDepartment(it.depart_id)
-                    .execute {
-                        onNext { payload ->
-                            if (payload.isOk) {
-                                payload.payload?.let {
-                                    it.depart_member?.let {
-                                        memberCount.text = "${it.size}人"
-                                        memberAdapter.members.addAll(it)
-                                        memberAdapter.notifyDataSetChanged()
-                                    }
-                                    it.depart_head?.let {
-                                        principal = it
-                                        departmentPrincipal.text = it.name
-                                    }
-                                }
-                            } else {
-                                showTopSnackBar(payload.message)
-                            }
-                        }
-                    }
+//            SoguApi.getService(application, RegisterService::class.java).setDepartment(it.depart_id)
+//                    .execute {
+//                        onNext { payload ->
+//                            if (payload.isOk) {
+//                                payload.payload?.let {
+//                                    it.depart_member?.let {
+//                                        memberCount.text = "${it.size}人"
+//                                        memberAdapter.members.addAll(it)
+//                                        memberAdapter.notifyDataSetChanged()
+//                                    }
+//                                    it.depart_head?.let {
+//                                        principal = it
+//                                        departmentPrincipal.text = it.name
+//                                    }
+//                                }
+//                            } else {
+//                                showTopSnackBar(payload.message)
+//                            }
+//                        }
+//                    }
 
             SoguApi.getService(this,RegisterService::class.java)
                     .getDepartmentInfo(it.depart_id)
@@ -321,7 +332,12 @@ class DepartmentSettingActivity : ToolbarActivity() {
         if (!departmentInfo.depart_head_name.isNullOrEmpty()){
             departmentPrincipal.text = departmentInfo.depart_head_name
         }
-
+        val userBean = UserBean()
+        if (null != departmentInfo.depart_head){
+            userBean.user_id = departmentInfo.depart_head
+            userBean.name = departmentInfo.depart_head_name
+        }
+        principal = userBean
         if (departmentInfo.p_depart_name.isNullOrEmpty()){
             parent_depart.setVisible(false)
             view_depart.setVisible(false)
@@ -333,41 +349,51 @@ class DepartmentSettingActivity : ToolbarActivity() {
         val user_info = departmentInfo.user_info
         if (null != user_info && user_info.size > 0){
             memberCount.text = "${user_info.size}人"
+            memberAdapter.members.clear()
             memberAdapter.members.addAll(user_info)
             memberAdapter.notifyDataSetChanged()
         }
 
         val children = departmentInfo.children
         if (null != children && children.size > 0){
-            rl_next_depart.setVisible(true)
-            view_line.setVisible(true)
-            inputLayout.setVisible(true)
-            view_line1.setVisible(true)
+            childAdapter.dataList.clear()
             childAdapter.dataList.addAll(children)
             childAdapter.notifyDataSetChanged()
-        }else{
-            rl_next_depart.setVisible(false)
-            view_line.setVisible(false)
-            inputLayout.setVisible(false)
-            view_line1.setVisible(false)
         }
     }
 
     private fun setDepartmentSite() {
         departmentBean?.let {
             val memberUids = memberAdapter.members.map { it.user_id }.joinToString(",")
-            SoguApi.getService(application, RegisterService::class.java).addDepartmentMember(it.depart_id, principal?.user_id, memberUids)
+//            SoguApi.getService(application, RegisterService::class.java).addDepartmentMember(it.depart_id, principal?.user_id, memberUids)
+//                    .execute {
+//                        onNext { payload ->
+//                            if (payload.isOk) {
+//                                finish()
+//                            } else {
+//                                showTopSnackBar(payload.message)
+//                            }
+//                        }
+//                        onError { e ->
+//                            Trace.e(e)
+//                            showTopSnackBar("请填写信息")
+//                        }
+//                    }
+
+            SoguApi.getService(this,RegisterService::class.java)
+                    .saveDepartmentInfo(it.depart_id,it.name!!,principal?.user_id!!,memberUids)
                     .execute {
                         onNext { payload ->
-                            if (payload.isOk) {
+                            if (payload.isOk){
                                 finish()
-                            } else {
-                                showTopSnackBar(payload.message)
+                            }else{
+                                showErrorToast(payload.message)
                             }
                         }
-                        onError { e ->
-                            Trace.e(e)
-                            showTopSnackBar("请填写信息")
+
+                        onError {
+                            it.printStackTrace()
+                            showErrorToast("保存部门信息失败")
                         }
                     }
         }
@@ -454,10 +480,6 @@ class DepartmentSettingActivity : ToolbarActivity() {
                 }
             }
         }
-
-    }
-
-    inner abstract class DepartTeam : Team{
 
     }
 }

@@ -8,7 +8,7 @@ import java.io.Serializable
 class DepartmentInfo : Serializable {
     var id : Int ? = null
     var name = ""
-    var depart_head = "" //部门负责人的id
+    var depart_head : Int? = null //部门负责人的id
     var pid : Int ? = null
     var depart_head_name = ""//部门负责人的名称
     var p_depart_name = "" //上级部门的名称

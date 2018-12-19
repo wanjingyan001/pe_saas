@@ -2,6 +2,7 @@ package com.sogukj.pe.module.register
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
@@ -72,10 +73,31 @@ class NewCreateDepartActivity : ToolbarActivity() {
         rl_bottom.visibility = View.GONE
         isEdit = false
         isCanDelete = false
+        Glide.with(this)
+                .asGif()
+                .load(Uri.parse("file:///android_asset/img_loading_xh.gif"))
+                .into(iv_loading)
     }
 
     private fun initData() {
+        showLoadding()
         getDepartmentFormNet()
+    }
+
+    private fun showLoadding(){
+        iv_loading.setVisible(true)
+    }
+
+    private fun goneLoadding(){
+        iv_loading.setVisible(false)
+    }
+
+    private fun showEmpty(){
+        iv_empty.setVisible(true)
+    }
+
+    private fun goneEmpty(){
+        iv_empty.setVisible(false)
     }
 
     private fun getDepartmentFormNet() {
@@ -88,16 +110,21 @@ class NewCreateDepartActivity : ToolbarActivity() {
                             if (null != data && data.size > 0){
                                 list = getServiceData(data)
                                 setAdaperForList()
+                                goneEmpty()
+                            }else{
+                                showEmpty()
                             }
                         }else{
                             showErrorToast(payload.message)
+                            showEmpty()
                         }
+                        goneLoadding()
                     }
                     onError {
                         it.printStackTrace()
                         showErrorToast("获取数据失败")
-                        list = getLocalData()
-                        setAdaperForList()
+                        goneLoadding()
+                        showEmpty()
                     }
                 }
     }
@@ -136,32 +163,6 @@ class NewCreateDepartActivity : ToolbarActivity() {
         }
         setClickChildListener()
     }
-    private fun getLocalData(): ArrayList<MultiItemEntity> {
-        val res = ArrayList<MultiItemEntity>()
-        val item0 = Depart0Item("高管",1,0)
-        val item1 = Depart0Item("投资部",2,0)
-        val item2 = Depart0Item("组织部",3,0)
-
-        val item3 = Depart1Item("高管一部",4,1)
-        val item4 = Depart1Item("高管二部",5,1)
-        val item5 = Depart1Item("高管三部",6,1)
-        val item6 = Depart1Item("投资一部",7,2)
-        val item7 = Depart1Item("投资二部",8,2)
-        val item8 = Depart1Item("组织一部",9,3)
-        val item9 = Depart1Item("组织二部",10,3)
-        item0.addSubItem(item3)
-        item0.addSubItem(item4)
-        item0.addSubItem(item5)
-        item1.addSubItem(item6)
-        item1.addSubItem(item7)
-        item2.addSubItem(item8)
-        item2.addSubItem(item9)
-        res.add(item0)
-        res.add(item1)
-        res.add(item2)
-        return res
-    }
-
     private fun bindListener() {
         tv_edit.clickWithTrigger {
             isEdit.yes {
@@ -208,7 +209,7 @@ class NewCreateDepartActivity : ToolbarActivity() {
                     val iv_select = view.find<ImageView>(R.id.iv_select)
                     if (entity is Depart0Item){
                         if (!entity.isCanSelect){
-                            startActivity<DepartmentSettingActivity>(Extras.DATA to Department(1,entity.name))
+                            startActivity<DepartmentSettingActivity>(Extras.DATA to Department(entity.id!!,entity.name))
                             return@setOnItemChildClickListener
                         }
                         entity.isSelected = !entity.isSelected
@@ -245,7 +246,7 @@ class NewCreateDepartActivity : ToolbarActivity() {
 
                     if (entity is Depart1Item){
                         if (!entity.isCanSelect){
-                            startActivity<DepartmentSettingActivity>(Extras.DATA to Department(1,entity.name))
+                            startActivity<DepartmentSettingActivity>(Extras.DATA to Department(entity.id!!,entity.name))
                             return@setOnItemChildClickListener
                         }
                         entity.isSelected = !entity.isSelected
@@ -279,11 +280,11 @@ class NewCreateDepartActivity : ToolbarActivity() {
 
                 R.id.tv_watch -> {
                     if (entity is Depart0Item){
-                        startActivity<DepartmentSettingActivity>(Extras.DATA to Department(1,entity.name))
+                        startActivity<DepartmentSettingActivity>(Extras.DATA to Department(entity.id!!,entity.name))
                     }
 
                     if (entity is Depart1Item){
-                        startActivity<DepartmentSettingActivity>(Extras.DATA to Department(1,entity.name))
+                        startActivity<DepartmentSettingActivity>(Extras.DATA to Department(entity.id!!,entity.name))
                     }
                 }
             }
@@ -356,7 +357,6 @@ class NewCreateDepartActivity : ToolbarActivity() {
                     onError {
                         it.printStackTrace()
                         showErrorToast("删除部门失败")
-                        deleteDepartLocal()
                         if (dialog.isShowing){
                             dialog.dismiss()
                         }
@@ -412,11 +412,18 @@ class NewCreateDepartActivity : ToolbarActivity() {
                 .execute {
                     onNext { payload ->
                         if (payload.isOk){
-                            if (null != data && data.size > 0){
-                                departAdapter!!.addData(data.size,Depart0Item(name,1,rootPid))
+                            val departBean = payload.payload
+                            if (null != departBean){
+                                if (null != data && data.size > 0){
+                                    departAdapter!!.addData(data.size,Depart0Item(name,departBean.id!!,departBean.pid!!))
+                                }else{
+                                    departAdapter!!.addData(0,Depart0Item(name,departBean.id!!,departBean.pid!!))
+                                }
+                                goneEmpty()
                             }else{
-                                departAdapter!!.addData(0,Depart0Item(name,1,rootPid))
+                                getDepartmentFormNet()
                             }
+
                         }else{
                           showErrorToast(payload.message)
                         }
@@ -424,11 +431,6 @@ class NewCreateDepartActivity : ToolbarActivity() {
                     onError {
                         it.printStackTrace()
                         showErrorToast("创建部门失败")
-                        if (null != data && data.size > 0){
-                            departAdapter!!.addData(data.size,Depart0Item(name,1,rootPid))
-                        }else{
-                            departAdapter!!.addData(0,Depart0Item(name,1,rootPid))
-                        }
                     }
                 }
     }
