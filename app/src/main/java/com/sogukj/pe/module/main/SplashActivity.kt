@@ -12,7 +12,6 @@ import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.jsonStr
 import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.StatusBarUtil
-import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.module.register.LoginActivity
 import com.sogukj.pe.peExtended.RootPath
 import com.sogukj.pe.peExtended.getEnvironment
@@ -58,6 +57,7 @@ class SplashActivity : BaseActivity() {
 
         RetrofitUrlManager.getInstance().putDomain(Consts.CREDIT_COLLECTION, RootPath)
 
+        RetrofitUrlManager.getInstance().putDomain(Consts.DEV, Consts.NEW_DEV)
         saveDzhToken()
         getCompanyInfo()
 
