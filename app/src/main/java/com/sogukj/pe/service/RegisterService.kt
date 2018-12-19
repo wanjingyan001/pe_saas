@@ -3,7 +3,6 @@ package com.sogukj.pe.service
 import com.sogukj.pe.Consts
 import com.sogukj.pe.bean.*
 import io.reactivex.Observable
-import io.reactivex.Observer
 import okhttp3.RequestBody
 import retrofit2.http.*
 
@@ -187,5 +186,42 @@ interface RegisterService {
     @POST("api/Saas/isBand")
     fun hasBanded(@Field("source") source: String,
                   @Field("phone") phone: String): Observable<Payload<Any>>
+
+    /**
+     * 获取多级部门
+     */
+    @FormUrlEncoded
+    @POST("api/Department/getCompanyDepartment")
+    fun getCompanyDepartment(@Field("type")type:Int):Observable<Payload<List<MineDepartmentBean>>>
+
+    /**
+     * 创建部门
+     */
+    @FormUrlEncoded
+    @POST("api/Department/setDepartmentInfo")
+    fun createDepartmentInfo(@Field("depart_name")depart_name:String,
+                             @Field("pid")pid:Int,@Field("depart_id")depart_id : Int?=null):Observable<Payload<Any>>
+
+    /**
+     * 批量删除用户
+     */
+    @FormUrlEncoded
+    @POST("api/Department/delCompanyUser")
+    fun deleteDepartmentUser(@Field("user_ids")user_ids:String):Observable<Payload<Any>>
+
+
+    /**
+     * 多级部门删除
+     */
+    @FormUrlEncoded
+    @POST("/api/Department/delDepartmentInfo")
+    fun deleteDepartmentInfo(@Field("depart_id") depart_id: Int): Observable<Payload<Any>>
+
+    /**
+     * 部门详情
+     */
+    @FormUrlEncoded
+    @POST("/api/Department/getDepartmentInfo")
+    fun getDepartmentInfo(@Field("depart_id") depart_id: Int,@Field("type")type : Int = 2):Observable<Payload<DepartmentInfo>>
 }
 

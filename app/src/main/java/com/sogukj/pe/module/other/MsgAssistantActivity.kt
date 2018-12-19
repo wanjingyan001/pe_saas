@@ -33,9 +33,7 @@ import com.sogukj.pe.module.project.originpro.ProjectUploadShowActivity
 import com.sogukj.pe.module.weekly.PersonalWeeklyActivity
 import com.sogukj.pe.peUtils.Store
 import kotlinx.android.synthetic.main.activity_msg_assistant.*
-import kotlinx.coroutines.experimental.android.UI
 import org.jetbrains.anko.ctx
-import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.info
 import org.jetbrains.anko.startActivity
 
@@ -243,6 +241,7 @@ class MsgAssistantActivity : BaseRefreshActivity() {
         override fun convert(helper: BaseViewHolder, item: MultiItemEntity) {
             val imMessage = immsgList[helper.adapterPosition]
             helper.setText(R.id.msgTime, TimeUtil.getTimeShowString(imMessage.time, false))
+            if (null == item) return
             when (helper.itemViewType) {
                 1 -> {
                     item as NewApprovePush
@@ -312,7 +311,6 @@ class MsgAssistantActivity : BaseRefreshActivity() {
                         }
                     } else if (item.type == 205) {
                         helper.setVisible(R.id.sponsor, false)
-
                     }
                 }
                 5 -> {
@@ -325,12 +323,14 @@ class MsgAssistantActivity : BaseRefreshActivity() {
                 }
                 6 -> {
                     item as NewProjectProcess
-                    if (item.title.contains(item.subName)) {
-                        helper.setText(R.id.approvalTip,
-                                "${item.title}；\n在手机或电脑上快速处理审批！")
-                    } else {
-                        helper.setText(R.id.approvalTip,
-                                "${item.subName}的${item.title}；\n在手机或电脑上快速处理审批！")
+                    if (null != item.title && null != item.subName){
+                        if (item.title.contains(item.subName)) {
+                            helper.setText(R.id.approvalTip,
+                                    "${item.title}；\n在手机或电脑上快速处理审批！")
+                        } else {
+                            helper.setText(R.id.approvalTip,
+                                    "${item.subName}的${item.title}；\n在手机或电脑上快速处理审批！")
+                        }
                     }
                     helper.getView<TextView>(R.id.expedited).setVisible(item.type == 301)
                 }

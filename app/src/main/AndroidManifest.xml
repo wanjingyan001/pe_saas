@@ -1262,6 +1262,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
+            android:name=".module.register.NewCreateDepartActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
             android:name=".module.register.DepartmentSettingActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
