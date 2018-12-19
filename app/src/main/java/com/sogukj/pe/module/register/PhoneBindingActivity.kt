@@ -6,7 +6,6 @@ import android.preference.PreferenceManager
 import androidx.core.content.edit
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
-import com.amap.api.mapcore.util.it
 import com.google.gson.internal.LinkedTreeMap
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.netease.nim.uikit.api.NimUIKit
@@ -24,12 +23,10 @@ import com.sogukj.pe.bean.MechanismInfo
 import com.sogukj.pe.bean.RegisterVerResult
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.interf.ReviewStatus
-import com.sogukj.pe.module.main.MainActivity
 import com.sogukj.pe.module.register.presenter.LoginPresenter
 import com.sogukj.pe.module.register.presenter.LoginView
 import com.sogukj.pe.peUtils.LoginTimer
 import com.sogukj.pe.peUtils.Store
-import com.sogukj.pe.peUtils.ToastUtil
 import com.sogukj.pe.service.RegisterService
 import com.sogukj.service.SoguApi
 import com.tencent.bugly.crashreport.CrashReport
@@ -247,7 +244,8 @@ class PhoneBindingActivity : BaseActivity(), LoginView {
     override fun getCompanyInfoSuccess(info: MechanismBasicInfo) {
         sp.edit { putString(Extras.SAAS_BASIC_DATA, info.jsonStr) }
         sp.edit { putInt(Extras.main_flag, info.homeCardFlag ?: 1) }
-        startActivity<MainActivity>()
+//        startActivity<MainActivity>()
+        startActivity<SelectCompanyAvtivity>()
     }
 
     override fun getInfoFinish() {

@@ -5,27 +5,27 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v7.widget.GridLayoutManager
 import android.view.MenuItem
-import com.amap.api.mapcore.util.it
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.*
+import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
+import com.sogukj.pe.baselibrary.Extended.execute
+import com.sogukj.pe.baselibrary.Extended.extraDelegate
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.bean.Department
-import com.sogukj.pe.bean.DepartmentBean
 import com.sogukj.pe.bean.UserBean
-import com.sogukj.pe.module.main.ContactsActivity
+import com.sogukj.pe.module.im.RemoveMemberActivity
 import com.sogukj.pe.service.RegisterService
-import com.sogukj.pe.service.UserService
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_department_setting2.*
 import kotlinx.coroutines.experimental.runBlocking
-import org.jetbrains.anko.*
+import org.jetbrains.anko.ctx
+import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.startActivityForResult
 
 class DepartmentSettingActivity : ToolbarActivity() {
     override val menuId: Int
@@ -36,7 +36,6 @@ class DepartmentSettingActivity : ToolbarActivity() {
     private val model: OrganViewModel by lazy { ViewModelProviders.of(this).get(OrganViewModel::class.java) }
     private var isNotEmpty: Boolean = false
     private var principal: UserBean? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_department_setting2)
@@ -54,6 +53,9 @@ class DepartmentSettingActivity : ToolbarActivity() {
                 } else {
                     toInviteActivity()
                 }
+            }else if (v.getTag(R.id.member_headImg).equals(Extras.SUBTRACT)){
+                //删除部门成员页面
+                RemoveMemberActivity.start(this, memberAdapter.members,1)
             }
         }
         getDepartmentSetting()
@@ -72,7 +74,6 @@ class DepartmentSettingActivity : ToolbarActivity() {
             toInviteActivity()
         }
     }
-
 
     private fun departmentIsEmpty() = runBlocking {
         val key = sp.getString(Extras.CompanyKey, "")
@@ -117,6 +118,7 @@ class DepartmentSettingActivity : ToolbarActivity() {
                     }
         }
     }
+
 
     private fun setDepartmentSite() {
         departmentBean?.let {
@@ -177,6 +179,6 @@ class DepartmentSettingActivity : ToolbarActivity() {
             }
         }
     }
-
-
 }
+
+

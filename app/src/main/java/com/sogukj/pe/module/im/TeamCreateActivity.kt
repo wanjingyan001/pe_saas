@@ -7,7 +7,6 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.text.TextUtils
-import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -78,7 +77,7 @@ class TeamCreateActivity : BaseActivity() {
             if (v.getTag(R.id.member_headImg) == "ADD") {
                 ContactsActivity.start(this, teamMember, true, true, Extras.REQUESTCODE)
             } else {
-                RemoveMemberActivity.start(this, teamMember)
+                RemoveMemberActivity.start(this, teamMember,0)
             }
         }
         val manager = GridLayoutManager(this, 7)

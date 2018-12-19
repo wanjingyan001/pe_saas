@@ -3,7 +3,9 @@ package com.sogukj.pe.module.im
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.support.annotation.RequiresApi
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
@@ -135,7 +137,7 @@ class TeamInfoActivity : BaseActivity(), View.OnClickListener, SwitchButton.OnCh
             if (v.getTag(R.id.member_headImg) == "ADD") {
                 ContactsActivity.start(this, teamMembers, false, false)
             } else if (v.getTag(R.id.member_headImg) == "REMOVE") {
-                RemoveMemberActivity.start(this, teamMembers, team)
+                RemoveMemberActivity.start(this, teamMembers,0,team)
             }
         }
     }
@@ -157,6 +159,7 @@ class TeamInfoActivity : BaseActivity(), View.OnClickListener, SwitchButton.OnCh
         })
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun refreshTeamView(it: Team) {
         team = it
         profileToggle.check = it.messageNotifyType == TeamMessageNotifyTypeEnum.Mute
