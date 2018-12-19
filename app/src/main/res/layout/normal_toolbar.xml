@@ -32,7 +32,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="2dp"
         android:gravity="center"
-        tools:text="我的订单"
+        tools:text="首  页"
         android:singleLine="true" />
 
     <TextView
