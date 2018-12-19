@@ -42,7 +42,7 @@ class DateRangeControl @JvmOverloads constructor(
 
     var selectionType: ApproveValueBean? by Delegates.observable(null as ApproveValueBean?) { _, _, newValue ->
         newValue?.let {
-            it.format!!.isNotEmpty().yes {
+            it.format?.isNotEmpty()?.yes {
                 formatStr = it.format
             }
         }
@@ -79,7 +79,7 @@ class DateRangeControl @JvmOverloads constructor(
                         inflate.startTimeTv.hint = controlBean.placeholder
                         inflate.startTimeTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_right, 0)
                     }
-                    it[1].isNotEmpty().yes {
+                    (it.size > 1 && it[1].isNotEmpty()).yes {
                         inflate.endTimeTv.text = it[1]
                         end = Utils.getTime(it[1], formatStr)
                         inflate.endTimeTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
@@ -87,7 +87,7 @@ class DateRangeControl @JvmOverloads constructor(
                         inflate.endTimeTv.hint = controlBean.placeholder
                         inflate.endTimeTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_right, 0)
                     }
-                    it[2].isNotEmpty().yes {
+                    (it.size > 2 && it[2].isNotEmpty()).yes {
                         inflate.durationTv.setText(it[2])
                     }
                 }.otherWise {
