@@ -38,6 +38,7 @@ import com.sogukj.pe.module.approve.baseView.viewBean.Approvers
 import com.sogukj.pe.module.approve.baseView.viewBean.ControlBean
 import com.sogukj.pe.module.approve.baseView.viewBean.User
 import com.sogukj.pe.module.main.ContactsActivity
+import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.ApproveService
 import com.sogukj.pe.service.Payload
 import com.sogukj.pe.widgets.ApproverItemDecoration
@@ -64,7 +65,7 @@ class ApproveInitiateActivity : ToolbarActivity() {
     private val copyPeos = mutableListOf<User>()
     private lateinit var copyAdapter: CopyPeoAdapter
     private lateinit var userLayout: View
-
+    private var isHidden: Int = 0
     override val menuId: Int
         get() = R.menu.menu_new_approve_copy
 
@@ -109,6 +110,8 @@ class ApproveInitiateActivity : ToolbarActivity() {
         commitApprove.clickWithTrigger {
             submitApproval()
         }
+
+        isHidden = Store.store.getApproveConfig(this)
     }
 
     /**
@@ -429,12 +432,15 @@ class ApproveInitiateActivity : ToolbarActivity() {
             super.onBackPressed()
         } else {
             valueNotEmpty.isNotEmpty().yes {
-                initDialog {
-                    views.forEach {
-                        info { it.jsonStr }
-                    }
-                    saveApproveDraft(views.jsonStr, it.yes { 1 }.otherWise { 0 })
-                }.show()
+                //尚融不保存草稿
+                if (isHidden != 1) {
+                    initDialog {
+                        views.forEach {
+                            info { it.jsonStr }
+                        }
+                        saveApproveDraft(views.jsonStr, it.yes { 1 }.otherWise { 0 })
+                    }.show()
+                }
             }.otherWise {
                 super.onBackPressed()
             }

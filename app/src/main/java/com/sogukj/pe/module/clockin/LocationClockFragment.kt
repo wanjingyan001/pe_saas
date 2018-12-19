@@ -67,13 +67,18 @@ class LocationClockFragment : BaseFragment(), MyMapView.onFinishListener {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .subscribe({ payload ->
-                        var list = ArrayList<LocationRecordBean.LocationCellBean>()
-                        payload?.payload?.forEach {
-                            list.add(it)
+                        if (payload.isOk){
+                            var list = ArrayList<LocationRecordBean.LocationCellBean>()
+                            payload?.payload?.forEach {
+                                list.add(it)
+                            }
+                            mBun = savedInstanceState
+                            mList = list
+                            map.show(mBun, mList, this)
+                        }else{
+                            showErrorToast(payload.message)
                         }
-                        mBun = savedInstanceState
-                        mList = list
-                        map.show(mBun, mList, this)
+
                     }, { e ->
                         showCustomToast(R.drawable.icon_toast_fail, "网络请求出错，无法定位打卡")
                         Trace.e(e)

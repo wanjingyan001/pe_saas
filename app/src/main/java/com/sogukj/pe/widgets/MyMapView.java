@@ -357,6 +357,10 @@ public class MyMapView extends View {
 
                     @Override
                     public void onNext(Payload<Integer> listPayload) {
+                        if(!listPayload.isOk()) {
+                            ((LocationActivity) mContext).showErrorToast(listPayload.getMessage());
+                            return;
+                        }
                         if (listPayload.getPayload() == null) {
                             dakaId = 0;
                         } else {
