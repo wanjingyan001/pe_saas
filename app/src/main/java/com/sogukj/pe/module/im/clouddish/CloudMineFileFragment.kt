@@ -466,21 +466,29 @@ class CloudMineFileFragment : BaseRefreshFragment() {
     }
 
     fun showEmpty() {
-        ll_empty.setVisible(true)
+        if (null != ll_empty){
+            ll_empty.setVisible(true)
+        }
         recycler_view.visibility = View.INVISIBLE
     }
 
     fun goneEmpty() {
-        ll_empty.visibility = View.INVISIBLE
+        if (null != ll_empty){
+            ll_empty.visibility = View.INVISIBLE
+        }
         recycler_view.visibility = View.VISIBLE
     }
 
     fun showLoadding() {
-        view_recover.visibility = View.VISIBLE
+        if (null != view_recover){
+            view_recover.visibility = View.VISIBLE
+        }
     }
 
     fun goneLoadding() {
-        view_recover.visibility = View.INVISIBLE
+        if (null != view_recover){
+            view_recover.visibility = View.INVISIBLE
+        }
     }
 
     fun dofinishRefresh() {
