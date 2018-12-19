@@ -446,15 +446,15 @@ class MainMsgFragment : BaseFragment() {
                 .subscribe({ payload ->
                     if (payload.isOk) {
                         payload?.payload?.apply {
-                            pop_layout.visibility = View.VISIBLE
-                            tvGGTitle.text = title
-                            tvGGContent.text = contents
+                            pop_layout?.visibility = View.VISIBLE
+                            tvGGTitle?.text = title
+                            tvGGContent?.text = contents
 
                             tvConfirm.setOnClickListener {
-                                pop_layout.visibility = View.GONE
+                                pop_layout?.visibility = View.GONE
                             }
                             tvDetail.setOnClickListener {
-                                pop_layout.visibility = View.GONE
+                                pop_layout?.visibility = View.GONE
                                 if (this.type == 1) {
                                     // 内部公告
                                     GongGaoDetailActivity.start(baseActivity, this)
@@ -466,11 +466,11 @@ class MainMsgFragment : BaseFragment() {
                         }
                     } else {
                         Log.e("message", payload.message)
-                        pop_layout.visibility = View.GONE
+                        pop_layout?.visibility = View.GONE
                     }
                 }, { e ->
                     Trace.e(e)
-                    pop_layout.visibility = View.GONE
+                    pop_layout?.visibility = View.GONE
                 }).let { }
     }
 
