@@ -56,7 +56,6 @@ import com.sogukj.pe.module.project.ProjectFocusActivity
 import com.sogukj.pe.module.project.ProjectListFragment
 import com.sogukj.pe.module.receipt.MineWalletActivity
 import com.sogukj.pe.module.register.CreateDepartmentActivity
-import com.sogukj.pe.module.register.NewCreateDepartActivity
 import com.sogukj.pe.peExtended.getEnvironment
 import com.sogukj.pe.peUtils.MobLogin
 import com.sogukj.pe.peUtils.MyGlideUrl
@@ -195,22 +194,6 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
                 }
             }
         }
-        createDep2.clickWithTrigger {
-            user?.let {
-                val company = sp.getString(Extras.SAAS_BASIC_DATA, "")
-                val detail = Gson().fromJson<MechanismBasicInfo?>(company)
-                detail?.let {
-                    val name = it.mechanism_name ?: ""
-                    val logo = it.logo ?: ""
-                    startActivity<NewCreateDepartActivity>(Extras.NAME to name,
-                            Extras.CODE to user.phone,
-                            Extras.DATA to logo,
-                            Extras.FLAG to true,
-                            Extras.FLAG2 to false)
-                }
-            }
-        }
-
         adminSetting.setVisible((user?.is_admin == 1) or (user?.is_admin == 2))
         adminSetting.clickWithTrigger {
             startActivityForResult<AdminMainActivity>(Extras.REQUESTCODE)
@@ -360,11 +343,9 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
                     onNext { payload ->
                         if (payload.isOk) {
                             payload.payload?.let {
-                                if (null != it){
-                                    loadStage(it.xm!!)
-                                    it.gz?.let {
-                                        tv_6.text = it.count.toString()
-                                    }
+                                loadStage(it.xm!!)
+                                it.gz?.let {
+                                    tv_6.text = it.count.toString()
                                 }
                             }
                         } else {
@@ -375,7 +356,6 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
     }
 
     fun loadStage(stageList: ArrayList<ProjectBelongBean.Cell1>) {
-        if (null == stageList || stageList.size == 0)return
         var size = stageList.size
 
         val wm = context!!.getSystemService(Context.WINDOW_SERVICE) as WindowManager
