@@ -343,9 +343,15 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
                     onNext { payload ->
                         if (payload.isOk) {
                             payload.payload?.let {
-                                loadStage(it.xm!!)
-                                it.gz?.let {
-                                    tv_6.text = it.count.toString()
+                                if (null != it){
+                                    if (null != it.xm && it.xm!!.size > 0){
+                                        loadStage(it.xm!!)
+                                    }
+                                    it.gz?.let {
+                                        if (null != it && null != it.count){
+                                            tv_6.text = it.count.toString()
+                                        }
+                                    }
                                 }
                             }
                         } else {
