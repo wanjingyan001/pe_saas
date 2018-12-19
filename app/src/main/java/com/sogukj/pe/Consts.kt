@@ -15,8 +15,8 @@ class Consts {
 //        val DEV_HTTP_HOST = "https://presougu.pewinner.com/"
 //        val DEV_HTTP_HOST = "http://hmtbtx.pewinner.com/"
 
-        val DEV_HTTP_HOST = "https://prenewsaas.pewinner.com/"
-//        val DEV_HTTP_HOST = "https://pe.pewinner.com/"
+//        val DEV_HTTP_HOST = "https://prenewsaas.pewinner.com/"
+        val DEV_HTTP_HOST = "https://prepe.pewinner.com/"
 
         val DZH_HOST = "http://gw.yundzh.com/"
 //        val HTTP_HOST = when (getEnvironment()) {
