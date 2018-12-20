@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.TextView
-import com.amap.api.mapcore.util.it
 import com.google.gson.internal.LinkedTreeMap
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
@@ -14,13 +13,10 @@ import com.sogukj.pe.baselibrary.Extended.otherWise
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.base.AvoidOnResult
-import com.sogukj.pe.baselibrary.utils.XmlDb
-import com.sogukj.pe.bean.CityArea
 import com.sogukj.pe.module.approve.NewDstCityActivity
 import com.sogukj.pe.module.approve.SelectionActivity
 import com.sogukj.pe.module.approve.baseView.BaseControl
 import com.sogukj.pe.module.approve.baseView.viewBean.ApproveValueBean
-import com.sogukj.pe.module.approve.baseView.viewBean.AttachmentBean
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.layout_control_city_selection.view.*
 
@@ -64,36 +60,43 @@ class CitySelection @JvmOverloads constructor(
                 }
             }
             inflate.citySelectionLayout.clickWithTrigger {
-                AvoidOnResult(activity)
+                var subscribe = AvoidOnResult(activity)
                         .startForResult<SelectionActivity>(Extras.REQUESTCODE,
                                 Extras.TYPE to controlBean.skip!![0].skip_site,
                                 Extras.FLAG to controlBean.is_multiple,
                                 Extras.LIST to controlBean.value)
-                        .filter { it.resultCode == Activity.RESULT_OK}
+                if (null != controlBean.skip && controlBean.skip!!.size > 0 && null != controlBean.skip!![0] &&
+                        !controlBean.skip!![0].skip_site.isNullOrEmpty() && "7".equals(controlBean.skip!![0].skip_site)
+                        && controlBean.is_multiple!!){
+                    subscribe = AvoidOnResult(activity).startForResult<NewDstCityActivity>(Extras.REQUESTCODE,
+                            Extras.FLAG to controlBean.is_multiple,
+                            Extras.LIST to controlBean.value)
+                }
+                subscribe.filter { it.resultCode == Activity.RESULT_OK }
                         .flatMap {
                             val list = it.data.getSerializableExtra(Extras.BEAN) as ArrayList<ApproveValueBean>
                             Observable.just(list)
                         }.subscribe { values ->
-                    values.isNotEmpty().yes {
-                        controlBean.value?.clear()
-                        controlBean.value?.addAll(values)
-                        controlBean.is_multiple?.yes {
-                            inflate.cityTv.text = "${values.size}个"
-                            (0 until inflate.cities.childCount).forEach {
-                                val textView = inflate.cities.getChildAt(it) as TextView
-                                if (it < values.size) {
-                                    inflate.cities.setVisible(true)
-                                    textView.setVisible(true)
-                                    textView.text = values[it].name
-                                } else {
-                                    textView.setVisible(false)
+                            values.isNotEmpty().yes {
+                                controlBean.value?.clear()
+                                controlBean.value?.addAll(values)
+                                controlBean.is_multiple?.yes {
+                                    inflate.cityTv.text = "${values.size}个"
+                                    (0 until inflate.cities.childCount).forEach {
+                                        val textView = inflate.cities.getChildAt(it) as TextView
+                                        if (it < values.size) {
+                                            inflate.cities.setVisible(true)
+                                            textView.setVisible(true)
+                                            textView.text = values[it].name
+                                        } else {
+                                            textView.setVisible(false)
+                                        }
+                                    }
+                                }?.otherWise {
+                                    inflate.cityTv.text = values[0].name
                                 }
                             }
-                        }?.otherWise {
-                            inflate.cityTv.text = values[0].name
                         }
-                    }
-                }
             }
         }
     }

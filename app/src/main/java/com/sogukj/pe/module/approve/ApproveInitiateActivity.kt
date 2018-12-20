@@ -65,7 +65,7 @@ class ApproveInitiateActivity : ToolbarActivity() {
     private val copyPeos = mutableListOf<User>()
     private lateinit var copyAdapter: CopyPeoAdapter
     private lateinit var userLayout: View
-    private var isHidden: Int = 0
+    private var isSaveTemplate: Int = 1
     override val menuId: Int
         get() = R.menu.menu_new_approve_copy
 
@@ -111,7 +111,7 @@ class ApproveInitiateActivity : ToolbarActivity() {
             submitApproval()
         }
 
-        isHidden = Store.store.getApproveConfig(this)
+        isSaveTemplate = Store.store.getTemplateConfig(this)
     }
 
     /**
@@ -284,8 +284,7 @@ class ApproveInitiateActivity : ToolbarActivity() {
                 checkValue.addAll(checks)
             }
         }
-
-        if (approvers.sp.isEmpty()) {
+        if (::approvers.isLateinit && approvers.sp.isEmpty()) {
             showCommonToast("审批人不能为空")
             return
         }
@@ -433,7 +432,7 @@ class ApproveInitiateActivity : ToolbarActivity() {
         } else {
             valueNotEmpty.isNotEmpty().yes {
                 //尚融不保存草稿
-                if (isHidden != 1) {
+                if (isSaveTemplate == 1) {
                     initDialog {
                         views.forEach {
                             info { it.jsonStr }

@@ -30,6 +30,7 @@ import com.sogukj.pe.bean.RegisterVerResult
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.ddshare.AuthorizeCode
 import com.sogukj.pe.interf.ReviewStatus
+import com.sogukj.pe.module.main.MainActivity
 import com.sogukj.pe.module.register.presenter.LoginPresenter
 import com.sogukj.pe.module.register.presenter.LoginView
 import com.sogukj.pe.peExtended.RootPath
@@ -316,8 +317,8 @@ class LoginActivity : BaseActivity(), LoginView {
     override fun getCompanyInfoSuccess(info: MechanismBasicInfo) {
         sp.edit { putString(Extras.SAAS_BASIC_DATA, info.jsonStr) }
         sp.edit { putInt(Extras.main_flag, info.homeCardFlag ?: 1) }
-//        startActivity<MainActivity>()
-        startActivity<SelectCompanyAvtivity>()
+        startActivity<MainActivity>()
+//        startActivity<SelectCompanyAvtivity>()
     }
 
     override fun getInfoFinish() {
