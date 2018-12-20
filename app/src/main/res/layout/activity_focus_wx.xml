@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="34dp"
                 android:gravity="center"
-                android:text="关注“搜股XPE助手”公众号重要消息不错过"
+                android:text="关注“敏投XPE助手”公众号重要消息不错过"
                 android:textColor="@color/text_1"
                 android:textSize="@dimen/text_size_21"
                 android:textStyle="bold"
@@ -77,72 +77,73 @@
                 app:layout_constraintTop_toBottomOf="@+id/function1Title" />
 
 
-            <TextView
-                android:id="@+id/function2Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:text="方法2 搜索关注"
-                android:textColor="@color/text_1"
-                android:textSize="@dimen/text_size_medium"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/QRCodeImg" />
+            <!--<TextView-->
+            <!--android:id="@+id/function2Title"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="50dp"-->
+            <!--android:text="方法2 搜索关注"-->
+            <!--android:textColor="@color/text_1"-->
+            <!--android:textSize="@dimen/text_size_medium"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--app:layout_constraintStart_toStartOf="parent"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/QRCodeImg" />-->
 
-            <TextView
-                android:layout_width="60dp"
-                android:layout_height="1dp"
-                android:layout_marginEnd="12dp"
-                android:background="@color/text_3"
-                app:layout_constraintBottom_toBottomOf="@+id/function2Title"
-                app:layout_constraintEnd_toStartOf="@+id/function2Title"
-                app:layout_constraintTop_toTopOf="@+id/function2Title" />
+            <!--<TextView-->
+            <!--android:layout_width="60dp"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:layout_marginEnd="12dp"-->
+            <!--android:background="@color/text_3"-->
+            <!--app:layout_constraintBottom_toBottomOf="@+id/function2Title"-->
+            <!--app:layout_constraintEnd_toStartOf="@+id/function2Title"-->
+            <!--app:layout_constraintTop_toTopOf="@+id/function2Title" />-->
 
-            <TextView
-                android:layout_width="60dp"
-                android:layout_height="1dp"
-                android:layout_marginStart="12dp"
-                android:background="@color/text_3"
-                app:layout_constraintBottom_toBottomOf="@+id/function2Title"
-                app:layout_constraintStart_toEndOf="@+id/function2Title"
-                app:layout_constraintTop_toTopOf="@+id/function2Title" />
+            <!--<TextView-->
+            <!--android:layout_width="60dp"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:layout_marginStart="12dp"-->
+            <!--android:background="@color/text_3"-->
+            <!--app:layout_constraintBottom_toBottomOf="@+id/function2Title"-->
+            <!--app:layout_constraintStart_toEndOf="@+id/function2Title"-->
+            <!--app:layout_constraintTop_toTopOf="@+id/function2Title" />-->
 
 
-            <ImageView
-                android:id="@+id/img1"
-                android:layout_width="137dp"
-                android:layout_height="244dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="24dp"
-                android:src="@mipmap/icon_wx_binding_1"
-                app:layout_constraintEnd_toStartOf="@+id/img2"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/function2Title" />
+            <!--<ImageView-->
+            <!--android:id="@+id/img1"-->
+            <!--android:layout_width="137dp"-->
+            <!--android:layout_height="244dp"-->
+            <!--android:layout_marginEnd="10dp"-->
+            <!--android:layout_marginTop="24dp"-->
+            <!--android:src="@mipmap/icon_wx_binding_1"-->
+            <!--app:layout_constraintEnd_toStartOf="@+id/img2"-->
+            <!--app:layout_constraintHorizontal_chainStyle="packed"-->
+            <!--app:layout_constraintStart_toStartOf="parent"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/function2Title" />-->
 
-            <ImageView
-                android:id="@+id/img2"
-                android:layout_width="137dp"
-                android:layout_height="244dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="24dp"
-                android:src="@mipmap/icon_wx_binding_2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/img1"
-                app:layout_constraintTop_toBottomOf="@+id/function2Title" />
+            <!--<ImageView-->
+            <!--android:id="@+id/img2"-->
+            <!--android:layout_width="137dp"-->
+            <!--android:layout_height="244dp"-->
+            <!--android:layout_marginStart="10dp"-->
+            <!--android:layout_marginTop="24dp"-->
+            <!--android:src="@mipmap/icon_wx_binding_2"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--app:layout_constraintStart_toEndOf="@+id/img1"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/function2Title" />-->
 
 
             <TextView
                 android:id="@+id/step1_index"
                 android:layout_width="17dp"
                 android:layout_height="17dp"
+                android:layout_marginStart="48dp"
                 android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:text="1"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_medium"
-                app:layout_constraintStart_toStartOf="@+id/img1"
-                app:layout_constraintTop_toBottomOf="@+id/img1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/QRCodeImg"
                 app:shape="rectangle"
                 app:solid_color="#696969" />
 
