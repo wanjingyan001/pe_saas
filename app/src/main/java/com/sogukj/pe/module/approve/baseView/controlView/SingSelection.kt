@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
-import com.amap.api.mapcore.util.it
 import com.google.gson.internal.LinkedTreeMap
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger

@@ -439,6 +439,8 @@ class ApproveInitiateActivity : ToolbarActivity() {
                         }
                         saveApproveDraft(views.jsonStr, it.yes { 1 }.otherWise { 0 })
                     }.show()
+                }else{
+                    super.onBackPressed()
                 }
             }.otherWise {
                 super.onBackPressed()

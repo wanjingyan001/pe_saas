@@ -229,6 +229,7 @@ interface ApproveService {
 //    latitude	str		纬度	非空
 //    sid	int		关联的出差,请假或外出的审批id	可空
 //    id	int		关联的出差,请假或外出的审批id	可空
+    // approve_type int 审批类型
     @FormUrlEncoded
     @POST("/api/Index/outCardSubmit")
     fun outCardSubmit(@Field("stamp") stamp: Int,
@@ -236,7 +237,8 @@ interface ApproveService {
                       @Field("longitude") longitude: String,
                       @Field("latitude") latitude: String,
                       @Field("sid") sid: Int? = null,
-                      @Field("id") id: Int? = null): Observable<Payload<Int>>
+                      @Field("id") id: Int? = null,
+                      @Field("approve_type") approve_type : Int ? = null): Observable<Payload<Int>>
 
 
     /**

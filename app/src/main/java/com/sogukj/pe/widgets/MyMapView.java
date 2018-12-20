@@ -349,7 +349,7 @@ public class MyMapView extends View {
         }
         tvConfirm.setTextColor(mContext.getResources().getColor(R.color.blue_43));
         SoguApi.Companion.getService(((Activity) mContext).getApplication(), ApproveService.class)
-                .outCardSubmit((int) stamp, tvAddr.getText().toString(), mLocation.getLongitude() + "", mLocation.getLatitude() + "", cell.getId(), dakaId)
+                .outCardSubmit((int) stamp, tvAddr.getText().toString(), mLocation.getLongitude() + "", mLocation.getLatitude() + "", cell.getId(), dakaId,cell.getApprove_type())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<Payload<Integer>>() {
