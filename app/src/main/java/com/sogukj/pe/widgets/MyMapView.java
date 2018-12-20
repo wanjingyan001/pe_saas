@@ -344,8 +344,10 @@ public class MyMapView extends View {
         long stamp = System.currentTimeMillis() / 1000;
         if(null == mLocation) {
             ((LocationActivity) mContext).showCustomToast(R.drawable.icon_toast_fail, "定位失败，无法定位打卡");
+            tvConfirm.setTextColor(mContext.getResources().getColor(R.color.gray_a9));
             return;
         }
+        tvConfirm.setTextColor(mContext.getResources().getColor(R.color.blue_43));
         SoguApi.Companion.getService(((Activity) mContext).getApplication(), ApproveService.class)
                 .outCardSubmit((int) stamp, tvAddr.getText().toString(), mLocation.getLongitude() + "", mLocation.getLatitude() + "", cell.getId(), dakaId)
                 .observeOn(AndroidSchedulers.mainThread())
