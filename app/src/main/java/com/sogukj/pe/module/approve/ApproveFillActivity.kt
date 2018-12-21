@@ -1082,7 +1082,7 @@ class ApproveFillActivity : ToolbarActivity() {
                 input_id = paramId!!
             }
 //            DstCityActivity.start(context, input_id, dstCity)
-            NewDstCityActivity.invoke(context, input_id, dstCity)
+//            NewDstCityActivity.invoke(context, input_id, dstCity)
         }
 
         checkList.add {

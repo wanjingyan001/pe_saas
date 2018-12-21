@@ -23,6 +23,7 @@ import com.sogukj.pe.bean.MechanismInfo
 import com.sogukj.pe.bean.RegisterVerResult
 import com.sogukj.pe.bean.UserBean
 import com.sogukj.pe.interf.ReviewStatus
+import com.sogukj.pe.module.main.MainActivity
 import com.sogukj.pe.module.register.presenter.LoginPresenter
 import com.sogukj.pe.module.register.presenter.LoginView
 import com.sogukj.pe.peUtils.LoginTimer
@@ -75,7 +76,6 @@ class PhoneBindingActivity : BaseActivity(), LoginView {
             }
         }
     }
-
 
     private fun hasBanded(phone: String) {
         val sp = PreferenceManager.getDefaultSharedPreferences(application)
@@ -131,6 +131,10 @@ class PhoneBindingActivity : BaseActivity(), LoginView {
         mVerCodeInput.isFocusableInTouchMode = true//设置触摸聚焦
         mVerCodeInput.requestFocus()//请求焦点
         mVerCodeInput.findFocus()//获取焦点
+    }
+
+    override fun verificationCompanyCodeSuccess(result: List<RegisterVerResult>) {
+
     }
 
     override fun verificationCodeSuccess(result: RegisterVerResult) {
@@ -244,8 +248,8 @@ class PhoneBindingActivity : BaseActivity(), LoginView {
     override fun getCompanyInfoSuccess(info: MechanismBasicInfo) {
         sp.edit { putString(Extras.SAAS_BASIC_DATA, info.jsonStr) }
         sp.edit { putInt(Extras.main_flag, info.homeCardFlag ?: 1) }
-//        startActivity<MainActivity>()
-        startActivity<SelectCompanyAvtivity>()
+        startActivity<MainActivity>()
+//        startActivity<SelectCompanyAvtivity>()
     }
 
     override fun getInfoFinish() {

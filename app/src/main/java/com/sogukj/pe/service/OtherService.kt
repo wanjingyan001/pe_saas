@@ -217,6 +217,11 @@ interface OtherService {
     fun configApprove(): Observable<Payload<JsonObject>>
 
     /**
+     * 是否保存模板
+     */
+    @POST("/api/sptemplate/isSaveDraft")
+    fun saveApprove(): Observable<Payload<JsonObject>>
+    /**
      * 关于
      */
     @POST("/api/index/getxieyiurl")

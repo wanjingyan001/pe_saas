@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.GridView
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
@@ -15,19 +16,11 @@ import com.sogukj.pe.bean.CityArea
 import com.sogukj.pe.bean.CityAreaBean
 import com.sogukj.pe.bean.CityBean
 import com.sogukj.pe.module.approve.adapter.*
+import com.sogukj.pe.module.approve.baseView.viewBean.ApproveValueBean
 import com.sogukj.pe.module.approve.presenter.RequestCityPresenter
 import com.sogukj.pe.widgets.indexbar.DividerItemDecoration
 import com.sogukj.pe.widgets.indexbar.SuspensionDecoration
 import kotlinx.android.synthetic.main.activity_new_dst_city.*
-
-
-
-
-
-
-
-
-
 /**
  * Created by CH-ZH on 2018/8/28.
  */
@@ -47,8 +40,9 @@ class NewDstCityActivity : ToolbarActivity(),DstCityCallBack {
     private var mDecoration : SuspensionDecoration ? = null
     private var hisCityData = ArrayList<CityArea.City>()
     private var mDatas = ArrayList<CityBean>()
-    private var primeChoseDatas = ArrayList<CityArea.City>()
     private var choseCitys = ArrayList<CityArea.City>()
+    private lateinit var selectedCities: MutableList<ApproveValueBean>
+    private var isClickChose = false
     companion object {
         val TAG = NewDstCityActivity::class.java.simpleName
         fun invoke(ctx: Activity, id: Int, list: ArrayList<CityArea.City>) {
@@ -60,17 +54,23 @@ class NewDstCityActivity : ToolbarActivity(),DstCityCallBack {
     }
 
     override fun onBackPressed() {
-        if (choseAdapter!!.data.size <= 0) {
-            showCustomToast(R.drawable.icon_toast_common,"未选择城市")
-            setResult(Extras.RESULTCODE2)
+        if (isClickChose && choseAdapter!!.data.size <= 0){
+            showCommonToast("目的城市不能为空")
+        }else{
+            val list = ArrayList<ApproveValueBean>()
+            val map1 = choseAdapter!!.data.map {
+                var name = it.name
+                if (name!!.startsWith("唱")){
+                    name = it.name!!.substring(1,it.name!!.length)
+                }
+                ApproveValueBean(name = name, id = it.id)
+            }
+            list.addAll(map1)
+            val intent = Intent()
+            intent.putExtra(Extras.BEAN, list)
+            setResult(Activity.RESULT_OK, intent)
             super.onBackPressed()
-            return
         }
-        var list = choseAdapter!!.data
-        var intent = Intent()
-        intent.putExtra(Extras.DATA, list)
-        setResult(Extras.RESULTCODE, intent)
-        super.onBackPressed()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,6 +91,7 @@ class NewDstCityActivity : ToolbarActivity(),DstCityCallBack {
         indexBar.setmPressedShowTextView(tvSideBarHint)
                 .setNeedRealIndex(true)
                 .setmLayoutManager(mManager)
+        isClickChose = false
     }
 
     private fun initData() {
@@ -111,9 +112,14 @@ class NewDstCityActivity : ToolbarActivity(),DstCityCallBack {
     }
 
     private fun getChoseData() {
-        primeChoseDatas = intent.getSerializableExtra(Extras.DATA) as ArrayList<CityArea.City>
-        if (null != primeChoseDatas && primeChoseDatas.size > 0){
-            choseCitys.addAll(primeChoseDatas)
+        selectedCities = intent.getSerializableExtra(Extras.LIST) as MutableList<ApproveValueBean>
+        if (null != selectedCities && selectedCities.size > 0){
+            selectedCities.forEach {
+                val choseCity = CityArea.City()
+                choseCity.name = it.name
+                choseCity.id = it.id
+                choseCitys.add(choseCity)
+            }
             mHeaderAdapter!!.notifyDataSetChanged()
         }
     }
@@ -130,6 +136,21 @@ class NewDstCityActivity : ToolbarActivity(),DstCityCallBack {
             override fun onBindHeaderHolder(holder: ViewHolder?, headerPos: Int, layoutId: Int, o: Any?) {
                 setHistoryData(holder)
                 setChoseData(holder)
+                val choseVisible = holder!!.getVisible(R.id.empty_chosen)
+                val hisVisible = holder.getVisible(R.id.empty_history)
+                if (hisVisible == View.GONE && choseVisible == View.GONE){
+                    holder.setVisible(R.id.view_divider,false)
+                    holder.setVisible(R.id.view_line,false)
+                }else if (choseVisible == View.VISIBLE && hisVisible == View.GONE){
+                    holder.setVisible(R.id.view_divider,false)
+                    holder.setVisible(R.id.view_line,true)
+                }else if (choseVisible == View.GONE && hisVisible == View.VISIBLE){
+                    holder.setVisible(R.id.view_divider,false)
+                    holder.setVisible(R.id.view_line,true)
+                }else if (hisVisible == View.VISIBLE && choseVisible == View.VISIBLE){
+                    holder.setVisible(R.id.view_divider,true)
+                    holder.setVisible(R.id.view_line,true)
+                }
             }
         }
 
@@ -149,6 +170,7 @@ class NewDstCityActivity : ToolbarActivity(),DstCityCallBack {
 
         gv_chose.setOnItemClickListener { parent, view, position, id ->
             updateChoseData(position)
+            isClickChose = true
         }
     }
 
@@ -189,6 +211,7 @@ class NewDstCityActivity : ToolbarActivity(),DstCityCallBack {
         gv_his.setOnItemClickListener { parent, view, position, id ->
             updateHistoryData(position)
         }
+
     }
 
     private fun updateHistoryData(position: Int) {
@@ -240,7 +263,7 @@ class NewDstCityActivity : ToolbarActivity(),DstCityCallBack {
     }
 
     private fun getCityAreaData() {
-        var datas = XmlDb.open(this).get(Extras.CITY_JSON, "")
+        var datas = XmlDb.open(this).get(Extras.NEW_CITY_JSON, "")
         if (null == datas || "".equals(datas)){
             datas = Utils.getJson(this,"city.json")
         }
@@ -251,27 +274,27 @@ class NewDstCityActivity : ToolbarActivity(),DstCityCallBack {
     }
 
     private fun setCityAreaData(cityAreaBean: CityAreaBean) {
-        val list = intent.getSerializableExtra(Extras.DATA) as ArrayList<CityArea.City>
         var name = ""
         val payload = cityAreaBean.payload
-        var names = ArrayList<String>()
+        val realCitys = ArrayList<CityArea.City>()
+        realCitys.clear()
         if (null != payload && payload.size > 0){
             for (area in payload){
                 val citys = area.city
                 if (null != citys && citys.size > 0){
                     for (info in citys){
-                        names.add(info.name!!)
+                        realCitys.add(info)
                     }
                 }
             }
         }
 
-        for (name in names){
+        for (city in realCitys){
             var cityBean = CityBean()
-            cityBean.city = name
+            cityBean.city = city.name
+            cityBean.id = city.id!!
             mDatas.add(cityBean)
         }
-
         indexBar.setmSourceDatas(mDatas)
                 .setHeaderViewCount(mHeaderAdapter!!.headerViewCount)
                 .invalidate()
@@ -280,8 +303,8 @@ class NewDstCityActivity : ToolbarActivity(),DstCityCallBack {
         mHeaderAdapter!!.notifyDataSetChanged()
         mDecoration!!.setmDatas(mDatas)
 
-        if (null != list && list.size > 0){
-            for (info in list){
+        if (null != choseCitys && choseCitys.size > 0){
+            for (info in choseCitys){
                 name += info.name + ","
             }
             for (city in mDatas){
@@ -291,8 +314,6 @@ class NewDstCityActivity : ToolbarActivity(),DstCityCallBack {
             }
             mAdapter!!.notifyDataSetChanged()
         }
-
-
     }
 
     private fun bindListener() {
@@ -301,13 +322,12 @@ class NewDstCityActivity : ToolbarActivity(),DstCityCallBack {
             rv.scrollToPosition(0)
         }
 
-        mAdapter!!.setOnCityItemClickListener { city, position ->
-            updateDstCityData(city,position)
+        mAdapter!!.setOnCityItemClickListener { cityBean, position ->
+            updateDstCityData(cityBean,position)
         }
     }
 
-    private fun updateDstCityData(city: String, position: Int) {
-        val cityBean = mDatas[position]
+    private fun updateDstCityData(cityBean: CityBean, position: Int) {
         if (choseCitys.size >= 6 && !cityBean.isSeclected) {
             showCustomToast(R.drawable.icon_toast_common,"目的城市数目不能超过6个")
         } else {
@@ -317,7 +337,7 @@ class NewDstCityActivity : ToolbarActivity(),DstCityCallBack {
             if (!cityBean.isSeclected) {
                 if (choseCitys.size > 0) {
                     for (info in choseCitys) {
-                        if (!info.name.equals(city)) {
+                        if (!info.name.equals(cityBean.city)) {
                             realCitys.add(info)
                         }
                     }
@@ -326,7 +346,8 @@ class NewDstCityActivity : ToolbarActivity(),DstCityCallBack {
                 }
             } else {
                 val choseCity = CityArea.City()
-                choseCity.name = city
+                choseCity.name = cityBean.city
+                choseCity.id = cityBean.id
                 choseCitys.add(choseCity)
             }
             mHeaderAdapter!!.notifyDataSetChanged()

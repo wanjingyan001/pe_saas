@@ -29,6 +29,14 @@ interface RegisterService {
                    @Field("code") code: String): Observable<Payload<RegisterVerResult>>
 
     /**
+     * 多公司验证
+     */
+    @Headers(value = ["Domain-Name: ${Consts.REGISTER}"])
+    @FormUrlEncoded
+    @POST("/api/saas/verify_saas_app")
+    fun verifyCompanyCode(@Field("phone") phone: String,
+                   @Field("code") code: String): Observable<Payload<List<RegisterVerResult>>>
+    /**
      * 邀请码验证
      */
     @Headers(value = ["Domain-Name: ${Consts.REGISTER}"])

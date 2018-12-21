@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.LinearLayout
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
-import com.amap.api.mapcore.util.it
 import com.google.gson.internal.LinkedTreeMap
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
@@ -16,7 +15,6 @@ import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.module.approve.baseView.BaseControl
 import com.sogukj.pe.module.approve.baseView.ControlFactory
 import com.sogukj.pe.module.approve.baseView.viewBean.ApproveValueBean
-import com.sogukj.pe.module.approve.baseView.viewBean.OptionBean
 import kotlinx.android.synthetic.main.layout_control_go_out.view.*
 import org.jetbrains.anko.dip
 import kotlin.properties.Delegates
@@ -35,6 +33,10 @@ class GoOutControl @JvmOverloads constructor(
                 it.clear()
                 it.add(selectionType)
                 dateRange.selectionType = selectionType
+            }
+            controlBean.children!![1].let {
+                it.format = selectionType.format
+                it.scal_unit = selectionType.scal_unit
             }
         }
     }

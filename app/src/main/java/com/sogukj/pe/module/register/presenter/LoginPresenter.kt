@@ -2,26 +2,16 @@ package com.sogukj.pe.module.register.presenter
 
 import android.app.Application
 import android.preference.PreferenceManager
-import android.text.TextUtils.split
 import androidx.core.content.edit
-import com.alibaba.android.arouter.utils.MapUtils.isNotEmpty
-import com.amap.api.mapcore.util.it
 import com.sogukj.pe.Extras
-import com.sogukj.pe.R.id.mGetCode
-import com.sogukj.pe.R.id.mVerCodeInput
 import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.otherWise
 import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.R
-import com.sogukj.pe.peUtils.LoginTimer
 import com.sogukj.pe.peUtils.ToastUtil
-import com.sogukj.pe.peUtils.ToastUtil.Companion.showSuccessToast
 import com.sogukj.pe.service.RegisterService
 import com.sogukj.service.SoguApi
-import io.reactivex.internal.util.HalfSerializer.onNext
-import io.reactivex.plugins.RxJavaPlugins.onSubscribe
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
-import java.util.*
 
 /**
  *
@@ -66,6 +56,25 @@ class LoginPresenter constructor(val application: Application) {
                 }
     }
 
+    fun verificationCompanyCode(phone: String, verCode: String){
+        SoguApi.getService(application, RegisterService::class.java).verifyCompanyCode(phone, verCode)
+                .execute {
+                    onNext { payload ->
+                        payload.isOk.yes {
+                            payload.payload?.let {
+                                loginView?.verificationCompanyCodeSuccess(it)
+                            }
+                        }.otherWise {
+                            RetrofitUrlManager.getInstance().clearAllDomain()
+                            loginView?.verificationCodeFail()
+                        }
+                    }
+                    onError {
+                        RetrofitUrlManager.getInstance().clearAllDomain()
+                        loginView?.verificationCodeFail()
+                    }
+                }
+    }
 
     fun getUserBean(phone: String, userId: Int) {
         val sp = PreferenceManager.getDefaultSharedPreferences(application)

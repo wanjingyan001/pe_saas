@@ -25,7 +25,10 @@ import android.text.style.ForegroundColorSpan
 import android.view.KeyEvent
 import android.view.View
 import android.view.animation.DecelerateInterpolator
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.ScrollView
+import android.widget.TextView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.ashokvarma.bottomnavigation.BottomNavigationBar
@@ -35,7 +38,6 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
 import com.netease.nim.uikit.api.NimUIKit
 import com.sogukj.pe.App
-import com.sogukj.pe.Consts
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
@@ -160,6 +162,24 @@ class MainActivity : BaseActivity() {
                         it.printStackTrace()
                     }
                 }
+
+        SoguApi.getService(application, OtherService::class.java)
+                .saveApprove()
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk) {
+                            val jsonObject = payload.payload
+                            val jsonElement = jsonObject!!.get("is_save_draft")
+                            if (null != jsonElement){
+                                Store.store.saveTemplateConfig(this@MainActivity, jsonElement.asInt)
+                            }
+                        }
+                    }
+
+                    onError {
+                        it.printStackTrace()
+                    }
+                }
     }
 
     private fun copyAssets(filename: String) {
@@ -193,10 +213,10 @@ class MainActivity : BaseActivity() {
     }
 
     private fun saveCityAreaJson() {
-        var datas = XmlDb.open(this).get(Extras.CITY_JSON, "")
+        var datas = XmlDb.open(this).get(Extras.NEW_CITY_JSON, "")
         if (null == datas || datas.equals("")) {
             val cityJson = Utils.getJson(this, "city.json")
-            XmlDb.open(this).set(Extras.CITY_JSON, cityJson)
+            XmlDb.open(this).set(Extras.NEW_CITY_JSON, cityJson)
         }
     }
 

@@ -44,12 +44,16 @@ public class NewCityAdapter extends RecyclerView.Adapter<NewCityAdapter.ViewHold
     @Override
     public void onBindViewHolder(final NewCityAdapter.ViewHolder holder, final int position) {
         final CityBean cityBean = mDatas.get(position);
-        holder.tvCity.setText(cityBean.getCity());
+        if(cityBean.getCity().startsWith("唱")) {
+            holder.tvCity.setText(cityBean.getCity().substring(1,cityBean.getCity().length()));
+        }else{
+            holder.tvCity.setText(cityBean.getCity());
+        }
         holder.content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(null != onCityItemClickListener) {
-                    onCityItemClickListener.onCityItemClick(cityBean.getCity(),position);
+                    onCityItemClickListener.onCityItemClick(cityBean,position);
                 }
             }
         });
@@ -82,6 +86,6 @@ public class NewCityAdapter extends RecyclerView.Adapter<NewCityAdapter.ViewHold
     }
 
     public interface OnCityItemClickListener{
-        void onCityItemClick(String city,int position);
+        void onCityItemClick(CityBean cityBean,int position);
     }
 }

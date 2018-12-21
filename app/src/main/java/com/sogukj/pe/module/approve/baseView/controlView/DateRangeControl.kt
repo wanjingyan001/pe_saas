@@ -4,22 +4,16 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
-import android.view.ViewGroup
-import com.amap.api.mapcore.util.it
 import com.bigkoo.pickerview.builder.TimePickerBuilder
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.module.approve.baseView.BaseControl
 import com.sogukj.pe.module.approve.baseView.viewBean.ApproveValueBean
-import com.sogukj.pe.module.approve.baseView.viewBean.MyLeaveBean
-import com.sogukj.pe.module.approve.baseView.viewBean.OptionBean
 import com.sogukj.pe.service.ApproveService
 import com.sogukj.service.SoguApi
-import io.reactivex.internal.util.HalfSerializer.onNext
 import kotlinx.android.synthetic.main.layout_control_date_range.view.*
 import org.jetbrains.anko.find
-import org.jetbrains.anko.info
 import java.util.*
 import kotlin.properties.Delegates
 
