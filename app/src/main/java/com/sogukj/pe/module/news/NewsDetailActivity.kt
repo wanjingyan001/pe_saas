@@ -149,7 +149,7 @@ class NewsDetailActivity : ToolbarActivity(), PlatformActionListener {
         val tvWexin = dialog.findViewById<TextView>(R.id.tv_wexin) as TextView
         val tvQq = dialog.findViewById<TextView>(R.id.tv_qq) as TextView
         val tvCopy = dialog.findViewById<TextView>(R.id.tv_copy) as TextView
-        val shareUrl = news!!.shareUrl
+        val shareUrl = news!!.url
         val shareTitle = news!!.shareTitle
         val shareSummry = news!!.title
         //val shareImgUrl = File(Environment.getExternalStorageDirectory(), "img_logo.png").toString()
@@ -268,7 +268,7 @@ class NewsDetailActivity : ToolbarActivity(), PlatformActionListener {
         var shareBean = CusShareBean()
         shareBean.shareTitle = news!!.shareTitle
         shareBean.shareContent = news!!.title!!
-        shareBean.shareUrl = news!!.shareUrl
+        shareBean.shareUrl = news!!.shareUrl ?: ""
         ShareUtils.share(shareBean, this)
     }
 
@@ -301,7 +301,7 @@ class NewsDetailActivity : ToolbarActivity(), PlatformActionListener {
 //      webSettings.setLoadWithOverviewMode(true);
 //        webSettings.setLayoutAlgorithm(LayoutAlgorithm.NARROW_COLUMNS)
         webSettings.layoutAlgorithm = LayoutAlgorithm.SINGLE_COLUMN
-        webview.webViewClient = object : WebViewClient(){
+        webview.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
                 view!!.loadUrl(request!!.url.toString())
                 return true

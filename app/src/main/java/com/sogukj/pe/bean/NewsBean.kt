@@ -26,7 +26,7 @@ class NewsBean : Serializable, NewsType {
     var data_id: Int? = null
     var url: String? = null
     var imgUrl: String? = null
-    var shareUrl: String = "http://pe.stockalert.cn"
+    var shareUrl: String? = null
     var shareTitle: String = "新闻舆情"
 
     fun setTags(baseActivity: BaseActivity, tags: FlowLayout) {

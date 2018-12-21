@@ -1,5 +1,7 @@
 package com.sogukj.pe.bean
 
+import java.util.*
+
 /**
  * Created by sogubaby on 2018/8/8.
  */
@@ -19,7 +21,7 @@ class LocationRecordBean {
         var latitude: String? = null
 
         var sid: Int? = null
-        var stype: String? = null
+        var stype: String = ""
         var title: String? = null
         var add_time: String? = null
         var approve_type = 2 //审批类型  1老审批  2新

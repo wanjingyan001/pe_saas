@@ -20,6 +20,7 @@ import com.netease.nimlib.sdk.auth.AuthServiceObserver
 import com.netease.nimlib.sdk.auth.LoginInfo
 import com.netease.nimlib.sdk.util.NIMUtil
 import com.sogukj.pe.baselibrary.Extended.execute
+import com.sogukj.pe.baselibrary.Extended.no
 import com.sogukj.pe.baselibrary.base.ActivityHelper
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.XmlDb
@@ -72,7 +73,9 @@ class App : MultiDexApplication() {
                 ARouter.openDebug()
             }
             ARouter.init(INSTANCE)
-            CrashReport.initCrashReport(INSTANCE, "49fb9e37b7", BuildConfig.DEBUG)
+            BuildConfig.DEBUG.no {
+                CrashReport.initCrashReport(INSTANCE, "49fb9e37b7", BuildConfig.DEBUG)
+            }
             SgDatabase.getInstance(INSTANCE)
             MobSDK.init(INSTANCE, "214eaf8217e6c", "c1ddfcaa333020a5a06812bc745d508c")
             //友盟初始化
@@ -189,7 +192,7 @@ class App : MultiDexApplication() {
     }
 
     private fun initLeakCanary() {
-        if (LeakCanary.isInAnalyzerProcess(this))return
+        if (LeakCanary.isInAnalyzerProcess(this)) return
         LeakCanary.install(this)
     }
 
