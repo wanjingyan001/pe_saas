@@ -11,6 +11,7 @@ interface LoginView {
     fun getCodeStart()
     fun getCodeSuccess(phone:String)
     fun verificationCodeSuccess(result: RegisterVerResult)
+    fun verificationCompanyCodeSuccess(result:List<RegisterVerResult>)
     fun verificationCodeFail()
     fun getUserBean(user:UserBean)
     fun getCompanyInfoSuccess(info: MechanismBasicInfo)

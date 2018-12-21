@@ -77,7 +77,6 @@ class PhoneBindingActivity : BaseActivity(), LoginView {
         }
     }
 
-
     private fun hasBanded(phone: String) {
         val sp = PreferenceManager.getDefaultSharedPreferences(application)
         var source = ""
@@ -132,6 +131,10 @@ class PhoneBindingActivity : BaseActivity(), LoginView {
         mVerCodeInput.isFocusableInTouchMode = true//设置触摸聚焦
         mVerCodeInput.requestFocus()//请求焦点
         mVerCodeInput.findFocus()//获取焦点
+    }
+
+    override fun verificationCompanyCodeSuccess(result: List<RegisterVerResult>) {
+
     }
 
     override fun verificationCodeSuccess(result: RegisterVerResult) {

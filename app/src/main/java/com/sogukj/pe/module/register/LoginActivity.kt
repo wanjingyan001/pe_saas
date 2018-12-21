@@ -73,6 +73,7 @@ class LoginActivity : BaseActivity(), LoginView {
         }.subscribe {
             it.no {
                 loginPresenter.verificationCode(phoneEdt.getInput(), mVerCodeInput.textStr)
+//                loginPresenter.verificationCompanyCode(phoneEdt.getInput(), mVerCodeInput.textStr)
             }
         }
 
@@ -233,6 +234,10 @@ class LoginActivity : BaseActivity(), LoginView {
 
     override fun verificationCodeSuccess(result: RegisterVerResult) {
         judgeLoginProcess(result)
+    }
+
+    override fun verificationCompanyCodeSuccess(result: List<RegisterVerResult>) {
+
     }
 
     private fun judgeLoginProcess(result: RegisterVerResult) {
