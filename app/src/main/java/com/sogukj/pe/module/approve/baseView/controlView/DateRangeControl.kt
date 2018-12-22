@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
-import com.amap.api.mapcore.util.it
 import com.bigkoo.pickerview.builder.TimePickerBuilder
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
@@ -146,7 +145,7 @@ class DateRangeControl @JvmOverloads constructor(
                 }
                 val instance = Calendar.getInstance()
                 instance.time = Date(start)
-                startDate.set(instance.get(Calendar.YEAR), instance.get(Calendar.MONTH), instance.get(Calendar.DAY_OF_MONTH))
+                startDate.set(instance.get(Calendar.YEAR), instance.get(Calendar.MONTH), 1)
                 TimePickerBuilder(activity) { date, _ ->
                     if (date.time < start) {
                         showErrorToast("结束时间必须大于开始时间")
