@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -16,16 +14,12 @@ import android.widget.BaseAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.sogukj.pe.Extras;
 import com.sogukj.pe.R;
 import com.sogukj.pe.baselibrary.utils.DateUtils;
 import com.sogukj.pe.baselibrary.utils.Utils;
-import com.sogukj.pe.baselibrary.widgets.DotView;
 import com.sogukj.pe.bean.LocationRecordBean;
-import com.sogukj.pe.bean.UserBean;
 import com.sogukj.pe.module.approve.ApproveDetailActivity;
 import com.sogukj.pe.module.approve.LeaveBusinessApproveActivity;
-import com.sogukj.pe.peUtils.Store;
 
 import java.util.ArrayList;
 
@@ -94,7 +88,9 @@ public class LocationAdapter extends BaseAdapter {
             holder.tvRelate.setVisibility(View.GONE);
         } else {
             holder.tvRelate.setVisibility(View.VISIBLE);
-            holder.tvRelate.setText("关联审批：" + bean.getAdd_time().split(" ")[0] + "  " + bean.getTitle());
+            if(null != bean.getAdd_time() && bean.getAdd_time().contains(" ") && null != bean.getTitle()) {
+                holder.tvRelate.setText("关联审批：" + bean.getAdd_time().split(" ")[0] + "  " + bean.getTitle());
+            }
             holder.tvRelate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/relative"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingLeft="15dp"
-    android:paddingRight="15dp">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/relative"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
 
     <TextView
         android:id="@+id/clockTime"
@@ -34,7 +35,7 @@
         android:layout_marginLeft="4dp"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@+id/imageView3"
-        android:text="上海静安区江场三路93号401-402搜股上海科技有限公司"
+        tools:text="上海静安区江场三路93号401-402搜股上海科技有限公司"
         android:textColor="#ffa0a4aa"
         android:textSize="12sp" />
 
@@ -49,7 +50,7 @@
         android:ellipsize="end"
         android:padding="5dp"
         android:singleLine="true"
-        android:text="关联审批：2018/06/01 张栋梁的出差AFDA136张栋梁的出差AFDA136"
+        tools:text="关联审批：2018/06/01 张栋梁的出差AFDA136张栋梁的出差AFDA136"
         android:textColor="#ff4390f0"
         android:textSize="12sp" />
 </RelativeLayout>

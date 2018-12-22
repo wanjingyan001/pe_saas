@@ -22,8 +22,8 @@ class LocationRecordBean {
 
         var sid: Int? = null
         var stype: String = ""
-        var title: String? = null
-        var add_time: String? = null
+        var title: String = ""
+        var add_time: String = ""
         var approve_type = 2 //审批类型  1老审批  2新
     }
 //    "date": "2018-08-08",    //日期
