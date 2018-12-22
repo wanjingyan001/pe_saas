@@ -228,6 +228,7 @@ class ProjectListFragment : BaseFragment(), SupportEmptyView {
     var offset = 0
 
     fun doRequest() {
+        if (null == refreshHead) return
         val user = Store.store.getUser(baseActivity!!)
         val observable = if (principalId != 0) {
                     SoguApi.getService(baseActivity!!.application, NewService::class.java)
