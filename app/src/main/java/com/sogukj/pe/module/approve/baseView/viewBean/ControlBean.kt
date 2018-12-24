@@ -72,13 +72,13 @@ data class ControlBean(
          * 时长计算单位   year=>年 month=>月  day=> 天 hour=>小时 min=>分钟 sec=>秒 work=>按工作时长计算
          *  返回的时间单位 year=>年 month=>月 day=> 天 hour=>时 min=>时 sec=>时 work=>时
          */
-        val scal_unit: String?,
+        var scal_unit: String?,
         val options: List<OptionBean>?,//选项列表
         /**
          * 日期格式
          * yyyy/yyyy-MM/yyyy-MM-dd/yyyy-MM-dd hh:mm/yyyy-MM-dd HH:mm:ss
          */
-        val format: String?,
+        var format: String?,
         val linkText: String?,//跳转文字
         val stable: String?,//跳转链接
         val extras: ExtrasBean?,

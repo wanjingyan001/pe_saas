@@ -10,12 +10,16 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.TextView
+import com.amap.api.mapcore.util.it
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
+import com.sogukj.pe.baselibrary.Extended.otherWise
+import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.base.BaseFragment
 import com.sogukj.pe.baselibrary.utils.DateUtils
 import com.sogukj.pe.baselibrary.utils.Trace
@@ -36,11 +40,11 @@ import kotlinx.android.synthetic.main.fragment_location_clock.*
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.ctx
 import java.util.*
-import kotlin.collections.ArrayList
 
 class LocationClockFragment : BaseFragment(), MyMapView.onFinishListener {
 
     override fun onFinish() {
+        showSuccessToast("打卡成功")
         doRequest()
     }
 
@@ -61,31 +65,35 @@ class LocationClockFragment : BaseFragment(), MyMapView.onFinishListener {
         super.onViewCreated(view, savedInstanceState)
 
         map = MyMapView(ctx)
-        waichudaka.setOnClickListener {
-            SoguApi.getService(baseActivity!!.application, ApproveService::class.java)
-                    .outCardApproveList()
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.io())
-                    .subscribe({ payload ->
-                        if (payload.isOk){
-                            var list = ArrayList<LocationRecordBean.LocationCellBean>()
-                            payload?.payload?.forEach {
-                                list.add(it)
+        waichudaka.clickWithTrigger {
+            (activity as LocationActivity).locationPermission.yes {
+                SoguApi.getService(baseActivity!!.application, ApproveService::class.java)
+                        .outCardApproveList()
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe({ payload ->
+                            if (payload.isOk) {
+                                var list = ArrayList<LocationRecordBean.LocationCellBean>()
+                                payload?.payload?.forEach {
+                                    list.add(it)
+                                }
+                                mBun = savedInstanceState
+                                mList = list
+                                map.show(mBun, mList, this)
+                            } else {
+                                showErrorToast(payload.message)
                             }
-                            mBun = savedInstanceState
-                            mList = list
-                            map.show(mBun, mList, this)
-                        }else{
-                            showErrorToast(payload.message)
-                        }
-                    }, { e ->
-                        showCustomToast(R.drawable.icon_toast_fail, "网络请求出错，无法定位打卡")
-                        Trace.e(e)
-                    })
-        }
 
+                        }, { e ->
+                            showCustomToast(R.drawable.icon_toast_fail, "网络请求出错，无法定位打卡")
+                            Trace.e(e)
+                        })
+            }.otherWise {
+                showErrorToast("外出打卡功能需要定位权限")
+            }
+        }
         kotlin.run {
-            adapter = RecyclerAdapter(ctx, { _adapter, parent, type ->
+            adapter = RecyclerAdapter(ctx) { _adapter, parent, type ->
                 val convertView = _adapter.getView(R.layout.item_locate_clock, parent)
                 object : RecyclerHolder<LocationRecordBean.LocationCellBean>(convertView) {
                     val tvClockTime = convertView.find<TextView>(R.id.clockTime)
@@ -101,7 +109,9 @@ class LocationClockFragment : BaseFragment(), MyMapView.onFinishListener {
                             tvRelate.visibility = View.GONE
                         } else {
                             tvRelate.visibility = View.VISIBLE
-                            tvRelate.text = "关联审批：${data.add_time!!.split(" ")[0]}  ${data.title}"
+                            data.add_time?.isNotEmpty()?.yes {
+                                tvRelate.text = "关联审批：${data.add_time!!.split(" ")[0]}  ${data.title}"
+                            }
                             tvRelate.setOnClickListener {
                                 try {
                                     LeaveBusinessApproveActivity.start(activity, data.sid!!, data.stype!!)
@@ -127,7 +137,7 @@ class LocationClockFragment : BaseFragment(), MyMapView.onFinishListener {
                         }
                     }
                 }
-            })
+            }
 
             recycler_view.layoutManager = LinearLayoutManager(context)
             //recycler_view.addItemDecoration(DividerItemDecoration(ctx, DividerItemDecoration.VERTICAL))
@@ -200,7 +210,7 @@ class LocationClockFragment : BaseFragment(), MyMapView.onFinishListener {
                     iv_empty.visibility = if (adapter.dataList.size == 0) View.VISIBLE else View.GONE
                     iv_loading?.visibility = View.GONE
                     Trace.e(e)
-                })
+                }).let { }
     }
 
     fun loadHeader() {

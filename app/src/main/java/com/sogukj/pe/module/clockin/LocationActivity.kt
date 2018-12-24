@@ -21,6 +21,7 @@ import org.jetbrains.anko.textColor
 
 @Route(path = ARouterPath.LocationActivity)
 class LocationActivity : ToolbarActivity() {
+    var locationPermission = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,22 +36,23 @@ class LocationActivity : ToolbarActivity() {
 
         initBottomNavBar()
 
-        var per = arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_SETTINGS)
-        if (ContextCompat.checkSelfPermission(this, per[0]) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this, per[1]) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this, per[2]) != PackageManager.PERMISSION_GRANTED) {
-            //申请权限
-            ActivityCompat.requestPermissions(this, per, 0x001);//自定义的code
+        val per = arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_SETTINGS)
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, per, 0x001)
+        }else{
+            locationPermission = true
         }
+//        if (ContextCompat.checkSelfPermission(this, per[0]) != PackageManager.PERMISSION_GRANTED ||
+//                ContextCompat.checkSelfPermission(this, per[1]) != PackageManager.PERMISSION_GRANTED ||
+//                ContextCompat.checkSelfPermission(this, per[2]) != PackageManager.PERMISSION_GRANTED) {
+//            //申请权限
+//            ActivityCompat.requestPermissions(this, per, 0x001);//自定义的code
+//        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (grantResults.isNotEmpty()) {
-
-        } else {
-            showCustomToast(R.drawable.icon_toast_common, "外出打卡功能需要定位权限")
-        }
+        locationPermission = grantResults[1] == 0
     }
 
     val fragments = arrayOf(

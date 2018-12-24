@@ -344,10 +344,12 @@ public class MyMapView extends View {
         long stamp = System.currentTimeMillis() / 1000;
         if(null == mLocation) {
             ((LocationActivity) mContext).showCustomToast(R.drawable.icon_toast_fail, "定位失败，无法定位打卡");
+            tvConfirm.setTextColor(mContext.getResources().getColor(R.color.gray_a9));
             return;
         }
+        tvConfirm.setTextColor(mContext.getResources().getColor(R.color.blue_43));
         SoguApi.Companion.getService(((Activity) mContext).getApplication(), ApproveService.class)
-                .outCardSubmit((int) stamp, tvAddr.getText().toString(), mLocation.getLongitude() + "", mLocation.getLatitude() + "", cell.getId(), dakaId)
+                .outCardSubmit((int) stamp, tvAddr.getText().toString(), mLocation.getLongitude() + "", mLocation.getLatitude() + "", cell.getId(), dakaId,cell.getApprove_type())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<Payload<Integer>>() {
@@ -357,6 +359,10 @@ public class MyMapView extends View {
 
                     @Override
                     public void onNext(Payload<Integer> listPayload) {
+                        if(!listPayload.isOk()) {
+                            ((LocationActivity) mContext).showErrorToast(listPayload.getMessage());
+                            return;
+                        }
                         if (listPayload.getPayload() == null) {
                             dakaId = 0;
                         } else {

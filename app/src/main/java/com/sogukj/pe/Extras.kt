@@ -94,6 +94,7 @@ object Extras {
 
     val main_flag = "main.flag"
     val CITY_JSON = "city_json"
+    val NEW_CITY_JSON = "new_city_json"
     const val CONNECT = 100
     const val CONNECTED = 101
     const val MESSAGE = 102
@@ -118,6 +119,7 @@ object Extras {
     val FUND = "ext.fund"
     val PROJECT = "ext.project"
     val APPROVE_CONFIG = "approve_config"
+    val SAVE_TEMPLATE = "save_template"
     val SIGN_CODE = "pe2017Signkey"
 
     val DECLARE_URL = "https://sougu.pewinner.com/uploads/xieyi/%E5%85%8D%E8%B4%A3%E5%A3%B0%E6%98%8E.pdf"

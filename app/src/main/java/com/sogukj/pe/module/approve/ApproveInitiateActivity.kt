@@ -38,6 +38,7 @@ import com.sogukj.pe.module.approve.baseView.viewBean.Approvers
 import com.sogukj.pe.module.approve.baseView.viewBean.ControlBean
 import com.sogukj.pe.module.approve.baseView.viewBean.User
 import com.sogukj.pe.module.main.ContactsActivity
+import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.ApproveService
 import com.sogukj.pe.service.Payload
 import com.sogukj.pe.widgets.ApproverItemDecoration
@@ -49,6 +50,7 @@ import kotlinx.android.synthetic.main.item_new_approver_list.view.*
 import kotlinx.android.synthetic.main.layout_new_approve_user_list.view.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
+import java.util.*
 
 class ApproveInitiateActivity : ToolbarActivity() {
     private val tid: Int by extraDelegate(Extras.ID, 0)//模板id
@@ -64,7 +66,7 @@ class ApproveInitiateActivity : ToolbarActivity() {
     private val copyPeos = mutableListOf<User>()
     private lateinit var copyAdapter: CopyPeoAdapter
     private lateinit var userLayout: View
-
+    private var isSaveTemplate: Int = 1
     override val menuId: Int
         get() = R.menu.menu_new_approve_copy
 
@@ -109,6 +111,8 @@ class ApproveInitiateActivity : ToolbarActivity() {
         commitApprove.clickWithTrigger {
             submitApproval()
         }
+
+        isSaveTemplate = Store.store.getTemplateConfig(this)
     }
 
     /**
@@ -281,8 +285,7 @@ class ApproveInitiateActivity : ToolbarActivity() {
                 checkValue.addAll(checks)
             }
         }
-
-        if (approvers.sp.isEmpty()) {
+        if (::approvers.isLateinit && approvers.sp.isEmpty()) {
             showCommonToast("审批人不能为空")
             return
         }
@@ -429,12 +432,17 @@ class ApproveInitiateActivity : ToolbarActivity() {
             super.onBackPressed()
         } else {
             valueNotEmpty.isNotEmpty().yes {
-                initDialog {
-                    views.forEach {
-                        info { it.jsonStr }
-                    }
-                    saveApproveDraft(views.jsonStr, it.yes { 1 }.otherWise { 0 })
-                }.show()
+                //尚融不保存草稿
+                if (isSaveTemplate == 1) {
+                    initDialog {
+                        views.forEach {
+                            info { it.jsonStr }
+                        }
+                        saveApproveDraft(views.jsonStr, it.yes { 1 }.otherWise { 0 })
+                    }.show()
+                }else{
+                    super.onBackPressed()
+                }
             }.otherWise {
                 super.onBackPressed()
             }

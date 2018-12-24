@@ -166,6 +166,10 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         return this;
     }
 
+    public int getVisible(int viewId){
+        View view = getView(viewId);
+        return view.getVisibility();
+    }
     public ViewHolder linkify(int viewId) {
         TextView view = getView(viewId);
         Linkify.addLinks(view, Linkify.ALL);

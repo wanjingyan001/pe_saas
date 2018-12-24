@@ -4,18 +4,20 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
-import com.bigkoo.pickerview.builder.TimePickerBuilder
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.yes
+import com.sogukj.pe.module.approve.baseView.BaseControl
+import kotlinx.android.synthetic.main.layout_control_date_range.view.*
+import kotlin.properties.Delegates
+import com.bigkoo.pickerview.builder.TimePickerBuilder
 import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.utils.Utils
-import com.sogukj.pe.module.approve.baseView.BaseControl
 import com.sogukj.pe.module.approve.baseView.viewBean.ApproveValueBean
 import com.sogukj.pe.service.ApproveService
 import com.sogukj.service.SoguApi
-import kotlinx.android.synthetic.main.layout_control_date_range.view.*
 import org.jetbrains.anko.find
 import java.util.*
-import kotlin.properties.Delegates
+
 
 /**
  * 日期区间控件
@@ -145,7 +147,7 @@ class DateRangeControl @JvmOverloads constructor(
                 }
                 val instance = Calendar.getInstance()
                 instance.time = Date(start)
-                startDate.set(instance.get(Calendar.YEAR), instance.get(Calendar.MONTH), instance.get(Calendar.DAY_OF_MONTH))
+                startDate.set(instance.get(Calendar.YEAR), instance.get(Calendar.MONTH), 1)
                 TimePickerBuilder(activity) { date, _ ->
                     if (date.time < start) {
                         showErrorToast("结束时间必须大于开始时间")

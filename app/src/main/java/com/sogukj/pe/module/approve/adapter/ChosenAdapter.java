@@ -60,7 +60,11 @@ public class ChosenAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        holder.tvCity.setText(city.get(position).getName());
+        if(city.get(position).getName().startsWith("唱")) {
+            holder.tvCity.setText(city.get(position).getName().substring(1,city.get(position).getName().length()));
+        }else{
+            holder.tvCity.setText(city.get(position).getName());
+        }
         return view;
     }
 

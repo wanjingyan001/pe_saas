@@ -344,6 +344,14 @@ class Store private constructor() {
         return XmlDb.open(ctx).set(Extras.APPROVE_CONFIG, config)
     }
 
+    fun saveTemplateConfig(ctx: Context, config: Int): Boolean{
+        return XmlDb.open(ctx).set(Extras.SAVE_TEMPLATE, config)
+    }
+
+    fun getTemplateConfig(ctx: Context): Int {
+        return XmlDb.open(ctx).get(Extras.SAVE_TEMPLATE, 1)
+    }
+
     class SizeList<E> : LinkedList<E>() {
 
         fun distinct() {

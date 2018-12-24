@@ -20,6 +20,7 @@ import com.netease.nimlib.sdk.auth.AuthServiceObserver
 import com.netease.nimlib.sdk.auth.LoginInfo
 import com.netease.nimlib.sdk.util.NIMUtil
 import com.sogukj.pe.baselibrary.Extended.execute
+import com.sogukj.pe.baselibrary.Extended.no
 import com.sogukj.pe.baselibrary.base.ActivityHelper
 import com.sogukj.pe.baselibrary.utils.Trace
 import com.sogukj.pe.baselibrary.utils.XmlDb
@@ -38,7 +39,6 @@ import com.sogukj.pe.module.register.LoginActivity
 import com.sogukj.pe.module.weekly.PersonalWeeklyActivity
 import com.sogukj.pe.peExtended.defaultIc
 import com.sogukj.pe.peExtended.getEnvironment
-import com.sogukj.pe.peExtended.getIntEnvironment
 import com.sogukj.pe.peUtils.Store
 import com.sogukj.pe.service.UserService
 import com.sogukj.service.SoguApi
@@ -73,7 +73,7 @@ class App : MultiDexApplication() {
                 ARouter.openDebug()
             }
             ARouter.init(INSTANCE)
-            if (getIntEnvironment() == 1){
+            BuildConfig.DEBUG.no {
                 CrashReport.initCrashReport(INSTANCE, "49fb9e37b7", BuildConfig.DEBUG)
             }
             SgDatabase.getInstance(INSTANCE)
@@ -192,7 +192,7 @@ class App : MultiDexApplication() {
     }
 
     private fun initLeakCanary() {
-        if (LeakCanary.isInAnalyzerProcess(this))return
+        if (LeakCanary.isInAnalyzerProcess(this)) return
         LeakCanary.install(this)
     }
 

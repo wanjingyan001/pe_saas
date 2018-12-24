@@ -25,7 +25,11 @@ import android.text.style.ForegroundColorSpan
 import android.view.KeyEvent
 import android.view.View
 import android.view.animation.DecelerateInterpolator
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.ScrollView
+import android.widget.TextView
+import androidx.core.content.edit
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
 import com.ashokvarma.bottomnavigation.BottomNavigationBar
@@ -34,8 +38,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
 import com.netease.nim.uikit.api.NimUIKit
+import com.netease.nimlib.sdk.NIMClient
+import com.netease.nimlib.sdk.auth.AuthService
 import com.sogukj.pe.App
-import com.sogukj.pe.Consts
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
@@ -160,6 +165,24 @@ class MainActivity : BaseActivity() {
                         it.printStackTrace()
                     }
                 }
+
+        SoguApi.getService(application, OtherService::class.java)
+                .saveApprove()
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk) {
+                            val jsonObject = payload.payload
+                            val jsonElement = jsonObject!!.get("is_save_draft")
+                            if (null != jsonElement) {
+                                Store.store.saveTemplateConfig(this@MainActivity, jsonElement.asInt)
+                            }
+                        }
+                    }
+
+                    onError {
+                        it.printStackTrace()
+                    }
+                }
     }
 
     private fun copyAssets(filename: String) {
@@ -193,10 +216,10 @@ class MainActivity : BaseActivity() {
     }
 
     private fun saveCityAreaJson() {
-        var datas = XmlDb.open(this).get(Extras.CITY_JSON, "")
+        var datas = XmlDb.open(this).get(Extras.NEW_CITY_JSON, "")
         if (null == datas || datas.equals("")) {
             val cityJson = Utils.getJson(this, "city.json")
-            XmlDb.open(this).set(Extras.CITY_JSON, cityJson)
+            XmlDb.open(this).set(Extras.NEW_CITY_JSON, cityJson)
         }
     }
 
@@ -518,6 +541,12 @@ class MainActivity : BaseActivity() {
                     intent.action = Intent.ACTION_VIEW
                     //val uri = Uri.fromFile(File(path))
                     path?.let {
+                        if (force == 2) {
+                            RetrofitUrlManager.getInstance().removeGlobalDomain()
+                            sp.edit { putString(Extras.HTTPURL, "") }
+                            Store.store.clearUser(ctx)
+                            IMLogout()
+                        }
                         val uri = transform(path, intent)
                         intent.setDataAndType(uri, "application/vnd.android.package-archive")
                         startActivity(intent)
@@ -574,6 +603,17 @@ class MainActivity : BaseActivity() {
         super.onDestroy()
         DzhClientService.stopService(this)
         stopService<FileFindService>()
+    }
+
+    /**
+     * 网易云信IM注销
+     */
+    private fun IMLogout() {
+        val xmlDb = XmlDb.open(this)
+        xmlDb.set(Extras.NIMACCOUNT, "")
+        xmlDb.set(Extras.NIMTOKEN, "")
+        NimUIKit.logout()
+        NIMClient.getService(AuthService::class.java).logout()
     }
 
     companion object {

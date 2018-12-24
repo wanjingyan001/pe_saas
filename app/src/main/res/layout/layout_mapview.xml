@@ -78,7 +78,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="取消打卡"
-                android:textColor="#ffa9a9a9"
+                android:textColor="@color/gray_a9"
                 android:textSize="18sp" />
 
             <View
@@ -93,7 +93,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="定位打卡"
-                android:textColor="#ff4390f0"
+                android:textColor="@color/blue_43"
                 android:textSize="18sp" />
 
         </LinearLayout>

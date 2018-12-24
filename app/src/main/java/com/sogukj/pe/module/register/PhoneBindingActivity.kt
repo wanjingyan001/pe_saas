@@ -6,7 +6,6 @@ import android.preference.PreferenceManager
 import androidx.core.content.edit
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.Theme
-import com.amap.api.mapcore.util.it
 import com.google.gson.internal.LinkedTreeMap
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.netease.nim.uikit.api.NimUIKit
@@ -29,7 +28,6 @@ import com.sogukj.pe.module.register.presenter.LoginPresenter
 import com.sogukj.pe.module.register.presenter.LoginView
 import com.sogukj.pe.peUtils.LoginTimer
 import com.sogukj.pe.peUtils.Store
-import com.sogukj.pe.peUtils.ToastUtil
 import com.sogukj.pe.service.RegisterService
 import com.sogukj.service.SoguApi
 import com.tencent.bugly.crashreport.CrashReport
@@ -78,7 +76,6 @@ class PhoneBindingActivity : BaseActivity(), LoginView {
             }
         }
     }
-
 
     private fun hasBanded(phone: String) {
         val sp = PreferenceManager.getDefaultSharedPreferences(application)
@@ -134,6 +131,10 @@ class PhoneBindingActivity : BaseActivity(), LoginView {
         mVerCodeInput.isFocusableInTouchMode = true//设置触摸聚焦
         mVerCodeInput.requestFocus()//请求焦点
         mVerCodeInput.findFocus()//获取焦点
+    }
+
+    override fun verificationCompanyCodeSuccess(result: List<RegisterVerResult>) {
+
     }
 
     override fun verificationCodeSuccess(result: RegisterVerResult) {
@@ -248,6 +249,7 @@ class PhoneBindingActivity : BaseActivity(), LoginView {
         sp.edit { putString(Extras.SAAS_BASIC_DATA, info.jsonStr) }
         sp.edit { putInt(Extras.main_flag, info.homeCardFlag ?: 1) }
         startActivity<MainActivity>()
+//        startActivity<SelectCompanyAvtivity>()
     }
 
     override fun getInfoFinish() {
