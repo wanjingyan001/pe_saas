@@ -21,6 +21,8 @@ import com.sogukj.pe.module.approve.presenter.RequestCityPresenter
 import com.sogukj.pe.widgets.indexbar.DividerItemDecoration
 import com.sogukj.pe.widgets.indexbar.SuspensionDecoration
 import kotlinx.android.synthetic.main.activity_new_dst_city.*
+import java.util.*
+
 /**
  * Created by CH-ZH on 2018/8/28.
  */
