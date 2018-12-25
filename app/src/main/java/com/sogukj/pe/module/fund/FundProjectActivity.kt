@@ -57,7 +57,7 @@ class FundProjectActivity : ToolbarActivity() {
         //文件列表
         kotlin.run {
             mAdapter = RecyclerAdapter(this) { _adapter, parent, type ->
-                val convertView = _adapter.getView(R.layout.item_fundproject, parent) as View
+                val convertView = _adapter.getView(R.layout.item_fundproject, parent)
                 object : RecyclerHolder<FundCompany>(convertView) {
                     val icon = convertView.findViewById<ImageView>(R.id.icon) as ImageView
                     val status = convertView.findViewById<TextView>(R.id.status) as TextView
@@ -68,14 +68,14 @@ class FundProjectActivity : ToolbarActivity() {
                     override fun setData(view: View, data: FundCompany, position: Int) {
                         if (data.logo.isNullOrEmpty()) {
                             var bitmap = BitmapFactory.decodeResource(resources, R.drawable.default_icon)
-                            var draw = RoundedBitmapDrawableFactory.create(resources, bitmap) as RoundedBitmapDrawable
-                            draw.setCornerRadius(Utils.dpToPx(context, 4).toFloat())
+                            var draw = RoundedBitmapDrawableFactory.create(resources, bitmap)
+                            draw.cornerRadius = Utils.dpToPx(context, 4).toFloat()
                             icon.setBackgroundDrawable(draw)
                         } else {
                             Glide.with(context).asBitmap().load(data.logo).into(object : SimpleTarget<Bitmap>() {
                                 override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                                    var draw = RoundedBitmapDrawableFactory.create(resources, resource) as RoundedBitmapDrawable
-                                    draw.setCornerRadius(Utils.dpToPx(context, 4).toFloat())
+                                    var draw = RoundedBitmapDrawableFactory.create(resources, resource)
+                                    draw.cornerRadius = Utils.dpToPx(context, 4).toFloat()
                                     icon.setBackgroundDrawable(draw)
                                 }
                             })

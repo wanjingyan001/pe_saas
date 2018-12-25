@@ -79,7 +79,7 @@ class MobLogin {
                 }
 
                 override fun onError(p0: Platform?, p1: Int, p2: Throwable) {
-                    info { "code:$p1  ,error:${p2?.message}" }
+                    info { "code:$p1  ,error:${p2.message}" }
                     fail?.invoke()
                 }
 

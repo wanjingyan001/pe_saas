@@ -15,6 +15,7 @@ import com.sogukj.pe.module.main.MainActivity
 import kotlinx.android.synthetic.main.activity_select_company.*
 import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
+import java.util.*
 
 /**
  * Created by CH-ZH on 2018/12/19.
@@ -35,7 +36,7 @@ class SelectCompanyAvtivity : ToolbarActivity() {
 
     private fun initView() {
         setBack(true)
-        setTitle("")
+        title = ""
     }
 
     private fun initData() {

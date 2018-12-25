@@ -174,7 +174,7 @@ class ManagerDetailActivity : ToolbarActivity() {
             if (hasFocus) {
                 et_content.setSelection(et_content.text.length)
             } else {
-                et_content.setText(et_content.text)
+                et_content.text = et_content.text
             }
         }
         if (bean.contents.isNullOrEmpty()) {
@@ -241,7 +241,7 @@ class ManagerDetailActivity : ToolbarActivity() {
                 //params.setMargins(Utils.dpToPx(context, 10), 0, 0, 0)
                 params.gravity = Gravity.CENTER_VERTICAL
                 radioBtn.layoutParams = params
-                radioBtn.setButtonDrawable(null)
+                radioBtn.buttonDrawable = null
                 radioBtn.background = null
                 radioBtn.gravity = Gravity.CENTER
                 var drawable = resources.getDrawable(R.drawable.ic_cs_radio)
@@ -379,7 +379,7 @@ class ManagerDetailActivity : ToolbarActivity() {
             val file = File(filePath)
             SoguApi.getService(application, ProjectService::class.java)
                     .uploadFile(MultipartBody.Builder().setType(MultipartBody.FORM)
-                            .addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("*/*"), file))
+                            .addFormDataPart("file", file.name, RequestBody.create(MediaType.parse("*/*"), file))
                             .build())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())

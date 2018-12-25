@@ -10,7 +10,7 @@ import com.sogukj.pe.bean.PersonCreList
 class CreditViewModel : ViewModel() {
     private lateinit var creditList: LiveData<List<PersonCreList>>
 
-    public fun getCreditList(offset : Int = 0): LiveData<List<PersonCreList>> {
+    fun getCreditList(offset : Int = 0): LiveData<List<PersonCreList>> {
         creditList = CreditRepository().getHundredCreList(offset)
         return creditList
     }

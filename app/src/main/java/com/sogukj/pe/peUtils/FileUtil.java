@@ -622,7 +622,7 @@ public class FileUtil {
         try {
             read = new FileReader(file);
             br = new BufferedReader(read);
-            while ((content = br.readLine().toString().trim()) != null) {
+            while ((content = br.readLine().trim()) != null) {
                 string += content + "\r\n";
             }
         } catch (Exception e) {
@@ -636,7 +636,7 @@ public class FileUtil {
             }
         }
         System.out.println("string=" + string);
-        return string.toString();
+        return string;
     }
 
 

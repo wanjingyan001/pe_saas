@@ -199,7 +199,7 @@ class PolicyExpressDetailActivity : BaseActivity() {
             //分享
             var shareBean = CusShareBean()
             shareBean.shareTitle = shareTitle
-            shareBean.shareContent = news!!.title!!
+            shareBean.shareContent = news!!.title
             shareBean.shareUrl = news!!.shareUrl
             ShareUtils.share(shareBean, this)
         }

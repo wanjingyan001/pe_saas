@@ -295,11 +295,7 @@ public class MyMapView extends View {
     }
 
     public boolean isShown() {
-        if (rootView != null && rootView.getParent() != null) {
-            return true;
-        } else {
-            return false;
-        }
+        return rootView != null && rootView.getParent() != null;
     }
 
     private onFinishListener mListener;

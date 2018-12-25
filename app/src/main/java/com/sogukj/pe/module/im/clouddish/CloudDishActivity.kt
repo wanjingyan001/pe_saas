@@ -144,10 +144,6 @@ class CloudDishActivity : ToolbarActivity(){
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         try {

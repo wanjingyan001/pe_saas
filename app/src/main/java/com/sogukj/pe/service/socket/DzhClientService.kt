@@ -78,8 +78,8 @@ class DzhClientService : Service(){
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public fun onEvent(event: DzhEvent) {
-        send(event!!.data)
+    fun onEvent(event: DzhEvent) {
+        send(event.data)
     }
 
     private fun send(message: String) {

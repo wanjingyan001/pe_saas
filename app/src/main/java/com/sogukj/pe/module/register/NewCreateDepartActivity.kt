@@ -228,7 +228,7 @@ class NewCreateDepartActivity : ToolbarActivity() {
                             }
                         }
                         _adapter.notifyDataSetChanged()
-                        isCanDelete = if (entity.isSelected){true}else{false}
+                        isCanDelete = entity.isSelected
                         tv_delete.setBackgroundResource(if (entity.isSelected){R.drawable.bg_depart_delete}else{R.drawable.selector_sure_gray})
                         if (null != entity.subItems && entity.subItems.size > 0){
                             Log.e("TAG","  child size ==" + entity.subItems.size + "  position ==" + position)
@@ -266,7 +266,7 @@ class NewCreateDepartActivity : ToolbarActivity() {
                             }
                         }
                         _adapter.notifyDataSetChanged()
-                        isCanDelete = if (entity.isSelected){true}else{false}
+                        isCanDelete = entity.isSelected
                         tv_delete.setBackgroundResource(if (entity.isSelected){R.drawable.bg_depart_delete}else{R.drawable.selector_sure_gray})
                         Log.e("TAG","  child position ==" + position)
                         isDeleteChild = true
@@ -433,8 +433,4 @@ class NewCreateDepartActivity : ToolbarActivity() {
                 }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-
-    }
 }

@@ -62,10 +62,6 @@ abstract class LawSearchBaseFragment  : BaseRefreshFragment() {
         super.onViewCreated(view, savedInstanceState)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         initVariable()

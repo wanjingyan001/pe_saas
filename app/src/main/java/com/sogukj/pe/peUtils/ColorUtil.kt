@@ -99,7 +99,7 @@ object ColorUtil {
         }
         var gd = GradientDrawable()
         gd.setColor(fillColor)
-        gd.setCornerRadius(roundRadius.toFloat())
+        gd.cornerRadius = roundRadius.toFloat()
         view.backgroundDrawable = gd
     }
 }

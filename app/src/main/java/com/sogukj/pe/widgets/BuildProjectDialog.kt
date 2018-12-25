@@ -347,9 +347,9 @@ class BuildProjectDialog {
         rv_member.adapter = memberAdapter
 
         if (null != selectDate){
-            tv_time!!.setText(Utils.getTime(selectDate, "yyyy-MM-dd HH:mm"))
+            tv_time!!.text = Utils.getTime(selectDate, "yyyy-MM-dd HH:mm")
         }else{
-            tv_time!!.setText(Utils.getTime(Date(), "yyyy-MM-dd HH:mm"))
+            tv_time!!.text = Utils.getTime(Date(), "yyyy-MM-dd HH:mm")
         }
         calendar = CalendarDingDing(context)
         iv_close.setOnClickListener {
@@ -430,7 +430,7 @@ class BuildProjectDialog {
                 }
             }
         }
-        map.put("copier",copier!!)
+        map.put("copier", copier)
         SoguApi.getService(App.INSTANCE,OtherService::class.java)
                 .commitApprove(map)
                 .execute {
@@ -464,9 +464,9 @@ class BuildProjectDialog {
     open fun setTime(date: Date?) {
         this.date = date
         if (null != date){
-            tv_time!!.setText(Utils.getTime(date, "yyyy-MM-dd HH:mm"))
+            tv_time!!.text = Utils.getTime(date, "yyyy-MM-dd HH:mm")
         }else{
-            tv_time!!.setText(Utils.getTime(Date(), "yyyy-MM-dd HH:mm"))
+            tv_time!!.text = Utils.getTime(Date(), "yyyy-MM-dd HH:mm")
         }
     }
 
@@ -494,27 +494,27 @@ class BuildProjectDialog {
                             if (type == 0){
                                 if (null != adapter) {
                                     info.file_name = fileBean!!.file_name
-                                    info.size = fileBean!!.size
-                                    info.url = fileBean!!.url
-                                    info.filePath = fileBean!!.filePath
+                                    info.size = fileBean.size
+                                    info.url = fileBean.url
+                                    info.filePath = fileBean.filePath
                                     adapter.addData(fileInfos.size, info)
                                     setRecycleLayout(fileInfos.size)
                                 }
                             }else if (type == 1){
                                 if (null != lxhAdapter) {
                                     info.file_name = fileBean!!.file_name
-                                    info.size = fileBean!!.size
-                                    info.url = fileBean!!.url
-                                    info.filePath = fileBean!!.filePath
+                                    info.size = fileBean.size
+                                    info.url = fileBean.url
+                                    info.filePath = fileBean.filePath
                                     lxhAdapter.addData(lxhFileInfos.size, info)
                                     setLxhRecycleLayout(lxhFileInfos.size)
                                 }
                             }else if (type == 2){
                                 if (null != rejectAdapter){
                                     info.file_name = fileBean!!.file_name
-                                    info.size = fileBean!!.size
-                                    info.url = fileBean!!.url
-                                    info.filePath = fileBean!!.filePath
+                                    info.size = fileBean.size
+                                    info.url = fileBean.url
+                                    info.filePath = fileBean.filePath
                                     rejectAdapter.addData(rejectFileInfos.size, info)
                                     setRejectRecycleLayout(rejectFileInfos.size)
                                 }

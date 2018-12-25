@@ -107,7 +107,7 @@ class LawSearchFragment : LawSearchBaseFragment(),LawSearchCallBack, TextWatcher
         if (!XmlDb.open(activity!!).get("isFirst")){
             if (null != presenter){
                 showLoadding()
-                presenter!!.doLawSearchRequest(searchKey,type!!,true)
+                presenter!!.doLawSearchRequest(searchKey, type,true)
             }
             XmlDb.open(activity!!).set("isFirst",true)
         }
@@ -116,14 +116,14 @@ class LawSearchFragment : LawSearchBaseFragment(),LawSearchCallBack, TextWatcher
     private fun getSearchData() {
         if (null != presenter){
             showLoadding()
-            presenter!!.doLawSearchRequest(searchKey,realType!!,true)
+            presenter!!.doLawSearchRequest(searchKey, realType,true)
         }
     }
 
     private fun getSearchData(searchType:Int) {
         if (null != presenter){
             showLoadding()
-            presenter!!.doLawSearchRequest(searchKey,searchType!!,true)
+            presenter!!.doLawSearchRequest(searchKey, searchType,true)
         }
     }
 
@@ -170,7 +170,7 @@ class LawSearchFragment : LawSearchBaseFragment(),LawSearchCallBack, TextWatcher
             searchKey = activity!!.et_search.textStr
         }
         if (null != presenter){
-            presenter!!.doLawSearchRequest(searchKey,realType!!,true)
+            presenter!!.doLawSearchRequest(searchKey, realType,true)
         }
     }
 
@@ -179,7 +179,7 @@ class LawSearchFragment : LawSearchBaseFragment(),LawSearchCallBack, TextWatcher
             searchKey = activity!!.et_search.textStr
         }
         if (null != presenter){
-            presenter!!.doLawSearchRequest(searchKey,realType!!,false)
+            presenter!!.doLawSearchRequest(searchKey, realType,false)
         }
     }
 
@@ -226,12 +226,12 @@ class LawSearchFragment : LawSearchBaseFragment(),LawSearchCallBack, TextWatcher
         searchKey = activity!!.et_search.textStr
         if (null != presenter){
             showLoadding()
-            presenter!!.doLawSearchRequest(searchKey,type!!,true)
+            presenter!!.doLawSearchRequest(searchKey, type,true)
         }
     }
 
     override fun refreshLawList(it: List<LawSearchResultInfo>?, total: Any) {
-        if (null != it && it!!.size > 0){
+        if (null != it && it.size > 0){
             if (null != iv_empty){
                 iv_empty.visibility = View.INVISIBLE
             }
@@ -240,7 +240,7 @@ class LawSearchFragment : LawSearchBaseFragment(),LawSearchCallBack, TextWatcher
             }
             setTotalCountEnable(true)
             searchData.clear()
-            searchData.addAll(it!!)
+            searchData.addAll(it)
             resultAdapter.notifyDataSetChanged()
             if (null != tv_total && null != total){
                 tv_total.text = (total as Double).toInt().toString()
@@ -388,7 +388,7 @@ class LawSearchFragment : LawSearchBaseFragment(),LawSearchCallBack, TextWatcher
 
     private fun replaceText(str: String): SpannableString {
         val spannable = SpannableString(str)
-        searchKey?.let {
+        searchKey.let {
             str.contains(it).yes {
                 spannable.setSpan(ForegroundColorSpan(Color.parseColor("#1787FB"))
                         , str.indexOf(it), str.indexOf(it) + it.length,

@@ -42,26 +42,23 @@ class WebNormalActivity  : BaseActivity() {
                 return true
             }
 
-            override fun onPageFinished(view: WebView, url: String) {
-                super.onPageFinished(view, url)
-            }
         }
 
-        val settings = web.getSettings()
-        settings.setSavePassword(false)
-        settings.setJavaScriptEnabled(true)
-        settings.setAllowFileAccessFromFileURLs(true)
-        settings.setAllowUniversalAccessFromFileURLs(true)
+        val settings = web.settings
+        settings.savePassword = false
+        settings.javaScriptEnabled = true
+        settings.allowFileAccessFromFileURLs = true
+        settings.allowUniversalAccessFromFileURLs = true
 
         //设置此属性，可任意比例缩放
-        settings.setUseWideViewPort(true)
+        settings.useWideViewPort = true
         //支持屏幕缩放
         settings.setSupportZoom(true)
-        settings.setBuiltInZoomControls(true)
+        settings.builtInZoomControls = true
         //不显示webview缩放按钮
-        settings.setDisplayZoomControls(false)
+        settings.displayZoomControls = false
 
-        web.setWebChromeClient(WebChromeClient())
+        web.webChromeClient = WebChromeClient()
 
 
     }

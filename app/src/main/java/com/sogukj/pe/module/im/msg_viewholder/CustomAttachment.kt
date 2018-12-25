@@ -6,5 +6,4 @@ import com.netease.nimlib.sdk.msg.attachment.MsgAttachment
 /**
  * Created by admin on 2018/11/2.
  */
-abstract class CustomAttachment : MsgAttachment {
-}
+abstract class CustomAttachment : MsgAttachment

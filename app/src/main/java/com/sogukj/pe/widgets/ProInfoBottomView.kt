@@ -107,9 +107,9 @@ class ProInfoBottomView : LinearLayout {
                             val fileBean = payload.payload
                             if (null != adapter){
                                 info.file_name = fileBean!!.file_name
-                                info.size = fileBean!!.size
-                                info.url = fileBean!!.url
-                                info.filePath = fileBean!!.filePath
+                                info.size = fileBean.size
+                                info.url = fileBean.url
+                                info.filePath = fileBean.filePath
                                 adapter.addData(fileInfos.size,info)
                             }
                             ToastUtil.showSuccessToast("上传成功",mContext!!)

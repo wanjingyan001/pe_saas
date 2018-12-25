@@ -405,7 +405,7 @@ class ProjectUploadActivity : ToolbarActivity() {
         if (null != data && resultCode == Activity.RESULT_OK){
             when(requestCode){
                 REQ_SELECT_FILE -> {
-                    val paths = data?.getStringArrayListExtra(Extras.LIST)
+                    val paths = data.getStringArrayListExtra(Extras.LIST)
                     val filePath = paths[0]
                     val file = File(filePath)
                     if (null == file) return
@@ -445,9 +445,9 @@ class ProjectUploadActivity : ToolbarActivity() {
                                 val level2Item = Level2Item()
                                 val approveFile = ProjectApproveInfo.ApproveFile()
                                 approveFile.file_name = fileBean!!.file_name
-                                approveFile.size = fileBean!!.size
-                                approveFile.url = fileBean!!.url
-                                approveFile.filePath = fileBean!!.filePath
+                                approveFile.size = fileBean.size
+                                approveFile.url = fileBean.url
+                                approveFile.filePath = fileBean.filePath
                                 level2Item.file = approveFile
                                 level2Item.localFile = file
                                 level2Item.type = 0
@@ -460,8 +460,8 @@ class ProjectUploadActivity : ToolbarActivity() {
                             val fileDataBean = FileDataBean()
                             fileDataBean.class_id = class_id
                             fileDataBean.filepath = fileBean!!.filePath
-                            fileDataBean.filename = fileBean!!.file_name
-                            fileDataBean.size = fileBean!!.size
+                            fileDataBean.filename = fileBean.file_name
+                            fileDataBean.size = fileBean.size
                             uploadFiles.add(fileDataBean)
                         }else{
                            showErrorToast(payload.message)

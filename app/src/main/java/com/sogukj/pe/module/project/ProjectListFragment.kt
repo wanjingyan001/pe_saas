@@ -65,7 +65,7 @@ class ProjectListFragment : BaseFragment(), SupportEmptyView {
             ProjectHolderNew(_adapter.getView(R.layout.item_main_project_new, parent))
         })
         adapter.onItemClick = { v, p ->
-            val project = adapter.getItem(p);
+            val project = adapter.getItem(p)
 
             val t = if (type == ProjectListFragment.TYPE_GZ) {
                 project.type
@@ -213,7 +213,7 @@ class ProjectListFragment : BaseFragment(), SupportEmptyView {
         if (requestCode == 0x001) {
             doRequest()
             if (resultCode == Activity.RESULT_OK && parentFragment != null) {
-                if (null != data && "DELETE".equals(data!!.getStringExtra(Extras.FLAG))) {
+                if (null != data && "DELETE".equals(data.getStringExtra(Extras.FLAG))) {
                     return
                 }
                 var mPFragment = parentFragment as MainProjectFragment
@@ -355,7 +355,7 @@ class ProjectListFragment : BaseFragment(), SupportEmptyView {
             ivSC.setOnClickListener {
                 val user = Store.store.getUser(ctx) ?: return@setOnClickListener
                 SoguApi.getService(baseActivity!!.application, NewService::class.java)
-                        .mark(uid = user!!.uid!!, company_id = data.company_id!!, type = (1 - data.is_focus))
+                        .mark(uid = user.uid!!, company_id = data.company_id!!, type = (1 - data.is_focus))
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
                         .subscribe({ payload ->

@@ -251,7 +251,7 @@ class FundAssociationDetailActivity : ToolbarActivity() {
             if (hasFocus) {
                 et_content.setSelection(et_content.text.length)
             } else {
-                et_content.setText(et_content.text)
+                et_content.text = et_content.text
             }
         }
         if (bean.contents.isNullOrEmpty()) {
@@ -269,8 +269,8 @@ class FundAssociationDetailActivity : ToolbarActivity() {
             bean.child?.forEach {
                 when (it.control) {
                     1 -> add1(it, cell)
-//                    4 -> add4(it, cell)
-//                    10 -> add10(it, cell)
+    //                    4 -> add4(it, cell)
+    //                    10 -> add10(it, cell)
                 }
             }
         }
@@ -298,11 +298,4 @@ class FundAssociationDetailActivity : ToolbarActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
 }

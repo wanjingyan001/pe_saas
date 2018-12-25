@@ -81,7 +81,7 @@ class NewOriginProjectActivity : ToolbarActivity(), NewOriginProCallBack {
     }
 
     private fun initView() {
-        setTitle("项目基本信息")
+        title = "项目基本信息"
         setBack(true)
         project = intent.getSerializableExtra(Extras.DATA) as ProjectBean?
         presenter = NewOriginProPresenter(this, this)
@@ -97,7 +97,7 @@ class NewOriginProjectActivity : ToolbarActivity(), NewOriginProCallBack {
     private fun initData() {
         initLocalData()
         mCompanyAdapter = RecyclerAdapter<CompanySelectBean>(this) { _adapter, parent, type ->
-            val convertView = _adapter.getView(R.layout.item_main_project_search, parent) as View
+            val convertView = _adapter.getView(R.layout.item_main_project_search, parent)
             object : RecyclerHolder<CompanySelectBean>(convertView) {
                 val tv1 = convertView.findViewById<TextView>(R.id.tv1) as TextView
                 override fun setData(view: View, data: CompanySelectBean, position: Int) {
@@ -533,14 +533,14 @@ class NewOriginProjectActivity : ToolbarActivity(), NewOriginProCallBack {
         if (null != data.duty) {
             tv_pm_name.text = data.duty!!.name
             if (null != data.duty!!.principal) {
-                chargerPmId = data.duty!!.principal!!
+                chargerPmId = data.duty!!.principal
             }
         }
 
         if (null != data.lead) {
             tv_pl_name.text = data.lead!!.name
             if (null != data.lead!!.leader) {
-                chargerPlId = data.lead!!.leader!!
+                chargerPlId = data.lead!!.leader
             }
         }
         if (null != user && null != user!!.uid) {

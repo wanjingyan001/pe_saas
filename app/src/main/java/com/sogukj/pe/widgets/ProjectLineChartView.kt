@@ -383,10 +383,6 @@ class ProjectLineChartView : View {
         canvas.drawCircle(width/2.toFloat(),profitHeight,circleRadius,paintCircleGrreen)
     }
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-    }
-
 
     open fun fitDataAndInvalite(frames: List<ProjectApproveInfo.ApproveInfo>, maxValue: Float, maxYear: Int, minYear: Int, size: Int, realYear1: String,
                                 realYear2: String, realYear3: String){

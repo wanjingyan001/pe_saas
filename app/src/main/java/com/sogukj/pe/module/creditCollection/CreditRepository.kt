@@ -15,7 +15,7 @@ import com.sogukj.service.SoguApi
  */
 class CreditRepository {
 
-    public fun getHundredCreList(offset:Int) :LiveData<List<PersonCreList>>{
+    fun getHundredCreList(offset:Int) :LiveData<List<PersonCreList>>{
         val list = MutableLiveData<List<PersonCreList>>()
         SoguApi.getService(App.INSTANCE, CreditService::class.java)
                 .getPersonalCreList(offset)

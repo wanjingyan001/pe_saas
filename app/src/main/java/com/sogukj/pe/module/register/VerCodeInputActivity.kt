@@ -108,7 +108,7 @@ class VerCodeInputActivity : BaseActivity() {
                                             } else {
                                                 if (it.business_card.isNullOrEmpty()) {
                                                     val isAdmin = it.is_admin != 2
-                                                    val info = MechanismInfo(it.mechanism_name, it.scale, it.business_card, it.name, it.position, it.key)
+                                                    val info = MechanismInfo(it.mechanism_name, it.scale, it.business_card, it.name, it.position, it.key?:"")
                                                     startActivity<InfoSupplementActivity>(Extras.DATA to phone
                                                             , Extras.DATA2 to info
                                                             , Extras.FLAG to isAdmin

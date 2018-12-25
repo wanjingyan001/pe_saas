@@ -301,20 +301,6 @@ class MainNewsFragment : BaseRefreshFragment() {
                 .into(iv_loading)
     }
 
-    override fun onStart() {
-        super.onStart()
-//        (routhFlag == Extras.ROUTH_FLAG).yes {
-//            Observable.just(1)
-//                    .execute {
-//                        onNext {
-//                            view_pager.doOnLayout {
-//                                tabs.getTabAt(1)?.select()
-//                            }
-//                        }
-//                    }
-//        }
-    }
-
 
     override fun doRefresh() {
         page = 1

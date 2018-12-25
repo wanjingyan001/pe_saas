@@ -60,10 +60,10 @@ class ProjectTraceActivity : ToolbarActivity() {
             record.alpha = scale
 
             if (appBarHeight - toolbarHeight - Math.abs(verticalOffset).toFloat() < 5) {
-                collapse.setTitle("")
+                collapse.title = ""
                 toolbar_title.visibility = View.VISIBLE
             } else {
-                collapse.setTitle("项目跟踪")
+                collapse.title = "项目跟踪"
                 toolbar_title.visibility = View.GONE
             }
         }

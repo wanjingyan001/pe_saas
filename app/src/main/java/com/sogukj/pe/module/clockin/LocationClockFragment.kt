@@ -103,7 +103,7 @@ class LocationClockFragment : BaseFragment(), MyMapView.onFinishListener {
                     val dotView = convertView.find<DotView>(R.id.dotView)
                     override fun setData(view: View, data: LocationRecordBean.LocationCellBean, position: Int) {
                         val stamp = data.time!!
-                        val dateStr = DateUtils.getTime24HDisplay(context, stamp!!)
+                        val dateStr = DateUtils.getTime24HDisplay(context, stamp)
                         tvClockTime.text = "打卡时间：${dateStr.substring(11)}"
                         tvLocate.text = data.place
                         if (data.sid == null) {
@@ -115,7 +115,7 @@ class LocationClockFragment : BaseFragment(), MyMapView.onFinishListener {
                             }
                             tvRelate.setOnClickListener {
                                 try {
-                                    LeaveBusinessApproveActivity.start(activity, data.sid!!, data.stype!!)
+                                    LeaveBusinessApproveActivity.start(activity, data.sid!!, data.stype)
                                 } catch (e: Exception) {
                                 }
                             }

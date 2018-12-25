@@ -184,6 +184,14 @@ interface RegisterService {
     @POST("api/Saas/threePartyLogin")
     fun checkThirdBinding(@Field("source") source: String,
                           @Field("unique") unique: String): Observable<Payload<CheckThird>>
+    /**
+     * 判断是否绑定过第三方登录和多公司选择登录
+     */
+    @Headers(value = ["Domain-Name: ${Consts.WX}"])
+    @FormUrlEncoded
+    @POST("api/Saas/threePartyLoginNew")
+    fun threePartyLoginNew(@Field("source") source: String,
+                           @Field("unique") unique: String):Observable<Payload<CheckThirdNew>>
 
 
     /**

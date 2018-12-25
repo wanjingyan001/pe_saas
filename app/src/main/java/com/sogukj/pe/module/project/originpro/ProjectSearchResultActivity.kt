@@ -47,7 +47,7 @@ class ProjectSearchResultActivity : ToolbarActivity() {
 
     private fun initData() {
         mCompanyAdapter = RecyclerAdapter<CompanySelectBean>(this, { _adapter, parent, type ->
-            val convertView = _adapter.getView(R.layout.item_main_project_search, parent) as View
+            val convertView = _adapter.getView(R.layout.item_main_project_search, parent)
             object : RecyclerHolder<CompanySelectBean>(convertView) {
                 val tv1 = convertView.findViewById<TextView>(R.id.tv1) as TextView
                 override fun setData(view: View, data: CompanySelectBean, position: Int) {

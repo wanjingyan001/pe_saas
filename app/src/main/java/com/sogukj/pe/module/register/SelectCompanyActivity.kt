@@ -1,13 +1,10 @@
 package com.sogukj.pe.module.register
 
+import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.preference.PreferenceManager
+import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import androidx.core.content.edit
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.Theme
-import com.google.gson.internal.LinkedTreeMap
-import com.jakewharton.rxbinding2.widget.RxTextView
 import com.netease.nim.uikit.api.NimUIKit
 import com.netease.nimlib.sdk.RequestCallback
 import com.netease.nimlib.sdk.auth.LoginInfo
@@ -18,6 +15,8 @@ import com.sogukj.pe.baselibrary.base.BaseActivity
 import com.sogukj.pe.baselibrary.utils.StatusBarUtil
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.utils.XmlDb
+import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
+import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.MechanismBasicInfo
 import com.sogukj.pe.bean.MechanismInfo
 import com.sogukj.pe.bean.RegisterVerResult
@@ -26,122 +25,53 @@ import com.sogukj.pe.interf.ReviewStatus
 import com.sogukj.pe.module.main.MainActivity
 import com.sogukj.pe.module.register.presenter.LoginPresenter
 import com.sogukj.pe.module.register.presenter.LoginView
-import com.sogukj.pe.peUtils.LoginTimer
 import com.sogukj.pe.peUtils.Store
-import com.sogukj.pe.service.RegisterService
-import com.sogukj.service.SoguApi
 import com.tencent.bugly.crashreport.CrashReport
-import io.reactivex.Observable
-import kotlinx.android.synthetic.main.activity_phone_binding.*
+import kotlinx.android.synthetic.main.activity_select_company2.*
+import kotlinx.android.synthetic.main.item_company_select_list.view.*
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.info
 import org.jetbrains.anko.startActivity
-import java.util.*
 
-class PhoneBindingActivity : BaseActivity(), LoginView {
-    private val thirdId: String by ExtrasDelegate(Extras.ID, "")
+class SelectCompanyActivity : BaseActivity(), LoginView {
+    private val companys: List<RegisterVerResult>? by extraDelegate(Extras.LIST, null)
+    private lateinit var listAdapter: RecyclerAdapter<RegisterVerResult>
     private val loginPresenter: LoginPresenter by lazy { LoginPresenter(application) }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_phone_binding)
-        StatusBarUtil.setTranslucentForCoordinatorLayout(this, 0)
-        StatusBarUtil.setLightMode(this)
+        setContentView(R.layout.activity_select_company2)
+        Utils.setWindowStatusBarColor(this, R.color.white)
         loginPresenter.loginView = this
-        phoneEdt.block = {
-            mVerCodeInput.setText("")
-        }
-        delete.clickWithTrigger {
-            mVerCodeInput.setText("")
-        }
-        mGetCode.clickWithTrigger {
-            if (Utils.isMobileExact(phoneEdt.getInput())) {
-                hasBanded(phoneEdt.getInput())
-            } else {
-                showErrorToast("手机号格式有误")
+        listAdapter = RecyclerAdapter(this) { _adapter, parent, _ ->
+            val item = _adapter.getView(R.layout.item_company_select_list, parent)
+            object : RecyclerHolder<RegisterVerResult>(item) {
+                override fun setData(view: View, data: RegisterVerResult, position: Int) {
+                    view.companyName.isSelected = listAdapter.selectedPosition == position
+                    view.companyName.text = data.mechanism_name
+                }
             }
         }
-
-        val inputList = ArrayList<Observable<CharSequence>>()
-        inputList.add(RxTextView.textChanges(phoneEdt.getEditText()))
-        inputList.add(RxTextView.textChanges(mVerCodeInput))
-        Observable.combineLatest(inputList) { strArray ->
-            delete.setVisible((strArray[1] as CharSequence).isNotEmpty())
-            strArray.any { (it as CharSequence).isEmpty() || it.length < 6 }
-        }.subscribe {
-            it.no {
-                loginPresenter.verificationCompanyCode(phoneEdt.getInput(), mVerCodeInput.textStr)
-            }
+        listAdapter.onItemClick = { v, p ->
+            listAdapter.selectedPosition = p
+            val result = listAdapter.dataList[p]
+            judgeLoginProcess(result)
+        }
+        companyList.apply {
+            layoutManager = LinearLayoutManager(ctx)
+            adapter = listAdapter
+        }
+        companys?.let{
+            listAdapter.refreshData(it)
+        }
+        back.clickWithTrigger {
+            finish()
         }
     }
 
-    private fun hasBanded(phone: String) {
-        val sp = PreferenceManager.getDefaultSharedPreferences(application)
-        var source = ""
-        sp.getString(Extras.THIRDLOGIN, "").apply {
-            isNotEmpty().yes {
-                source = split("_")[0]
-            }
-        }
-        source.isNotEmpty().yes {
-            SoguApi.getService(application, RegisterService::class.java)
-                    .hasBanded(source, phone)
-                    .execute {
-                        onNext { payload ->
-                            payload.isOk.yes {
-                                payload.payload?.let {
-                                    it as LinkedTreeMap<*, *>
-                                    val hasBand = it["band"] as Number //1表示已绑定  0  表示未绑定
-                                    if (hasBand.toInt() == 0) {
-                                        loginPresenter.sendPhoneInput(phoneEdt.getInput())
-                                    } else {
-                                        MaterialDialog.Builder(this@PhoneBindingActivity)
-                                                .theme(Theme.LIGHT)
-                                                .content("该手机号已绑定过第三方账号,是否解绑并重新绑定")
-                                                .positiveText("确定")
-                                                .negativeText("取消")
-                                                .onPositive { dialog, which ->
-                                                    dialog.dismiss()
-                                                    loginPresenter.sendPhoneInput(phoneEdt.getInput())
-                                                }
-                                                .onNegative { dialog, which ->
-                                                    dialog.dismiss()
-                                                    phoneEdt.getEditText().setText("")
-                                                }.show()
-                                    }
-                                }
-                            }.otherWise {
-                                showErrorToast(payload.message)
-                            }
-                        }
-                    }
-        }
-    }
 
-    override fun getCodeStart() {
-        Timer().scheduleAtFixedRate(LoginTimer(60, Handler(), mGetCode), 0, 1000)
-    }
-
-    override fun getCodeSuccess(phone: String) {
-        sp.edit { putString(Extras.SaasPhone, phone) }
-        showSuccessToast("验证码已经发送，请查收")
-        mVerCodeInput.isFocusable = true//设置输入框可聚集
-        mVerCodeInput.isFocusableInTouchMode = true//设置触摸聚焦
-        mVerCodeInput.requestFocus()//请求焦点
-        mVerCodeInput.findFocus()//获取焦点
-    }
-
-    override fun verificationCompanyCodeSuccess(result: List<RegisterVerResult>) {
-        if(result.size == 1 && result[0].is_finish == null){
-            verificationCodeSuccess(result[0])
-        }else{
-            startActivity<SelectCompanyActivity>(Extras.LIST to result)
-        }
-    }
-
-    override fun verificationCodeSuccess(result: RegisterVerResult) {
+    private fun judgeLoginProcess(result: RegisterVerResult) {
         result.let {
             it.domain_name?.let {
                 if (it.isNotEmpty()) {
@@ -155,7 +85,7 @@ class PhoneBindingActivity : BaseActivity(), LoginView {
                         it
                     }
                     sp.edit { putString(Extras.HTTPURL, newBaseUtl) }
-                    CrashReport.putUserData(this@PhoneBindingActivity, Extras.HTTPURL, newBaseUtl)
+                    CrashReport.putUserData(this@SelectCompanyActivity, Extras.HTTPURL, newBaseUtl)
                     RetrofitUrlManager.getInstance().setGlobalDomain(newBaseUtl)
                 }
             }
@@ -164,8 +94,8 @@ class PhoneBindingActivity : BaseActivity(), LoginView {
             } else {
                 sp.edit { putString(Extras.CompanyKey, it.key) }
                 sp.edit { putInt(Extras.SaasUserId, it.user_id!!) }
-                CrashReport.putUserData(this@PhoneBindingActivity, Extras.SaasUserId, it.user_id.toString())
-                CrashReport.putUserData(this@PhoneBindingActivity, Extras.CompanyKey, it.key)
+                CrashReport.putUserData(this@SelectCompanyActivity, Extras.SaasUserId, it.user_id.toString())
+                CrashReport.putUserData(this@SelectCompanyActivity, Extras.CompanyKey, it.key)
                 when (it.is_finish) {
                     0 -> {
                         if (it.mechanism_name.isNullOrEmpty()) {
@@ -198,19 +128,27 @@ class PhoneBindingActivity : BaseActivity(), LoginView {
                     }
                 }
             }
-
         }
     }
 
+    override fun getCodeStart() {
+    }
+
+    override fun getCodeSuccess(phone: String) {
+    }
+
+    override fun verificationCodeSuccess(result: RegisterVerResult) {
+    }
+
+    override fun verificationCompanyCodeSuccess(result: List<RegisterVerResult>) {
+    }
+
     override fun verificationCodeFail() {
-        RetrofitUrlManager.getInstance().clearAllDomain()
-        showErrorToast("验证码错误")
-        mVerCodeInput.setText("")
     }
 
     override fun getUserBean(user: UserBean) {
         AnkoLogger("SAAS用户").info { user.jsonStr }
-        Store.store.setUser(this@PhoneBindingActivity, user)
+        Store.store.setUser(this, user)
         ifNotNull(user.accid, user.token) { accid, token ->
             IMLogin(accid, token)
         }
@@ -220,7 +158,6 @@ class PhoneBindingActivity : BaseActivity(), LoginView {
             }
         }
     }
-
 
     /**
      * 网易云信IM登录
@@ -233,6 +170,7 @@ class PhoneBindingActivity : BaseActivity(), LoginView {
                 val xmlDb = XmlDb.open(ctx)
                 xmlDb.set(Extras.NIMACCOUNT, account)
                 xmlDb.set(Extras.NIMTOKEN, token)
+//                NoticeService()
             }
 
             override fun onFailed(p0: Int) {
@@ -253,7 +191,7 @@ class PhoneBindingActivity : BaseActivity(), LoginView {
         sp.edit { putString(Extras.SAAS_BASIC_DATA, info.jsonStr) }
         sp.edit { putInt(Extras.main_flag, info.homeCardFlag ?: 1) }
         startActivity<MainActivity>()
-//        startActivity<SelectCompanyAvtivity>()
+        finish()
     }
 
     override fun getInfoFinish() {

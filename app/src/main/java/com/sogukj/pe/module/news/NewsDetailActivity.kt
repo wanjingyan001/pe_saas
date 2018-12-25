@@ -307,13 +307,6 @@ class NewsDetailActivity : ToolbarActivity(), PlatformActionListener {
                 return true
             }
 
-            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-                super.onPageStarted(view, url, favicon)
-            }
-
-            override fun onPageFinished(view: WebView?, url: String?) {
-                super.onPageFinished(view, url)
-            }
         }
 
         news = intent.getSerializableExtra(Extras.DATA) as NewsBean?
@@ -488,7 +481,7 @@ class NewsDetailActivity : ToolbarActivity(), PlatformActionListener {
     }
 
     fun set12(map: Map<String, Any?>, data: NewsBean) {
-        setTitle("司法拍卖")
+        title = "司法拍卖"
         tv_title.text = "${data.title}"
         tv_title.visibility = View.VISIBLE
         appendLine("委托法院拍卖时间", map["auction_time"])
@@ -609,7 +602,7 @@ class NewsDetailActivity : ToolbarActivity(), PlatformActionListener {
     }
 
     fun set5(map: Map<String, Any?>, data: NewsBean) {
-        setTitle("行政处罚")
+        title = "行政处罚"
         appendLine("行政处罚日期", map["decisionDate"])
         appendLine("行政处罚决定书文号", map["punishNumber"])
         appendLine("违法行为类型", map["type"])
@@ -618,7 +611,7 @@ class NewsDetailActivity : ToolbarActivity(), PlatformActionListener {
     }
 
     fun set4(map: Map<String, Any?>, data: NewsBean) {
-        setTitle("被执行人")
+        title = "被执行人"
         appendLine("立案时间", map["caseCreateTime"])
         appendLine("执行标的", map["execMoney"])
         appendLine("案号", map["caseCode"])

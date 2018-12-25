@@ -18,7 +18,7 @@ class CustomSealBean : Serializable {
     var control: Int? = null
     var floor: Int? = null
     var value: String? = null
-    var value_list: ArrayList<ValueBean>? = null
+    var value_list: ArrayList<ValueBean> = arrayListOf()
     var value_map: ValueBean? = null
     var is_must: Int = 0 //1必填
     var is_fresh: Int ?= null

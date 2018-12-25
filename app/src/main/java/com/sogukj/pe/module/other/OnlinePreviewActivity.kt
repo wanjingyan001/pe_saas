@@ -91,36 +91,24 @@ class OnlinePreviewActivity : ToolbarActivity(), PlatformActionListener {
                 return true
             }
 
-            override fun onPageFinished(view: WebView, url: String) {
-                super.onPageFinished(view, url)
-            }
-
-            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-                super.onPageStarted(view, url, favicon)
-            }
-
-            override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
-                super.onReceivedError(view, request, error)
-            }
-
         }
 
-        val settings = web.getSettings()
-        settings.setSavePassword(false)
-        settings.setJavaScriptEnabled(true)
-        settings.setAllowFileAccessFromFileURLs(true)
-        settings.setAllowUniversalAccessFromFileURLs(true)
+        val settings = web.settings
+        settings.savePassword = false
+        settings.javaScriptEnabled = true
+        settings.allowFileAccessFromFileURLs = true
+        settings.allowUniversalAccessFromFileURLs = true
 
         //设置此属性，可任意比例缩放
-        settings.setUseWideViewPort(true)
+        settings.useWideViewPort = true
         //支持屏幕缩放
         settings.setSupportZoom(true)
-        settings.setBuiltInZoomControls(true)
+        settings.builtInZoomControls = true
         //不显示webview缩放按钮
-        settings.setDisplayZoomControls(false)
+        settings.displayZoomControls = false
         settings.domStorageEnabled = true
         settings.loadWithOverviewMode = true
-        web.setWebChromeClient(WebChromeClient())
+        web.webChromeClient = WebChromeClient()
 
         Glide.with(this)
                 .asGif()
@@ -268,11 +256,11 @@ class OnlinePreviewActivity : ToolbarActivity(), PlatformActionListener {
             return
         val dialog = Dialog(context, R.style.AppTheme_Dialog)
         dialog.setContentView(R.layout.dialog_share)
-        val lay = dialog.getWindow()!!.getAttributes()
+        val lay = dialog.window!!.attributes
         lay.height = WindowManager.LayoutParams.WRAP_CONTENT
         lay.width = WindowManager.LayoutParams.MATCH_PARENT
         lay.gravity = Gravity.BOTTOM
-        dialog.getWindow()!!.setAttributes(lay)
+        dialog.window!!.attributes = lay
         dialog.show()
 
         val tvHead = dialog.findViewById<TextView>(R.id.head) as TextView
@@ -312,11 +300,11 @@ class OnlinePreviewActivity : ToolbarActivity(), PlatformActionListener {
         tvQq.setOnClickListener {
             dialog.dismiss()
             val sp = Platform.ShareParams()
-            sp.setTitle(shareTitle)
-            sp.setText(shareSummry)
+            sp.title = shareTitle
+            sp.text = shareSummry
             sp.imagePath = shareImgUrl
             //sp.setImageUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1528281900948&di=edeb19905f4920430f816d917c7b24fe&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F010f87596f13e6a8012193a363df45.jpg%401280w_1l_2o_100sh.jpg")//网络图片rul
-            sp.setTitleUrl(shareUrl)
+            sp.titleUrl = shareUrl
             val qq = ShareSDK.getPlatform(QQ.NAME)
             qq.platformActionListener = this
             qq.share(sp)
@@ -324,16 +312,16 @@ class OnlinePreviewActivity : ToolbarActivity(), PlatformActionListener {
         tvWexin.setOnClickListener {
             dialog.dismiss()
             val sp = cn.sharesdk.framework.Platform.ShareParams()
-            sp.setShareType(cn.sharesdk.framework.Platform.SHARE_WEBPAGE)//非常重要：一定\要设置分享属性
-            sp.setTitle(shareTitle)  //分享标题
-            sp.setText(shareSummry)   //分享文本
+            sp.shareType = cn.sharesdk.framework.Platform.SHARE_WEBPAGE//非常重要：一定\要设置分享属性
+            sp.title = shareTitle  //分享标题
+            sp.text = shareSummry   //分享文本
 //            if (null != news!!.imgUrl) {
 //                sp.imageUrl = shareImgUrl//网络图片rul
 //            } else {
 //                sp.imagePath = shareImgUrl//
 //            }
             sp.imagePath = shareImgUrl
-            sp.setUrl(shareUrl)
+            sp.url = shareUrl
             val wechat = ShareSDK.getPlatform(Wechat.NAME)
             wechat.platformActionListener = this
             wechat.share(sp)

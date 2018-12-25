@@ -124,7 +124,7 @@ class LoginPresenter constructor(val application: Application) {
                         loginView?.getInfoFinish()
                     }
                     onComplete {
-                        loginView?.getInfoFinish()
+//                        loginView?.getInfoFinish()
                     }
                 }
     }

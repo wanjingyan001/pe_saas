@@ -202,7 +202,7 @@ class ContactsActivity : ToolbarActivity() {
                     departmentBean.data?.forEach { userBean ->
                         //这里是防止传递过来的已选中用户对象不规范
                         alreadySelected.add(userBean)
-//                        organizationList.expandGroup(0)
+            //                        organizationList.expandGroup(0)
                     }
                 }
                 tissueAdapter.notifyDataSetChanged()
@@ -384,8 +384,8 @@ class ContactsActivity : ToolbarActivity() {
     private fun searchWithName() {
         val result = ArrayList<UserBean>()
         departList.forEach {
-            it.data?.let {
-                it.forEach {
+            it.data.let {
+                it?.forEach {
                     if (it.name.contains(searchKey)) {
                         result.add(it)
                     }
@@ -604,7 +604,7 @@ class ContactsActivity : ToolbarActivity() {
                         contactsAdapter.notifyDataSetChanged()
                     } else {
                         //发送文件消息
-                        userBean.accid?.let {
+                        userBean.accid.let {
                             NimUIKit.startP2PSession(this@ContactsActivity, userBean.accid, pathByUri)
                         }
                     }

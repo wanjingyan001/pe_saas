@@ -109,13 +109,13 @@ class NewDirActivity : ToolbarActivity(), TextWatcher {
     private fun setFormatInfo() {
         when(type){
             0 -> {
-                setTitle("新建文件夹")
-                et_input.setHint("输入文件夹名")
+                title = "新建文件夹"
+                et_input.hint = "输入文件夹名"
             }
 
             1 -> {
                 setTitle("修改文件夹名")
-                et_input.setHint("输入文件夹名")
+                et_input.hint = "输入文件夹名"
                 et_input.setText(content)
                 et_input.setSelection(content.length)
                 realContent = content
@@ -123,7 +123,7 @@ class NewDirActivity : ToolbarActivity(), TextWatcher {
 
             2 -> {
                 setTitle("修改文件名")
-                et_input.setHint("输入文件名")
+                et_input.hint = "输入文件名"
                 if (FileUtil.hasExtentsion(content)){
                     fileName = FileUtil.getFileNameNoEx(content)
                     extentsionName = FileUtil.getExtensionName(content)

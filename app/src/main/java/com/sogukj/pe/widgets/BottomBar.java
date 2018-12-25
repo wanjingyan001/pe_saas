@@ -46,7 +46,7 @@ public class BottomBar extends LinearLayout {
         mContext = context;
         inflater = LayoutInflater.from(context);
         inflater.inflate(R.layout.bottom_bar_layout, this);
-        root = (LinearLayout) findViewById(R.id.root);
+        root = findViewById(R.id.root);
         setOrientation(HORIZONTAL);
     }
 
@@ -70,9 +70,9 @@ public class BottomBar extends LinearLayout {
         root.removeAllViews();
         for (int i = 0; i < mTitle.size(); ++i) {
             LinearLayout item = (LinearLayout) inflater.inflate(R.layout.bottom_bar_item, null);
-            ImageView iv = (ImageView) item.findViewById(R.id.icon);
+            ImageView iv = item.findViewById(R.id.icon);
             iv.setImageResource(mResIds.get(i));
-            TextView tv = (TextView) item.findViewById(R.id.title);
+            TextView tv = item.findViewById(R.id.title);
             tv.setText(mTitle.get(i));
 
             LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, Utils.dpToPx(mContext, 55), 1.0f);

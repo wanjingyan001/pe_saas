@@ -679,7 +679,7 @@ class ApproveFillActivity : ToolbarActivity() {
 
         val items = ArrayList<String?>()
         val map = HashMap<String, CustomSealBean.ValueBean>()
-        bean.value_list?.forEach { v ->
+        bean.value_list.forEach { v ->
             if (v.name != null && v.name!!.isNotEmpty()) {
                 items.add(v.name)
                 map.put(v.name!!, v)
@@ -914,7 +914,7 @@ class ApproveFillActivity : ToolbarActivity() {
 
         val ll_check = convertView.findViewById<LinearLayout>(R.id.ll_check) as LinearLayout
         ll_check.removeAllViews()
-        bean.value_list?.forEach { v ->
+        bean.value_list.forEach { v ->
             if (v.name != null && v.name!!.isNotEmpty()) {
                 val convertView = inflater.inflate(R.layout.cs_item_check, null)
                 ll_check.addView(convertView)
@@ -973,7 +973,7 @@ class ApproveFillActivity : ToolbarActivity() {
             paramMap.put(bean.fields, bean.value_list)
             var flag = false
             if (bean.is_must == 1) {
-                bean.value_list?.forEach { v ->
+                bean.value_list.forEach { v ->
                     flag = flag.or(v.is_select == 1 && v.count > 0)
                 }
             } else {
@@ -1309,7 +1309,7 @@ class ApproveFillActivity : ToolbarActivity() {
         imagesView.removeAllViews()
         val inflater = LayoutInflater.from(this)
 
-        bean.value_list?.forEach { v ->
+        bean.value_list.forEach { v ->
             if (v.url != null && v.url!!.isNotEmpty()) {
                 val convertView = inflater.inflate(R.layout.cs_item_img, null)
                 imagesView.addView(convertView)
@@ -1322,7 +1322,7 @@ class ApproveFillActivity : ToolbarActivity() {
                         .load(MyGlideUrl(v.url))
                         .into(img)
                 img.setOnClickListener {
-                    bean.value_list?.remove(v)
+                    bean.value_list.remove(v)
                     refreshImages(bean, imagesView)
                 }
             }
@@ -1362,7 +1362,7 @@ class ApproveFillActivity : ToolbarActivity() {
                     .subscribe({ payload ->
                         if (payload.isOk && payload.payload != null) {
                             showCustomToast(R.drawable.icon_toast_success, "上传成功")
-                            imagesBean.value_list?.add(payload.payload!!)
+                            imagesBean.value_list.add(payload.payload!!)
                             refreshImages(imagesBean, imagesView)
                         } else {
                             showCustomToast(R.drawable.icon_toast_fail, payload.message)
@@ -1378,7 +1378,7 @@ class ApproveFillActivity : ToolbarActivity() {
         paramMap.put(bean.fields, bean.value_list)
         filesView.removeAllViews()
         val inflater = LayoutInflater.from(this)
-        bean.value_list?.forEach { v ->
+        bean.value_list.forEach { v ->
             if (v.url != null && v.url!!.isNotEmpty()) {
                 val convertView = inflater.inflate(R.layout.cs_item_file, null)
                 filesView.addView(convertView)
@@ -1391,7 +1391,7 @@ class ApproveFillActivity : ToolbarActivity() {
                 tvName.text = v.file_name
                 tvSize.text = v.size
                 ivDel.setOnClickListener {
-                    bean.value_list?.remove(v)
+                    bean.value_list.remove(v)
                     refreshFiles(bean, filesView)
                 }
             }

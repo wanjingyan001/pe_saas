@@ -70,7 +70,7 @@ public class AutoScrollAdapter extends PagerAdapter {
         }
 
         View bannerItem = LayoutInflater.from(mContext).inflate(R.layout.auto_viewpager_item, null);
-        ImageView ivImage = (ImageView) bannerItem.findViewById(R.id.banner_image);
+        ImageView ivImage = bannerItem.findViewById(R.id.banner_image);
         TextView tv_title = bannerItem.findViewById(R.id.tv_title);
         position %= mList.size();
         if (position < 0) {

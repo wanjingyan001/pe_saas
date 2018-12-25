@@ -101,7 +101,7 @@ class LowCaseHisActivity : ToolbarActivity(), TextWatcher {
             setDelectIcon(true)
         } else {
             setDelectIcon(false)
-            searchEdt.setHint("请输入关键词")
+            searchEdt.hint = "请输入关键词"
         }
     }
 
@@ -146,7 +146,7 @@ class LowCaseHisActivity : ToolbarActivity(), TextWatcher {
 
         clear.setOnClickListener {
             setDelectIcon(false)
-            searchEdt.setHint("请输入关键词")
+            searchEdt.hint = "请输入关键词"
             searchEdt.setText("")
         }
 

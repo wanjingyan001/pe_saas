@@ -53,7 +53,7 @@ class CloudFileSortActivity : BaseRefreshActivity(),UploadCallBack {
     }
 
     private fun initView() {
-        setTitle("分类")
+        title = "分类"
         setBack(true)
         Glide.with(this)
                 .asGif()

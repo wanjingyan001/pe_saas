@@ -384,7 +384,7 @@ class ArrangeListFragment : BaseRefreshFragment() {
                         val firstTime = bean.date
                         val bean1 = arrangeAdapter.dataList[7] as NewArrangeBean
                         val lastTime = bean1.date
-                        weeklyTv.text = "${firstTime?.substring(5, firstTime.length)}~${lastTime?.substring(5, lastTime.length)}"
+                        weeklyTv.text = "${firstTime.substring(5, firstTime.length)}~${lastTime.substring(5, lastTime.length)}"
                         itemView.backgroundColor = Color.parseColor("#f7f9fc")
                     }
                 }

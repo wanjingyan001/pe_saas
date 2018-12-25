@@ -54,9 +54,9 @@ class LawSearchResultActivity : ToolbarActivity() {
             tv.text = titles[i]
             if (i == 0){
                 tab.select()
-                line!!.visibility = View.VISIBLE
+                line.visibility = View.VISIBLE
             }else{
-                line!!.visibility = View.INVISIBLE
+                line.visibility = View.INVISIBLE
             }
         }
         tabs.getTabAt(0)?.select()
@@ -89,7 +89,7 @@ class LawSearchResultActivity : ToolbarActivity() {
 
             override fun onTabSelected(tab: TabLayout.Tab) {
                 view_pager?.currentItem = tab.position
-                tab!!.customView?.findViewById<FrameLayout>(R.id.view_line)!!.visibility = View.VISIBLE
+                tab.customView?.findViewById<FrameLayout>(R.id.view_line)!!.visibility = View.VISIBLE
             }
 
         })

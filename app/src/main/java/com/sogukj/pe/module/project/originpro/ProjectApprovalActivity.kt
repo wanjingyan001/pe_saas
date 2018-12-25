@@ -284,7 +284,7 @@ class ProjectApprovalActivity : ToolbarActivity(), ProjectApproveCallBack {
         if (data != null && resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 REQ_SELECT_FILE -> {
-                    val paths = data?.getStringArrayListExtra(Extras.LIST)
+                    val paths = data.getStringArrayListExtra(Extras.LIST)
                     paths?.forEach {
                         val info = ProjectApproveInfo.ApproveFile()
                         val file = File(it)
@@ -343,7 +343,7 @@ class ProjectApprovalActivity : ToolbarActivity(), ProjectApproveCallBack {
     private fun setFilesData(files: List<ProjectApproveInfo.ApproveFile>?) {
         if (null != files && files.size > 0) {
             if (null != add_file_view) {
-                add_file_view.setFileData(files!!)
+                add_file_view.setFileData(files)
             }
         }else{
             if (null != add_file_view) {
