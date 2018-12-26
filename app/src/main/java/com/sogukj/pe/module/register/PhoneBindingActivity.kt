@@ -134,7 +134,7 @@ class PhoneBindingActivity : BaseActivity(), LoginView {
     }
 
     override fun verificationCompanyCodeSuccess(result: List<RegisterVerResult>) {
-        if(result.size == 1 && result[0].is_finish == null){
+        if(result.size == 1){
             verificationCodeSuccess(result[0])
         }else{
             startActivity<SelectCompanyActivity>(Extras.LIST to result)
