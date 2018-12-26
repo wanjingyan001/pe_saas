@@ -6,13 +6,16 @@ import android.support.constraint.ConstraintLayout
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
+import com.alibaba.android.arouter.launcher.ARouter
 import com.netease.nim.uikit.business.session.viewholder.MsgViewHolderBase
 import com.netease.nim.uikit.common.ui.recyclerview.adapter.BaseMultiItemFetchLoadAdapter
 import com.netease.nim.uikit.common.util.sys.ScreenUtil
+import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.bean.ReminderPush
 import com.sogukj.pe.bean.SystemPushBean
 import com.sogukj.pe.module.calendar.ModifyTaskActivity
 import com.sogukj.pe.module.calendar.TaskDetailActivity
@@ -24,8 +27,9 @@ import org.jetbrains.anko.backgroundResource
  * 系统消息助手
  * Created by admin on 2018/11/2.
  */
-class MsgViewHolderSystem(adapter: BaseMultiItemFetchLoadAdapter<*, *>) : MsgViewHolderBase(adapter)  {
-    private lateinit var data: SystemPushBean
+class MsgViewHolderSystem(adapter: BaseMultiItemFetchLoadAdapter<*, *>) : MsgViewHolderBase(adapter) {
+    var data: SystemPushBean? = null
+    var remind: ReminderPush? = null
     override fun getContentResId(): Int = R.layout.item_im_approve_message
     override fun inflateContentView() {
         val width = (0.6 * ScreenUtil.screenWidth).toInt()
@@ -39,12 +43,20 @@ class MsgViewHolderSystem(adapter: BaseMultiItemFetchLoadAdapter<*, *>) : MsgVie
 
     override fun bindContentView() {
         val attachment = message.attachment as SystemAttachment
-        data = attachment.systemBean
-        view.approveType.text = data.title
-        view.sponsor.text = replaceText("发起人：", data.name)
-        view.schedule.setVisible(false)
-
+        if (attachment.systemBean != null) {
+            data = attachment.systemBean
+            view.approveType.text = data?.title
+            view.sponsor.text = replaceText("发起人：", data?.name)
+            view.schedule.setVisible(false)
+        }
+        if (attachment.remindBean != null) {
+            remind = attachment.remindBean
+            view.approveType.text = remind?.title
+            view.sponsor.text = remind?.content
+            view.schedule.setVisible(false)
+        }
     }
+
     override fun onItemLongClick(): Boolean {
         return true
     }
@@ -62,25 +74,34 @@ class MsgViewHolderSystem(adapter: BaseMultiItemFetchLoadAdapter<*, *>) : MsgVie
 //        202 日历
 //        203 任务
 //        205 周报
-        when(data.type){
-            202->{
-                TaskDetailActivity.start(context, data.id, data.title, ModifyTaskActivity.Task)
-            }
-            203->{
-                TaskDetailActivity.start(context, data.id, data.title, ModifyTaskActivity.Schedule)
-            }
-            205->{
-                val weekId = data.week_id
-                val userId = data.sub_uid
-                val postName = data.title
-                val intent = Intent(context, PersonalWeeklyActivity::class.java)
-                intent.putExtra(Extras.ID, weekId)
-                intent.putExtra(Extras.NAME, "Push")
-                intent.putExtra(Extras.TYPE1, userId)
-                intent.putExtra(Extras.TYPE2, postName)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                context.startActivity(intent)
+        data?.let {
+            when (it.type) {
+                202 -> {
+                    TaskDetailActivity.start(context, it.id, it.title, ModifyTaskActivity.Task)
+                }
+                203 -> {
+                    TaskDetailActivity.start(context, it.id, it.title, ModifyTaskActivity.Schedule)
+                }
+                205 -> {
+                    val weekId = it.week_id
+                    val userId = it.sub_uid
+                    val postName = it.title
+                    val intent = Intent(context, PersonalWeeklyActivity::class.java)
+                    intent.putExtra(Extras.ID, weekId)
+                    intent.putExtra(Extras.NAME, "Push")
+                    intent.putExtra(Extras.TYPE1, userId)
+                    intent.putExtra(Extras.TYPE2, postName)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    context.startActivity(intent)
+                }
             }
         }
+        remind?.let {
+            if (it.type == 206) {
+                ARouter.getInstance().build(ARouterPath.LocationActivity)
+                        .navigation()
+            }
+        }
+
     }
 }

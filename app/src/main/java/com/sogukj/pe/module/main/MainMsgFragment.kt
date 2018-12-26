@@ -97,7 +97,7 @@ class MainMsgFragment : BaseFragment() {
         var header = toolbar_back.getChildAt(0) as CircleImageView
         val user = Store.store.getUser(baseActivity!!)
         if (user?.url.isNullOrEmpty()) {
-            if (null != user?.name && !"".equals(user.name)){
+            if (null != user?.name && !"".equals(user.name)) {
                 val ch = user.name.first()
                 header.setChar(ch)
             }
@@ -111,7 +111,7 @@ class MainMsgFragment : BaseFragment() {
                         }
 
                         override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                            if (null != user?.name && !"".equals(user.name)){
+                            if (null != user?.name && !"".equals(user.name)) {
                                 val ch = user.name.first()
                                 header.setChar(ch)
                             }
@@ -220,13 +220,21 @@ class MainMsgFragment : BaseFragment() {
                                         tvTitleMsg.text = attachment.messageBean.title
                                     }
                                     is SystemAttachment -> {
-                                        tvTitleMsg.text = attachment.systemBean.title
+                                        if (attachment.remindBean != null) {
+                                            tvTitleMsg.text = attachment.remindBean!!.title
+                                        }
+                                        if (attachment.systemBean != null) {
+                                            tvTitleMsg.text = attachment.systemBean!!.title
+                                        }
                                     }
                                     is ProcessAttachment -> {
                                         tvTitleMsg.text = attachment.bean.title
                                     }
                                     is PayPushAttachment -> {
                                         tvTitleMsg.text = attachment.payPushBean.title
+                                    }
+                                    else -> {
+                                        tvTitleMsg.text = ""
                                     }
                                 }
                             }
@@ -439,7 +447,7 @@ class MainMsgFragment : BaseFragment() {
     }
 
     private fun loadPop() {
-        if (null == pop_layout)return
+        if (null == pop_layout) return
         pop_layout.setOnClickListener { null }
         pop_layout.visibility = View.GONE
         SoguApi.getService(baseActivity!!.application, OtherService::class.java)
