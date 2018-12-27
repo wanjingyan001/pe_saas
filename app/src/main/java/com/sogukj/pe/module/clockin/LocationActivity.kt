@@ -11,7 +11,9 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.ashokvarma.bottomnavigation.BottomNavigationBar
 import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.sogukj.pe.ARouterPath
+import com.sogukj.pe.Extras
 import com.sogukj.pe.R
+import com.sogukj.pe.baselibrary.Extended.extraDelegate
 import com.sogukj.pe.baselibrary.Extended.initNavTextColor2
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.StatusBarUtil
@@ -22,6 +24,7 @@ import org.jetbrains.anko.textColor
 @Route(path = ARouterPath.LocationActivity)
 class LocationActivity : ToolbarActivity() {
     var locationPermission = true
+    val aId by extraDelegate(Extras.ID, -1)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +42,7 @@ class LocationActivity : ToolbarActivity() {
         val per = arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_SETTINGS)
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, per, 0x001)
-        }else{
+        } else {
             locationPermission = true
         }
 //        if (ContextCompat.checkSelfPermission(this, per[0]) != PackageManager.PERMISSION_GRANTED ||
