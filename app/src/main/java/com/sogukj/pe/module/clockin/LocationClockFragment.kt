@@ -1,5 +1,7 @@
 package com.sogukj.pe.module.clockin
 
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -16,9 +18,11 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.otherWise
+import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.yes
 import com.sogukj.pe.baselibrary.base.BaseFragment
 import com.sogukj.pe.baselibrary.utils.DateUtils
@@ -28,6 +32,7 @@ import com.sogukj.pe.baselibrary.widgets.DotView
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.bean.LocationRecordBean
+import com.sogukj.pe.module.approve.ApproveDetailActivity
 import com.sogukj.pe.module.approve.LeaveBusinessApproveActivity
 import com.sogukj.pe.peUtils.MyGlideUrl
 import com.sogukj.pe.peUtils.Store
@@ -110,13 +115,26 @@ class LocationClockFragment : BaseFragment(), MyMapView.onFinishListener {
                             tvRelate.visibility = View.GONE
                         } else {
                             tvRelate.visibility = View.VISIBLE
-                            data.add_time?.isNotEmpty()?.yes {
+                            data.add_time.isNullOrEmpty().yes {
+                                tvRelate.setVisible(false)
+                            }.otherWise {
+                                tvRelate.setVisible(true)
                                 tvRelate.text = "关联审批：${data.add_time!!.split(" ")[0]}  ${data.title}"
                             }
                             tvRelate.setOnClickListener {
                                 try {
-                                    LeaveBusinessApproveActivity.start(activity, data.sid!!, data.stype)
+                                    if (data.approve_type == 1) {
+                                        //老审批
+                                        LeaveBusinessApproveActivity.start(context as Activity, data.sid!!, data.stype)
+                                    } else {
+                                        //新审批
+                                        val intent = Intent(context, ApproveDetailActivity::class.java)
+                                        intent.putExtra(Extras.ID, data.sid!!)
+                                        intent.putExtra(Extras.FLAG, 1)
+                                        startActivity(intent)
+                                    }
                                 } catch (e: Exception) {
+                                    e.printStackTrace()
                                 }
                             }
                         }

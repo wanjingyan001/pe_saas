@@ -126,7 +126,11 @@ public class MyMapView extends View {
         for (int i = 0; i < mList.size(); i++) {
             LocationRecordBean.LocationCellBean cell = mList.get(i);
             try {
-                dstList.add(cell.getAdd_time().split(" ")[0] + "  " + cell.getTitle());
+                if (cell.getAdd_time() != null && !cell.getAdd_time().isEmpty()) {
+                    dstList.add(cell.getAdd_time().split(" ")[0] + "  " + cell.getTitle());
+                } else {
+                    dstList.add(cell.getTitle());
+                }
             } catch (Exception e) {
                 // 第一个cell  addtime是null
                 dstList.add(cell.getTitle());
@@ -139,7 +143,11 @@ public class MyMapView extends View {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 LocationRecordBean.LocationCellBean cell = mList.get(position);
                 try {
-                    niceSpinner.setText(cell.getAdd_time().split(" ")[0] + "  " + cell.getTitle());
+                    if (cell.getAdd_time() != null && !cell.getAdd_time().isEmpty()) {
+                        niceSpinner.setText(cell.getAdd_time().split(" ")[0] + "  " + cell.getTitle());
+                    }else {
+                        niceSpinner.setText(cell.getTitle());
+                    }
                 } catch (Exception e) {
                     // 第一个cell  addtime是null
                     niceSpinner.setText(cell.getTitle());
@@ -245,9 +253,9 @@ public class MyMapView extends View {
                         mLocation = location;
 
                         tvAddr.setText(location.getAddress());
-                    }else{
+                    } else {
                         //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
-                        Log.e("TAG","location Error, ErrCode:"
+                        Log.e("TAG", "location Error, ErrCode:"
                                 + location.getErrorCode() + ", errInfo:"
                                 + location.getErrorInfo());
                     }
@@ -338,14 +346,14 @@ public class MyMapView extends View {
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault());
         final String dateStr = format.format(new Date());
         long stamp = System.currentTimeMillis() / 1000;
-        if(null == mLocation) {
+        if (null == mLocation) {
             ((LocationActivity) mContext).showCustomToast(R.drawable.icon_toast_fail, "定位失败，无法定位打卡");
             tvConfirm.setTextColor(mContext.getResources().getColor(R.color.gray_a9));
             return;
         }
         tvConfirm.setTextColor(mContext.getResources().getColor(R.color.blue_43));
         SoguApi.Companion.getService(((Activity) mContext).getApplication(), ApproveService.class)
-                .outCardSubmit((int) stamp, tvAddr.getText().toString(), mLocation.getLongitude() + "", mLocation.getLatitude() + "", cell.getId(), dakaId,cell.getApprove_type())
+                .outCardSubmit((int) stamp, tvAddr.getText().toString(), mLocation.getLongitude() + "", mLocation.getLatitude() + "", cell.getRealId(), dakaId, cell.getApprove_type())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<Payload<Integer>>() {
@@ -355,7 +363,7 @@ public class MyMapView extends View {
 
                     @Override
                     public void onNext(Payload<Integer> listPayload) {
-                        if(!listPayload.isOk()) {
+                        if (!listPayload.isOk()) {
                             ((LocationActivity) mContext).showErrorToast(listPayload.getMessage());
                             return;
                         }
