@@ -164,7 +164,7 @@ class SoguApi {
             newBuilder.addHeader("uid", it.uid.toString())
             newBuilder.addHeader("uids", it.uids)
             it.table_token?.let {
-                newBuilder.addHeader("tableToken", it)
+                newBuilder.addHeader("tabletoken", it)
             }
         }
         if (getEnvironment() == "sr") {
