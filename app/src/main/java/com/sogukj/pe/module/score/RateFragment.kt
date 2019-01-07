@@ -101,7 +101,7 @@ class RateFragment : BaseFragment() {
         //非空（1=>绩效，3=>加减项）
         if (type == Extras.TYPE_JIXIAO) {
             type111 = 1
-            final_score.text = "最后得分(总分70)"
+            final_score.text = "最后得分(总分80)"
         } else if (type == Extras.TYPE_TIAOZHENG) {
             type111 = 3
             standard.visibility = View.GONE

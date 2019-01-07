@@ -67,13 +67,14 @@ class TemplateActivity : ToolbarActivity() {
 
         setBack(true)
         title = "关键绩效指标填写界面"
-        toolbar?.setBackgroundColor(Color.WHITE)
+        Utils.setWindowStatusBarColor(this, R.color.white)
+        toolbar?.setBackgroundColor(resources.getColor(R.color.white))
         toolbar?.apply {
             val title = this.findViewById<TextView>(R.id.toolbar_title)
             title?.textColor = Color.parseColor("#282828")
             val back = this.findViewById<ImageView>(R.id.toolbar_back) as ImageView
             back.visibility = View.VISIBLE
-            back.setImageResource(R.drawable.grey_back)
+            back.setImageResource(R.drawable.icon_back_gray)
         }
 
         //绩效
@@ -184,7 +185,9 @@ class TemplateActivity : ToolbarActivity() {
             if (observable_List.size == MAX) {
                 Observable.combineLatest(observable_List) { str ->
                     for (item in 0 until dataList.size) {
-                        dataList[item].actual = str[item] as String
+                        if (item in 0 until str.size){
+                            dataList[item].actual = str[item] as String
+                        }
                     }
                     true
                 }.subscribe {

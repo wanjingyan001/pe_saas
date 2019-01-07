@@ -55,12 +55,13 @@ class GuanJianJiXiaoListActivity : ToolbarActivity() {
             setTitle("调整项考核评价")
         }
         toolbar?.apply {
-            this.setBackgroundColor(Color.WHITE)
+            Utils.setWindowStatusBarColor(this@GuanJianJiXiaoListActivity, R.color.white)
+            this.setBackgroundColor(resources.getColor(R.color.white))
             val title = this.findViewById<TextView>(R.id.toolbar_title)
             title?.textColor = Color.parseColor("#282828")
             val back = this.findViewById<ImageView>(R.id.toolbar_back)
             back.visibility = View.VISIBLE
-            back.setImageResource(R.drawable.grey_back)
+            back.setImageResource(R.drawable.icon_back_gray)
         }
 
         if (currentIndex == 0) {
