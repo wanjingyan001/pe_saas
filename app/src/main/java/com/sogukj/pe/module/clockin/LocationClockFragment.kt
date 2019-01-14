@@ -121,22 +121,6 @@ class LocationClockFragment : BaseFragment(), MyMapView.onFinishListener {
                                 tvRelate.setVisible(true)
                                 tvRelate.text = "关联审批：${data.add_time!!.split(" ")[0]}  ${data.title}"
                             }
-                            tvRelate.setOnClickListener {
-                                try {
-                                    if (data.approve_type == 1) {
-                                        //老审批
-                                        LeaveBusinessApproveActivity.start(context as Activity, data.sid!!, data.stype)
-                                    } else {
-                                        //新审批
-                                        val intent = Intent(context, ApproveDetailActivity::class.java)
-                                        intent.putExtra(Extras.ID, data.sid!!)
-                                        intent.putExtra(Extras.FLAG, 1)
-                                        startActivity(intent)
-                                    }
-                                } catch (e: Exception) {
-                                    e.printStackTrace()
-                                }
-                            }
                         }
                         dotView.importantColor = Color.parseColor("#ffd8d8d8")
                         dotView.setImportant(true)
@@ -157,7 +141,21 @@ class LocationClockFragment : BaseFragment(), MyMapView.onFinishListener {
                     }
                 }
             }
-
+            adapter.onItemClick = { v, p ->
+                val data = adapter.dataList[p]
+                if (data.sid != null) {
+                    if (data.approve_type == 1) {
+                        //老审批
+                        LeaveBusinessApproveActivity.start(context as Activity, data.sid!!, data.title)
+                    } else {
+                        //新审批
+                        val intent = Intent(context, ApproveDetailActivity::class.java)
+                        intent.putExtra(Extras.ID, data.sid!!)
+                        intent.putExtra(Extras.FLAG, 1)
+                        startActivity(intent)
+                    }
+                }
+            }
             recycler_view.layoutManager = LinearLayoutManager(context)
             //recycler_view.addItemDecoration(DividerItemDecoration(ctx, DividerItemDecoration.VERTICAL))
             recycler_view.adapter = adapter
