@@ -60,9 +60,9 @@ object SessionHelper {
         val listener = object : SessionEventListener {
             override fun onCloudClicked(context: Context?, message: IMMessage?) {
                 val path = (message!!.attachment as FileAttachment).path
-                val pathForSave = (message!!.attachment as FileAttachment).pathForSave
-                val extension = (message!!.attachment as FileAttachment).extension
-                val fileName = (message!!.attachment as FileAttachment).displayName
+                val pathForSave = (message.attachment as FileAttachment).pathForSave
+                val extension = (message.attachment as FileAttachment).extension
+                val fileName = (message.attachment as FileAttachment).displayName
                 Log.e("TAG", "path ==$path pathForSave ==$pathForSave  extension ==$extension  fileName ==$fileName")
                 if (path.isNullOrEmpty() && pathForSave.isNullOrEmpty()){
 //                    Toast.makeText(context,"文件不存在,请先下载再上传",Toast.LENGTH_SHORT).show()
@@ -138,7 +138,7 @@ object SessionHelper {
                 override fun onClick(context: Context?, view: View?, sessionId: String?) {
                     NimUIKit.getUserInfoProvider().getUserInfoAsync(sessionId) { success, result, code ->
                         if (result !is NimUserInfo) return@getUserInfoAsync
-                        val info = result as NimUserInfo
+                        val info = result
                         if (null != info.extensionMap){
                             val uid = info.extensionMap["uid"].toString().toInt()
                             PersonalInfoActivity.start(context, uid)

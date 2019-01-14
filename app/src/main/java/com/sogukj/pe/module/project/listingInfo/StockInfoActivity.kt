@@ -32,7 +32,7 @@ class StockInfoActivity : ToolbarActivity() {
     lateinit var project: ProjectBean
     val fmt = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     internal var qidHelper = QidHelper(StockInfoActivity.TAG)
-    private var code = "";
+    private var code = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         project = intent.getSerializableExtra(Extras.DATA) as ProjectBean
@@ -88,7 +88,7 @@ class StockInfoActivity : ToolbarActivity() {
                     if (dzh.Err == 0){
                         if (dzh.Qid.equals(qidHelper.getQid("detail_quote"))) {
                             val data = JsonBinder.fromJson(event.data, StkDataDetail::class.java)
-                            val repDataStkData = data.getData().getRepDataStkData().get(0)
+                            val repDataStkData = data.data.repDataStkData.get(0)
                             if (null == repDataStkData) return
                             runOnUiThread {
                                 setStockQuoteData(repDataStkData)
@@ -118,24 +118,24 @@ class StockInfoActivity : ToolbarActivity() {
         StockUtil.setColorText(tv_zhangdie, repDataStkData.zhangDie, repDataStkData.shiFouTingPai, "")
         StockUtil.setColorText(tv_zhangfu, repDataStkData.zhangFu, repDataStkData.shiFouTingPai, "%")
         tv_update_time.text = String.format(Utils.getTime(System.currentTimeMillis(),"yyyy-MM-dd HH:mm:ss"),R.string.tv_update_time)
-        StockUtil.setText(tv_zhangting, repDataStkData.getZhangTing(), repDataStkData.getShiFouTingPai(), "")
-        StockUtil.setText(tv_dieting, repDataStkData.getDieTing(), repDataStkData.getShiFouTingPai(), "")
+        StockUtil.setText(tv_zhangting, repDataStkData.zhangTing, repDataStkData.shiFouTingPai, "")
+        StockUtil.setText(tv_dieting, repDataStkData.dieTing, repDataStkData.shiFouTingPai, "")
 
-        StockUtil.setColorText(tv_open, repDataStkData.getKaiPanJia(), repDataStkData.getZuoShou(), repDataStkData.getShiFouTingPai(), "")
+        StockUtil.setColorText(tv_open, repDataStkData.kaiPanJia, repDataStkData.zuoShou, repDataStkData.shiFouTingPai, "")
         StockUtil.setText(tv_close, repDataStkData.zuoShou, repDataStkData.shiFouTingPai, "")
 
         StockUtil.setColorText(tv_high, repDataStkData.zuiGaoJia, repDataStkData.zuoShou, repDataStkData.shiFouTingPai)
         StockUtil.setColorText(tv_low, repDataStkData.zuiDiJia, repDataStkData.zuoShou, repDataStkData.shiFouTingPai)
 
-        StockUtil.setTextUnit(tv_shizhi, repDataStkData.getZongShiZhi().toLong() * 10000, repDataStkData.getShiFouTingPai())
+        StockUtil.setTextUnit(tv_shizhi, repDataStkData.zongShiZhi.toLong() * 10000, repDataStkData.shiFouTingPai)
         StockUtil.setTextUnit(tv_shizhi_liutong, repDataStkData.liuTongShiZhi.toLong() * 10000, repDataStkData.shiFouTingPai)
-        StockUtil.setChengJiaoLiangText(tv_liang, repDataStkData.getChengJiaoLiang(), repDataStkData.getShiFouTingPai())
-        StockUtil.setChengJiaoEText(tv_e, repDataStkData.getChengJiaoE(), repDataStkData.getShiFouTingPai())
+        StockUtil.setChengJiaoLiangText(tv_liang, repDataStkData.chengJiaoLiang, repDataStkData.shiFouTingPai)
+        StockUtil.setChengJiaoEText(tv_e, repDataStkData.chengJiaoE, repDataStkData.shiFouTingPai)
 
-        StockUtil.setText(tv_jin, repDataStkData.getShiJingLv(), repDataStkData.getShiFouTingPai(), "")
-        StockUtil.setText(tv_pe, repDataStkData.getShiYingLv(), repDataStkData.getShiFouTingPai(), "")
-        StockUtil.setText(tv_zhenfu, repDataStkData.getZhenFu(), repDataStkData.getShiFouTingPai(), "%")
-        StockUtil.setText(tv_huanshou, repDataStkData.getHuanShou(), repDataStkData.getShiFouTingPai(), "%")
+        StockUtil.setText(tv_jin, repDataStkData.shiJingLv, repDataStkData.shiFouTingPai, "")
+        StockUtil.setText(tv_pe, repDataStkData.shiYingLv, repDataStkData.shiFouTingPai, "")
+        StockUtil.setText(tv_zhenfu, repDataStkData.zhenFu, repDataStkData.shiFouTingPai, "%")
+        StockUtil.setText(tv_huanshou, repDataStkData.huanShou, repDataStkData.shiFouTingPai, "%")
     }
 
     override fun onPause() {
@@ -144,7 +144,7 @@ class StockInfoActivity : ToolbarActivity() {
     }
 
     companion object {
-        val TAG = StockInfoActivity::class.java!!.getSimpleName()
+        val TAG = StockInfoActivity::class.java.simpleName
         fun start(ctx: Activity?, project: ProjectBean) {
             val intent = Intent(ctx, StockInfoActivity::class.java)
             intent.putExtra(Extras.DATA, project)

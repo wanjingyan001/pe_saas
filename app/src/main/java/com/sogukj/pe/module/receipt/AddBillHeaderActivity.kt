@@ -42,7 +42,7 @@ class AddBillHeaderActivity : ToolbarActivity(), TextWatcher {
         bean = intent.getSerializableExtra(Extras.DATA) as BillDetailBean?
         id = intent.getIntExtra(Extras.ID,0)
         userBean = Store.store.getUser(this)
-        setTitle("发票抬头")
+        title = "发票抬头"
         toolbar_menu.text = "完成"
         toolbar_menu.setTextColor(resources.getColor(R.color.blue_3c))
         toolbar_menu.setVisible(true)

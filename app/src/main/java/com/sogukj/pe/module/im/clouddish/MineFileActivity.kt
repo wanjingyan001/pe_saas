@@ -244,12 +244,12 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
 
         toolbar_search.clickWithTrigger {
             //搜索
-            ImSearchResultActivity.invoke(this, 3)
+            ImSearchResultActivity.invoke(this, 3,isBusinessFile)
         }
 
         rl_search.clickWithTrigger {
             //搜索
-            ImSearchResultActivity.invoke(this, 3)
+            ImSearchResultActivity.invoke(this, 3,isBusinessFile)
         }
 
         scroll_view.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
@@ -530,7 +530,7 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
         toolbar_menu.setVisible(false)
         toolbar_search.setVisible(false)
         tv_select.setVisible(true)
-        tv_select.setText("全选")
+        tv_select.text = "全选"
         toolbar_title.visibility = View.VISIBLE
         setTitle("已选择")
         iv_upload.setVisible(false)
@@ -578,11 +578,11 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
     private fun showUploadFileDialog() {
         val dialog = Dialog(context, R.style.AppTheme_Dialog)
         dialog.setContentView(R.layout.dialog_upload)
-        val lay = dialog.getWindow()!!.getAttributes()
+        val lay = dialog.window!!.attributes
         lay.height = WindowManager.LayoutParams.WRAP_CONTENT
         lay.width = WindowManager.LayoutParams.MATCH_PARENT
         lay.gravity = Gravity.CENTER
-        dialog.getWindow()!!.setAttributes(lay)
+        dialog.window!!.attributes = lay
         dialog.show()
 
         dialog.find<TextView>(R.id.tv_photo)
@@ -763,7 +763,7 @@ class MineFileActivity : BaseRefreshActivity(), UploadCallBack {
                 GET_LOCAL_FILE -> {
                     val paths = data?.getStringArrayListExtra(Extras.LIST)
                     if (null != paths && paths.size > 0){
-                        val filePath = paths!![0]
+                        val filePath = paths[0]
                         if (filePath.isNullOrEmpty()) return
                         val file = File(filePath)
                         if (null == file) return

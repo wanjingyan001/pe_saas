@@ -17,6 +17,7 @@ import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
+import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.RecyclerAdapter
 import com.sogukj.pe.baselibrary.widgets.RecyclerHolder
 import com.sogukj.pe.baselibrary.widgets.SpaceItemDecoration
@@ -77,13 +78,14 @@ class GangWeiShengRenLiActivity : ToolbarActivity() {
 
         setBack(true)
         title = "岗位胜任力考核评分"
-        toolbar?.setBackgroundColor(Color.WHITE)
+        Utils.setWindowStatusBarColor(this, R.color.white)
+        toolbar?.setBackgroundColor(resources.getColor(R.color.white))
         toolbar?.apply {
             val title = this.findViewById<TextView>(R.id.toolbar_title)
             title?.textColor = Color.parseColor("#282828")
             val back = this.findViewById<ImageView>(R.id.toolbar_back) as ImageView
             back.visibility = View.VISIBLE
-            back.setImageResource(R.drawable.grey_back)
+            back.setImageResource(R.drawable.icon_back_gray)
         }
 
         sub_adapter = RecyclerAdapter(context, { _adapter, parent, t ->

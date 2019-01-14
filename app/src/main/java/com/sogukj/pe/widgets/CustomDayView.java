@@ -41,11 +41,11 @@ public class CustomDayView extends DayView {
     public CustomDayView(Context context, int layoutResource) {
         super(context, layoutResource);
         //selectedBg = findViewById(R.id.selected_bg);
-        mRoot = (LinearLayout) findViewById(R.id.root);
-        dateTv = ((TextView) findViewById(R.id.date));
-        mNL = ((TextView) findViewById(R.id.nongli));
-        mState = ((TextView) findViewById(R.id.state));
-        marker = ((ImageView) findViewById(R.id.maker));
+        mRoot = findViewById(R.id.root);
+        dateTv = findViewById(R.id.date);
+        mNL = findViewById(R.id.nongli);
+        mState = findViewById(R.id.state);
+        marker = findViewById(R.id.maker);
     }
 
     @Override

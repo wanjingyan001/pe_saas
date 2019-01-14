@@ -35,7 +35,7 @@ class TotalScoreActivity : ToolbarActivity() {
             title?.textColor = Color.parseColor("#FFFFFFFF")
             val back = this.findViewById<ImageView>(R.id.toolbar_back) as ImageView
             back.visibility = View.VISIBLE
-            back.setImageResource(R.drawable.grey_back)
+            back.setImageResource(R.drawable.icon_back_gray)
         }
 
         var bean = Store.store.getUser(context)

@@ -87,7 +87,7 @@ class EquityStructureActivity : ToolbarActivity(), PlatformActionListener {
                                 val cbxHeader = ll_node.findViewById<CheckBox>(R.id.cbx_header) as CheckBox
                                 cbxHeader.setOnCheckedChangeListener { buttonView, isChecked ->
                                     if (isChecked) {
-                                        if (it.children == null || it.children?.size == 0) {
+                                        if (it.children == null || it.children!!.size == 0) {
                                             llChildren.visibility = View.GONE
                                         } else {
                                             llChildren.visibility = View.VISIBLE

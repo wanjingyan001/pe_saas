@@ -58,8 +58,8 @@ public class MyCSAdapter extends BaseAdapter implements Filterable {
         if (convertView == null) {
             viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.send_item, null);
-            viewHolder.icon = (CircleImageView) convertView.findViewById(R.id.icon);
-            viewHolder.name = (TextView) convertView.findViewById(R.id.name);
+            viewHolder.icon = convertView.findViewById(R.id.icon);
+            viewHolder.name = convertView.findViewById(R.id.name);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();

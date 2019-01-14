@@ -44,7 +44,7 @@ class MoveActivity : ToolbarActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val flag = super.onCreateOptionsMenu(menu)
         val menuMark = menu.findItem(R.id.action_mark) as MenuItem
-        menuMark?.title = "取消"
+        menuMark.title = "取消"
         return flag
     }
 
@@ -85,7 +85,7 @@ class MoveActivity : ToolbarActivity() {
         var bean = intent.getSerializableExtra(Extras.DATA) as FileListBean
 
         title = bean.dirname
-        dstRoute.setText("（已选：${bean.dirname}）")
+        dstRoute.text = "（已选：${bean.dirname}）"
         dstArr.add(bean)
 
         toolbar?.apply {
@@ -96,7 +96,7 @@ class MoveActivity : ToolbarActivity() {
                 if (dstArr.size > 1) {
                     dstArr.remove(dstArr.last())
                     title1?.text = dstArr.last().dirname
-                    dstRoute.setText("（已选：${dstArr.last().dirname}）")
+                    dstRoute.text = "（已选：${dstArr.last().dirname}）"
                     page = 1
                     loadFileList()
                 } else {
@@ -107,7 +107,7 @@ class MoveActivity : ToolbarActivity() {
 
         kotlin.run {
             mFileAdapter = RecyclerAdapter<FileListBean>(this, { _adapter, parent, _type ->
-                val convertView = _adapter.getView(R.layout.item_booklist, parent) as View
+                val convertView = _adapter.getView(R.layout.item_booklist, parent)
                 object : RecyclerHolder<FileListBean>(convertView) {
                     val file_icon = convertView.find<ImageView>(R.id.file_icon)
                     val tvSummary = convertView.find<TextView>(R.id.tv_summary)
@@ -120,17 +120,17 @@ class MoveActivity : ToolbarActivity() {
                         ivSelect.visibility = View.GONE
                         if (data.dirname.isNullOrEmpty()) {
                             file_icon.imageResource = FileTypeUtils.getFileType(data.doc_title).icon
-                            tvSummary.text = data?.doc_title
-                            tvFileSize.text = data?.fileSize
+                            tvSummary.text = data.doc_title
+                            tvFileSize.text = data.fileSize
                             try {
-                                tvTime.text = DateUtils.timesFormat(data?.add_time, "yyyy-MM-dd HH:mm:ss")//1526294091
+                                tvTime.text = DateUtils.timesFormat(data.add_time, "yyyy-MM-dd HH:mm:ss")//1526294091
                             } catch (e: Exception) {
                                 tvTime.visibility = View.GONE
                             }
                             tvName.text = data.submitter
                         } else {
                             file_icon.imageResource = R.drawable.folder_zip
-                            tvSummary.text = data?.dirname
+                            tvSummary.text = data.dirname
                             tvFileSize.visibility = View.GONE
                             var str = ""
                             if (!data.edit_time.isNullOrEmpty()) {
@@ -159,7 +159,7 @@ class MoveActivity : ToolbarActivity() {
                 val data = mFileAdapter.getItem(p)
                 page = 1
                 title = bean.dirname
-                dstRoute.setText("（已选：${bean.dirname}）")
+                dstRoute.text = "（已选：${bean.dirname}）"
                 dstArr.add(data)
                 loadFileList()
             }
@@ -246,7 +246,7 @@ class MoveActivity : ToolbarActivity() {
         if (dstArr.size > 1) {
             dstArr.remove(dstArr.last())
             title = dstArr.last().dirname
-            dstRoute.setText("（已选：${dstArr.last().dirname}）")
+            dstRoute.text = "（已选：${dstArr.last().dirname}）"
             page = 1
             loadFileList()
         } else {

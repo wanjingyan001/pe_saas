@@ -104,7 +104,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
-                    android:text="最后得分(总分30)"
+                    android:text="最后得分(总分20)"
                     android:textColor="@color/text_3"
                     android:textSize="12sp" />
 

@@ -136,7 +136,7 @@ class ScheduleFragment : BaseFragment() {
 
     }
 
-    public fun load(date: String) {
+    fun load(date: String) {
         page = 1
         selectDate = date
         val year = Integer.parseInt(date.split("-".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0])

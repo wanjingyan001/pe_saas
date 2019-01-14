@@ -25,7 +25,7 @@ public class JsonBinder {
      */
     public static <T> String toJsonString(T t) {
         Gson gson = createGson();
-        return gson.toJson(t).toString();
+        return gson.toJson(t);
     }
 
     /**

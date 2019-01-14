@@ -72,7 +72,7 @@ class PhoneBindingActivity : BaseActivity(), LoginView {
             strArray.any { (it as CharSequence).isEmpty() || it.length < 6 }
         }.subscribe {
             it.no {
-                loginPresenter.verificationCode(phoneEdt.getInput(), mVerCodeInput.textStr)
+                loginPresenter.verificationCompanyCode(phoneEdt.getInput(), mVerCodeInput.textStr)
             }
         }
     }
@@ -134,7 +134,11 @@ class PhoneBindingActivity : BaseActivity(), LoginView {
     }
 
     override fun verificationCompanyCodeSuccess(result: List<RegisterVerResult>) {
-
+        if(result.size == 1){
+            verificationCodeSuccess(result[0])
+        }else{
+            startActivity<SelectCompanyActivity>(Extras.LIST to result)
+        }
     }
 
     override fun verificationCodeSuccess(result: RegisterVerResult) {
@@ -169,7 +173,7 @@ class PhoneBindingActivity : BaseActivity(), LoginView {
                         } else {
                             if (it.business_card.isNullOrEmpty()) {
                                 val isAdmin = it.is_admin != 2
-                                val info = MechanismInfo(it.mechanism_name, it.scale, it.business_card, it.name, it.position, it.key)
+                                val info = MechanismInfo(it.mechanism_name, it.scale, it.business_card, it.name, it.position, it.key?:"")
                                 startActivity<InfoSupplementActivity>(Extras.DATA to it.phone
                                         , Extras.DATA2 to info
                                         , Extras.FLAG to isAdmin

@@ -64,8 +64,4 @@ class FocusWXActivity : ToolbarActivity() {
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-//        outputPic.delete()
-    }
 }

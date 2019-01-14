@@ -107,7 +107,7 @@ class ArrangeEditActivity : ToolbarActivity() {
                     } else {
                         val firstTime = data[0].date
                         val lastTime = data[6].date
-                        inflate.find<TextView>(R.id.weeklyTv).text = "${firstTime?.substring(5, firstTime.length)}~${lastTime?.substring(5, lastTime.length)}"
+                        inflate.find<TextView>(R.id.weeklyTv).text = "${firstTime.substring(5, firstTime.length)}~${lastTime.substring(5, lastTime.length)}"
                     }
                 }
             }

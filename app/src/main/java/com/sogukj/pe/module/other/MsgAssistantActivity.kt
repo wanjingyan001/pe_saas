@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.TextView
+import com.alibaba.android.arouter.launcher.ARouter
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
@@ -16,6 +17,7 @@ import com.netease.nimlib.sdk.msg.MessageBuilder
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum
 import com.netease.nimlib.sdk.msg.model.IMMessage
 import com.scwang.smartrefresh.layout.api.RefreshFooter
+import com.sogukj.pe.ARouterPath
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.*
@@ -86,6 +88,15 @@ class MsgAssistantActivity : BaseRefreshActivity() {
                             intent.putExtra(Extras.TYPE2, postName)
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                             context.startActivity(intent)
+                        }
+
+                    }
+                }
+                is ReminderPush -> {
+                    when (data.type) {
+                        206 -> {
+                            ARouter.getInstance().build(ARouterPath.LocationActivity)
+                                    .navigation()
                         }
                     }
                 }
@@ -186,7 +197,12 @@ class MsgAssistantActivity : BaseRefreshActivity() {
                                         msgAdapter.data.add(attachment.messageBean)
                                     }
                                     is SystemAttachment -> {
-                                        msgAdapter.data.add(attachment.systemBean)
+                                        (attachment.systemBean != null).yes {
+                                            msgAdapter.data.add(attachment.systemBean)
+                                        }
+                                        (attachment.remindBean != null).yes {
+                                            msgAdapter.data.add(attachment.remindBean)
+                                        }
                                     }
                                     is ProcessAttachment -> {
                                         msgAdapter.data.add(attachment.bean)
@@ -236,6 +252,7 @@ class MsgAssistantActivity : BaseRefreshActivity() {
             addItemType(4, R.layout.item_msg_system_push)
             addItemType(5, R.layout.item_msg_system_push)
             addItemType(6, R.layout.item_msg_assistant_approvel)
+            addItemType(7, R.layout.item_msg_system_push)
         }
 
         override fun convert(helper: BaseViewHolder, item: MultiItemEntity) {
@@ -323,7 +340,7 @@ class MsgAssistantActivity : BaseRefreshActivity() {
                 }
                 6 -> {
                     item as NewProjectProcess
-                    if (null != item.title && null != item.subName){
+                    if (null != item.title && null != item.subName) {
                         if (item.title.contains(item.subName)) {
                             helper.setText(R.id.approvalTip,
                                     "${item.title}；\n在手机或电脑上快速处理审批！")
@@ -333,6 +350,11 @@ class MsgAssistantActivity : BaseRefreshActivity() {
                         }
                     }
                     helper.getView<TextView>(R.id.expedited).setVisible(item.type == 301)
+                }
+                7 -> {
+                    item as ReminderPush
+                    helper.setText(R.id.pushMsgTitle, item.title)
+                    helper.setText(R.id.sponsor, item.content)
                 }
             }
         }

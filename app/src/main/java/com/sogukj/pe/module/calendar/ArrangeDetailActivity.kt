@@ -91,14 +91,14 @@ class ArrangeDetailActivity : ToolbarActivity() {
         dayOfYear.text = data.date
         val childBean = data.child[position]
         causeContent.text = childBean.reasons
-        childBean.attendee?.let {
+        childBean.attendee.let {
             causeContent.text = data.child[position].reasons
             childBean.attendee?.let {
                 attendAdapter.dataList.clear()
                 attendAdapter.dataList.addAll(it)
                 attendAdapter.notifyDataSetChanged()
             }
-            childBean.participant?.let {
+            childBean.participant.let {
                 childBean.participant?.let {
                     participateAdapter.dataList.clear()
                     participateAdapter.dataList.addAll(it)

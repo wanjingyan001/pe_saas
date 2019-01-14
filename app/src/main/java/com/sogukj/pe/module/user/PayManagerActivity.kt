@@ -66,8 +66,8 @@ class PayManagerActivity : BaseRefreshActivity(), AllPayCallBack {
                     /**
                     对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
                      */
-                    val resultInfo = payResult.getResult()// 同步返回需要验证的信息
-                    val resultStatus = payResult.getResultStatus()
+                    val resultInfo = payResult.result// 同步返回需要验证的信息
+                    val resultStatus = payResult.resultStatus
                     Log.e("TAG"," resultStatus ===" + resultStatus)
                     // 判断resultStatus 为9000则代表支付成功
                     if (TextUtils.equals(resultStatus, "9000")) {
@@ -104,7 +104,7 @@ class PayManagerActivity : BaseRefreshActivity(), AllPayCallBack {
 
     private fun initView() {
         setBack(true)
-        setTitle("账户管理")
+        title = "账户管理"
         rv_manager.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         rv_manager.layoutManager = LinearLayoutManager(this)
         Glide.with(this)
@@ -311,12 +311,12 @@ class PayManagerActivity : BaseRefreshActivity(), AllPayCallBack {
     }
 
     private fun inspectWx(): Boolean {
-        val sIsWXAppInstalledAndSupported = api!!.isWXAppInstalled() && api!!.isWXAppSupportAPI()
+        val sIsWXAppInstalledAndSupported = api!!.isWXAppInstalled && api!!.isWXAppSupportAPI
         if (!sIsWXAppInstalledAndSupported) {
             showCommonToast("您未安装微信")
             return false
         } else {
-            val isPaySupported = api!!.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT
+            val isPaySupported = api!!.wxAppSupportAPI >= Build.PAY_SUPPORTED_SDK_INT
             if (isPaySupported) {
                 return true
             } else {

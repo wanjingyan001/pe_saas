@@ -47,7 +47,7 @@ class RecordBuChongFragment : BaseFragment() {
 
         var user = Store.store.getUser(baseActivity!!)
         loadHead(buchong_full.findViewById<CircleImageView>(R.id.circleImageView))
-        buchong_full.findViewById<TextView>(R.id.name).setText("${user!!.name}的周报补充记录")
+        buchong_full.findViewById<TextView>(R.id.name).text = "${user!!.name}的周报补充记录"
         var YMD = week.date!!.split(" ")[0]
         var HMS = week.date!!.split(" ")[1]
         buchong_full.findViewById<TextView>(R.id.timeTv).text = "${YMD.split("-")[1]}月${YMD.split("-")[2]}日      ${HMS.substring(0, 5)}"
@@ -82,7 +82,7 @@ class RecordBuChongFragment : BaseFragment() {
             val fragment = RecordBuChongFragment()
             var args = Bundle()
             args.putSerializable(Extras.DATA, data)
-            fragment.setArguments(args)
+            fragment.arguments = args
             return fragment
         }
     }

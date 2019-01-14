@@ -119,7 +119,7 @@ public final class ReflecterHelper {
 
 
 	static public Object newInstance(String className) throws Exception {
-		return newInstance(className, (Object[]) null);
+		return newInstance(className, null);
 	}
 
 
@@ -295,11 +295,11 @@ public final class ReflecterHelper {
 	}
 
 	public static Object invokeStaticMethod(String className, String methodName) throws Exception {
-		return invokeStaticMethod(className, methodName, (Object[]) null);
+		return invokeStaticMethod(className, methodName, null);
 	}
 
 	private static Class<?>[] getArgsClasses(Object[] args) {
-		Class<?>[] argsClass = (Class<?>[]) null;
+		Class<?>[] argsClass = null;
 		if (args != null) {
 			argsClass = new Class<?>[args.length];
 

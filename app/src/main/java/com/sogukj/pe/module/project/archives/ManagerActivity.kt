@@ -49,7 +49,7 @@ class ManagerActivity : ToolbarActivity() {
 
         kotlin.run {
             mModuleAdapter = RecyclerAdapter<ManagerBean>(this) { _adapter, parent, type ->
-                val convertView = _adapter.getView(R.layout.item_manager_header, parent) as View
+                val convertView = _adapter.getView(R.layout.item_manager_header, parent)
                 object : RecyclerHolder<ManagerBean>(convertView) {
                     val tvTitle = convertView.findViewById<TextView>(R.id.title) as TextView
                     override fun setData(view: View, data: ManagerBean, position: Int) {

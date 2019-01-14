@@ -516,7 +516,7 @@ class OtherProjectShowActivity : BaseRefreshActivity() {
                             }
                             getApprevoRecordInfo()
                         }else{
-                            ToastUtil.showCustomToast(R.drawable.icon_toast_fail, payload.message, ctx!!)
+                            ToastUtil.showCustomToast(R.drawable.icon_toast_fail, payload.message, ctx)
                         }
                     }
                     onComplete {
@@ -525,7 +525,7 @@ class OtherProjectShowActivity : BaseRefreshActivity() {
 
                     onError {
                         it.printStackTrace()
-                        ToastUtil.showCustomToast(R.drawable.icon_toast_fail, "获取权限失败", ctx!!)
+                        ToastUtil.showCustomToast(R.drawable.icon_toast_fail, "获取权限失败", ctx)
                     }
                 }
     }
@@ -534,10 +534,10 @@ class OtherProjectShowActivity : BaseRefreshActivity() {
         var pm = -1
         var pl = -1
         if (null != projectInfo.duty){
-            pm = projectInfo.duty!!.principal!!
+            pm = projectInfo.duty!!.principal
         }
         if (null != projectInfo.lead){
-            pl = projectInfo.lead!!.leader!!
+            pl = projectInfo.lead!!.leader
         }
 
         if (user!!.uid == pm || user!!.uid == pl){
@@ -861,7 +861,7 @@ class OtherProjectShowActivity : BaseRefreshActivity() {
         if (null != data){
             when(requestCode){
                 ProjectApprovalShowActivity.REQ_REJECT_FILE -> {
-                    val paths = data?.getStringArrayListExtra(Extras.LIST)
+                    val paths = data.getStringArrayListExtra(Extras.LIST)
                     paths?.forEach {
                         val info = ProjectApproveInfo.ApproveFile()
                         val file = File(it)
@@ -876,7 +876,7 @@ class OtherProjectShowActivity : BaseRefreshActivity() {
                 }
 
                 ProjectApprovalShowActivity.REQ_SELECT_FILE -> {
-                    val paths = data?.getStringArrayListExtra(Extras.LIST)
+                    val paths = data.getStringArrayListExtra(Extras.LIST)
                     paths?.forEach {
                         val info = ProjectApproveInfo.ApproveFile()
                         val file = File(it)
@@ -891,7 +891,7 @@ class OtherProjectShowActivity : BaseRefreshActivity() {
                 }
 
                 ProjectApprovalShowActivity.REQ_LXH_FILE -> {
-                    val paths = data?.getStringArrayListExtra(Extras.LIST)
+                    val paths = data.getStringArrayListExtra(Extras.LIST)
                     paths?.forEach {
                         val info = ProjectApproveInfo.ApproveFile()
                         val file = File(it)

@@ -181,7 +181,7 @@ class TeamSelectFragment : BaseFragment() {
                 var list = ArrayList<DepartmentBean>(departList)
                 list.forEach {
                     it.data!!.forEach {
-                        it.uid?.let {
+                        it.uid.let {
                             selectMap.put(it.toString(), false)
                         }
                     }
@@ -375,10 +375,10 @@ class TeamSelectFragment : BaseFragment() {
                 departList.addAll(it)
                 orgAdapter.notifyDataSetChanged()
                 it.forEach { depart ->
-                    depart.data?.let { userData ->
-                        i += userData.size
+                    depart.data.let { userData ->
+                        i += userData!!.size
                         userData.forEach {
-                            it.uid?.let {
+                            it.uid.let {
                                 selectMap.put(it.toString(), false)
                             }
                         }
@@ -409,8 +409,8 @@ class TeamSelectFragment : BaseFragment() {
     private fun searchWithName() {
         val result = ArrayList<UserBean>()
         departList.forEach {
-            it.data?.let {
-                it.forEach {
+            it.data.let {
+                it?.forEach {
                     if (it.name.contains(searchKey)) {//&& it.user_id != mine?.uid
                         result.add(it)
                     }
@@ -610,7 +610,7 @@ class TeamSelectFragment : BaseFragment() {
             if (isSelectUser) {
                 holder.selectIcon.visibility = View.VISIBLE
                 val userBean = parents[groupPosition].data!![childPosition]
-                userBean.uid?.let {
+                userBean.uid.let {
                     holder.selectIcon.isSelected = selectMap[it.toString()]!!
                 }
             } else {
@@ -623,7 +623,7 @@ class TeamSelectFragment : BaseFragment() {
                     //选人
                     if (userBean.uid != mine!!.uid) {
                         holder.selectIcon.isSelected = !holder.selectIcon.isSelected
-                        userBean.uid?.let {
+                        userBean.uid.let {
                             selectMap.put(it.toString(), holder.selectIcon.isSelected)
                             val map = selectMap.filterValues { it }
                             selectNumber.text = "已选择: ${map.size}人"

@@ -113,7 +113,7 @@ class StockUtil {
         fun setTextUnit(tv: TextView?, values: Long, tingpai: Int) {
             if (tv == null) return
             tv.setTextColor(App.INSTANCE.resources.getColor(R.color.black_28))
-            tv.setText(coverUnit(values))
+            tv.text = coverUnit(values)
         }
 
         fun coverUnit(values: Long): String {

@@ -10,6 +10,4 @@ class ApproeMsgBean(val id:Int,
                     val floor:Int,
                     val type:Int,
                     val title:String,
-                    val subName:String) :Serializable{
-
-}
+                    val subName:String) :Serializable

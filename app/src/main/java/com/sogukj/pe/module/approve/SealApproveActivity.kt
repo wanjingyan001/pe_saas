@@ -102,7 +102,7 @@ class SealApproveActivity : ToolbarActivity() {
     }
 
     fun refresh() {
-     SoguApi.getService(application,ApproveService::class.java)
+        SoguApi.getService(application,ApproveService::class.java)
                 .showApprove(approval_id = paramId!!, classify = paramType, is_mine = is_mine)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -240,7 +240,7 @@ class SealApproveActivity : ToolbarActivity() {
                 1 -> {
                     btn.text = "申请加急"
                     btn.setOnClickListener {
-                     SoguApi.getService(application,ApproveService::class.java)
+                        SoguApi.getService(application,ApproveService::class.java)
                                 .approveUrgent(paramId!!)
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribeOn(Schedulers.io())
@@ -297,7 +297,7 @@ class SealApproveActivity : ToolbarActivity() {
                             if (dialog.isShowing) {
                                 dialog.dismiss()
                             }
-                         SoguApi.getService(application,ApproveService::class.java)
+                            SoguApi.getService(application,ApproveService::class.java)
                                     .cancelApprove(paramId!!)
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribeOn(Schedulers.io())
@@ -347,7 +347,7 @@ class SealApproveActivity : ToolbarActivity() {
                 6 -> {
                     btn.text = "导出审批单"
                     btn.setOnClickListener {
-                     SoguApi.getService(application,ApproveService::class.java)
+                        SoguApi.getService(application,ApproveService::class.java)
                                 .exportPdf(paramId!!)
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribeOn(Schedulers.io())
@@ -369,7 +369,7 @@ class SealApproveActivity : ToolbarActivity() {
                 7 -> {
                     btn.text = "用印完成"
                     btn.setOnClickListener {
-                     SoguApi.getService(application,ApproveService::class.java)
+                        SoguApi.getService(application,ApproveService::class.java)
                                 .finishApprove(paramId!!)
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribeOn(Schedulers.io())
@@ -426,7 +426,7 @@ class SealApproveActivity : ToolbarActivity() {
                             if (dialog.isShowing) {
                                 dialog.dismiss()
                             }
-                         SoguApi.getService(application,ApproveService::class.java)
+                            SoguApi.getService(application,ApproveService::class.java)
                                     .discuss(paramId!!, commentInput.text.toString())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribeOn(Schedulers.io())
@@ -480,7 +480,7 @@ class SealApproveActivity : ToolbarActivity() {
     }
 
     fun examineApprove(type: Int, text: String = "") {
-     SoguApi.getService(application,ApproveService::class.java)
+        SoguApi.getService(application,ApproveService::class.java)
                 .examineApprove(paramId!!, type, text)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -666,7 +666,7 @@ class SealApproveActivity : ToolbarActivity() {
             }
             val text = commentInput.text.toString()
             if (!TextUtils.isEmpty(text))
-             SoguApi.getService(application,ApproveService::class.java)
+                SoguApi.getService(application,ApproveService::class.java)
                         .submitComment(hid, comment_id = commentId, content = text)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())

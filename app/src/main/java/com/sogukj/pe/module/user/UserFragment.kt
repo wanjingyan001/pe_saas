@@ -220,11 +220,11 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
     fun share(bean: WebConfigBean) {
         val dialog = Dialog(context, R.style.AppTheme_Dialog)
         dialog.setContentView(R.layout.dialog_share)
-        val lay = dialog.getWindow()!!.getAttributes()
+        val lay = dialog.window!!.attributes
         lay.height = WindowManager.LayoutParams.WRAP_CONTENT
         lay.width = WindowManager.LayoutParams.MATCH_PARENT
         lay.gravity = Gravity.BOTTOM
-        dialog.getWindow()!!.setAttributes(lay)
+        dialog.window!!.attributes = lay
         dialog.show()
 
         val tvHead = dialog.findViewById<TextView>(R.id.head) as TextView
@@ -264,11 +264,11 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
         tvQq.setOnClickListener {
             dialog.dismiss()
             val sp = Platform.ShareParams()
-            sp.setTitle(shareTitle)
-            sp.setText(shareSummry)
+            sp.title = shareTitle
+            sp.text = shareSummry
             sp.imagePath = shareImgUrl
             //sp.setImageUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1528281900948&di=edeb19905f4920430f816d917c7b24fe&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F010f87596f13e6a8012193a363df45.jpg%401280w_1l_2o_100sh.jpg")//网络图片rul
-            sp.setTitleUrl(shareUrl)
+            sp.titleUrl = shareUrl
             val qq = ShareSDK.getPlatform(QQ.NAME)
             qq.platformActionListener = this
             qq.share(sp)
@@ -276,16 +276,16 @@ class UserFragment : ToolbarFragment(), PlatformActionListener {
         tvWexin.setOnClickListener {
             dialog.dismiss()
             val sp = cn.sharesdk.framework.Platform.ShareParams()
-            sp.setShareType(cn.sharesdk.framework.Platform.SHARE_WEBPAGE)//非常重要：一定\要设置分享属性
-            sp.setTitle(shareTitle)  //分享标题
-            sp.setText(shareSummry)   //分享文本
+            sp.shareType = cn.sharesdk.framework.Platform.SHARE_WEBPAGE//非常重要：一定\要设置分享属性
+            sp.title = shareTitle  //分享标题
+            sp.text = shareSummry   //分享文本
 //            if (null != news!!.imgUrl) {
 //                sp.imageUrl = shareImgUrl//网络图片rul
 //            } else {
 //                sp.imagePath = shareImgUrl//
 //            }
             sp.imagePath = shareImgUrl
-            sp.setUrl(shareUrl)
+            sp.url = shareUrl
             val wechat = ShareSDK.getPlatform(Wechat.NAME)
             wechat.platformActionListener = this
             wechat.share(sp)

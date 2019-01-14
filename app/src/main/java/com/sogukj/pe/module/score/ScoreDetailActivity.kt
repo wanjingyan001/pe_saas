@@ -16,6 +16,7 @@ import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Trace
+import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.MyListView
 import com.sogukj.pe.bean.EmployeeInteractBean
 import com.sogukj.pe.bean.ScoreBean
@@ -72,13 +73,14 @@ class ScoreDetailActivity : ToolbarActivity() {
         } else if (type == Extras.TYPE_LISTITEM) {
             title = "打分详情页"
         }
-        toolbar?.setBackgroundColor(Color.WHITE)
+        Utils.setWindowStatusBarColor(this, R.color.white)
+        toolbar?.setBackgroundColor(resources.getColor(R.color.white))
         toolbar?.apply {
             val title = this.findViewById<TextView>(R.id.toolbar_title)
             title?.textColor = Color.parseColor("#282828")
             val back = this.findViewById<ImageView>(R.id.toolbar_back) as ImageView
             back.visibility = View.VISIBLE
-            back.setImageResource(R.drawable.grey_back)
+            back.setImageResource(R.drawable.icon_back_gray)
         }
 
         score_list.setGroupIndicator(null)

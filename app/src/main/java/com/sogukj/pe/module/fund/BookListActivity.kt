@@ -134,17 +134,17 @@ class BookListActivity : BaseActivity() {
                         ivSelect.visibility = View.INVISIBLE
                         if (data.dirname.isNullOrEmpty()) {
                             file_icon.imageResource = FileTypeUtils.getFileType(data.doc_title).icon
-                            tvSummary.text = data?.doc_title
-                            tvFileSize.text = data?.fileSize
+                            tvSummary.text = data.doc_title
+                            tvFileSize.text = data.fileSize
                             try {
-                                tvTime.text = DateUtils.timesFormat(data?.add_time, "yyyy-MM-dd HH:mm:ss")//1526294091
+                                tvTime.text = DateUtils.timesFormat(data.add_time, "yyyy-MM-dd HH:mm:ss")//1526294091
                             } catch (e: Exception) {
                                 tvTime.visibility = View.GONE
                             }
                             tvName.text = data.submitter
                         } else {
                             file_icon.imageResource = R.drawable.folder_zip
-                            tvSummary.text = data?.dirname
+                            tvSummary.text = data.dirname
                             tvFileSize.visibility = View.GONE
                             var str = ""
                             if (!data.edit_time.isNullOrEmpty()) {
@@ -171,7 +171,7 @@ class BookListActivity : BaseActivity() {
             recycler_result.layoutManager = layoutManager
             recycler_result.adapter = adapter
             adapter.onItemClick = { v, p ->
-                val data = adapter.getItem(p);
+                val data = adapter.getItem(p)
                 if (!TextUtils.isEmpty(data.url)) {
                     OnlinePreviewActivity.start(context, data.url!!, data.doc_title!!)
 //                    val intent = Intent(Intent.ACTION_VIEW)
@@ -211,10 +211,10 @@ class BookListActivity : BaseActivity() {
                     override fun setData(view: View, data: FileListBean, position: Int) {
                         if (data.dirname.isNullOrEmpty()) {
                             file_icon.imageResource = FileTypeUtils.getFileType(data.doc_title).icon
-                            tvSummary.text = data?.doc_title
-                            tvFileSize.text = data?.fileSize
+                            tvSummary.text = data.doc_title
+                            tvFileSize.text = data.fileSize
                             try {
-                                tvTime.text = DateUtils.timesFormat(data?.add_time, "yyyy-MM-dd HH:mm:ss")//1526294091
+                                tvTime.text = DateUtils.timesFormat(data.add_time, "yyyy-MM-dd HH:mm:ss")//1526294091
                             } catch (e: Exception) {
                                 tvTime.visibility = View.GONE
                             }
@@ -379,7 +379,7 @@ class BookListActivity : BaseActivity() {
                 }
             }
         }
-        var rename = if (selected.size == 1 && !selected.get(0).dirname.isNullOrEmpty() && selected.get(0).amend == 1) true else false
+        var rename = selected.size == 1 && !selected.get(0).dirname.isNullOrEmpty() && selected.get(0).amend == 1
         var move = true
         for (item in selected) {
             if (!item.dirname.isNullOrEmpty()) {
@@ -800,7 +800,4 @@ class BookListActivity : BaseActivity() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
 }

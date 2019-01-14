@@ -393,19 +393,19 @@ class CloudMineFileFragment : BaseRefreshFragment() {
 
     private fun setRemoveSuccessBrocast() {
         val intent = Intent()
-        intent.setAction(MineFileActivity.ACTION_STATE)
+        intent.action = MineFileActivity.ACTION_STATE
         LocalBroadcastManager.getInstance(activity!!).sendBroadcast(intent)
     }
 
     private fun setFinishBrocast(){
         val intent = Intent()
-        intent.setAction(FILEDIR_ACTION)
+        intent.action = FILEDIR_ACTION
         LocalBroadcastManager.getInstance(activity!!).sendBroadcast(intent)
     }
 
     private fun cloudDishFinish(){
         val intent = Intent()
-        intent.setAction(CloudDishActivity.CLOUDDISH_ACTION)
+        intent.action = CloudDishActivity.CLOUDDISH_ACTION
         LocalBroadcastManager.getInstance(activity!!).sendBroadcast(intent)
     }
     private fun downloadCloudFile(bean: CloudFileBean) {
@@ -440,7 +440,7 @@ class CloudMineFileFragment : BaseRefreshFragment() {
             activity!!.finish()
         }else{
             val intent = Intent()
-            intent.setAction(SEND_CLOUD_FILE)
+            intent.action = SEND_CLOUD_FILE
             intent.putStringArrayListExtra("filePaths",filePaths)
             LocalBroadcastManager.getInstance(activity!!).sendBroadcast(intent)
             setFinishBrocast()

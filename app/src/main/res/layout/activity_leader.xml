@@ -28,7 +28,7 @@
             android:gravity="center"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:src="@drawable/sogu_ic_back"
+            android:src="@drawable/icon_back_gray"
             android:visibility="gone" />
 
         <TextView

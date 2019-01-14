@@ -56,7 +56,7 @@ class ScoreListActivity : ToolbarActivity() {
             title?.textColor = Color.parseColor("#ffffff")
             val back = this.findViewById<ImageView>(R.id.toolbar_back) as ImageView
             back.visibility = View.VISIBLE
-            back.setImageResource(R.drawable.grey_back)
+            back.setImageResource(R.drawable.icon_back_gray)
         }
 
         adapter = RecyclerAdapter(context, { _adapter, parent, type ->

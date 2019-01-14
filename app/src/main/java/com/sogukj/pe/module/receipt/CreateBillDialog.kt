@@ -35,11 +35,11 @@ class CreateBillDialog {
         fun showBillDialog(context: Activity, map: HashMap<String, Any>) {
             val dialog = Dialog(context, R.style.AppTheme_Dialog)
             dialog.setContentView(R.layout.dialog_create_bill)
-            val lay = dialog.getWindow()!!.getAttributes()
+            val lay = dialog.window!!.attributes
             lay.height = WindowManager.LayoutParams.WRAP_CONTENT
             lay.width = WindowManager.LayoutParams.MATCH_PARENT
             lay.gravity = Gravity.BOTTOM
-            dialog.getWindow()!!.setAttributes(lay)
+            dialog.window!!.attributes = lay
             dialog.show()
             val tv_title = dialog.find<TextView>(R.id.tv_title)
             val tv_type = dialog.find<TextView>(R.id.tv_type)
@@ -62,7 +62,6 @@ class CreateBillDialog {
                 tv_phone.text = map.get("phone") as String
                 tv_address.text = map.get("province") as String + " " + map.get("city") as String + " " + map.get("county") as String
                 tv_detail.text = map.get("address") as String
-                title_type = map.get("title_type") as Int
             }
             if (title_type == 2){
                 ll_duty.setVisible(false)
@@ -102,11 +101,11 @@ class CreateBillDialog {
         fun showMoreDialog(context: Context, callBack: ShowMoreCallBack,explain:String,phoneaddress:String,bank:String) {
             val dialog = Dialog(context, R.style.AppTheme_Dialog)
             dialog.setContentView(R.layout.dialog_show_more)
-            val lay = dialog.getWindow()!!.getAttributes()
+            val lay = dialog.window!!.attributes
             lay.height = WindowManager.LayoutParams.WRAP_CONTENT
             lay.width = WindowManager.LayoutParams.MATCH_PARENT
             lay.gravity = Gravity.BOTTOM
-            dialog.getWindow()!!.setAttributes(lay)
+            dialog.window!!.attributes = lay
             dialog.show()
 
             val ll_submit = dialog.findViewById<LinearLayout>(R.id.ll_submit)

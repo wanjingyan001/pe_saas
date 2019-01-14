@@ -16,9 +16,7 @@ import java.io.File
  */
 class CloudFileAction : BaseAction {
 
-    constructor(iconResId : Int, titleId : Int):super(iconResId,titleId){
-
-    }
+    constructor(iconResId : Int, titleId : Int):super(iconResId,titleId)
 
     override fun onClick() {
         CloudDishActivity.invokeForResult(activity,1,makeRequestCode(RequestCode.GET_LOCAL_FILE),"",false,"","")

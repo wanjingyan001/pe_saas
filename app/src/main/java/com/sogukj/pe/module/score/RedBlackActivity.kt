@@ -46,7 +46,7 @@ class RedBlackActivity : ToolbarActivity() {
             title?.textColor = Color.parseColor("#ffffff")
             val back = this.findViewById<ImageView>(R.id.toolbar_back) as ImageView
             back.visibility = View.VISIBLE
-            back.setImageResource(R.drawable.grey_back)
+            back.setImageResource(R.drawable.icon_back_gray)
             var toolbar_menu = this.findViewById<TextView>(R.id.toolbar_menu) as TextView
             toolbar_menu.text = "黑榜"
             toolbar_menu.setOnClickListener {

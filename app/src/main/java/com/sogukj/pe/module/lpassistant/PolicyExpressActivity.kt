@@ -87,8 +87,8 @@ class PolicyExpressActivity : BaseRefreshActivity(), PolicyExpressCallBack {
 
     private fun initTopBanner() {
         scroll_viewpager!!.startAutoScroll(3000)
-        scroll_viewpager!!.setInterval(3000)
-        scroll_viewpager!!.setCycle(true)
+        scroll_viewpager!!.interval = 3000
+        scroll_viewpager!!.isCycle = true
     }
 
     override fun onStart() {
@@ -189,13 +189,13 @@ class PolicyExpressActivity : BaseRefreshActivity(), PolicyExpressCallBack {
         var params: LinearLayout.LayoutParams? = null
         var dot: ImageView? = null
 
-        if (indicators!!.size > 1) {
-            for (i in 0 until indicators!!.size) {
+        if (indicators.size > 1) {
+            for (i in 0 until indicators.size) {
                 dot = ImageView(this)
                 params = LinearLayout.LayoutParams(Utils.dip2px(this, 5f), Utils.dip2px(this, 5f))
-                params!!.leftMargin = 20
-                indicators!![i] = dot
-                dot!!.setLayoutParams(params)
+                params.leftMargin = 20
+                indicators[i] = dot
+                dot.layoutParams = params
                 banner_ll_indicator!!.addView(dot)
             }
         }

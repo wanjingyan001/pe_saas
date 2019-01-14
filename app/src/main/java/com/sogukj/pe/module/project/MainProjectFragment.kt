@@ -79,7 +79,7 @@ class MainProjectFragment : BaseRefreshFragment() {
         val user = Store.store.getUser(baseActivity!!)
         var header = headerIcon.getChildAt(0) as CircleImageView
         if (user?.url.isNullOrEmpty()) {
-            if (null != user?.name && !"".equals(user?.name)){
+            if (null != user?.name && !"".equals(user.name)){
                 val ch = user.name.first()
                 header.setChar(ch)
             }
@@ -376,18 +376,18 @@ class MainProjectFragment : BaseRefreshFragment() {
                             }
                             var tab = tabs.newTab().setText(it.name!!)
                             tabs.addTab(tab)
-//                            try {
-//                                Thread {
-//                                    var target = Glide.with(ctx).load(it.icon).downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)//FutureTarget<File>
-//                                    var imageFile = target.get()//File
-//                                    activity?.runOnUiThread {
-//                                        tab.icon = BitmapDrawable(resources, imageFile.path)
-//                                        //icon.setImageDrawable(BitmapDrawable(resources, imageFile.path))
-//                                    }
-//                                }.start()
-//                            } catch (e: Exception) {
-//                                e.printStackTrace()
-//                            }
+                //                            try {
+                //                                Thread {
+                //                                    var target = Glide.with(ctx).load(it.icon).downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)//FutureTarget<File>
+                //                                    var imageFile = target.get()//File
+                //                                    activity?.runOnUiThread {
+                //                                        tab.icon = BitmapDrawable(resources, imageFile.path)
+                //                                        //icon.setImageDrawable(BitmapDrawable(resources, imageFile.path))
+                //                                    }
+                //                                }.start()
+                //                            } catch (e: Exception) {
+                //                                e.printStackTrace()
+                //                            }
                             try {
                                 Glide.with(ctx).load(it.icon).into(object : SimpleTarget<Drawable>() {
                                     override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {

@@ -35,11 +35,11 @@ class MineFileDialog {
         fun showUploadFile(context:Context,callBack: UploadCallBack){
             val dialog = Dialog(context, R.style.AppTheme_Dialog)
             dialog.setContentView(R.layout.dialog_show_upload)
-            val lay = dialog.getWindow()!!.getAttributes()
+            val lay = dialog.window!!.attributes
             lay.height = WindowManager.LayoutParams.WRAP_CONTENT
             lay.width = WindowManager.LayoutParams.MATCH_PARENT
             lay.gravity = Gravity.BOTTOM
-            dialog.getWindow()!!.setAttributes(lay)
+            dialog.window!!.attributes = lay
             dialog.show()
 
             val ll_upload = dialog.find<LinearLayout>(R.id.ll_upload)
@@ -76,11 +76,11 @@ class MineFileDialog {
         fun showFillterDialog(context: Context,dir:String,filePath:String){
             val dialog = Dialog(context, R.style.AppTheme_Dialog)
             dialog.setContentView(R.layout.dialog_show_fillter)
-            val lay = dialog.getWindow()!!.getAttributes()
+            val lay = dialog.window!!.attributes
             lay.height = WindowManager.LayoutParams.WRAP_CONTENT
             lay.width = WindowManager.LayoutParams.MATCH_PARENT
             lay.gravity = Gravity.BOTTOM
-            dialog.getWindow()!!.setAttributes(lay)
+            dialog.window!!.attributes = lay
             dialog.show()
 
             val ll_doc = dialog.find<LinearLayout>(R.id.ll_doc)
@@ -152,11 +152,11 @@ class MineFileDialog {
                                previousPath:String,callBack: UploadCallBack,isBusinessFile:Boolean){
             val dialog = Dialog(context, R.style.AppTheme_Dialog)
             dialog.setContentView(R.layout.dialog_file_item)
-            val lay = dialog.getWindow()!!.getAttributes()
+            val lay = dialog.window!!.attributes
             lay.height = WindowManager.LayoutParams.WRAP_CONTENT
             lay.width = WindowManager.LayoutParams.MATCH_PARENT
             lay.gravity = Gravity.BOTTOM
-            dialog.getWindow()!!.setAttributes(lay)
+            dialog.window!!.attributes = lay
             dialog.show()
 
             val file_icon = dialog.find<ImageView>(R.id.file_icon)
@@ -260,11 +260,11 @@ class MineFileDialog {
         fun showDeleteFileDialog(context:Context,isdir : Boolean,previousPath:String,fileName : String,callBack: UploadCallBack){
             val dialog = Dialog(context, R.style.AppTheme_Dialog)
             dialog.setContentView(R.layout.dialog_delete_file)
-            val lay = dialog.getWindow()!!.getAttributes()
+            val lay = dialog.window!!.attributes
             lay.height = WindowManager.LayoutParams.WRAP_CONTENT
             lay.width = WindowManager.LayoutParams.MATCH_PARENT
             lay.gravity = Gravity.CENTER
-            dialog.getWindow()!!.setAttributes(lay)
+            dialog.window!!.attributes = lay
             dialog.show()
 
             val tv_title = dialog.find<TextView>(R.id.tv_title)
@@ -298,13 +298,13 @@ class MineFileDialog {
                                 }else{
                                     ToastUtil.showErrorToast(payload.message,context)
                                 }
-                                (context as BaseActivity).hideProgress()
+                                context.hideProgress()
                             }
 
                             onError {
                                 it.printStackTrace()
                                 ToastUtil.showErrorToast("删除失败",context)
-                                (context as BaseActivity).hideProgress()
+                                context.hideProgress()
                             }
                         }
             }
@@ -322,11 +322,11 @@ class MineFileDialog {
         fun showDeleteBatchFileDialog(context:Context,isdir : Boolean,batchPath:String,callBack: UploadCallBack){
             val dialog = Dialog(context, R.style.AppTheme_Dialog)
             dialog.setContentView(R.layout.dialog_delete_file)
-            val lay = dialog.getWindow()!!.getAttributes()
+            val lay = dialog.window!!.attributes
             lay.height = WindowManager.LayoutParams.WRAP_CONTENT
             lay.width = WindowManager.LayoutParams.MATCH_PARENT
             lay.gravity = Gravity.CENTER
-            dialog.getWindow()!!.setAttributes(lay)
+            dialog.window!!.attributes = lay
             dialog.show()
 
             val tv_title = dialog.find<TextView>(R.id.tv_title)
@@ -360,13 +360,13 @@ class MineFileDialog {
                                 }else{
                                     ToastUtil.showErrorToast(payload.message,context)
                                 }
-                                (context as BaseActivity).hideProgress()
+                                context.hideProgress()
                             }
 
                             onError {
                                 it.printStackTrace()
                                 ToastUtil.showErrorToast("删除失败",context)
-                                (context as BaseActivity).hideProgress()
+                                context.hideProgress()
                             }
                         }
             }

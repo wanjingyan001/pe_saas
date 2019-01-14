@@ -377,6 +377,10 @@
         <activity android:name=".module.user.AddAdminActivity" />
         <activity android:name=".module.user.AdminTransferActivity" />
         <!-- 打分 -->
+        <activity android:name=".module.score.GuanJianJiXiaoListActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity
             android:name=".module.score.FengKongActivity"
             android:configChanges="orientation|screenSize"
@@ -1195,8 +1199,8 @@
         <activity
             android:name=".module.register.LoginActivity"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysVisible" />
         <activity
             android:name=".module.register.PhoneBindingActivity"
@@ -1561,14 +1565,15 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
 
-        <activity android:name=".module.register.SelectCompanyAvtivity"
-                  android:configChanges="orientation|screenSize"
-                  android:screenOrientation="portrait"
-                  android:windowSoftInputMode="adjustPan|stateHidden"/>
         <service
             android:name=".service.FileFindService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity android:name=".module.register.SelectCompanyActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
     </application>
 
 </manifest>

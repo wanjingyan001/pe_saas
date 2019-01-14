@@ -63,14 +63,16 @@
 
         <TextView
             android:id="@+id/sponsor"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
+            android:layout_marginEnd="30dp"
             android:ellipsize="end"
             android:singleLine="true"
             android:text="发起人："
             android:textColor="@color/text_1"
             android:textSize="@dimen/text_size_samll"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/pushMsgTitle"
             app:layout_constraintTop_toBottomOf="@+id/pushMsgTitle" />
 
@@ -100,8 +102,8 @@
             android:paddingBottom="2dp"
             android:text="加急X1"
             android:textSize="8sp"
-            app:corners_radius="2dp"
             android:visibility="gone"
+            app:corners_radius="2dp"
             app:layout_constraintBottom_toBottomOf="@+id/schedule"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/schedule"

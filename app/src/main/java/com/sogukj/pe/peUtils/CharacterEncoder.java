@@ -16,23 +16,15 @@ public abstract class CharacterEncoder
   
   protected abstract int bytesPerLine();
   
-  protected void encodeBufferPrefix(OutputStream paramOutputStream)
-    throws IOException
-  {
+  protected void encodeBufferPrefix(OutputStream paramOutputStream) {
     this.pStream = new PrintStream(paramOutputStream);
   }
   
-  protected void encodeBufferSuffix(OutputStream paramOutputStream)
-    throws IOException
-  {}
+  protected void encodeBufferSuffix(OutputStream paramOutputStream) {}
   
-  protected void encodeLinePrefix(OutputStream paramOutputStream, int paramInt)
-    throws IOException
-  {}
+  protected void encodeLinePrefix(OutputStream paramOutputStream, int paramInt) {}
   
-  protected void encodeLineSuffix(OutputStream paramOutputStream)
-    throws IOException
-  {
+  protected void encodeLineSuffix(OutputStream paramOutputStream) {
     this.pStream.println();
   }
   
@@ -125,7 +117,7 @@ public abstract class CharacterEncoder
 
 
 
-      paramByteBuffer.get((byte[])localObject);
+      paramByteBuffer.get(localObject);
     }
     return localObject;
   }

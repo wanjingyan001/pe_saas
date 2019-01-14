@@ -86,10 +86,6 @@ class FileDirDetailActivity : ToolbarActivity() {
     companion object {
         val FILEDIR_ACTION = "filedir_action"
     }
-    override fun onResume() {
-        super.onResume()
-//        Log.e("TAG","FileDirDetailActivity -- realDir ==" + realDir)
-    }
 
     override fun onDestroy() {
         super.onDestroy()

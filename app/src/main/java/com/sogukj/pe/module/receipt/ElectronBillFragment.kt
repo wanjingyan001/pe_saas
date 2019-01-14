@@ -107,7 +107,7 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack{
             et_email.setText(userBean!!.person_email)
         }
         if (!userBean!!.mechanism_name.isNullOrEmpty()){
-            tv_header.setText(userBean!!.mechanism_name)
+            tv_header.text = userBean!!.mechanism_name
         }
         if (!userBean!!.tax_no.isNullOrEmpty()){
             et_duty.setText(Utils.getSpaceText(userBean!!.tax_no))

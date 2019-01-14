@@ -72,8 +72,7 @@ class LoginActivity : BaseActivity(), LoginView {
             strArray.any { (it as CharSequence).isEmpty() || it.length < 6 }
         }.subscribe {
             it.no {
-                loginPresenter.verificationCode(phoneEdt.getInput(), mVerCodeInput.textStr)
-//                loginPresenter.verificationCompanyCode(phoneEdt.getInput(), mVerCodeInput.textStr)
+                loginPresenter.verificationCompanyCode(phoneEdt.getInput(), mVerCodeInput.textStr)
             }
         }
 
@@ -123,11 +122,6 @@ class LoginActivity : BaseActivity(), LoginView {
         if (!BuildConfig.DEBUG) {
             mVerCodeInput.isEnabled = enable
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-//        getDingResult()
     }
 
     private fun getDingResult() {
@@ -182,7 +176,7 @@ class LoginActivity : BaseActivity(), LoginView {
 
     private fun checkThirdBinding(source: String, unique: String) {
         SoguApi.getService(application, RegisterService::class.java)
-                .checkThirdBinding(source, unique)
+                .threePartyLoginNew(source, unique)
                 .execute {
                     onNext { payload ->
                         payload.isOk.yes {
@@ -193,7 +187,7 @@ class LoginActivity : BaseActivity(), LoginView {
                                     }
                                     1 -> {
                                         it.user_info?.let {
-                                            judgeLoginProcess(it)
+                                            startActivity<SelectCompanyActivity>(Extras.LIST to it)
                                         }
                                     }
                                     else -> {
@@ -237,7 +231,11 @@ class LoginActivity : BaseActivity(), LoginView {
     }
 
     override fun verificationCompanyCodeSuccess(result: List<RegisterVerResult>) {
-
+        if(result.size == 1 ){
+            judgeLoginProcess(result[0])
+        }else{
+            startActivity<SelectCompanyActivity>(Extras.LIST to result)
+        }
     }
 
     private fun judgeLoginProcess(result: RegisterVerResult) {
@@ -272,7 +270,7 @@ class LoginActivity : BaseActivity(), LoginView {
                         } else {
                             if (it.business_card.isNullOrEmpty()) {
                                 val isAdmin = it.is_admin != 2
-                                val info = MechanismInfo(it.mechanism_name, it.scale, it.business_card, it.name, it.position, it.key)
+                                val info = MechanismInfo(it.mechanism_name, it.scale, it.business_card, it.name, it.position, it.key?:"")
                                 startActivity<InfoSupplementActivity>(Extras.DATA to it.phone
                                         , Extras.DATA2 to info
                                         , Extras.FLAG to isAdmin
@@ -309,9 +307,9 @@ class LoginActivity : BaseActivity(), LoginView {
     override fun getUserBean(user: UserBean) {
         AnkoLogger("SAAS用户").info { user.jsonStr }
         Store.store.setUser(this@LoginActivity, user)
-        ifNotNull(user.accid, user.token, { accid, token ->
+        ifNotNull(user.accid, user.token) { accid, token ->
             IMLogin(accid, token)
-        })
+        }
         sp.getString(Extras.CompanyKey, "").let {
             it.isNotEmpty().yes {
                 loginPresenter.getCompanyInfo(it)

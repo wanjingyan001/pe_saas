@@ -23,9 +23,19 @@ class LocationRecordBean {
         var sid: Int? = null
         var stype: String = ""
         var title: String = ""
-        var add_time: String = ""
+        var add_time: String? =null
         var approve_type = 2 //审批类型  1老审批  2新
+
+        fun getRealId(): Int? {
+            return if (title == "不关联审批" || id == 0) {
+                null
+            } else {
+                id
+            }
+        }
     }
+
+
 //    "date": "2018-08-08",    //日期
 //    "week": "星期三",    //周几
 //    "child": [

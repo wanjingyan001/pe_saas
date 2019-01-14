@@ -81,7 +81,7 @@ class MemberSelectActivity : ToolbarActivity() {
         alreadySelected = list?.filter { it != null }?.toMutableSet() as? MutableSet<UserBean>  ?: mutableSetOf()
         isSingle = intent.getBooleanExtra(Extras.FLAG, false)
         isAdmin = intent.getBooleanExtra(Extras.FLAG2, false)
-        if (alreadySelected.any { it?.user_id != null }) {
+        if (alreadySelected.any { it.user_id != null }) {
             selectNumber.text = "已选择: ${alreadySelected.size} 人"
         }
         title = if (isSingle){

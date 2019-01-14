@@ -5,5 +5,4 @@ package com.sogukj.pe.bean
  */
 data class PayResult(val resultStatus: String,
                      val result: String?,
-                     val memo: String) {
-}
+                     val memo: String)

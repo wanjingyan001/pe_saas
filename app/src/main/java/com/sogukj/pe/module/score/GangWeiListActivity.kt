@@ -51,13 +51,14 @@ class GangWeiListActivity : ToolbarActivity() {
 
         setBack(true)
         title = "岗位胜任力评价"
-        toolbar?.setBackgroundColor(Color.WHITE)
+        Utils.setWindowStatusBarColor(this, R.color.white)
+        toolbar?.setBackgroundColor(resources.getColor(R.color.white))
         toolbar?.apply {
             val title = this.findViewById<TextView>(R.id.toolbar_title)
             title?.textColor = Color.parseColor("#282828")
             val back = this.findViewById<ImageView>(R.id.toolbar_back) as ImageView
             back.visibility = View.VISIBLE
-            back.setImageResource(R.drawable.grey_back)
+            back.setImageResource(R.drawable.icon_back_gray)
         }
 
         if (currentIndex == 0 && type == Extras.TYPE_EMPLOYEE) {

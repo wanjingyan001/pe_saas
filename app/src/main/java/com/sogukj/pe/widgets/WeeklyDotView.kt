@@ -15,11 +15,11 @@ import com.sogukj.pe.baselibrary.utils.Utils
  * Created by sogubaby on 2017/11/30.
  */
 class WeeklyDotView : ImageView {
-    constructor(context: Context) : super(context) {}
+    constructor(context: Context) : super(context)
 
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
 
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {}
+    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle)
 
     val mPaint = Paint()
     //var txt: String = "12:14"

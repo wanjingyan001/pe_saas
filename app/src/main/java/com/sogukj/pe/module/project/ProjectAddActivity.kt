@@ -65,7 +65,7 @@ class ProjectAddActivity : ToolbarActivity() {
             et_fuzeren.text = user.name
             getLeader()
         } else if (type == "EDIT") {
-            setTitle("编辑项目")
+            title = "编辑项目"
             var data = intent.getSerializableExtra(Extras.DATA) as ProjectBean
             SoguApi.getService(application, NewService::class.java)
                     .showProject(data.company_id!!)
@@ -136,7 +136,7 @@ class ProjectAddActivity : ToolbarActivity() {
         }
 
         mCompanyAdapter = RecyclerAdapter<CompanySelectBean>(this) { _adapter, parent, type ->
-            val convertView = _adapter.getView(R.layout.item_main_project_search, parent) as View
+            val convertView = _adapter.getView(R.layout.item_main_project_search, parent)
             object : RecyclerHolder<CompanySelectBean>(convertView) {
                 val tv1 = convertView.findViewById<TextView>(R.id.tv1) as TextView
                 override fun setData(view: View, data: CompanySelectBean, position: Int) {
@@ -217,7 +217,7 @@ class ProjectAddActivity : ToolbarActivity() {
                     } else {
                         selectUser = userList[0]
                         chargerId = userList.get(0).uid ?: 0
-                        chargerStr = userList.get(0).name ?: ""
+                        chargerStr = userList.get(0).name
                         et_fuzeren.text = chargerStr
                     }
                     getLeader()

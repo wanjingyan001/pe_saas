@@ -11,6 +11,7 @@ import android.widget.TextView
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
+import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.utils.XmlDb
 import kotlinx.android.synthetic.main.activity_rule.*
 import org.jetbrains.anko.textColor
@@ -31,13 +32,14 @@ class RuleActivity : ToolbarActivity() {
 
         setBack(true)
         title = "评分细则"
-        toolbar?.setBackgroundColor(Color.WHITE)
+        Utils.setWindowStatusBarColor(this, R.color.white)
+        toolbar?.setBackgroundColor(resources.getColor(R.color.white))
         toolbar?.apply {
             val title = this.findViewById<TextView>(R.id.toolbar_title)
             title?.textColor = Color.parseColor("#282828")
             val back = this.findViewById<ImageView>(R.id.toolbar_back) as ImageView
             back.visibility = View.VISIBLE
-            back.setImageResource(R.drawable.grey_back)
+            back.setImageResource(R.drawable.icon_back_gray)
         }
 
         web.settings.javaScriptEnabled = true

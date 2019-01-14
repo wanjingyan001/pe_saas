@@ -54,7 +54,7 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
                     class_id = approveInfo.class_id
                     val frames = approveInfo.frame
                     if (null != frames && frames.size > 0){
-                        setAmountData(frames!!)
+                        setAmountData(frames)
                     }
                 }
             }
@@ -110,7 +110,7 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
         setBack(true)
         project = intent.getSerializableExtra(Extras.DATA) as ProjectBean?
         floor = intent.getIntExtra(Extras.FLAG,-1)
-        setTitle(project!!.name)
+        title = project!!.name
         presenter = ProjectApprovePresenter(this,this)
         dialog = BuildProjectDialog()
         user = Store.store.getUser(this)
@@ -154,7 +154,7 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
                             }
                             getApprevoRecordInfo()
                         }else{
-                            ToastUtil.showCustomToast(R.drawable.icon_toast_fail, payload.message, ctx!!)
+                            ToastUtil.showCustomToast(R.drawable.icon_toast_fail, payload.message, ctx)
                         }
                     }
                     onComplete {
@@ -163,7 +163,7 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
 
                     onError {
                         it.printStackTrace()
-                        ToastUtil.showCustomToast(R.drawable.icon_toast_fail, "获取数据失败", ctx!!)
+                        ToastUtil.showCustomToast(R.drawable.icon_toast_fail, "获取数据失败", ctx)
                     }
                 }
     }
@@ -172,10 +172,10 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
         var pm = 0
         var pl = 0
         if (null != projectInfo.duty){
-            pm = projectInfo.duty!!.principal!!
+            pm = projectInfo.duty!!.principal
         }
         if (null != projectInfo.lead){
-            pl = projectInfo.lead!!.leader!!
+            pl = projectInfo.lead!!.leader
         }
 
         if (user!!.uid == pm || user!!.uid == pl){
@@ -514,10 +514,6 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
     inner class ProjectPostHolder(itemView:View) : RecyclerHolder<ProjectApproveInfo.ApproveFile>(itemView){
         val pdfIcon = itemView.findViewById<ImageView>(R.id.pdfIcon)
         val time = itemView.findViewById<TextView>(R.id.time)
@@ -777,7 +773,7 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
         if (null != data){
             when(requestCode){
                 REQ_REJECT_FILE -> {
-                    val paths = data?.getStringArrayListExtra(Extras.LIST)
+                    val paths = data.getStringArrayListExtra(Extras.LIST)
                     paths?.forEach {
                         val info = ProjectApproveInfo.ApproveFile()
                         val file = File(it)
@@ -792,7 +788,7 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
                 }
 
                 REQ_SELECT_FILE -> {
-                    val paths = data?.getStringArrayListExtra(Extras.LIST)
+                    val paths = data.getStringArrayListExtra(Extras.LIST)
                     paths?.forEach {
                         val info = ProjectApproveInfo.ApproveFile()
                         val file = File(it)
@@ -807,7 +803,7 @@ class ProjectApprovalShowActivity : BaseRefreshActivity(),ProjectApproveCallBack
                 }
 
                 REQ_LXH_FILE -> {
-                    val paths = data?.getStringArrayListExtra(Extras.LIST)
+                    val paths = data.getStringArrayListExtra(Extras.LIST)
                     paths?.forEach {
                         val info = ProjectApproveInfo.ApproveFile()
                         val file = File(it)
