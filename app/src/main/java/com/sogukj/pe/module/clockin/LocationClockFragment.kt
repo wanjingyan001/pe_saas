@@ -142,7 +142,7 @@ class LocationClockFragment : BaseFragment(), MyMapView.onFinishListener {
             }
             adapter.onItemClick = { v, p ->
                 val data = adapter.dataList[p]
-                if (data.sid != null) {
+                if (data.sid != null && data.sid != 0) {
                     if (data.approve_type == 1) {
                         //老审批
                         LeaveBusinessApproveActivity.start(context as Activity, data.sid!!, data.title)
