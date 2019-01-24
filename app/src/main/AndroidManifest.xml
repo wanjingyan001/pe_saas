@@ -31,6 +31,13 @@
     <uses-permission android:name="com.huawei.android.launcher2.permission.WRITE_SETTINGS" />
     <uses-permission android:name="com.huawei.android.launcher3.permission.READ_SETTINGS" />
     <uses-permission android:name="com.huawei.android.launcher3.permission.WRITE_SETTINGS" />
+    <!-- 接收PUSH TOKEN的广播以及PUSH消息需要定义该权限 ${PACKAGE_NAME} 要替换上您应用的包名 -->
+    <permission
+        android:name="${appId}.permission.PROCESS_PUSH_MSG"
+        android:protectionLevel="signatureOrSystem" />
+
+    <!--接收PUSH TOKEN的广播以及PUSH消息需要定义该权限 ${PACKAGE_NAME} 要替换上您应用的包名 -->
+    <uses-permission android:name="${appId}.permission.PROCESS_PUSH_MSG" />
     <uses-permission
         android:name="android.permission.READ_LOGS"
         tools:ignore="ProtectedPermissions" />
@@ -218,14 +225,34 @@
                 android:value="successRateAnalytics" />
         </receiver>
 
-        <!-- 兼容性广播 -->
-        <receiver android:name="com.huawei.hms.support.api.push.PushEventReceiver">
-            <intent-filter>
+        <activity
+            android:name="com.huawei.hms.activity.BridgeActivity"
+            android:configChanges="orientation|locale|screenSize|layoutDirection|fontScale"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:hardwareAccelerated="true"
+            android:theme="@android:style/Theme.Translucent">
+            <meta-data
+                android:name="hwc-theme"
+                android:value="androidhwext:style/Theme.Emui.Translucent" />
+        </activity>
+        <!--&lt;!&ndash; 兼容性广播 &ndash;&gt;-->
 
-                <!-- 接收通道发来的通知栏消息，兼容老版本Push -->
-                <action android:name="com.huawei.intent.action.PUSH" />
-            </intent-filter>
-        </receiver>
+        <!--<receiver-->
+            <!--android:name=".service.HWSupportPushReceiver"-->
+            <!--android:permission="${appId}.permission.PROCESS_PUSH_MSG">-->
+            <!--<intent-filter>-->
+                <!--&lt;!&ndash; 必须,用于接收token &ndash;&gt;-->
+                <!--<action android:name="com.huawei.android.push.intent.REGISTRATION" />-->
+                <!--&lt;!&ndash; 必须, 用于接收透传消息 &ndash;&gt;-->
+                <!--<action android:name="com.huawei.android.push.intent.RECEIVE" />-->
+                <!--&lt;!&ndash; 必须, 用于接收通知栏消息点击事件 此事件不需要开发者处理，只需注册就可以&ndash;&gt;-->
+                <!--<action android:name="com.huawei.intent.action.PUSH_DELAY_NOTIFY" />-->
+                <!--&lt;!&ndash; 接收通道发来的通知栏消息，兼容老版本Push &ndash;&gt;-->
+                <!--<action android:name="com.huawei.intent.action.PUSH" />-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
+
         <!-- 填入华为推送平台配置的应用appid -->
         <meta-data
             android:name="com.huawei.hms.client.appid"
@@ -377,10 +404,11 @@
         <activity android:name=".module.user.AddAdminActivity" />
         <activity android:name=".module.user.AdminTransferActivity" />
         <!-- 打分 -->
-        <activity android:name=".module.score.GuanJianJiXiaoListActivity"
+        <activity
+            android:name=".module.score.GuanJianJiXiaoListActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".module.score.FengKongActivity"
             android:configChanges="orientation|screenSize"
@@ -1570,10 +1598,11 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".module.register.SelectCompanyActivity"
+        <activity
+            android:name=".module.register.SelectCompanyActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"/>
+            android:windowSoftInputMode="adjustPan|stateHidden" />
     </application>
 
 </manifest>

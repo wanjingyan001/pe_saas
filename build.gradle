@@ -7,7 +7,7 @@ buildscript {
         google()
         jcenter()
         maven {
-            url  "http://dl.bintray.com/lukaville/maven"
+            url "http://dl.bintray.com/lukaville/maven"
         }
         maven { url "https://jitpack.io" }
     }
@@ -29,9 +29,10 @@ allprojects {
         google()
         jcenter()
         maven {
-            url  "http://dl.bintray.com/lukaville/maven"
+            url "http://dl.bintray.com/lukaville/maven"
         }
         maven { url "https://jitpack.io" }
+        maven { url "http://developer.huawei.com/repo/" }
     }
 }
 

@@ -112,6 +112,8 @@ dependencies {
     //屏幕适配
     api 'me.jessyan:autosize:1.0.1'
     api 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.1.6'
+    //华为推送
+    api 'com.huawei.android.hms:push:2.6.3.301'
 
     api project(':bottom-navigation-bar')
     api project(':push')
