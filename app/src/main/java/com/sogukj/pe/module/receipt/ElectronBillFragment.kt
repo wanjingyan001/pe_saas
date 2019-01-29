@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import com.sogukj.pe.R
 import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.textStr
+import com.sogukj.pe.baselibrary.utils.ToastUtils
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.baselibrary.widgets.citypicker.CityConfig
 import com.sogukj.pe.baselibrary.widgets.citypicker.CityPickerView
@@ -29,12 +31,13 @@ import com.sogukj.pe.peUtils.Store
 import kotlinx.android.synthetic.main.fragment_eletron_bill.*
 import kotlinx.android.synthetic.main.layout_accept_type.*
 import kotlinx.android.synthetic.main.layout_bill_detail.*
+import org.jetbrains.anko.support.v4.ctx
 
 /**
  * Created by CH-ZH on 2018/10/18.
  * 电子发票
  */
-class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack{
+class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack {
     private var rootView: View? = null
     private var money = "0.00"
     private var mCityPickerView: CityPickerView? = null
@@ -42,12 +45,13 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack{
     private var explain = ""
     private var phoneAddress = ""
     private var bankAccount = ""
-    private var type: Int = 2  // 1 : 电子发票 2 : 纸质发票
-    private var userBean : UserBean? = null
+    private var type: Int = 1  // 1 : 电子发票 2 : 纸质发票
+    private var userBean: UserBean? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         type = arguments!!.getInt("type")
         money = arguments!!.getString("money")
+        Log.d("WJY", "type$type")
         userBean = Store.store.getUser(activity!!)
     }
 
@@ -68,7 +72,7 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack{
     }
 
     private fun initView() {
-        when (type) {
+        when (CreateBillActivity.currentType) {
             1 -> {
                 tv_tips.text = getString(R.string.electron_tips)
                 ll_accept.setVisible(false)
@@ -99,21 +103,21 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack{
     private fun initData() {
         tv_coin.text = "${money}元"
         val digits = getString(R.string.input_number_letter)
-        if (!userBean!!.phone.isNullOrEmpty()){
+        if (!userBean!!.phone.isNullOrEmpty()) {
             et_phone.setText(userBean!!.phone)
         }
 
-        if (!userBean!!.person_email.isNullOrEmpty()){
+        if (!userBean!!.person_email.isNullOrEmpty()) {
             et_email.setText(userBean!!.person_email)
         }
-        if (!userBean!!.mechanism_name.isNullOrEmpty()){
+        if (!userBean!!.mechanism_name.isNullOrEmpty()) {
             tv_header.text = userBean!!.mechanism_name
         }
-        if (!userBean!!.tax_no.isNullOrEmpty()){
+        if (!userBean!!.tax_no.isNullOrEmpty()) {
             et_duty.setText(Utils.getSpaceText(userBean!!.tax_no))
             et_duty.setSelection(et_duty.textStr.length)
         }
-        if (!userBean!!.name.isNullOrEmpty()){
+        if (!userBean!!.name.isNullOrEmpty()) {
             et_accept.setText(userBean!!.name)
         }
     }
@@ -163,7 +167,7 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack{
                     getCreateBillActivity().showCustomToast(R.drawable.icon_toast_common, "请填写正确的邮箱")
                     return@clickWithTrigger
                 }
-                if (title_type == 1 && !Utils.isDutyCode(et_duty.textStr)){
+                if (title_type == 1 && !Utils.isDutyCode(et_duty.textStr)) {
                     getCreateBillActivity().showCustomToast(R.drawable.icon_toast_common, "请填写正确的企业税号")
                     return@clickWithTrigger
                 }
@@ -204,8 +208,12 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack{
     }
 
     private fun submitBillDetail() {
+        if (et_duty.textStr.isEmpty() && CreateBillActivity.currentType == 1) {
+            ToastUtils.showErrorToast("开具电子发票必须填写税号", ctx)
+            return
+        }
         val map = HashMap<String, Any>()
-        map.put("type", type)
+        map.put("type", CreateBillActivity.currentType)
         map.put("email", et_email.textStr)
         map.put("title_type", title_type)
         map.put("title", tv_header.textStr)
@@ -215,13 +223,16 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack{
         map.put("remark", explain)
         map.put("address_tel", phoneAddress)
         map.put("bank_account", bankAccount)
-        map.put("receiver", et_accept.textStr)
-        map.put("phone", et_phone.textStr)
-        map.put("province", tv_province.textStr)
-        map.put("city", tv_city.textStr)
-        map.put("county", tv_district.textStr)
-        map.put("address", et_detail.textStr)
         map.put("order_no", getCreateBillActivity().getOrders()!!)
+        if (CreateBillActivity.currentType == 2) {
+            map.put("receiver", et_accept.textStr)
+            map.put("phone", et_phone.textStr)
+            map.put("province", tv_province.textStr)
+            map.put("city", tv_city.textStr)
+            map.put("county", tv_district.textStr)
+            map.put("address", et_detail.textStr)
+        }
+        Log.d("WJY","map type${CreateBillActivity.currentType}")
         CreateBillDialog.showBillDialog(activity!!, map)
     }
 
@@ -349,7 +360,7 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack{
          */
         private fun updateContext(editable: Editable, values: String) {
 //            et_duty.setText(values)
-            editable.replace(0,editable.length,values)
+            editable.replace(0, editable.length, values)
             try {
                 et_duty.setSelection(location)
             } catch (e: Exception) {
@@ -373,7 +384,7 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack{
 
     private fun setCommitButtonStatus() {
         if (null == tv_submit) return
-        if (type == 1) {
+        if (CreateBillActivity.currentType == 1) {
             //电子发票
             if (!tv_header.textStr.isNullOrEmpty() && !tv_content.textStr.isNullOrEmpty() && !tv_coin.textStr.isNullOrEmpty()
                     && !et_email.textStr.isNullOrEmpty()) {
@@ -401,7 +412,7 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack{
                     isSubmitEnbale = false
                 }
             }
-        } else if (type == 2) {
+        } else if (CreateBillActivity.currentType == 2) {
             //纸质发票
             if (!tv_header.textStr.isNullOrEmpty() && !tv_content.textStr.isNullOrEmpty() && !tv_coin.textStr.isNullOrEmpty()
                     && !et_email.textStr.isNullOrEmpty() && !et_accept.textStr.isNullOrEmpty() && !et_phone.textStr.isNullOrEmpty()

@@ -23,8 +23,8 @@ import kotlinx.android.synthetic.main.layout_bill_tip.*
  * 开票详情
  */
 class BillDetailActivity : ToolbarActivity() {
-    private var id : Int ? = null
-    private var his : InvoiceHisBean? = null
+    private var id: Int? = null
+    private var his: InvoiceHisBean? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bill_detail)
@@ -46,7 +46,7 @@ class BillDetailActivity : ToolbarActivity() {
                 .getBillDetailInfo(id!!)
                 .execute {
                     onNext { payload ->
-                        if (payload.isOk){
+                        if (payload.isOk) {
                             val detailBean = payload.payload
                             detailBean?.let {
                                 setDetailInfo(detailBean)
@@ -62,29 +62,43 @@ class BillDetailActivity : ToolbarActivity() {
     }
 
     private fun setDetailInfo(detailBean: BillDetailBean) {
-        if (null != his){
-            when(his!!.status){
-                1 -> tv_status.text = "纸质发票待发出"
-                2 -> tv_status.text = "纸质发票已发出"
+        var typeStr = ""
+        when (detailBean.type) {
+            1 -> {
+                typeStr = "电子发票"
+                ll_email.setVisible(true)
+                paperLayout.setVisible(false)
+            }
+            2 -> {
+                typeStr = "纸质发票"
+                ll_email.setVisible(false)
+                paperLayout.setVisible(true)
+            }
+        }
+        if (null != his) {
+            when (his!!.status) {
+                1 -> tv_status.text = "${typeStr}待发出"
+                2 -> tv_status.text = "${typeStr}已发出"
             }
         }
         tv_time.text = detailBean.add_time
+        tv_email.text = detailBean.email
         tv_address.text = detailBean.province + detailBean.city + detailBean.county + detailBean.address
         tv_accept.text = "${detailBean.receiver} ${detailBean.phone}"
         tv_company.text = detailBean.title
-        Utils.setSpaceText(tv_duty,detailBean.tax_no)
+        Utils.setSpaceText(tv_duty, detailBean.tax_no)
         tv_content.text = detailBean.content
         tv_accept_time.text = detailBean.add_time
 
-        if (detailBean.tax_no.isNullOrEmpty()){
+        if (detailBean.tax_no.isNullOrEmpty()) {
             ll_duty.setVisible(false)
             view_duty.setVisible(false)
-        }else{
+        } else {
             ll_duty.setVisible(true)
             view_duty.setVisible(true)
         }
-        val spannable = SpannableString(detailBean.amount+"元")
-        spannable.setSpan(ForegroundColorSpan(Color.parseColor("#F7B62B")),0,
+        val spannable = SpannableString(detailBean.amount + "元")
+        spannable.setSpan(ForegroundColorSpan(Color.parseColor("#F7B62B")), 0,
                 detailBean.amount.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         tv_coin.text = spannable
     }

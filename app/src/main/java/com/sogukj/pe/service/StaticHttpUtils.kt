@@ -1,6 +1,7 @@
 package com.sogukj.pe.service
 
 import com.google.gson.JsonObject
+import com.google.gson.internal.LinkedTreeMap
 import com.sogukj.pe.bean.*
 import io.reactivex.Observable
 import okhttp3.RequestBody
@@ -24,6 +25,12 @@ interface StaticHttpUtils {
     @POST("/api/Order/invoiceOrderList")
     fun billOrderList(@Field("page") page: Int? = 1,
                       @Field("pageSize") pageSize: Int? = 15): Observable<Payload<List<MineReceiptBean>>>
+
+    /**
+     * 开纸质发票最低多少金额
+     */
+    @POST("/api/Order/getInvoiceMini")
+    fun getInvoiceMini(): Observable<Payload<LinkedTreeMap<String, String>>>
 
     /**
      * 发票历史
@@ -81,7 +88,7 @@ interface StaticHttpUtils {
     @FormUrlEncoded
     @POST("/api/Pay/rechargeWallet")
     fun getPayInfo(@Field("type") type: Int, @Field("fee") fee: String,
-                   @Field("source") source: Int,@Field("accid") accid:String): Observable<Payload<String>>
+                   @Field("source") source: Int, @Field("accid") accid: String): Observable<Payload<String>>
 
     /**
      * 舆情开启状态
@@ -116,7 +123,7 @@ interface StaticHttpUtils {
     @POST("/api/Pay/WalletPay")
     fun getAccountPayInfo(@Field("order_type") order_type: Int, @Field("order_count") order_count: Int,
                           @Field("pay_type") pay_type: Int, @Field("fee") fee: String,
-                          @Field("type_id") type_id: String? = null,@Field("accid")accid:String ? = null): Observable<Payload<Any>>
+                          @Field("type_id") type_id: String? = null, @Field("accid") accid: String? = null): Observable<Payload<Any>>
 
     /**
      * 获取云盘文件内容
@@ -234,5 +241,5 @@ interface StaticHttpUtils {
      */
     @FormUrlEncoded
     @POST("/api/preview/getPreview")
-    fun docParsePdfFile(@Field("src") src:String): Observable<Payload<JsonObject>>
+    fun docParsePdfFile(@Field("src") src: String): Observable<Payload<JsonObject>>
 }

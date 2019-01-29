@@ -10,6 +10,7 @@
       <module fileurl="file://$PROJECT_DIR$/nice-spinner-master/nice-spinner-master.iml" filepath="$PROJECT_DIR$/nice-spinner-master/nice-spinner-master.iml" />
       <module fileurl="file://$PROJECT_DIR$/pe_saas.iml" filepath="$PROJECT_DIR$/pe_saas.iml" />
       <module fileurl="file://$PROJECT_DIR$/push/push.iml" filepath="$PROJECT_DIR$/push/push.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rocket-chat/rocket-chat.iml" filepath="$PROJECT_DIR$/rocket-chat/rocket-chat.iml" />
       <module fileurl="file://$PROJECT_DIR$/shareSDK/shareSDK.iml" filepath="$PROJECT_DIR$/shareSDK/shareSDK.iml" />
       <module fileurl="file://$PROJECT_DIR$/stack-layout/stack-layout.iml" filepath="$PROJECT_DIR$/stack-layout/stack-layout.iml" />
       <module fileurl="file://$PROJECT_DIR$/uikit/uikit.iml" filepath="$PROJECT_DIR$/uikit/uikit.iml" />

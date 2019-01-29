@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white">
@@ -11,10 +10,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="vertical">
+
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/text_1"
-            android:background="@color/gray_ef"/>
+            android:background="@color/gray_ef" />
+
         <LinearLayout
             android:id="@+id/ll_submit"
             android:layout_width="match_parent"
@@ -28,14 +29,16 @@
                 android:gravity="center"
                 android:text="提交"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_18"/>
+                android:textSize="@dimen/text_size_18" />
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/text_1"
             android:layout_below="@id/ll_submit"
-            android:background="@color/gray_ef"/>
+            android:background="@color/gray_ef" />
 
     </LinearLayout>
-    <include layout="@layout/layout_bill_dialog"/>
+
+    <include layout="@layout/layout_bill_dialog" />
 </RelativeLayout>

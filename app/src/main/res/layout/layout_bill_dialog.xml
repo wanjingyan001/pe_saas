@@ -198,6 +198,7 @@
             android:background="@color/gray_f1"/>
 
         <LinearLayout
+            android:id="@+id/placeLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -222,6 +223,7 @@
         </LinearLayout>
 
         <View
+            android:id="@+id/placeLine"
             android:layout_width="match_parent"
             android:layout_height="@dimen/text_1"
             android:layout_marginLeft="@dimen/text_20"
@@ -229,6 +231,7 @@
             android:background="@color/gray_f1"/>
 
         <LinearLayout
+            android:id="@+id/addressLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -253,6 +256,38 @@
         </LinearLayout>
 
         <View
+            android:id="@+id/addressLine"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_1"
+            android:layout_marginLeft="@dimen/text_20"
+            android:layout_marginRight="@dimen/text_20"
+            android:background="@color/gray_f1"/>
+        <LinearLayout
+            android:id="@+id/emailLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/text_20">
+
+            <TextView
+                style="@style/text14_colora0_all"
+                android:layout_weight="1.5"
+                android:text="电子邮件"/>
+
+            <TextView
+                android:id="@+id/tv_email"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_weight="4"
+                android:layout_marginRight="@dimen/text_8"
+                android:textColor="@color/black_28"
+                android:textSize="@dimen/text_size_14"/>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/emailLine"
             android:layout_width="match_parent"
             android:layout_height="@dimen/text_1"
             android:layout_marginLeft="@dimen/text_20"

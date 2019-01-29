@@ -1,91 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/gray_f7">
+
     <include
         android:id="@+id/toolbar"
-        layout="@layout/normal_toolbar"/>
+        layout="@layout/normal_toolbar" />
+
+    <TextView
+        android:id="@+id/tipTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/amount_color"
+        android:paddingStart="15dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_12"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:text="发票金额不足#元，不能开纸质发票" />
+
     <TextView
         android:id="@+id/tv_top"
         style="@style/text14_color80"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="@dimen/text_15"
         android:layout_marginTop="@dimen/text_8"
-        android:text="请选择发票类型"/>
+        android:text="请选择发票类型"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tipTv" />
+
     <RadioGroup
         android:id="@+id/radio_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/text_8"
-        android:paddingLeft="@dimen/text_15"
-        android:paddingRight="@dimen/text_15"
-        android:paddingTop="@dimen/text_10"
-        android:paddingBottom="@dimen/text_10"
+        android:background="@color/white"
         android:clickable="false"
         android:orientation="horizontal"
-        android:background="@color/white"
+        android:paddingLeft="@dimen/text_15"
+        android:paddingTop="@dimen/text_10"
+        android:paddingRight="@dimen/text_15"
+        android:paddingBottom="@dimen/text_10"
         app:layout_constraintTop_toBottomOf="@+id/tv_top">
+
         <RadioButton
             android:id="@+id/rb_one"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/text_20"
             android:layout_weight="1"
+            android:background="@drawable/bg_select_bill"
             android:button="@null"
+            android:checked="true"
+            android:clickable="true"
             android:gravity="center"
             android:paddingTop="@dimen/text_10"
             android:paddingBottom="@dimen/text_10"
-            android:clickable="false"
-            android:checked="false"
-            android:layout_marginRight="@dimen/text_20"
+            android:text="@string/electron_bill"
             android:textColor="@color/text_select_bill"
-            android:background="@drawable/bg_select_bill"
-            android:text="@string/electron_bill"/>
+            />
 
         <RadioButton
             android:id="@+id/rb_two"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/bg_select_bill"
             android:button="@null"
+            android:checked="false"
             android:gravity="center"
             android:paddingTop="@dimen/text_10"
-            android:checked="true"
-            android:textColor="@color/text_select_bill"
             android:paddingBottom="@dimen/text_10"
-            android:background="@drawable/bg_select_bill"
-            android:text="@string/pager_bill"/>
+            android:text="@string/pager_bill"
+            android:textColor="@color/text_select_bill" />
 
     </RadioGroup>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="@+id/radio_group"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/radio_group"
         app:layout_constraintEnd_toEndOf="@+id/radio_group"
-        app:layout_constraintTop_toTopOf="@+id/radio_group"
-        app:layout_constraintBottom_toBottomOf="@+id/radio_group">
+        app:layout_constraintStart_toStartOf="@+id/radio_group"
+        app:layout_constraintTop_toTopOf="@+id/radio_group">
+
         <View
             android:id="@+id/view_electron"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
+
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/ll_submit"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:padding="@dimen/text_8">
+        android:padding="@dimen/text_8"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
             android:id="@+id/tv_submit"
@@ -95,8 +119,9 @@
             android:gravity="center"
             android:text="提交"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_18"/>
+            android:textSize="@dimen/text_size_18" />
     </LinearLayout>
+
     <FrameLayout
         android:id="@+id/fl_container"
         android:layout_width="match_parent"
