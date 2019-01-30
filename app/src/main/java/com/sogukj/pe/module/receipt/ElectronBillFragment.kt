@@ -72,7 +72,7 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack {
     }
 
     private fun initView() {
-        when (CreateBillActivity.currentType) {
+        when (type) {
             1 -> {
                 tv_tips.text = getString(R.string.electron_tips)
                 ll_accept.setVisible(false)
@@ -208,6 +208,7 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack {
     }
 
     private fun submitBillDetail() {
+        //todo 纸质发票需要先进行支付运费功能
         if (et_duty.textStr.isEmpty() && CreateBillActivity.currentType == 1) {
             ToastUtils.showErrorToast("开具电子发票必须填写税号", ctx)
             return
@@ -384,7 +385,7 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack {
 
     private fun setCommitButtonStatus() {
         if (null == tv_submit) return
-        if (CreateBillActivity.currentType == 1) {
+        if (type == 1) {
             //电子发票
             if (!tv_header.textStr.isNullOrEmpty() && !tv_content.textStr.isNullOrEmpty() && !tv_coin.textStr.isNullOrEmpty()
                     && !et_email.textStr.isNullOrEmpty()) {
@@ -412,7 +413,7 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack {
                     isSubmitEnbale = false
                 }
             }
-        } else if (CreateBillActivity.currentType == 2) {
+        } else if (type == 2) {
             //纸质发票
             if (!tv_header.textStr.isNullOrEmpty() && !tv_content.textStr.isNullOrEmpty() && !tv_coin.textStr.isNullOrEmpty()
                     && !et_email.textStr.isNullOrEmpty() && !et_accept.textStr.isNullOrEmpty() && !et_phone.textStr.isNullOrEmpty()
