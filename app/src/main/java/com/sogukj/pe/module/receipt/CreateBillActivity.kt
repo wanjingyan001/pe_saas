@@ -3,16 +3,16 @@ package com.sogukj.pe.module.receipt
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.widget.EditText
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
-import com.sogukj.pe.baselibrary.Extended.execute
-import com.sogukj.pe.baselibrary.Extended.setVisible
-import com.sogukj.pe.baselibrary.Extended.yes
+import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.base.ToolbarActivity
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.service.SoguApi
 import kotlinx.android.synthetic.main.activity_create_bill.*
+import org.jetbrains.anko.info
+import org.jetbrains.anko.support.v4.find
 
 /**
  * Created by CH-ZH on 2018/10/18.
@@ -22,6 +22,12 @@ class CreateBillActivity : ToolbarActivity() {
     private var fragments = ArrayList<Fragment>()
     private var money = "0.00"
     private var orders: MutableList<String>? = null
+    private val fragment1 by lazy {
+        ElectronBillFragment.newInstance(1, money, ll_submit, tv_submit)
+    }
+    private val fragment2 by lazy {
+        ElectronBillFragment.newInstance(2, money, ll_submit, tv_submit)
+    }
     companion object {
         var currentType = 1
     }
@@ -41,8 +47,6 @@ class CreateBillActivity : ToolbarActivity() {
         orders = intent.getStringArrayListExtra(Extras.LIST)
         setBack(true)
         setTitle("开具纸质发票")
-        fragments.add(ElectronBillFragment.newInstance(1, money, ll_submit, tv_submit))
-        fragments.add(ElectronBillFragment.newInstance(2, money, ll_submit, tv_submit))
         radio_group.check(R.id.rb_one)
         view_electron.clickWithTrigger {
             showCommonToast("电子发票暂未开通")
@@ -55,9 +59,6 @@ class CreateBillActivity : ToolbarActivity() {
 
     private fun initData() {
         getInvoiceMini()
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.add(R.id.fl_container, fragments[0]).add(R.id.fl_container, fragments[1]).commit()
-
         checkFragment(R.id.rb_one)
     }
 
@@ -65,7 +66,6 @@ class CreateBillActivity : ToolbarActivity() {
         radio_group.setOnCheckedChangeListener { group, checkedId ->
             checkFragment(checkedId)
         }
-
     }
 
     private fun getInvoiceMini() {
@@ -93,22 +93,28 @@ class CreateBillActivity : ToolbarActivity() {
 
     private fun checkFragment(checkedId: Int) {
         val transaction = supportFragmentManager.beginTransaction()
-        fragments.forEach {
-            transaction.hide(it)
-        }
         when (checkedId) {
             R.id.rb_one -> {
                 currentType = 1
-                transaction.show(fragments[0])
+                fragment2.isAdded.yes {
+                    transaction.replace(R.id.fl_container,fragment1)
+                }.otherWise {
+                    transaction.add(R.id.fl_container,fragment1)
+                }
                 title = "开具电子发票"
             }
             R.id.rb_two -> {
                 currentType = 2
-                transaction.show(fragments[1])
+                fragment1.isAdded.yes {
+                    transaction.replace(R.id.fl_container,fragment2)
+                }.otherWise {
+                    transaction.add(R.id.fl_container,fragment2)
+                }
                 title = "开具纸质发票"
             }
         }
         transaction.commit()
+
     }
 
 }

@@ -13,6 +13,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="40dp"
         android:layout_marginTop="40dp"
+        android:gravity="center"
         android:text="@string/approval_comments"
         android:textColor="@color/text_1"
         android:textSize="18sp"

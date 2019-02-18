@@ -16,7 +16,7 @@ interface StaticHttpUtils {
      * 提交发票信息
      */
     @POST("/api/Order/submitInvoice")
-    fun submitBillDetail(@Body map: HashMap<String, Any>): Observable<Payload<Any>>
+    fun submitBillDetail(@Body map: HashMap<String, Any>): Observable<Payload<BaiWangBill>>
 
     /**
      * 订单列表
@@ -121,9 +121,13 @@ interface StaticHttpUtils {
      */
     @FormUrlEncoded
     @POST("/api/Pay/WalletPay")
-    fun getAccountPayInfo(@Field("order_type") order_type: Int, @Field("order_count") order_count: Int,
-                          @Field("pay_type") pay_type: Int, @Field("fee") fee: String,
-                          @Field("type_id") type_id: String? = null, @Field("accid") accid: String? = null): Observable<Payload<Any>>
+    fun getAccountPayInfo(@Field("order_type") order_type: Int,//订单类型:1 账号付费 2:智能文书 3:100个征信套餐 4 舆情监控额度 5 开发票邮寄费
+                          @Field("order_count") order_count: Int,//订单数量
+                          @Field("pay_type") pay_type: Int,//支付方式 3 支付宝 4 微信 1 个人账号 2 企业账号
+                          @Field("fee") fee: String,//支付金额
+                          @Field("type_id") type_id: String? = null,//账号id 或者 智能文书的id
+                          @Field("accid") accid: String? = null
+    ): Observable<Payload<Any>>
 
     /**
      * 获取云盘文件内容

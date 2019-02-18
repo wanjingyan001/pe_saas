@@ -190,6 +190,9 @@ public class Utils {
     }
 
     public static boolean isMobile(final CharSequence str) {
+        if (null == str){
+            return false;
+        }
         Pattern p = Pattern.compile("^[1][0-9]{10}$");
         Matcher m = p.matcher(str);
         return m.matches();
@@ -1544,6 +1547,9 @@ public class Utils {
      * @return 校验通过返回true，否则返回false
      */
     public static boolean isEmail(String email) {
+        if (null == email){
+            return false;
+        }
         return Pattern.matches(REGEX_EMAIL, email);
     }
 
@@ -1552,6 +1558,9 @@ public class Utils {
     }
 
     public static boolean isDutyCode(String duty){
+        if (null == duty){
+            return false;
+        }
         return Pattern.matches(DUTY_CODE,duty);
     }
 

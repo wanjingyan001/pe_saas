@@ -32,7 +32,7 @@ import org.jetbrains.anko.startActivity
  */
 class CreateBillDialog {
     companion object {
-        fun showBillDialog(context: Activity, map: HashMap<String, Any>) {
+        fun showBillDialog(context: Activity, map: HashMap<String, Any>, block: ((map: HashMap<String, Any>) -> Unit)? = null) {
             val dialog = Dialog(context, R.style.AppTheme_Dialog)
             dialog.setContentView(R.layout.dialog_create_bill)
             val lay = dialog.window!!.attributes
@@ -115,26 +115,31 @@ class CreateBillDialog {
                 }
             }
             ll_submit.clickWithTrigger {
-                SoguApi.getStaticHttp(App.INSTANCE)
-                        .submitBillDetail(map)
-                        .execute {
-                            onNext { payload ->
-                                if (payload.isOk) {
-                                    context.startActivity<SubmitBillSucActivity>(Extras.TITLE to if (type == 1) {
-                                        "开具电子发票"
-                                    } else {
-                                        "开具纸质发票"
-                                    })
-                                    LocalBroadcastManager.getInstance(context).sendBroadcast(Intent(MineReceiptActivity.REFRESH_ACTION))
-                                    context.finish()
+                if (block != null) {
+                    dialog.dismiss()
+                    block.invoke(map)
+                } else {
+                    SoguApi.getStaticHttp(App.INSTANCE)
+                            .submitBillDetail(map)
+                            .execute {
+                                onNext { payload ->
+                                    if (payload.isOk) {
+                                        context.startActivity<SubmitBillSucActivity>(Extras.TITLE to if (type == 1) {
+                                            "开具电子发票"
+                                        } else {
+                                            "开具纸质发票"
+                                        })
+                                        LocalBroadcastManager.getInstance(context).sendBroadcast(Intent(MineReceiptActivity.REFRESH_ACTION))
+                                        context.finish()
+                                    }
+                                }
+
+                                onError {
+                                    it.printStackTrace()
+                                    ToastUtil.showCustomToast(R.drawable.icon_toast_fail, "提交失败", context)
                                 }
                             }
-
-                            onError {
-                                it.printStackTrace()
-                                ToastUtil.showCustomToast(R.drawable.icon_toast_fail, "提交失败", context)
-                            }
-                        }
+                }
             }
         }
 

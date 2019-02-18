@@ -1,37 +1,68 @@
 package com.sogukj.pe.module.receipt
 
 import android.app.Activity
+import android.app.Dialog
+import android.app.ProgressDialog
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.support.v4.app.Fragment
+import android.support.v4.content.LocalBroadcastManager
 import android.text.Editable
 import android.text.InputType
+import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
+import com.afollestad.materialdialogs.GravityEnum
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.Theme
+import com.alipay.sdk.app.PayTask
+import com.google.gson.Gson
+import com.sogukj.pe.App
 import com.sogukj.pe.Extras
 import com.sogukj.pe.R
-import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
-import com.sogukj.pe.baselibrary.Extended.setVisible
-import com.sogukj.pe.baselibrary.Extended.textStr
+import com.sogukj.pe.baselibrary.Extended.*
 import com.sogukj.pe.baselibrary.utils.ToastUtils
 import com.sogukj.pe.baselibrary.utils.Utils
+import com.sogukj.pe.baselibrary.utils.XmlDb
 import com.sogukj.pe.baselibrary.widgets.citypicker.CityConfig
 import com.sogukj.pe.baselibrary.widgets.citypicker.CityPickerView
 import com.sogukj.pe.baselibrary.widgets.citypicker.OnCityItemClickListener
 import com.sogukj.pe.baselibrary.widgets.citypicker.bean.CityBean
 import com.sogukj.pe.baselibrary.widgets.citypicker.bean.DistrictBean
 import com.sogukj.pe.baselibrary.widgets.citypicker.bean.ProvinceBean
-import com.sogukj.pe.bean.InvoiceHisBean
-import com.sogukj.pe.bean.UserBean
+import com.sogukj.pe.bean.*
+import com.sogukj.pe.module.dataSource.DocumentsListActivity
+import com.sogukj.pe.module.user.PayManagerActivity
+import com.sogukj.pe.peUtils.ShareUtils.Companion.mHandler
 import com.sogukj.pe.peUtils.Store
+import com.sogukj.pe.peUtils.ToastUtil
+import com.sogukj.service.SoguApi
+import com.tencent.mm.sdk.constants.Build
+import com.tencent.mm.sdk.openapi.IWXAPI
+import com.tencent.mm.sdk.openapi.WXAPIFactory
 import kotlinx.android.synthetic.main.fragment_eletron_bill.*
 import kotlinx.android.synthetic.main.layout_accept_type.*
 import kotlinx.android.synthetic.main.layout_bill_detail.*
+import org.jetbrains.anko.find
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.ctx
+import org.jetbrains.anko.support.v4.find
+import org.jetbrains.anko.support.v4.progressDialog
+import org.jetbrains.anko.support.v4.startActivity
 
 /**
  * Created by CH-ZH on 2018/10/18.
@@ -45,13 +76,49 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack {
     private var explain = ""
     private var phoneAddress = ""
     private var bankAccount = ""
-    private var type: Int = 1  // 1 : 电子发票 2 : 纸质发票
+    var type: Int = 1  // 1 : 电子发票 2 : 纸质发票
     private var userBean: UserBean? = null
+    private var isSubmitEnbale = false
+    private var map: HashMap<String, Any> = HashMap()
+    private var mHandler: Handler = object : Handler() {
+        override fun handleMessage(msg: Message?) {
+            super.handleMessage(msg)
+            when (msg!!.what) {
+                DocumentsListActivity.SDK_PAY_FLAG -> {
+                    val pair = msg.obj as Pair<Map<String, String>, () -> Unit>
+                    val payResult = PayResultInfo(pair.first)
+                    /**
+                    对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
+                     */
+                    val resultInfo = payResult.result// 同步返回需要验证的信息
+                    val resultStatus = payResult.resultStatus
+                    Log.e("TAG", " resultStatus ===$resultStatus")
+                    // 判断resultStatus 为9000则代表支付成功
+                    when {
+                        TextUtils.equals(resultStatus, "9000") -> {
+                            // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
+                            ToastUtils.showSuccessToast("支付成功", ctx)
+                            pair.second.invoke()
+                        }
+                        TextUtils.equals(resultStatus, "6001") ->
+                            ToastUtils.showErrorToast("支付已取消", ctx)
+                        else ->
+                            // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
+                            ToastUtils.showErrorToast("支付失败", ctx)
+                    }
+                }
+                else -> {
+
+                }
+            }
+        }
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         type = arguments!!.getInt("type")
         money = arguments!!.getString("money")
-        Log.d("WJY", "type$type")
         userBean = Store.store.getUser(activity!!)
     }
 
@@ -63,6 +130,20 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
+        initWXAPI()
+        LocalBroadcastManager.getInstance(ctx).registerReceiver(receiver, IntentFilter(PayManagerActivity.PAYMANAGER_ACTION))
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        setCommitButtonStatus()
+    }
+
+    private val receiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            ToastUtils.showSuccessToast("支付成功", ctx)
+            submit(map)
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -116,6 +197,13 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack {
         if (!userBean!!.tax_no.isNullOrEmpty()) {
             et_duty.setText(Utils.getSpaceText(userBean!!.tax_no))
             et_duty.setSelection(et_duty.textStr.length)
+            isSubmitEnbale = if (CreateBillActivity.currentType == 1 && userBean!!.tax_no.isNotEmpty()) {
+                tv_submit?.setBackgroundResource(R.drawable.bg_create_pro)
+                true
+            } else {
+                tv_submit?.setBackgroundResource(R.drawable.bg_create_pro_gray)
+                false
+            }
         }
         if (!userBean!!.name.isNullOrEmpty()) {
             et_accept.setText(userBean!!.name)
@@ -159,19 +247,66 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack {
         ll_submit!!.clickWithTrigger {
             //提交
             if (isSubmitEnbale) {
-                if (type == 2 && !Utils.isMobile(et_phone.textStr)) {
-                    getCreateBillActivity().showCustomToast(R.drawable.icon_toast_common, "请填写正确的手机号")
+                if (CreateBillActivity.currentType == 2) {
+                    if (!Utils.isMobile(et_phone?.textStr)) {
+                        ToastUtils.showWarnToast("请填写正确的手机号", ctx)
+                        return@clickWithTrigger
+                    }
+                }
+                if (et_email != null && !Utils.isEmail(et_email?.textStr)) {
+                    ToastUtils.showWarnToast("请填写正确的邮箱", ctx)
                     return@clickWithTrigger
                 }
-                if (!Utils.isEmail(et_email.textStr)) {
-                    getCreateBillActivity().showCustomToast(R.drawable.icon_toast_common, "请填写正确的邮箱")
+                if (et_duty != null && title_type == 1 && !Utils.isDutyCode(et_duty?.textStr)) {
+                    ToastUtils.showWarnToast("请填写正确的企业税号", ctx)
                     return@clickWithTrigger
                 }
-                if (title_type == 1 && !Utils.isDutyCode(et_duty.textStr)) {
-                    getCreateBillActivity().showCustomToast(R.drawable.icon_toast_common, "请填写正确的企业税号")
-                    return@clickWithTrigger
+                if (CreateBillActivity.currentType == 2) {
+                    //todo 纸质发票需要先进行支付运费功能
+                    val inflate = LayoutInflater.from(ctx).inflate(R.layout.layout_input_dialog1, null)
+                    val dialog = MaterialDialog.Builder(ctx)
+                            .customView(inflate, false)
+                            .cancelable(true)
+                            .build()
+                    dialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                    val veto = inflate.find<TextView>(R.id.veto_comment)
+                    val confirm = inflate.find<TextView>(R.id.confirm_comment)
+                    val title = inflate.find<TextView>(R.id.approval_comments_title)
+                    title.text = "纸质发票需要支付20元运费,\n是否继续？"
+                    veto.text = "取消"
+                    confirm.text = "确定"
+                    veto.clickWithTrigger {
+                        if (dialog.isShowing) {
+                            dialog.dismiss()
+                        }
+                    }
+                    confirm.clickWithTrigger {
+                        if (dialog.isShowing) {
+                            dialog.dismiss()
+                        }
+                        submitBillDetail { map ->
+                            this.map = map
+                            //todo 弹出选择支付方式对话框
+                            PayDialog.showPayFareDialog(ctx, object : AllPayCallBack {
+                                override fun pay(order_type: Int, count: Int, pay_type: Int, fee: String, tv_per_balance: TextView, iv_pre_select: ImageView, tv_bus_balance: TextView, iv_bus_select: ImageView, tv_per_title: TextView, tv_bus_title: TextView, dialog: Dialog) {
+                                    Log.d("WJY", "支付")
+                                    //todo 调用接口获取订单信息
+                                    getPayInfo(order_type, count, pay_type, fee) {
+                                        submit(map)
+                                    }
+                                }
+
+                                override fun payForOther(id: String, order_type: Int, count: Int, pay_type: Int, fee: String, tv_per_balance: TextView, iv_pre_select: ImageView, tv_bus_balance: TextView, iv_bus_select: ImageView, tv_per_title: TextView, tv_bus_title: TextView, dialog: Dialog, book: PdfBook?) {
+
+                                }
+
+                            })
+                        }
+                    }
+                    dialog.show()
+                } else {
+                    submitBillDetail()
                 }
-                submitBillDetail()
             }
         }
 
@@ -207,9 +342,140 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack {
         return activity as CreateBillActivity
     }
 
-    private fun submitBillDetail() {
-        //todo 纸质发票需要先进行支付运费功能
-        if (et_duty.textStr.isEmpty() && CreateBillActivity.currentType == 1) {
+
+    /**
+     * 获取订单信息
+     */
+    private fun getPayInfo(order_type: Int, count: Int, pay_type: Int, fee: String, block: () -> Unit) {
+        val progress = ProgressDialog(ctx)
+        SoguApi.getStaticHttp(App.INSTANCE)
+                .getAccountPayInfo(order_type, count, pay_type, fee)
+                .execute {
+                    onSubscribe {
+                        progress.show()
+                    }
+                    onNext { payload ->
+                        if (payload.isOk) {
+                            when (pay_type) {
+                                1, 2 -> {
+                                    ToastUtils.showSuccessToast("支付成功", ctx)
+                                    block.invoke()
+                                }
+                                3 -> {
+                                    sendToZfbRequest(payload.payload as String?, block)
+                                }
+                                4 -> {
+                                    val orderInfo = payload.payload as? String
+                                    if (orderInfo.isNullOrEmpty()) {
+                                        ToastUtils.showErrorToast("获取订单失败", ctx)
+                                    } else {
+                                        sendToWxRequest(orderInfo!!)
+                                    }
+                                }
+                            }
+                        } else {
+                            ToastUtils.showErrorToast(payload.message!!, ctx)
+                        }
+                    }
+                    onError {
+                        ToastUtils.showErrorToast("获取订单信息失败，请重试", ctx)
+                    }
+                    onComplete {
+                        progress.dismiss()
+                    }
+                }
+    }
+
+    /**
+     * 支付宝支付
+     */
+    private fun sendToZfbRequest(commodityInfo: String?, block: () -> Unit) {
+        val payRunnable = Runnable {
+            val alipay = PayTask(activity)
+            val result = alipay.payV2(commodityInfo, true)
+            Log.e("TAG", "  result ===$result")
+            val msg = Message()
+            msg.what = DocumentsListActivity.SDK_PAY_FLAG
+            msg.obj = result to block
+            mHandler.sendMessage(msg)
+        }
+        val payThread = Thread(payRunnable)
+        payThread.start()
+    }
+
+    private var api: IWXAPI? = null
+
+    private fun initWXAPI() {
+        if (null == api) {
+            api = WXAPIFactory.createWXAPI(ctx, Extras.WEIXIN_APP_ID)
+            api!!.registerApp(Extras.WEIXIN_APP_ID)
+        }
+    }
+
+    private fun inspectWx(): Boolean {
+        val sIsWXAppInstalledAndSupported = api!!.isWXAppInstalled && api!!.isWXAppSupportAPI
+        return if (!sIsWXAppInstalledAndSupported) {
+            ToastUtils.showWarnToast("您未安装微信", ctx)
+            false
+        } else {
+            val isPaySupported = api!!.wxAppSupportAPI >= Build.PAY_SUPPORTED_SDK_INT
+            return if (isPaySupported) {
+                true
+            } else {
+                ToastUtils.showWarnToast("您微信版本过低，不支持支付。", ctx)
+                false
+            }
+        }
+    }
+
+    /**
+     * 微信支付
+     */
+    private fun sendToWxRequest(orderInfo: String) {
+        val wxPayBean = Gson().fromJson<WxPayBean>(orderInfo, WxPayBean::class.java)
+        if (!inspectWx()) return
+        val req = com.tencent.mm.sdk.modelpay.PayReq()
+        req.appId = wxPayBean.appid
+        req.nonceStr = wxPayBean.noncestr
+        req.packageValue = "Sign=WXPay"
+        req.sign = wxPayBean.sign
+        req.partnerId = wxPayBean.partnerid
+        req.prepayId = wxPayBean.prepayid
+        req.timeStamp = wxPayBean.timestamp
+        //调起微信支付,如果b等于false说明订单中的参数或者签名错误
+        val b = api!!.sendReq(req)
+        if (!b) {
+            ToastUtils.showErrorToast("订单生成错误", ctx)
+        } else {
+            XmlDb.open(ctx).set("invokeType", 2)
+        }
+        Log.e("TAG", "sendReq返回值=$b")
+    }
+
+
+    private fun submit(map: HashMap<String, Any>) {
+        SoguApi.getStaticHttp(App.INSTANCE)
+                .submitBillDetail(map)
+                .execute {
+                    onNext { payload ->
+                        if (payload.isOk) {
+                            startActivity<SubmitBillSucActivity>(Extras.TITLE to "开具纸质发票")
+                            LocalBroadcastManager.getInstance(ctx).sendBroadcast(Intent(MineReceiptActivity.REFRESH_ACTION))
+                            activity?.finish()
+                        } else {
+                            ToastUtils.showErrorToast(payload.message!!, ctx)
+                        }
+                    }
+                    onError {
+                        it.printStackTrace()
+                        ToastUtil.showCustomToast(R.drawable.icon_toast_fail, "提交失败", ctx)
+                    }
+                }
+    }
+
+    private fun submitBillDetail(block: ((map: HashMap<String, Any>) -> Unit)? = null) {
+        val duty = find<EditText>(R.id.et_duty)
+        if (CreateBillActivity.currentType == 1 && duty.textStr.isEmpty()) {
             ToastUtils.showErrorToast("开具电子发票必须填写税号", ctx)
             return
         }
@@ -233,14 +499,14 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack {
             map.put("county", tv_district.textStr)
             map.put("address", et_detail.textStr)
         }
-        Log.d("WJY","map type${CreateBillActivity.currentType}")
-        CreateBillDialog.showBillDialog(activity!!, map)
+        Log.d("WJY", "map type${CreateBillActivity.currentType}")
+        CreateBillDialog.showBillDialog(activity!!, map, block)
     }
 
     companion object {
         private var ll_submit: View? = null
         private var tv_submit: TextView? = null
-        private var isSubmitEnbale = false
+
         val BILL_SEARCH = 1002
         fun newInstance(type: Int, money: String, ll_submit: View, tv_submit: TextView): ElectronBillFragment {
             this.ll_submit = ll_submit

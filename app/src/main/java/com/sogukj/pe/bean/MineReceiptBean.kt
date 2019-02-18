@@ -14,6 +14,6 @@ class MineReceiptBean : Serializable {
     var count  = 0
     var isSelect = false
     var pay_source = "" //支付方式
-    var invoice_type = 1  // 1：账号付费 2：智能文书付费 3：征信付费 4:舆情监控
+    var invoice_type = 1  // 1：账号付费 2：智能文书付费 3：征信付费 4:舆情监控 5：纸质发票运费
     var price = ""//总价
 }
