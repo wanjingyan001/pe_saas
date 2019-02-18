@@ -145,9 +145,11 @@ class MineReceiptActivity : BaseRefreshActivity() {
                                 if (!isLoadMore) {
                                     adapter.dataList.clear()
                                     adapter.dataList.addAll(datas)
+                                    adapter.dataList.sortByDescending { bean -> bean.order_no }
                                     adapter.notifyDataSetChanged()
                                 } else {
                                     adapter.dataList.addAll(datas)
+                                    adapter.dataList.sortByDescending { bean -> bean.order_no }
                                     adapter.notifyDataSetChanged()
                                 }
                                 goneEmpty()
@@ -308,7 +310,7 @@ class MineReceiptActivity : BaseRefreshActivity() {
             tv_pay_status.text = data.pay_source
             itemView.setOnClickListener {
                 if (type == 1) {
-                    if (data.is_invoice != 1){
+                    if (data.is_invoice != 1) {
                         if (alreadySelected.contains(data)) {
                             alreadySelected.remove(data)
                             ordersSet.remove(data.order_no)
@@ -326,11 +328,11 @@ class MineReceiptActivity : BaseRefreshActivity() {
                         } else {
                             tv_comit.setBackgroundResource(R.drawable.selector_sure_gray)
                         }
-                    }else{
+                    } else {
                         RecordDetailActivity.invoke(this@MineReceiptActivity, data.pay_time, data.type, data.count,
                                 data.fee, data.price, data.invoice_type)
                     }
-                }else{
+                } else {
                     RecordDetailActivity.invoke(this@MineReceiptActivity, data.pay_time, data.type, data.count,
                             data.fee, data.price, data.invoice_type)
                 }

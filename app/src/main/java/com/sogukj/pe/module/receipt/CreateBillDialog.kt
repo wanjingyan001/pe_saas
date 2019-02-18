@@ -21,6 +21,7 @@ import com.sogukj.pe.baselibrary.Extended.clickWithTrigger
 import com.sogukj.pe.baselibrary.Extended.execute
 import com.sogukj.pe.baselibrary.Extended.setVisible
 import com.sogukj.pe.baselibrary.Extended.textStr
+import com.sogukj.pe.baselibrary.utils.ToastUtils
 import com.sogukj.pe.baselibrary.utils.Utils
 import com.sogukj.pe.peUtils.ToastUtil
 import com.sogukj.service.SoguApi
@@ -131,6 +132,8 @@ class CreateBillDialog {
                                         })
                                         LocalBroadcastManager.getInstance(context).sendBroadcast(Intent(MineReceiptActivity.REFRESH_ACTION))
                                         context.finish()
+                                    } else {
+                                        ToastUtils.showErrorToast(payload.message!!, context)
                                     }
                                 }
 

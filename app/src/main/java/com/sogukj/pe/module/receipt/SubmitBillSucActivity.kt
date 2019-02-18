@@ -25,6 +25,7 @@ class SubmitBillSucActivity : ToolbarActivity() {
         ll_his.clickWithTrigger {
             //开票历史
             startActivity<InvoiceHistoryActivity>(Extras.TYPE to 0,Extras.TITLE to "开票历史")
+            finish()
         }
 
     }

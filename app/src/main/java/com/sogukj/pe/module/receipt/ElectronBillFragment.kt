@@ -292,7 +292,11 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack {
                                     Log.d("WJY", "支付")
                                     //todo 调用接口获取订单信息
                                     getPayInfo(order_type, count, pay_type, fee) {
-                                        submit(map)
+                                        val payTv = dialog.find<TextView>(R.id.tv_pay)
+                                        payTv.isEnabled = false
+                                        submit(map) {
+                                            payTv.isEnabled = true
+                                        }
                                     }
                                 }
 
@@ -453,7 +457,7 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack {
     }
 
 
-    private fun submit(map: HashMap<String, Any>) {
+    private fun submit(map: HashMap<String, Any>, block: (() -> Unit)? = null) {
         SoguApi.getStaticHttp(App.INSTANCE)
                 .submitBillDetail(map)
                 .execute {
@@ -468,7 +472,11 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack {
                     }
                     onError {
                         it.printStackTrace()
+                        block?.invoke()
                         ToastUtil.showCustomToast(R.drawable.icon_toast_fail, "提交失败", ctx)
+                    }
+                    onComplete {
+                        block?.invoke()
                     }
                 }
     }
@@ -499,7 +507,6 @@ class ElectronBillFragment : Fragment(), TextWatcher, ShowMoreCallBack {
             map.put("county", tv_district.textStr)
             map.put("address", et_detail.textStr)
         }
-        Log.d("WJY", "map type${CreateBillActivity.currentType}")
         CreateBillDialog.showBillDialog(activity!!, map, block)
     }
 

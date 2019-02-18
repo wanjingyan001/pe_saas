@@ -489,7 +489,7 @@ class PayDialog {
             }
         }
 
-        const val FarePlace = "0.01"
+        const val FarePlace = "20.0"
         fun showPayFareDialog(context: Context, callBack: AllPayCallBack) {
             this.context = context
             val dialog = MaterialDialog.Builder(context)
@@ -501,6 +501,7 @@ class PayDialog {
             dialog.show()
             val coinTv = dialog.find<TextView>(R.id.tv_coin)
             val tipTv = dialog.find<TextView>(R.id.tv_tip)
+            val tv_time = dialog.find<TextView>(R.id.tv_time)
             val close = dialog.find<ImageView>(R.id.iv_close)
             val rl_bus = dialog.find<RelativeLayout>(R.id.rl_bus)
             val tv_bus_balance = dialog.find<TextView>(R.id.tv_bus_balance)
@@ -522,8 +523,9 @@ class PayDialog {
             var pay_type = 3 //1 :个人 2：企业 3：支付宝 4 ：微信
             coinTv.text = FarePlace
             tipTv.visibility = View.INVISIBLE
-            getPerAccountInfo(tv_per_balance, iv_pre_select, tv_per_title, false, "20")
-            getBusAccountInfo(tv_bus_balance, iv_bus_select, tv_bus_title, false, "20")
+            tv_time.text = Utils.getTime(Date(), "yyyy-MM-dd HH:mm:ss")
+            getPerAccountInfo(tv_per_balance, iv_pre_select, tv_per_title, false, FarePlace)
+            getBusAccountInfo(tv_bus_balance, iv_bus_select, tv_bus_title, false, FarePlace)
             close.clickWithTrigger {
                 if (dialog.isShowing) {
                     dialog.dismiss()
