@@ -27,7 +27,7 @@ class RecordDetailActivity : ToolbarActivity() {
     private var fee = "" //单价
     private var price = "" //总价
     private var type = 1
-    private var user : UserBean ? = null
+    private var user: UserBean? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recorder_detail)
@@ -40,17 +40,18 @@ class RecordDetailActivity : ToolbarActivity() {
         val company = sp.getString(Extras.SAAS_BASIC_DATA, "")
         val detail = Gson().fromJson<MechanismBasicInfo?>(company)
         tv_company.text = detail?.mechanism_name ?: "XPE"
-        if (null != user){
+        if (null != user) {
             tv_name.text = "购买人：${user!!.name}"
             tv_account.text = "购买账号：${user!!.phone}"
         }
 
         tv_time.text = time
-        when(type){
+        when (type) {
             4 -> iv_pay.imageResource = R.mipmap.ic_sentiment_head
             3 -> iv_pay.imageResource = R.mipmap.ic_credit_head
             1 -> iv_pay.imageResource = R.mipmap.ic_account_head
             2 -> iv_pay.imageResource = R.mipmap.ic_book_head
+            5 -> iv_pay.imageResource = R.mipmap.ic_invoice_head
         }
 
         tv_title.text = describe
@@ -63,26 +64,25 @@ class RecordDetailActivity : ToolbarActivity() {
         toolbar?.setBackgroundColor(resources.getColor(R.color.white))
         setBack(true)
         setTitle("订单详情")
-
         time = intent.getStringExtra("time")
         describe = intent.getStringExtra("describe")
-        count = intent.getIntExtra("count",1)
+        count = intent.getIntExtra("count", 1)
         fee = intent.getStringExtra("fee")
         price = intent.getStringExtra("price")
-        type = intent.getIntExtra("type",1)
+        type = intent.getIntExtra("type", 1)
         user = Store.store.getUser(this)
     }
 
     companion object {
-        fun invoke(context: Context,time:String,describe:String,count:Int,fee:String,price:String,type:Int){
-            val intent = Intent(context,RecordDetailActivity::class.java)
-            intent.putExtra("time",time)
-            intent.putExtra("describe",describe)
-            intent.putExtra("count",count)
-            intent.putExtra("fee",fee)
-            intent.putExtra("type",type)
-            intent.putExtra("price",price)
-            if (context !is Activity){
+        fun invoke(context: Context, time: String, describe: String, count: Int, fee: String, price: String, type: Int) {
+            val intent = Intent(context, RecordDetailActivity::class.java)
+            intent.putExtra("time", time)
+            intent.putExtra("describe", describe)
+            intent.putExtra("count", count)
+            intent.putExtra("fee", fee)
+            intent.putExtra("type", type)
+            intent.putExtra("price", price)
+            if (context !is Activity) {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
             context.startActivity(intent)
